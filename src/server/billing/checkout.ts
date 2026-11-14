@@ -73,6 +73,8 @@ export async function createCheckout(profile: Profile, interval: ProInterval, or
 
   const base: Stripe.Checkout.SessionCreateParams = {
     mode: 'subscription',
+    // show the US price as is ($19 / $119), not converted to the visitor's local currency
+    adaptive_pricing: { enabled: false },
     line_items: [{ price, quantity: 1 }],
     customer: customerId,
     client_reference_id: current.id,

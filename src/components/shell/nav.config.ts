@@ -50,7 +50,7 @@ export const NAV_SECTIONS: NavSection[] = [
     id: 'shop',
     labelKey: 'shell.nav.shop',
     icon: Store,
-    enabled: false,
+    enabled: true,
     href: () => '/shop',
     match: (p) => p.startsWith('/shop'),
   },

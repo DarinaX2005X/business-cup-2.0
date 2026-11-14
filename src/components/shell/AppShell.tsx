@@ -7,6 +7,7 @@ import { KeystoneMark } from '@/components/kit/Mark';
 import { PointsCounter, StreakWeek } from '@/components/kit/Points';
 import btn from '@/components/kit/controls.module.css';
 import { useT } from '@/i18n/client';
+import { REWARDS } from '@/domain/points';
 import { useProfile } from '@/lib/client/profile';
 import { enabledSections } from './nav.config';
 import { AccountSheetButton, LocaleMenu, ProfileMenu } from './ShellMenus';
@@ -54,6 +55,19 @@ export function AppShell({ initial, children }: { initial: ShellInitial; childre
   const streakDays = status === 'ready' ? (profile?.streak.days ?? []) : initial.streakDays;
   const lastXrayId = (status === 'ready' ? profile?.lastXrayId : initial.lastXrayId) ?? null;
   const sections = enabledSections();
+  // A reward the person can already redeem and has not seen the shop yet: an apricot dot on Shop.
+  const rewardReady =
+    status === 'ready' &&
+    !!profile &&
+    !profile.hintsSeen.includes('shop_opened') &&
+    REWARDS.some((r) => r.cost !== null && r.kind !== 'coming_soon' && r.cost <= balance);
+  const dot = (id: string) =>
+    id === 'shop' && rewardReady ? (
+      <>
+        <span className={st.dot} aria-hidden="true" />
+        <span className="sr-only">{t('shell.nav.shopReady')}</span>
+      </>
+    ) : null;
   const createdAt = (status === 'ready' ? profile?.createdAt : initial.createdAt) ?? null;
   const week = weekOf(streakDays, createdAt);
   const streakCount = week.done.filter(Boolean).length;
@@ -85,6 +99,7 @@ export function AppShell({ initial, children }: { initial: ShellInitial; childre
                     <Link href={s.href({ lastXrayId })} className={st.navLink} aria-current={active ? 'page' : undefined}>
                       <Icon size={18} strokeWidth={1.75} aria-hidden="true" />
                       {t(s.labelKey)}
+                      {dot(s.id)}
                     </Link>
                   </li>
                 );
@@ -142,6 +157,7 @@ export function AppShell({ initial, children }: { initial: ShellInitial; childre
                 <Link href={s.href({ lastXrayId })} className={st.tab} aria-current={active ? 'page' : undefined}>
                   <Icon size={22} strokeWidth={1.75} aria-hidden="true" />
                   <span>{t(s.labelKey)}</span>
+                  {dot(s.id)}
                 </Link>
               </li>
             );

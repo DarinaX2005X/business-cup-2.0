@@ -6,7 +6,8 @@
     "week": "Week map",
     "today": "Today",
     "progress": "Progress",
-    "shop": "Shop"
+    "shop": "Shop",
+    "shopReady": "Reward available"
   },
   "mapOwn": "Map your own week",
   "pointsLabel": "points",

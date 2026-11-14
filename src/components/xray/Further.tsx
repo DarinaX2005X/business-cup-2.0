@@ -10,6 +10,7 @@ import { useT } from '@/i18n/client';
 import { freedFactor } from './lib';
 import type { ClientBundle } from './types';
 import type { TipsState } from './useTaskTexts';
+import { CupOffer } from '@/components/cup/CupOffer';
 import st from './xray.module.css';
 
 /**
@@ -23,6 +24,7 @@ export function Further({
   isOwner,
   label,
   tips,
+  xrayId,
   onSelect,
 }: {
   result: XrayComputed;
@@ -31,6 +33,8 @@ export function Further({
   isOwner: boolean;
   label: (id: string) => string;
   tips: TipsState;
+  /** The map, so the trial opens with this week as its first week. */
+  xrayId: string;
   onSelect: (id: string) => void;
 }) {
   const { t, f } = useT();
@@ -51,10 +55,15 @@ export function Further({
     return tip ? <p className={st.cardTip}>{tip}</p> : null;
   };
 
+  // The way into Pro from a locked block: the trial (opening with this week) or the Business Cup offer,
+  // which unlocks in place; router.refresh() then re-renders the map with the blocks open.
   const trial = (
-    <Link href="/pricing" className={`${btn.btn} ${btn.b_primary} ${btn.s_md}`}>
-      {t('xray.pro.trial')}
-    </Link>
+    <span className={st.proWays}>
+      <Link href={`/pricing?from=${xrayId}`} className={`${btn.btn} ${btn.b_primary} ${btn.s_md}`}>
+        {t('xray.pro.trial')}
+      </Link>
+      <CupOffer />
+    </span>
   );
   const rel = bundle.related[0];
   const months = ['1', '2', '3'] as const;

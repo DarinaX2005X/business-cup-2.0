@@ -165,8 +165,8 @@ const ProfileContext = createContext<ProfileContextValue | null>(null);
 export interface AwardPresenters {
   /** Kit's flyPoints(fromEl, amount). */
   fly?: (fromEl: Element, amount: number) => void;
-  /** Kit's toast; receives the localized text. */
-  toast?: (text: string) => void;
+  /** The receipt under the header counter; receives the awards (labels are shop.earn.* keys). */
+  toast?: (awards: PointsAward[]) => void;
 }
 
 const REFRESH_ON_FOCUS_MS = 30_000;
@@ -180,7 +180,7 @@ function browserTimeZone(): string | null {
 }
 
 export function ProfileProvider({ children, presenters }: { children: ReactNode; presenters?: AwardPresenters }) {
-  const { t, locale, setLocale } = useT();
+  const { locale, setLocale } = useT();
   const router = useRouter();
   const [status, setStatus] = useState<ProfileStatus>('loading');
   const [profile, setProfile] = useState<PublicProfile | null>(null);
@@ -433,11 +433,11 @@ export function ProfileProvider({ children, presenters }: { children: ReactNode;
       if (total === 0) return;
       setProfile((p) => (p ? { ...p, points: { ...p.points, balance: p.points.balance + total } } : p));
       if (originEl && presenters?.fly) presenters.fly(originEl, total);
-      else presenters?.toast?.(t('common.points.earned', { count: total }));
+      else presenters?.toast?.(awards);
       notifyOtherTabs();
       void refresh(); // reconcile with the server's balance and events
     },
-    [presenters, t, refresh],
+    [presenters, refresh],
   );
 
   const remove = useCallback(async () => {

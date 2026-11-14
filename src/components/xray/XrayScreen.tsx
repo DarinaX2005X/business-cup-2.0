@@ -274,6 +274,7 @@ export function XrayScreen(props: XrayPageProps) {
         isOwner={isOwner}
         label={label}
         tips={tips}
+        xrayId={initial.id}
         onSelect={(id) => setFocus({ kind: 'task', id }, { reveal: true })}
       />
       {narrow && shownFocus ? (

@@ -11,7 +11,10 @@ import { useTempStore } from './helpers';
 let store: Store;
 let cleanup: () => void;
 beforeEach(() => ({ store, cleanup } = useTempStore()));
-afterEach(() => cleanup());
+afterEach(async () => {
+  await cleanup();
+  vi.unstubAllEnvs();
+});
 
 const url = 'http://localhost/api/profile';
 function req(method: string, creds?: { id: string; secret: string } | null, body?: unknown, headers: Record<string, string> = {}) {
@@ -110,6 +113,7 @@ describe('/api/profile', () => {
   });
 
   it('limits new profiles per network per day', async () => {
+    vi.stubEnv('PROFILE_CREATE_PER_DAY', '30');
     for (let i = 0; i < 30; i++) expect((await POST(req('POST', null, { locale: 'en' }, { 'x-forwarded-for': '9.9.9.9' }))).status).toBe(201);
     const res = await POST(req('POST', null, { locale: 'en' }, { 'x-forwarded-for': '9.9.9.9' }));
     expect(res.status).toBe(429);

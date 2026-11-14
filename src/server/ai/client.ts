@@ -191,12 +191,26 @@ export function getModelId(): string {
   return process.env.OPENROUTER_MODEL || DEFAULT_MODEL;
 }
 
+/** Long document generation (the rep writers) can run on a cheaper model set in OPENROUTER_MODEL_GEN. */
+const GENERATION_OPS = new Set(['rep.slip', 'rep.delegate', 'rep.edge']);
+
+export function modelFor(op: string): string {
+  const gen = process.env.OPENROUTER_MODEL_GEN;
+  return gen && GENERATION_OPS.has(op) ? gen : getModelId();
+}
+
 /**
  * Models whose endpoint refuses to switch reasoning off (OpenRouter answers 400 "Reasoning is mandatory
  * for this endpoint and cannot be disabled", seen for google/gemini-3.8-flash). For them 'off' is sent
  * as the cheapest allowed level, so no caller can trigger that 400.
  */
 const REASONING_MANDATORY = [/^google\/gemini-3/];
+
+/**
+ * Reasoning models whose endpoints reject `temperature` (with `require_parameters` OpenRouter then finds
+ * no endpoint and answers 404). For them the parameter is left out and the model's default is used.
+ */
+const NO_TEMPERATURE = [/^openai\/gpt-6/, /^openai\/o\d/];
 
 export function reasoningParam(effort: ReasoningEffort, model: string) {
   if (effort === 'off') {
@@ -252,7 +266,7 @@ const usd = (n: number) => `$${n.toFixed(5)}`;
 
 export async function callModel<S extends z.ZodType>(input: CallModelInput<S>): Promise<CallModelResult<z.infer<S>>> {
   const { op } = input;
-  const model = getModelId();
+  const model = modelFor(op);
   const started = Date.now();
   const jsonSchema = strictSchema(input.schema);
 
@@ -316,7 +330,7 @@ export async function callModel<S extends z.ZodType>(input: CallModelInput<S>): 
           model,
           messages,
           max_tokens: input.maxTokens,
-          temperature: input.temperature,
+          ...(NO_TEMPERATURE.some((re) => re.test(model)) ? {} : { temperature: input.temperature }),
           response_format: { type: 'json_schema', json_schema: { name: op.replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 64), strict: true, schema: jsonSchema } },
           reasoning: reasoningParam(effort, model),
           usage: { include: true },

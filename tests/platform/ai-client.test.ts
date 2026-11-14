@@ -155,8 +155,11 @@ describe('callModel', () => {
   });
 
   it('limits a profile to 25 model calls a day and an IP to 60', async () => {
+    vi.stubEnv('AI_PROFILE_PER_DAY', '25');
+    vi.stubEnv('AI_IP_PER_DAY', '60');
+    const L = { profilePerDay: 25, ipPerDay: 60 };
     fetchMock.mockImplementation(async () => okResponse({ word: 'x', n: 1 }, 0.00001));
-    for (let i = 0; i < RATE_LIMITS.profilePerDay; i++) await callModel({ ...base, actor: { profileId: 'p1', ip: '1.2.3.4' } });
+    for (let i = 0; i < L.profilePerDay; i++) await callModel({ ...base, actor: { profileId: 'p1', ip: '1.2.3.4' } });
     await expect(callModel({ ...base, actor: { profileId: 'p1', ip: '1.2.3.4' } })).rejects.toMatchObject({ code: 'rate_limited', status: 429 });
     // a cached answer is still served to a limited profile
     fetchMock.mockClear();
@@ -164,7 +167,7 @@ describe('callModel', () => {
     for (let i = 0; i < 26; i++) await callModel({ ...base, cacheKey: 'c', actor: { profileId: 'p1' } });
     expect(fetchMock).toHaveBeenCalledTimes(1);
     // IP limit across profiles: 25 used above by p1 on this IP, 35 more fit
-    for (let i = 0; i < RATE_LIMITS.ipPerDay - RATE_LIMITS.profilePerDay; i++) {
+    for (let i = 0; i < L.ipPerDay - L.profilePerDay; i++) {
       await callModel({ ...base, actor: { profileId: `q${i}`, ip: '1.2.3.4' } });
     }
     await expect(callModel({ ...base, actor: { profileId: 'fresh', ip: '1.2.3.4' } })).rejects.toMatchObject({ code: 'rate_limited' });

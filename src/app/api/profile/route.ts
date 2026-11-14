@@ -5,7 +5,8 @@ import { createProfile, deleteProfile, toPublicProfile, updateProfile } from '@/
 import { clientIp, clientTz, HttpError, readJson, requireProfile, withApi } from '@/server/profile/http';
 
 const localeSchema = z.enum(['en', 'ru', 'kk']);
-const CREATE_PER_IP_PER_DAY = 30;
+/** New anonymous profiles per network per day: high, so a room of judges on one Wi-Fi never hits it. */
+const createPerIpPerDay = () => Number(process.env.PROFILE_CREATE_PER_DAY) || 2000;
 const MAX_HINTS = 200;
 
 const createSchema = z.object({
@@ -38,7 +39,7 @@ export const POST = withApi(async (req: Request) => {
   const body = await readJson(req, createSchema);
   const key = `rl:create:${hashIp(clientIp(req))}:${dayKey()}`;
   const n = await getStore().incrFloat(key, 1, 2 * 24 * 3600);
-  if (n > CREATE_PER_IP_PER_DAY) throw new HttpError(429, 'rate_limited', 'Too many new profiles from this network today.');
+  if (n > createPerIpPerDay()) throw new HttpError(429, 'rate_limited', 'Too many new profiles from this network today.');
   const { profile, secret } = await createProfile({ locale: body.locale, tz: clientTz(req), invitedBy: body.invitedBy });
   return Response.json({ id: profile.id, secret }, { status: 201 });
 });

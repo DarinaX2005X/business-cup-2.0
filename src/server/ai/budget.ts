@@ -25,11 +25,11 @@ export interface Actor {
 }
 
 /**
- * Default per-day model-call limits. Judges and visitors often share one network (one IP), so the IP limit is
- * set for a room of about 30 people (30 x 20 calls); the global and daily dollar caps still protect the money.
+ * Default per-day model-call limits, set high on purpose: judges and visitors share one network (one IP) and must
+ * be able to try everything freely. The money is protected by the global and daily dollar caps, not by these.
  * Override with AI_PROFILE_PER_DAY / AI_IP_PER_DAY. Title translation has its own bucket (src/server/xray/search.ts).
  */
-export const RATE_LIMITS = { profilePerDay: 25, ipPerDay: 600 } as const;
+export const RATE_LIMITS = { profilePerDay: 300, ipPerDay: 20000 } as const;
 const RATE_TTL_SEC = 2 * 24 * 3600;
 const DAY_TTL_SEC = 3 * 24 * 3600;
 

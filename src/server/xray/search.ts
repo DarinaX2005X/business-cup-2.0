@@ -205,7 +205,7 @@ export function coversQuery(query: string, matched: string): boolean {
 }
 
 /** Separate daily allowance for title translation, so typing in Russian cannot use up the visitor's model calls. */
-const TRANSLATE_PER_IP_PER_DAY = 300;
+const TRANSLATE_PER_IP_PER_DAY = 5000;
 
 /** English job title for a Cyrillic query, or null when the model says it is not a job title. Throws AiError. */
 export async function translateTitle(query: string, locale: Locale, actor?: Actor): Promise<string | null> {

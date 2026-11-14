@@ -7,6 +7,7 @@ import type { Profile } from '@/domain/types';
 import { createProfile, getProfile, updateProfile } from '@/server/profile';
 import { HttpError } from '@/server/profile/http';
 import { aiOrMeFor, answerRep, createRep, getToday, logWork, resetBankCache, startTrial, submitAiOrMe, weekOf, type RepCtx } from '@/server/reps';
+import { MAX_EXTRAS_PER_DAY } from '@/server/reps/service';
 import { loadBundle, typicalWeek } from '@/server/xray';
 import { createXray } from '@/server/xray/records';
 import { useTempStore } from '../platform/helpers';
@@ -126,7 +127,7 @@ describe('reps without budget (bank fallback)', () => {
 
   it('extras stop at 3 a day; Free users get 402 with trial, AI or me and tomorrow', async () => {
     const p = await nurse();
-    for (let i = 0; i < 3; i++) await createRep(await ctx(p.id, '2026-11-14T15:00:00Z'), { type: 'slip', kind: 'extra' });
+    for (let i = 0; i < MAX_EXTRAS_PER_DAY; i++) await createRep(await ctx(p.id, '2026-11-14T15:00:00Z'), { type: 'slip', kind: 'extra' });
     await expectHttp(createRep(await ctx(p.id, '2026-11-14T15:00:00Z'), { type: 'slip', kind: 'extra' }), 429, 'extra_limit');
 
     process.env.DEV_FORCE_PRO = '0';

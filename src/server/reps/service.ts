@@ -31,7 +31,7 @@ import { aiOrMeFor } from './ai-or-me';
  */
 
 export const REP_TYPES: RepType[] = ['slip', 'delegate', 'edge'];
-export const MAX_EXTRAS_PER_DAY = 3;
+export const MAX_EXTRAS_PER_DAY = 20;
 export const GENERATION_WAIT_MS = 8_000;
 const LOCK_TTL_SEC = 120;
 
@@ -56,13 +56,14 @@ export const todayOf = (ctx: RepCtx) => localDay(nowOf(ctx), tzOf(ctx));
  * the calls inside a rep (Delegate run, Edge replies, grading) count only against the IP, because the
  * engine already bounds them: at most 1 daily + 3 extras + 1 trial a day, 6 Edge replies, 1 Delegate run.
  */
-export const actorOf = (ctx: RepCtx): Actor => ({ profileId: `${ctx.profile.id}:reps`, ip: ctx.ip ?? null });
+export const actorOf = (ctx: RepCtx): Actor => ({ profileId: `${ctx.profile.id}:reps`, profilePerDay: REP_CALLS_PER_DAY, ip: ctx.ip ?? null });
+export const REP_CALLS_PER_DAY = 300;
 /**
  * Calls inside a rep (Delegate run, Edge replies, grading) get their own per-profile bucket, so a day of practice
  * (1 daily + 3 extras + trial, up to 7 calls each) never touches the map's limit, while retries and abuse are still
  * capped per profile and not only per IP.
  */
-export const REP_INNER_CALLS_PER_DAY = 60;
+export const REP_INNER_CALLS_PER_DAY = 600;
 export const innerActorOf = (ctx: RepCtx): Actor => ({
   profileId: `${ctx.profile.id}:reps-inner`,
   profilePerDay: REP_INNER_CALLS_PER_DAY,

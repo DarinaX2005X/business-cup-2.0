@@ -83,6 +83,7 @@ describe('rate limits without an IP header', () => {
   });
 
   it('puts requests without an IP into one shared "unknown" bucket instead of skipping the limit', async () => {
+    vi.stubEnv('PROFILE_CREATE_PER_DAY', '30');
     expect(clientIp(new Request('http://x/'))).toBe('unknown');
     expect(clientIp(new Request('http://x/', { headers: { 'x-forwarded-for': '5.5.5.5, 10.0.0.1' } }))).toBe('5.5.5.5');
     const post = () => POST(new Request('http://x/api/profile', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{"locale":"en"}' }));

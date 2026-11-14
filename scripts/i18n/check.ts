@@ -7,6 +7,12 @@ import { expectedKeys, flat, listSections, placeholders, readTree, writeCatalog 
  * no extra keys, the same placeholders as English. Also refreshes src/i18n/catalog/*.ts.
  * Exits 1 on any problem. Keys listed in "_draft" still count as present (reviewed in 06.2).
  */
+/**
+ * Sections that exist only in English by product decision: the public job pages (/jobs) are written for
+ * US search traffic and render English for every visitor. RU/KK files for them are neither expected nor allowed.
+ */
+export const ENGLISH_ONLY_SECTIONS: readonly string[] = ['jobs'];
+
 export function checkDictionaries(only?: string[]): { problems: string[]; drafts: number; keys: number } {
   const problems: string[] = [];
   let drafts = 0;
@@ -18,6 +24,11 @@ export function checkDictionaries(only?: string[]): { problems: string[]; drafts
       continue;
     }
     const en = flat(readTree(section, 'en'));
+    if (ENGLISH_ONLY_SECTIONS.includes(section)) {
+      keys += Object.keys(en).length;
+      for (const l of present) if (l !== 'en') problems.push(`${section}.${l}: section is English only, remove ${section}.${l}.json`);
+      continue;
+    }
     keys += Object.keys(en).length;
     for (const locale of locales.filter((l): l is Exclude<Locale, 'en'> => l !== 'en')) {
       const tree = readTree(section, locale);

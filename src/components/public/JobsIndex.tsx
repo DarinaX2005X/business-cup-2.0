@@ -98,7 +98,7 @@ export function JobsIndex({ jobs, labels }: { jobs: JobLink[]; labels: Labels })
               <ul className={st.jobList}>
                 {list.map((j) => (
                   <li key={j.slug}>
-                    <Link href={`/jobs/${j.slug}`} className={st.jobLink}>
+                    <Link href={`/jobs/${j.slug}`} className={st.jobLink} prefetch={false}>
                       <span className={st.jobTitle}>{j.title}</span>
                       <span className={st.jobHuman}>
                         <span className={st.jobMeter} aria-hidden="true">

@@ -1,12 +1,12 @@
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import * as K from '@/domain/constants';
-import { observedScore } from '@/domain/evidence';
+
 import { defaultShares, occurrencesPerYear, taskWeight } from '@/domain/shares';
 import { computeXray, practiceScore } from '@/domain/xray';
 import type { Category, OccTask, OccupationBundle, TaskEvidence } from '@/domain/types';
 import { getBundle, getMeta, getOccupations } from './data';
-import { shortLabel } from './text';
+import { taskShort } from './text';
 
 export const NURSE = '29-1141.00';
 
@@ -29,6 +29,7 @@ export function constants() {
     DEFAULT_WEEK_TASKS: pick('DEFAULT_WEEK_TASKS', K.DEFAULT_WEEK_TASKS),
     DEFAULT_SHARE_MIN: pick('DEFAULT_SHARE_MIN', K.DEFAULT_SHARE_MIN),
     DEFAULT_SHARE_MAX: pick('DEFAULT_SHARE_MAX', K.DEFAULT_SHARE_MAX),
+    AT_STAKE_DOES: K.AT_STAKE_WEIGHTS.ai_does,
     AT_STAKE_SPEEDS: K.AT_STAKE_WEIGHTS.ai_speeds,
     FREQ_PER_YEAR: K.FREQ_PER_YEAR,
   };
@@ -106,7 +107,7 @@ export async function workedExamples(): Promise<WorkedExample[]> {
   const out: WorkedExample[] = [];
   for (const steps of wanted) {
     const hit = pool.find((r) => steps.includes(categoryPath(r.task.evidence)) && !out.some((o) => o.task.id === r.task.id));
-    if (hit) out.push({ task: hit.task, short: shortLabel(hit.task.text), step: categoryPath(hit.task.evidence), share: hit.share });
+    if (hit) out.push({ task: hit.task, short: taskShort(hit.task), step: categoryPath(hit.task.evidence), share: hit.share });
   }
   return out;
 }
@@ -121,7 +122,7 @@ export async function nurseWeek() {
     return {
       id: t.id,
       text: t.text,
-      short: shortLabel(t.text),
+      short: taskShort(t),
       importance: t.importance,
       relevance: t.relevance,
       perYear: t.frequency != null ? occurrencesPerYear(t.frequency) : null,
@@ -129,11 +130,12 @@ export async function nurseWeek() {
       share: s.share,
     };
   });
-  const { result } = computeXray(bundle, shares);
+  const { result, breakdown } = computeXray(bundle, shares);
+  // Same sum the week map's inspector shows: Σ share × weight over the tasks of the week.
+  const pointsOff = breakdown.perTask.reduce((sum, p) => sum + p.scorePoints, 0);
   const practice = { n: 20, avgScore: 0.8 };
   const ps = practiceScore(result.baseScore, practice);
   const observed = bundle.tasks.find((t) => t.evidence.observed) ?? null;
-  return { bundle, taskCount: bundle.tasks.length, top, result, practice, ps, observed };
+  return { bundle, taskCount: bundle.tasks.length, top, result, pointsOff, practice, ps, observed };
 }
 
-export { observedScore };

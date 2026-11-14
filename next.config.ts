@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
     "/api/**/*": serverData,
     "/x/[id]": serverData,
     "/jobs/[slug]": serverData,
+    "/jobs/**/*": serverData,
+    "/method": serverData,
+    "/sitemap.xml": serverData,
   },
 };
 

@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getT } from '@/i18n/messages';
+import { KitProvider } from '@/components/kit/strings';
+import { WEEK_HOURS } from '@/domain/constants';
 import { FieldArches } from '@/components/kit/Illustration';
 import ctl from '@/components/kit/controls.module.css';
 import { PublicFooter, PublicHeader } from '@/components/public/PublicChrome';
@@ -9,7 +11,7 @@ import { WeekBar } from '@/components/kit/WeekBar';
 import { JobTasks, OtherTasks } from '@/components/public/JobTasks';
 import { getBundle, getMeta, getOccupationBySlug, getOccupations, siteUrl, sourceList, STATIC_JOB_PAGES } from '@/components/public/data';
 import { jobModel } from '@/components/public/jobModel';
-import { shortLabel } from '@/components/public/text';
+import { taskShort } from '@/components/public/text';
 import st from '@/components/public/jobs.module.css';
 import pub from '@/components/public/public.module.css';
 
@@ -87,6 +89,8 @@ export default async function JobPage({ params }: Props) {
   return (
     <>
       <PublicHeader labels={chrome} current="jobs" />
+      {/* English only: kit chips and units stay English even when the visitor reads the app in RU or KK. */}
+      <KitProvider locale="en">
       <main lang="en">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }} />
         <section className={`field ${st.hero}`} data-surface="field">
@@ -149,7 +153,7 @@ export default async function JobPage({ params }: Props) {
                 ariaLabel={t('jobs.page.weekLabel', { title: bundle.title })}
                 tasks={m.week.map((r) => ({
                   id: r.task.id,
-                  label: shortLabel(r.task.text),
+                  label: taskShort(r.task),
                   text: r.task.text,
                   share: r.share,
                   category: r.task.evidence.category,
@@ -157,7 +161,7 @@ export default async function JobPage({ params }: Props) {
                 }))}
               />
               <p className={st.weekCaption}>
-                {t('jobs.page.weekCaption')} <span className={st.factsSource}>{t('jobs.page.factsSource', { onet: meta.dataVersion.onet })}</span>
+                {t('jobs.page.weekCaption', { hours: WEEK_HOURS })} <span className={st.factsSource}>{t('jobs.page.factsSource', { onet: meta.dataVersion.onet })}</span>
               </p>
             </div>
           </div>
@@ -231,6 +235,7 @@ export default async function JobPage({ params }: Props) {
           </section>
         </div>
       </main>
+      </KitProvider>
       <PublicFooter title={t('jobs.footer.title')} note={t('jobs.footer.note')} methodLabel={t('jobs.footer.method')} sources={sourceList()} />
     </>
   );

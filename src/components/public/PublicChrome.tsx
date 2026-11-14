@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Wordmark } from '@/components/kit/Mark';
-import { LocaleSwitcher } from '@/i18n/LocaleSwitcher';
+import { LanguageSwitch } from './LanguageSwitch';
 import ctl from '@/components/kit/controls.module.css';
 import st from './public.module.css';
 
@@ -28,7 +28,7 @@ export function PublicHeader({ labels, current, locale = false }: { labels: Chro
             {labels.jobs}
           </Link>
         </nav>
-        {locale ? <LocaleSwitcher className={st.locale} id="public-locale" /> : null}
+        {locale ? <LanguageSwitch className={st.locale} /> : null}
         <Link href="/start" className={`${ctl.btn} ${ctl.b_primary} ${ctl.s_sm} ${st.headerCta}`}>
           {labels.start}
         </Link>

@@ -2,7 +2,7 @@ import { defaultShares } from '@/domain/shares';
 import { computeXray } from '@/domain/xray';
 import type { OccTask, OccupationBundle } from '@/domain/types';
 import { getT } from '@/i18n/messages';
-import { possessive, shortLabel, singularPhrase } from './text';
+import { possessive, singularPhrase, taskShort } from './text';
 
 /** Everything a public job page shows, computed from the bundle (typical week, no personal data). */
 export function jobModel(bundle: OccupationBundle) {
@@ -19,9 +19,10 @@ export function jobModel(bundle: OccupationBundle) {
 
   const ai = result.percent.ai_does + result.percent.ai_speeds;
   const humanTasks = week.filter((r) => r.task.evidence.category === 'human_edge').slice(0, 2);
-  const labels = humanTasks.map((r, i) => {
-    const s = shortLabel(r.task.text);
-    return i === 0 ? s : s.charAt(0).toLowerCase() + s.slice(1);
+  // Mid-sentence labels start lower-case unless they open with an acronym («HVAC checks»).
+  const labels = humanTasks.map((r) => {
+    const s = taskShort(r.task);
+    return /^[A-Z]{2}/.test(s) ? s : s.charAt(0).toLowerCase() + s.slice(1);
   });
   const human = labels.length === 2 ? t('jobs.page.and', { a: labels[0], b: labels[1] }) : labels[0] ?? '';
 
@@ -31,7 +32,7 @@ export function jobModel(bundle: OccupationBundle) {
   const metaTitle = who ? t('jobs.page.metaTitle', { who }) : t('jobs.page.metaTitlePlain', { title: bundle.title });
   const summary = [
     t('jobs.page.summaryAi', { ai }),
-    human ? t('jobs.page.summaryHuman', { human, count: labels.length }) : '',
+    human ? t('jobs.page.summaryHuman', { human }) : '',
   ]
     .filter(Boolean)
     .join(' ');

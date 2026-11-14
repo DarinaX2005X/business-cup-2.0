@@ -30,13 +30,12 @@
     "factsSource": "BLS OEWS May 2025, O*NET {onet}",
     "cta": "Map your own week",
     "ctaNote": "Free. Your tasks and hours, about two minutes.",
-    "weekCaption": "A typical week of 40 hours, built from how important and how frequent O*NET rates each task. Yours will differ.",
+    "weekCaption": "A typical week of {hours} hours, built from how important and how frequent O*NET rates each task. Yours will differ.",
     "weekLabel": "Typical week of {title}, by task",
     "summaryAi": "In a typical week, AI already does or speeds up {ai}% of the work.",
-    "summaryHuman_one": "{human} stays with people.",
-    "summaryHuman_other": "{human} stay with people.",
     "and": "{a} and {b}",
-    "taskCount": "Tasks O*NET lists"
+    "taskCount": "Tasks O*NET lists",
+    "summaryHuman": "What stays with people: {human}."
   },
   "tasks": {
     "title": "Task by task",
@@ -54,7 +53,7 @@
     "moreNote": "Rarer or less important, so the typical week leaves them out. Your own week can include them.",
     "perWeek": "{h} h a week",
     "ratingSource_human+gpt4": "researchers and GPT-4 disagreed, so we use the mean",
-    "exposure": "Exposure for the score: {tw} × {theory} + {ow} × {observed} = {value}"
+    "exposure": "Exposure {tw} × {theory} + {ow} × {observed} = {value}"
   },
   "explain": {
     "observed_auto": "Seen in real AI use at work: {auto} of the conversations about this task in {source} hand the whole task to AI.",

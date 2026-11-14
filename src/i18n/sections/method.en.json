@@ -107,10 +107,13 @@
     "step_rated_speeds": "Stops at question 3: not seen in work use, but researchers expected AI to speed it up.",
     "step_usage_speeds": "Stops at question 3: rated E0, yet it has shown up in AI usage data.",
     "step_low_human": "Reaches the end: rated E0 and never seen in AI usage data.",
-    "step_no_data": "No rating and no observation."
+    "step_no_data": "No rating and no observation.",
+    "exposureNote": "Each task also carries an exposure number between 0 and 1, half from the research rating and half from observed use. It sits next to the category as evidence and helps compare tasks within one category; the score does not add it up.",
+    "exposureE1": "observed = 0.5 + 0.5 × automation share, if the task is observed; otherwise 0",
+    "exposureE2": "exposure = {tw} × theory + {ow} × observed"
   },
   "week": {
-    "p1": "A week map starts from 40 hours. If you upload a résumé or describe your work, a language model matches your duties to the tasks of your occupation and estimates how much of the week each one takes. You can then move every slider yourself.",
+    "p1": "A week map starts from {hours} hours. If you upload a résumé or describe your work, a language model matches your duties to the tasks of your occupation and estimates how much of the week each one takes. You can then move every slider yourself.",
     "p2": "Without a résumé we use a typical week. Each task gets a weight from its O*NET ratings, the {n, integer} heaviest tasks are kept, and their weights become whole percent that add up to 100, each between {min}% and {max}%.",
     "formula": "weight = importance × relevance ÷ 100 × √(times a year)",
     "freq": "O*NET rates frequency on a scale from 1 (once a year or less) to 7 (hourly or more). We read it as times a year: {scale}. The square root keeps hourly chores from swallowing the week.",
@@ -124,21 +127,18 @@
     "hours": "{h} h"
   },
   "score": {
-    "intro": "The irreplaceability score sums a week up in one number from 0 to 100. It starts from how exposed the week is to AI and grows with verified practice.",
-    "exposureIntro": "First every task gets an exposure number between 0 and 1, half from the research rating and half from observed use:",
-    "e1": "observed = 0.5 + 0.5 × automation share, if the task is observed; otherwise 0",
-    "e2": "exposure = {tw} × theory + {ow} × observed",
-    "f1": "week exposure = Σ share × exposure ÷ 100",
-    "f2": "base score = round(100 × (1 − week exposure))",
+    "intro": "The irreplaceability score sums a week up in one number from 0 to 100. Hours AI already does count in full, hours it speeds up count at half, and together they come off 100. Verified practice then wins part of the gap back.",
+    "f1": "points off = Σ share × weight, weight = {does} for AI already does it, {speeds} for AI speeds it up, 0 for your human edge",
+    "f2": "base score = round(100 − points off)",
     "f3": "F = (1 − e^(−n ÷ {scale})) × average rep score",
     "f4": "score = base + (100 − base) × {gain} × F",
     "explainF": "n is the number of completed practice reps and the average rep score runs from 0 to 1. Practice can close at most {gain} of the gap to 100, and the first reps count most.",
     "example": "A typical registered nurse",
-    "exWeek": "Week exposure {value}",
     "exBase": "Base score {value}",
     "exPractice": "After {n, integer} reps with an average score of {avg}: F = {F}, score {score}",
     "pay": "Pay at stake counts the hours AI already does in full and the hours it speeds up at {half}: annual pay × (AI already does it + {half} × AI speeds it up) ÷ 100. For the typical nurse week that is {currency} of {annual}, the US median for the job. It is the part of pay tied to work AI touches, not money anyone will lose.",
-    "notProbability": "The score is not a probability of anything. It reads as the part of your week AI does not reach yet, plus credit for practice you have actually done."
+    "notProbability": "The score is not a probability of anything. It reads as the part of your week AI does not reach yet, plus credit for practice you have actually done.",
+    "exPoints": "Points off: {does}% × {wd} + {speeds}% × {ws} = {value}"
   },
   "validation": {
     "intro": "We compared our indicator, averaged to whole occupations, with two published measures. The figure is a rank correlation (Spearman) across the occupations both cover.",

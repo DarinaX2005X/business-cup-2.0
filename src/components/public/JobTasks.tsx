@@ -2,9 +2,10 @@ import Link from 'next/link';
 import { CategoryChip, CategorySwatch, EvidenceBadge, EvidenceMeter } from '@/components/kit/Evidence';
 import { explainCategory } from '@/domain/evidence';
 import { observedScore } from '@/domain/evidence';
+import { WEEK_HOURS } from '@/domain/constants';
 import type { OccTask } from '@/domain/types';
 import type { TFunction } from '@/i18n/core';
-import { shortLabel } from './text';
+import { taskShort } from './text';
 import st from './jobs.module.css';
 
 export interface WeekTaskRow {
@@ -26,8 +27,8 @@ export function JobTasks({ rows, t, theoryWeight, fmt }: { rows: WeekTaskRow[]; 
     <ol className={st.tasks}>
       {rows.map(({ task, share }) => {
         const e = task.evidence;
-        const hours = (share * 40) / 100;
-        const short = shortLabel(task.text);
+        const hours = (share * WEEK_HOURS) / 100;
+        const short = taskShort(task);
         const sameAsShort = task.text.replace(/[.\s]+$/, '') === short;
         return (
           <li key={task.id} className={st.task} data-cat={e.category}>

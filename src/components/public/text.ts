@@ -78,3 +78,8 @@ export function singularPhrase(title: string): string | null {
 export function possessive(phrase: string): string {
   return `${phrase}'s`;
 }
+
+/** The task's short label from the bundle (model-written for top occupations), else the heuristic. */
+export function taskShort(task: { text: string; short?: string }): string {
+  return task.short?.trim() || shortLabel(task.text);
+}

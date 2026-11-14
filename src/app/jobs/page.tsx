@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { getT } from '@/i18n/messages';
+import { KitProvider } from '@/components/kit/strings';
 import { PublicFooter, PublicHeader } from '@/components/public/PublicChrome';
 import { JobsIndex } from '@/components/public/JobsIndex';
 import { getOccupations, siteUrl, sourceList } from '@/components/public/data';
@@ -31,6 +32,8 @@ export default async function JobsPage() {
         current="jobs"
         labels={{ home: t('jobs.chrome.home'), nav: t('jobs.chrome.nav'), method: t('jobs.chrome.method'), jobs: t('jobs.chrome.jobs'), start: t('jobs.chrome.start') }}
       />
+      {/* English only: kit chips and units stay English even when the visitor reads the app in RU or KK. */}
+      <KitProvider locale="en">
       <main lang="en" className={st.indexPage}>
         <header className={st.indexHead}>
           <h1 className={st.indexH1}>{t('jobs.index.title')}</h1>
@@ -49,6 +52,7 @@ export default async function JobsPage() {
           }}
         />
       </main>
+      </KitProvider>
       <PublicFooter title={t('jobs.footer.title')} note={t('jobs.footer.note')} methodLabel={t('jobs.footer.method')} sources={sourceList()} />
     </>
   );

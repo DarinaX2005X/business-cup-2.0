@@ -8,8 +8,9 @@ import { Toc } from '@/components/public/Toc';
 import { CategoryPath, type PathRow } from '@/components/public/CategoryPath';
 import { METHOD_ANCHORS as A, METHOD_ORDER } from '@/components/public/anchors';
 import { getMeta, getValidation, siteUrl, sourceList } from '@/components/public/data';
-import { categoryPath, constants, nurseWeek, observedScore, PATH_CATEGORY, pathCounts, workedExamples } from '@/components/public/methodData';
+import { constants, nurseWeek, PATH_CATEGORY, pathCounts, workedExamples } from '@/components/public/methodData';
 import type { Category } from '@/domain/types';
+import { WEEK_HOURS } from '@/domain/constants';
 import pub from '@/components/public/public.module.css';
 import st from '@/components/public/method.module.css';
 
@@ -61,7 +62,7 @@ export default async function MethodPage() {
   const exAt = (steps: string[]) =>
     examples
       .filter((e) => steps.includes(e.step))
-      .map((e) => ({ id: e.task.id, label: e.share ? t('method.hero.example', { label: e.short, h: dec((e.share * 40) / 100, 1) }) : e.short }));
+      .map((e) => ({ id: e.task.id, label: e.share ? t('method.hero.example', { label: e.short, h: dec((e.share * WEEK_HOURS) / 100, 1) }) : e.short }));
   const pathRows: PathRow[] = [
     {
       id: 'observed',
@@ -141,7 +142,7 @@ export default async function MethodPage() {
             <h1 className={st.h1}>{t('method.title')}</h1>
             <div className={st.introSide}>
             <p className={st.lead}>{t('method.lead')}</p>
-            <p className={st.build}>{t('method.updated', { onet: `${meta.dataVersion.onet} (${meta.onetRelease})`, aei: meta.dataVersion.aei, bls: meta.dataVersion.bls })}</p>
+            <p className={st.build}>{t('method.updated', { onet: `${meta.dataVersion.onet} (${meta.onetRelease})`, aei: meta.dataVersion.aei.replace(/-/g, '‑'), bls: meta.dataVersion.bls })}</p>
             </div>
           </div>
           <div className={st.heroSheet}>
@@ -269,6 +270,11 @@ export default async function MethodPage() {
                 ))}
               </ol>
               <p>{t('method.category.theoryNote')}</p>
+              <p>{t('method.category.exposureNote')}</p>
+              <div className={st.formula} lang="en">
+                <code>{t('method.category.exposureE1')}</code>
+                <code className={st.formulaMain}>{t('method.category.exposureE2', { tw: dec(c.THEORY_WEIGHT), ow: dec(1 - c.THEORY_WEIGHT) })}</code>
+              </div>
               <p className={st.muted}>{t('method.category.choice', { gate: pct(c.WORK_GATE, 0), auto: pct(c.aiDoesAutomation, 0) })}</p>
 
               {examples.length ? (
@@ -326,7 +332,7 @@ export default async function MethodPage() {
 
             <section id={A.week} className={st.section}>
               <h2>{t('method.sections.week')}</h2>
-              <p>{t('method.week.p1')}</p>
+              <p>{t('method.week.p1', { hours: WEEK_HOURS })}</p>
               <p>{t('method.week.p2', { n: c.DEFAULT_WEEK_TASKS, min: c.DEFAULT_SHARE_MIN, max: c.DEFAULT_SHARE_MAX })}</p>
               <div className={st.formula} lang="en">
                 <code className={st.formulaMain}>{t('method.week.formula')}</code>
@@ -364,7 +370,7 @@ export default async function MethodPage() {
                             <td>{r.perYear != null ? f.integer(r.perYear) : '–'}</td>
                             <td>{dec(r.weight, 1)}</td>
                             <td>
-                              {f.integer(r.share)}%<span className={st.cellSub}>{t('method.week.hours', { h: dec((r.share * 40) / 100, 1) })}</span>
+                              {f.integer(r.share)}%<span className={st.cellSub}>{t('method.week.hours', { h: dec((r.share * WEEK_HOURS) / 100, 1) })}</span>
                             </td>
                           </tr>
                         ))}
@@ -378,13 +384,8 @@ export default async function MethodPage() {
             <section id={A.score} className={st.section}>
               <h2>{t('method.sections.score')}</h2>
               <p>{t('method.score.intro')}</p>
-              <p>{t('method.score.exposureIntro')}</p>
               <div className={st.formula} lang="en">
-                <code>{t('method.score.e1')}</code>
-                <code className={st.formulaMain}>{t('method.score.e2', { tw: dec(c.THEORY_WEIGHT), ow: dec(1 - c.THEORY_WEIGHT) })}</code>
-              </div>
-              <div className={st.formula} lang="en">
-                <code>{t('method.score.f1')}</code>
+                <code>{t('method.score.f1', { does: dec(c.AT_STAKE_DOES), speeds: dec(c.AT_STAKE_SPEEDS) })}</code>
                 <code>{t('method.score.f2')}</code>
                 <code>{t('method.score.f3', { scale: c.PRACTICE_SCALE })}</code>
                 <code className={st.formulaMain}>{t('method.score.f4', { gain: dec(c.PRACTICE_GAIN) })}</code>
@@ -394,7 +395,15 @@ export default async function MethodPage() {
                 <div className={st.scoreEx}>
                   <h3 className={st.h3}>{t('method.score.example')}</h3>
                   <ol className={st.steps}>
-                    <li>{t('method.score.exWeek', { value: dec(nurse.result.weekExposure, 3) })}</li>
+                    <li>
+                      {t('method.score.exPoints', {
+                        does: f.integer(nurse.result.percent.ai_does),
+                        wd: dec(c.AT_STAKE_DOES),
+                        speeds: f.integer(nurse.result.percent.ai_speeds),
+                        ws: dec(c.AT_STAKE_SPEEDS),
+                        value: dec(nurse.pointsOff, 1),
+                      })}
+                    </li>
                     <li>{t('method.score.exBase', { value: f.integer(nurse.result.baseScore) })}</li>
                     <li>
                       {t('method.score.exPractice', {

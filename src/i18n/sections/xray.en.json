@@ -74,8 +74,8 @@
     "hoursHow": "How these hours add up",
     "barLabel": "The week by task",
     "noData": "No data yet: {hours} h",
-    "pay": "{atStake} of your {annual} pay sits in tasks with high AI exposure",
-    "payGuest": "{atStake} of the {annual} median pay for this job sits in tasks with high AI exposure",
+    "pay": "{atStake} of your {annual} pay is tied to tasks AI does or speeds up",
+    "payGuest": "{atStake} of the {annual} median pay for this job is tied to tasks AI does or speeds up",
     "payNone": "We don't have US pay data for this job, so the pay line is left out.",
     "paySource": "US median for this job, BLS May 2025.",
     "payUser": "Your salary, visible only to you.",
@@ -164,16 +164,17 @@
       "source": "Formula from How we measure, data from O*NET {onet} and the Anthropic Economic Index of {aei}"
     },
     "pay": {
-      "title": "Pay in high-exposure tasks",
-      "about": "The part of your yearly pay that matches the time you spend on tasks with AI exposure of 0.5 or more.",
-      "formula": "Pay × share of the week",
-      "note": "Counts tasks with exposure of {threshold} or more.",
+      "title": "Pay at stake",
+      "about": "The part of your yearly pay tied to tasks AI touches: all of the time on tasks AI already does and half of the time on tasks it speeds up.",
+      "formula": "Share of the week at stake",
+      "note": "Tasks AI already does count in full, tasks it speeds up count at half. The same weights give the score and the hours freed.",
       "user": "Uses the salary you entered. It stays in your profile and isn't shown to people you share the map with.",
       "median": "Uses the US median pay for this job from BLS, May 2025. Enter your salary to make it yours.",
       "medianGuest": "Uses the US median pay for this job from BLS, May 2025.",
       "tasks": "Tasks counted",
-      "noneHigh": "None of the tasks in this week reach that level of exposure.",
-      "source": "BLS Occupational Employment and Wage Statistics, May 2025"
+      "noneHigh": "AI doesn't touch any task in this week yet, so nothing is at stake.",
+      "source": "BLS Occupational Employment and Wage Statistics, May 2025",
+      "formulaPay": "Pay × share at stake"
     },
     "hours": {
       "title": "The week in hours",

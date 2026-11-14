@@ -5,7 +5,7 @@ import { CategoryChip, CategorySwatch, EvidenceBadge, EvidenceMeter } from '@/co
 import { SourceNote } from '@/components/kit/Shop';
 import { Skeleton } from '@/components/kit/Skeleton';
 import { useKit } from '@/components/kit/strings';
-import { HIGH_EXPOSURE, PRACTICE_GAIN, PRACTICE_SCALE, THEORY_WEIGHT, WEEK_HOURS } from '@/domain/constants';
+import { PRACTICE_GAIN, PRACTICE_SCALE, THEORY_WEIGHT, WEEK_HOURS } from '@/domain/constants';
 import { explainCategory, observedScore } from '@/domain/evidence';
 import type { Category, OccTask, XrayBreakdown, XrayComputed } from '@/domain/types';
 import { useT } from '@/i18n/client';
@@ -303,15 +303,21 @@ function MetricPanel({
     anchor = 'pay';
     const annual = result.salary.annual;
     big = result.payAtStake != null ? f.currency(result.payAtStake) : '—';
-    const high = rows.filter((p) => p.exposure >= HIGH_EXPOSURE);
-    const pct = breakdown.pay.shareHighExposure;
+    // Same weights as the score and hours freed: tasks AI does count in full, tasks it speeds up at half.
+    const counted = rows.filter((p) => p.scorePoints > 0).sort((a, b) => b.scorePoints - a.scorePoints);
+    const pct = breakdown.pay.shareAtStake;
+    const w = breakdown.pay.weights;
     body =
       annual == null ? (
         <p className={st.iExplain}>{t('xray.week.payNone')}</p>
       ) : (
         <>
           <dl className={st.eqs}>
-            <Eq label={t('xray.metric.pay.formula')} note={t('xray.metric.pay.note', { threshold: HIGH_EXPOSURE })}>
+            <Eq label={t('xray.metric.pay.formula')} note={t('xray.metric.pay.note')}>
+              <Num>{f.number(result.percent.ai_does)}</Num>% × {f.number(w.ai_does)} + <Num>{f.number(result.percent.ai_speeds)}</Num>% × {f.number(w.ai_speeds)} ={' '}
+              <Num strong>{f.percent(pct)}</Num>
+            </Eq>
+            <Eq label={t('xray.metric.pay.formulaPay')}>
               <Num>{f.currency(annual)}</Num> × <Num>{f.percent(pct)}</Num> = <Num strong>{f.currency(result.payAtStake ?? 0)}</Num>
             </Eq>
           </dl>
@@ -319,10 +325,17 @@ function MetricPanel({
             {result.salary.source === 'user' ? t('xray.metric.pay.user') : isOwner ? t('xray.metric.pay.median') : t('xray.metric.pay.medianGuest')}
           </p>
           <h4 className={st.h4}>{t('xray.metric.pay.tasks')}</h4>
-          {high.length ? (
+          {counted.length ? (
             <ul className={st.tLinks}>
-              {high.map((p) => (
-                <TaskLink key={p.taskId} id={p.taskId} label={label(p.taskId)} category={cat(p.taskId)} value={`${f.number(p.share)}%`} onFocus={onFocus} />
+              {counted.map((p) => (
+                <TaskLink
+                  key={p.taskId}
+                  id={p.taskId}
+                  label={label(p.taskId)}
+                  category={cat(p.taskId)}
+                  value={`${f.number(p.share)}% × ${f.number(p.weight)}`}
+                  onFocus={onFocus}
+                />
               ))}
             </ul>
           ) : (

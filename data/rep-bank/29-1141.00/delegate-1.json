@@ -1,0 +1,84 @@
+{
+  "type": "delegate",
+  "occupationCode": "29-1141.00",
+  "taskId": "1850",
+  "locale": "en",
+  "difficulty": 2,
+  "title": "Discharge Education on Heart Failure",
+  "brief": "Draft a patient-friendly heart failure discharge education sheet and daily self-care checklist.",
+  "delegate": {
+    "scenario": "A bedside RN is preparing discharge education for an older adult patient returning home with newly staged heart failure. The patient and his adult daughter will review the summary sheet before leaving this afternoon to manage daily monitoring and medications safely. The nurse needs a clear, easy-to-read educational handout tailored to the patient's specific discharge orders.",
+    "inputs": "Patient: Arthur Pendelton (DOB: 04/12/1951)\nDiagnosis: Acute decompensated heart failure (HFrEF, EF 32%), hypertension, chronic kidney disease stage 2\nDischarge Orders & Notes:\n- Daily weights: weigh every morning before breakfast after voiding. Call clinic if weight gain > 3 lbs in 1 day or > 5 lbs in 1 week.\n- Diet: 2,000 mg/day sodium restriction. Fluid restriction: 1,500 mL/day (approx 50 oz).\n- Medications:\n  * Furosemide (Lasix) 40 mg PO BID (take 0800 and 1400)\n  * Lisinopril 10 mg PO daily (hold for SBP < 100)\n  * Metoprolol succinate ER 25 mg PO daily\n  * Potassium chloride 20 mEq PO daily with morning meal\n- Discharge Vitals (today 1100): BP 118/74 mmHg, HR 68 bpm, SpO2 96% on room air, Weight: 182.4 lbs.\n- Recent Labs: K+ 4.1 mEq/L, eGFR 64, Creatinine 1.2 mg/dL.\n- Follow-up: Dr. Rao in 7 days (call 555-0193 to schedule).\n- Nurse handoff note: Patient mentioned his daughter bought an over-the-counter sodium-free salt substitute for cooking at home.",
+    "goal": "Provide an accessible, plain-language education sheet that empowers the patient and family to monitor symptoms, take medications properly, and spot warning signs requiring medical attention.",
+    "criteria": [
+      {
+        "id": "c1",
+        "text": "Specifies the primary audience as an older adult patient and family caregiver, using plain language at a 6th-to-8th grade reading level.",
+        "keywords": [
+          "patient",
+          "family",
+          "plain language",
+          "reading level",
+          "caregiver"
+        ]
+      },
+      {
+        "id": "c2",
+        "text": "Requests an organized layout with bulleted daily routines, red-flag symptoms, and clear call parameters.",
+        "keywords": [
+          "format",
+          "checklist",
+          "symptoms",
+          "call parameters",
+          "sections"
+        ]
+      },
+      {
+        "id": "c3",
+        "text": "Requires a safety check cross-referencing discharge medications against dietary recommendations or over-the-counter items.",
+        "keywords": [
+          "medication interaction",
+          "dietary risks",
+          "safety check",
+          "contraindications"
+        ]
+      },
+      {
+        "id": "c4",
+        "text": "Instructs the AI to verify symptom threshold consistency and clarify any ambiguous care instructions.",
+        "keywords": [
+          "verify numbers",
+          "reconcile",
+          "warning signs",
+          "clarify"
+        ]
+      },
+      {
+        "id": "c5",
+        "text": "Constrains the final output length to fit neatly onto a two-page printable handout.",
+        "keywords": [
+          "length",
+          "two pages",
+          "printable",
+          "handout"
+        ]
+      }
+    ],
+    "traps": [
+      {
+        "id": "t1",
+        "description": "The daughter purchased a potassium-based salt substitute, which is dangerous because the patient takes lisinopril and oral potassium chloride.",
+        "keywords": [
+          "salt substitute"
+        ]
+      },
+      {
+        "id": "t2",
+        "description": "The fluid limit is listed as 1,500 mL/day and 50 oz, but 1,500 mL is roughly 51 oz (or 50.7 oz), creating potential rounding confusion for fluid tracking.",
+        "keywords": [
+          "approx 50 oz"
+        ]
+      }
+    ]
+  }
+}

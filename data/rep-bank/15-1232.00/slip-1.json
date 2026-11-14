@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "15-1232.00",
+  "taskId": "1282",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "IT Service Desk Incident Resolution Ticket INC-84091",
+  "brief": "An IT service desk resolution summary and user follow-up instructions drafted after troubleshooting a multi-monitor display and peripheral dock failure.",
+  "docType": "help desk incident ticket",
+  "slip": {
+    "document": "# IT Service Desk Incident Resolution Ticket INC-84091\nUser Support Resolution Log\n\n## Ticket Summary\n| Field | Value |\n| --- | --- |\n| Ticket ID | INC-84091 |\n| Date Logged | 04/14/2026 08:42 EDT |\n| User | Marcus Vance (Finance Dept, Ext. 4118) |\n| Workstation | Dell Latitude 7440 (Asset #FIN-0982) |\n| Docking Station | CalDigit TS4 Thunderbolt 4 (Asset #DCK-0441) |\n| Operating System | Windows 11 Enterprise 23H2 |\n| Primary Issue | Dual 4K external monitors showing No Signal; USB mouse unresponsive |\n\n## Diagnostic Steps & Findings\n- Connected workstation directly to AC power; laptop screen functions normally.\n- Verified dock front indicator LED was solid white, confirming power brick output.\n- Cable inspection showed Thunderbolt host cable plugged into dock USB-C front data-only port.\n- Relocated host connection cable to rear Thunderbolt 4 upstream port labeled with computer icon.\n- Peripheral status: USB optical mouse and wired keyboard immediately recovered functionality.\n- Display settings check: Windows Display Properties detected both Dell U2723QE displays at 3840x2160 @ 60Hz.\n\n## Action Taken and User Guidance\n- Relocated physical host cable to the correct upstream connection port on the rear panel.\n- Advised user to replace the dual external monitors due to hardware failure.\n- Verified firmware on CalDigit TS4 is version 39.1; no update required.\n- For permanent resolution, please submit a replacement request through the IT portal.\n- Case marked Resolved on 04/14/2026 at 09:15 EDT by Tier 1 Tech R. Davies.",
+    "errors": [
+      {
+        "quote": "Advised user to replace the dual external monitors due to hardware failure.",
+        "start": 1231,
+        "end": 1306,
+        "type": "logic",
+        "explanation": "The diagnostic findings clearly state that Windows Display Properties detected both external monitors at full resolution (3840x2160 @ 60Hz) once the dock was cabled properly, contradicting the conclusion that the monitors suffered hardware failure and need replacement.",
+        "fix": "Advised user that both external displays are operating normally and no hardware replacement is required."
+      },
+      {
+        "quote": "For permanent resolution, please submit a replacement request through the IT portal.",
+        "start": 1382,
+        "end": 1466,
+        "type": "omission",
+        "explanation": "The instruction references submitting a request through the IT portal but omits the mandatory portal URL or specific form catalog link required for the employee to complete the action.",
+        "fix": "For permanent resolution, please submit a replacement request through the IT portal at https://servicedesk.internal.net/catalog/hardware."
+      }
+    ]
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "35-3023.00",
+  "taskId": "23099",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Guest Incident and Order Resolution Log",
+  "brief": "A shift supervisor's resolution log documenting a drive-thru order mix-up, allergen alert, and subsequent customer remediation.",
+  "docType": "incident resolution log",
+  "slip": {
+    "document": "# Guest Incident and Order Resolution Log\nStore #4108 - Oakridge Crossing\nShift: Morning / Lunch Transition (11:00 - 15:00)\nDate: 04/18/2026\n\n## Incident Details\n- Time of Occurrence: 12:42 PM\n- Order Number: #318\n- Register Station: Drive-Thru Window 2\n- Reporting Crew Member: Tyler Brooks\n- Guest Name: Marcus Vance\n- Contact: (555) 014-8832\n\n## Transaction Data\n| Item Code | Description | Special Instructions | Price |\n| --- | --- | --- | --- |\n| 104 | Crispy Chicken Sandwich Meal | NO PICKLES, ADD BACON | $11.49 |\n| 202 | Medium Waffle Fries | Standard | $2.79 |\n| 308 | Large Unsweet Iced Tea | Extra Lemon | $2.49 |\n| 412 | Chocolate Milkshake | Standard | $4.29 |\n\nSubtotal: $21.06\nTax (8.25%): $1.74\nTotal Paid: $22.80\nPayment Method: Visa ending in 4109\n\n## Nature of Complaint\nGuest returned to the walk-in counter at 1:05 PM stating that order #318 was prepared incorrectly. The sandwich in the bag was a Spicy Deluxe with dill pickles and pepper jack cheese, rather than the ordered Crispy Chicken Sandwich without pickles.\n\n- The guest has a severe gluten allergy and cannot ingest pickles due to brine cross-contamination.\n- Crew member Tyler Brooks misread the kitchen screen and handed out order #319 to the vehicle at Window 2.\n\n## Action Taken and Resolution\n- Shift supervisor apologized and immediately sent an expedited priority remake for ticket #318 to the kitchen line.\n- Remake handed to guest at 1:12 PM, verified personally with no pickles and added bacon.\n- Processed a full credit card refund of $22.80 back to the guest's Visa ending in 4109.\n- Because the guest already received a full monetary refund, no replacement food was provided to the customer.\n- Issued guest a $10.00 digital promotional card (Promo Code: OAK4108) via text message for future visits.\n- Conducted a 5-minute huddle with window team regarding order verification procedures before handing bags out.",
+    "errors": [
+      {
+        "quote": "severe gluten allergy and cannot ingest pickles",
+        "start": 1060,
+        "end": 1107,
+        "type": "fact",
+        "explanation": "Pickles and pickle brine relate to a cucumber or preservative/food sensitivity, not a gluten allergy, which involves wheat, barley, or rye.",
+        "fix": "severe pickle allergy and cannot ingest pickles"
+      },
+      {
+        "quote": "Because the guest already received a full monetary refund, no replacement food was provided to the customer.",
+        "start": 1580,
+        "end": 1688,
+        "type": "logic",
+        "explanation": "This directly contradicts the previous bullet points stating that an expedited remake was sent to the kitchen line and handed to the guest at 1:12 PM.",
+        "fix": "In addition to remaking the order at no charge, a full monetary refund was provided to the customer."
+      }
+    ]
+  }
+}

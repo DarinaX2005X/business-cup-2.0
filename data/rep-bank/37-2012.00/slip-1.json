@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "37-2012.00",
+  "taskId": "9560",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Housekeeping Cart Stocking and Safety Inspection Log",
+  "brief": "Daily cart inspection and replenishment log for a commercial hotel housekeeper, drafted from morning shift supervisor guidelines.",
+  "docType": "safety inspection log",
+  "slip": {
+    "document": "# Housekeeping Cart Stocking and Safety Inspection Log\nShift: Morning Shift (07:00 - 15:30)\nAttendant: Elena Cruz\nFloor Assignment: Floor 4 (Rooms 401-424)\nCart Unit: C-08\nDate: 04/14/2026\n\n## Equipment and Inventory Baseline\n| Item Category | Standard Specification | Stock Count | Cart Limit |\n| --- | --- | --- | --- |\n| Bath Sheets | White Terry 30x58 in | 24 ea | 30 ea |\n| Hand Towels | White Terry 16x30 in | 30 ea | 35 ea |\n| Multi-Surface Disinfectant | 32 oz spray bottle (RTU) | 2 ea | 4 ea |\n| Glass Cleaner | 32 oz spray bottle (RTU) | 2 ea | 3 ea |\n| Cart Wheel Castors | 8-inch non-marking swivel | 4 ea | 4 ea |\n| Total Load Weight | Linens, liquids, dry paper | 165 lb | 220 lb |\n\n## Morning Loading Checklist\n- Check all 4 castor wheels for thread entanglements, debris, and smooth rotation.\n- Verify bottom shelf linen stack does not exceed the 15-inch rail clearance.\n- Disinfectant chemical spray bottles placed in exterior side caddy without secondary GHS safety labels affixed.\n- Ensure vinyl trash collection bag is emptied and hooked to the push bar.\n- Inspect push-handle height and report loose hardware to maintenance immediately.\n\n## Restocking and Chemical Safety Protocols\n- Restock clean linens on middle and lower shelves; distribute weight evenly across the wheel base.\n- Store quaternary ammonium disinfectant in the lower side caddy below eye level.\n- Do not exceed manufacturer cart payload rating of 350 lb under any circumstances.\n- Maintain clear visibility over top tray when pushing; never stack amenities higher than 48 inches from floor.\n- Park cart tight against the guest room wall on the corridor side being serviced.",
+    "errors": [
+      {
+        "quote": "spray bottles placed in exterior side caddy without secondary GHS safety labels affixed",
+        "start": 912,
+        "end": 999,
+        "type": "omission",
+        "explanation": "OSHA Hazard Communication Standard requires secondary chemical spray containers transferred from concentrates or bulk to have compliant GHS workplace labeling identifying product name and hazard warnings.",
+        "fix": "spray bottles placed in exterior side caddy with secondary GHS safety labels affixed"
+      },
+      {
+        "quote": "Do not exceed manufacturer cart payload rating of 350 lb under any circumstances.",
+        "start": 1388,
+        "end": 1469,
+        "type": "fact",
+        "explanation": "The reference table specifies that the cart payload limit for Cart C-08 is 220 lb, not 350 lb.",
+        "fix": "Do not exceed manufacturer cart payload rating of 220 lb under any circumstances."
+      }
+    ]
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "type": "edge",
+  "occupationCode": "23-2011.00",
+  "taskId": "21062",
+  "locale": "en",
+  "difficulty": 2,
+  "title": "Discrepancy in Public Records",
+  "brief": "De-escalate an anxious client whose undisclosed public records threaten their pending personal injury claim.",
+  "edge": {
+    "scenario": "You are a litigation paralegal at a civil practice reviewing background asset and court filings for an ongoing auto-injury suit. In your county docket search, you uncovered a prior undisclosed default judgment and concurrent bankruptcy filing that the client omitted during intake. You are meeting with the client in a conference room before the attorney submits the verified interrogatories.",
+    "personaPublic": "Marcus is a warehouse supervisor pursuing damages for severe back injuries from a delivery truck collision. He appears defensive, tightly clutching his paperwork and agitated that you pulled records outside the immediate car crash.",
+    "personaHidden": "Marcus is terrified that his past financial ruin will cause the court to dismiss his injury case and ruin his family's chances of paying off medical debt. He concealed the bankruptcy out of intense shame and fear that his employer might discover it.",
+    "goal": "De-escalate Marcus's distress, explain why legal disclosure is mandatory, and obtain his accurate timeline of the past filings to update the case record.",
+    "criteria": [
+      {
+        "id": "c1",
+        "text": "Acknowledges Marcus's frustration and stress before discussing legal rules",
+        "keywords": [
+          "understand",
+          "overwhelming",
+          "stressful",
+          "hear you"
+        ]
+      },
+      {
+        "id": "c2",
+        "text": "Explains clearly why public record disclosure protects his credibility in court",
+        "keywords": [
+          "credibility",
+          "deposition",
+          "defense counsel",
+          "transparency",
+          "surprise"
+        ]
+      },
+      {
+        "id": "c3",
+        "text": "Clarifies the paralegal role without giving unauthorized legal advice",
+        "keywords": [
+          "attorney",
+          "work with",
+          "help us prepare",
+          "our team"
+        ]
+      },
+      {
+        "id": "c4",
+        "text": "Secures his agreement to review and verify the dates together",
+        "keywords": [
+          "go through",
+          "timeline",
+          "verify",
+          "dates",
+          "step by step"
+        ]
+      }
+    ],
+    "opening": "Why are you digging into my old financial troubles? My credit history has zero to do with that truck rear-ending me on Highway 4! I thought you were on my side, not digging up dirt to make me look like a deadbeat."
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "25-2021.00",
+  "taskId": "6556",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Grade 4 Science Multimedia Lesson Plan: Weather Systems",
+  "brief": "A technology-integrated 4th-grade science lesson plan prepared for a classroom observation using interactive smartboards, tablets, and digital weather simulations.",
+  "docType": "lesson plan",
+  "slip": {
+    "document": "# Grade 4 Science Multimedia Lesson Plan: Weather Systems\nInstructor: Marcus Vance | Room: 204 | Date: 10/14/2026\n\n## Class Profile and Equipment\n| Item | Specification |\n| --- | --- |\n| Total Students | 22 |\n| Interactive Display | ViewSonic 75-inch ViewBoard (HDMI 1) |\n| Student Devices | 22 District Chromebooks (1:1 cart) |\n| Headphones | 22 standard 3.5mm wired headsets |\n| Software Platform | NOAA Weather Tracker App (District Portal) |\n\n## Instructional Sequence\n## Direct Instruction (15 Minutes)\n- Power on the ViewBoard and open NOAA Weather Interactive via Chrome browser.\n- Project the current regional radar map onto the interactive board to introduce cold fronts.\n- Demonstrate cloud formation using the digital simulation software at the front station.\n\n## Guided Group Activity (20 Minutes)\n- Direct students to open their Chromebooks and launch the NOAA simulation module.\n- Distribute audio headsets to all 22 learners before beginning the digital sound clips.\n- Students will track air pressure changes by recording barometric data in their lab sheets.\n- Ensure each student signs in using their district credentials.\n\n## Independent Digital Assessment (10 Minutes)\n- Instruct students to open the exit ticket on Google Classroom.\n- Students will submit their final answers using the 18 shared iPads from the cart.\n\n## Accommodations and Tech Contingency\n- Provide closed captioning on all digital video clips for English Language Learners.\n- In the event of Wi-Fi latency exceeding 300 ms, switch immediately to pre-downloaded slide deck A.",
+    "errors": [
+      {
+        "quote": "Ensure each student signs in using their district credentials.",
+        "start": 1077,
+        "end": 1139,
+        "type": "omission",
+        "explanation": "Elementary digital safety and standard instructional technology plans require specifying the exact single sign-on (SSO) service or portal (e.g., Clever or ClassLink) used by students to access district-approved applications securely.",
+        "fix": "Ensure each student signs in using their district credentials via Clever SSO."
+      },
+      {
+        "quote": "Students will submit their final answers using the 18 shared iPads from the cart.",
+        "start": 1255,
+        "end": 1336,
+        "type": "fact",
+        "explanation": "The equipment inventory lists 22 District Chromebooks for the 22 students in the class; there are no iPads in this classroom setup, contradicting the profile table.",
+        "fix": "Students will submit their final answers using their assigned Chromebooks."
+      }
+    ]
+  }
+}

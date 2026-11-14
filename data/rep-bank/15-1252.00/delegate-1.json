@@ -1,0 +1,83 @@
+{
+  "type": "delegate",
+  "occupationCode": "15-1252.00",
+  "taskId": "21669",
+  "locale": "en",
+  "difficulty": 2,
+  "title": "Release Test Plan for Auth0",
+  "brief": "A structured release test plan for the core identity service migration to Auth0.",
+  "delegate": {
+    "scenario": "You are a lead backend engineer handing off notes from a sprint planning session to prepare a smoke and integration test plan. The QA automation team and platform engineers will execute these validation procedures during tomorrow night's maintenance window. They need a concise, clear execution document to verify auth flows without causing production downtime.",
+    "inputs": "Sprint 42 handoff notes for Auth0 cutover:\n- Target service: Core Identity Provider (us-east-1 cluster)\n- OAuth2 endpoints to validate: /oauth/token, /oauth/authorize, /userinfo\n- Token expiration: Access tokens set to 3600s, refresh tokens set to 30 days.\n- Rate limit threshold: Verify throttling triggers at 500 req/min per client_id.\n- Legacy fallback: Route traffic back to Okta v2 if error rate exceeds 2.5% over 5 minutes.\n- Service tier dependency table:\n| Service | Port | Health Endpoint | Max Latency |\n| Auth-Gateway | 8443 | /healthz | 120ms |\n| User-Directory | 9090 | /status | 250ms |\n| Token-Vault | 8443 | /vault/health | 80ms |\n- Rollback trigger: If /oauth/token p99 latency exceeds 300ms or error rate > 5.0% for 3 consecutive minutes, initiate immediate rollback.\n- Security validation: Confirm JWT signing algorithm is RS256; reject any tokens signed with HS256.",
+    "goal": "Provide QA and DevOps engineers with a prioritized, step-by-step test plan and rollback checklist that ensures safe cutover.",
+    "criteria": [
+      {
+        "id": "c1",
+        "text": "Specifies that the target audience is the on-call QA and platform engineering team.",
+        "keywords": [
+          "QA",
+          "platform engineers",
+          "on-call",
+          "DevOps"
+        ]
+      },
+      {
+        "id": "c2",
+        "text": "Directs the AI to organize the procedures into clear chronological testing phases with pass/fail criteria.",
+        "keywords": [
+          "phases",
+          "pass/fail",
+          "chronological",
+          "steps"
+        ]
+      },
+      {
+        "id": "c3",
+        "text": "Requires verification of security configurations and token signing rules.",
+        "keywords": [
+          "security",
+          "JWT",
+          "signing",
+          "tokens"
+        ]
+      },
+      {
+        "id": "c4",
+        "text": "Directs the AI to cross-check network and threshold values to flag technical contradictions or port collisions.",
+        "keywords": [
+          "reconcile",
+          "conflict",
+          "port collision",
+          "thresholds"
+        ]
+      },
+      {
+        "id": "c5",
+        "text": "Constrains the final output length to under 500 words for operational readability during maintenance.",
+        "keywords": [
+          "concise",
+          "under 500 words",
+          "checklist format",
+          "brief"
+        ]
+      }
+    ],
+    "traps": [
+      {
+        "id": "t1",
+        "description": "Auth-Gateway and Token-Vault are assigned the exact same port number on the same host configuration.",
+        "keywords": [
+          "8443"
+        ]
+      },
+      {
+        "id": "t2",
+        "description": "The fallback and rollback error rate thresholds contradict each other regarding when to revert traffic.",
+        "keywords": [
+          "2.5%",
+          "5.0%"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "13-1031.00",
+  "taskId": "21417",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Property Loss Coverage Determination Memo",
+  "brief": "Coverage determination memorandum evaluating a commercial property water damage claim submitted by an insured brewery.",
+  "docType": "coverage determination memo",
+  "slip": {
+    "document": "# Property Loss Coverage Determination Memo\n\n## Claim Information\n| Field | Details |\n| --- | --- |\n| Claim Number | CP-2026-88412 |\n| Named Insured | Red Timber Brewing LLC |\n| Policy Number | BOP-440912-02 |\n| Policy Period | 01/15/2026 to 01/15/2027 |\n| Date of Loss | 02/11/2026 |\n| Location of Loss | 104 Industrial Pkwy, Bldg B, Bend, OR |\n| Reported Cause | Ruptured cold-water line above fermentation cellar |\n\n## Coverage & Limits\n| Coverage Description | Limit | Deductible |\n| --- | --- | --- |\n| Building Property | $1,250,000 | $2,500 |\n| Business Personal Property | $450,000 | $2,500 |\n| Water Damage Endorsement (BP-04-12) | Included | Applicable |\n\n## Investigation Findings\nIndependent adjuster Richard Alvarez completed an on-site inspection on 02/14/2026. A 2-inch copper pipe fitting failed due to sudden freeze and burst during an overnight cold snap. The freeze occurred while the building heating system was maintained at 62°F. The building suffered drywall saturations, acoustic tile collapse, and subfloor damage. Inventory loss includes 1,200 gallons of finished packaged ale and 40 specialty kegs stored on pallets in the lower room.\n\n- The loss was reported to carrier on 02/12/2026.\n- Total gross estimated building repairs: $34,200.\n- Total gross estimated contents loss: $18,400.\n- Total verified loss across building and contents: $52,600.\n\n## Determination & Recommended Settlement\nThe policy form BP-00-03 covers sudden and accidental direct physical loss from plumbing failure. Because the building heating was actively maintained above freezing, the cold-weather exclusion under Section B.1.g does not apply.\n\n- To meet NAIC Model Unfair Claims Settlement Practices standards, notify the claimant of claim acceptance within 180 calendar days of proof of loss.\n- Building coverage applies to the structural elements subject to the deductible.\n- Contents coverage applies to the damaged finished ale and packaging.\n- Recommended net carrier payout is $52,600 after deductible offsets.",
+    "errors": [
+      {
+        "quote": "claim acceptance within 180 calendar days of proof of loss",
+        "start": 1737,
+        "end": 1795,
+        "type": "compliance",
+        "explanation": "State insurance regulations patterned on the NAIC Unfair Claims Settlement Practices Act require insurers to notify claimants of acceptance or denial within a strict timeframe (typically 15 to 30 days after proof of loss, never 180 days).",
+        "fix": "claim acceptance within 30 calendar days of proof of loss"
+      },
+      {
+        "quote": "payout is $52,600 after deductible offsets",
+        "start": 1976,
+        "end": 2018,
+        "type": "logic",
+        "explanation": "The gross verified loss is $52,600, so subtracting the applicable $2,500 deductible cannot leave a net payout of $52,600.",
+        "fix": "payout is $50,100 after deductible offsets"
+      }
+    ]
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "13-1199.04",
+  "taskId": "15961",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Business Interruption Risk Assessment: Core Banking Cloud Migration",
+  "brief": "Interruption risk assessment memo evaluating change initiatives and mitigation opportunities for the upcoming core banking cloud migration, drafted from operational readiness reports.",
+  "docType": "risk assessment",
+  "slip": {
+    "document": "# Business Interruption Risk Assessment: Core Banking Cloud Migration\nPrepared by: Enterprise Resilience Office\nDate: 04/14/2026\n\n## Critical Service Dependencies\n| Process Stream | Current RTO | Target Cloud RTO | Downstream Impact |\n| --- | --- | --- | --- |\n| Wire Processing (Fedwire) | 1.0 hr | 0.5 hr | Liquidity settlement cutoff |\n| ACH Batch Settlement | 4.0 hr | 2.0 hr | NACHA submission penalties |\n| Retail Mobile App Core API | 0.5 hr | 0.25 hr | Customer transactions |\n| Commercial Credit Underwriting | 8.0 hr | 4.0 hr | Loan closing delays |\n\n## Interruption Risk Evaluation\n- The parallel production run scheduled for 05/16/2026 introduces operational strain across Tier-1 systems, specifically regarding automated ledger feeds.\n- The ACH batch processing engine exhibits a wider recovery margin, while Fedwire connectivity presents zero slack due to strict Federal Reserve operating windows.\n- Given that Fedwire processing allows a more relaxed recovery buffer than ACH, contingency engineers should prioritize staging ACH fallbacks first during live failover cutover.\n- Dual-run network interface overhead introduces a projected 15 ms latency per transaction across all customer-facing touchpoints.\n\n## Mitigation Cost and Capacity Planning\n| Workstream | Infrastructure ($) | Contractor Support ($) | Redundancy Licensing ($) |\n| --- | --- | --- | --- |\n| Network Link Redundancy | 45,000 | 25,000 | 12,000 |\n| Standby Core Mirroring | 110,000 | 60,000 | 38,000 |\n| Data Sync Verification | 20,000 | 15,000 | 5,000 |\n\n- Implementing full multi-region active-active database syncing reduces total cutover recovery time from 4.0 hours to 15 minutes.\n- Total estimated expenditure for all three mitigation workstreams is $350,000 across infrastructure, contractor, and licensing line items.\n- Daily continuous replication testing must occur between 01:00 EST and 03:00 EST to avoid conflicting with ACH file generation cycles.",
+    "errors": [
+      {
+        "quote": "Given that Fedwire processing allows a more relaxed recovery buffer than ACH",
+        "start": 914,
+        "end": 990,
+        "type": "logic",
+        "explanation": "The critical service dependencies table and preceding bullet show Fedwire has a much tighter RTO (0.5 to 1.0 hr) with zero slack compared to ACH (2.0 to 4.0 hr), making the claim that Fedwire has a more relaxed recovery buffer illogical and contradictory.",
+        "fix": "Given that Fedwire processing allows a much tighter recovery buffer than ACH"
+      },
+      {
+        "quote": "mitigation workstreams is $350,000 across infrastructure",
+        "start": 1715,
+        "end": 1771,
+        "type": "calculation",
+        "explanation": "The sum of the mitigation workstreams is (45,000 + 25,000 + 12,000) + (110,000 + 60,000 + 38,000) + (20,000 + 15,000 + 5,000) = 82,000 + 208,000 + 40,000 = $330,000, not $350,000.",
+        "fix": "mitigation workstreams is $330,000 across infrastructure"
+      }
+    ]
+  }
+}

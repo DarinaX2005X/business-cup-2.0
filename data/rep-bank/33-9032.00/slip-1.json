@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "33-9032.00",
+  "taskId": "2137",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Switchboard After-Hours Telephone Log & Action Report",
+  "brief": "An after-hours security guard call log and handover report drafted from dispatch phone records for the overnight shift at a commercial business park.",
+  "docType": "security telephone log",
+  "slip": {
+    "document": "# Switchboard After-Hours Telephone Log & Action Report\nFacility: Crestview Technology Park - Building 4 Console\nShift: Overnight (22:00 to 06:00)\nDate: 03/24/2026\nDuty Officer: Officer Darren Vance (Badge #412)\n\n## Master Facility Directory\n| Unit / Tenant | Contact Person | After-Hours Protocol | Authorized Phone |\n| --- | --- | --- | --- |\n| Suite 100 - Apex Logistics | Marcus Vance | Call primary mobile; dispatch supervisor | 555-0143 |\n| Suite 210 - BioWave Labs | Dr. Elena Rostova | Immediate dispatch for cold-storage alarms | 555-0188 |\n| Suite 305 - ClearPath Data | Nathan Reed | Urgent tickets via web portal only | 555-0192 |\n| Facility Management | Rachel Ortiz | Facilities emergency only (leaks, power) | 555-0115 |\n\n## Incoming Call Records\n- 22:42 - Caller: Marcus Vance (Apex Logistics). Inquired if Bay 3 overhead door was secured. Officer checked CCTV monitor 2, confirmed Bay 3 roll-up door is closed and locked. No dispatch required.\n- 01:15 - Caller: Alarm Central Monitoring. Automated notification of freezer unit temperature spike in BioWave Labs (Suite 210). Officer contacted Dr. Elena Rostova at 555-0188. Keyholder acknowledged and estimated arrival on-site at 02:00.\n- 02:40 - Caller: Unknown vendor requesting delivery dock access for morning freight. Advised delivery window begins at 06:30 per park rules.\n- 03:55 - Caller: Cleaners for ClearPath Data. Janitorial lead reported low water pressure on 3rd floor restrooms. Advised this is non-emergency; logged for day maintenance.\n\n## Shift Summary & Action Items\n- Alarm Central Monitoring incident resolved; Dr. Rostova arrived at 02:05 and cleared the lab alarm at 02:22.\n- Marcus Vance called regarding Apex Logistics Suite 210 bay doors, which were verified secure.\n- Relieving officer must review all open maintenance items upon morning handover at 06:00.",
+    "errors": [
+      {
+        "quote": "Caller: Unknown vendor requesting delivery dock access for morning freight.",
+        "start": 1213,
+        "end": 1288,
+        "type": "omission",
+        "explanation": "Standard security telephone log protocol requires logging caller identity details, specifically the caller's name, company, or callback phone number, which is missing from this entry.",
+        "fix": "Caller: Thomas Miller with Tri-State Freight (555-0177) requesting delivery dock access for morning freight."
+      },
+      {
+        "quote": "Marcus Vance called regarding Apex Logistics Suite 210 bay doors, which were verified secure.",
+        "start": 1665,
+        "end": 1758,
+        "type": "fact",
+        "explanation": "Contradicts the Master Facility Directory and the 22:42 call record, which show Apex Logistics occupies Suite 100, while Suite 210 is occupied by BioWave Labs.",
+        "fix": "Marcus Vance called regarding Apex Logistics Suite 100 bay doors, which were verified secure."
+      }
+    ]
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "type": "edge",
+  "occupationCode": "13-2011.00",
+  "taskId": "21533",
+  "locale": "en",
+  "difficulty": 2,
+  "title": "Blocked Payment for Key Subcontractor",
+  "brief": "Address a project manager whose urgent vendor invoice was rejected due to missing compliance documentation.",
+  "edge": {
+    "scenario": "It is late Friday afternoon at a mid-sized commercial construction firm, and accounts payable has frozen an invoice due to a lapsed Certificate of Insurance. Marcus, a senior project manager, bursts into your office because the subcontractor is threatening to pull their crew from an active job site on Monday morning if they are not paid today.",
+    "personaPublic": "Marcus is a veteran construction project manager overseeing a multi-million-dollar downtown renovation. He is visibly stressed, holding a crumpled printout of an invoice, and demanding an immediate manual override of the system.",
+    "personaHidden": "Marcus forgot to forward the subcontractor's updated insurance paperwork two weeks ago and knows the delay is technically his fault. He is terrified of facing liquidated damages from the property owner if work stops on Monday.",
+    "goal": "De-escalate Marcus's anger, clarify the mandatory compliance barrier without taking blame, and establish an expedited plan to verify the paperwork and release payment.",
+    "criteria": [
+      {
+        "id": "c1",
+        "text": "Acknowledges the critical timing and pressure on the project before citing policy.",
+        "keywords": [
+          "understand",
+          "tight spot",
+          "pressure",
+          "Monday deadline",
+          "urgency"
+        ]
+      },
+      {
+        "id": "c2",
+        "text": "Clearly explains the audit and legal risk of paying an uninsured vendor without defensive jargon.",
+        "keywords": [
+          "liability",
+          "insurance",
+          "certificate",
+          "audit requirement",
+          "policy"
+        ]
+      },
+      {
+        "id": "c3",
+        "text": "Refuses an unauthorized manual override while offering an active, workable solution.",
+        "keywords": [
+          "cannot bypass",
+          "override",
+          "expedite",
+          "direct deposit",
+          "work together"
+        ]
+      },
+      {
+        "id": "c4",
+        "text": "Sets clear, accountable actions and a specific deadline for both parties.",
+        "keywords": [
+          "send over",
+          "by 4 PM",
+          "check the portal",
+          "confirm",
+          "release"
+        ]
+      }
+    ],
+    "opening": "Look, I need this check cut right now. Apex Concrete is going to walk off the 4th Street site on Monday if they don't see funds. Your team kicked the invoice back over some minor paperwork issue, and I don't have time for red tape. Can you just push it through?"
+  }
+}

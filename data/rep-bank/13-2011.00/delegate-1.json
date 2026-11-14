@@ -1,0 +1,82 @@
+{
+  "type": "delegate",
+  "occupationCode": "13-2011.00",
+  "taskId": "21517",
+  "locale": "en",
+  "difficulty": 2,
+  "title": "Onboarding Chart of Accounts Setup",
+  "brief": "Prepare an initial chart of accounts table and map raw bank transactions into balanced journal entries.",
+  "delegate": {
+    "scenario": "You are onboarding Apex Logistics, a regional freight brokerage client closing their first operational month. The senior accounting manager needs a structured chart of accounts and an initial general journal batch by 4:00 PM for month-end reconciliation. The mapped entries will serve as the opening ledger entries in QuickBooks Online.",
+    "inputs": "Client note from Marcus Cole (Apex Logistics):\n\"Here are our bank transactions from our first month (October 2024). We use standard 4-digit GL coding (1000s Assets, 2000s Liabilities, 3000s Equity, 4000s Revenue, 5000s Cost of Goods/Freight, 6000s Operating Expenses).\"\n\n| Date | Description | Amount | Reference |\n| --- | --- | --- | --- |\n| 10/02/2024 | Initial owner capital deposit | $50,000.00 | Wire 1042 |\n| 10/05/2024 | Office lease - October | -$3,200.00 | ACH 8821 |\n| 10/11/2024 | Shipper payment - Forwarder Corp | $14,800.00 | Wire 1055 |\n| 10/14/2024 | Carrier dispatch settlement - Apex Route 12 | -$8,400.00 | ACH 8840 |\n| 10/18/2024 | Annual fleet liability insurance policy (12 mo) | -$6,000.00 | Debit 402 |\n| 10/22/2024 | Shipper payment - Forwarder Corp | $14,800.00 | Wire 1055 |\n| 10/29/2024 | Enterprise dispatch software subscription | -$850.00 | Debit 409 |\n| 10/31/2024 | Dispatch fees receivable (billed, uncollected) | $9,200.00 | Inv 1004 |",
+    "goal": "Deliver a standardized chart of accounts alongside balanced double-entry journal entries ready for the senior accountant's review.",
+    "criteria": [
+      {
+        "id": "c1",
+        "text": "Specifies the output is intended for the senior accounting manager onboarding a new client.",
+        "keywords": [
+          "senior accounting manager",
+          "onboarding",
+          "Apex Logistics",
+          "review"
+        ]
+      },
+      {
+        "id": "c2",
+        "text": "Requires a structured 4-digit chart of accounts defining account codes, account names, and account types.",
+        "keywords": [
+          "chart of accounts",
+          "4-digit",
+          "GL codes",
+          "account type"
+        ]
+      },
+      {
+        "id": "c3",
+        "text": "Directs the AI to format transactions into standard general journal entry format with debit and credit columns.",
+        "keywords": [
+          "general journal",
+          "debit",
+          "credit",
+          "balanced"
+        ]
+      },
+      {
+        "id": "c4",
+        "text": "Instructs the AI to verify whether every entry belongs in the cash bank ledger or represents a non-cash accrual.",
+        "keywords": [
+          "bank ledger",
+          "accrual",
+          "cash basis",
+          "non-cash"
+        ]
+      },
+      {
+        "id": "c5",
+        "text": "Asks the AI to examine transaction details for potential duplicate records or multi-period prepayments requiring accrual treatment.",
+        "keywords": [
+          "duplicate",
+          "prepayment",
+          "accrual",
+          "reconciliation"
+        ]
+      }
+    ],
+    "traps": [
+      {
+        "id": "t1",
+        "description": "Wire 1055 appears twice on 10/11/2024 and 10/22/2024 with identical descriptions and amounts, indicating an accidental duplicate paste in bank feed logs.",
+        "keywords": [
+          "Wire 1055"
+        ]
+      },
+      {
+        "id": "t2",
+        "description": "Inv 1004 is an uncollected accounts receivable billing entry included inside a list of settled bank cash transactions.",
+        "keywords": [
+          "Inv 1004"
+        ]
+      }
+    ]
+  }
+}

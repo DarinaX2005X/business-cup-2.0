@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "47-2111.00",
+  "taskId": "2883",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Substation Feeder Commissioning and Insulation Resistance Report",
+  "brief": "Commissioning report for Feeder Breaker 3B and associated 480V 3-phase switchgear feeder testing, drafted from field technician test logs.",
+  "docType": "commissioning report",
+  "slip": {
+    "document": "# Substation Feeder Commissioning and Insulation Resistance Report\nFacility: Ridgefield Cold Storage Unit 4\nDate: 04/14/2026\nLead Electrician: Marcus Vance (License #EL-40912)\n\n## Equipment Under Test\n- Switchgear Unit: Square-D MasterPact 480V/2000A Main Lineup\n- Circuit Designation: Feeder 3B to Evaporator Compressor Bank 2\n- Test Equipment: Megger MIT515 5kV Insulation Tester, Fluke 376 FC True-RMS Clamp Meter, Fluke 1587 FC Insulation Multimeter\n\n## Insulation Resistance Test Data (1000V DC Applied for 1 Minute)\n| Conductor / Phase | Measured Resistance (MΩ) | Minimum Acceptable (MΩ) | Test Instrument |\n| --- | --- | --- | --- |\n| Phase A to Ground | 420 | 100 | Megger MIT515 |\n| Phase B to Ground | 390 | 100 | Megger MIT515 |\n| Phase C to Ground | 410 | 100 | Megger MIT515 |\n| Neutral to Ground | 280 | 100 | Megger MIT515 |\n\n## Full Load Current Measurements (480V Three-Phase Under Load)\n| Phase Leg | Running Amperes (A) |\n| --- | --- |\n| Phase A | 142.5 |\n| Phase B | 148.0 |\n| Phase C | 145.5 |\n\n## Field Observations and Analysis\n- Technicians conducted insulation resistance testing at 1000V DC and verified all conductors met or exceeded the 100 MΩ threshold.\n- Three-phase current unbalance was evaluated using maximum deviation from the average phase current of 145.3 A.\n- The total connected three-phase load current across all three phases summed to 446.0 A during peak cycle.\n- Phase B phase-to-ground insulation resistance tested at 590 MΩ showing strong dielectric integrity.\n- Feeder 3B is cleared for continuous operational duty.",
+    "errors": [
+      {
+        "quote": "total connected three-phase load current across all three phases summed to 446.0 A",
+        "start": 1303,
+        "end": 1385,
+        "type": "calculation",
+        "explanation": "The sum of the three running currents is 142.5 A + 148.0 A + 145.5 A = 436.0 A, not 446.0 A.",
+        "fix": "total connected three-phase load current across all three phases summed to 436.0 A"
+      },
+      {
+        "quote": "Phase B phase-to-ground insulation resistance tested at 590 MΩ",
+        "start": 1407,
+        "end": 1469,
+        "type": "fact",
+        "explanation": "The insulation resistance table records Phase B to Ground as 390 MΩ, not 590 MΩ.",
+        "fix": "Phase B phase-to-ground insulation resistance tested at 390 MΩ"
+      }
+    ]
+  }
+}

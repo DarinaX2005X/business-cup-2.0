@@ -1,0 +1,39 @@
+{
+  "type": "slip",
+  "occupationCode": "13-1071.00",
+  "taskId": "18866",
+  "locale": "en",
+  "difficulty": 2,
+  "title": "Employee Status Change and Offboarding Record",
+  "brief": "HR status change and offboarding record for a departing senior financial analyst, drafted from payroll logs and exit clearance forms.",
+  "docType": "status change record",
+  "slip": {
+    "document": "# Employee Status Change and Offboarding Record\nRecord ID: SCR-2026-0419\nDate: 03/27/2026\n\n## Employee Profile\n| Field | Information |\n| --- | --- |\n| Employee Name | Marcus Vance |\n| Employee ID | 84102 |\n| Department | Commercial Banking |\n| Position | Senior Financial Analyst |\n| Hire Date | 06/15/2021 |\n| Separation Date | 03/27/2026 |\n| Separation Type | Involuntary - Restructuring |\n| Hourly Equivalent Rate | $45.00 |\n\n## Leave Balance Reconciliation\n| Accrual Category | Hours Available |\n| --- | --- |\n| Regular Vacation | 38.0 |\n| Floating Holiday | 16.0 |\n| Accrued Sick Leave | 24.0 |\n\n## Final Pay Calculation\n- Regular unpaid hours worked in final cycle: 40.0 hours ($1,800.00).\n- Eligible accrued vacation (38.0 hours) and floating holiday (16.0 hours) total 54.0 hours for payoff.\n- Total paid leave payout equals $2,520.00 based on standard hourly rate.\n- Severance pay approved under corporate schedule: 8 weeks base salary ($14,400.00).\n- Medical coverage terminates on 03/31/2026 under group plan rules.\n\n## Offboarding Checklist and Records Administration\n- Corporate badge, RSA token, and encrypted laptop collected on 03/27/2026.\n- HRMS core record updated from Active to Resigned in system tables.\n- Form I-9 transferred to retention archive; scheduled for purge 1 year from termination date.\n- Issue standard COBRA election packet within 60 days of the qualifying event.",
+    "errors": [
+      {
+        "quote": "Total paid leave payout equals $2,520.00 based on standard hourly rate",
+        "start": 802,
+        "end": 872,
+        "type": "calculation",
+        "explanation": "The payout covers 54.0 hours at $45.00 per hour, which equals $2,430.00, not $2,520.00.",
+        "fix": "Total paid leave payout equals $2,430.00 based on standard hourly rate"
+      },
+      {
+        "quote": "HRMS core record updated from Active to Resigned in system tables",
+        "start": 1158,
+        "end": 1223,
+        "type": "logic",
+        "explanation": "The employee profile table explicitly specifies the separation type as Involuntary - Restructuring, so recording the status as Resigned contradicts the document's own data.",
+        "fix": "HRMS core record updated from Active to Terminated - Involuntary in system tables"
+      },
+      {
+        "quote": "Issue standard COBRA election packet within 60 days of the qualifying event",
+        "start": 1322,
+        "end": 1397,
+        "type": "compliance",
+        "explanation": "Under federal COBRA regulations, an employer group health plan administrator must provide the COBRA election notice within 14 days of receiving notice of the qualifying event (or 44 days if the employer is the plan administrator), not 60 days. The 60-day window applies to the employee's election period.",
+        "fix": "Issue standard COBRA election packet within 14 days of the qualifying event"
+      }
+    ]
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "43-4171.00",
+  "taskId": "744",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Front Desk Daily Call Log and Message Summary",
+  "brief": "A receptionist daily call log and routed message summary drafted from switchboard intake notes at an outpatient pediatric clinic.",
+  "docType": "call log",
+  "slip": {
+    "document": "# Front Desk Daily Call Log and Message Summary\nDate: 04/14/2026 | Operator: Marcus Vance | Station: Main PBX Console\n\n## Operator Directory Reference\n| Provider / Staff | Department | Extension | Status Today |\n| --- | --- | --- | --- |\n| Dr. Elena Gomez | Pediatrics (Blue Team) | Ext. 4102 | In Clinic (Exam Rm 1-4) |\n| Dr. Keith Albright | Pediatrics (Gold Team) | Ext. 4108 | Hospital Rounds (AM) / Clinic (PM) |\n| Nurse Triage Line | Clinical Support | Ext. 4115 | Active Line |\n| Billing Office | Patient Accounts | Ext. 4201 | Remote Coverage |\n\n## Morning Switchboard Summary\n- Total incoming calls handled: 48\n- Calls transferred to clinical triage: 19\n- Direct appointments booked: 14\n- Messages queued for callback: 15\n\n## Action Required Messages\n\n- Time: 08:42 AM\nCaller: Sarah Lindqvist (Mother of Lucas Lindqvist, DOB 11/03/2021)\nCaller Phone: (555) 018-4491\nRecipient: Dr. Keith Albright\nMessage: Lucas developed a barking cough overnight with a low-grade fever of 100.8°F. Caller requests a same-day appointment or guidance from his primary provider.\nAction Taken: Forwarded patient chart alert to Dr. Elena Gomez via Ext. 4108 for follow-up.\n\n- Time: 09:15 AM\nCaller: David Miller (Father of Chloe Miller, DOB 06/22/2019)\nCaller Phone: (555) 019-8823\nRecipient: Billing Office\nMessage: Received a statement reflecting a $120 balance for a preventive wellness visit on 03/10/2026 that should have been fully covered by primary insurance.\nAction Taken: Routed to Ext. 4201. I told the father that he clearly failed to update his insurance details with us prior to the checkup, and instructed him to leave a voicemail for Patient Accounts.",
+    "errors": [
+      {
+        "quote": "Forwarded patient chart alert to Dr. Elena Gomez via Ext. 4108",
+        "start": 1083,
+        "end": 1145,
+        "type": "fact",
+        "explanation": "Ext. 4108 belongs to Dr. Keith Albright according to the Operator Directory Reference table, whereas Dr. Elena Gomez is at Ext. 4102.",
+        "fix": "Forwarded patient chart alert to Dr. Keith Albright via Ext. 4108"
+      },
+      {
+        "quote": "I told the father that he clearly failed to update his insurance details with us",
+        "start": 1491,
+        "end": 1571,
+        "type": "tone",
+        "explanation": "The phrasing is confrontational, accusatory, and unprofessional toward a patient's parent.",
+        "fix": "I informed the father that we may need to verify the insurance details on file"
+      }
+    ]
+  }
+}

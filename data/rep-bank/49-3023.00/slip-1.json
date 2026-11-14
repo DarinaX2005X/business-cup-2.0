@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "49-3023.00",
+  "taskId": "23535",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Repair Order and Work Plan: RO-48201",
+  "brief": "A repair work plan and labor breakdown drafted from diagnostic notes and flat-rate labor guides for a front-end suspension overhaul and A/C service on a 2018 light-duty truck.",
+  "docType": "repair order work plan",
+  "slip": {
+    "document": "# Repair Order and Work Plan: RO-48201\nCustomer: Marcus Vance | VIN: 1GCUKREC4JZ198204 | Vehicle: 2018 Apex Sierra 1500 5.3L 4WD\nDate: 03/18/2026 | Technician: Bradley Cole (Tech #14)\n\n## Diagnostic Findings\n- Customer reported severe front-end vibration at 50 mph and rattling over bumps.\n- Found excessive play in both lower ball joints and deteriorated sway bar end links.\n- Customer also requested spring A/C checkup; system low on charge with minor compressor shaft seal seepage.\n\n## Labor Operations and Time Allocation\n| Operation ID | Description | Flat Rate Hours |\n| --- | --- | --- |\n| 04-1102A | Replace Front Lower Control Arms w/ Ball Joints (Both Sides) | 2.8 |\n| 04-1250B | Replace Front Sway Bar Links & Bushings | 0.8 |\n| 02-0500A | Four-Wheel Alignment Check and Adjust | 1.4 |\n| 01-2040C | A/C System Recovery, Vacuum Test, and Recharge (R-1234yf) | 1.5 |\n\n## Execution Checklist\n- Rack vehicle on 2-post lift and remove front wheel assemblies.\n- Support lower suspension assembly and press out/replace lower control arm assemblies.\n- Install new sway bar links and torque all chassis fasteners to factory dry specifications.\n- Vent remaining R-1234yf refrigerant directly to shop atmosphere before disconnecting high-side lines.\n- Pull vacuum for minimum 30 minutes, confirm system holds 29 in-Hg, and recharge with 1.35 lb R-1234yf.\n- Mount wheels, torque lug nuts to 140 lb-ft, and move to alignment rack for toe and camber calibration.\n\n## Summary of Estimated Billable Time\nTotal flat-rate labor allocated for RO-48201 is 7.5 book hours across all scheduled operations.\nTechnician signature: Bradley Cole, ASE Master Certified",
+    "errors": [
+      {
+        "quote": "Vent remaining R-1234yf refrigerant directly to shop atmosphere before disconnecting",
+        "start": 1148,
+        "end": 1232,
+        "type": "compliance",
+        "explanation": "Under Clean Air Act Section 609 and EPA regulations, technicians must recover all motor vehicle refrigerants (including R-1234yf) using certified recovery equipment; intentional venting into the atmosphere is illegal.",
+        "fix": "Recover remaining R-1234yf refrigerant using dedicated recovery station before disconnecting"
+      },
+      {
+        "quote": "Total flat-rate labor allocated for RO-48201 is 7.5 book hours",
+        "start": 1499,
+        "end": 1561,
+        "type": "calculation",
+        "explanation": "The sum of the labor table operations is 2.8 + 0.8 + 1.4 + 1.5 = 6.5 hours, not 7.5 hours.",
+        "fix": "Total flat-rate labor allocated for RO-48201 is 6.5 book hours"
+      }
+    ]
+  }
+}

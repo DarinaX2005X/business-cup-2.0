@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "25-9042.00",
+  "taskId": "22478",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Field Trip Supervision Log & Incident Report",
+  "brief": "A field trip supervision and head-count log drafted by an elementary teaching assistant for a 4th-grade visit to the local science center.",
+  "docType": "supervision log",
+  "slip": {
+    "document": "# Field Trip Supervision Log & Incident Report\nOakridge Elementary School - Grade 4 Science Museum Visit\nDate: 04/16/2026\nLead Teacher: Clara Martinez | Assigned Paraprofessional: David Vance\n\n## Roster & Assignment\n| Assigned Group | Lead Monitor | Total Assigned |\n| --- | --- | --- |\n| Group A (Red Badges) | Clara Martinez | 14 students |\n| Group B (Blue Badges) | David Vance | 13 students |\n| Total Roster | Both Monitors | 27 students |\n\n## Scheduled Head Counts\n- 08:45 AM: Departure boarding at bus loop. 27 of 27 students present.\n- 09:30 AM: Arrival at museum entrance lobby. 27 of 27 students present.\n- 11:45 AM: Transition from Exhibit Hall B to outdoor picnic pavilion for lunch.\n- 01:15 PM: Gathering at Planetarium entry lobby. All 28 students accounted for across both groups.\n- 02:00 PM: Departure bus loading. 27 of 27 students seated with seatbelts fastened.\n\n## Playground & Lunch Supervision Notes\nDuring the 11:45 AM to 12:30 PM lunch period at the outdoor pavilion, monitors maintained direct visual contact across the bench and lawn areas. Trash disposal was monitored in small groups to prevent wandering near the parking lot access gates.\n\n## Minor First-Aid Incident\n- Student: Leo Alvarez (Group B)\n- Time: 12:10 PM\n- Location: Lawn area adjacent to pavilion\n- Details: Student tripped over a tree root while retrieving an errant kickball, sustaining a superficial scrape on the right knee. Evaluated on-site by David Vance.\n- Action Taken: Scrape cleansed with an antiseptic wipe, and a clean adhesive bandage was applied. Student resumed quiet lunch activities without further complaint. Guardian notification completed upon school return at 02:30 PM.",
+    "errors": [
+      {
+        "quote": "Transition from Exhibit Hall B to outdoor picnic pavilion for lunch.",
+        "start": 626,
+        "end": 694,
+        "type": "omission",
+        "explanation": "Head-count entries in a supervision log must record the number of students accounted for; this transition entry completely omits the head-count tally.",
+        "fix": "Transition from Exhibit Hall B to outdoor picnic pavilion for lunch. 27 of 27 students present."
+      },
+      {
+        "quote": "All 28 students accounted for across both groups.",
+        "start": 745,
+        "end": 794,
+        "type": "fact",
+        "explanation": "The roster table and all previous logs state there are 27 students in total (14 in Group A and 13 in Group B), not 28.",
+        "fix": "All 27 students accounted for across both groups."
+      }
+    ]
+  }
+}

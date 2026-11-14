@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "29-2061.00",
+  "taskId": "515",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Shift Intake and Output Summary",
+  "brief": "A 12-hour day shift intake and output flow sheet summary for an adult medical-surgical patient receiving IV maintenance fluids and oral intake.",
+  "docType": "shift intake and output summary",
+  "slip": {
+    "document": "# Shift Intake and Output Summary\nPatient: Arthur Vance | DOB: 04/14/1958 | MRN: 904281 | Room: 412-B\nProvider: Dr. Evelyn Reed, MD | Shift: Day (0700-1930) | Date: 10/14/2026\n\n## Intake Reference Log\n| Time | Source | Description | Amount (mL) |\n| --- | --- | --- | --- |\n| 0800 | Oral | Coffee (6 oz) and apple juice (4 oz) | 300 |\n| 1000 | IV Infusion | 0.9% Normal Saline at 75 mL/hr (0700-1100) | 300 |\n| 1200 | Oral | Chicken broth (8 oz) and water (8 oz) | 480 |\n| 1500 | IV Infusion | 0.9% Normal Saline at 75 mL/hr (1100-1500) | 300 |\n| 1730 | Oral | Gelatin dessert (4 oz) and hot tea (6 oz) | 300 |\n| 1900 | IV Infusion | 0.9% Normal Saline at 75 mL/hr (1500-1900) | 300 |\n\n## Output Reference Log\n| Time | Source | Description | Amount (mL) |\n| --- | --- | --- | --- |\n| 0915 | Void | Clear amber urine | 350 |\n| 1345 | Void | Clear amber urine | 425 |\n| 1630 | Emesis | Bilious stomach contents | 175 |\n| 1845 | Void | Clear pale yellow urine | 400 |\n\n## Clinical Notes and Totals\n- Patient tolerated oral liquids without nausea until mid-afternoon emesis episode.\n- Total recorded shift oral intake equals 880 mL across breakfast, lunch, and dinner periods.\n- Total IV intake recorded is 900 mL from continuous normal saline infusion.\n- Total shift fluid output equals 1350 mL across all routes.\n- Measured urine output via calibrated collection container was emptied directly into the bedside handwashing sink.\n- Net fluid balance for the 12-hour shift is positive 330 mL.\n- Notified RN of emesis and provided oral care at 1645.\n\nDocumented by: Marcus Brody, LVN | License: #318942",
+    "errors": [
+      {
+        "quote": "Total recorded shift oral intake equals 880 mL across breakfast, lunch, and dinner periods.",
+        "start": 1080,
+        "end": 1171,
+        "type": "fact",
+        "explanation": "The intake reference table shows oral intakes of 300 mL at 0800, 480 mL at 1200, and 300 mL at 1730, which sums to 1080 mL, not 880 mL.",
+        "fix": "Total recorded shift oral intake equals 1080 mL across breakfast, lunch, and dinner periods."
+      },
+      {
+        "quote": "emptied directly into the bedside handwashing sink",
+        "start": 1374,
+        "end": 1424,
+        "type": "compliance",
+        "explanation": "OSHA bloodborne pathogens standards and hospital infection control standards strictly prohibit disposing of bodily fluids into handwashing sinks; bodily waste must be emptied into a designated hopper, commode, or sluice sink.",
+        "fix": "emptied directly into the patient bathroom commode"
+      }
+    ]
+  }
+}

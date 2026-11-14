@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "11-3021.00",
+  "taskId": "15198",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "IT Escalation and Post-Mortem Report: Payroll Batch Failure",
+  "brief": "An IT escalation and post-mortem report drafted from Tier 2 helpdesk logs and server diagnostics following a payroll application freeze.",
+  "docType": "incident escalation report",
+  "slip": {
+    "document": "# IT Escalation and Post-Mortem Report: Payroll Batch Failure\nEscalation ID: ESC-2026-8814\n\n## Incident Summary\nOn 03/12/2026 at 09:15 AM, Tier 1 received six high-priority tickets from the Finance Department. Users reported that the local client for ApexPay 2026 froze during biweekly direct-deposit generation. The issue was escalated to Systems Engineering at 09:42 AM after initial workstation-level troubleshooting failed.\n\n## Environment Diagnostics\n| Metric / Resource | Normal Baseline | Incident Reading (09:30 AM) |\n| --- | --- | --- |\n| App Host CPU (SRV-PAY-01) | 18% - 35% | 22% |\n| Host RAM Utilization | 40% - 60% | 51% |\n| SQL Transaction Log Disk (L:) | 250 GB Free | 0 MB Free (Volume Exhausted) |\n| Database Service Status | Running | Paused (Error 9002) |\n\n## Root Cause Analysis\nThe ApexPay database service entered an automated recovery pause. Because host CPU utilization reached critical threshold capacity, the database engine halted all write transactions to protect file headers.\n\n## Mitigation Actions\n- Tier 3 purged uncommitted staging tables and expanded drive L: by 150 GB.\n- Database service was resumed at 10:18 AM, and Finance completed the batch without payroll disbursement delay.\n- Applied routine security patches.\n\n## Preventative Changes\n- Configure automated disk growth alerts on drive L: at 15% remaining capacity.\n- Schedule daily transaction log truncations with standard hourly backups.",
+    "errors": [
+      {
+        "quote": "Because host CPU utilization reached critical threshold capacity",
+        "start": 866,
+        "end": 930,
+        "type": "logic",
+        "explanation": "The Environment Diagnostics table shows CPU utilization was at 22%, well within the normal baseline of 18% to 35%, whereas the transaction log disk was completely exhausted (0 MB free), causing the write halt.",
+        "fix": "Because SQL transaction log drive L reached zero free space"
+      },
+      {
+        "quote": "Applied routine security patches.",
+        "start": 1220,
+        "end": 1253,
+        "type": "omission",
+        "explanation": "The action item fails to identify which system or server received the patches, missing the required host identifier or target scope standard in infrastructure incident records.",
+        "fix": "Applied routine security patches to database host SRV-PAY-01."
+      }
+    ]
+  }
+}

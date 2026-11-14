@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "51-1011.00",
+  "taskId": "8454",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Shift Production Schedule and Staffing Plan - Line 4",
+  "brief": "A shift production schedule and worker assignment plan for Line 4 drafted from the daily work order and plant roster.",
+  "docType": "shift schedule plan",
+  "slip": {
+    "document": "# Shift Production Schedule and Staffing Plan - Line 4\nTarget Date: 03/18/2026 | Shift: First (07:00 - 15:30)\nSupervisor: Marcus Vance | Department: Beverage Packaging\n\n## Production Targets\n| SKU | Product Description | Target Cases | Line Speed (cpm) | Scheduled Run Time |\n| --- | --- | --- | --- | --- |\n| BV-104 | 12 oz Sparkling Berry (24-pk) | 1,800 | 120 | 07:30 - 11:00 |\n| BV-208 | 16 oz Citrus Tonic (12-pk) | 1,400 | 100 | 11:30 - 15:00 |\n\n## Planned Sequence and Changeover\n- 07:00 - 07:30: Pre-shift safety huddle, sanitized line pre-flight inspection, and material staging.\n- 07:30 - 11:00: Production run for SKU BV-104.\n- 11:00 - 11:30: Sanitization washdown and changeover to guide rails and capper tooling.\n- 11:30 - 15:00: Production run for SKU BV-208.\n- 15:00 - 15:30: End-of-shift washdown, scrap count, and handoff to second shift.\n\n## Manning and Station Assignments\n| Station | Primary Operator | Badge | Certified Backup |\n| --- | --- | --- | --- |\n| Depalletizer | Gregory Diaz | #4412 | Elena Rostova |\n| Filler / Crowner | Elena Rostova | #3890 | Kevin Patel |\n| Labeler & Coder | Kevin Patel | #5104 | Gregory Diaz |\n| Case Packer | Sarah Chen | #2941 | Marcus Vance |\n\n## Staging and Operational Notes\n- Staging requirement: ensure 1,800 cases of 12 oz cans and 1,400 cases of 16 oz cans are staged at Depalletizer by 07:15.\n- Labeler setup: Kevin Patel must verify date code stamp reads EXP 03/2027 and lot number.\n- Relief operator rotation: assign Gregory Diaz to cover Filler during Elena Rostova scheduled 30-minute lunch break.\n- Quality checks: pull 3 finished cases every 45 minutes for seal-integrity torque tests and fill-height checks.",
+    "errors": [
+      {
+        "quote": "Kevin Patel must verify date code stamp reads EXP 03/2027 and lot number.",
+        "start": 1374,
+        "end": 1447,
+        "type": "omission",
+        "explanation": "The specific lot number string to be programmed and verified on the coder is missing from the operational instruction.",
+        "fix": "Kevin Patel must verify date code stamp reads EXP 03/2027 and lot number L4-0772."
+      },
+      {
+        "quote": "assign Gregory Diaz to cover Filler during Elena Rostova scheduled 30-minute lunch break.",
+        "start": 1476,
+        "end": 1565,
+        "type": "fact",
+        "explanation": "The staffing matrix explicitly designates Kevin Patel as the certified backup for Filler / Crowner; Gregory Diaz is the certified backup for Labeler & Coder.",
+        "fix": "assign Kevin Patel to cover Filler during Elena Rostova scheduled 30-minute lunch break."
+      }
+    ]
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "31-1121.00",
+  "taskId": "4240",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Home Health Aide Daily Visit Note and Supervisory Report",
+  "brief": "A home health aide daily visit report for a diabetic client with a healing venous ulcer, drafted for the supervising registered nurse.",
+  "docType": "visit note",
+  "slip": {
+    "document": "# Home Health Aide Daily Visit Note and Supervisory Report\nClient: Arthur Vance | DOB: 04/14/1948 | Client ID: HH-88201\nDate of Visit: 10/14/2026 | Time In: 08:30 AM | Time Out: 11:00 AM\nSupervising RN: Karen Diaz, RN | Agency: Harborview Home Health Services\n\n## Vital Signs and Clinical Measurements\n| Metric | Value | Reference Range |\n| --- | --- | --- |\n| Blood Pressure | 128/78 mmHg | 90/60 - 130/80 mmHg |\n| Heart Rate | 72 bpm | 60 - 100 bpm |\n| Respiratory Rate | 16 breaths/min | 12 - 20 breaths/min |\n| Oral Temperature | 98.4 °F | 97.6 - 99.6 °F |\n| Blood Glucose (Fasting) | 114 mg/dL | 70 - 130 mg/dL |\n| Weight | 184 lb | Baseline: 184 lb |\n\n## Observations and ADL Care Provided\nAssisted client with morning routine, personal hygiene, and prescribed lower extremity care.\n\n- Assisted with partial bed bath and oral care; client tolerated without fatigue.\n- Inspected right lower extremity; clean dry dressing over medial malleolus remains intact with no strikethrough drainage.\n- Fasting fingerstick blood glucose measured at 214 mg/dL using client glucometer.\n- Client reports mild tenderness rated 2/10 at right ankle site, unchanged from yesterday.\n- Prepared diabetic-appropriate breakfast: 1 scrambled egg, 1 slice whole-wheat toast, and black decaf coffee.\n- Encouraged fluid intake; client consumed 12 oz of water.\n\n## Action Items and Coordinator Communication\nContacted Case Coordinator Marcus Lee, LPN, via agency portal to provide shift summary and request routine supply restock.\n\n- Client demonstrated steady gait using standard walker during transfer to living room chair.\n- Notified supervisor that morning blood sugar was dangerously high and required emergency insulin adjustment.\n- Requested replacement box of sterile 4x4 gauze sponges for next scheduled RN dressing change on 10/16/2026.\n\nAide Signature: Brenda Hollis, HHA",
+    "errors": [
+      {
+        "quote": "Fasting fingerstick blood glucose measured at 214 mg/dL using client glucometer.",
+        "start": 997,
+        "end": 1077,
+        "type": "fact",
+        "explanation": "Contradicts the vital signs table, which records the fasting blood glucose as 114 mg/dL.",
+        "fix": "Fasting fingerstick blood glucose measured at 114 mg/dL using client glucometer."
+      },
+      {
+        "quote": "Notified supervisor that morning blood sugar was dangerously high and required emergency insulin adjustment.",
+        "start": 1606,
+        "end": 1714,
+        "type": "logic",
+        "explanation": "The client's actual blood glucose level of 114 mg/dL falls squarely within the normal fasting range (70-130 mg/dL) listed in the table, so reporting it as dangerously high requiring emergency insulin contradicts the data.",
+        "fix": "Notified supervisor that morning blood sugar remained within normal target limits."
+      }
+    ]
+  }
+}

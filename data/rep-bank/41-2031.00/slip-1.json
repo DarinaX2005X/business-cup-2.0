@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "41-2031.00",
+  "taskId": "694",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Floor Greeting Log and Customer Intake Summary",
+  "brief": "A floor greeting log and customer intake summary drafted by an AI assistant for a retail sales associate at an outdoor gear store.",
+  "docType": "customer intake summary",
+  "slip": {
+    "document": "# Floor Greeting Log and Customer Intake Summary\nShift: Saturday Morning (08:30 - 12:30)\nAssociate: Marcus Vance (Employee ID: 4409)\nStore: Summit Ridge Outfitters #104\n\n## Customer Intakes\n\n| Time | Customer Name | Stated Need / Activity | Target Destination | Budget / Preferences |\n| --- | --- | --- | --- | --- |\n| 09:15 | Elena Rostova | Cold-weather sleeping bag (0°F rating) | White Mountains, NH | Under $350; down fill preferred |\n| 10:05 | David Chen | Lightweight two-person backpacking tent | Appalachian Trail section | Under 4 lb; freestanding model |\n| 11:20 | Sarah Jenkins | Waterproof daypack & trail runners | Local day hikes | Size 8.5 footwear; hydration compatible |\n\n## Associate Actions and Follow-up\n\n- Greeted Elena Rostova at the main camping display and conducted a needs assessment for winter camping gear.\n- Recommended the Alpine 0°F Goose Down Mummy Bag to Elena Rostova to meet her requested 20°F rating requirement.\n- Checked backroom inventory for size 8.5 trail running shoes for Sarah Jenkins and brought two fit options to footwear bench 3.\n- David Chen had trouble deciding on tent stakes, so you really need to educate yourself on basic trail equipment before shopping here.\n- Logged loyalty program signup for Elena Rostova at register 2 before she completed checkout with associate Vance.",
+    "errors": [
+      {
+        "quote": "to meet her requested 20°F rating requirement",
+        "start": 903,
+        "end": 948,
+        "type": "fact",
+        "explanation": "Contradicts the intake table, which explicitly records Elena Rostova's stated need as a 0°F rating sleeping bag, not 20°F.",
+        "fix": "to meet her requested 0°F rating requirement"
+      },
+      {
+        "quote": "so you really need to educate yourself on basic trail equipment before shopping here",
+        "start": 1129,
+        "end": 1213,
+        "type": "tone",
+        "explanation": "The tone is hostile, dismissive, and condescending toward the customer in an internal work log.",
+        "fix": "so walked him through the differences between titanium and aluminum stakes"
+      }
+    ]
+  }
+}

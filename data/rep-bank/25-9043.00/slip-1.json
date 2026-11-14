@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "25-9043.00",
+  "taskId": "22506",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Individualized Support Plan and Daily Paraprofessional Log",
+  "brief": "A paraprofessional daily log and behavior accommodation plan for a third-grade student with autism spectrum disorder and sensory processing sensitivities, drafted from the student's IEP specifications.",
+  "docType": "paraprofessional daily log",
+  "slip": {
+    "document": "# Individualized Support Plan and Daily Paraprofessional Log\nStudent: Julian Vance | Grade: 3 | Date: 03/12/2026\nLead Special Education Teacher: Brenda Morris, M.Ed. | Paraprofessional: Keith Miller\n\n## Student Accommodations & Sensory Profile\n| Domain | Approved Strategy | Trigger to Avoid |\n| --- | --- | --- |\n| Auditory | Noise-dampening earmuffs | Sudden high-frequency bells, crowded assemblies |\n| Transitions | Visual countdown timer (5-minute warning) | Abrupt schedule changes |\n| Seating | Flexible wobble stool at perimeter | Direct center of room surrounded by peers |\n| Communication | Picture Exchange (PECS) / Core board | Complex multi-step verbal-only instructions |\n\n## Daily Schedule & Support Record\n\n08:30 - Morning Arrival\nJulian arrived agitated due to bus delay. Offended by corridor volume.\n- Offered noise-dampening earmuffs immediately upon entering hall\n- Guided to quiet corner in Room 104 for a 5-minute sensory regulation break\n\n09:15 - Small Group Reading Instruction\n- Placed wobble stool directly in the room center among all reading groups to enhance peer inclusion\n- Facilitated phonics match cards with tactile alphabet blocks\n\n10:30 - General Education Math (Inclusion)\n- Provided visual timer at desk set for 20 minutes\n- Implemented hand-over-hand prompting on manipulatives for two-digit subtraction\n\n11:45 - Cafeteria & Recess Transition\nJulian exhibited hand-flapping and verbal vocalizations indicating rising anxiety before line-up.\n- Presented lunch choice PECS cards and verified tray selection\n- Sensory break provided prior to dismissal\n\n13:15 - Resource Room Social Skills\n- Co-led turn-taking board game with peer partner\n- Documented 4 unprompted uses of visual schedule board\n\n14:30 - Departure\nJulian transitioned to Bus 14 with 1:1 escort. Signed off with transportation aide Mr. Alvarez.",
+    "errors": [
+      {
+        "quote": "Placed wobble stool directly in the room center among all reading groups to enhance peer inclusion",
+        "start": 1004,
+        "end": 1102,
+        "type": "logic",
+        "explanation": "The student profile table explicitly designates seating as 'Flexible wobble stool at perimeter' and identifies 'Direct center of room surrounded by peers' as a trigger to avoid. Seating Julian in the center contradicts his approved accommodation.",
+        "fix": "Placed wobble stool along the classroom perimeter away from crowded group clusters"
+      },
+      {
+        "quote": "Sensory break provided prior to dismissal",
+        "start": 1546,
+        "end": 1587,
+        "type": "omission",
+        "explanation": "The entry records that a sensory break was provided prior to dismissal from the cafeteria/recess transition, but omits the required duration and specific sensory protocol or tool utilized (such as a 5-minute quiet space or deep pressure vest).",
+        "fix": "5-minute deep-pressure quiet space sensory break provided prior to dismissal"
+      }
+    ]
+  }
+}

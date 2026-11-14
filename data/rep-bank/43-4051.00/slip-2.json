@@ -1,0 +1,39 @@
+{
+  "type": "slip",
+  "occupationCode": "43-4051.00",
+  "taskId": "2580",
+  "locale": "en",
+  "difficulty": 2,
+  "title": "Post-Resolution Customer Follow-Up and Account Audit",
+  "brief": "A resolution verification and follow-up draft for a retail banking customer who reported unauthorized recurring subscription charges, drafted from core banking transaction logs.",
+  "docType": "customer service resolution audit",
+  "slip": {
+    "document": "# Post-Resolution Customer Follow-Up and Account Audit\nCase ID: CAS-88204-Q9L1\nCustomer: Marcus Vance\nAccount: Everyday Checking (...4819)\nRepresentative: Jordan Hayes (ID: 6044)\nAudit Date: 03/18/2026\n\n## Dispute and Adjustment Summary\n| Transaction Date | Description | Original Amount | Status | Refund Ref |\n| --- | --- | --- | --- | --- |\n| 01/14/2026 | CloudStream Media Sub | $18.99 | Reimbursed | RF-30119 |\n| 02/14/2026 | CloudStream Media Sub | $18.99 | Reimbursed | RF-30120 |\n| 03/14/2026 | CloudStream Media Sub | $18.99 | Reimbursed | RF-30121 |\n\n## Verification Checklist\n- Merchant block applied to recurring descriptor: CLOUDSTREAM*MEDIA\n- Compromised debit card ending in 1102 canceled on 03/16/2026\n- Replacement card issued to customer mailing address on 03/17/2026\n- Provisional credit converted to permanent reversal totaling $56.97\n\n## Audit Notes\nRepresentative Jordan Hayes audited account 4819 to confirm all corrections finalized on the host system. The ledger reflects the total refund of $56.97 posted to checking ending 4819. However, the system shows the agent mistakenly credited $37.98 across two cycles instead of resolving all three charges.\n\n## Draft Customer Follow-Up Email\nSubject: Update regarding your dispute for account ending in 4819\n\nDear Marcus Vance,\n\nWe completed our review of the billing dispute you filed regarding the unauthorized charges from CloudStream Media.\n\nIf you had carefully monitored your monthly statements earlier, this issue would have been sorted out in January before further charges posted. Nevertheless, we have canceled your old card and authorized a full refund to your checking account.\n\nWe sent your replacement debit card via standard USPS delivery. You should expect the card to arrive within standard business delivery times.\n\nPlease retain reference case CAS-88204-Q9L1 for your records.\n\nSincerely,\nJordan Hayes\nTier 2 Resolution Specialist\nNorthwest Horizon Bank",
+    "errors": [
+      {
+        "quote": "the agent mistakenly credited $37.98 across two cycles instead of resolving all three charges",
+        "start": 1082,
+        "end": 1175,
+        "type": "fact",
+        "explanation": "Contradicts the Dispute and Adjustment Summary and the preceding bullet point, which confirm all three transactions of $18.99 were reimbursed for a total permanent credit of $56.97.",
+        "fix": "the agent credited all three cycles totaling $56.97"
+      },
+      {
+        "quote": "If you had carefully monitored your monthly statements earlier, this issue would have been sorted out in January",
+        "start": 1416,
+        "end": 1528,
+        "type": "tone",
+        "explanation": "Blaming and scolding the customer for not catching the recurring charges sooner violates standard professional customer service standards.",
+        "fix": "We appreciate your patience while we investigated these recurring transactions"
+      },
+      {
+        "quote": "You should expect the card to arrive within standard business delivery times.",
+        "start": 1725,
+        "end": 1802,
+        "type": "omission",
+        "explanation": "Lacks the specific delivery time frame (e.g., 5 to 7 business days) required in banking replacement card follow-ups so the customer knows when to expect access to funds.",
+        "fix": "You should expect the card to arrive within 5 to 7 business days."
+      }
+    ]
+  }
+}

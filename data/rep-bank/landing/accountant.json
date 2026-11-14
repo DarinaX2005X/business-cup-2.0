@@ -1,0 +1,23 @@
+{
+  "type": "slip",
+  "occupationCode": "13-2011.00",
+  "taskId": "21514",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Monthly Cash and Bank Reconciliation Summary",
+  "brief": "A monthly bank reconciliation summary for a commercial client drafted from their general ledger and statement balances.",
+  "docType": "bank reconciliation",
+  "slip": {
+    "document": "# Monthly Cash and Bank Reconciliation Summary\n\nFor the period ending 04/30/2026, the First Meridian Bank statement for Crestview Logistics LLC shows an ending balance of $84,200. Deposits in transit of $6,300 were added and outstanding checks totaling $12,500 were deducted, giving an adjusted bank balance of $80,150. On the book side, the unadjusted general ledger cash balance of $78,150 was reduced by a $150 bank service fee, for an adjusted book balance of $78,000. The two adjusted balances agree and no further reconciling items are open.",
+    "errors": [
+      {
+        "quote": "giving an adjusted bank balance of $80,150",
+        "type": "calculation",
+        "explanation": "$84,200 plus $6,300 in transit minus $12,500 in outstanding checks is $78,000, not $80,150. The summary then claims the two sides agree when they are $2,150 apart.",
+        "fix": "giving an adjusted bank balance of $78,000",
+        "start": 276,
+        "end": 318
+      }
+    ]
+  }
+}

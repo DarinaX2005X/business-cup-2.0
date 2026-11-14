@@ -1,0 +1,73 @@
+{
+  "type": "edge",
+  "occupationCode": "25-2022.00",
+  "taskId": "6580",
+  "locale": "en",
+  "difficulty": 2,
+  "title": "Declining Performance, Defensive Parent",
+  "brief": "Address a sudden drop in a middle schooler's grades and noticeable social withdrawal with his protective mother.",
+  "edge": {
+    "scenario": "During an after-school conference at Oakridge Middle School, you meet with the mother of Julian, a previously engaged seventh grader. Over the past three weeks, Julian's homework completion has plunged, he puts his head down in class, and he avoids his usual friends at lunch. His mother arrives tense and ready to dispute the low progress report.",
+    "personaPublic": "Elena is Julian's mother, seated across your desk with his progress report folded sharply in her hand. She appears exhausted and defensive, determined to protect her son from what she sees as unfair criticism.",
+    "personaHidden": "Underneath her combative demeanor, she is terrified because she and Julian's father recently separated, forcing Julian to share a bedroom at a relative's crowded apartment. She feels immense guilt about destabilizing his life and worries the school will label him a problem child.",
+    "goal": "Establish shared concern for Julian's well-being and agree on a discrete classroom support plan and weekly check-in.",
+    "criteria": [
+      {
+        "id": "c1",
+        "text": "Validates the parent's protective care before discussing academic drops.",
+        "keywords": [
+          "care deeply",
+          "want what's best",
+          "advocate",
+          "understand",
+          "support him"
+        ]
+      },
+      {
+        "id": "c2",
+        "text": "Describes specific behavioral observations neutrally without moral judgment.",
+        "keywords": [
+          "head on desk",
+          "missed assignments",
+          "lunchtime",
+          "withdrawn",
+          "noticed lately"
+        ]
+      },
+      {
+        "id": "c3",
+        "text": "Asks open-ended questions to invite context about recent changes at home.",
+        "keywords": [
+          "how are things",
+          "any changes",
+          "what have you noticed",
+          "at home",
+          "sharing"
+        ]
+      },
+      {
+        "id": "c4",
+        "text": "Proposes actionable, low-pressure classroom accommodations.",
+        "keywords": [
+          "check-in",
+          "extra time",
+          "quiet space",
+          "counselor",
+          "bite-sized"
+        ]
+      },
+      {
+        "id": "c5",
+        "text": "Agrees on a clear communication schedule to monitor progress.",
+        "keywords": [
+          "touch base",
+          "next Friday",
+          "email update",
+          "weekly check-in",
+          "keep you posted"
+        ]
+      }
+    ],
+    "opening": "I got your warning email, and honestly, I don't appreciate Julian being singled out. He has always been an honor roll student, and now you're telling me he's failing quizzes and sleeping in your class? If he's struggling, it's because the teachers aren't giving him the support he deserves."
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "type": "slip",
+  "occupationCode": "13-1031.00",
+  "taskId": "21418",
+  "locale": "en",
+  "difficulty": 2,
+  "title": "Special Investigation Unit Final Report and Recommendations",
+  "brief": "An SIU investigation report and settlement recommendation for a commercial property water damage and theft claim drafted from field findings and audit figures.",
+  "docType": "investigation report",
+  "slip": {
+    "document": "# Special Investigation Unit Final Report and Recommendations\nCase Reference: SIU-2026-8841 | Claim No: CP-992014-A\n\n## Summary of Loss\nInsured: Crestview Dental Group LLC\nDate of Loss: 01/14/2026\nLocation: 4420 West End Blvd, Suite 200, Richmond, VA\nPolicy Type: Commercial Package Policy (CPP)\nPolicy Limits: Building $850,000 | Business Personal Property $250,000 | Deductible $5,000\n\n## Timeline and Investigation Findings\n- 01/14/2026: Loss reported as pipe burst with secondary theft of portable imaging units.\n- 01/19/2026: On-site inspection performed by Forensic Engineering Partners.\n- 01/24/2026: Subpoenaed bank records received and reviewed without the insureds consent.\n- 02/02/2026: Examination Under Oath (EUO) completed with managing partner Dr. Arthur Vance.\n\nForensic analysis determined the plumbing failure occurred due to intentional tampering. Threaded fittings on the main supply line behind Suite 200 had wrench markings consistent with deliberate loosening rather than freeze damage or material degradation.\n\n## Verified Damages and Audit Reconciliation\n\n| Item Category | Claimed Amount | Audited ACV |\n| --- | --- | --- |\n| Drywall and Flooring Remediation | $42,500 | $28,400 |\n| Operatory Cabinetry | $18,200 | $12,100 |\n| Handheld X-Ray Sensors (Alleged Theft) | $31,000 | $0 |\n| Sterilization Autoclave Units | $14,800 | $9,500 |\n\nThe claimed theft of handheld X-ray sensors is excluded. Metadata from the clinic practice management software confirmed all three sensors were logged into system inventory at an offsite satellite branch in Henrico on 01/16/2026.\n\nTotal verified loss payable across all covered categories equals $55,000 prior to deductible application.\n\n## Disposition Recommendations\n- Refer file to the Virginia Bureau of Insurance Fraud Division pursuant to state statutory reporting mandates.\n- Issue formal denial based on intentional acts and material misrepresentation under Policy Condition 14 (Concealment, Misrepresentation, or Fraud).\n- Indemnify the insured for verified plumbing repairs once deductible is met.",
+    "errors": [
+      {
+        "quote": "received and reviewed without the insureds consent",
+        "start": 632,
+        "end": 682,
+        "type": "compliance",
+        "explanation": "Under the federal Right to Financial Privacy Act and insurance claims practice standards, an insurer cannot issue a subpoena to obtain an insured's private bank records in a first-party claim without a signed financial authorization or a valid judicial court order.",
+        "fix": "received and reviewed pursuant to signed financial disclosure authorization"
+      },
+      {
+        "quote": "verified loss payable across all covered categories equals $55,000 prior",
+        "start": 1600,
+        "end": 1672,
+        "type": "calculation",
+        "explanation": "The sum of the audited ACV figures ($28,400 + $12,100 + $0 + $9,500) is $50,000, not $55,000.",
+        "fix": "verified loss payable across all covered categories equals $50,000 prior"
+      },
+      {
+        "quote": "Indemnify the insured for verified plumbing repairs once deductible is met.",
+        "start": 1995,
+        "end": 2070,
+        "type": "logic",
+        "explanation": "The report finds intentional tampering by the insured and recommends formal denial for material misrepresentation/fraud, which completely voids coverage rather than allowing partial indemnification.",
+        "fix": "Maintain full denial of all claimed damages with zero indemnification payable."
+      }
+    ]
+  }
+}

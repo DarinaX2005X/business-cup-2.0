@@ -1,0 +1,74 @@
+{
+  "type": "delegate",
+  "occupationCode": "25-2022.00",
+  "taskId": "6578",
+  "locale": "en",
+  "difficulty": 2,
+  "title": "Ecosystem Lab Lesson Plan",
+  "brief": "Draft a structured 50-minute science lesson plan balancing direct instruction, inquiry-based lab stations, and independent reflection.",
+  "delegate": {
+    "scenario": "You are a 7th-grade life science teacher preparing for tomorrow's lab on pond water micro-ecosystems. A student teacher will lead one of the station rotations, and the principal will conduct an unannounced walkthrough during Period 4. The lesson plan must guide both instructors seamlessly and keep 28 middle schoolers engaged and safe.",
+    "inputs": "Notes for Wed 10/18 - Period 4 (11:15 AM - 12:05 PM):\n- Topic: Microscopic Pond Life & Energy Flow (Standard MS-LS2-2).\n- Room setup: 6 lab tables, max 5 students per station.\n- Supplies on cart: 6 compound microscopes, 24 glass depression slides, 12 plastic pipettes, pond samples A & B.\n- Total class period: 50 minutes.\n- Proposed pacing:\n  * Warm-up / direct instruction & slide prep demo: 15 min\n  * Lab investigation (Station 1: Producers/Algae, Station 2: Consumers/Paramecia): 30 min (15 min each rotation)\n  * Clean-up & exit ticket: 10 min\n- Safety note: Reminder that cover slips are glass; report cracks immediately.\n- Student accommodations: Marcus has color blindness; Elena needs large-print lab sheets; 3 students forgot signed safety contracts last week (Jayden, Sam, Priya).",
+    "goal": "Deliver an executable, timed lesson plan that safely distributes materials, balances instruction with hands-on investigation, and accounts for student safety restrictions.",
+    "criteria": [
+      {
+        "id": "c1",
+        "text": "Specifies the target grade level, subject, and intended audience of co-teachers or evaluators.",
+        "keywords": [
+          "7th grade",
+          "life science",
+          "student teacher",
+          "evaluator"
+        ]
+      },
+      {
+        "id": "c2",
+        "text": "Demands strict adherence to the 50-minute total block across all lesson stages.",
+        "keywords": [
+          "50 minutes",
+          "pacing",
+          "schedule",
+          "time management"
+        ]
+      },
+      {
+        "id": "c3",
+        "text": "Requires a structured format with sections for objectives, materials, timed procedure, and accommodations.",
+        "keywords": [
+          "format",
+          "sections",
+          "procedure",
+          "accommodations"
+        ]
+      },
+      {
+        "id": "c4",
+        "text": "Instructs the AI to verify that lab activity safety requirements and prerequisite clearances are enforced before student participation.",
+        "keywords": [
+          "safety clearance",
+          "safety contracts",
+          "alternate assignment",
+          "lab rules"
+        ]
+      }
+    ],
+    "traps": [
+      {
+        "id": "t1",
+        "description": "The proposed pacing segment times (15 min + 30 min + 10 min) sum to 55 minutes, exceeding the 50-minute class period.",
+        "keywords": [
+          "10 min",
+          "30 min"
+        ]
+      },
+      {
+        "id": "t2",
+        "description": "Three students lack signed safety contracts and cannot legally handle glass slides or live specimens without an alternative activity.",
+        "keywords": [
+          "signed safety contracts",
+          "Jayden, Sam, Priya"
+        ]
+      }
+    ]
+  }
+}

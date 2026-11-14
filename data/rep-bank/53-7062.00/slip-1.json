@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "53-7062.00",
+  "taskId": "10779",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Outbound Transfer Order & Equipment Staging Sheet",
+  "brief": "A warehouse work order review and equipment staging sheet prepared for a material mover detailing assignment tasks, pick locations, and handling equipment needs.",
+  "docType": "work order review",
+  "slip": {
+    "document": "# Outbound Transfer Order & Equipment Staging Sheet\nDistribution Center 14 - Bayonne Logistics Hub\n\n## Order Details\n- Work Order: WO-44092\n- Date: 10/14/2026\n- Shift: Morning (06:00 - 14:30)\n- Lead Handler: Marcus Vance (ID 8841)\n- Destination: Distribution Center 03 (Edison, NJ)\n\n## Manifest Line Items\n| SKU | Description | Unit Weight | Quantity | Location | Total Weight |\n| --- | --- | --- | --- | --- | --- |\n| PL-102 | Industrial Solvents (5-gal drum) | 48 lb | 40 drums | Aisle 04-Rack C | 1,920 lb |\n| BX-884 | Heavy-Duty Fasteners (carton) | 65 lb | 60 cartons | Aisle 08-Rack B | 3,900 lb |\n| DR-330 | Steel Flanges (palletized) | 410 lb | 8 pallets | Staging Dock 2 | 3,280 lb |\n\n## Equipment Requisition & Safety Checklist\n- Assigned handling equipment: Manual hydraulic pallet jack\n- Pre-shift inspection: Fork inspection completed, hydraulic cylinder check passed, dead-man brake operational.\n- Required PPE: Steel-toe boots, high-visibility vest, leather-palm grip gloves.\n- Hazardous materials: Class 3 Flammable Liquid placard required on transport trailer for PL-102.\n\n## Instructions for Material Handler\n- Retrieve 40 drums of PL-102 from Aisle 04-Rack C and stage at Outbound Bay 6.\n- Retrieve 60 cartons of BX-884 from Aisle 08-Rack B and verify individual carton seals before palletizing.\n- Stage 8 pallets of DR-330 directly from Staging Dock 2 into Outbound Bay 6.\n- Stage steel flanges weighing 4,280 lb for loading onto trailer TR-904.\n- Ensure load balance across trailer axles prior to final departure sign-off.",
+    "errors": [
+      {
+        "quote": "Assigned handling equipment: Manual hydraulic pallet jack",
+        "start": 740,
+        "end": 797,
+        "type": "omission",
+        "explanation": "The order includes 40 drums of industrial solvents and 60 cartons (65 lb each), but the equipment list omits the required specialized drum caddy or clamp attachment necessary to safely handle and move 5-gallon drums without manual roll hazards.",
+        "fix": "Assigned handling equipment: Manual hydraulic pallet jack and drum clamp caddy"
+      },
+      {
+        "quote": "Stage steel flanges weighing 4,280 lb for loading onto trailer TR-904.",
+        "start": 1395,
+        "end": 1465,
+        "type": "fact",
+        "explanation": "The manifest table lists the total weight of the DR-330 steel flanges as 3,280 lb (8 pallets at 410 lb each), not 4,280 lb.",
+        "fix": "Stage steel flanges weighing 3,280 lb for loading onto trailer TR-904."
+      }
+    ]
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "type": "delegate",
+  "occupationCode": "11-2021.00",
+  "taskId": "958",
+  "locale": "en",
+  "difficulty": 2,
+  "title": "Q3 Enterprise SaaS Sales Forecast",
+  "brief": "Draft an executive summary and adjusted Q3 sales forecast based on recent product launch metrics and pipeline updates.",
+  "delegate": {
+    "scenario": "You are preparing the quarterly forecast update for the Chief Commercial Officer ahead of Friday's budget committee review. The CCO needs an executive overview that weighs initial product demand against mid-quarter pipeline slippage to determine whether revised revenue targets remain realistic.",
+    "inputs": "Notes from weekly revenue sync:\n- ApexCloud tier launch (went live 05/15/2024): Target was 120 new logo signups by end of Q3; currently at 84 active contracts generating $420,000 ARR.\n- Core Platform renewal pipeline: Renewal rate holding steady at 91%, but expansion ARR dropped from projected $180,000 to $115,000 due to delayed module add-ons.\n- Regional breakdown:\n| Region | Projected Q3 Pipeline | Current Weighted Value | Average Deal Size |\n| --- | --- | --- | --- |\n| North America | $1,850,000 | $1,420,000 | $45,000 |\n| EMEA | $920,000 | $610,000 | $38,000 |\n| APAC | $410,000 | $460,000 | $22,000 |\n- Churn risk: Two financial services accounts representing $240,000 ARR total flagged for possible downgrade; one contract renewal date is 11/15/2024 ($130,000), other renewal date is 08/30/2024 ($110,000).\n- Marketing team notes that organic inbound leads fell 14% month-over-month following the website rebrand.",
+    "goal": "Provide leadership with an accurate, risk-adjusted revenue projection that isolates current quarter performance from out-of-quarter variables.",
+    "criteria": [
+      {
+        "id": "c1",
+        "text": "Specifies that the briefing is written for the Chief Commercial Officer and budget committee.",
+        "keywords": [
+          "CCO",
+          "leadership",
+          "budget committee",
+          "executive"
+        ]
+      },
+      {
+        "id": "c2",
+        "text": "Requires a structured summary under 400 words with explicit bullet points for risks and upside potential.",
+        "keywords": [
+          "under 400 words",
+          "bullet points",
+          "risks",
+          "upside",
+          "structure"
+        ]
+      },
+      {
+        "id": "c3",
+        "text": "Instructs the AI to verify timeline relevance and exclude out-of-period revenue data from Q3 calculations.",
+        "keywords": [
+          "quarter dates",
+          "timing",
+          "exclude",
+          "reconcile dates",
+          "period"
+        ]
+      },
+      {
+        "id": "c4",
+        "text": "Directs the AI to reconcile regional pipeline totals and identify any statistical anomalies between pipeline and weighted figures.",
+        "keywords": [
+          "reconcile totals",
+          "pipeline math",
+          "verify numbers",
+          "anomaly"
+        ]
+      }
+    ],
+    "traps": [
+      {
+        "id": "t1",
+        "description": "In the regional table, APAC's current weighted value exceeds its projected Q3 pipeline, which is mathematically impossible under standard weighted pipeline methodology.",
+        "keywords": [
+          "$410,000",
+          "$460,000"
+        ]
+      },
+      {
+        "id": "t2",
+        "description": "One of the flagged churn risk accounts has a renewal date in Q4 (11/15/2024), so its loss does not impact Q3 figures.",
+        "keywords": [
+          "11/15/2024",
+          "$130,000"
+        ]
+      }
+    ]
+  }
+}

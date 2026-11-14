@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "29-1141.00",
+  "taskId": "1839",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Shift Handoff and Progress Note: Medical-Surgical Unit",
+  "brief": "Shift handoff report and progress note for a 58-year-old female admitted for acute diverticulitis, drafted from the electronic health record.",
+  "docType": "shift handoff note",
+  "slip": {
+    "document": "# Shift Handoff and Progress Note: Medical-Surgical Unit\nPatient: Eleanor Vance | MRN: 482-9011 | DOB: 04/14/1967 | Room: 412-B\n\n## Patient Profile and Baseline\n| Parameter | Value |\n| --- | --- |\n| Admitting Diagnosis | Acute uncomplicated diverticulitis |\n| Admission Date | 10/12/2026 |\n| Attending Physician | Dr. Marcus Brody, MD |\n| Allergies | Ciprofloxacin (severe hives/anaphylactoid reaction) |\n| Code Status | Full Code |\n\n## Vital Signs (0700-1500)\n| Time | BP (mmHg) | HR (bpm) | RR (/min) | SpO2 (%) | Temp (°F) |\n| --- | --- | --- | --- | --- | --- |\n| 0800 | 128/76 | 78 | 16 | 98 on RA | 99.1 |\n| 1200 | 134/80 | 82 | 18 | 97 on RA | 99.4 |\n| 1430 | 122/74 | 74 | 16 | 98 on RA | 98.8 |\n\n## Assessment and Interventions\n- Neurological: Alert and oriented x4. Bilateral hand grips equal and strong.\n- Cardiovascular: Regular rate and rhythm, S1/S2 present. Peripheral pulses 2+ throughout. Capillary refill under 2 seconds.\n- Respiratory: Lungs clear to auscultation bilaterally in all fields. No work of breathing.\n- Gastrointestinal: Abdomen soft, moderately tender to palpation in left lower quadrant. Hypoactive bowel sounds in all four quadrants. Tolerating clear liquid diet without nausea or vomiting.\n- Genitourinary: Voiding spontaneously via commode without dysuria. Strict I&O maintained: shift total 950 mL out, 1,100 mL in.\n\n## Medication Administration and Care Plan\n- Administered IV ciprofloxacin 400 mg at 1000 per pharmacy schedule.\n- Peripheral IV 20G in right forearm remains patent without erythema, edema, or tenderness.\n- Infusing D5 0.45% NS at 100 mL/hr continuous.\n- Administered ondansetron 4 mg IV push PRN at 1115 for mild nausea with complete resolution within 30 minutes.\n- Re-evaluate white blood cell count when morning labs return.\n- Continue clear liquid diet; advance to low fiber diet tomorrow per attending orders.\n- Ambulated with assist x2 in hallway, covering 150 ft each lap without distress.\n- Handed off care to incoming RN for night shift.",
+    "errors": [
+      {
+        "quote": "Administered IV ciprofloxacin 400 mg at 1000 per pharmacy schedule.",
+        "start": 1399,
+        "end": 1466,
+        "type": "fact",
+        "explanation": "The patient profile explicitly lists a severe allergy to ciprofloxacin with hives and anaphylactoid reaction, so administering this medication directly contradicts the allergy record and standard safety practices.",
+        "fix": "Administered IV ceftriaxone 1 g at 1000 per pharmacy schedule."
+      },
+      {
+        "quote": "Handed off care to incoming RN for night shift.",
+        "start": 1953,
+        "end": 2000,
+        "type": "omission",
+        "explanation": "Standard nursing documentation for shift handoff requires the specific name of the receiving clinician taking over care to ensure an unbroken chain of custody and accountability.",
+        "fix": "Handed off care to incoming RN Sarah Jenkins, BSN, for night shift."
+      }
+    ]
+  }
+}

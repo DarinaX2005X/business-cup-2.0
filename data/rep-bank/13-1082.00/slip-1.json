@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "13-1082.00",
+  "taskId": "21479",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Weekly Critical Path Milestone Review: Cloud Data Migration",
+  "brief": "Weekly milestone review and deadline tracking memo for an enterprise clinical database migration, drafted from project track schedules and risk registers.",
+  "docType": "project status report",
+  "slip": {
+    "document": "# Weekly Critical Path Milestone Review: Cloud Data Migration\nProject ID: PRJ-9402 | Date: 10/12/2026 | Prepared by: Marcus Vance, PMP\n\n## Milestone Tracking Summary\n\n| WBS Code | Task Name | Baseline End | Current Forecast | Variance (Days) | Critical Path |\n| --- | --- | --- | --- | --- | --- |\n| 3.1.2 | ETL Pipeline Staging | 10/05/2026 | 10/05/2026 | 0 | Yes |\n| 3.1.3 | Historical Claims Data Ingestion | 10/19/2026 | 10/26/2026 | +7 | Yes |\n| 3.1.4 | Security Key Management Setup | 10/14/2026 | 10/14/2026 | 0 | No |\n| 3.2.1 | User Acceptance Testing Run 1 | 10/27/2026 | 11/03/2026 | +7 | Yes |\n| 3.2.2 | Final Production Cutover | 11/15/2026 | 11/22/2026 | +7 | Yes |\n\n## Variance Analysis and Critical Path Impact\n\n- Task 3.1.3 (Historical Claims Data Ingestion) is currently trending 7 days behind baseline due to schema reconciliation issues across legacy database connectors.\n- Because Task 3.1.3 has zero days of total float, this milestone delay has no impact on downstream delivery and leaves the final cutover target intact.\n- Task 3.1.4 completed prerequisite configuration on schedule, maintaining zero float consumption on the non-critical security track.\n\n## Action Items and Remediation Plan\n\n- Lead engineer Sarah Chen will authorize unencrypted sample staging of identifiable patient diagnostic records on public cloud buckets to speed up ingestion throughput.\n- Database administrators will implement parallel partition streaming starting 10/13/2026 to compress the remaining intake window by 3 calendar days.\n- Marcus Vance will issue an updated critical path network diagram during the steerco sync on 10/15/2026.",
+    "errors": [
+      {
+        "quote": "this milestone delay has no impact on downstream delivery and leaves the final cutover target intact",
+        "start": 942,
+        "end": 1042,
+        "type": "logic",
+        "explanation": "Task 3.1.3 is on the critical path with zero float, and the table shows its 7-day delay cascades directly to push User Acceptance Testing and Final Production Cutover back by 7 days each.",
+        "fix": "this milestone delay directly pushes downstream delivery dates and extends the final cutover target by 7 days"
+      },
+      {
+        "quote": "authorize unencrypted sample staging of identifiable patient diagnostic records on public cloud buckets",
+        "start": 1249,
+        "end": 1352,
+        "type": "compliance",
+        "explanation": "Staging identifiable patient diagnostic records unencrypted in public cloud storage violates mandatory HIPAA Security Rule technical safeguards (45 CFR § 164.312), which require access controls and encryption for electronic protected health information (ePHI).",
+        "fix": "authorize encrypted sample staging of de-identified records on private access-restricted cloud buckets"
+      }
+    ]
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "type": "edge",
+  "occupationCode": "43-5032.00",
+  "taskId": "2727",
+  "locale": "en",
+  "difficulty": 2,
+  "title": "Route Change Conflict with Veteran Driver",
+  "brief": "Handle a frustrated veteran delivery driver whose preferred run was reassigned due to emergency fleet maintenance.",
+  "edge": {
+    "scenario": "It is 5:30 AM in the dispatch office of a regional freight carrier. Two refrigerated trailers failed morning brake inspections, forcing dispatch to merge routes and assign senior drivers to unfamiliar, grueling inner-city runs. Jim storm into the dispatch booth holding his run sheet, visibly angry about losing his steady highway route.",
+    "personaPublic": "Jim is a 15-year veteran driver who expects predictability and seniority perks on the daily board. He is standing at your dispatch window holding his manifest with a hard, defensive posture.",
+    "personaHidden": "He is nursing a flare-up of chronic sciatica that makes stop-and-go city deliveries agonizing, but he is terrified to report it to company health. He feels disrespected that a younger dispatcher swapped his route without calling him first.",
+    "goal": "De-escalate Jim's anger, uncover his physical limitation, and agree on a feasible delivery run or assistance plan that keeps freight moving safely.",
+    "criteria": [
+      {
+        "id": "c1",
+        "text": "Acknowledges the frustration of a last-minute schedule change without being defensive.",
+        "keywords": [
+          "hear you",
+          "frustrating",
+          "understand",
+          "short notice",
+          "appreciate your patience"
+        ]
+      },
+      {
+        "id": "c2",
+        "text": "Explains the operational breakdown clearly without blaming mechanics or management.",
+        "keywords": [
+          "brake inspection",
+          "two trailers down",
+          "safety failure",
+          "scrambling to cover"
+        ]
+      },
+      {
+        "id": "c3",
+        "text": "Asks an open question to uncover why this specific change is a problem today.",
+        "keywords": [
+          "what is going on",
+          "tell me more",
+          "how can we make this work",
+          "what specifically"
+        ]
+      },
+      {
+        "id": "c4",
+        "text": "Explores realistic adjustments without making impossible schedule promises.",
+        "keywords": [
+          "helper",
+          "dock assistance",
+          "split the stops",
+          "switch trailers",
+          "tomorrow"
+        ]
+      },
+      {
+        "id": "c5",
+        "text": "Confirms an agreed run schedule and departure time before Jim walks away.",
+        "keywords": [
+          "agreed",
+          "lock this in",
+          "roll out by",
+          "departure",
+          "committed to"
+        ]
+      }
+    ],
+    "opening": "Fifteen years here, and you throw me on Route 14 downtown with twelve pallet drops? I took the southern highway run when the board opened yesterday. You don't just yank a senior guy's ticket at dawn and hand him a nightmare run without even talking to me first. I'm not taking that truck."
+  }
+}

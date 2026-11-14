@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "41-3091.00",
+  "taskId": "23233",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "CRM Account Update & Opportunity Summary: Apex Facility Services",
+  "brief": "CRM update and opportunity summary for a commercial HVAC maintenance contract renewal, drafted from meeting notes and billing records.",
+  "docType": "crm account summary",
+  "slip": {
+    "document": "# CRM Account Update & Opportunity Summary: Apex Facility Services\nAccount ID: ACCT-88410\nAccount Name: Apex Facility Services\nPrimary Contact: Marcus Vance (Facilities Director)\nAccount Executive: Rachel Torres\nDate: 04/16/2026\n\n## Contract & Site Details\n| Parameter | Existing Record | Renewal Proposal |\n| --- | --- | --- |\n| Site Location | 4400 Westpark Dr, Houston, TX | 4400 Westpark Dr, Houston, TX |\n| Service Scope | Bi-monthly HVAC preventative maintenance | Monthly HVAC preventative maintenance |\n| Total Units | 18 rooftop packaged units | 18 rooftop packaged units |\n| Annual Value | $34,200 | $52,800 |\n| Contract Term | 06/01/2023 - 05/31/2026 | 06/01/2026 - 05/31/2028 |\n\n## Opportunity Activity Log\n- 04/10/2026: Conducted annual facility walkthrough with Marcus Vance.\n- 04/14/2026: Presented formal upgrade proposal shifting from bi-monthly to monthly preventative filter changes, coil cleaning, and compressor checks.\n- Client expressed concern regarding budget constraints given a recent $8,000 chiller compressor failure in March.\n- The client foolishly wasted company capital on obsolete systems instead of upgrading early, so their budget pushback is entirely self-inflicted.\n\n## Proposed Terms and Schedule\n- Proposed contract value: $52,800 billed monthly at $4,400 across the 24-month renewal term.\n- Included equipment: 12 rooftop packaged units across the main distribution warehouse.\n- Renewal discount: 5% applied if agreement signed prior to 05/15/2026.\n\n## Next Steps\n- Transmit revised Master Service Agreement addendum by 04/22/2026.\n- Coordinate signature with Marcus Vance prior to contract expiration on 05/31/2026.",
+    "errors": [
+      {
+        "quote": "The client foolishly wasted company capital on obsolete systems instead of upgrading early, so their budget pushback is entirely self-inflicted.",
+        "start": 1058,
+        "end": 1202,
+        "type": "tone",
+        "explanation": "The tone is unprofessional, accusatory, and inappropriate for internal CRM business records shared across sales and account teams.",
+        "fix": "The client noted capital constraints related to unexpected repairs on aging equipment, which is driving their budget sensitivity."
+      },
+      {
+        "quote": "Included equipment: 12 rooftop packaged units across the main distribution warehouse.",
+        "start": 1331,
+        "end": 1416,
+        "type": "fact",
+        "explanation": "The line specifies 12 rooftop units, but the Contract & Site Details table confirms the site has 18 rooftop packaged units.",
+        "fix": "Included equipment: 18 rooftop packaged units across the main distribution warehouse."
+      }
+    ]
+  }
+}

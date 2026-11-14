@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "41-2011.00",
+  "taskId": "21073",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Front Desk & Cashier Phone Inquiry Log",
+  "brief": "A retail cashier phone call log and customer message record drafted from an incoming call at a hardware supply store.",
+  "docType": "phone inquiry log",
+  "slip": {
+    "document": "# Front Desk & Cashier Phone Inquiry Log\nStore Location: Apex Hardware #104, Lakewood, OH\n\n## Shift Information\n| Date | Cashier Name | Register Station | Shift Hours |\n| --- | --- | --- | --- |\n| 03/14/2026 | Derek Alvarez | Register 2 (Customer Service) | 08:00 AM - 04:30 PM |\n\n## Call Record\n- Time of Call: 10:18 AM\n- Caller Name: Marcus Vance\n- Caller Phone: (216) 555-0184\n- Inquiry Type: Item hold and price verification\n\n## Item Details & Inventory Check\n| SKU | Item Description | In-Stock Qty | Unit Price | Aisle Location |\n| --- | --- | --- | --- | --- |\n| 448-9102 | 12-Gauge Contractor Extension Cord 50ft | 7 | $39.99 | Aisle 4B |\n| 812-3041 | 20V Lithium-Ion Drill Kit | 2 | $129.00 | Aisle 7A |\n\n## Action Taken\n- Located 1 unit of SKU 448-9102 on Aisle 4B for the caller.\n- Placed the extension cord in the Customer Service will-call cubby labeled Vance.\n- Verified that SKU 812-3041 remains available with 2 units on shelf.\n- Notified caller that the extension cord unit price is $59.99 before tax.\n- Advised caller of our standard 24-hour hold duration policy.\n\n## Caller Message & Hand-off Note\n- Customer plans to pick up the extension cord around 02:00 PM today.\n- If you actually bothered to read our weekly sales flyer, you would know drills are excluded from current coupons.\n- Please pass this log to Head Cashier Shannon Miller before the afternoon rush.",
+    "errors": [
+      {
+        "quote": "extension cord unit price is $59.99 before tax",
+        "start": 971,
+        "end": 1017,
+        "type": "fact",
+        "explanation": "Contradicts the inventory table, which explicitly lists the unit price for the extension cord (SKU 448-9102) as $39.99.",
+        "fix": "extension cord unit price is $39.99 before tax"
+      },
+      {
+        "quote": "If you actually bothered to read our weekly sales flyer",
+        "start": 1189,
+        "end": 1244,
+        "type": "tone",
+        "explanation": "The phrasing is hostile, dismissive, and blaming toward the customer, violating standard retail professional customer service standards.",
+        "fix": "Informed caller that according to our weekly circular"
+      }
+    ]
+  }
+}

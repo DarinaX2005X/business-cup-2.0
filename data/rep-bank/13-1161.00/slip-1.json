@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "13-1161.00",
+  "taskId": "5433",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Customer Demographics & Demand Analysis: EcoHome Smart Thermostat",
+  "brief": "A market research analyst memo evaluating survey data across demographic cohorts to determine regional launch viability for a smart thermostat.",
+  "docType": "demographic analysis memo",
+  "slip": {
+    "document": "# Customer Demographics & Demand Analysis: EcoHome Smart Thermostat\nEvaluation of Q1 2026 Pilot Survey Data\n\n## Survey Sample Breakdown\nA total of 1,200 homeowners were surveyed across four regional territories regarding household income, smart home adoption, and purchase intent for the $249 EcoHome unit.\n\n| Region | Respondents | Median HHI | Homeownership Rate | High Purchase Intent (%) |\n| --- | --- | --- | --- | --- |\n| Northeast | 320 | $94,000 | 68% | 42% |\n| Midwest | 260 | $71,000 | 74% | 18% |\n| South | 380 | $82,000 | 69% | 35% |\n| West | 240 | $108,000 | 62% | 51% |\n\n## Key Findings\n- Total survey responses from the Midwest and West combined equaled 560 respondents.\n- High purchase intent tracks strongly with median household income above $80,000.\n- Across the entire sample, 71% of respondents identified energy bill reduction as their primary purchase driver, while 19% prioritized remote mobile access.\n\n## Target Market Recommendations\n- Allocate 45% of Q3 digital ad spend to the Midwest region because it demonstrates the strongest immediate consumer demand.\n- Price elasticity remains high among households earning under $75,000; introductory promotional rebates of $30 should be tested in southern retail channels to improve conversion.\n- Prioritize direct-to-consumer bundling with utility rebate programs in the Northeast and West, where combined favorable intent exceeds 40% of surveyed cohorts.",
+    "errors": [
+      {
+        "quote": "combined equaled 560 respondents",
+        "start": 652,
+        "end": 684,
+        "type": "calculation",
+        "explanation": "According to the survey sample table, the Midwest has 260 respondents and the West has 240 respondents. Their sum is 500, not 560.",
+        "fix": "combined equaled 500 respondents"
+      },
+      {
+        "quote": "Midwest region because it demonstrates the strongest immediate consumer demand",
+        "start": 1006,
+        "end": 1084,
+        "type": "logic",
+        "explanation": "The table shows the Midwest has the lowest high purchase intent of all four regions at only 18%, contradicting the claim that it demonstrates the strongest immediate demand.",
+        "fix": "West region because it demonstrates the strongest immediate consumer demand"
+      }
+    ]
+  }
+}

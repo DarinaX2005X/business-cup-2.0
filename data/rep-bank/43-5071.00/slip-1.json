@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "43-5071.00",
+  "taskId": "4739",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Inbound Shipment Discrepancy & Receiving Log",
+  "brief": "Draft an inbound shipment receiving log and discrepancy report from carrier bill of lading BOL-78421 and physical inspection notes.",
+  "docType": "receiving log",
+  "slip": {
+    "document": "# Inbound Shipment Discrepancy & Receiving Log\nFacility: Distribution Center 4, Bay 12 | Date: 03/18/2026\n\n## Shipment Overview\n| Field | Manifest Detail |\n| --- | --- |\n| Carrier | Redline Freight Systems |\n| Pro Number | RFS-992014-A |\n| BOL Number | BOL-78421 |\n| Trailer Number | TR-5580 |\n| Seal Number (Manifest / Actual) | SL-88412 / SL-88412 (Intact) |\n| Stated Gross Weight | 18,450 lb |\n| Actual Scale Weight | 18,442 lb |\n| Stated Pallet Count | 14 pallets |\n| Received Pallet Count | 14 pallets |\n\n## Item Manifest Verification\n| Item SKU | Description | Expected Qty | Received Qty | Condition |\n| --- | --- | --- | --- | --- |\n| SKU-1044 | 1/2-in Brass Couplers (Cartons) | 120 | 120 | Undamaged |\n| SKU-2088 | Zinc Alloy Flanges (Boxes) | 80 | 72 | 8 Boxes Crushed/Punctured |\n| SKU-3105 | 2-in PVC Ball Valves (Cartons) | 50 | 50 | Undamaged |\n| SKU-4412 | 10-ft Steel Strut Channels (Bundles) | 40 | 40 | Undamaged |\n\n## Discrepancies and Findings\n- Physical count matches the expected carton volume for brass couplers, PVC valves, and strut channels.\n- SKU-2088 sustained forklift tine puncture damage affecting 8 boxes on pallet 3.\n- The total damaged quantity represents exactly 8 boxes out of 80 ordered.\n\n## Disposition Instructions\n- Release the 8 damaged boxes of SKU-2088 to prime stock for immediate customer fulfillment.\n- Quarantine remaining pallet materials for inspection prior to putaway.\n- Carrier driver marked delivery receipt as damaged and signed acknowledgment.\n- Receiver sign-off completed by Marcus Vance, Employee ID 4409 at 08:45 AM without recording receiving clerk.",
+    "errors": [
+      {
+        "quote": "Release the 8 damaged boxes of SKU-2088 to prime stock for immediate customer fulfillment",
+        "start": 1257,
+        "end": 1346,
+        "type": "logic",
+        "explanation": "The item manifest verification and findings state that 8 boxes of SKU-2088 were crushed and punctured by forklift tines. Damaged product cannot logically be released to prime inventory for fulfillment.",
+        "fix": "Transfer the 8 damaged boxes of SKU-2088 to the quarantine hold area for insurance claim processing"
+      },
+      {
+        "quote": "Receiver sign-off completed by Marcus Vance, Employee ID 4409 at 08:45 AM without recording receiving clerk",
+        "start": 1502,
+        "end": 1609,
+        "type": "omission",
+        "explanation": "A formal receiving discrepancy log requires the receiving clerk's signature to certify the discrepancy. Merely stating that Marcus Vance signed without recording the receiving clerk's signature leaves out required validation.",
+        "fix": "Receiver sign-off completed and digitally signed by Marcus Vance, Employee ID 4409, at 08:45 AM"
+      }
+    ]
+  }
+}

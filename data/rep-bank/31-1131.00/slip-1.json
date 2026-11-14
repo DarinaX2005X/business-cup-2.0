@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "31-1131.00",
+  "taskId": "19324",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "CNA Shift Observation and Incident Handoff Report",
+  "brief": "A CNA shift report documenting patient behavior, vital sign changes, and clinical observations for the charge nurse at a skilled nursing facility.",
+  "docType": "shift observation report",
+  "slip": {
+    "document": "# CNA Shift Observation and Incident Handoff Report\nUnit: West Wing Subacute Care | Date: 10/14/2026 | Shift: 0700-1530\nReporting CNA: Marcus Reyes, CNA | Charge Nurse: Brenda Vance, RN\n\n## Resident Summary\n| Room | Resident Name | MRN | Fall Risk | Diet Order |\n| --- | --- | --- | --- | --- |\n| 214-B | Harold Jenkins | 492018 | High | Pureed, Honey-Thick Liquids |\n| 218-A | Clara Higgins | 381044 | Moderate | Regular, Thin Liquids |\n\n## Observations and Care Log\n- 0815: Room 218-A assisted with morning ADLs. Resident alert and oriented x4. Ambulates with rolling walker 50 ft in corridor with standby assist. Skin intact, sacrum clear.\n- 0900: Room 214-B breakfast intake recorded. Resident consumed 25% of pureed eggs and 4 oz apple juice. Observed coughing spells after each swallow. Bed elevated to 45 degrees during intake.\n- 1130: Room 214-B vital signs check: Temp 99.1°F, BP 138/82 mmHg, HR 88 bpm, RR 22 breaths/min, SpO2 91% on room air. Resident complained of feeling congested and fatigued.\n- 1145: Room 214-B observed in bed with mild inspiratory wheezing. Resident appeared comfortable with no signs of airway compromise or dysphagia during meal.\n- 1230: Room 218-A lunch meal. Resident consumed 90% of turkey sandwich, 100% applesauce, and 8 oz water. No chewing difficulties noted.\n- 1315: Room 218-A voiced complaint of sharp pain in left lower flank during toileting transfer, rating pain 7/10. Notified nurse Brenda Vance, RN.\n- 1400: Room 214-B post-lunch repositioning. Skin assessment noted new non-blanchable erythema on left ischium.\n- 1445: Verbal handoff given to Brenda Vance, RN.",
+    "errors": [
+      {
+        "quote": "Resident appeared comfortable with no signs of airway compromise or dysphagia during meal.",
+        "start": 1076,
+        "end": 1166,
+        "type": "logic",
+        "explanation": "This statement contradicts the 0900 entry, which specifically documented coughing spells after each swallow, an elevated respiratory rate, reduced SpO2 (91%), and a diet requiring honey-thick liquids due to dysphagia.",
+        "fix": "Resident displayed persistent productive cough and mild respiratory distress following meal."
+      },
+      {
+        "quote": "Skin assessment noted new non-blanchable erythema on left ischium.",
+        "start": 1497,
+        "end": 1563,
+        "type": "omission",
+        "explanation": "When documenting a new localized skin alteration such as Stage 1 pressure injury/non-blanchable erythema, the CNA must record the immediate nurse notification and the measurements or approximate size of the affected area.",
+        "fix": "Skin assessment noted new non-blanchable erythema on left ischium measuring approximately 2 cm x 2 cm; notified Brenda Vance, RN immediately."
+      }
+    ]
+  }
+}

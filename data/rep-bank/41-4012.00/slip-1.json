@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "41-4012.00",
+  "taskId": "8114",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Product Recommendation Summary: Fall Hospitality Linens",
+  "brief": "A sales representative's product recommendation memo prepared for a regional boutique hotel chain based on their seasonal linen upgrade inquiry.",
+  "docType": "product recommendation memo",
+  "slip": {
+    "document": "# Product Recommendation Summary: Fall Hospitality Linens\nClient: Blue Harbor Hospitality Group\nPrepared By: Marcus Vance, Account Executive, Apex Commercial Textiles\nDate: 04/16/2026\n\n## Client Requirements\n- Target property: 140 guest rooms across 2 coastal boutique properties\n- Preferred material: 100% long-staple ring-spun combed cotton\n- Durability requirement: Minimum 250 commercial wash cycles without fraying\n- Target unit cost: Under $18.00 per bath sheet\n\n## Evaluated Lines\n\n| Product Name | Material Spec | Size (in) | Wash Durability Rating | Wholesale Unit Price |\n| --- | --- | --- | --- | --- |\n| CoastalWeave Premier | 100% Combed Cotton | 35 x 68 | 300 cycles | $16.50 |\n| HarborSoft Blend | 60/40 Cotton-Poly | 30 x 60 | 220 cycles | $11.75 |\n| GrandPalace Terry | 100% Ring-Spun Cotton | 36 x 70 | 275 cycles | $17.25 |\n| EcoPure Standard | 100% Recycled Cotton | 30 x 56 | 180 cycles | $13.00 |\n\n## Primary Recommendation\nBased on your guest expectations and target specifications, we recommend the CoastalWeave Premier bath sheet line. This item meets your fabric standard and easily exceeds the 250-cycle commercial threshold.\n\n- Sizing: Standard luxury bath sheet measuring 35 x 68 inches\n- Thread weight: 700 GSM dense pile for high absorbency\n- Pricing: Offered at $19.50 per unit on orders above 500 units\n\n## Secondary Recommendation\nFor your secondary pool and fitness center needs, we suggest the GrandPalace Terry. It provides a heavy 650 GSM construction and meets your requirement of 275 commercial cycles.\n\n## Account Next Steps\nIf you want to secure these delivery dates, you must sign immediately or risk supply stockouts that will leave your properties without inventory. Samples will ship via ground freight on 04/18/2026 for review.",
+    "errors": [
+      {
+        "quote": "Offered at $19.50 per unit on orders above 500 units",
+        "start": 1283,
+        "end": 1335,
+        "type": "fact",
+        "explanation": "The line item table lists CoastalWeave Premier at $16.50 per unit, and the client's stated requirement is under $18.00 per unit, directly contradicting the $19.50 figure.",
+        "fix": "Offered at $16.50 per unit on orders above 500 units"
+      },
+      {
+        "quote": "you must sign immediately or risk supply stockouts that will leave your properties without inventory",
+        "start": 1610,
+        "end": 1710,
+        "type": "tone",
+        "explanation": "The aggressive, threatening tone is inappropriate and unprofessional for a B2B sales recommendation to a client.",
+        "fix": "we recommend confirming your order by early May to ensure timely delivery before peak season"
+      }
+    ]
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "37-2011.00",
+  "taskId": "9540",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Night Shift Floor Care Plan and Log",
+  "brief": "A night shift floor maintenance plan and completion log for an administrative office facility, drafted from weekly facility specs.",
+  "docType": "floor cleaning log",
+  "slip": {
+    "document": "# Night Shift Floor Care Plan and Log\nFacility: Ridgeview Corporate Center, Building B\nDate: 03/12/2026\nCustodian: Marcus Vance\nShift: 10:00 PM - 6:30 AM\n\n## Area Specifications\n\n| Zone | Area Description | Square Feet | Floor Type | Standard Procedure |\n| --- | --- | --- | --- | --- |\n| 1 | Main Lobby & West Atrium | 4,200 | Polished Terrazzo | Dust mop, auto-scrubber with neutral cleaner |\n| 2 | Executive Boardrooms (3) | 1,850 | Low-pile Commercial Carpet | Upright vacuum, spot treat with encap foam |\n| 3 | 1st Floor Restrooms (North/South) | 900 | Ceramic Tile | Sweep, wet mop with quaternary disinfectant |\n| 4 | South Loading Dock & Mailroom | 2,100 | Sealed Concrete | Push broom sweep, degreaser mop |\n\n## Chemical Dilution and Equipment Prep\n- Neutral Floor Cleaner (Terrazzo): Dispense at 1 oz per gallon of cool water into Taski 20-inch auto-scrubber.\n- Quaternary Disinfectant: Dispense 2 oz per gallon of cold water into dual-compartment yellow mop bucket.\n- Ensure safety signs are positioned before applying any liquids.\n- Keep floor equipment battery levels above 80 percent before starting runs.\n\n## Execution Instructions\n- Start in Zone 1 by running dust mop along perimeter before scrubber pass.\n- Run the auto-scrubber across the 4,200 square feet of low-pile carpet in Zone 1.\n- In Zone 2, vacuum thoroughly including edges; inspect for coffee spills.\n- Because low-pile carpet requires immediate drying, do not vacuum until after mopping it with quaternary disinfectant.\n- In Zone 3, mop tile with prepared disinfectant solution; allow 10-minute wet dwell time before air drying.\n- In Zone 4, sweep coarse debris and deposit into dock dumpster before damp mopping dock bay.\n\n## Sign-Off\nCompleted by Marcus Vance (ID 4482) at 05:45 AM. Inspected by Night Lead Sarah Lin.",
+    "errors": [
+      {
+        "quote": "across the 4,200 square feet of low-pile carpet in Zone 1",
+        "start": 1247,
+        "end": 1304,
+        "type": "fact",
+        "explanation": "According to the Area Specifications table, Zone 1 is Polished Terrazzo, not low-pile carpet (which is in Zone 2).",
+        "fix": "across the 4,200 square feet of polished terrazzo in Zone 1"
+      },
+      {
+        "quote": "do not vacuum until after mopping it with quaternary disinfectant",
+        "start": 1434,
+        "end": 1499,
+        "type": "logic",
+        "explanation": "Mopping carpet with wet disinfectant before vacuuming contradicts basic carpet care logic, saturates dry dirt into mud, and directly conflicts with the table's procedure to upright vacuum and spot treat with encap foam.",
+        "fix": "vacuum thoroughly before spot cleaning any soiled areas"
+      }
+    ]
+  }
+}

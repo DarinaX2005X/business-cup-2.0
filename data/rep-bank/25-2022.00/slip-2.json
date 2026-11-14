@@ -1,0 +1,39 @@
+{
+  "type": "slip",
+  "occupationCode": "25-2022.00",
+  "taskId": "6577",
+  "locale": "en",
+  "difficulty": 2,
+  "title": "Grade 7 Life Science Unit Plan: Cellular Respiration & Photosynthesis",
+  "brief": "A 7th-grade science unit plan establishing standards-aligned objectives, student-facing learning targets, and assessments drafted from district curriculum guidelines.",
+  "docType": "unit lesson plan",
+  "slip": {
+    "document": "# Grade 7 Life Science Unit Plan: Cellular Respiration & Photosynthesis\nInstructor: Marcus Vance | Room 204 | Quarter 3, Week 5 (02/09/2026 - 02/13/2026)\n\n## Target Standards and Alignment\n| Standard Code | Focus Description | Mastery Metric |\n| --- | --- | --- |\n| MS-LS1-6 | Photosynthesis matter cycling and energy flow | 80% on lab analysis rubrics |\n| MS-LS1-7 | Chemical reaction of cellular respiration in cells | Proficient on end-of-unit CER |\n\n## Weekly Objectives and Student-Facing Targets\n- Monday: Introduce photosynthesis equation. SWBAT write the chemical equation for photosynthesis showing light energy converting into stored chemical energy.\n- Student-facing board prompt: I can define the products of photosynthesis and explain how plants destroy energy during glucose formation.\n- Tuesday: Photosynthesis elodea bubble investigation. SWBAT collect quantitative rate data by measuring oxygen production at variable light distances.\n- Wednesday: Cellular respiration overview. SWBAT compare reactants and products of aerobic respiration across animal and plant cells.\n- Student-facing board prompt: I can trace how oxygen and glucose produce carbon dioxide, water, and ATP.\n- Thursday: Formative check. SWBAT demonstrate mastery by scoring at least on the 10-question midpoint check.\n- Friday: Energy pyramid and nutrient transfer synthesis. SWBAT model how cellular respiration transfers thermal and chemical energy through trophic tiers.\n\n## Student Communication & Tracking\n- Post daily learning targets in student-friendly \"I can\" phrasing on the west whiteboard prior to 07:45 AM daily.\n- Require students to record the target in their science notebooks during the initial 5-minute bell-ringer window.\n- Administer the MS-LS1-2 summative assessment on Friday afternoon to measure cellular respiration mastery.",
+    "errors": [
+      {
+        "quote": "explain how plants destroy energy during glucose formation",
+        "start": 740,
+        "end": 798,
+        "type": "logic",
+        "explanation": "This violates the foundational law of conservation of energy taught in MS-LS1-6, which states energy cannot be created or destroyed, contradicting the standard's focus on energy flow and conversion.",
+        "fix": "explain how plants convert light energy into chemical energy during glucose formation"
+      },
+      {
+        "quote": "scoring at least on the 10-question midpoint check",
+        "start": 1251,
+        "end": 1301,
+        "type": "omission",
+        "explanation": "The mastery threshold or target score (e.g., 80% or 8 out of 10) is omitted from the measurable objective.",
+        "fix": "scoring at least 80% on the 10-question midpoint check"
+      },
+      {
+        "quote": "Administer the MS-LS1-2 summative assessment on Friday afternoon",
+        "start": 1728,
+        "end": 1792,
+        "type": "fact",
+        "explanation": "MS-LS1-2 covers cell parts and functions; the unit standards table establishes MS-LS1-7 as the focus standard for cellular respiration.",
+        "fix": "Administer the MS-LS1-7 summative assessment on Friday afternoon"
+      }
+    ]
+  }
+}

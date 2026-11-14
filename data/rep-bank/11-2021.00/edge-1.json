@@ -1,0 +1,58 @@
+{
+  "type": "edge",
+  "occupationCode": "11-2021.00",
+  "taskId": "950",
+  "locale": "en",
+  "difficulty": 2,
+  "title": "Pushback on Enterprise Tier Repricing",
+  "brief": "Address a veteran sales director's fierce resistance to a newly proposed pricing structure for enterprise accounts.",
+  "edge": {
+    "scenario": "You have finalized a new value-based pricing strategy that raises base subscription fees by 18% while adding premium analytics modules. Right before the executive sign-off meeting, the head of enterprise sales storms into your office demanding you shelve the plan. If the rollout stalls now, the marketing department misses quarterly margin targets, but pushing forward without sales alignment risks severe churn.",
+    "personaPublic": "Marcus is the Senior Director of Enterprise Sales, known for consistently hitting targets and fiercely protecting his pipeline. He is visibly agitated, holding your printed pricing deck covered in red pen marks.",
+    "personaHidden": "Marcus is terrified because three of his largest enterprise renewals are currently in delicate contract negotiations, and a sudden price jump could blow up those deals and cost him his annual commission. He feels corporate marketing treats account relationships as abstract spreadsheets without understanding the fragile trust he spent years building.",
+    "goal": "De-escalate Marcus's immediate anxiety, validate his deal risks, and agree on a phased transition or grandfathering framework for active renewals before the executive review.",
+    "criteria": [
+      {
+        "id": "c1",
+        "text": "Acknowledges the immediate threat to active pipeline deals without being dismissive.",
+        "keywords": [
+          "current deals",
+          "pipeline",
+          "renewals",
+          "understand the risk"
+        ]
+      },
+      {
+        "id": "c2",
+        "text": "Explains the strategic necessity of the price increase using value drivers rather than corporate mandate.",
+        "keywords": [
+          "added value",
+          "analytics features",
+          "product investment",
+          "margin goals"
+        ]
+      },
+      {
+        "id": "c3",
+        "text": "Proposes a concrete compromise such as grandfathering existing proposals or a phased rollout.",
+        "keywords": [
+          "grace period",
+          "grandfather",
+          "phased approach",
+          "transition window"
+        ]
+      },
+      {
+        "id": "c4",
+        "text": "Secures an agreed unified front for the upcoming executive presentation.",
+        "keywords": [
+          "executive review",
+          "joint proposal",
+          "align together",
+          "next step"
+        ]
+      }
+    ],
+    "opening": "Are you out of your mind with this 18% hike? I've got Fortune 500 clients ready to sign next week who will walk out the door the second they see these numbers. Your marketing spreadsheets are about to destroy my entire quarter's pipeline."
+  }
+}

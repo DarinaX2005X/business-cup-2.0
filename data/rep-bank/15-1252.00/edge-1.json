@@ -1,0 +1,73 @@
+{
+  "type": "edge",
+  "occupationCode": "15-1252.00",
+  "taskId": "21662",
+  "locale": "en",
+  "difficulty": 2,
+  "title": "Pushing Back on Scope Creep",
+  "brief": "Explain why an executive's urgent feature request is technically infeasible for next week's release and negotiate a realistic path forward.",
+  "edge": {
+    "scenario": "You are a lead software developer meeting with the Product Manager two weeks before a high-profile enterprise release. The PM has suddenly added real-time multi-region data sync to the requirements because a major client demanded it during a sales call yesterday. Delivering this within current time and budget constraints would require bypassing essential security testing and breaking database integrity.",
+    "personaPublic": "Marcus is the Senior Product Manager leading the enterprise rollout, visibly stressed and clutching a notebook filled with urgent client requests. He insists this feature is non-negotiable for closing the company's largest account of the quarter.",
+    "personaHidden": "Underneath his aggressive push, Marcus feels cornered because leadership tied his upcoming performance review and bonus directly to closing this specific contract. He secretly knows little about distributed database constraints and is terrified of telling the VP of Sales that engineering said no.",
+    "goal": "Reach an agreed phased delivery plan that protects system stability while providing sales with a viable commitment for the client.",
+    "criteria": [
+      {
+        "id": "c1",
+        "text": "Acknowledges business pressure before diving into technical limitations.",
+        "keywords": [
+          "understand",
+          "pressure",
+          "client",
+          "stakes",
+          "big deal"
+        ]
+      },
+      {
+        "id": "c2",
+        "text": "Explains architectural risks and constraints in accessible, non-condescending language.",
+        "keywords": [
+          "data corruption",
+          "system stability",
+          "downtime",
+          "security testing",
+          "risk"
+        ]
+      },
+      {
+        "id": "c3",
+        "text": "Refuses to compromise production stability under pressure.",
+        "keywords": [
+          "cannot risk",
+          "must protect",
+          "integrity",
+          "not safe",
+          "non-negotiable"
+        ]
+      },
+      {
+        "id": "c4",
+        "text": "Proposes a phased MVP or alternative timeline that helps the sales conversation.",
+        "keywords": [
+          "phase one",
+          "staged rollout",
+          "roadmap",
+          "workaround",
+          "next sprint"
+        ]
+      },
+      {
+        "id": "c5",
+        "text": "Offers to co-present the revised technical plan directly to executive stakeholders.",
+        "keywords": [
+          "join the call",
+          "talk to sales",
+          "with leadership",
+          "support you",
+          "together"
+        ]
+      }
+    ],
+    "opening": "We have to make this work. GlobalCorp won't sign unless real-time multi-region sync is live on launch day next Tuesday. I know it's tight, but can't the engineers just pull a couple of all-nighters and skip the extra staging cycle? This deal makes our entire quarter."
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "23-2011.00",
+  "taskId": "18491",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Affidavit of Service and Case Filing Summary",
+  "brief": "An affidavit of service and filing summary prepared by a paralegal for a breach of contract action filed in US District Court.",
+  "docType": "affidavit of service",
+  "slip": {
+    "document": "# Affidavit of Service and Case Filing Summary\nFiling Package for US District Court, Northern District of Illinois\n\n## Action Details\n| Case Caption | Case Number | Assigned Judge | Summons Issued |\n| --- | --- | --- | --- |\n| Apex Logistics LLC v. Crestline Freight Inc. | 1:26-cv-04182 | Hon. Evelyn Ramirez | 03/12/2026 |\n\n## Service Record\n- Process server: Marcus Vance (Illinois Licensed Detective #115-002194)\n- Recipient: Crestline Freight Inc., through registered agent Thomas Sterling\n- Address: 1420 Enterprise Way, Suite 300, Schaumburg, IL 60173\n- Date and time of service: 03/18/2026 at 10:45 AM\n- Documents served: Summons, Complaint, and Local Rule 3.2 Corporate Disclosure Statement\n\n## Notarization Details\nState of Illinois, County of Cook.\nSubscribed and sworn to before me on 03/19/2026 by Marcus Vance.\n\nNotary public commission expires on 01/14/2025.\nNotary Public Signature: Clara Higgins\n\n## Filing and Calendar Summary\nUnder Federal Rule of Civil Procedure 12(a)(1)(A)(i), a defendant must serve an answer within 21 days after being served with the summons and complaint.\n\n- Electronic filing docket entry: Document 6 (Affidavit of Service)\n- Defendant Crestline Freight Inc. was served on 03/18/2026.\n- Responsive pleading deadline calculated as 04/15/2026.\n- Discovery planning conference deadline under FRCP 26(f) pending responsive pleading.",
+    "errors": [
+      {
+        "quote": "Notary public commission expires on 01/14/2025.",
+        "start": 826,
+        "end": 873,
+        "type": "compliance",
+        "explanation": "The notary certificate indicates that the notary's commission expired on 01/14/2025, but the jurat was executed on 03/19/2026. A notary cannot perform official notarial acts with an expired commission.",
+        "fix": "Notary public commission expires on 01/14/2028."
+      },
+      {
+        "quote": "Responsive pleading deadline calculated as 04/15/2026.",
+        "start": 1230,
+        "end": 1284,
+        "type": "fact",
+        "explanation": "With service effected on 03/18/2026, 21 days pursuant to FRCP 12(a)(1)(A)(i) results in a response deadline of 04/08/2026, not 04/15/2026.",
+        "fix": "Responsive pleading deadline calculated as 04/08/2026."
+      }
+    ]
+  }
+}

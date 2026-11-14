@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "43-9061.00",
+  "taskId": "827",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Front Desk Daily Telephone Message Log",
+  "brief": "A daily telephone message log drafted by an office clerk summarizing inbound calls and messages for staff at an architectural firm.",
+  "docType": "telephone message log",
+  "slip": {
+    "document": "# Front Desk Daily Telephone Message Log\nDate: 04/16/2026 | Receptionist: Clara Higgins | Station: Main Lobby (Ext. 100)\n\n## Extension Directory Reference\n| Name | Department | Extension |\n| --- | --- | --- |\n| Marcus Vance | Principal Architect | Ext. 204 |\n| Elena Rostova | Project Management | Ext. 208 |\n| David Kim | Structural Engineering | Ext. 215 |\n| Accounting Desk | Billing & Payroll | Ext. 102 |\n\n## Call Records\n\n- Call 1 | 08:42 AM\nCaller: Gregory Shaw, Apex Construction\nContact: 555-0149 (Mobile)\nRecipient: Marcus Vance\nStatus: Caller requested callback regarding permit delay on site 4B; call Marcus Vance at Ext. 215 today.\n\n- Call 2 | 09:15 AM\nCaller: Linda Morales, City Planning Board\nContact: 555-0182 (Office)\nRecipient: Elena Rostova\nStatus: Transferred to Ext. 208; no answer; sent to voicemail after 3 rings.\n\n- Call 3 | 10:05 AM\nCaller: Arthur Pendelton, Heritage Masonry\nRecipient: David Kim\nStatus: Inquiring about load-bearing beam specs on Oakridge project; requested return call before 2:00 PM.\n\n- Call 4 | 11:20 AM\nCaller: Rachel Green, County Inspector\nContact: 555-0177 (Mobile)\nRecipient: Marcus Vance\nStatus: Connected live via warm transfer to Ext. 204.",
+    "errors": [
+      {
+        "quote": "call Marcus Vance at Ext. 215 today",
+        "start": 608,
+        "end": 643,
+        "type": "fact",
+        "explanation": "Ext. 215 belongs to David Kim in Structural Engineering according to the Extension Directory Reference table, whereas Marcus Vance is at Ext. 204.",
+        "fix": "call Marcus Vance at Ext. 204 today"
+      },
+      {
+        "quote": "Caller: Arthur Pendelton, Heritage Masonry",
+        "start": 859,
+        "end": 901,
+        "type": "omission",
+        "explanation": "The call record is missing Arthur Pendelton's contact phone number, which is required for an actionable callback message.",
+        "fix": "Caller: Arthur Pendelton, Heritage Masonry | Contact: 555-0193 (Office)"
+      }
+    ]
+  }
+}

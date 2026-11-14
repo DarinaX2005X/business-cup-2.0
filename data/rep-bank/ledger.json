@@ -1,0 +1,808 @@
+{
+  "rows": {
+    "29-1141.00/slip-1": {
+      "key": "29-1141.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.00432375,
+      "rejected": [],
+      "at": "2026-11-14T14:13:26.078Z"
+    },
+    "29-1141.00/slip-2": {
+      "key": "29-1141.00/slip-2",
+      "attempts": 1,
+      "costUsd": 0.0046395,
+      "rejected": [],
+      "at": "2026-11-14T14:13:26.829Z"
+    },
+    "29-1141.00/edge-1": {
+      "key": "29-1141.00/edge-1",
+      "attempts": 1,
+      "costUsd": 0.0024075,
+      "rejected": [],
+      "at": "2026-11-14T14:13:35.234Z"
+    },
+    "29-1141.00/delegate-1": {
+      "key": "29-1141.00/delegate-1",
+      "attempts": 1,
+      "costUsd": 0.0037755,
+      "rejected": [],
+      "at": "2026-11-14T14:13:37.939Z"
+    },
+    "29-1141.00/slip-3": {
+      "key": "29-1141.00/slip-3",
+      "attempts": 1,
+      "costUsd": 0.004938,
+      "rejected": [],
+      "at": "2026-11-14T14:13:49.951Z"
+    },
+    "29-1141.00/slip-4": {
+      "key": "29-1141.00/slip-4",
+      "attempts": 1,
+      "costUsd": 0.00561675,
+      "rejected": [],
+      "at": "2026-11-14T14:13:53.585Z"
+    },
+    "41-2031.00/slip-1": {
+      "key": "41-2031.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.00302025,
+      "rejected": [],
+      "at": "2026-11-14T14:14:14.104Z"
+    },
+    "31-1122.00/slip-1": {
+      "key": "31-1122.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.0037905,
+      "rejected": [],
+      "at": "2026-11-14T14:14:15.303Z"
+    },
+    "35-3023.00/slip-1": {
+      "key": "35-3023.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.00396,
+      "rejected": [],
+      "at": "2026-11-14T14:14:15.902Z"
+    },
+    "31-1121.00/slip-1": {
+      "key": "31-1121.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.003954,
+      "rejected": [],
+      "at": "2026-11-14T14:14:16.032Z"
+    },
+    "11-1021.00/slip-1": {
+      "key": "11-1021.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.00350775,
+      "rejected": [],
+      "at": "2026-11-14T14:14:23.473Z"
+    },
+    "41-2011.00/slip-1": {
+      "key": "41-2011.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.003483,
+      "rejected": [],
+      "at": "2026-11-14T14:14:23.803Z"
+    },
+    "53-7062.00/slip-1": {
+      "key": "53-7062.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.00385875,
+      "rejected": [],
+      "at": "2026-11-14T14:14:25.676Z"
+    },
+    "53-7065.00/slip-1": {
+      "key": "53-7065.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.00413475,
+      "rejected": [],
+      "at": "2026-11-14T14:14:26.225Z"
+    },
+    "43-4051.00/slip-1": {
+      "key": "43-4051.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.003531,
+      "rejected": [],
+      "at": "2026-11-14T14:14:32.799Z"
+    },
+    "43-4051.00/edge-1": {
+      "key": "43-4051.00/edge-1",
+      "attempts": 1,
+      "costUsd": 0.00237825,
+      "rejected": [],
+      "at": "2026-11-14T14:14:34.894Z"
+    },
+    "43-4051.00/slip-2": {
+      "key": "43-4051.00/slip-2",
+      "attempts": 1,
+      "costUsd": 0.00435975,
+      "rejected": [],
+      "at": "2026-11-14T14:14:35.394Z"
+    },
+    "43-4051.00/delegate-1": {
+      "key": "43-4051.00/delegate-1",
+      "attempts": 1,
+      "costUsd": 0.00359925,
+      "rejected": [],
+      "at": "2026-11-14T14:14:36.078Z"
+    },
+    "43-9061.00/slip-1": {
+      "key": "43-9061.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.00327,
+      "rejected": [],
+      "at": "2026-11-14T14:14:41.718Z"
+    },
+    "35-3031.00/slip-1": {
+      "key": "35-3031.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.0034155,
+      "rejected": [],
+      "at": "2026-11-14T14:14:45.212Z"
+    },
+    "37-2011.00/slip-1": {
+      "key": "37-2011.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.0037485,
+      "rejected": [],
+      "at": "2026-11-14T14:14:46.722Z"
+    },
+    "53-3032.00/slip-1": {
+      "key": "53-3032.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.00438975,
+      "rejected": [],
+      "at": "2026-11-14T14:14:46.938Z"
+    },
+    "15-1252.00/delegate-1": {
+      "key": "15-1252.00/delegate-1",
+      "attempts": 1,
+      "costUsd": 0.0033885,
+      "rejected": [],
+      "at": "2026-11-14T14:14:58.168Z"
+    },
+    "43-6014.00/slip-1": {
+      "key": "43-6014.00/slip-1",
+      "attempts": 2,
+      "costUsd": 0.0070574999999999995,
+      "rejected": [
+        [
+          "The document contains placeholders such as [Name]; fill in invented details."
+        ]
+      ],
+      "at": "2026-11-14T14:14:59.112Z"
+    },
+    "15-1252.00/slip-2": {
+      "key": "15-1252.00/slip-2",
+      "attempts": 2,
+      "costUsd": 0.00816975,
+      "rejected": [
+        [
+          "Mistake 3: the quote \"The streaming consumer will automatically route poison pills to Kafka topic `core.tx.dlq.v1` via an error handler retry policy.\" contains markup characters (| # * _ ` [ ] < > or a leading \"- \"); quote plain words only."
+        ]
+      ],
+      "at": "2026-11-14T14:15:06.662Z"
+    },
+    "15-1252.00/edge-1": {
+      "key": "15-1252.00/edge-1",
+      "attempts": 1,
+      "costUsd": 0.00239475,
+      "rejected": [],
+      "at": "2026-11-14T14:15:08.963Z"
+    },
+    "15-1252.00/slip-1": {
+      "key": "15-1252.00/slip-1",
+      "attempts": 3,
+      "costUsd": 0.011487,
+      "rejected": [
+        [
+          "Mistake 1: the quote \"specifying MaxConns and.\" does not appear in the document word for word. Copy it exactly from the document.",
+          "Mistake 2: the quote \"targeting the x86_64 architecture for production deployment to c8g.4xlarge instances.\" contains markup characters (| # * _ ` [ ] < > or a leading \"- \"); quote plain words only."
+        ],
+        [
+          "Mistake 2: the quote \"targeting the x86_64 architecture for production deployment to c8g.4xlarge instances\" contains markup characters (| # * _ ` [ ] < > or a leading \"- \"); quote plain words only."
+        ]
+      ],
+      "at": "2026-11-14T14:15:10.652Z"
+    },
+    "49-9071.00/slip-1": {
+      "key": "49-9071.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.00451425,
+      "rejected": [],
+      "at": "2026-11-14T14:15:11.220Z"
+    },
+    "13-2011.00/slip-1": {
+      "key": "13-2011.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.003618,
+      "rejected": [],
+      "at": "2026-11-14T14:15:16.222Z"
+    },
+    "13-2011.00/edge-1": {
+      "key": "13-2011.00/edge-1",
+      "attempts": 1,
+      "costUsd": 0.00230025,
+      "rejected": [],
+      "at": "2026-11-14T14:15:19.625Z"
+    },
+    "13-2011.00/slip-2": {
+      "key": "13-2011.00/slip-2",
+      "attempts": 1,
+      "costUsd": 0.0043455,
+      "rejected": [],
+      "at": "2026-11-14T14:15:20.427Z"
+    },
+    "13-2011.00/delegate-1": {
+      "key": "13-2011.00/delegate-1",
+      "attempts": 1,
+      "costUsd": 0.004155,
+      "rejected": [],
+      "at": "2026-11-14T14:15:22.693Z"
+    },
+    "13-2011.00/slip-3": {
+      "key": "13-2011.00/slip-3",
+      "attempts": 1,
+      "costUsd": 0.0054855,
+      "rejected": [],
+      "at": "2026-11-14T14:15:28.900Z"
+    },
+    "31-1131.00/slip-1": {
+      "key": "31-1131.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.00395025,
+      "rejected": [],
+      "at": "2026-11-14T14:15:30.955Z"
+    },
+    "13-2011.00/slip-4": {
+      "key": "13-2011.00/slip-4",
+      "attempts": 1,
+      "costUsd": 0.0050145,
+      "rejected": [],
+      "at": "2026-11-14T14:15:32.058Z"
+    },
+    "43-1011.00/slip-1": {
+      "key": "43-1011.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.00395025,
+      "rejected": [],
+      "at": "2026-11-14T14:15:32.298Z"
+    },
+    "25-9042.00/slip-1": {
+      "key": "25-9042.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.0035475,
+      "rejected": [],
+      "at": "2026-11-14T14:15:38.089Z"
+    },
+    "35-2014.00/slip-1": {
+      "key": "35-2014.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.00349125,
+      "rejected": [],
+      "at": "2026-11-14T14:15:41.414Z"
+    },
+    "25-9043.00/slip-1": {
+      "key": "25-9043.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.00374775,
+      "rejected": [],
+      "at": "2026-11-14T14:15:41.513Z"
+    },
+    "51-2092.00/slip-1": {
+      "key": "51-2092.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.00384675,
+      "rejected": [],
+      "at": "2026-11-14T14:15:41.976Z"
+    },
+    "25-2021.00/slip-1": {
+      "key": "25-2021.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.0032805,
+      "rejected": [],
+      "at": "2026-11-14T14:15:47.681Z"
+    },
+    "43-3031.00/slip-1": {
+      "key": "43-3031.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.00387075,
+      "rejected": [],
+      "at": "2026-11-14T14:15:51.271Z"
+    },
+    "41-3091.00/slip-1": {
+      "key": "41-3091.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.00366,
+      "rejected": [],
+      "at": "2026-11-14T14:15:52.168Z"
+    },
+    "33-9032.00/slip-1": {
+      "key": "33-9032.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.0039255,
+      "rejected": [],
+      "at": "2026-11-14T14:15:53.731Z"
+    },
+    "41-4012.00/slip-1": {
+      "key": "41-4012.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.0038715,
+      "rejected": [],
+      "at": "2026-11-14T14:15:59.298Z"
+    },
+    "41-1011.00/slip-1": {
+      "key": "41-1011.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.00373575,
+      "rejected": [],
+      "at": "2026-11-14T14:16:03.391Z"
+    },
+    "35-1012.00/slip-1": {
+      "key": "35-1012.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.0037395,
+      "rejected": [],
+      "at": "2026-11-14T14:16:04.415Z"
+    },
+    "47-2061.00/slip-1": {
+      "key": "47-2061.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.0037305,
+      "rejected": [],
+      "at": "2026-11-14T14:16:04.626Z"
+    },
+    "13-1199.04/slip-1": {
+      "key": "13-1199.04/slip-1",
+      "attempts": 1,
+      "costUsd": 0.004269,
+      "rejected": [],
+      "at": "2026-11-14T14:16:11.901Z"
+    },
+    "13-1082.00/slip-1": {
+      "key": "13-1082.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.00392175,
+      "rejected": [],
+      "at": "2026-11-14T14:16:14.468Z"
+    },
+    "25-2031.00/slip-1": {
+      "key": "25-2031.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.00342675,
+      "rejected": [],
+      "at": "2026-11-14T14:16:14.561Z"
+    },
+    "53-3033.00/slip-1": {
+      "key": "53-3033.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.0040035,
+      "rejected": [],
+      "at": "2026-11-14T14:16:15.127Z"
+    },
+    "37-3011.00/slip-1": {
+      "key": "37-3011.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.0032445,
+      "rejected": [],
+      "at": "2026-11-14T14:16:24.235Z"
+    },
+    "13-1071.00/slip-2": {
+      "key": "13-1071.00/slip-2",
+      "attempts": 1,
+      "costUsd": 0.004056,
+      "rejected": [],
+      "at": "2026-11-14T14:16:25.716Z"
+    },
+    "13-1071.00/slip-1": {
+      "key": "13-1071.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.004359,
+      "rejected": [],
+      "at": "2026-11-14T14:16:26.311Z"
+    },
+    "43-6013.00/slip-1": {
+      "key": "43-6013.00/slip-1",
+      "attempts": 2,
+      "costUsd": 0.00712875,
+      "rejected": [
+        [
+          "Mistake 2: the quote has 3 words; it must have 4–30 (ideally 5–12)."
+        ]
+      ],
+      "at": "2026-11-14T14:16:29.999Z"
+    },
+    "13-1071.00/edge-1": {
+      "key": "13-1071.00/edge-1",
+      "attempts": 1,
+      "costUsd": 0.00238125,
+      "rejected": [],
+      "at": "2026-11-14T14:16:35.423Z"
+    },
+    "13-1071.00/delegate-1": {
+      "key": "13-1071.00/delegate-1",
+      "attempts": 1,
+      "costUsd": 0.003738,
+      "rejected": [],
+      "at": "2026-11-14T14:16:35.968Z"
+    },
+    "43-4171.00/slip-1": {
+      "key": "43-4171.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.003741,
+      "rejected": [],
+      "at": "2026-11-14T14:16:37.187Z"
+    },
+    "13-1161.00/slip-1": {
+      "key": "13-1161.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.003279,
+      "rejected": [],
+      "at": "2026-11-14T14:16:39.853Z"
+    },
+    "35-2021.00/slip-1": {
+      "key": "35-2021.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.0035205,
+      "rejected": [],
+      "at": "2026-11-14T14:16:45.624Z"
+    },
+    "13-1111.00/slip-1": {
+      "key": "13-1111.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.00348825,
+      "rejected": [],
+      "at": "2026-11-14T14:16:47.350Z"
+    },
+    "37-2012.00/slip-1": {
+      "key": "37-2012.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.00357375,
+      "rejected": [],
+      "at": "2026-11-14T14:16:48.519Z"
+    },
+    "11-3031.00/slip-1": {
+      "key": "11-3031.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.00494025,
+      "rejected": [],
+      "at": "2026-11-14T14:16:51.980Z"
+    },
+    "31-9092.00/slip-1": {
+      "key": "31-9092.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.0041925,
+      "rejected": [],
+      "at": "2026-11-14T14:16:58.176Z"
+    },
+    "43-5071.00/slip-1": {
+      "key": "43-5071.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.0040275,
+      "rejected": [],
+      "at": "2026-11-14T14:16:59.142Z"
+    },
+    "47-1011.00/slip-1": {
+      "key": "47-1011.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.00423525,
+      "rejected": [],
+      "at": "2026-11-14T14:16:59.325Z"
+    },
+    "53-7051.00/slip-1": {
+      "key": "53-7051.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.0039885,
+      "rejected": [],
+      "at": "2026-11-14T14:17:04.228Z"
+    },
+    "47-2111.00/slip-1": {
+      "key": "47-2111.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.0038925,
+      "rejected": [],
+      "at": "2026-11-14T14:17:08.966Z"
+    },
+    "47-2111.00/delegate-1": {
+      "key": "47-2111.00/delegate-1",
+      "attempts": 1,
+      "costUsd": 0.003564,
+      "rejected": [],
+      "at": "2026-11-14T14:17:10.912Z"
+    },
+    "47-2111.00/slip-2": {
+      "key": "47-2111.00/slip-2",
+      "attempts": 1,
+      "costUsd": 0.00421725,
+      "rejected": [],
+      "at": "2026-11-14T14:17:12.029Z"
+    },
+    "47-2111.00/edge-1": {
+      "key": "47-2111.00/edge-1",
+      "attempts": 1,
+      "costUsd": 0.002388,
+      "rejected": [],
+      "at": "2026-11-14T14:17:14.772Z"
+    },
+    "47-2111.00/slip-3": {
+      "key": "47-2111.00/slip-3",
+      "attempts": 1,
+      "costUsd": 0.004659,
+      "rejected": [],
+      "at": "2026-11-14T14:17:22.988Z"
+    },
+    "23-1011.00/slip-1": {
+      "key": "23-1011.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.0038115,
+      "rejected": [],
+      "at": "2026-11-14T14:17:26.399Z"
+    },
+    "47-2111.00/slip-4": {
+      "key": "47-2111.00/slip-4",
+      "attempts": 1,
+      "costUsd": 0.005664,
+      "rejected": [],
+      "at": "2026-11-14T14:17:27.466Z"
+    },
+    "35-3011.00/slip-1": {
+      "key": "35-3011.00/slip-1",
+      "attempts": 2,
+      "costUsd": 0.00815025,
+      "rejected": [
+        [
+          "The document has 148 words; it must have 180–350."
+        ]
+      ],
+      "at": "2026-11-14T14:17:31.671Z"
+    },
+    "15-1232.00/slip-1": {
+      "key": "15-1232.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.00356325,
+      "rejected": [],
+      "at": "2026-11-14T14:17:33.194Z"
+    },
+    "49-3023.00/slip-1": {
+      "key": "49-3023.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.003909,
+      "rejected": [],
+      "at": "2026-11-14T14:17:38.417Z"
+    },
+    "51-1011.00/slip-1": {
+      "key": "51-1011.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.00411825,
+      "rejected": [],
+      "at": "2026-11-14T14:17:39.798Z"
+    },
+    "11-3021.00/slip-1": {
+      "key": "11-3021.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.00327975,
+      "rejected": [],
+      "at": "2026-11-14T14:17:42.268Z"
+    },
+    "33-3051.00/slip-1": {
+      "key": "33-3051.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.003981,
+      "rejected": [],
+      "at": "2026-11-14T14:17:45.953Z"
+    },
+    "47-2031.00/slip-1": {
+      "key": "47-2031.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.003255,
+      "rejected": [],
+      "at": "2026-11-14T14:17:47.986Z"
+    },
+    "29-2061.00/slip-1": {
+      "key": "29-2061.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.00426525,
+      "rejected": [],
+      "at": "2026-11-14T14:17:51.107Z"
+    },
+    "29-2061.00/slip-2": {
+      "key": "29-2061.00/slip-2",
+      "attempts": 1,
+      "costUsd": 0.00459225,
+      "rejected": [],
+      "at": "2026-11-14T14:17:55.448Z"
+    },
+    "29-2061.00/edge-1": {
+      "key": "29-2061.00/edge-1",
+      "attempts": 1,
+      "costUsd": 0.00244275,
+      "rejected": [],
+      "at": "2026-11-14T14:17:56.996Z"
+    },
+    "29-2061.00/delegate-1": {
+      "key": "29-2061.00/delegate-1",
+      "attempts": 1,
+      "costUsd": 0.00394875,
+      "rejected": [],
+      "at": "2026-11-14T14:17:59.140Z"
+    },
+    "35-2011.00/slip-1": {
+      "key": "35-2011.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.00312525,
+      "rejected": [],
+      "at": "2026-11-14T14:18:01.088Z"
+    },
+    "25-2022.00/slip-1": {
+      "key": "25-2022.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.00352125,
+      "rejected": [],
+      "at": "2026-11-14T14:18:07.478Z"
+    },
+    "25-2022.00/slip-2": {
+      "key": "25-2022.00/slip-2",
+      "attempts": 1,
+      "costUsd": 0.0037935,
+      "rejected": [],
+      "at": "2026-11-14T14:18:08.503Z"
+    },
+    "25-2022.00/delegate-1": {
+      "key": "25-2022.00/delegate-1",
+      "attempts": 1,
+      "costUsd": 0.00330075,
+      "rejected": [],
+      "at": "2026-11-14T14:18:10.150Z"
+    },
+    "25-2022.00/edge-1": {
+      "key": "25-2022.00/edge-1",
+      "attempts": 1,
+      "costUsd": 0.00260325,
+      "rejected": [],
+      "at": "2026-11-14T14:18:11.013Z"
+    },
+    "23-2011.00/slip-2": {
+      "key": "23-2011.00/slip-2",
+      "attempts": 1,
+      "costUsd": 0.004536,
+      "rejected": [],
+      "at": "2026-11-14T14:18:20.105Z"
+    },
+    "23-2011.00/delegate-1": {
+      "key": "23-2011.00/delegate-1",
+      "attempts": 1,
+      "costUsd": 0.0035235,
+      "rejected": [],
+      "at": "2026-11-14T14:18:21.877Z"
+    },
+    "23-2011.00/edge-1": {
+      "key": "23-2011.00/edge-1",
+      "attempts": 1,
+      "costUsd": 0.00213,
+      "rejected": [],
+      "at": "2026-11-14T14:18:24.239Z"
+    },
+    "23-2011.00/slip-1": {
+      "key": "23-2011.00/slip-1",
+      "attempts": 2,
+      "costUsd": 0.007854,
+      "rejected": [
+        [
+          "Mistake 1: the quote has 3 words; it must have 4–30 (ideally 5–12)."
+        ]
+      ],
+      "at": "2026-11-14T14:18:25.875Z"
+    },
+    "11-2021.00/slip-1": {
+      "key": "11-2021.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.00330525,
+      "rejected": [],
+      "at": "2026-11-14T14:18:29.520Z"
+    },
+    "11-2021.00/slip-2": {
+      "key": "11-2021.00/slip-2",
+      "attempts": 1,
+      "costUsd": 0.004458,
+      "rejected": [],
+      "at": "2026-11-14T14:18:34.589Z"
+    },
+    "11-2021.00/delegate-1": {
+      "key": "11-2021.00/delegate-1",
+      "attempts": 1,
+      "costUsd": 0.00367575,
+      "rejected": [],
+      "at": "2026-11-14T14:18:35.635Z"
+    },
+    "11-2021.00/edge-1": {
+      "key": "11-2021.00/edge-1",
+      "attempts": 1,
+      "costUsd": 0.00233775,
+      "rejected": [],
+      "at": "2026-11-14T14:18:35.790Z"
+    },
+    "43-5032.00/slip-1": {
+      "key": "43-5032.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.003951,
+      "rejected": [],
+      "at": "2026-11-14T14:18:43.878Z"
+    },
+    "43-5032.00/slip-2": {
+      "key": "43-5032.00/slip-2",
+      "attempts": 1,
+      "costUsd": 0.00420375,
+      "rejected": [],
+      "at": "2026-11-14T14:18:46.328Z"
+    },
+    "43-5032.00/edge-1": {
+      "key": "43-5032.00/edge-1",
+      "attempts": 1,
+      "costUsd": 0.0025545,
+      "rejected": [],
+      "at": "2026-11-14T14:18:46.575Z"
+    },
+    "43-5032.00/delegate-1": {
+      "key": "43-5032.00/delegate-1",
+      "attempts": 1,
+      "costUsd": 0.003855,
+      "rejected": [],
+      "at": "2026-11-14T14:18:49.456Z"
+    },
+    "13-1031.00/slip-1": {
+      "key": "13-1031.00/slip-1",
+      "attempts": 1,
+      "costUsd": 0.00398175,
+      "rejected": [],
+      "at": "2026-11-14T14:18:55.485Z"
+    },
+    "13-1031.00/edge-1": {
+      "key": "13-1031.00/edge-1",
+      "attempts": 1,
+      "costUsd": 0.00240375,
+      "rejected": [],
+      "at": "2026-11-14T14:18:57.701Z"
+    },
+    "13-1031.00/delegate-1": {
+      "key": "13-1031.00/delegate-1",
+      "attempts": 1,
+      "costUsd": 0.0037275,
+      "rejected": [],
+      "at": "2026-11-14T14:18:58.119Z"
+    },
+    "13-1031.00/slip-2": {
+      "key": "13-1031.00/slip-2",
+      "attempts": 1,
+      "costUsd": 0.0044805,
+      "rejected": [],
+      "at": "2026-11-14T14:18:59.770Z"
+    },
+    "landing/nurse": {
+      "key": "landing/nurse",
+      "attempts": 1,
+      "costUsd": 0.0020355,
+      "rejected": [],
+      "at": "2026-11-14T14:19:01.436Z"
+    },
+    "landing/accountant": {
+      "key": "landing/accountant",
+      "attempts": 1,
+      "costUsd": 0.00196875,
+      "rejected": [],
+      "at": "2026-11-14T14:19:03.067Z"
+    },
+    "landing/electrician": {
+      "key": "landing/electrician",
+      "attempts": 2,
+      "costUsd": 0.00478875,
+      "rejected": [
+        [
+          "The document has the wrong length; it must be 35-80 words, 3 or 4 sentences.",
+          "Mistake 1: the quote \"calculated to 9.2 V across the feeder run\" does not appear in the document word for word. Copy it exactly from the document."
+        ]
+      ],
+      "at": "2026-11-14T14:19:11.071Z"
+    }
+  },
+  "failures": {}
+}

@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "37-3011.00",
+  "taskId": "9589",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Grounds Maintenance Daily Work Order",
+  "brief": "Daily turf maintenance and edging work order drafted for a commercial groundskeeping crew servicing an office park.",
+  "docType": "maintenance work order",
+  "slip": {
+    "document": "# Grounds Maintenance Daily Work Order\nProperty: Northridge Corporate Campus, Buildings A-D\nDate: 06/18/2026\nSupervisor: Marcus Vance\nCrew Lead: Darrell Jensen\n\n## Equipment and Turf Specifications\n| Area | Turf Variety | Target Cut Height | Primary Equipment |\n| --- | --- | --- | --- |\n| North Courtyard | Kentucky Bluegrass | 3.0 in | 60-inch Zero-Turn Mower |\n| South Boulevard | Turf-Type Tall Fescue | 3.5 in | 48-inch Stand-On Mower |\n| Retention Basin | Fine Fescue Mix | 4.0 in | 36-inch Walk-Behind Mower |\n\n## Tasks and Safety Protocol\n- Perform 360-degree sweep of all turf zones to clear branches, trash, and loose gravel before engaging blades.\n- Verify all crew members wear high-visibility vests, steel-toe boots, eye protection, and hearing protection.\n- Calibrate mower decks on the maintenance pad to match the specified heights before dispatching units to assigned zones.\n\n## Operational Execution\n- Cut the South Boulevard turf using the 48-inch stand-on unit set to 2.0 inches deck height.\n- Mow North Courtyard using alternating northeast-southwest striping lines to minimize soil compaction and avoid turf ruts.\n- Edge all concrete walkways, curbs, and bed rings using gas stick edgers held vertically to create a crisp 0.5-inch trench.\n- String-trim around light posts, utility vaults, and storm grates to match surrounding cut heights.\n- Clean hard surfaces with backpack blowers, directing all clippings back into turf beds rather than storm sewers.\n- Refuel all power equipment and return to trailer.",
+    "errors": [
+      {
+        "quote": "set to 2.0 inches deck height",
+        "start": 981,
+        "end": 1010,
+        "type": "fact",
+        "explanation": "The target cut height for Turf-Type Tall Fescue on the South Boulevard is 3.5 inches in the reference table, not 2.0 inches, which would scalp and damage the grass.",
+        "fix": "set to 3.5 inches deck height"
+      },
+      {
+        "quote": "Refuel all power equipment and return to trailer.",
+        "start": 1479,
+        "end": 1528,
+        "type": "omission",
+        "explanation": "Standard groundskeeping safety protocol and equipment shutdown requires allowing hot engines to cool down before refueling to prevent gasoline ignition and flash fire.",
+        "fix": "Allow hot engines to cool for at least five minutes, refuel all power equipment, and return to trailer."
+      }
+    ]
+  }
+}

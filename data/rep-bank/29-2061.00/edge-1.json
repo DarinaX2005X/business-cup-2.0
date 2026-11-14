@@ -1,0 +1,58 @@
+{
+  "type": "edge",
+  "occupationCode": "29-2061.00",
+  "taskId": "507",
+  "locale": "en",
+  "difficulty": 2,
+  "title": "Sudden Rash, Anxious Post-Op Patient",
+  "brief": "De-escalate a panicked surgical patient exhibiting a sudden drug reaction while assessing symptoms and initiating prompt clinical protocol.",
+  "edge": {
+    "scenario": "You are completing an evening med pass on a medical-surgical floor when 58-year-old post-op patient Marcus rings his call light in distress. He was started on IV cefazolin an hour ago and now has hives breaking out across his chest and neck. His anxiety is spiking, and he is refusing to let you touch him until someone tells him he is not going to suffocate.",
+    "personaPublic": "Marcus is a 58-year-old recovering from knee replacement surgery who is visibly scratching his neck and hyperventilating. He appears terrified and is angrily demanding to know what poison was just pumped into his IV line.",
+    "personaHidden": "Marcus lost his older brother to a sudden, fatal anaphylactic shock from penicillin years ago. He is having a full-blown panic response because he believes the exact same fatal reaction is starting in his own body right now.",
+    "goal": "Calm Marcus enough to perform immediate vital signs and airway assessment, discontinue the offending IV infusion, and agree to contact the charge nurse or attending physician for emergency allergy orders.",
+    "criteria": [
+      {
+        "id": "c1",
+        "text": "Validates the patient's acute fear before attempting immediate physical interventions.",
+        "keywords": [
+          "I hear you",
+          "understand this is terrifying",
+          "you are safe",
+          "I'm right here"
+        ]
+      },
+      {
+        "id": "c2",
+        "text": "Directly evaluates airway patency and respiratory distress using calm, direct questions.",
+        "keywords": [
+          "breathing okay",
+          "throat feel tight",
+          "trouble swallowing",
+          "chest tight"
+        ]
+      },
+      {
+        "id": "c3",
+        "text": "Takes immediate decisive action to stop the suspected medication and explain the step clearly.",
+        "keywords": [
+          "stopped the infusion",
+          "turn this off",
+          "disconnect the IV",
+          "hold the medication"
+        ]
+      },
+      {
+        "id": "c4",
+        "text": "Outlines a clear and immediate next step involving the provider without overpromising.",
+        "keywords": [
+          "vital signs",
+          "charge nurse",
+          "call the doctor",
+          "get an antihistamine"
+        ]
+      }
+    ],
+    "opening": "Look at my chest! It's burning and breaking out everywhere, and my heart is pounding out of my chest! What did you just put in my IV? Don't touch me—am I about to stop breathing like my brother did?!"
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "type": "delegate",
+  "occupationCode": "23-2011.00",
+  "taskId": "1636",
+  "locale": "en",
+  "difficulty": 2,
+  "title": "Breach Notice Research Case Summary",
+  "brief": "A structured legal research memorandum summarizing data breach notification statutory deadlines and private right of action authorities across three states.",
+  "delegate": {
+    "scenario": "A senior litigation partner needs a clear statutory comparison chart and narrative analysis by 2:00 PM today to advise a regional healthcare client facing a multi-state cyber incident. The partner will use this memorandum to brief executive leadership on immediate regulatory exposure and notification timetables.",
+    "inputs": "Research notes on multi-state data breach statutory mandates:\n- Florida: Fla. Stat. § 501.171 requires notice to affected individuals within 30 days after determination of breach. Notice to Department of Legal Affairs required if breach affects >500 residents. No private right of action created under Fla. Stat. § 501.171(10).\n- Ohio: Ohio Rev. Code § 1349.19 requires disclosure to residents within 45 days. Must notify Ohio Attorney General if breach impacts >1,000 residents. In re Anthem, Inc. (2016) held § 1349.19 does not convey an independent private cause of action.\n- Texas: Tex. Bus. & Com. Code § 521.053 mandates notice within 60 days of breach determination. However, 2023 legislative amendments reduced this deadline to 30 days effective 09/01/2023. AG notification required when >250 residents affected.\n- General note from partner voicemail: Client systems suffered unauthorized access on 10/12/2023, confirmed breach across FL (620 patients), OH (1,250 patients), and TX (410 patients). Partner wants exposure risk for class action lawsuits.",
+    "goal": "Deliver an accurate statutory comparison table and concise risk summary that highlights filing deadlines and private right of action limits without misstating recent statutory amendments.",
+    "criteria": [
+      {
+        "id": "c1",
+        "text": "Specifies the audience as a law firm litigation partner preparing a high-level corporate client advisory.",
+        "keywords": [
+          "partner",
+          "litigation",
+          "counsel",
+          "client advisory"
+        ]
+      },
+      {
+        "id": "c2",
+        "text": "Demands a side-by-side comparison table showing state, individual notification deadline, AG threshold, and private action status.",
+        "keywords": [
+          "table",
+          "matrix",
+          "columns",
+          "comparison chart"
+        ]
+      },
+      {
+        "id": "c3",
+        "text": "Restricts output length to under 400 words focusing exclusively on actionable compliance data.",
+        "keywords": [
+          "concise",
+          "under 400 words",
+          "brief",
+          "summary"
+        ]
+      },
+      {
+        "id": "c4",
+        "text": "Directs the AI to verify statutory effective dates and reconcile conflicting deadlines before summarizing state requirements.",
+        "keywords": [
+          "effective date",
+          "reconcile",
+          "conflict",
+          "amendment",
+          "statutory deadline"
+        ]
+      }
+    ],
+    "traps": [
+      {
+        "id": "t1",
+        "description": "Texas breach notification statute lists both a 60-day mandate and a superseded 30-day post-amendment deadline, creating a conflict in required compliance timing.",
+        "keywords": [
+          "60 days",
+          "reduced this deadline to 30 days"
+        ]
+      },
+      {
+        "id": "t2",
+        "description": "The private right of action analysis under Texas law is completely omitted from the notes despite the partner specifically requesting class action exposure risks.",
+        "keywords": [
+          "Tex. Bus. & Com. Code § 521.053",
+          "class action lawsuits"
+        ]
+      }
+    ]
+  }
+}

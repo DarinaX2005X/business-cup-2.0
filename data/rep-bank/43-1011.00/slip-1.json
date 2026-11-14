@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "43-1011.00",
+  "taskId": "9703",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Customer Complaint Investigation & Resolution Memo",
+  "brief": "Supervisor resolution memo addressing a customer dispute over overdraft and wire maintenance fees, drafted from customer service logs and bank transaction records.",
+  "docType": "complaint resolution memo",
+  "slip": {
+    "document": "# Customer Complaint Investigation & Resolution Memo\nEscalation Review - Branch Operations\n\n## Case Summary\n- Case ID: CAS-88204-T9L2\n- Date Logged: 03/12/2026\n- Customer Name: Elena Vance\n- Account Number: Ending in 4108 (Preferred Checking)\n- Supervisor: Marcus Holloway, Operations Support Supervisor\n\n## Disputed Charges\n| Date | Transaction Description | Posted Amount | Fee Assessed | Policy Category |\n| --- | --- | --- | --- | --- |\n| 03/05/2026 | Automated Clearing House (ACH) Utility Pmt | $240.00 | $35.00 | Paid Item Fee |\n| 03/06/2026 | Outbound Domestic Wire Processing | $1,500.00 | $30.00 | Wire Service Fee |\n| 03/08/2026 | Merchant POS Debit Card Purchase | $42.50 | $35.00 | Paid Item Fee |\n\n## Investigation Findings\n- Customer contacted Priority Line on 03/11/2026 disputing three fee charges totaling $100.00.\n- Regarding the 03/05 ACH debit: The transaction created a negative ledger balance of -$18.40. Standard overdraft rules apply.\n- Regarding the 03/06 wire: The customer initiated the wire online via the mobile portal. Under the Preferred Checking fee schedule, domestic mobile wires carry a $0.00 promotional charge for enrolled tiered members. System erroneously debited the standard $30.00 fee.\n- Regarding the 03/08 debit card purchase: Customer never opted in to Regulation E overdraft coverage for everyday debit card transactions. Under Consumer Financial Protection Bureau rules, an overdraft fee cannot be assessed on one-time debit purchases without an affirmative opt-in agreement on file.\n\n## Supervisory Action Plan\n- Process a reversal credit of $35.00 for the valid ACH utility overdraft fee.\n- Refund the improperly assessed $30.00 wire transfer fee back to account ending in 4108.\n- Reverse the 03/08 unauthorized overdraft fee of $35.00 via Fee Code R-02.\n- Mail formal Regulation E explanatory notice to the address on file by.\n- Deliver closing call to Ms. Vance within 2 business days to review completed credits.",
+    "errors": [
+      {
+        "quote": "Process a reversal credit of $35.00 for the valid ACH utility overdraft fee.",
+        "start": 1562,
+        "end": 1638,
+        "type": "logic",
+        "explanation": "The memo established in the findings that the 03/05 ACH fee was valid under standard overdraft rules, so instructing to reverse it contradicts the findings and reverses the wrong item.",
+        "fix": "Uphold the $35.00 fee for the valid ACH utility overdraft fee."
+      },
+      {
+        "quote": "Mail formal Regulation E explanatory notice to the address on file by.",
+        "start": 1807,
+        "end": 1877,
+        "type": "omission",
+        "explanation": "The required compliance deadline date for mailing the formal written notice is missing from the end of the sentence.",
+        "fix": "Mail formal Regulation E explanatory notice to the address on file by 03/16/2026."
+      }
+    ]
+  }
+}

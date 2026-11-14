@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "35-3031.00",
+  "taskId": "2283",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Shift Pre-Service Lineup Briefing: Table 14 Dietary Service Plan",
+  "brief": "A pre-service lineup memo and server guide prepared for handling Table 14's party with severe dietary restrictions and menu presentation requests.",
+  "docType": "pre-service briefing",
+  "slip": {
+    "document": "# Shift Pre-Service Lineup Briefing: Table 14 Dietary Service Plan\nService Date: 05/18/2026 | Shift: Dinner (18:30 Cover) | Station: 4 | Server: Marcus Vance\n\n## Party Profile and Allergy Roster\n| Guest Seat | Primary Diet / Severe Allergies | Wine Preference |\n| --- | --- | --- |\n| Seat 1 (Host) | None; prefers dry red wine | Cabernet Sauvignon |\n| Seat 2 | Celiac disease (strict gluten-free, no cross-contact) | Sparkling water |\n| Seat 3 | Severe tree nut anaphylaxis (carries EpiPen) | Pinot Noir |\n| Seat 4 | Strict vegan (no dairy, egg, honey, meat) | Chardonnay |\n\n## Menu Verbal Presentation Notes\n- Seat 1 features the 14 oz Prime Dry-Aged Ribeye ($68) served with charred shallot compound butter and garlic confit fingerlings.\n- For Seat 2, suggest the Pan-Seared Halibut with sweet corn emulsion and blistered heirloom tomatoes, prepared using a sanitized dedicated pan.\n- For Seat 3, recommend the Wild Forest Mushroom Risotto, which features carnaroli rice, black truffles, and shaved toasted hazelnuts garnish.\n- Present the catch of the day special: Wild King Salmon served over baby spinach with lemon dill emulsion.\n\n## Beverage Service and Up-Selling Protocol\n- When presenting wine pairings, present the 2021 Napa Valley Cabernet Sauvignon bottle at tableside to Seat 1, verifying label and vintage before opening.\n- Offer dessert menus after main clearing; remind kitchen to execute all Seat 2 and Seat 3 items on red-marked tickets.",
+    "errors": [
+      {
+        "quote": "recommend the Wild Forest Mushroom Risotto, which features carnaroli rice, black truffles, and shaved toasted hazelnuts garnish.",
+        "start": 899,
+        "end": 1027,
+        "type": "logic",
+        "explanation": "Seat 3 has a documented severe tree nut anaphylaxis, but the server guide directs Marcus to recommend a dish garnished with toasted hazelnuts, which are tree nuts.",
+        "fix": "recommend the Wild Forest Mushroom Risotto with shaved black truffles, omitting the toasted hazelnut garnish to keep it strictly tree nut-free."
+      },
+      {
+        "quote": "Present the catch of the day special: Wild King Salmon served over baby spinach with lemon dill emulsion.",
+        "start": 1030,
+        "end": 1135,
+        "type": "omission",
+        "explanation": "The daily catch special verbal presentation omits the market price or dish cost, which must be provided to guests when verbally introducing daily food specials.",
+        "fix": "Present the catch of the day special: Wild King Salmon served over baby spinach with lemon dill emulsion at $44."
+      }
+    ]
+  }
+}

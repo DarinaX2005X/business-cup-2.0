@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "47-2061.00",
+  "taskId": "11472",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Daily Equipment Log and Fuel Tending Record",
+  "brief": "Daily equipment tending and fueling log for portable pumps, compressors, and generators drafted by an AI assistant from field clipboard notes.",
+  "docType": "equipment log",
+  "slip": {
+    "document": "# Daily Equipment Log and Fuel Tending Record\nSite: Oakridge Highway Widening Project - Station 142+00\nDate: 04/14/2026\nAttendant: Marcus Vance, Laborer Grade II\n\n## Equipment Inventory & Run Times\n| Unit ID | Equipment Type | Rated Capacity | Fuel Type | Run Time (hrs) | Fuel Used (gal) |\n| --- | --- | --- | --- | --- | --- |\n| GEN-01 | Portable Generator | 10 kW | Unleaded | 8.0 | 12.0 |\n| CMP-04 | Towable Air Compressor | 185 CFM | Diesel | 7.5 | 18.5 |\n| PMP-02 | Trash Pump (Dewatering) | 3 in Discharge | Diesel | 6.0 | 9.0 |\n| PMP-05 | Submersible Pump | 2 in Discharge | Electric (GEN-01) | 5.5 | 0.0 |\n\n## Refueling and Fluid Maintenance Log\n- All dipsticks checked prior to 06:30 shift start; 15W-40 oil added to unit CMP-04 (1.5 qt).\n- Dispensed bulk fuel from mobile transfer tank to replenish field equipment.\n- Recorded total diesel dispensed across field units as 32.5 gal during the shift.\n- Secondary containment berms inspected under units PMP-02 and CMP-04; clean and free of standing water.\n\n## Operational Safety and Ventilation Checklist\n- Ambient weather clear, 62°F, wind SW at 6 mph.\n- Grounding rod verified securely bonded on unit GEN-01 with copper clamp.\n- Placed unit GEN-01 inside the enclosed concrete culvert to ensure uninterrupted operation during scheduled trench prep.\n- Fire extinguisher 20 lb ABC verified present on the utility fuel skid, inspection tag dated 03/2026.\n- Spark arrestor screen on unit CMP-04 inspected and cleared of carbon deposits.",
+    "errors": [
+      {
+        "quote": "total diesel dispensed across field units as 32.5 gal",
+        "start": 838,
+        "end": 891,
+        "type": "calculation",
+        "explanation": "The table lists diesel consumption as 18.5 gal for CMP-04 and 9.0 gal for PMP-02 (the only two diesel units), which totals 27.5 gal, not 32.5 gal.",
+        "fix": "total diesel dispensed across field units as 27.5 gal"
+      },
+      {
+        "quote": "Placed unit GEN-01 inside the enclosed concrete culvert to ensure uninterrupted operation",
+        "start": 1190,
+        "end": 1279,
+        "type": "compliance",
+        "explanation": "Operating an internal combustion engine generator inside an enclosed space violates OSHA standard 29 CFR 1926.404(b) / 1926.57 due to lethal carbon monoxide accumulation and asphyxiation hazards.",
+        "fix": "Placed unit GEN-01 in an open, well-ventilated outdoor area to ensure uninterrupted operation"
+      }
+    ]
+  }
+}

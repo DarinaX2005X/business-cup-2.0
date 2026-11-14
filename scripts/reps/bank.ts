@@ -28,7 +28,7 @@ function opt(name: string): string | undefined {
 }
 
 // Tasks that make a readable ten-second document; the first slip task is used when one is not in the week.
-const PREFERRED_LANDING: Record<string, string> = { electrician: 'Code compliance inspection' };
+const PREFERRED_LANDING: Record<string, string> = { electrician: 'Circuit testing' };
 
 interface LedgerRow {
   key: string;

@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "43-4051.00",
+  "taskId": "18565",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Customer Service Call Summary and Case Note",
+  "brief": "Customer service case note documenting an inbound telephone inquiry regarding order tracking, a missing item, and a partial refund.",
+  "docType": "case note",
+  "slip": {
+    "document": "# Customer Service Call Summary and Case Note\nCase ID: CS-88421-B\nRepresentative: Marcus Vance (Ext. 4012)\nDate: 03/18/2026\nCustomer: Elena Rostova\nAccount ID: ACCT-90421\n\n## Order Details\n| Item SKU | Description | Qty | Unit Price | Line Total |\n| --- | --- | --- | --- | --- |\n| HM-410 | Ceramic Planter 10in | 2 | $24.00 | $48.00 |\n| HM-112 | Brass Watering Can | 1 | $35.00 | $35.00 |\n| HM-804 | Organic Potting Mix 8qt | 3 | $12.00 | $36.00 |\n| Total | | 6 | | $119.00 |\n\n## Customer Inquiry Details\nCustomer called at 10:14 AM EST regarding order ORD-55102 placed on 03/10/2026 and delivered on 03/17/2026 via FedEx Ground. Customer stated that parcel tracking indicated complete delivery of the entire package, but the Brass Watering Can was missing from the box upon opening.\n\n- Customer confirmed shipping carton arrived undamaged without external tampering.\n- Warehouse inventory log reviewed; SKU HM-112 was flagged as backordered at fulfillment center FC-3 on 03/11/2026.\n- Advised customer that the missing Brass Watering Can was omitted from shipment due to stock shortage.\n- Processed refund for the missing item totaling $48.00 back to original payment method.\n- Advised customer to allow 3 to 5 business days for bank processing.\n- Issued complimentary shipping coupon for next purchase via email.\n\n## Next Steps\n- Sent confirmation email to customer address on file.\n- No further agent actions required; case closed on first contact.",
+    "errors": [
+      {
+        "quote": "Processed refund for the missing item totaling $48.00 back to original payment method.",
+        "start": 1091,
+        "end": 1177,
+        "type": "fact",
+        "explanation": "The line item table shows the missing Brass Watering Can (HM-112) costs $35.00, not $48.00.",
+        "fix": "Processed refund for the missing item totaling $35.00 back to original payment method."
+      },
+      {
+        "quote": "Issued complimentary shipping coupon for next purchase via email.",
+        "start": 1250,
+        "end": 1315,
+        "type": "omission",
+        "explanation": "Standard case resolution documentation requires the exact promotion or coupon code issued to the customer so future representatives can verify and honor it.",
+        "fix": "Issued complimentary shipping coupon FREESHIP2026 for next purchase via email."
+      }
+    ]
+  }
+}

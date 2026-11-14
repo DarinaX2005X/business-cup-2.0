@@ -1,0 +1,39 @@
+{
+  "type": "slip",
+  "occupationCode": "23-2011.00",
+  "taskId": "23994",
+  "locale": "en",
+  "difficulty": 2,
+  "title": "Closing Statement: Residential Real Property Purchase",
+  "brief": "Draft real estate closing statement prepared for buyer review based on the purchase contract and settlement figures for a residential parcel in Cook County, Illinois.",
+  "docType": "closing statement",
+  "slip": {
+    "document": "# Closing Statement: Residential Real Property Purchase\nFile No: 2026-RE-8841 | Date: 10/16/2026\n\n## Transaction Overview\n- Buyer: Marcus Vance\n- Seller: Elena Rostova\n- Property Address: 4122 N. Hermitage Ave, Unit 2B, Chicago, IL 60613\n- Closing Date: 10/16/2026\n\n## Settlement Financial Summary\n| Category | Due from Buyer | Due to Buyer |\n| --- | --- | --- |\n| Contract Purchase Price | $420,000.00 | $0.00 |\n| Earnest Money Deposit | $0.00 | $15,000.00 |\n| New Mortgage Loan (First National) | $0.00 | $336,000.00 |\n| 2025 General Real Estate Tax Credit | $0.00 | $4,850.00 |\n| Buyer Settlement Charges (Title/Escrow) | $3,450.00 | $0.00 |\n| Title Policy - Lender Coverage | $1,250.00 | $0.00 |\n| Transfer Tax - Municipal / County | $3,150.00 | $0.00 |\n| Totals | $427,850.00 | $355,850.00 |\n| Net Balance Due from Buyer | $72,000.00 | $0.00 |\n\n## Disclosures and Funding Instructions\n- Buyer shall deliver the net balance due of $72,000.00 via uncertified personal check drawn on a local financial institution at the closing table.\n- In accordance with federal law under the Truth in Lending Act and RESPA (TRID), the final Closing Disclosure was acknowledged received by buyer on 10/15/2026 to satisfy the mandatory waiting period before closing.\n- As agreed in Section 8 of the underlying contract, seller provided a credit of $15,000.00 for 2025 general taxes based on 105% of the most recent tax bill.",
+    "errors": [
+      {
+        "quote": "via uncertified personal check drawn on a local financial institution",
+        "start": 946,
+        "end": 1015,
+        "type": "compliance",
+        "explanation": "State good funds laws (including the Illinois Title Insurance Act, 215 ILCS 155/26) prohibit title companies and closing agents from accepting uncertified personal checks for amounts over statutory limits (typically $50,000 or even $5,000); funds must be delivered via wire transfer or certified/cashier's check.",
+        "fix": "via wire transfer to the title company escrow account"
+      },
+      {
+        "quote": "buyer on 10/15/2026 to satisfy the mandatory waiting period",
+        "start": 1178,
+        "end": 1237,
+        "type": "logic",
+        "explanation": "Under TRID rules, the buyer must receive the Closing Disclosure at least 3 business days before consummation/closing. Receipt on 10/15/2026 does not satisfy the mandatory waiting period for a 10/16/2026 closing.",
+        "fix": "buyer on 10/12/2026 to satisfy the mandatory waiting period"
+      },
+      {
+        "quote": "seller provided a credit of $15,000.00 for 2025 general taxes",
+        "start": 1307,
+        "end": 1368,
+        "type": "fact",
+        "explanation": "The settlement summary table lists the 2025 General Real Estate Tax Credit as $4,850.00, whereas the earnest money deposit is $15,000.00.",
+        "fix": "seller provided a credit of $4,850.00 for 2025 general taxes"
+      }
+    ]
+  }
+}

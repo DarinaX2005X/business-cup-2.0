@@ -1,0 +1,83 @@
+{
+  "type": "delegate",
+  "occupationCode": "43-4051.00",
+  "taskId": "2584",
+  "locale": "en",
+  "difficulty": 2,
+  "title": "Account Closure and Transfer Summary",
+  "brief": "Draft an official account discontinuance summary and routing confirmation for back-office processing.",
+  "delegate": {
+    "scenario": "A retail bank customer representative took a walk-in request to close several personal deposit accounts and wire the remaining balances to an external institution. The representative needs to pass a clean, structured discontinuance ticket to the back-office operations team before the end of the day. Operations will execute the wire transfers and deactivate the account profiles based on this record.",
+    "inputs": "Customer: Marcus Vance | SSN Ref: XXX-XX-4819\nReason: Relocating out of state, requesting full service discontinuance.\n\nAccounts to Close:\n- Everyday Checking (#4082): Current balance $1,840.50. Pending debit card transaction of $45.00 at Shell Gas from 10/12/2023.\n- Growth Savings (#9114): Current balance $12,450.00. Accrued monthly interest pending: $14.20.\n- 12-Month CD (#2044): Balance $5,000.00. Maturity date: 11/15/2024. Customer elected immediate liquidation.\n\nTransfer Routing Instructions:\n- Recipient Institution: Horizon Community Bank\n- Routing Number: 071000288\n- Destination Account: 884019234\n- Total requested payout: $19,290.50\n- Forwarding Address: 442 Elm Ridge Way, Boise, ID 83702\n- Written notice signed: Yes\n- In-person ID verified: Current Idaho Driver's License",
+    "goal": "Provide back-office operations with an accurate, unambiguous account discontinuance order that reconciles final disbursement balances and flags pending holds or premature closure conditions.",
+    "criteria": [
+      {
+        "id": "c1",
+        "text": "Identifies back-office deposit operations as the intended recipient and processing audience.",
+        "keywords": [
+          "back-office",
+          "operations team",
+          "processing"
+        ]
+      },
+      {
+        "id": "c2",
+        "text": "Specifies a concise, tabular or field-by-field format detailing account numbers, ledger actions, and routing targets.",
+        "keywords": [
+          "structured format",
+          "table",
+          "field-by-field",
+          "bullet points"
+        ]
+      },
+      {
+        "id": "c3",
+        "text": "Instructs the AI to verify the arithmetic of the total payout against individual account balances and adjustments.",
+        "keywords": [
+          "reconcile totals",
+          "verify arithmetic",
+          "balance check",
+          "sum"
+        ]
+      },
+      {
+        "id": "c4",
+        "text": "Requires flagging any active transaction holds, pending interest, or early withdrawal terms before settlement.",
+        "keywords": [
+          "early withdrawal",
+          "pending transaction",
+          "penalty",
+          "accrued interest"
+        ]
+      },
+      {
+        "id": "c5",
+        "text": "Limits the response to internal bank documentation standards without including conversational filler.",
+        "keywords": [
+          "concise",
+          "internal use only",
+          "no pleasantries",
+          "formal ticket"
+        ]
+      }
+    ],
+    "traps": [
+      {
+        "id": "t1",
+        "description": "The requested total payout ignores the pending debit card transaction and pending interest, creating an incorrect total transfer sum.",
+        "keywords": [
+          "$19,290.50",
+          "$45.00"
+        ]
+      },
+      {
+        "id": "t2",
+        "description": "The customer requests immediate liquidation of a certificate of deposit that matures in the future without accounting for early withdrawal penalties.",
+        "keywords": [
+          "11/15/2024",
+          "immediate liquidation"
+        ]
+      }
+    ]
+  }
+}

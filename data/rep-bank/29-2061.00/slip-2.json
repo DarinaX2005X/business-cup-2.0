@@ -1,0 +1,39 @@
+{
+  "type": "slip",
+  "occupationCode": "29-2061.00",
+  "taskId": "509",
+  "locale": "en",
+  "difficulty": 2,
+  "title": "Call Light Log and Action Summary",
+  "brief": "A call light response and shift documentation log for an LPN covering med-surg rooms 210 through 214 during the evening shift.",
+  "docType": "call light response log",
+  "slip": {
+    "document": "# Call Light Log and Action Summary\nMed-Surg Unit 3B | Shift: 1500-2330 | Date: 10/14/2026\nStaff: Marcus Vance, LPN | Charge Nurse: Brenda Ramos, RN\n\n## Assigned Patient Roster\n| Room | Patient Name | Age | Fall Risk | Diet Order | Primary Diagnosis |\n| --- | --- | --- | --- | --- | --- |\n| 210 | Harold Jensen | 74 | High (Yellow) | NPO (Post-Op) | L Total Hip Arthroplasty |\n| 211 | Evelyn Morales | 68 | Moderate | Regular | Diverticulitis |\n| 212 | Thomas Cleary | 81 | High (Yellow) | Pureed | CVA with dysphagia |\n\n## Call Light Events and Interventions\n\n16:15 - Room 210 (Jensen, H.)\n- Call reason: Patient triggered call pendant requesting water and assistance repositioning in bed.\n- Assessment: Patient reported mild surgical site discomfort rated 4/10.\n- Action: Provided a full 8 oz glass of ice water at bedside to ease dry mouth.\n- Safety: Bed left in lowest position, side rails elevated x2, call device within reach.\n\n17:40 - Room 212 (Cleary, T.)\n- Call reason: Bed alarm activated via telemetry console; patient attempting to exit bed unassisted.\n- Assessment: Patient states urgency to void. Gait unsteady, left-sided hemiparesis noted.\n- Action: Assisted to bedside commode with one-person pivot transfer and gait belt. Voided 250 mL clear yellow urine.\n- Post-intervention: Repositioned safely in bed, bed alarm reactivated, non-skid socks verified.\n\n19:10 - Room 211 (Morales, E.)\n- Call reason: Patient pressed intercom requesting IV pump inspection due to persistent occlusion beeping.\n- Assessment: Peripheral IV in right forearm showed localized redness, slight warmth, and mild edema at the insertion site.\n- Action: Discontinued peripheral IV catheter and applied sterile dressing over site.\n- Follow-up: Informed charge nurse to coordinate re-siting peripheral access.\n\n21:05 - Room 210 (Jensen, H.)\n- Call reason: Call light initiated by patient requesting PRN medication for worsening left hip pain rated 7/10.\n- Action: Administered hydromorphone 0.5 mg IV push per MAR PRN order.\n- Outcome: Patient repositioned with abduction pillow; pain reassessment scheduled for 2135.",
+    "errors": [
+      {
+        "quote": "Provided a full 8 oz glass of ice water at bedside to ease dry mouth.",
+        "start": 775,
+        "end": 844,
+        "type": "fact",
+        "explanation": "Room 210 (Harold Jensen) has a documented diet order of NPO (Post-Op) in the roster table, so giving him an 8 oz glass of water contradicts his active order.",
+        "fix": "Explained NPO status to patient and offered oral swab for moistening lips without liquids."
+      },
+      {
+        "quote": "Discontinued peripheral IV catheter and applied sterile dressing over site.",
+        "start": 1645,
+        "end": 1720,
+        "type": "omission",
+        "explanation": "When discontinuing a peripheral IV catheter, documentation must record inspection of the catheter tip to confirm it was removed intact, preventing missed catheter embolism.",
+        "fix": "Discontinued peripheral IV catheter with intact tip verified and applied sterile dressing over site."
+      },
+      {
+        "quote": "Administered hydromorphone 0.5 mg IV push per MAR PRN order.",
+        "start": 1953,
+        "end": 2013,
+        "type": "compliance",
+        "explanation": "Under standard nurse practice acts and safety standards, LPNs/LVNs are not permitted to administer medications via direct intravenous push (IV push), especially controlled substances like hydromorphone.",
+        "fix": "Reported pain score 7/10 to RN Brenda Ramos, who administered the IV push hydromorphone per MAR."
+      }
+    ]
+  }
+}

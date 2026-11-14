@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "13-1111.00",
+  "taskId": "7276",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Operational Assessment: Commercial Lending Intake Workflow",
+  "brief": "A process evaluation memo analyzing intake bottlenecks and compliance risks in the commercial lending department, drafted from stakeholder interviews and transaction log data.",
+  "docType": "process evaluation memo",
+  "slip": {
+    "document": "# Operational Assessment: Commercial Lending Intake Workflow\nReview of Regional Commercial Credit Facility Operations\n\n## Intake Baseline Metrics\nData sampled across 420 commercial loan applications processed between 01/05/2026 and 02/27/2026.\n\n| Stage | Target Duration | Actual Mean Duration | Variance |\n| --- | --- | --- | --- |\n| Document Collation | 24 hours | 58 hours | +34 hours |\n| KYC / CIP Screening | 4 hours | 6 hours | +2 hours |\n| Initial Financial Spread | 8 hours | 11 hours | +3 hours |\n| Senior Underwriter Assignment | 2 hours | 3 hours | +1 hour |\n\n## Identified Bottlenecks\n- Document collation accounts for 74 percent of all intake cycle delays due to manual portal uploads.\n- Intake specialists currently wait for physical wet-ink signatures before initiating Patriot Act Customer Identification Program checks.\n- File transfers between the front-office portal and credit underwriting databases fail automated validation in 18 percent of cases.\n\n## Procedural Compliance and Risk\nInterviews conducted on 03/03/2026 identified recurring procedural non-compliance in client information gathering:\n- To accelerate high-value approvals, analysts may waive FinCEN beneficial ownership certification for privately held entity applicants borrowing under $250,000.\n- Incomplete packages are logged as pending without triggering formal notices of incomplete application under Regulation B guidelines.\n\n## Remediation Next Steps\n- Reassign two intake clerks to financial spreading because financial spreading causes the largest mean delay across all pipeline stages.\n- Configure core enterprise software to cross-check entity registration numbers directly with state databases prior to routing files.",
+    "errors": [
+      {
+        "quote": "analysts may waive FinCEN beneficial ownership certification for privately held entity applicants borrowing under $250,000.",
+        "start": 1158,
+        "end": 1281,
+        "type": "compliance",
+        "explanation": "Federal FinCEN Customer Due Diligence (CDD) rules require covered financial institutions to identify and verify beneficial ownership for legal entity customers regardless of loan size; staff cannot selectively waive this federal requirement based on dollar thresholds.",
+        "fix": "analysts must collect FinCEN beneficial ownership certification for all covered legal entity applicants regardless of loan amount."
+      },
+      {
+        "quote": "Reassign two intake clerks to financial spreading because financial spreading causes the largest mean delay across all pipeline stages",
+        "start": 1446,
+        "end": 1580,
+        "type": "logic",
+        "explanation": "The intake baseline metrics table shows that document collation has an actual mean duration of 58 hours (+34 hours variance), whereas financial spreading only has an actual mean duration of 11 hours (+3 hours variance), making document collation the largest delay.",
+        "fix": "reassign two intake clerks to document collation because document collation causes the largest mean delay across all pipeline stages."
+      }
+    ]
+  }
+}

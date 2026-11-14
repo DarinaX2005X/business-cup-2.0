@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "35-2011.00",
+  "taskId": "5058",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Kitchen Production Ticket - Expeditor Station",
+  "brief": "A line cook prep slip and expeditor assembly guide for an order ticket with custom ingredient modifications, drafted from POS inputs.",
+  "docType": "kitchen production ticket",
+  "slip": {
+    "document": "# Kitchen Production Ticket - Expeditor Station\nOrder 142 - Dine In - Table 6 - Time: 12:44 PM\n\n## Order Summary Table\n| Item | Base Spec | Modifications | Station |\n| --- | --- | --- | --- |\n| 1x Double Smashburger | Two 3 oz beef patties, cheddar, pickles, sauce | Sub Swiss, NO pickles, ADD bacon | Grill |\n| 1x Crispy Chicken Sandwich | Fried chicken breast, slaw, spicy mayo, brioche | NO spicy mayo, ADD sliced tomato | Fryer |\n| 1x Large Seasoned Fries | 8 oz fries, house blend seasoning | Salt only, NO house blend | Fryer |\n| 1x Grilled Chicken Wrap | 6 oz sliced chicken, romaine, ranch, wheat wrap | Sub ranch for vinaigrette, ADD cheddar | Flat top |\n\n## Cooking and Assembly Instructions\n- Drop two 3 oz patties on the grill, smash thin, sear for 90 seconds per side, and melt one slice of cheddar over the top.\n- Toast a brioche bun, spread standard mayo on bottom heel, place fried breast, layer sliced tomato, and finish with slaw on top crown.\n- Drop 8 oz french fries in dedicated fry vat at 350°F for 3 minutes until golden brown.\n- Dump cooked fries into clean prep bowl, sprinkle with salt only, and toss thoroughly.\n- Warm wheat tortilla on flat top for 10 seconds, assemble sliced grilled chicken breast with romaine lettuce, vinaigrette, and shredded cheddar.\n- Because Table 6 requested no seasoning blend on the fries, double-season the patties with house rub before plating.",
+    "errors": [
+      {
+        "quote": "melt one slice of cheddar over the top",
+        "start": 786,
+        "end": 824,
+        "type": "fact",
+        "explanation": "The order summary specifies 'Sub Swiss' for the Double Smashburger, but the cooking instruction specifies melting cheddar instead.",
+        "fix": "melt one slice of Swiss over the top"
+      },
+      {
+        "quote": "Because Table 6 requested no seasoning blend on the fries, double-season the patties with house rub before plating.",
+        "start": 1287,
+        "end": 1402,
+        "type": "logic",
+        "explanation": "A customer requesting no seasoning on their fries does not logically lead to adding double seasoning rub to the burger patties, which directly contradicts proper prep standards and dietary preferences.",
+        "fix": "Season the patties with standard salt and pepper before plating."
+      }
+    ]
+  }
+}

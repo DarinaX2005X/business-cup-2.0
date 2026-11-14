@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "31-1122.00",
+  "taskId": "2371",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Home Care Daily Activity and Condition Log",
+  "brief": "Daily shift report and change-of-condition documentation for an 81-year-old home care client, drafted by an AI assistant from aide visit notes.",
+  "docType": "client progress charting",
+  "slip": {
+    "document": "# Home Care Daily Activity and Condition Log\nClient: Arthur Vance | DOB: 04/12/1944 | Plan ID: HC-9942\nAide: Marcus Cole, PCA | Supervisor: Elena Torres, RN | Date: 10/14/2026\n\n## Shift Summary and ADL Support\n- Shift hours: 08:00 to 14:00.\n- Assisted client with warm shower, standby assist with shower chair and grab bars.\n- Dressed in clean daytime clothes; assisted with non-skid socks and slip-on orthopedic shoes.\n- Prepared breakfast: scrambled eggs, 1 slice whole wheat toast, 4 oz orange juice, 8 oz black coffee.\n- Prepared lunch: 1 cup chicken noodle soup, half tuna salad sandwich, 8 oz water.\n- Assisted with light tidying: washed dishes, cleared kitchen counters, emptied bedside commode.\n\n## Baseline Reference Data\n| Measurement | Baseline Norm | 10/14 Morning Value |\n| --- | --- | --- |\n| Weight | 168.0 lb | 173.5 lb |\n| Radial Pulse | 68-76 bpm | 72 bpm |\n| Ambulation Distance | 150 ft with walker | 45 ft before resting |\n\n## Observations and Changes in Condition\n- Noticed 2+ pitting edema in bilateral ankles and lower legs during morning socks application.\n- Client expressed shortness of breath after walking from the bedroom to the living room chair.\n- Confirmed a 5.5 lb weight loss since last week, so no fluid retention concern was present.\n- Skin on lower extremities intact, warm to touch, without red patches or broken skin.\n\n## Supervisor Notification and Action Plan\n- Contacted Elena Torres, RN at 11:15 to report lower extremity swelling and exertional fatigue.\n- Supervisor instructed aide to elevate client legs on recliner footrest with two pillows while seated.\n- Reminded client of scheduled physical therapy session at 15:30 today.\n- Documented shift end and logged client response to position changes.",
+    "errors": [
+      {
+        "quote": "Confirmed a 5.5 lb weight loss since last week",
+        "start": 1180,
+        "end": 1226,
+        "type": "logic",
+        "explanation": "The baseline reference table indicates the client's weight went from a baseline of 168.0 lb to 173.5 lb, which is a 5.5 lb weight gain, directly contradicting the statement that there was a weight loss.",
+        "fix": "Confirmed a 5.5 lb weight gain since last week"
+      },
+      {
+        "quote": "Contacted Elena Torres, RN at 11:15 to report lower extremity swelling and exertional fatigue.",
+        "start": 1404,
+        "end": 1498,
+        "type": "omission",
+        "explanation": "The notification entry does not state the communication method used (such as by telephone, text, or secure portal) or the required supervisory acknowledgment details for urgent change-of-condition reporting.",
+        "fix": "Contacted Elena Torres, RN via telephone at 11:15 to report lower extremity swelling and exertional fatigue."
+      }
+    ]
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "35-2014.00",
+  "taskId": "2173",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Expo Line Plating & Allergen Guide - Dinner Service",
+  "brief": "Plating and garnishing guide for dinner service drafted from banquet event orders and the standard kitchen spec sheet.",
+  "docType": "plating guide",
+  "slip": {
+    "document": "# Expo Line Plating & Allergen Guide - Dinner Service\nStation: Expediter / Saute & Grill Plating\nDate: 10/14/2026\nService: 5:00 PM - 10:00 PM\n\n## Table Specifications & Allergies\n| Table | Party Size | Dish | Special Dietary Alert |\n| --- | --- | --- | --- |\n| 14 | 4 | Pan-Seared Halibut | Severe Allium (Garlic / Onion / Shallot) |\n| 22 | 2 | USDA Prime Ribeye (12 oz) | Celiac (Gluten-Free) |\n| 31 | 6 | Herb-Roasted Half Chicken | Tree Nut Allergy |\n\n## Plating Standards\n- Pan-Seared Halibut: Center 6 oz portion over 4 oz celery root puree. Ladle 1.5 oz lemon-caper beurre blanc around the base. Wipe rim with dry linen.\n- USDA Prime Ribeye: Slice against grain into 5 thick ribbons. Fan across warmed oval stoneware. Top with compound herb butter round.\n- Herb-Roasted Half Chicken: Rest half chicken over roasted fingerling potatoes and glazed baby carrots. Pour 2 oz pan au jus directly over crisp skin.\n\n## Garnishing Instructions\n- Table 14 Halibut: Top fish portion with flash-fried leek ribbons and finish rim with smoked sea salt.\n- Table 22 Ribeye: Sprinkle with Maldon flaked salt and finish with micro-arugula sprigs.\n- Table 31 Chicken: Scatter chopped toasted hazelnuts and charred rosemary sprig at 2 o clock.\n\n## Line Hold Temperatures & Passing Protocols\n- Verify hot proteins maintain a minimum internal holding temperature of 140 F before leaving window.\n- Sauces on hot well must be held at or above 145 F throughout service.\n- Wipe all plate rims with clean towel before releasing to food runner.\n- Call all completed tickets to runner station.",
+    "errors": [
+      {
+        "quote": "Top fish portion with flash-fried leek ribbons",
+        "start": 961,
+        "end": 1007,
+        "type": "logic",
+        "explanation": "Leeks belong to the allium family, which directly contradicts the severe allium allergy noted for Table 14 in the specifications table.",
+        "fix": "Top fish portion with fresh chervil sprigs"
+      },
+      {
+        "quote": "Wipe all plate rims with clean towel before releasing to food runner.",
+        "start": 1453,
+        "end": 1522,
+        "type": "omission",
+        "explanation": "Standard kitchen sanitation protocols require wiping plate rims with a clean towel dipped in sanitizer or using a designated dry food-safe disposable wipe, rather than a generic or dry dirty towel, or omitting the required sanitizer dip designation.",
+        "fix": "Wipe all plate rims with a sanitizer-dipped clean towel before releasing to food runner."
+      }
+    ]
+  }
+}

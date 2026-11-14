@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "11-3031.00",
+  "taskId": "21317",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Commercial Credit Memorandum: Apex Cold Storage LLC",
+  "brief": "A commercial credit memorandum evaluating a term loan application for warehouse expansion, drafted from borrower financial statements and underwriting models.",
+  "docType": "credit memorandum",
+  "slip": {
+    "document": "# Commercial Credit Memorandum: Apex Cold Storage LLC\nApplication ID: COMM-2026-8814\nDate: 04/14/2026\nUnderwriter: Marcus Vance\n\n## Request Summary\n| Parameter | Value |\n| --- | --- |\n| Requested Facility | Senior Secured Term Loan |\n| Loan Amount | $2,400,000 |\n| Purpose | Expansion of facility in Des Moines, IA |\n| Proposed Term | 120 months |\n| Amortization | 240 months |\n| Proposed Interest Rate | SOFR + 2.75% |\n\n## Financial Summary (FY 2025)\n| Metric | FY 2024 | FY 2025 |\n| --- | --- | --- |\n| Gross Revenue | $8,450,000 | $9,200,000 |\n| Operating Expenses | $6,100,000 | $6,550,000 |\n| Net Operating Income | $2,350,000 | $2,650,000 |\n| Annual Debt Service (Existing) | $620,000 | $620,000 |\n| Proposed New Debt Service | $0 | $210,000 |\n| Total Combined Debt Service | $620,000 | $830,000 |\n| Debt Service Coverage Ratio (DSCR) | 3.79x | 3.19x |\n\n## Collateral & Guarantees\n| Asset Description | Appraised Value | Prior Liens | Net Equity |\n| --- | --- | --- | --- |\n| Cold Storage Facility (Des Moines) | $4,500,000 | $1,200,000 | $3,300,000 |\n| New Refrigeration Equipment | $1,100,000 | $0 | $1,100,000 |\n| Total Collateral Base | $5,600,000 | $1,200,000 | $4,400,000 |\n\n## Underwriting Analysis\nThe borrower demonstrates robust operating performance with FY 2025 Net Operating Income reaching $2,650,000. Post-issuance, the combined annual debt service increases to $830,000, leaving a strong Debt Service Coverage Ratio of 3.19x, which comfortably exceeds our credit policy benchmark of 1.25x.\n\nThe proposed collateral package provides sufficient security. However, the loan-to-value calculation requires attention: the requested loan of $2,400,000 against the total collateral base of $5,600,000 yields an unadjusted LTV of 62.5%.\n\n## Recommendation & Approval Conditions\n- Primary collateral: First mortgage on Des Moines real estate and first perfected UCC-1 on new refrigeration equipment.\n- Personal guaranty required from majority owner Harlan Finch with standard recourse.\n- Minimum global DSCR covenant of 1.25x tested annually on December 31.\n- Borrower must maintain a working capital balance of at least $500,000.",
+    "errors": [
+      {
+        "quote": "requested loan of $2,400,000 against the total collateral base of $5,600,000 yields an unadjusted LTV of 62.5%",
+        "start": 1638,
+        "end": 1748,
+        "type": "fact",
+        "explanation": "The loan-to-value (LTV) calculation is factually incorrect. $2,400,000 divided by $5,600,000 equals 42.86% (or ~42.9%), not 62.5%.",
+        "fix": "requested loan of $2,400,000 against the total collateral base of $5,600,000 yields an unadjusted LTV of 42.9%"
+      },
+      {
+        "quote": "Personal guaranty required from majority owner Harlan Finch with standard recourse.",
+        "start": 1914,
+        "end": 1997,
+        "type": "omission",
+        "explanation": "A credit memorandum covenant requiring a personal guaranty must specify the guarantor's ownership percentage (or specific guarantee amount/percentage), which is missing here.",
+        "fix": "Personal guaranty required from 100% majority owner Harlan Finch with standard recourse."
+      }
+    ]
+  }
+}

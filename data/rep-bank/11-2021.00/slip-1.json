@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "11-2021.00",
+  "taskId": "20709",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Campaign Launch Brief: OmniTrack Pro Q2 Launch",
+  "brief": "A campaign launch brief for the OmniTrack Pro enterprise software launch, outlining channel allocation, KPIs, schedule, and team responsibilities.",
+  "docType": "campaign launch brief",
+  "slip": {
+    "document": "# Campaign Launch Brief: OmniTrack Pro Q2 Launch\nOmniTrack Solutions - Enterprise Division\n\n## Campaign Overview\n- Objective: Drive qualified enterprise pipeline for OmniTrack Pro\n- Flight Dates: 05/04/2026 to 06/30/2026\n- Target Audience: Operations Directors and Fleet Managers in mid-market logistics\n- Primary Goal: Generate 450 Marketing Qualified Leads (MQLs) at target CPA below $175\n\n## Channel Allocations and Budget\n| Channel | Allocated Budget | Primary Format | Projected Leads |\n| --- | --- | --- | --- |\n| Paid Search | $28,000 | High-intent non-brand keyword ads | 160 |\n| Paid Social | $32,000 | Sponsored InMail and video demos | 190 |\n| Industry Webinars | $15,000 | Co-hosted thought leadership panel | 100 |\n| Total | $75,000 | Blended Mix | 450 |\n\n## Action Plan and Deliverables\n- Ad Creative Review: Advertising manager Derek Soto must deliver finalized creative assets for all channels.\n- Landing Page QA: Creative ops will audit tracking pixels and ensure the primary landing page includes a prominent contact form, clear value proposition, and customer testimonials.\n- Paid Search Setup: The paid media specialist will launch Google Ads campaigns using an allocated budget of $38,000 across targeted logistics keywords.\n- Email Nurture Sequence: Deploy 4-part automated email series for webinar attendees triggered within 24 hours of live event completion.\n- Weekly Reporting: Lead status updates and spend tracking distributed every Monday by 10:00 AM EDT to marketing leadership.",
+    "errors": [
+      {
+        "quote": "Derek Soto must deliver finalized creative assets for all channels.",
+        "start": 843,
+        "end": 910,
+        "type": "omission",
+        "explanation": "A campaign launch deliverable item must specify a firm due date or deadline for asset delivery, but none is provided.",
+        "fix": "Derek Soto must deliver finalized creative assets for all channels by 04/24/2026."
+      },
+      {
+        "quote": "using an allocated budget of $38,000 across targeted logistics keywords.",
+        "start": 1173,
+        "end": 1245,
+        "type": "fact",
+        "explanation": "The Channel Allocations table specifically sets the Paid Search budget at $28,000, not $38,000.",
+        "fix": "using an allocated budget of $28,000 across targeted logistics keywords."
+      }
+    ]
+  }
+}

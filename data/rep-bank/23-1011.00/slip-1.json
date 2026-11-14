@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "23-1011.00",
+  "taskId": "3774",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Legal Memorandum: Application of WARN Act Thresholds to Reductions in Force",
+  "brief": "A legal memorandum analyzing whether a planned reduction in force across two corporate branch locations triggers the federal Worker Adjustment and Retraining Notification (WARN) Act advance notice requirements.",
+  "docType": "legal memorandum",
+  "slip": {
+    "document": "# Legal Memorandum: Application of WARN Act Thresholds to Reductions in Force\nClient Advisory Note\n\n## Client and Facility Details\n| Facility Location | Active Full-Time Employees | Active Part-Time Employees | Planned Terminations (Effective 05/15/2026) |\n| --- | --- | --- | --- |\n| Site A (Dallas Facility) | 180 | 25 | 60 |\n| Site B (Plano Facility) | 45 | 10 | 22 |\n\n## Statutory Framework\nUnder 29 U.S.C. Section 2101 et seq., the federal WARN Act applies to business enterprises employing at least 100 full-time employees, or 100 or more employees who in the aggregate work at least 4,000 hours per week. Advance notice must be provided at least 60 calendar days prior to a qualifying employment loss.\n\nA mass layoff triggers notice requirements if an employment loss affects at least 33 percent of active full-time workers and at least 50 full-time workers at a single site of employment. Alternatively, an employment loss of 500 or more full-time employees triggers notice regardless of the percentage of the workforce affected.\n\n## Analysis\n- Site A currently maintains 180 active full-time personnel, meaning the planned termination of 60 full-time workers represents exactly 30 percent of the site's full-time workforce.\n- Because 60 terminations exceeds the absolute threshold of 50 full-time workers and satisfies the 33 percent requirement, Site A qualifies as a covered mass layoff.\n- Site B does not trigger mass layoff provisions on a standalone basis because total terminations remain well below the minimum threshold of 50 affected full-time workers.\n- The Dallas and Plano facilities operate under distinct operational management and geographic separation, precluding single-site aggregation under 20 CFR Section 639.3(i).\n\n## Recommended Actions\n- Issue formal written notice to Dallas site employees and the Texas Workforce Commission on or before 03/16/2026.\n- Maintain standard non-WARN separation workflows for all departing Plano facility personnel.",
+    "errors": [
+      {
+        "quote": "represents exactly 30 percent of the site's full-time workforce",
+        "start": 1168,
+        "end": 1231,
+        "type": "fact",
+        "explanation": "60 terminations out of 180 full-time employees equals 33.33 percent (one-third), not 30 percent.",
+        "fix": "represents approximately 33.3 percent of the site's full-time workforce"
+      },
+      {
+        "quote": "Because 60 terminations exceeds the absolute threshold of 50 full-time workers and satisfies the 33 percent requirement",
+        "start": 1235,
+        "end": 1354,
+        "type": "logic",
+        "explanation": "The analysis directly contradicts its immediately preceding bullet point, which incorrectly stated the reduction was only 30 percent (which would fail the 33 percent rule).",
+        "fix": "Because 60 terminations meets the statutory requirement of at least 33 percent and exceeds 50 full-time workers"
+      }
+    ]
+  }
+}

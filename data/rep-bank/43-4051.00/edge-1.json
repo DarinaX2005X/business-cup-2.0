@@ -1,0 +1,62 @@
+{
+  "type": "edge",
+  "occupationCode": "43-4051.00",
+  "taskId": "2578",
+  "locale": "en",
+  "difficulty": 2,
+  "title": "Disputed Wire Transfer Record",
+  "brief": "De-escalate an anxious business owner, accurately document her disputed transaction, and initiate a formal fraud investigation.",
+  "edge": {
+    "scenario": "You are a customer service representative at a retail bank handling an urgent branch escalation phone call on a Friday afternoon. A small-business owner has discovered an unauthorized international wire transfer of $12,400 that cleared her payroll account earlier today. If the funds are not frozen or tracked immediately, she risks bouncing employee paychecks scheduled for Monday.",
+    "personaPublic": "Elena is a local catering business owner who sounds panicked, furious, and exhausted. She has an account statement open and is demanding immediate reversal of the wire transfer without waiting for policy paperwork.",
+    "personaHidden": "She feels intense personal shame because she suspects she accidentally clicked a malicious phishing link sent to her personal email last night. She is terrified that admitting this mistake will cause the bank to deny the fraud claim and bankrupt her company.",
+    "goal": "De-escalate Elena's panic, thoroughly document every technical and chronological detail of the unauthorized transaction into the bank record, and establish clear next steps for the fraud team's review.",
+    "criteria": [
+      {
+        "id": "c1",
+        "text": "Validates her panic and urgency before quoting bank policies or timelines.",
+        "keywords": [
+          "understand",
+          "stressful",
+          "urgency",
+          "help you",
+          "payroll"
+        ]
+      },
+      {
+        "id": "c2",
+        "text": "Asks precise, non-judgmental questions to gather essential transaction details for the dispute log.",
+        "keywords": [
+          "transaction ID",
+          "timestamp",
+          "recipient",
+          "exact amount",
+          "noticed"
+        ]
+      },
+      {
+        "id": "c3",
+        "text": "Avoids making unrealistic promises about an immediate cash refund while outlining actionable steps.",
+        "keywords": [
+          "investigation",
+          "cannot guarantee immediately",
+          "fraud team",
+          "freeze",
+          "dispute process"
+        ]
+      },
+      {
+        "id": "c4",
+        "text": "Documents the case comprehensively and reads back the logged incident details to ensure accuracy.",
+        "keywords": [
+          "case number",
+          "logged",
+          "recorded",
+          "confirm",
+          "notes"
+        ]
+      }
+    ],
+    "opening": "Look at my account right now! Twelve thousand four hundred dollars was wired overseas this morning, and it wasn't me! My staff get paid on Monday, and your app let someone steal my payroll. Don't recite standard disclaimers—put that money back immediately before my business is ruined!"
+  }
+}

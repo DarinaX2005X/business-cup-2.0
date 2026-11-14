@@ -1,0 +1,23 @@
+{
+  "type": "slip",
+  "occupationCode": "47-2111.00",
+  "taskId": "2878",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Subpanel Feeder Continuity and Voltage Drop Inspection Log",
+  "brief": "Circuit testing and verification log drafted from field notes for a newly installed 100 A subpanel feeder at a bank branch.",
+  "docType": "inspection log",
+  "slip": {
+    "document": "# Subpanel Feeder Continuity and Voltage Drop Inspection Log\n\nOn 03/12/2026, Marcus Vance completed continuity and operational load checks on the 120/240 V feeder serving teller panel LP-2 at Apex National Bank. Phase A measured 120.4 V line-to-neutral at 0.18 ohms loop resistance, while Phase B measured 120.6 V with 0.22 ohms loop resistance. Under an applied test load of 40.0 A per phase, the line-to-neutral voltage drop for Phase A calculates to 9.2 V across the run. All conductor insulation resistances verified above 50 megohms at 1,000 V DC.",
+    "errors": [
+      {
+        "quote": "calculates to 9.2 V across the run",
+        "type": "calculation",
+        "explanation": "By Ohm's law (V = I * R), an applied load of 40.0 A across Phase A's 0.18 ohms loop resistance produces a voltage drop of 7.2 V (40.0 * 0.18 = 7.2), not 9.2 V.",
+        "fix": "calculates to 7.2 V across the run",
+        "start": 439,
+        "end": 473
+      }
+    ]
+  }
+}

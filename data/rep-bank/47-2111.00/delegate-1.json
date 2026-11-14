@@ -1,0 +1,76 @@
+{
+  "type": "delegate",
+  "occupationCode": "47-2111.00",
+  "taskId": "2873",
+  "locale": "en",
+  "difficulty": 2,
+  "title": "Subpanel rough-in punch list",
+  "brief": "A concise rough-in installation briefing and material check for an apprentice working on a commercial kitchen subpanel.",
+  "delegate": {
+    "scenario": "You are a lead journeyman electrician preparing the daily work plan for an apprentice wiring a commercial kitchen subpanel. The apprentice needs clear, sequential installation steps and a verified parts check before rough-in inspection tomorrow morning. The output must prevent costly rework and ensure strict compliance with National Electrical Code requirements.",
+    "inputs": "Panel: Subpanel B (Kitchen remodel, Oakview Diner).\nFeed: 100A, 120/208V 3-phase from Main Switchboard, breaker 4.\nConduit run: 85 ft of 1-1/4\" EMT already in place overhead.\nConductors listed in job tote:\n- 3x #3 AWG THHN Copper (Line 1, Line 2, Line 3)\n- 1x #8 AWG THHN Copper (Neutral)\n- 1x #8 AWG bare Copper (Equipment Ground)\nScheduled kitchen equipment loads to land today:\n- Walk-in cooler: 30A 208V 1-ph (needs 2-pole breaker, #10 AWG)\n- Convection oven: 50A 208V 3-ph (needs 3-pole breaker, #6 AWG)\n- Dishwasher booster heater: 40A 208V 3-ph (needs 3-pole breaker, #8 AWG)\n- Handwash sink dedicated GFCI: 20A 120V 1-ph (needs 1-pole breaker, #12 AWG)\nNotes from morning walk:\n- Subpanel enclosure is NEMA 1 indoor surface mount.\n- Main panel breaker 4 is tagged at 125A in the switchgear schedule.",
+    "goal": "Provide the apprentice with an actionable step-by-step installation plan that flags discrepancies and ensures code-compliant panel assembly before tomorrow's inspection.",
+    "criteria": [
+      {
+        "id": "c1",
+        "text": "Specifies the target reader is an electrical apprentice needing clear sequential installation steps.",
+        "keywords": [
+          "apprentice",
+          "step-by-step",
+          "workflow",
+          "sequence"
+        ]
+      },
+      {
+        "id": "c2",
+        "text": "Requires a structured breakdown separating feeder verification, equipment branch circuits, and grounding details.",
+        "keywords": [
+          "feeder",
+          "branch circuits",
+          "grounding",
+          "subpanel",
+          "sections"
+        ]
+      },
+      {
+        "id": "c3",
+        "text": "Instructs the AI to verify wire gauges and ampacity ratings against breaker sizes and code standards.",
+        "keywords": [
+          "ampacity",
+          "wire gauge",
+          "breaker rating",
+          "NEC code",
+          "sizing"
+        ]
+      },
+      {
+        "id": "c4",
+        "text": "Limits the response to a single-page checklist or punch list format under 350 words.",
+        "keywords": [
+          "bullet points",
+          "checklist",
+          "punch list",
+          "under 350 words",
+          "concise"
+        ]
+      }
+    ],
+    "traps": [
+      {
+        "id": "t1",
+        "description": "The feeder neutral wire is severely undersized for a 100A feeder serving 120V line-to-neutral loads.",
+        "keywords": [
+          "1x #8 AWG THHN Copper (Neutral)"
+        ]
+      },
+      {
+        "id": "t2",
+        "description": "Contradictory feeder overcurrent protection sizing between the job notes and the switchgear schedule.",
+        "keywords": [
+          "100A",
+          "125A in the switchgear schedule"
+        ]
+      }
+    ]
+  }
+}

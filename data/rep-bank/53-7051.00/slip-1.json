@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "53-7051.00",
+  "taskId": "3202",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Shift Pre-Operation Inspection and Staging Plan",
+  "brief": "Shift pre-operation inspection and material movement staging plan drafted from warehouse equipment telemetry and inbound staging manifests.",
+  "docType": "forklift inspection plan",
+  "slip": {
+    "document": "# Shift Pre-Operation Inspection and Staging Plan\nFacility: Apex Logistics Hub 4, Baytown, TX\nDate: 10/14/2026\nOperator: Marcus Vance (Badge #4412)\nEquipment ID: FL-08 (Sit-down Counterbalance Electric Forklift)\n\n## Equipment Specifications and Telemetry\n| Parameter | Specification / Reading |\n| --- | --- |\n| Rated Capacity (24-inch Load Center) | 5,000 lb |\n| Mast Type | 3-Stage Full Free Lift (189 in max) |\n| Battery Charge State | 88% |\n| Hydraulic Fluid Level | Normal |\n| Tire Condition | Solid Pneumatic - No chunking |\n| Staging Bay Assignment | Inbound Bay 14 to Racks E-04/E-06 |\n\n## Visual and Operational Checklist\n- Overhead guard: Secure, no weld fractures or structural distortion.\n- Forks and mast assembly: Locking pins engaged, heel wear under 10%, chains lubricated.\n- Hydraulic functions: Smooth lift, lower, tilt, and side-shift operation confirmed.\n- Safety devices: Seat switch functional, backup alarm verified at 95 dB.\n- Brake system inspection: Operator checked pedal resistance.\n\n## Inbound Pallet Manifest Summary\n| Pallet ID | Commodity Description | Unit Weight | Dimensions (L x W x H) |\n| --- | --- | --- | --- |\n| PLT-8801 | Cast Iron Pipe Fittings | 3,850 lb | 48 in x 40 in x 42 in |\n| PLT-8802 | Machined Flanges | 5,600 lb | 48 in x 48 in x 46 in |\n| PLT-8803 | Galvanized Conduit Bundles | 2,900 lb | 48 in x 42 in x 38 in |\n\n## Staging and Transport Instructions\n- Transfer PLT-8801 from Bay 14 to lower rack slot E-04-A, maintaining load height 4 to 6 inches above floor grade during travel.\n- Use FL-08 to transport PLT-8802 directly to rack slot E-06-B in a single cycle.\n- Move PLT-8803 to aisle staging buffer using standard backward tilt to stabilize the bundle.\n- Maintain 5 mph speed limit inside rack aisles and sound horn at cross-aisle blind spots.",
+    "errors": [
+      {
+        "quote": "Brake system inspection: Operator checked pedal resistance.",
+        "start": 950,
+        "end": 1009,
+        "type": "omission",
+        "explanation": "A standard pre-operation brake inspection must verify both service brakes and the parking brake hold capability.",
+        "fix": "Brake system inspection: Operator checked pedal resistance and confirmed parking brake hold."
+      },
+      {
+        "quote": "Use FL-08 to transport PLT-8802 directly to rack slot E-06-B",
+        "start": 1538,
+        "end": 1598,
+        "type": "logic",
+        "explanation": "FL-08 has a maximum rated capacity of 5,000 lb, but PLT-8802 weighs 5,600 lb, exceeding the lift capacity.",
+        "fix": "Flag PLT-8802 for transport using heavy-duty lift FL-02"
+      }
+    ]
+  }
+}

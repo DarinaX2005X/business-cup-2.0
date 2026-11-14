@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "35-2021.00",
+  "taskId": "18728",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Closing Sanitation and Dishwashing Log - Prep Station B",
+  "brief": "Closing cleaning and chemical sanitizing checklist drafted for kitchen prep staff at the end of the evening shift.",
+  "docType": "sanitation log",
+  "slip": {
+    "document": "# Closing Sanitation and Dishwashing Log - Prep Station B\nShift Date: 10/14/2026 | Shift: Dinner (10:30 PM Close) | Location: Red Cedar Tavern\n\n## Chemical Dispenser Reference Standards\n| Chemical Agent | Target Concentration | Minimum Contact Time | Required Water Temp |\n| --- | --- | --- | --- |\n| Quaternary Ammonium (Sink 3) | 200 - 400 ppm | 60 seconds | 75°F - 90°F |\n| Chlorine Bleach (Surface Spray) | 50 - 100 ppm | 30 seconds | 75°F - 100°F |\n\n## 3-Compartment Sink Setup and Dish Processing\n- Compartment 1 filled with warm water at 115°F and multi-surface degreaser detergent.\n- Compartment 2 filled with clean rinse water at 110°F.\n- Compartment 3 filled with quaternary ammonium solution; test strip verified concentration at 250 ppm.\n- Prep knives, stainless steel mixing bowls, and lexan pans washed, rinsed, and fully immersed in Compartment 3.\n- Submerged all utensils in Compartment 3 for a contact time of 10 seconds before racking.\n- Racked washed items on wire shelving and allowed them to air dry fully before nesting.\n\n## Surface and Equipment Sanitation\n- Cleared all organic debris and scraps from maple cutting blocks and prep counters into trash.\n- Washed stainless prep table tops with warm detergent solution and wiped clean with fresh bar towels.\n- Sanitized stainless steel surfaces with chlorine spray verified at 75 ppm using test strips.\n- Commercial food slicer dismantled: carriage and blade guard hand-washed, sanitized, and reassembled.\n- Sweep floor, squeegee water toward the floor drain, and mop with heavy-duty floor cleaner.",
+    "errors": [
+      {
+        "quote": "Submerged all utensils in Compartment 3 for a contact time of 10 seconds before racking.",
+        "start": 865,
+        "end": 953,
+        "type": "fact",
+        "explanation": "The reference table specifies a minimum contact time of 60 seconds for the quaternary ammonium sanitizer, so 10 seconds is inadequate contact time according to both FDA Food Code and the table.",
+        "fix": "Submerged all utensils in Compartment 3 for a contact time of 60 seconds before racking."
+      },
+      {
+        "quote": "Sweep floor, squeegee water toward the floor drain, and mop with heavy-duty floor cleaner.",
+        "start": 1479,
+        "end": 1569,
+        "type": "omission",
+        "explanation": "Floor cleaning protocols in food preparation closing procedures require specifying the floor sanitizer or disinfectant dilution rather than omitting the sanitizing agent after scrubbing.",
+        "fix": "Sweep floor, mop with heavy-duty floor cleaner diluted at 2 oz per gallon, and squeegee water toward the floor drain."
+      }
+    ]
+  }
+}

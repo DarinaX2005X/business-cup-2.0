@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "25-2022.00",
+  "taskId": "6575",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Grade 7 Life Science Lesson Plan: Cellular Organelles",
+  "brief": "A 50-minute Grade 7 science lesson plan on animal and plant cell organelles drafted from state standards and the district pacing guide.",
+  "docType": "lesson plan",
+  "slip": {
+    "document": "# Grade 7 Life Science Lesson Plan: Cellular Organelles\nDate: 10/14/2026 | Teacher: Marcus Vance | Period: 3 (10:15 AM - 11:05 AM)\n\n## Standard and Objective\n- Standard: MS-LS1-2 (Develop and use a model to describe the function of a cell as a whole and ways parts of cells contribute to the function).\n- Objective: SWBAT compare plant and animal cell structures by correctly identifying at least 5 shared and unique organelles on an exit ticket.\n\n## Materials and Station Setup\n| Item | Quantity | Location |\n| --- | --- | --- |\n| Compound light microscopes | 12 | Counter B |\n| Prepared slides (Elodea leaf) | 14 | Tray 1 |\n| Prepared slides (Cheek epithelial) | 14 | Tray 2 |\n| Organelle reference cards | 28 | Student Desks |\n\n## Instructional Sequence\n- 10:15 - 10:23 AM: Warm-Up & Hook. Students complete two review questions on cell theory in science journals, then review responses.\n- 10:23 - 10:35 AM: Direct Instruction. Present slides 4 through 11 covering nucleus, cell membrane, cytoplasm, mitochondria, vacuole, chloroplast, and cell wall.\n- 10:35 - 10:50 AM: Partner Laboratory Investigation. Students examine both slides under 100x and 400x magnification to sketch and label structures.\n- During the microscope lab, identify chloroplasts in cheek epithelial cells and record observations in lab notebooks.\n- 10:50 - 11:05 AM: Formative Assessment. Administer the organelle identification exit ticket.\n\n## Accommodations and Differentiation\n- EL Support: Provide bilingual organelle reference charts with visual diagrams to Leo G. and Sofia R.\n- IEP Modification: Provide reduced-choice exit ticket with a word bank for Marcus T. and Elena W.",
+    "errors": [
+      {
+        "quote": "identify chloroplasts in cheek epithelial cells",
+        "start": 1232,
+        "end": 1279,
+        "type": "fact",
+        "explanation": "Cheek epithelial cells are animal cells and do not contain chloroplasts; chloroplasts are found in plant cells such as the Elodea leaf specimen.",
+        "fix": "identify chloroplasts in Elodea leaf cells"
+      },
+      {
+        "quote": "Administer the organelle identification exit ticket.",
+        "start": 1364,
+        "end": 1416,
+        "type": "omission",
+        "explanation": "The exit ticket prompt or specific assessment criteria are omitted, failing to provide the actual questions, prompts, or scoring expectation for the lesson's stated objective.",
+        "fix": "Administer the 5-question organelle identification exit ticket matching organelle names to plant and animal cell diagrams."
+      }
+    ]
+  }
+}

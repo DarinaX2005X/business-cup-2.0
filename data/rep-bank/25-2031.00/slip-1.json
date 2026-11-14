@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "25-2031.00",
+  "taskId": "6640",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Lesson Plan: Analyzing Rhetorical Devices in American Literature",
+  "brief": "A 10th-grade English language arts lesson plan drafted by an AI assistant for a 90-minute block on rhetorical appeals in historical speeches.",
+  "docType": "lesson plan",
+  "slip": {
+    "document": "# Lesson Plan: Analyzing Rhetorical Devices in American Literature\nCourse: Grade 10 English Language Arts\nDate: 03/11/2026\nInstructor: Marcus Vance\nPeriod: Block 3 (90 minutes)\n\n## Standards and Objectives\n- CCSS.ELA-LITERACY.RI.9-10.6: Determine an author's point of view or purpose in a text and analyze how an author uses rhetoric to advance that point of view.\n- Objective: Students will identify ethos, pathos, and logos in historical texts and produce an annotated paragraph with 80% accuracy on the exit ticket.\n\n## Schedule and Lesson Steps\n| Segment | Duration | Focus |\n| --- | --- | --- |\n| Bellringer | 10 min | Vocabulary match: Ethos, Pathos, Logos |\n| Direct Instruction | 20 min | Modeling rhetorical triangle on Frederick Douglass excerpt |\n| Guided Practice | 25 min | Small group analysis of Abraham Lincoln speeches |\n| Independent Work | 25 min | Exit ticket paragraph annotation |\n| Closing Wrap-Up | 10 min | Share-out and preview of tomorrow's writing prompt |\n\n## Instructional Notes and Differentiation\n- Bellringer: Direct students to define pathos as the appeal to logic, facts, and statistical data on their warm-up sheet.\n- Modeling: Project excerpt from 'What to the Slave Is the Fourth of July?' on the board. Highlight Douglass's establishment of moral authority and emotional urgency.\n- Guided Practice: Provide groups of 4 with copies of Lincoln's 1863 Gettysburg Address and the 1865 Second Inaugural Address.\n- Group modification: Because Group 4 completed their analysis packet ten minutes faster than all other groups, assign Group 4 to Tier 3 remedial scaffolding stations for the remainder of the block.\n- Independent Work: Students complete the 3-question exit ticket evaluating appeal shifts across the excerpt.",
+    "errors": [
+      {
+        "quote": "define pathos as the appeal to logic, facts, and statistical data",
+        "start": 1062,
+        "end": 1127,
+        "type": "fact",
+        "explanation": "Pathos is the rhetorical appeal to emotion and audience values, whereas logos is the appeal to logic, facts, and statistical data.",
+        "fix": "define pathos as the appeal to emotion and audience values"
+      },
+      {
+        "quote": "assign Group 4 to Tier 3 remedial scaffolding stations for the remainder of the block",
+        "start": 1558,
+        "end": 1643,
+        "type": "logic",
+        "explanation": "Group 4 finished the assignment significantly ahead of their peers, which warrants extension or enrichment activities rather than placement into Tier 3 remedial scaffolding stations.",
+        "fix": "assign Group 4 to extension analysis stations for the remainder of the block"
+      }
+    ]
+  }
+}

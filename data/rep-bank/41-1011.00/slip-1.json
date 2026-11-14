@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "41-1011.00",
+  "taskId": "657",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Customer Service Incident Escalation Resolution",
+  "brief": "A resolution summary drafted by a retail floor supervisor following an escalated customer return and exchange inquiry.",
+  "docType": "incident resolution summary",
+  "slip": {
+    "document": "# Customer Service Incident Escalation Resolution\nStore #412 - Crestview Promenade\n\n## Incident Details\n- Date: 10/14/2026\n- Time: 2:45 PM\n- Supervising Lead: Marcus Vance\n- Cashier: Jenna Morales (Register 04)\n- Customer: Evelyn Reed\n\n## Transaction Data\n| Item Description | SKU | Original Price | Return Authorization Code |\n| --- | --- | --- | --- |\n| 12-Cup Programmable Brewer | SKU-8842-SL | $79.99 | RA-10992 |\n| 16-oz Thermal Travel Tumbler | SKU-3301-BK | $24.99 | RA-10993 |\n| Descaling Cleaning Kit | SKU-1140-CL | $14.99 | Non-Returnable |\n\n## Incident Description\nCustomer arrived at Register 04 requesting a full refund on an opened 12-Cup Programmable Brewer purchased on 09/18/2026. The customer presented receipt #88102 showing original tender paid via debit card. Cashier Morales informed the customer that company policy requires manager approval for open-box small kitchen appliances returned past the 14-day window. The customer became agitated, stating she was assured a 30-day window at purchase.\n\n## Supervisor Intervention & Resolution\n- Greeted Ms. Reed by name, validated her wait time, and reviewed the transaction history in POS Terminal 04.\n- Per standard supervisor discretion, approved an even exchange under RA-10992 rather than store credit to resolve the dissatisfaction.\n- Processed exchange for SKU-8842-SL at the full purchase price of $99.99 toward identical replacement unit.\n- Issued an additional $10.00 promotional gift card under customer appeasement code AP-04.\n\n## Customer Follow-Up & Final Response Note\n- Handed replacement unit and gift card to customer along with revised receipt #88450.\n- Advised customer that she should have bothered to read the bottom of the receipt before making a fuss at the register.\n- Case marked closed in the store CRM escalation tracker at 3:12 PM.",
+    "errors": [
+      {
+        "quote": "full purchase price of $99.99 toward identical replacement unit",
+        "start": 1352,
+        "end": 1415,
+        "type": "fact",
+        "explanation": "The transaction table lists the original price for SKU-8842-SL as $79.99, contradicting the $99.99 stated here.",
+        "fix": "full purchase price of $79.99 toward identical replacement unit"
+      },
+      {
+        "quote": "she should have bothered to read the bottom of the receipt before making a fuss",
+        "start": 1664,
+        "end": 1743,
+        "type": "tone",
+        "explanation": "The supervisor's closing comment is unprofessional, blaming, and openly hostile toward the customer.",
+        "fix": "our 14-day policy on opened electronics is printed at the bottom of the receipt for future reference"
+      }
+    ]
+  }
+}

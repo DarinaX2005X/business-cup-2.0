@@ -1,0 +1,31 @@
+{
+  "type": "slip",
+  "occupationCode": "35-1012.00",
+  "taskId": "18715",
+  "locale": "en",
+  "difficulty": 1,
+  "title": "Closing Sanitation and Shift Turnover Log",
+  "brief": "Closing sanitation log and supervisor handover drafted from shift inspection records at a full-service restaurant.",
+  "docType": "sanitation log",
+  "slip": {
+    "document": "# Closing Sanitation and Shift Turnover Log\nHarborview Grill - Closing Shift - Date: 03/14/2026\nSupervisor: Marcus Vance, Shift Lead\n\n## Sanitizer Testing Log\n| Station | Chemical Type | Target Concentration | Tested Value | Status |\n| --- | --- | --- | --- | --- |\n| Dish Machine Final Rinse | Chlorine | 50-100 ppm | 50 ppm | Passed |\n| 3-Compartment Sink | Quaternary Ammonium | 200-400 ppm | 300 ppm | Passed |\n| Line Prep Sanitizer Bucket | Quaternary Ammonium | 200-400 ppm | 100 ppm | Failed |\n| Bar Glasswasher | Chlorine | 50-100 ppm | 75 ppm | Passed |\n\n## Closing Cleaning Checklist\n- 3-compartment sink drained, scrubbed, and sanitized at 11:15 PM by D. Ramos.\n- Dish machine chemical reservoirs checked; detergent and rinse aid containers refilled.\n- Main cookline exhaust hoods wiped down; grease drip trays emptied and washed.\n- Walk-in cooler floor swept and mopped with heavy-duty degreaser at 10:45 PM.\n- Meat slicer completely broken down, sanitized, and reassembled; blade guard secured.\n- Dining room tables wiped using quaternary ammonium sanitizer requiring at least 150 °F water to activate.\n- Trash receptacles emptied across kitchen and dining areas, lined with new 55-gallon bags, and lids replaced.\n\n## Corrective Actions and Turnover Notes\n- Prep line sanitizer bucket tested low at 100 ppm during final walkthrough.\n- Because line prep sanitizer was below 200 ppm, keep using this bucket through breakfast prep tomorrow.\n- Slicer safety lock tested operational before departure.\n- Exterior dumpster enclosure swept; lids closed to prevent pest harborage.\n- Next shift supervisor: Elena Rostova (Opening Shift 03/15/2026, 06:00 AM).",
+    "errors": [
+      {
+        "quote": "quaternary ammonium sanitizer requiring at least 150 °F water to activate",
+        "start": 1041,
+        "end": 1114,
+        "type": "fact",
+        "explanation": "Quaternary ammonium (quat) sanitizers are chemical sanitizers designed for use in lukewarm or cool water (typically 65 °F to 75 °F); water temperatures of 150 °F or higher are used for high-temperature thermal sanitizing, which will cause chemical sanitizers to evaporate or break down prematurely.",
+        "fix": "quaternary ammonium sanitizer requiring lukewarm water between 65 °F and 75 °F to activate"
+      },
+      {
+        "quote": "keep using this bucket through breakfast prep tomorrow",
+        "start": 1395,
+        "end": 1449,
+        "type": "logic",
+        "explanation": "The testing table shows that the line prep sanitizer bucket failed at 100 ppm against a 200-400 ppm target, so instructing the team to keep using it contradicts the failed test result and safety protocols requiring immediate dumping and remaking.",
+        "fix": "dump and remix the prep line bucket to achieve 200 ppm immediately"
+      }
+    ]
+  }
+}

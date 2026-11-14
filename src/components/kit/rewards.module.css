@@ -392,6 +392,7 @@
 .voucher {
   perspective: 1200px;
   min-width: 0;
+  container-type: inline-size;
 }
 
 .vInner {
@@ -459,7 +460,7 @@
 }
 
 .vBig {
-  font-size: 54px;
+  font-size: min(54px, 14.5cqw);
   font-weight: 800;
   letter-spacing: -0.045em;
   line-height: 0.95;

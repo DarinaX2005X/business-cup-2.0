@@ -1,7 +1,7 @@
 'use client';
 
 import type { CSSProperties } from 'react';
-import { useKit } from './strings';
+import { numberLocale, useKit } from './strings';
 import type { Category, EvidenceLevel, Surface, TaskEvidence } from './types';
 import st from './evidence.module.css';
 
@@ -72,7 +72,7 @@ export interface EvidenceMeterProps {
  */
 export function EvidenceMeter({ evidence, surface = 'paper', compact }: EvidenceMeterProps) {
   const { s, locale } = useKit();
-  const loc = locale === 'en' ? 'en-US' : locale === 'ru' ? 'ru-RU' : 'kk-KZ';
+  const loc = numberLocale[locale];
 
   if (!evidence.observed || evidence.aeiShare == null) {
     const label = evidence.theoryLabel ? s.research[evidence.theoryLabel] : s.research.none;

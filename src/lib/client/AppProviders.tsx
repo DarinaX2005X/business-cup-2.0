@@ -5,9 +5,12 @@ import type { Messages } from '@/i18n/core';
 import type { Locale } from '@/i18n/config';
 import { I18nProvider, useT } from '@/i18n/client';
 import { KitProvider } from '@/components/kit/strings';
+import { kitStringsFor } from '@/components/kit/locales';
+import { sound } from '@/components/kit/sound';
+import { useEffect } from 'react';
 import { flyPoints } from '@/components/kit/Points';
 import { Toast } from '@/components/kit/Toast';
-import { ProfileProvider, type AwardPresenters } from './profile';
+import { ProfileProvider, useProfile, type AwardPresenters } from './profile';
 
 /**
  * Everything the root layout wraps around the app, in the right order:
@@ -34,8 +37,9 @@ function WithProfile({ children }: { children: ReactNode }) {
     [],
   );
   return (
-    <KitProvider locale={locale}>
+    <KitProvider locale={locale} strings={kitStringsFor(locale)}>
       <ProfileProvider presenters={presenters}>
+        <SoundSync />
         {children}
         {toast ? (
           <div
@@ -49,4 +53,12 @@ function WithProfile({ children }: { children: ReactNode }) {
       </ProfileProvider>
     </KitProvider>
   );
+}
+
+function SoundSync() {
+  const { profile } = useProfile();
+  useEffect(() => {
+    if (profile) sound.setEnabled(profile.sound);
+  }, [profile]);
+  return null;
 }

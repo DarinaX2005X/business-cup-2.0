@@ -72,8 +72,6 @@ export function Combobox({
   const [active, setActive] = useState(0);
   const listRef = useRef<HTMLUListElement>(null);
 
-  useEffect(() => setActive(0), [query, items.length]);
-
   useEffect(() => {
     // keep the active option visible inside the list without scrolling the page
     const list = listRef.current;
@@ -110,6 +108,7 @@ export function Combobox({
             placeholder={placeholder}
             onChange={(e) => {
               onQueryChange(e.target.value);
+              setActive(0);
               setOpen(true);
             }}
             onFocus={() => setOpen(true)}

@@ -55,7 +55,7 @@ export function WeekBar({
   ariaLabel,
   className,
 }: WeekBarProps) {
-  const { s, hours, num } = useKit();
+  const { s, hours, num, locale } = useKit();
   const groups = useMemo(() => groupWeek(tasks, totalHours), [tasks, totalHours]);
 
   // Where each tile sits along the bar (0..1), so the beam can hand it its material on time.
@@ -90,7 +90,7 @@ export function WeekBar({
   }
 
   return (
-    <div className={`${st.wrap} ${className ?? ''}`} data-variant={variant}>
+    <div className={`${st.wrap} ${className ?? ''}`} data-variant={variant} lang={locale}>
       <div
         className={st.root}
         data-orient={orientation}
@@ -108,7 +108,7 @@ export function WeekBar({
                 <div className={st.head}>
                   {g.category !== 'no_data' ? (
                     <div className={st.hv}>
-                      <RollingNumber value={g.hours} digits={1} from={scanning ? 0 : undefined} duration={900} />
+                      <RollingNumber value={g.hours} digits={1} from={scanning ? 0 : undefined} delay={scanning ? 1750 : 0} duration={900} />
                       <small>{s.hoursUnit}</small>
                     </div>
                   ) : null}

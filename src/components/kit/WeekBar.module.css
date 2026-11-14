@@ -44,6 +44,12 @@
   position: relative;
 }
 
+/* the scan beam travels past both ends; clip it sideways without clipping lifts and rings */
+.root[data-scanning] {
+  overflow-x: clip;
+  overflow-clip-margin: 14px;
+}
+
 .bar,
 .segs {
   list-style: none;
@@ -165,7 +171,13 @@
     display: none;
   }
   .hv {
-    font-size: calc(var(--hv) * 0.42);
+    font-size: 16px;
+    letter-spacing: -0.01em;
+  }
+  .hv small {
+    font-size: 1em;
+    color: inherit;
+    font-weight: 700;
   }
 }
 
@@ -198,7 +210,8 @@
   text-align: left;
   transition:
     transform var(--t-pop) var(--ease),
-    opacity var(--t-pop) var(--ease);
+    opacity var(--t-pop) var(--ease),
+    filter var(--t-pop) var(--ease);
 }
 
 .fill {
@@ -278,6 +291,7 @@
   margin-top: 2px;
   transition: color var(--t-hover);
   overflow-wrap: break-word;
+  hyphens: auto;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -293,7 +307,7 @@
   display: none;
 }
 
-@container wbseg (max-width: 68px) {
+@container wbseg (max-width: 74px) {
   .lt {
     display: none;
   }
@@ -391,6 +405,17 @@ button.tile:focus-visible {
 
 .root[data-selecting] .tile {
   opacity: 0.7;
+}
+
+/* on the violet field a see-through tile turns muddy; step it back with a light veil instead */
+.wrap[data-variant='violet'] .root[data-selecting] .tile {
+  opacity: 1;
+  filter: saturate(0.55) brightness(1.08) contrast(0.92);
+}
+
+.wrap[data-variant='violet'] .root[data-selecting] .seg[data-selected] .tile,
+.wrap[data-variant='violet'] .root[data-selecting] button.tile:hover {
+  filter: none;
 }
 
 .seg[data-selected] .tile {
@@ -854,4 +879,8 @@ button.tile:focus-visible {
   .root[data-scanning] .lab {
     animation: none;
   }
+}
+
+.root[data-selecting] button.tile:hover {
+  opacity: 1;
 }

@@ -118,7 +118,12 @@ interface KitContextValue {
   hours: (v: number) => string;
 }
 
-const intlLocale: Record<Locale, string> = { en: 'en-US', ru: 'ru-RU', kk: 'kk-KZ' };
+/*
+ * Number locale per language. Kazakh uses the same separators as Russian (space for thousands,
+ * comma for decimals); Chrome ships reduced kk-KZ data, so ru-RU keeps server and client identical.
+ */
+export const numberLocale: Record<Locale, string> = { en: 'en-US', ru: 'ru-RU', kk: 'ru-RU' };
+const intlLocale = numberLocale;
 
 function makeValue(locale: Locale, s: KitStrings): KitContextValue {
   const cache = new Map<number, Intl.NumberFormat>();

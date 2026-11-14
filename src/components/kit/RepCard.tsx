@@ -220,7 +220,47 @@ export function RepCard({ document: src, mode, ranges, onRangesChange, marks = [
 
   /* ---------- text rendering ---------- */
 
-  const renderPart = (p: TextPart) => {
+  /*
+   * Answer mode renders one span per word and per gap with stable keys (their source offsets),
+   * so a highlight in progress only changes classes. Re-creating nodes under a finger would
+   * detach the touch target and hand the gesture to page scrolling.
+   */
+  const renderAnswerPart = (p: TextPart) => {
+    const end = p.start + p.text.length;
+    const re = /[\p{L}\p{N}]+(?:['’.,:/%\-][\p{L}\p{N}]+)*%?/gu;
+    const toks: { a: number; b: number; word: boolean }[] = [];
+    let last = 0;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(p.text))) {
+      if (m.index > last) toks.push({ a: p.start + last, b: p.start + m.index, word: false });
+      toks.push({ a: p.start + m.index, b: p.start + m.index + m[0].length, word: true });
+      last = m.index + m[0].length;
+    }
+    if (last < p.text.length) toks.push({ a: p.start + last, b: end, word: false });
+    return toks.map(({ a, b, word }) => {
+      const user = ranges.find((r) => r[0] <= a && b <= r[1]);
+      const inPrev = preview && preview[0] <= a && b <= preview[1];
+      const inKbd = kbdRange && kbdRange[0] <= a && b <= kbdRange[1];
+      const cls = [word ? st.w : '', user ? st.uMark : '', inPrev ? st.uPreview : '', inKbd ? st.uKbd : ''].filter(Boolean).join(' ');
+      const edgeRange = user ?? (inPrev ? preview : null);
+      return (
+        <span
+          key={a}
+          data-o={a}
+          data-s={word ? a : undefined}
+          data-e={word ? b : undefined}
+          className={cls || undefined}
+          data-first={edgeRange && a === Math.max(edgeRange[0], p.start) ? true : undefined}
+          data-last={edgeRange && b === Math.min(edgeRange[1], end) ? true : undefined}
+        >
+          {src.slice(a, b)}
+        </span>
+      );
+    });
+  };
+
+  const renderPart = (p: TextPart): ReactNode => {
+    if (!review) return renderAnswerPart(p);
     const end = p.start + p.text.length;
     const cuts = new Set<number>([p.start, end]);
     const add = (r: CharRange | null) => {

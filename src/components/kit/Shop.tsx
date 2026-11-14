@@ -1,7 +1,7 @@
 'use client';
 
 import { Check, Copy, Lock } from 'lucide-react';
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { Button } from './Button';
 import { KeystoneMark } from './Mark';
 import { sound } from './sound';
@@ -32,28 +32,23 @@ export function ShopVoucher({ big, bigSub, brand, tone = 'violet', showMark = tr
   const { s, num } = useKit();
   const affordable = balance >= cost;
   const issued = !!code || !!issuedNote;
-  const [phase, setPhase] = useState<'idle' | 'tear' | 'flipped'>(issued ? 'flipped' : 'idle');
+  // Issued on first render: already turned over. Issued later: tear first, then turn over.
+  const [revealed, setRevealed] = useState(issued);
+  const [prevIssued, setPrevIssued] = useState(issued);
+  if (prevIssued !== issued) {
+    setPrevIssued(issued);
+    setRevealed(false);
+  }
+  const phase: 'idle' | 'tear' | 'flipped' = !issued ? 'idle' : revealed ? 'flipped' : 'tear';
   const [copied, setCopied] = useState(false);
-  const first = useRef(true);
 
   useEffect(() => {
-    if (first.current) {
-      first.current = false;
-      return;
-    }
-    if (!issued) {
-      setPhase('idle');
-      return;
-    }
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setPhase('flipped');
-      return;
-    }
-    setPhase('tear');
-    sound.play('redeem');
-    const t = window.setTimeout(() => setPhase('flipped'), 520);
+    if (!issued || revealed) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce) sound.play('redeem');
+    const t = window.setTimeout(() => setRevealed(true), reduce ? 0 : 520);
     return () => window.clearTimeout(t);
-  }, [issued]);
+  }, [issued, revealed]);
 
   const need = Math.max(0, cost - balance);
   return (

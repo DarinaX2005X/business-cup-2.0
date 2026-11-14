@@ -418,6 +418,8 @@
 .slider {
   --pct: 50%;
   position: relative;
+  width: 100%;
+  min-width: 180px;
   height: 32px;
   display: flex;
   align-items: center;
@@ -450,6 +452,18 @@
   border-radius: inherit;
   background: linear-gradient(180deg, var(--violet-hi), var(--violet));
   box-shadow: inset 0 1px 0 oklch(100% 0 0 / 0.3);
+}
+
+[data-surface='violet'] .track,
+[data-surface='field'] .track {
+  background: oklch(100% 0 0 / 0.18);
+  box-shadow: inset 0 1px 2px oklch(20% 0.15 283 / 0.3);
+}
+
+[data-surface='violet'] .range,
+[data-surface='field'] .range {
+  background: linear-gradient(180deg, var(--apricot-hi), var(--apricot));
+  box-shadow: inset 0 1px 0 oklch(100% 0 0 / 0.5);
 }
 
 .thumb {
@@ -746,6 +760,12 @@
 
 .toast[data-tone='error'] {
   background: var(--error);
+}
+
+.toast[data-tone='error'] .tAct {
+  color: #fff;
+  text-decoration: underline 1.5px;
+  text-underline-offset: 3px;
 }
 
 .tIcon {

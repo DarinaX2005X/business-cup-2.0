@@ -1,7 +1,7 @@
 'use client';
 
 import { X } from 'lucide-react';
-import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useId, useRef, useSyncExternalStore, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { useKit } from './strings';
 import st from './controls.module.css';
@@ -47,10 +47,10 @@ function useModal(open: boolean, onClose: () => void, inline: boolean) {
   return ref;
 }
 
+const noop = () => () => undefined;
+/** True only on the client, so portals render after hydration. */
 function useMounted() {
-  const [m, setM] = useState(false);
-  useEffect(() => setM(true), []);
-  return m;
+  return useSyncExternalStore(noop, () => true, () => false);
 }
 
 interface LayerProps {

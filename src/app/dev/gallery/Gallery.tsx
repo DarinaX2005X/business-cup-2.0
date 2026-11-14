@@ -1,7 +1,7 @@
 'use client';
 
 import { Volume2, VolumeX } from 'lucide-react';
-import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from 'react';
 import {
   Button,
   CategoryChip,
@@ -78,11 +78,7 @@ export function Gallery({ initialLang, initialWidth, only }: { initialLang: Loca
   const [lang, setLang] = useState<Locale>(initialLang);
   const [w, setW] = useState<GalleryWidth>(initialWidth);
   const strings = lang === 'ru' ? ruStrings : lang === 'kk' ? kkStrings : undefined;
-  const [soundOn, setSoundOn] = useState(true);
-  useEffect(() => {
-    setSoundOn(sound.isEnabled());
-    return sound.subscribe(setSoundOn);
-  }, []);
+  const soundOn = useSyncExternalStore(sound.subscribe, sound.isEnabled, () => true);
 
   return (
     <KitProvider locale={lang} strings={strings}>
@@ -238,7 +234,7 @@ function TokensSection({ w, lang }: { w: GalleryWidth; lang: Locale }) {
               <span className={g.spec}>
                 <b>{size}</b> {weight}
               </span>
-              <span style={{ fontSize: Number(size), fontWeight: Number(weight), letterSpacing: `${track}em`, lineHeight: Number(size) > 40 ? 1.02 : 1.5 }}>{text}</span>
+              <span style={{ fontSize: `min(${size}px, 12cqw)`, fontWeight: Number(weight), letterSpacing: `${track}em`, lineHeight: Number(size) > 40 ? 1.02 : 1.5 }}>{text}</span>
             </div>
           ))}
         </div>
@@ -345,10 +341,12 @@ function WeekSection({ w, lang }: { w: GalleryWidth; lang: Locale }) {
   const [shares, setShares] = useState<WeekShare[]>(base);
   const [dragging, setDragging] = useState(false);
   const [sel, setSel] = useState<string | null>(null);
-  useEffect(() => {
+  const [prevBase, setPrevBase] = useState(base);
+  if (prevBase !== base) {
+    setPrevBase(base);
     setShares(base);
     setSel(null);
-  }, [base]);
+  }
 
   const ready = useMemo(() => weekTasksFrom(bundle, base, short), [bundle, base, short]);
   const edited = useMemo(() => weekTasksFrom(bundle, shares, short), [bundle, shares, short]);
@@ -719,7 +717,7 @@ function ShopSection({ w }: { w: GalleryWidth }) {
             }}
           />
           <ShopVoucher big="1 month" bigSub="of Pro" brand="Irreplaceable Pro" name="Daily reps, the 90-day plan and your portfolio" cost={9000} balance={1240} />
-          <ShopVoucher big="Claude Pro" bigSub="1 month" brand="AI tools" tone="deep" showMark={false} name="Sent to your email as a gift code" cost={25000} balance={1240} issuedNote="Requested. We will email the code within two working days." />
+          <ShopVoucher big="Claude Pro" bigSub="1 month" brand="AI tools" tone="deep" showMark={false} name="Sent to your email as a gift code" cost={25000} balance={1240} />
           <ShopSoon />
         </div>
         <div className={g.below}>

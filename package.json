@@ -10,14 +10,15 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:live": "vitest run --config vitest.live.config.ts",
-    "check": "npm run typecheck && npm run test && npm run build",
+    "check": "npm run typecheck && npm run test && npm run i18n:check && npm run build",
     "data:build": "tsx scripts/data/build.ts",
     "data:titles-i18n": "tsx scripts/data/titles-i18n.ts",
     "i18n:translate": "tsx scripts/i18n/translate.ts",
     "i18n:check": "tsx scripts/i18n/check.ts",
     "ai:ping": "tsx scripts/ai/ping.ts",
     "reps:bank": "tsx scripts/reps/bank.ts",
-    "stripe:setup": "tsx scripts/stripe/setup.ts"
+    "stripe:setup": "tsx scripts/stripe/setup.ts",
+    "store:check": "tsx scripts/ai/store-roundtrip.ts"
   },
   "dependencies": {
     "@upstash/redis": "^1.41.0",

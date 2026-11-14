@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Onest } from "next/font/google";
 import "@/styles/tokens.css";
 import "@/styles/base.css";
+import { AppProviders } from "@/lib/client/AppProviders";
+import { getI18nProps } from "@/i18n/server";
 
 const onest = Onest({
   subsets: ["latin", "cyrillic", "cyrillic-ext"],
@@ -15,10 +17,13 @@ export const metadata: Metadata = {
     "Your job, task by task: what AI already does, what stays yours, and ten-minute daily reps built from your own work.",
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const i18n = await getI18nProps();
   return (
-    <html lang="en" className={onest.variable}>
-      <body>{children}</body>
+    <html lang={i18n.locale} className={onest.variable}>
+      <body>
+        <AppProviders {...i18n}>{children}</AppProviders>
+      </body>
     </html>
   );
 }

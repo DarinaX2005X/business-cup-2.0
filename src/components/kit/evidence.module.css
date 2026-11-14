@@ -137,7 +137,7 @@
 }
 
 .badge[data-surface='violet'][data-level='observed'] {
-  --badge-tick: var(--violet);
+  --badge-tick: oklch(94.5% 0.035 290);
   color: var(--violet);
   background: oklch(94.5% 0.035 290);
 }
@@ -220,8 +220,8 @@
   inset: 0 auto 0 0;
   width: calc(var(--pos) * 100%);
   border-radius: inherit;
-  background: var(--hatch-dense), linear-gradient(180deg, oklch(96% 0.015 290), oklch(90% 0.03 290));
-  box-shadow: inset 0 0 0 1px var(--tile-ai-edge);
+  background: linear-gradient(180deg, var(--violet-hi), var(--violet));
+  box-shadow: inset 0 1px 0 oklch(100% 0 0 / 0.3);
   transform-origin: 0 50%;
   animation: grow 0.7s var(--ease) both;
 }
@@ -236,6 +236,34 @@
   border-radius: 2px;
   background: var(--violet);
   box-shadow: 0 0 0 2px var(--card);
+}
+
+.meter[data-surface='violet'] .sFill {
+  background: linear-gradient(180deg, #fff, var(--on-violet-2));
+}
+
+.sTrack[data-empty] {
+  background: transparent;
+  box-shadow: none;
+  outline: 1.5px dashed oklch(76% 0.05 288);
+  outline-offset: -1.5px;
+}
+
+.meter[data-surface='violet'] .sTrack[data-empty] {
+  outline-color: oklch(100% 0 0 / 0.4);
+}
+
+.mNoneRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mNoneRow svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  color: var(--m-ink-2);
 }
 
 .meter[data-surface='violet'] .sPin {
@@ -317,8 +345,8 @@
 }
 
 .steps i {
-  width: 10px;
-  height: 14px;
+  width: 12px;
+  height: 16px;
   border-radius: 3px;
   box-shadow: inset 0 0 0 1.5px var(--line);
 }

@@ -136,6 +136,7 @@
 }
 
 .grp[data-cat='no_data'] .hk {
+  display: block;
   white-space: nowrap;
   color: var(--txt-2);
   font-weight: 500;
@@ -160,7 +161,7 @@
 }
 
 @container wbgrp (max-width: 70px) {
-  .hk {
+  .grp:not([data-cat='no_data']) .hk {
     display: none;
   }
   .hv {
@@ -240,17 +241,9 @@
 }
 
 /* Practice makes a human-edge tile taller; each level adds a bright paper layer on top. */
-.root[data-grown] .segs {
-  padding-top: 28px;
-  align-items: flex-end;
-}
-
-.root[data-grown] .seg {
-  justify-content: flex-end;
-}
-
 .root[data-grown] .tile {
   height: calc(var(--tile-h) + var(--grow) * 28px);
+  margin-top: calc((1 - var(--grow)) * 28px);
 }
 
 .layers {
@@ -668,7 +661,7 @@ button.tile:focus-visible {
   flex: none;
   width: calc(72px + var(--grow) * 20px);
   height: max(40px, calc(var(--h) * 11px));
-  margin: 0 0 var(--face);
+  margin: 0 0 var(--face) !important;
   border-radius: 8px 8px 3px 3px;
   transition:
     height var(--t-layout) var(--ease),

@@ -67,13 +67,14 @@ export function ScoreDial({ value, delta, variant = 'arc', surface = 'paper', si
   const arc = `M ${cx - r} ${cy} A ${r} ${r} 0 0 1 ${cx + r} ${cy}`;
   const p = Math.max(0, Math.min(100, v));
   return (
-    <div className={st.dial} data-surface={surface} style={{ width: size } as CSSProperties} role="img" aria-label={`${lab}: ${value} ${s.outOf}${delta ? `, ${delta > 0 ? '+' : ''}${delta}` : ''}`}>
-      <svg viewBox={`0 0 ${W} 140`} aria-hidden="true">
+    <div className={st.dial} data-surface={surface} style={{ width: size, '--dial': `${size}px` } as CSSProperties} role="img" aria-label={`${lab}: ${value} ${s.outOf}${delta ? `, ${delta > 0 ? '+' : ''}${delta}` : ''}`}>
+      <div className={st.dialArc}>
+      <svg viewBox={`0 0 ${W} 132`} aria-hidden="true">
         <defs>
           <linearGradient id={`${id}g`} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stopColor="var(--apricot-hi)" />
-            <stop offset="0.5" stopColor="var(--apricot)" />
-            <stop offset="1" stopColor="var(--apricot-low)" />
+            <stop offset="0" style={{ stopColor: 'var(--apricot-hi)' }} />
+            <stop offset="0.5" style={{ stopColor: 'var(--apricot)' }} />
+            <stop offset="1" style={{ stopColor: 'var(--apricot-low)' }} />
           </linearGradient>
         </defs>
         <path d={arc} className={st.track} pathLength={100} />
@@ -96,6 +97,7 @@ export function ScoreDial({ value, delta, variant = 'arc', surface = 'paper', si
       <div className={st.dialNum}>
         <span className={st.dialV}>{num(shown)}</span>
         {deltaChip}
+      </div>
       </div>
       <div className={st.dialK}>
         {lab}

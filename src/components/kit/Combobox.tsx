@@ -75,8 +75,12 @@ export function Combobox({
   useEffect(() => setActive(0), [query, items.length]);
 
   useEffect(() => {
-    const el = listRef.current?.querySelector<HTMLElement>(`[data-index="${active}"]`);
-    el?.scrollIntoView({ block: 'nearest' });
+    // keep the active option visible inside the list without scrolling the page
+    const list = listRef.current;
+    const el = list?.querySelector<HTMLElement>(`[data-index="${active}"]`);
+    if (!list || !el) return;
+    if (el.offsetTop < list.scrollTop) list.scrollTop = el.offsetTop - 6;
+    else if (el.offsetTop + el.offsetHeight > list.scrollTop + list.clientHeight) list.scrollTop = el.offsetTop + el.offsetHeight - list.clientHeight + 6;
   }, [active]);
 
   const showList = open && query.trim().length > 0;

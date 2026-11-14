@@ -79,9 +79,13 @@ export function EvidenceMeter({ evidence, surface = 'paper', compact }: Evidence
     const step = evidence.theoryLabel === 'E2' ? 2 : evidence.theoryLabel === 'E1' ? 1 : evidence.theoryLabel === 'E0' ? 0 : -1;
     return (
       <div className={st.meter} data-surface={surface} data-compact={compact || undefined}>
-        <div className={st.mHead}>
+        <div className={st.mNoneRow}>
+          <svg viewBox="0 0 16 16" aria-hidden="true">
+            <circle cx="8" cy="8" r="6.2" stroke="currentColor" strokeWidth="1.6" strokeDasharray="1.6 2.4" fill="none" strokeLinecap="round" />
+          </svg>
           <span className={st.mNone}>{s.notSeen}</span>
         </div>
+        {!compact ? <div className={st.sTrack} data-empty="" aria-hidden="true" /> : null}
         <div className={st.research}>
           <span className={st.steps} aria-hidden="true">
             {[0, 1, 2].map((i) => (
@@ -97,7 +101,12 @@ export function EvidenceMeter({ evidence, surface = 'paper', compact }: Evidence
   const share = evidence.aeiShare;
   const pos = Math.min(1, Math.max(0, (Math.log10(Math.max(share, 1e-6)) - LOG_MIN) / (LOG_MAX - LOG_MIN)));
   const auto = evidence.aeiAutomation ?? 0;
-  const ticks = [-5, -4, -3, -2];
+  const ticks: [number, number][] = [
+    [-5, 0.00001],
+    [-4, 0.0001],
+    [-3, 0.001],
+    [-2, 0.01],
+  ];
 
   return (
     <div className={st.meter} data-surface={surface} data-compact={compact || undefined}>
@@ -112,9 +121,9 @@ export function EvidenceMeter({ evidence, surface = 'paper', compact }: Evidence
         </div>
         {!compact ? (
           <div className={st.sTicks} aria-hidden="true">
-            {ticks.map((t) => (
+            {ticks.map(([t, v]) => (
               <span key={t} style={{ left: `${((t - LOG_MIN) / (LOG_MAX - LOG_MIN)) * 100}%` }}>
-                {formatShare(10 ** t, loc)}
+                {formatShare(v, loc)}
               </span>
             ))}
           </div>

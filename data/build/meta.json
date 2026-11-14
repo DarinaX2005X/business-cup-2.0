@@ -26,12 +26,12 @@
     "occupations": 1016,
     "occupationsWithTasks": 923,
     "tasks": 18838,
-    "titles": 51652,
+    "titles": 53292,
     "aliases": 253,
     "aliasesI18n": 83,
     "translations": {
-      "ru": 0,
-      "kk": 0
+      "ru": 975,
+      "kk": 884
     }
   },
   "coverage": {

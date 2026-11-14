@@ -195,8 +195,12 @@ export function errorKey(code: string): string {
   return 'common.errors.server_error';
 }
 
-/** Polls GET /api/reps/:id every 2 s until the rep is written (or fails). */
-export function pollRep(id: string, onDone: (rep: RepView) => void, onFail: (code: string) => void): () => void {
+/**
+ * Polls GET /api/reps/:id until the rep is written or the server says it failed: every 2 s, every 5 s
+ * after a minute. It never gives up on its own and never starts another generation; the screen offers
+ * «Check again», which starts a fresh poll of the same rep at once (`immediate`).
+ */
+export function pollRep(id: string, onDone: (rep: RepView) => void, onFail: (code: string) => void, immediate = false): () => void {
   let stop = false;
   let timer = 0;
   const started = Date.now();
@@ -211,10 +215,9 @@ export function pollRep(id: string, onDone: (rep: RepView) => void, onFail: (cod
       // a dropped connection is retried; anything the server said is final
       if (code !== 'network') return onFail(code);
     }
-    if (Date.now() - started > 150_000) return onFail('generation_failed');
-    timer = window.setTimeout(tick, 2000);
+    timer = window.setTimeout(tick, Date.now() - started > 60_000 ? 5000 : 2000);
   };
-  timer = window.setTimeout(tick, 1200);
+  timer = window.setTimeout(tick, immediate ? 0 : 1200);
   return () => {
     stop = true;
     window.clearTimeout(timer);

@@ -1,6 +1,6 @@
 'use client';
 
-import { BriefcaseBusiness, ChevronLeft, FileCheck2 } from 'lucide-react';
+import { BriefcaseBusiness, ChevronLeft, FileCheck2, Wrench } from 'lucide-react';
 import Link from 'next/link';
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
 import { CupOffer } from '@/components/cup/CupOffer';
@@ -41,7 +41,8 @@ export function RepHeader({ rep, ask, onBack }: { rep: Pick<RepView, 'type' | 't
       <p className={st.repAsk}>{ask}</p>
       {rep.notes.includes('prepared_maintenance') ? (
         <p className={st.prepared} role="note">
-          {t('today.notes.prepared_maintenance')}
+          <Wrench size={18} strokeWidth={1.75} aria-hidden="true" />
+          <span>{t('today.notes.prepared_maintenance')}</span>
         </p>
       ) : null}
       {rep.notes.some((n) => n !== 'prepared_maintenance') ? (

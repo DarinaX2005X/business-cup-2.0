@@ -103,6 +103,8 @@ export function TodayScreen({ fixture }: { fixture?: TodayFixture }) {
 
   /* ---------- polling while the rep is written ---------- */
   const genId = view.v === 'generating' ? view.repId : null;
+  // «Check again» on a slow rep: poll the same rep at once (never a second generation)
+  const [pollRound, setPollRound] = useState(0);
   useEffect(() => {
     if (!genId || fixture) return;
     return pollRep(
@@ -113,8 +115,9 @@ export function TodayScreen({ fixture }: { fixture?: TodayFixture }) {
         void reloadHub();
       },
       (code) => setView({ v: 'repError', code }),
+      pollRound > 0,
     );
-  }, [genId, fixture, reloadHub]);
+  }, [genId, fixture, reloadHub, pollRound]);
 
   /* ---------- navigation ---------- */
   const top = () => window.scrollTo({ top: 0 });
@@ -231,7 +234,7 @@ export function TodayScreen({ fixture }: { fixture?: TodayFixture }) {
 
   /* ---------- render ---------- */
   if (view.v === 'loading') return <LoadingView />;
-  if (view.v === 'generating') return <Generating type={view.type} taskShort={view.taskShort} job={job} />;
+  if (view.v === 'generating') return <Generating type={view.type} taskShort={view.taskShort} job={job} onCheckAgain={view.repId ? () => setPollRound((n) => n + 1) : undefined} />;
   if (view.v === 'repError') {
     return (
       <ErrorView

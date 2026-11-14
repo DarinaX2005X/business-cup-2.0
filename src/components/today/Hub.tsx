@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import type { ReactNode } from 'react';
+import { useEffect, useState, type CSSProperties, type ReactNode } from 'react';
 import { Button } from '@/components/kit/Button';
 import { SheetStack, FieldArches } from '@/components/kit/Illustration';
 import { StreakWeek } from '@/components/kit/Points';
@@ -51,9 +51,34 @@ export function LoadingView() {
   );
 }
 
-export function Generating({ type, taskShort, job }: { type?: RepType; taskShort?: string; job: string | null }) {
+/** When each stage of writing a rep starts, in seconds; the last one holds until the server answers. */
+const STAGES = [0, 8, 17, 28];
+const SLOW_AFTER = 60;
+/** Lines of the sheet being written, and which of them get a mistake planted and then checked. */
+const LINES = [94, 82, 97, 64, 0, 90, 86, 71, 0, 93, 58];
+const PLANTED = [2, 7];
+
+/**
+ * Waiting for a rep to be written (25 to 40 seconds with the verifier). The stages follow elapsed time
+ * and only describe what the engine does; nothing says «done» until the rep itself arrives. The sheet is
+ * written line by line, the mistakes are planted, then a margin ring checks each one. One line to read
+ * meanwhile teaches how the rep is scored. After a minute: «Taking longer than usual», with a button that
+ * polls the same rep again (never a second generation).
+ */
+export function Generating({ type, taskShort, job, onCheckAgain }: { type?: RepType; taskShort?: string; job: string | null; onCheckAgain?: () => void }) {
   const { t } = useT();
-  const key = type ? `today.generating.${type}` : 'today.generating.any';
+  const kind = type ?? 'any';
+  const [sec, setSec] = useState(0);
+  useEffect(() => {
+    const started = Date.now();
+    const id = window.setInterval(() => setSec(Math.floor((Date.now() - started) / 1000)), 500);
+    return () => window.clearInterval(id);
+  }, []);
+  const stage = STAGES.reduce((n, at, i) => (sec >= at ? i : n), 0);
+  const slow = sec >= SLOW_AFTER;
+  // one line every ~2.4 s while the document is written, all of them by the second stage
+  const written = Math.min(LINES.length, 1 + Math.floor(sec / 2.4) + (stage >= 1 ? LINES.length : 0));
+
   return (
     <div className={st.repPage}>
       <header className={st.repHead}>
@@ -61,19 +86,58 @@ export function Generating({ type, taskShort, job }: { type?: RepType; taskShort
           {type ? typeName(t, type) : t('today.generating.title')}
           {taskShort ? <span className={st.taskPlate}>{taskShort}</span> : null}
         </h1>
-        <p className={st.repAsk} role="status">
-          {t(key)}
-          <span className={st.dots} aria-hidden="true">
-            <i />
-            <i />
-            <i />
-          </span>
-        </p>
         {job ? <p className={st.jobLine}>{t('today.generating.job', { job })}</p> : null}
       </header>
-      <div className={st.genStage}>
-        <SheetSkeleton />
-        <p className={st.genHint}>{t('today.generating.hint')}</p>
+      <div className={st.gen}>
+        <div className={st.genSheet} data-stage={stage} aria-hidden="true">
+          <div className={st.genHead}>
+            <i className={st.genTitle} data-on={written > 0 || undefined} />
+            <span className={st.genTag}>
+              <b />
+            </span>
+          </div>
+          <div className={st.genLines}>
+            {LINES.map((w, i) =>
+              w ? (
+                <span key={i} className={st.genLine} data-on={i < written || undefined} data-planted={PLANTED.includes(i) || undefined} style={{ width: `${w}%`, '--w': w } as CSSProperties}>
+                  {PLANTED.includes(i) ? <span className={st.genRing} /> : null}
+                </span>
+              ) : (
+                <span key={i} className={st.genGap} />
+              ),
+            )}
+          </div>
+        </div>
+        <div className={st.genSide}>
+          <ol className={st.steps} aria-live="polite">
+            {[1, 2, 3, 4].map((n, i) => (
+              <li key={n} data-state={i < stage ? 'past' : i === stage ? 'now' : 'next'} aria-current={i === stage ? 'step' : undefined}>
+                <span className={st.stepDot} aria-hidden="true" />
+                <span>
+                  {t(`today.generating.${kind}.s${n}`)}
+                  {i === stage ? (
+                    <span className={st.dots} aria-hidden="true">
+                      <i />
+                      <i />
+                      <i />
+                    </span>
+                  ) : null}
+                </span>
+              </li>
+            ))}
+          </ol>
+          {slow ? (
+            <div className={st.slow} role="status">
+              <p>{t('today.generating.slow')}</p>
+              {onCheckAgain ? (
+                <Button size="sm" variant="secondary" onClick={onCheckAgain}>
+                  {t('today.generating.checkAgain')}
+                </Button>
+              ) : null}
+            </div>
+          ) : null}
+          <p className={st.tip}>{t(`today.generating.tip.${type ?? 'slip'}`)}</p>
+        </div>
       </div>
     </div>
   );

@@ -35,13 +35,39 @@
     "yourReply": "Your reply"
   },
   "generating": {
-    "slip": "Writing today's document from your week",
-    "delegate": "Writing today's case from your week",
-    "edge": "Setting up today's conversation",
-    "any": "Writing today's rep from your week",
     "title": "Today's rep",
-    "hint": "This usually takes under a minute. The document opens here by itself.",
-    "job": "Your job: {job}"
+    "job": "Your job: {job}",
+    "slip": {
+      "s1": "Writing a document from your week",
+      "s2": "Planting the mistakes",
+      "s3": "Checking each mistake is real",
+      "s4": "Almost ready"
+    },
+    "delegate": {
+      "s1": "Writing a case from your week",
+      "s2": "Hiding two traps in the material",
+      "s3": "Checking the case holds together",
+      "s4": "Almost ready"
+    },
+    "edge": {
+      "s1": "Setting up the conversation",
+      "s2": "Giving them a reason they won't say",
+      "s3": "Checking the scene holds together",
+      "s4": "Almost ready"
+    },
+    "any": {
+      "s1": "Writing today's rep from your week",
+      "s2": "Adding what to look for",
+      "s3": "Checking it holds together",
+      "s4": "Almost ready"
+    },
+    "tip": {
+      "slip": "While you wait: tap the wrong part itself, like a number, a drug or a date. A long highlight around it doesn't count.",
+      "delegate": "While you wait: a strong instruction says who it's for, what to check and what format you want back.",
+      "edge": "While you wait: name what the other person feels before you try to fix the problem."
+    },
+    "slow": "Taking longer than usual. Your rep is still being written.",
+    "checkAgain": "Check again"
   },
   "noMap": {
     "title": "Map your week first",

@@ -8,20 +8,20 @@
   "brief": "A voucher audit review memo prepared from vendor invoices and check register records to verify coding, documentation, and mathematical accuracy.",
   "docType": "voucher audit review",
   "slip": {
-    "document": "# Cash Disbursement Voucher Audit Review\nAudit Period: Week Ended 04/17/2026\nPrepared By: Morgan Lee, Accounting Clerk\n\n## Audit Sample Summary\n\n| Voucher | Vendor Name | GL Account | Description | Amount |\n| --- | --- | --- | --- | --- |\n| V-8810 | Precision Tooling Inc | 5110-00 Cost of Goods Sold | CNC Router Components | $4,850.00 |\n| V-8811 | Apex Cleaning Services | 6220-10 Janitorial Expense | Contract Cleaning March | $1,250.00 |\n| V-8812 | Red Rock Logistics | 5200-00 Freight-In | Pallet Delivery | $740.00 |\n| V-8813 | TechLine Solutions | 1500-00 Machinery & Equipment | Network Server Unit | $3,600.00 |\n| V-8814 | Global Office Supplies | 6100-20 Office Expense | Printer Toner and Paper | $460.00 |\n\n## Verification Findings\n\n- The batch total across all five sampled vouchers equals $11,900.00 in total approved disbursements.\n- Voucher V-8810 matches invoice PTI-9942 with matching receiving report RR-402 attached.\n- Voucher V-8811 was issued to sole proprietor Marcus Vance operating as Apex Cleaning Services.\n- Because Marcus Vance received non-employee compensation of $1,250.00, Form 1099-NEC is not required under IRS rules.\n- Voucher V-8812 freight charges are properly capitalized into inventory under Section 263A guidelines.\n- Voucher V-8813 meets the company capital expenditure threshold of $2,500.00 and is correctly posted to Asset Account 1500-00.\n- Voucher V-8814 expense documentation includes signed packing slip and itemized sales receipt.",
+    "document": "# Cash Disbursement Voucher Audit Review\nAudit Period: Week Ended 04/17/2026\nPrepared By: Morgan Lee, Accounting Clerk\n\n## Audit Sample Summary\n\n| Voucher | Vendor Name | GL Account | Description | Amount |\n| --- | --- | --- | --- | --- |\n| V-8810 | Precision Tooling Inc | 5110-00 Cost of Goods Sold | CNC Router Components | $4,850.00 |\n| V-8811 | Westbrook Cleaning Services | 6220-10 Janitorial Expense | Contract Cleaning March | $1,250.00 |\n| V-8812 | Red Rock Logistics | 5200-00 Freight-In | Pallet Delivery | $740.00 |\n| V-8813 | TechLine Solutions | 1500-00 Machinery & Equipment | Network Server Unit | $3,600.00 |\n| V-8814 | Global Office Supplies | 6100-20 Office Expense | Printer Toner and Paper | $460.00 |\n\n## Verification Findings\n\n- The batch total across all five sampled vouchers equals $11,900.00 in total approved disbursements.\n- Voucher V-8810 matches invoice PTI-9942 with matching receiving report RR-402 attached.\n- Voucher V-8811 was issued to sole proprietor Rosa Haddad operating as Westbrook Cleaning Services.\n- Because Rosa Haddad received non-employee compensation of $1,250.00, Form 1099-NEC is not required under IRS rules.\n- Voucher V-8812 freight charges are properly capitalized into inventory under Section 263A guidelines.\n- Voucher V-8813 meets the company capital expenditure threshold of $2,500.00 and is correctly posted to Asset Account 1500-00.\n- Voucher V-8814 expense documentation includes signed packing slip and itemized sales receipt.",
     "errors": [
       {
         "quote": "sampled vouchers equals $11,900.00 in total approved disbursements",
-        "start": 779,
-        "end": 845,
+        "start": 784,
+        "end": 850,
         "type": "calculation",
         "explanation": "The sum of the five vouchers ($4,850.00 + $1,250.00 + $740.00 + $3,600.00 + $460.00) is $10,900.00, not $11,900.00.",
         "fix": "sampled vouchers equals $10,900.00 in total approved disbursements"
       },
       {
         "quote": "compensation of $1,250.00, Form 1099-NEC is not required under IRS rules",
-        "start": 1079,
-        "end": 1151,
+        "start": 1087,
+        "end": 1159,
         "type": "compliance",
         "explanation": "IRS reporting rules require Form 1099-NEC for non-employee compensation paid to unincorporated entities or sole proprietors of $600 or more in a calendar year.",
         "fix": "compensation of $1,250.00, Form 1099-NEC is required under IRS rules"

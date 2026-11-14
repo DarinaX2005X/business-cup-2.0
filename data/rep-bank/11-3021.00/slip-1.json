@@ -4,27 +4,27 @@
   "taskId": "15198",
   "locale": "en",
   "difficulty": 1,
-  "title": "IT Escalation and Post-Mortem Report: Payroll Batch Failure",
-  "brief": "An IT escalation and post-mortem report drafted from Tier 2 helpdesk logs and server diagnostics following a payroll application freeze.",
+  "title": "Incident Escalation and Resolution Report: INC-88204",
+  "brief": "Incident escalation report and technical remediation plan drafted by an IT Systems Manager after Tier 2 failed to resolve an executive workstation lock-out.",
   "docType": "incident escalation report",
   "slip": {
-    "document": "# IT Escalation and Post-Mortem Report: Payroll Batch Failure\nEscalation ID: ESC-2026-8814\n\n## Incident Summary\nOn 03/12/2026 at 09:15 AM, Tier 1 received six high-priority tickets from the Finance Department. Users reported that the local client for ApexPay 2026 froze during biweekly direct-deposit generation. The issue was escalated to Systems Engineering at 09:42 AM after initial workstation-level troubleshooting failed.\n\n## Environment Diagnostics\n| Metric / Resource | Normal Baseline | Incident Reading (09:30 AM) |\n| --- | --- | --- |\n| App Host CPU (SRV-PAY-01) | 18% - 35% | 22% |\n| Host RAM Utilization | 40% - 60% | 51% |\n| SQL Transaction Log Disk (L:) | 250 GB Free | 0 MB Free (Volume Exhausted) |\n| Database Service Status | Running | Paused (Error 9002) |\n\n## Root Cause Analysis\nThe ApexPay database service entered an automated recovery pause. Because host CPU utilization reached critical threshold capacity, the database engine halted all write transactions to protect file headers.\n\n## Mitigation Actions\n- Tier 3 purged uncommitted staging tables and expanded drive L: by 150 GB.\n- Database service was resumed at 10:18 AM, and Finance completed the batch without payroll disbursement delay.\n- Applied routine security patches.\n\n## Preventative Changes\n- Configure automated disk growth alerts on drive L: at 15% remaining capacity.\n- Schedule daily transaction log truncations with standard hourly backups.",
+    "document": "# Incident Escalation and Resolution Report: INC-88204\nOak Hollow Health Network - IT Service Management\n\n## Ticket Summary\n| Field | Value |\n| --- | --- |\n| Incident ID | INC-88204 |\n| Affected User | Ethan Castillo, VP of Operations |\n| Device ID | WKS-OH-0419 |\n| OS Version | Windows 11 Enterprise 23H2 |\n| Assigned Tech | Jamal Gallagher (Tier 2 Desktop) |\n| Escalation Lead | Alicia Kowalczyk (IT Operations Manager) |\n| Status | Escalated to Tier 3 / Management |\n| Reported Issue | BitLocker recovery loop after BIOS 1.14 update |\n\n## Incident Details and Telemetry\nOn 04/14/2026 at 08:15 AM, user Ethan Castillo reported that workstation WKS-OH-0419 failed to boot into the OS following a scheduled overnight UEFI firmware patch (v1.14). The endpoint repeatedly prompts for a 48-digit BitLocker recovery key. Tier 2 technician Jamal Gallagher attempted three recovery key injections via Active Directory BitLocker recovery console, but the system reboots directly back into the recovery prompt upon authentication.\n\n## Tier 2 Investigation Log\n- TPM 2.0 module state reported as Enabled and Initialized in UEFI diagnostic log.\n- Platform Configuration Register 7 indicates PCR 7 validation failure due to Secure Boot policy change during BIOS flash.\n- BitLocker protector mode on volume C: is configured as TPM+PIN.\n- Device drive health SMART self-test completed with zero bad sectors.\n\n## Tier 3 Root Cause Analysis and Remediation Steps\nBecause PCR 7 validation failed while the TPM remains intact and operational, Jamal must replace the motherboard hardware immediately to fix the corrupted boot configuration.\n\nRemediation plan:\n- Suspend BitLocker protection via WinRE command line using manage-bde -protectors -disable C:.\n- Re-enable Secure Boot standard factory keys within UEFI settings.\n- Reboot system to complete OS launch and allow PCR baseline recalculation.\n- Resume BitLocker protection using manage-bde -protectors -enable C:.\n- Validate workstation compliance and close ticket.",
     "errors": [
       {
-        "quote": "Because host CPU utilization reached critical threshold capacity",
-        "start": 866,
-        "end": 930,
+        "quote": "Jamal must replace the motherboard hardware immediately to fix the corrupted boot configuration",
+        "start": 1527,
+        "end": 1622,
         "type": "logic",
-        "explanation": "The Environment Diagnostics table shows CPU utilization was at 22%, well within the normal baseline of 18% to 35%, whereas the transaction log disk was completely exhausted (0 MB free), causing the write halt.",
-        "fix": "Because SQL transaction log drive L reached zero free space"
+        "explanation": "Replacing physical motherboard hardware directly contradicts the diagnostic data showing the TPM 2.0 module is healthy and operational, and that the failure is merely a software-level PCR 7 validation mismatch caused by a firmware update.",
+        "fix": "Jamal must clear the platform state mismatch in UEFI and restore standard keys without replacing hardware"
       },
       {
-        "quote": "Applied routine security patches.",
-        "start": 1220,
-        "end": 1253,
+        "quote": "Validate workstation compliance and close ticket.",
+        "start": 1956,
+        "end": 2005,
         "type": "omission",
-        "explanation": "The action item fails to identify which system or server received the patches, missing the required host identifier or target scope standard in infrastructure incident records.",
-        "fix": "Applied routine security patches to database host SRV-PAY-01."
+        "explanation": "The procedure omits obtaining user verification and sign-off from Ethan Castillo to confirm access and operational functionality before closing the executive-tier escalation ticket.",
+        "fix": "Obtain end-user sign-off from Ethan Castillo confirming successful login, validate workstation compliance, and close ticket."
       }
     ]
   }

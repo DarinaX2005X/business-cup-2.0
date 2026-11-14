@@ -1,30 +1,30 @@
 {
   "type": "slip",
   "occupationCode": "35-2014.00",
-  "taskId": "2173",
+  "taskId": "2171",
   "locale": "en",
   "difficulty": 1,
-  "title": "Expo Line Plating & Allergen Guide - Dinner Service",
-  "brief": "Plating and garnishing guide for dinner service drafted from banquet event orders and the standard kitchen spec sheet.",
-  "docType": "plating guide",
+  "title": "Kitchen Line Doneness and Sensory Quality Log",
+  "brief": "Shift doneness and sensory quality check log for evening banquet prep, drafted from station temperature logs and tasting notes.",
+  "docType": "kitchen line check",
   "slip": {
-    "document": "# Expo Line Plating & Allergen Guide - Dinner Service\nStation: Expediter / Saute & Grill Plating\nDate: 10/14/2026\nService: 5:00 PM - 10:00 PM\n\n## Table Specifications & Allergies\n| Table | Party Size | Dish | Special Dietary Alert |\n| --- | --- | --- | --- |\n| 14 | 4 | Pan-Seared Halibut | Severe Allium (Garlic / Onion / Shallot) |\n| 22 | 2 | USDA Prime Ribeye (12 oz) | Celiac (Gluten-Free) |\n| 31 | 6 | Herb-Roasted Half Chicken | Tree Nut Allergy |\n\n## Plating Standards\n- Pan-Seared Halibut: Center 6 oz portion over 4 oz celery root puree. Ladle 1.5 oz lemon-caper beurre blanc around the base. Wipe rim with dry linen.\n- USDA Prime Ribeye: Slice against grain into 5 thick ribbons. Fan across warmed oval stoneware. Top with compound herb butter round.\n- Herb-Roasted Half Chicken: Rest half chicken over roasted fingerling potatoes and glazed baby carrots. Pour 2 oz pan au jus directly over crisp skin.\n\n## Garnishing Instructions\n- Table 14 Halibut: Top fish portion with flash-fried leek ribbons and finish rim with smoked sea salt.\n- Table 22 Ribeye: Sprinkle with Maldon flaked salt and finish with micro-arugula sprigs.\n- Table 31 Chicken: Scatter chopped toasted hazelnuts and charred rosemary sprig at 2 o clock.\n\n## Line Hold Temperatures & Passing Protocols\n- Verify hot proteins maintain a minimum internal holding temperature of 140 F before leaving window.\n- Sauces on hot well must be held at or above 145 F throughout service.\n- Wipe all plate rims with clean towel before releasing to food runner.\n- Call all completed tickets to runner station.",
+    "document": "# Kitchen Line Doneness and Sensory Quality Log\nDinner Service Banquet Quality Control\n\n## Batch Measurements and Standards\n| Station | Item | Target Temp | Target Texture / Aroma | Probe Result |\n| --- | --- | --- | --- | --- |\n| Grill | Prime Rib Roast (Batch A) | 130°F | Tender, rosemary aroma | 124°F |\n| Sauté | Pan-Seared Salmon Fillets | 145°F | Flakes easily with fork | 146°F |\n| Roast | Roasted Chicken Thighs | 165°F | Clear juices when pierced | 168°F |\n| Saucier | Smoked Tomato Bisque | 165°F | Velvety, balanced acidity | 172°F |\n\n## Line Cook Observations\n- Batch A prime rib was probed at the center by Caleb Petrov at 4:45 PM using a calibrated digital probe.\n- Because Batch A reached 124°F, Caleb Petrov must carve and platter it immediately for service.\n- Megan Brennan tested the pan-seared salmon at 5:00 PM; flesh separated along natural white collagen lines when pierced with a paring knife.\n- Brandon Fitzgerald checked the roasted chicken thighs at 5:10 PM, confirming juices ran clear after piercing thickest thigh near the bone.\n\n## Sensory and Corrective Actions\n- Bisque was tasted using the single-use spoon protocol and required 1/2 tsp kosher salt to balance sweetness.\n- For sensory quality checks, cooks must dip a clean single-use spoon into the pot to evaluate flavor.\n- Chicken thighs maintained firm texture with no pink meat remaining around joint tissues.\n- Salmon holds under warm heat lamps set at 140°F pending 5:30 PM banquet plating.",
     "errors": [
       {
-        "quote": "Top fish portion with flash-fried leek ribbons",
-        "start": 961,
-        "end": 1007,
+        "quote": "Because Batch A reached 124°F, Caleb Petrov must carve and platter it immediately for service.",
+        "start": 681,
+        "end": 775,
         "type": "logic",
-        "explanation": "Leeks belong to the allium family, which directly contradicts the severe allium allergy noted for Table 14 in the specifications table.",
-        "fix": "Top fish portion with fresh chervil sprigs"
+        "explanation": "The reference table specifies a target internal temperature of 130°F for the prime rib roast, but Batch A only reached 124°F, meaning it cannot be carved and served immediately and must return to the oven.",
+        "fix": "Because Batch A reached only 124°F, Caleb Petrov must return it to the oven until it reaches 130°F."
       },
       {
-        "quote": "Wipe all plate rims with clean towel before releasing to food runner.",
-        "start": 1453,
-        "end": 1522,
+        "quote": "For sensory quality checks, cooks must dip a clean single-use spoon into the pot to evaluate flavor.",
+        "start": 1207,
+        "end": 1307,
         "type": "omission",
-        "explanation": "Standard kitchen sanitation protocols require wiping plate rims with a clean towel dipped in sanitizer or using a designated dry food-safe disposable wipe, rather than a generic or dry dirty towel, or omitting the required sanitizer dip designation.",
-        "fix": "Wipe all plate rims with a sanitizer-dipped clean towel before releasing to food runner."
+        "explanation": "FDA Food Code standard tasting protocol requires transferring food from the preparation utensil into a separate tasting bowl or using a two-spoon method, or immediately discarding the single-use spoon without re-dipping; dipping directly into the pot without specifying immediate disposal/no double-dipping or sampling into a separate container is a cross-contamination hazard.",
+        "fix": "For sensory quality checks, cooks must ladle a sample into a separate tasting dish and taste with a single-use spoon that is immediately discarded."
       }
     ]
   }

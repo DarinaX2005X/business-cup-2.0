@@ -1,30 +1,30 @@
 {
   "type": "slip",
   "occupationCode": "47-2031.00",
-  "taskId": "23432",
+  "taskId": "23445",
   "locale": "en",
   "difficulty": 1,
-  "title": "Rough Framing Cut List and Layout Sheet",
-  "brief": "A framing layout and cutting guide for interior partition walls drafted from the architectural plan set.",
-  "docType": "cut list",
+  "title": "Daily Crew Assignment and Site Safety Log",
+  "brief": "A daily commercial carpentry crew schedule and work log drafted by an AI assistant for a framing foreman on a multifamily wood-frame project.",
+  "docType": "crew schedule and log",
   "slip": {
-    "document": "# Rough Framing Cut List and Layout Sheet\nJob: Oakridge Community Clinic - Suite 104\nDate: 04/14/2026\nLead Framer: Derek Vance\n\n## Specified Wall Dimensions\n| Assembly | Wall Length | Plate Stock | Stud Type | Finished Ceiling Height |\n| --- | --- | --- | --- | --- |\n| Wall A (Plumbing chase) | 16 ft 0 in | 2x6 No. 2 SPF | 2x6x104-5/8 in | 9 ft 0 in |\n| Wall B (Partition) | 12 ft 0 in | 2x4 No. 2 SPF | 2x4x104-5/8 in | 9 ft 0 in |\n| Wall C (Corridor) | 20 ft 0 in | 2x4 No. 2 SPF | 2x4x104-5/8 in | 9 ft 0 in |\n\n## Cutting and Marking Protocol\n- Layout bottom and top plates simultaneously by clamping paired stock face-to-face.\n- Pull measurements using a 1-inch wide steel tape from the left index end.\n- Mark framing layout lines with standard carpenter pencil and square using a 32-inch on center spacing for Wall B load-bearing partition.\n- Strike chalk lines across concrete subfloor using standard blue non-permanent chalk.\n- When cutting stock at the miter station, disable blade guards to maintain continuous sightlines on pencil marks.\n- Scribe repetitive blocking using a preset wheel marking gauge set to 14-1/2 inches.",
+    "document": "# Daily Crew Assignment and Site Safety Log\nGranite Peak Builders - Site: Westgate Lofts, Building C\nDate: 04/14/2026\nForeman: Curtis Ellison\n\n## Roster and Assigned Work Areas\n| Name | Trade Level | Area | Task |\n| --- | --- | --- | --- |\n| Julia Okafor | Journeyman Carpenter | Level 3 North | Exterior sheer wall framing |\n| Priya Thornton | Apprentice (Year 1) | Level 2 South | Interior partition layout |\n| Mateo Rios | Journeyman Carpenter | Level 3 South | Truss setting and bracing |\n| Dave Bialek | Apprentice (Year 2) | Level 3 South | Truss setting and bracing |\n\n## Planned Tasks and Safety Directives\n- Level 3 South crew will assist crane rigging for roof trusses starting at 08:30.\n- Priya Thornton will cut bottom plates and complete layout lines for the 2x4 partitions in Level 3 North corridor.\n- Fall protection required for all deck perimeters above 6 ft per 29 CFR 1926 Subpart M.\n- Julia Okafor to sheath exterior walls from rolling tubular welded frame scaffolding at 14 ft platform height without personal fall arrest or guardrails installed.\n- Toolbox talk scheduled at 07:00 regarding proper pneumatic nailer handling and eye protection.\n\n## Equipment and Material Staging\n- 12 bundles 2x4x10 ft SPF studs delivered to Level 2 laydown area.\n- Crane pick window confirmed with dispatch for 08:30 to 11:30.",
     "errors": [
       {
-        "quote": "using a 32-inch on center spacing for Wall B load-bearing partition",
-        "start": 779,
-        "end": 846,
+        "quote": "Priya Thornton will cut bottom plates and complete layout lines for the 2x4 partitions in Level 3 North corridor.",
+        "start": 700,
+        "end": 813,
         "type": "fact",
-        "explanation": "Under the International Residential Code / International Building Code, standard light-frame wood stud spacing is 16 or 24 inches on center; 32-inch on center is not an approved framing spacing for standard stud walls.",
-        "fix": "using a 16-inch on center spacing for Wall B load-bearing partition"
+        "explanation": "The roster table specifically assigns Priya Thornton to Level 2 South for interior partition layout, not Level 3 North.",
+        "fix": "Priya Thornton will cut bottom plates and complete layout lines for the 2x4 partitions in Level 2 South corridor."
       },
       {
-        "quote": "disable blade guards to maintain continuous sightlines on pencil marks",
-        "start": 978,
-        "end": 1048,
+        "quote": "Julia Okafor to sheath exterior walls from rolling tubular welded frame scaffolding at 14 ft platform height without personal fall arrest or guardrails installed",
+        "start": 905,
+        "end": 1066,
         "type": "compliance",
-        "explanation": "OSHA standard 1926.304(d) requires operational point-of-operation guards on power saws; pinning back or disabling blade guards is a direct safety violation.",
-        "fix": "maintain factory blade guards in operating position while aligning blade kerf to pencil marks"
+        "explanation": "OSHA standard 29 CFR 1926.451(g)(1) mandates fall protection (guardrails or personal fall arrest system) on scaffolding elevated 10 feet or more above a lower level.",
+        "fix": "Julia Okafor to sheath exterior walls from rolling tubular welded frame scaffolding at 14 ft platform height with standard top rail, midrail, and toeboards installed"
       }
     ]
   }

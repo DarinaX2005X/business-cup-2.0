@@ -8,20 +8,20 @@
   "brief": "A site supervisor's resource estimate for trench excavation, utility bedding, and shoring installation on a municipal water line project, drafted from site engineering specs and crew rates.",
   "docType": "resource estimate",
   "slip": {
-    "document": "# Excavation and Shoring Resource Estimate\nSubproject: 8-Inch Water Main Extension - Station 14+00 to Station 18+00\nSuperintendent: Derek Vance\nDate: 04/14/2026\n\n## Project Parameters and Material Takeoff\nTotal trench length: 400 linear ft\nAverage trench depth: 8 ft\nAverage trench width: 3 ft\nAggregate bedding spec: 6 inches of No. 57 stone placed along entire run\n\n| Item | Volume (cu yd) | Unit Cost | Total Cost |\n| --- | --- | --- | --- |\n| Trench Excavation (in situ) | 355.6 | $12.50 | $4,445.00 |\n| Crushed Stone Bedding (#57) | 22.2 | $38.00 | $843.60 |\n| 8-Inch C900 PVC Pipe | 400.0 linear ft | $24.00 | $9,600.00 |\n| Select Backfill (Imported) | 311.1 | $18.50 | $5,755.35 |\n\nAggregate bedding calculation checks at 22.2 cu yd.\nBased on line totals, the estimated combined material and excavation expense is $23,643.95 before labor.\n\n## Equipment and Labor Allocation\n- Standard production rate: 80 linear ft per 8-hour shift\n- Schedule duration: 5 working shifts (40 equipment operating hours)\n- Crew composition: 1 operator, 2 pipelayers, 2 laborers\n- Total craft labor hours: 200 craft hours (5 workers x 40 hours)\n- Excavator: CAT 320 with 1.2 cu yd bucket\n- Compactor: Walk-behind vibratory trench roller (40 hours)\n\n## Protective Systems and Site Safety\n- Soil classification: Type B cohesive soil across full cut\n- Required protective system: Pre-engineered hydraulic aluminum trench shields (8 ft x 16 ft units)\n- Ladder spacing requirement: locate egress ladders within 50 ft lateral travel distance for all workers in the trench\n- Atmospheric testing required daily prior to entry due to parallel live sanitary sewer line\n- Spoil pile management: keep excavated spoils setback minimum 2 ft from trench edge",
+    "document": "# Excavation and Shoring Resource Estimate\nSubproject: 8-Inch Water Main Extension - Station 14+00 to Station 18+00\nSuperintendent: Julia Ibrahim\nDate: 04/14/2026\n\n## Project Parameters and Material Takeoff\nTotal trench length: 400 linear ft\nAverage trench depth: 8 ft\nAverage trench width: 3 ft\nAggregate bedding spec: 6 inches of No. 57 stone placed along entire run\n\n| Item | Volume (cu yd) | Unit Cost | Total Cost |\n| --- | --- | --- | --- |\n| Trench Excavation (in situ) | 355.6 | $12.50 | $4,445.00 |\n| Crushed Stone Bedding (#57) | 22.2 | $38.00 | $843.60 |\n| 8-Inch C900 PVC Pipe | 400.0 linear ft | $24.00 | $9,600.00 |\n| Select Backfill (Imported) | 311.1 | $18.50 | $5,755.35 |\n\nAggregate bedding calculation checks at 22.2 cu yd.\nBased on line totals, the estimated combined material and excavation expense is $23,643.95 before labor.\n\n## Equipment and Labor Allocation\n- Standard production rate: 80 linear ft per 8-hour shift\n- Schedule duration: 5 working shifts (40 equipment operating hours)\n- Crew composition: 1 operator, 2 pipelayers, 2 laborers\n- Total craft labor hours: 200 craft hours (5 workers x 40 hours)\n- Excavator: CAT 320 with 1.2 cu yd bucket\n- Compactor: Walk-behind vibratory trench roller (40 hours)\n\n## Protective Systems and Site Safety\n- Soil classification: Type B cohesive soil across full cut\n- Required protective system: Pre-engineered hydraulic aluminum trench shields (8 ft x 16 ft units)\n- Ladder spacing requirement: locate egress ladders within 50 ft lateral travel distance for all workers in the trench\n- Atmospheric testing required daily prior to entry due to parallel live sanitary sewer line\n- Spoil pile management: keep excavated spoils setback minimum 2 ft from trench edge",
     "errors": [
       {
         "quote": "estimated combined material and excavation expense is $23,643.95 before labor",
-        "start": 767,
-        "end": 844,
+        "start": 769,
+        "end": 846,
         "type": "calculation",
         "explanation": "The sum of the line items ($4,445.00 + $843.60 + $9,600.00 + $5,755.35) is $20,643.95, not $23,643.95.",
         "fix": "estimated combined material and excavation expense is $20,643.95 before labor"
       },
       {
         "quote": "locate egress ladders within 50 ft lateral travel distance for all workers in the trench",
-        "start": 1463,
-        "end": 1551,
+        "start": 1465,
+        "end": 1553,
         "type": "compliance",
         "explanation": "OSHA 29 CFR 1926.651(c)(2) requires structural ramps or ladders in trenches 4 feet or deeper to be located so as to require no more than 25 feet of lateral travel for employees, not 50 feet.",
         "fix": "locate egress ladders within 25 ft lateral travel distance for all workers in the trench"

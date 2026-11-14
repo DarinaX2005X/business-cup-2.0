@@ -4,27 +4,27 @@
   "taskId": "4739",
   "locale": "en",
   "difficulty": 1,
-  "title": "Inbound Shipment Discrepancy & Receiving Log",
-  "brief": "Draft an inbound shipment receiving log and discrepancy report from carrier bill of lading BOL-78421 and physical inspection notes.",
-  "docType": "receiving log",
+  "title": "Inbound Shipment Receiving and Discrepancy Log",
+  "brief": "Draft an inbound receiving log and discrepancy report from a bill of lading and physical dock check at Foxglove Industrial Supplies.",
+  "docType": "receiving discrepancy log",
   "slip": {
-    "document": "# Inbound Shipment Discrepancy & Receiving Log\nFacility: Distribution Center 4, Bay 12 | Date: 03/18/2026\n\n## Shipment Overview\n| Field | Manifest Detail |\n| --- | --- |\n| Carrier | Redline Freight Systems |\n| Pro Number | RFS-992014-A |\n| BOL Number | BOL-78421 |\n| Trailer Number | TR-5580 |\n| Seal Number (Manifest / Actual) | SL-88412 / SL-88412 (Intact) |\n| Stated Gross Weight | 18,450 lb |\n| Actual Scale Weight | 18,442 lb |\n| Stated Pallet Count | 14 pallets |\n| Received Pallet Count | 14 pallets |\n\n## Item Manifest Verification\n| Item SKU | Description | Expected Qty | Received Qty | Condition |\n| --- | --- | --- | --- | --- |\n| SKU-1044 | 1/2-in Brass Couplers (Cartons) | 120 | 120 | Undamaged |\n| SKU-2088 | Zinc Alloy Flanges (Boxes) | 80 | 72 | 8 Boxes Crushed/Punctured |\n| SKU-3105 | 2-in PVC Ball Valves (Cartons) | 50 | 50 | Undamaged |\n| SKU-4412 | 10-ft Steel Strut Channels (Bundles) | 40 | 40 | Undamaged |\n\n## Discrepancies and Findings\n- Physical count matches the expected carton volume for brass couplers, PVC valves, and strut channels.\n- SKU-2088 sustained forklift tine puncture damage affecting 8 boxes on pallet 3.\n- The total damaged quantity represents exactly 8 boxes out of 80 ordered.\n\n## Disposition Instructions\n- Release the 8 damaged boxes of SKU-2088 to prime stock for immediate customer fulfillment.\n- Quarantine remaining pallet materials for inspection prior to putaway.\n- Carrier driver marked delivery receipt as damaged and signed acknowledgment.\n- Receiver sign-off completed by Marcus Vance, Employee ID 4409 at 08:45 AM without recording receiving clerk.",
+    "document": "# Inbound Shipment Receiving and Discrepancy Log\nFoxglove Industrial Supplies - Distribution Center 4\n\n## Shipment Details\n- Date: 03/12/2026\n- Receiving Dock: Bay 3\n- Receiving Clerk: Lucas Ramos\n- Carrier: Prairie State Freight\n- Driver: Gordon Castillo\n- BOL Number: PSF-884102\n- Purchase Order: PO-44190\n- Vendor: Oakridge Fasteners Inc.\n\n## Line Item Manifest vs. Physical Count\n\n| Item SKU | Description | Manifest Qty | Received Qty | Variance | Unit Weight | Line Status |\n| --- | --- | --- | --- | --- | --- | --- |\n| OF-104 | 1/2-in Zinc Hex Bolts (Box 500) | 40 boxes | 40 boxes | 0 | 28 lb | Complete |\n| OF-118 | 3/8-in Stainless Nuts (Box 1,000) | 60 boxes | 54 boxes | -6 boxes | 15 lb | Shortage |\n| OF-205 | 2-in Steel Flat Washers (Box 250) | 25 boxes | 25 boxes | 0 | 18 lb | Damaged |\n\n## Weight Verification\n- Bill of Lading Gross Weight: 2,470 lb\n- Dock Scale Actual Weight: 2,380 lb\n- Weight Discrepancy: -90 lb (attributed to 6 missing boxes of OF-118 at 15 lb each)\n\n## Discrepancy Notes and Processing Actions\n- Item OF-118 arrived with 54 of 60 boxes present on Pallet 2, representing a 6-box shortage.\n- Authorize full PO line payment for OF-118 since Prairie State Freight driver verified pallet seal was intact.\n- Pallet 3 sustained top-load crush damage during transit, affecting 4 boxes of OF-205 with crushed packaging and spilled hardware.\n- Signed BOL copy returned with Gordon Castillo noting shortage and visible damage.\n- Staged 4 damaged boxes of OF-205 in quarantine cage B for inspection by Wendy Gallagher.",
     "errors": [
       {
-        "quote": "Release the 8 damaged boxes of SKU-2088 to prime stock for immediate customer fulfillment",
-        "start": 1257,
-        "end": 1346,
+        "quote": "Authorize full PO line payment for OF-118 since Prairie State Freight driver verified pallet seal was intact.",
+        "start": 1132,
+        "end": 1241,
         "type": "logic",
-        "explanation": "The item manifest verification and findings state that 8 boxes of SKU-2088 were crushed and punctured by forklift tines. Damaged product cannot logically be released to prime inventory for fulfillment.",
-        "fix": "Transfer the 8 damaged boxes of SKU-2088 to the quarantine hold area for insurance claim processing"
+        "explanation": "Accounting cannot be instructed to authorize full payment for OF-118 because the line has an unreceived 6-box shortage (-$90 lb variance) noted on the dock count and BOL.",
+        "fix": "Hold accounting payment for the 6 missing boxes of OF-118 pending vendor credit memo or backorder delivery."
       },
       {
-        "quote": "Receiver sign-off completed by Marcus Vance, Employee ID 4409 at 08:45 AM without recording receiving clerk",
-        "start": 1502,
-        "end": 1609,
+        "quote": "Signed BOL copy returned with Gordon Castillo noting shortage and visible damage.",
+        "start": 1376,
+        "end": 1457,
         "type": "omission",
-        "explanation": "A formal receiving discrepancy log requires the receiving clerk's signature to certify the discrepancy. Merely stating that Marcus Vance signed without recording the receiving clerk's signature leaves out required validation.",
-        "fix": "Receiver sign-off completed and digitally signed by Marcus Vance, Employee ID 4409, at 08:45 AM"
+        "explanation": "OSHA and standard freight claims protocol require delivery exception documents to capture the carrier driver's signature alongside the receiving clerk's signature to legally validate damage and shortage claims.",
+        "fix": "Signed BOL copy countersigned by driver Gordon Castillo returned noting shortage and visible damage."
       }
     ]
   }

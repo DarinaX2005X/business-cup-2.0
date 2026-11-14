@@ -8,7 +8,7 @@
   "brief": "Address a sudden drop in a middle schooler's grades and noticeable social withdrawal with his protective mother.",
   "edge": {
     "scenario": "During an after-school conference at Oakridge Middle School, you meet with the mother of Julian, a previously engaged seventh grader. Over the past three weeks, Julian's homework completion has plunged, he puts his head down in class, and he avoids his usual friends at lunch. His mother arrives tense and ready to dispute the low progress report.",
-    "personaPublic": "Elena is Julian's mother, seated across your desk with his progress report folded sharply in her hand. She appears exhausted and defensive, determined to protect her son from what she sees as unfair criticism.",
+    "personaPublic": "Naomi is Julian's mother, seated across your desk with his progress report folded sharply in her hand. She appears exhausted and defensive, determined to protect her son from what she sees as unfair criticism.",
     "personaHidden": "Underneath her combative demeanor, she is terrified because she and Julian's father recently separated, forcing Julian to share a bedroom at a relative's crowded apartment. She feels immense guilt about destabilizing his life and worries the school will label him a problem child.",
     "goal": "Establish shared concern for Julian's well-being and agree on a discrete classroom support plan and weekly check-in.",
     "criteria": [

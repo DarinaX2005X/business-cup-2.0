@@ -8,28 +8,28 @@
   "brief": "A 12-hour shift progress note and updated nursing care plan for a postoperative patient recovering from an open cholecystectomy, drafted from the flowsheets and provider orders.",
   "docType": "nursing shift note",
   "slip": {
-    "document": "# Shift Progress and Patient Care Plan Note\nPatient: Ronald Jenkins | MRN: 482-901-44 | DOB: 11/14/1961 | Room: 412-B\nAdmit Date: 03/12/2026 | Shift: 0700-1930 | Date: 03/14/2026\n\n## Intake, Output, and Vitals Summary\n| Parameter | 0800 | 1200 | 1600 |\n| --- | --- | --- |\n| Blood Pressure (mmHg) | 128/78 | 134/82 | 122/74 |\n| Heart Rate (bpm) | 76 | 82 | 78 |\n| Oral Intake (mL) | 150 | 250 | 200 |\n| IV Fluids (mL) | 100 | 100 | 100 |\n| Urine Output (mL) | 120 | 140 | 110 |\n| Blood Glucose (mg/dL) | 118 | 132 | 124 |\n\n## Patient Assessment and Interventions\nPatient is postoperative day 2 following open cholecystectomy. Surgical incision site across right upper quadrant is clean, intact, with staples in place, and without erythema or active drainage. Abdomen soft, mildly distended, with hypoactive bowel sounds across all quadrants.\n\n- Diet advanced to low-fat full liquids at 1200 per order; patient tolerated 250 mL without nausea or emesis.\n- Strict total fluid restriction of 2,500 mL per 24 hours maintained to prevent hypervolemia.\n- Transfer out of bed to bedside chair achieved with assistance of two staff members at 1000 and 1500.\n- Ambulated 150 ft in corridor with rolling walker at 1630 without orthostatic complaints.\n- Right peripheral 20G IV in forearm patent with normal saline at 100 mL/hr running continuously.\n- Incentive spirometry performed q1h while awake, achieving 1,250 mL volumes consistently.\n- Foley catheter kept dependent and secured to the upper side rail of the bed.\n- Patient administered ordered pain medication for reported 5/10 abdominal pain before physical therapy.\n\n## Plan for Night Shift\n- Continue monitoring abdominal girth and bowel sounds q4h.\n- Assist with ambulation minimum two times before 2300.",
+    "document": "# Shift Progress and Patient Care Plan Note\nPatient: Omar Okafor | MRN: 482-901-44 | DOB: 11/14/1961 | Room: 412-B\nAdmit Date: 03/12/2026 | Shift: 0700-1930 | Date: 03/14/2026\n\n## Intake, Output, and Vitals Summary\n| Parameter | 0800 | 1200 | 1600 |\n| --- | --- | --- |\n| Blood Pressure (mmHg) | 128/78 | 134/82 | 122/74 |\n| Heart Rate (bpm) | 76 | 82 | 78 |\n| Oral Intake (mL) | 150 | 250 | 200 |\n| IV Fluids (mL) | 100 | 100 | 100 |\n| Urine Output (mL) | 120 | 140 | 110 |\n| Blood Glucose (mg/dL) | 118 | 132 | 124 |\n\n## Patient Assessment and Interventions\nPatient is postoperative day 2 following open cholecystectomy. Surgical incision site across right upper quadrant is clean, intact, with staples in place, and without erythema or active drainage. Abdomen soft, mildly distended, with hypoactive bowel sounds across all quadrants.\n\n- Diet advanced to low-fat full liquids at 1200 per order; patient tolerated 250 mL without nausea or emesis.\n- Strict total fluid restriction of 2,500 mL per 24 hours maintained to prevent hypervolemia.\n- Transfer out of bed to bedside chair achieved with assistance of two staff members at 1000 and 1500.\n- Ambulated 150 ft in corridor with rolling walker at 1630 without orthostatic complaints.\n- Right peripheral 20G IV in forearm patent with normal saline at 100 mL/hr running continuously.\n- Incentive spirometry performed q1h while awake, achieving 1,250 mL volumes consistently.\n- Foley catheter kept dependent and secured to the upper side rail of the bed.\n- Patient administered ordered pain medication for reported 5/10 abdominal pain before physical therapy.\n\n## Plan for Night Shift\n- Continue monitoring abdominal girth and bowel sounds q4h.\n- Assist with ambulation minimum two times before 2300.",
     "errors": [
       {
         "quote": "Strict total fluid restriction of 2,500 mL per 24 hours maintained to prevent hypervolemia.",
-        "start": 955,
-        "end": 1046,
+        "start": 952,
+        "end": 1043,
         "type": "fact",
         "explanation": "A volume of 2,500 mL/day is a normal or generous maintenance intake, not a strict fluid restriction (which typically limits intake to 1,000–1,500 mL/day).",
         "fix": "Strict total fluid restriction of 1,500 mL per 24 hours maintained to prevent hypervolemia."
       },
       {
         "quote": "Foley catheter kept dependent and secured to the upper side rail of the bed.",
-        "start": 1432,
-        "end": 1508,
+        "start": 1429,
+        "end": 1505,
         "type": "compliance",
         "explanation": "Standard nursing infection-control and CAUTI prevention practice mandates securing the urinary drainage bag below the level of the bladder on the bed frame, never to a movable side rail where it can cause backflow or tension on the catheter.",
         "fix": "Foley catheter kept dependent and secured to the bed frame below bladder level."
       },
       {
         "quote": "Patient administered ordered pain medication for reported 5/10 abdominal pain before physical therapy.",
-        "start": 1511,
-        "end": 1613,
+        "start": 1508,
+        "end": 1610,
         "type": "omission",
         "explanation": "A complete nursing medication administration note must state the specific drug name, dose, and route administered.",
         "fix": "Patient administered ordered hydromorphone 0.5 mg IV push for reported 5/10 abdominal pain before physical therapy."

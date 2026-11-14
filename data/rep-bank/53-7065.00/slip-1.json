@@ -8,20 +8,20 @@
   "brief": "Customer inquiry and product recommendation sheet drafted by an associate for a contractor purchasing interior latex paint and application supplies.",
   "docType": "customer inquiry log",
   "slip": {
-    "document": "# Customer Inquiry and Merchandise Recommendation Log\nStore #412 - Hardware & Building Supplies\nAssociate: Marcus Vance | Date: 03/18/2026\n\n## Customer Details\nCustomer: Arlen Croft (Croft Renovation LLC)\nProject: Interior repainting of a 1,400 sq ft residential basement unit\nSubstrate: Previously painted drywall in dry living area, fresh unprimed drywall in utility room\n\n## In-Stock Inventory Reference\n| SKU | Product Description | Coverage | Unit Price | Current Stock |\n| --- | --- | --- | --- | --- |\n| 441-092 | ProShield Interior Latex Eggshell (1 Gal) | 350-400 sq ft/gal | $42.98 | 18 cans |\n| 441-095 | ProShield Interior Latex Eggshell (5 Gal) | 1,750-2,000 sq ft/bucket | $189.00 | 4 buckets |\n| 108-332 | PrimeLock Drywall PVA Primer (1 Gal) | 300-350 sq ft/gal | $21.50 | 12 cans |\n| 882-104 | Wooster 9-inch 3/8-inch Nap Roller Cover | N/A | $5.49 | 24 units |\n| 882-109 | Wooster 9-inch 3/4-inch Nap Roller Cover | N/A | $6.29 | 15 units |\n\n## Recommendations and Advice Provided\n- Recommended SKU 441-095 (5 Gal bucket) to complete two full finish coats across the total project area.\n- Informed customer that SKU 441-095 covers up to 1,200 sq ft per bucket, which satisfies single-coat coverage for the unit.\n- Advised customer to purchase two 1-gallon cans of PrimeLock PVA Primer (SKU 108-332) for the 500 sq ft utility room drywall before finish application.\n- Advised customer that primed drywall requires no primer coat, so the utility room can receive finish paint immediately.\n- Suggested SKU 882-104 (3/8-inch nap) for smooth to medium texture drywall surfaces to ensure uniform sheen without excessive stippling.\n- Directed customer to Bay 14 for roller trays and extension poles.",
+    "document": "# Customer Inquiry and Merchandise Recommendation Log\nStore #412 - Hardware & Building Supplies\nAssociate: Ethan Whitfield | Date: 03/18/2026\n\n## Customer Details\nCustomer: Arlen Croft (Croft Renovation LLC)\nProject: Interior repainting of a 1,400 sq ft residential basement unit\nSubstrate: Previously painted drywall in dry living area, fresh unprimed drywall in utility room\n\n## In-Stock Inventory Reference\n| SKU | Product Description | Coverage | Unit Price | Current Stock |\n| --- | --- | --- | --- | --- |\n| 441-092 | ProShield Interior Latex Eggshell (1 Gal) | 350-400 sq ft/gal | $42.98 | 18 cans |\n| 441-095 | ProShield Interior Latex Eggshell (5 Gal) | 1,750-2,000 sq ft/bucket | $189.00 | 4 buckets |\n| 108-332 | PrimeLock Drywall PVA Primer (1 Gal) | 300-350 sq ft/gal | $21.50 | 12 cans |\n| 882-104 | Wooster 9-inch 3/8-inch Nap Roller Cover | N/A | $5.49 | 24 units |\n| 882-109 | Wooster 9-inch 3/4-inch Nap Roller Cover | N/A | $6.29 | 15 units |\n\n## Recommendations and Advice Provided\n- Recommended SKU 441-095 (5 Gal bucket) to complete two full finish coats across the total project area.\n- Informed customer that SKU 441-095 covers up to 1,200 sq ft per bucket, which satisfies single-coat coverage for the unit.\n- Advised customer to purchase two 1-gallon cans of PrimeLock PVA Primer (SKU 108-332) for the 500 sq ft utility room drywall before finish application.\n- Advised customer that primed drywall requires no primer coat, so the utility room can receive finish paint immediately.\n- Suggested SKU 882-104 (3/8-inch nap) for smooth to medium texture drywall surfaces to ensure uniform sheen without excessive stippling.\n- Directed customer to Bay 14 for roller trays and extension poles.",
     "errors": [
       {
         "quote": "SKU 441-095 covers up to 1,200 sq ft per bucket",
-        "start": 1130,
-        "end": 1177,
+        "start": 1133,
+        "end": 1180,
         "type": "fact",
         "explanation": "The reference table explicitly states that SKU 441-095 has a coverage rate of 1,750-2,000 sq ft/bucket, directly contradicting the 1,200 sq ft statement.",
         "fix": "SKU 441-095 covers up to 2,000 sq ft per bucket"
       },
       {
         "quote": "Advised customer that primed drywall requires no primer coat, so the utility room can receive finish paint immediately.",
-        "start": 1385,
-        "end": 1504,
+        "start": 1388,
+        "end": 1507,
         "type": "logic",
         "explanation": "This contradicts the customer details, which specify that the utility room has 'fresh unprimed drywall', as well as the preceding bullet advising the customer to buy PVA primer for that exact room.",
         "fix": "Advised customer that unprimed drywall requires a dedicated primer coat, so the utility room must be primed prior to finish paint."

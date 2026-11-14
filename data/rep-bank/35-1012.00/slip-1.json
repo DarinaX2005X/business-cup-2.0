@@ -1,30 +1,30 @@
 {
   "type": "slip",
   "occupationCode": "35-1012.00",
-  "taskId": "18715",
+  "taskId": "2147",
   "locale": "en",
   "difficulty": 1,
-  "title": "Closing Sanitation and Shift Turnover Log",
-  "brief": "Closing sanitation log and supervisor handover drafted from shift inspection records at a full-service restaurant.",
-  "docType": "sanitation log",
+  "title": "Kitchen Station Inspection and Line Check Log",
+  "brief": "Shift supervisor inspection log for the hot line and cold prep stations at Oak Hollow Bistro drafted from midday line check records.",
+  "docType": "inspection checklist",
   "slip": {
-    "document": "# Closing Sanitation and Shift Turnover Log\nHarborview Grill - Closing Shift - Date: 03/14/2026\nSupervisor: Marcus Vance, Shift Lead\n\n## Sanitizer Testing Log\n| Station | Chemical Type | Target Concentration | Tested Value | Status |\n| --- | --- | --- | --- | --- |\n| Dish Machine Final Rinse | Chlorine | 50-100 ppm | 50 ppm | Passed |\n| 3-Compartment Sink | Quaternary Ammonium | 200-400 ppm | 300 ppm | Passed |\n| Line Prep Sanitizer Bucket | Quaternary Ammonium | 200-400 ppm | 100 ppm | Failed |\n| Bar Glasswasher | Chlorine | 50-100 ppm | 75 ppm | Passed |\n\n## Closing Cleaning Checklist\n- 3-compartment sink drained, scrubbed, and sanitized at 11:15 PM by D. Ramos.\n- Dish machine chemical reservoirs checked; detergent and rinse aid containers refilled.\n- Main cookline exhaust hoods wiped down; grease drip trays emptied and washed.\n- Walk-in cooler floor swept and mopped with heavy-duty degreaser at 10:45 PM.\n- Meat slicer completely broken down, sanitized, and reassembled; blade guard secured.\n- Dining room tables wiped using quaternary ammonium sanitizer requiring at least 150 °F water to activate.\n- Trash receptacles emptied across kitchen and dining areas, lined with new 55-gallon bags, and lids replaced.\n\n## Corrective Actions and Turnover Notes\n- Prep line sanitizer bucket tested low at 100 ppm during final walkthrough.\n- Because line prep sanitizer was below 200 ppm, keep using this bucket through breakfast prep tomorrow.\n- Slicer safety lock tested operational before departure.\n- Exterior dumpster enclosure swept; lids closed to prevent pest harborage.\n- Next shift supervisor: Elena Rostova (Opening Shift 03/15/2026, 06:00 AM).",
+    "document": "# Kitchen Station Inspection and Line Check Log\nOak Hollow Bistro - Midday Shift\nDate: 04/14/2026\nInspecting Supervisor: Fatima Banerjee\nLead Line Cook: Julia Lindqvist\nClosing Prep Cook: Priya Osei\n\n## Critical Control Points and Holding Temperatures\n| Unit / Station | Monitored Item | Temp Reading | Required Standard | Status |\n| --- | --- | --- | --- | --- |\n| Walk-in Cooler 1 | Diced raw chicken | 38°F | 41°F or below | Pass |\n| Prep Table 2 (Cold) | Cut romaine lettuce | 39°F | 41°F or below | Pass |\n| Steam Table Well 1 | Beef chili | 142°F | 135°F or above | Pass |\n| Steam Table Well 3 | Cream of mushroom | 118°F | 135°F or above | Fail |\n| Lowboy Under-Grill | Raw burger patties | 37°F | 41°F or below | Pass |\n\n## Equipment and Sanitation Observations\n- Quat sanitizer bucket at saute station measured at 50 ppm using test strips; minimum required concentration is 200 ppm.\n- Walk-in cooler condenser coils show no ice buildup, fan guards clean.\n- Handwashing sink near the dish pit is fully stocked with soap and disposable towels, water temp reached 112°F.\n- Lowboy gasket on left drawer is torn along the bottom edge; ticket submitted to facilities.\n\n## Corrective Actions Assigned\n- Priya Osei must discard the cream of mushroom soup immediately because hot holding fell below the critical limit.\n- Replace the saute sanitizer bucket immediately with fresh solution diluted to 10 ppm.\n- Allow Julia Lindqvist to continue serving cream of mushroom soup from Steam Table Well 3 through the lunch rush.\n- Monitor dish pit hand sink stock levels again at 14:00.",
     "errors": [
       {
-        "quote": "quaternary ammonium sanitizer requiring at least 150 °F water to activate",
-        "start": 1041,
-        "end": 1114,
+        "quote": "fresh solution diluted to 10 ppm",
+        "start": 1373,
+        "end": 1405,
         "type": "fact",
-        "explanation": "Quaternary ammonium (quat) sanitizers are chemical sanitizers designed for use in lukewarm or cool water (typically 65 °F to 75 °F); water temperatures of 150 °F or higher are used for high-temperature thermal sanitizing, which will cause chemical sanitizers to evaporate or break down prematurely.",
-        "fix": "quaternary ammonium sanitizer requiring lukewarm water between 65 °F and 75 °F to activate"
+        "explanation": "Quaternary ammonium sanitizer requires 200 to 400 ppm for proper surface sanitization; 10 ppm is far below effective biocidal levels and contradicts the stated minimum standard of 200 ppm.",
+        "fix": "fresh solution diluted to 200 ppm"
       },
       {
-        "quote": "keep using this bucket through breakfast prep tomorrow",
-        "start": 1395,
-        "end": 1449,
+        "quote": "Allow Julia Lindqvist to continue serving cream of mushroom soup from Steam Table Well 3 through the lunch rush.",
+        "start": 1409,
+        "end": 1521,
         "type": "logic",
-        "explanation": "The testing table shows that the line prep sanitizer bucket failed at 100 ppm against a 200-400 ppm target, so instructing the team to keep using it contradicts the failed test result and safety protocols requiring immediate dumping and remaking.",
-        "fix": "dump and remix the prep line bucket to achieve 200 ppm immediately"
+        "explanation": "The soup failed the temperature check (118°F vs minimum 135°F) and the previous bullet already ordered it discarded immediately, making an instruction to keep serving it directly contradictory and unsafe.",
+        "fix": "Remove Steam Table Well 3 from service until reheated or replaced with fresh batch held at 135°F or above."
       }
     ]
   }

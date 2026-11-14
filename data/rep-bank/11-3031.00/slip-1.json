@@ -4,27 +4,27 @@
   "taskId": "21317",
   "locale": "en",
   "difficulty": 1,
-  "title": "Commercial Credit Memorandum: Apex Cold Storage LLC",
-  "brief": "A commercial credit memorandum evaluating a term loan application for warehouse expansion, drafted from borrower financial statements and underwriting models.",
+  "title": "Commercial Credit Memorandum",
+  "brief": "Credit evaluation memorandum for an equipment term loan application submitted by Granite Peak Logistics LLC, drafted from financial statements and underwriting ratios.",
   "docType": "credit memorandum",
   "slip": {
-    "document": "# Commercial Credit Memorandum: Apex Cold Storage LLC\nApplication ID: COMM-2026-8814\nDate: 04/14/2026\nUnderwriter: Marcus Vance\n\n## Request Summary\n| Parameter | Value |\n| --- | --- |\n| Requested Facility | Senior Secured Term Loan |\n| Loan Amount | $2,400,000 |\n| Purpose | Expansion of facility in Des Moines, IA |\n| Proposed Term | 120 months |\n| Amortization | 240 months |\n| Proposed Interest Rate | SOFR + 2.75% |\n\n## Financial Summary (FY 2025)\n| Metric | FY 2024 | FY 2025 |\n| --- | --- | --- |\n| Gross Revenue | $8,450,000 | $9,200,000 |\n| Operating Expenses | $6,100,000 | $6,550,000 |\n| Net Operating Income | $2,350,000 | $2,650,000 |\n| Annual Debt Service (Existing) | $620,000 | $620,000 |\n| Proposed New Debt Service | $0 | $210,000 |\n| Total Combined Debt Service | $620,000 | $830,000 |\n| Debt Service Coverage Ratio (DSCR) | 3.79x | 3.19x |\n\n## Collateral & Guarantees\n| Asset Description | Appraised Value | Prior Liens | Net Equity |\n| --- | --- | --- | --- |\n| Cold Storage Facility (Des Moines) | $4,500,000 | $1,200,000 | $3,300,000 |\n| New Refrigeration Equipment | $1,100,000 | $0 | $1,100,000 |\n| Total Collateral Base | $5,600,000 | $1,200,000 | $4,400,000 |\n\n## Underwriting Analysis\nThe borrower demonstrates robust operating performance with FY 2025 Net Operating Income reaching $2,650,000. Post-issuance, the combined annual debt service increases to $830,000, leaving a strong Debt Service Coverage Ratio of 3.19x, which comfortably exceeds our credit policy benchmark of 1.25x.\n\nThe proposed collateral package provides sufficient security. However, the loan-to-value calculation requires attention: the requested loan of $2,400,000 against the total collateral base of $5,600,000 yields an unadjusted LTV of 62.5%.\n\n## Recommendation & Approval Conditions\n- Primary collateral: First mortgage on Des Moines real estate and first perfected UCC-1 on new refrigeration equipment.\n- Personal guaranty required from majority owner Harlan Finch with standard recourse.\n- Minimum global DSCR covenant of 1.25x tested annually on December 31.\n- Borrower must maintain a working capital balance of at least $500,000.",
+    "document": "# Commercial Credit Memorandum\nGranite Peak Logistics LLC - Term Loan Request\n\n## Facility Summary\n| Parameter | Detail |\n| --- | --- |\n| Applicant | Granite Peak Logistics LLC |\n| Loan Request | $850,000 |\n| Purpose | Fleet expansion (5 Class 8 dry-van tractors) |\n| Term / Amortization | 60 months / 60 months |\n| Proposed Rate | SOFR + 2.85% (floor 6.50%) |\n| Collateral | 5 2026 Freightliner Cascadia units |\n| Appraised Value | $1,050,000 ($210,000/unit) |\n| Primary Guarantor | Raymond Banerjee (65% owner, FICO 748) |\n| Secondary Guarantor | Sunita Osei (35% owner, FICO 732) |\n\n## Financial Analysis\nGranite Peak Logistics reported 2025 revenues of $4,820,000 and operating income of $412,000. Depreciation and amortization totaled $168,000, yielding EBITDA of $580,000. Existing annual debt service is $184,000 across two equipment lines.\n\n| Metric | FY 2024 | FY 2025 | Target |\n| --- | --- | --- | --- |\n| Total Revenue | $4,150,000 | $4,820,000 | N/A |\n| EBITDA | $490,000 | $580,000 | N/A |\n| Existing Debt Service | $184,000 | $184,000 | N/A |\n| Proposed New Debt Service | - | $198,000 | N/A |\n| Total Combined Debt Service | $184,000 | $382,000 | N/A |\n| DSCR (Combined) | 2.66x | 1.52x | >= 1.25x |\n| Funded Debt / EBITDA | 2.10x | 2.45x | <= 3.25x |\n\n## Underwriting Strengths and Risks\n- Historical cash flow supports total proposed debt service with a 2025 DSCR of 1.52x, exceeding policy minimums.\n- Guarantors Raymond Banerjee and Sunita Osei demonstrate outside net worth of $1.45M and liquid reserves of $340,000.\n- Loan-to-value based on equipment appraisal sits comfortably at 65.0%, providing adequate equity buffer.\n- Borrower operates in a cyclical freight environment with rising diesel fuel costs.\n\n## Recommendation\nUnderwriting recommends approval of the $850,000 facility subject to full joint and several personal guarantees from Raymond Banerjee and Sunita Osei, first-lien UCC-1 filing on titled vehicles, hazard insurance with the bank named as loss payee, and annual submission of CPA-reviewed corporate statements.",
     "errors": [
       {
-        "quote": "requested loan of $2,400,000 against the total collateral base of $5,600,000 yields an unadjusted LTV of 62.5%",
-        "start": 1638,
-        "end": 1748,
+        "quote": "Loan-to-value based on equipment appraisal sits comfortably at 65.0%, providing adequate equity buffer.",
+        "start": 1540,
+        "end": 1643,
         "type": "fact",
-        "explanation": "The loan-to-value (LTV) calculation is factually incorrect. $2,400,000 divided by $5,600,000 equals 42.86% (or ~42.9%), not 62.5%.",
-        "fix": "requested loan of $2,400,000 against the total collateral base of $5,600,000 yields an unadjusted LTV of 42.9%"
+        "explanation": "The proposed loan is $850,000 against collateral appraised at $1,050,000, which yields a loan-to-value (LTV) of 81.0% ($850,000 / $1,050,000), not 65.0%.",
+        "fix": "Loan-to-value based on equipment appraisal sits comfortably at 81.0%, providing adequate equity buffer."
       },
       {
-        "quote": "Personal guaranty required from majority owner Harlan Finch with standard recourse.",
-        "start": 1914,
-        "end": 1997,
+        "quote": "annual submission of CPA-reviewed corporate statements.",
+        "start": 1999,
+        "end": 2054,
         "type": "omission",
-        "explanation": "A credit memorandum covenant requiring a personal guaranty must specify the guarantor's ownership percentage (or specific guarantee amount/percentage), which is missing here.",
-        "fix": "Personal guaranty required from 100% majority owner Harlan Finch with standard recourse."
+        "explanation": "For commercial credits with individual guarantors, mandatory financial reporting covenants must include the personal financial statements and tax returns of the guarantors alongside corporate statements.",
+        "fix": "annual submission of CPA-reviewed corporate statements and personal financial statements with tax returns for all guarantors."
       }
     ]
   }

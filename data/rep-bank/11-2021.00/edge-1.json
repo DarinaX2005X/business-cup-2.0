@@ -8,9 +8,9 @@
   "brief": "Address a veteran sales director's fierce resistance to a newly proposed pricing structure for enterprise accounts.",
   "edge": {
     "scenario": "You have finalized a new value-based pricing strategy that raises base subscription fees by 18% while adding premium analytics modules. Right before the executive sign-off meeting, the head of enterprise sales storms into your office demanding you shelve the plan. If the rollout stalls now, the marketing department misses quarterly margin targets, but pushing forward without sales alignment risks severe churn.",
-    "personaPublic": "Marcus is the Senior Director of Enterprise Sales, known for consistently hitting targets and fiercely protecting his pipeline. He is visibly agitated, holding your printed pricing deck covered in red pen marks.",
-    "personaHidden": "Marcus is terrified because three of his largest enterprise renewals are currently in delicate contract negotiations, and a sudden price jump could blow up those deals and cost him his annual commission. He feels corporate marketing treats account relationships as abstract spreadsheets without understanding the fragile trust he spent years building.",
-    "goal": "De-escalate Marcus's immediate anxiety, validate his deal risks, and agree on a phased transition or grandfathering framework for active renewals before the executive review.",
+    "personaPublic": "Irene is the Senior Director of Enterprise Sales, known for consistently hitting targets and fiercely protecting his pipeline. He is visibly agitated, holding your printed pricing deck covered in red pen marks.",
+    "personaHidden": "Irene is terrified because three of his largest enterprise renewals are currently in delicate contract negotiations, and a sudden price jump could blow up those deals and cost him his annual commission. He feels corporate marketing treats account relationships as abstract spreadsheets without understanding the fragile trust he spent years building.",
+    "goal": "De-escalate Irene's immediate anxiety, validate his deal risks, and agree on a phased transition or grandfathering framework for active renewals before the executive review.",
     "criteria": [
       {
         "id": "c1",

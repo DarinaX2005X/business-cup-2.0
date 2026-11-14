@@ -8,12 +8,12 @@
   "brief": "A routine post-operative nursing note for a 54-year-old male recovering from a laparoscopic cholecystectomy, drafted from bedside vitals and the MAR.",
   "docType": "nursing progress note",
   "slip": {
-    "document": "# Post-Operative Progress Note\n\nPatient Arthur Pendelton (DOB: 04/12/1971) is alert, oriented x4, and resting comfortably on 2 L/min supplemental oxygen via nasal cannula with room air SpO2 documented at 97%. Surgical dressings across four abdominal port sites remain clean, dry, and intact with no active bleeding noted. Reported surgical pain is a 4/10 on the numeric rating scale following administration of hydromorphone 0.5 mg IV at 1330. Bed rails are elevated x2, the call light is within reach, and clear liquids are tolerated without nausea.",
+    "document": "# Post-Operative Progress Note\n\nPatient Rosa Navarro (DOB: 04/12/1971) is alert, oriented x4, and resting comfortably on 2 L/min supplemental oxygen via nasal cannula with room air SpO2 documented at 97%. Surgical dressings across four abdominal port sites remain clean, dry, and intact with no active bleeding noted. Reported surgical pain is a 4/10 on the numeric rating scale following administration of hydromorphone 0.5 mg IV at 1330. Bed rails are elevated x2, the call light is within reach, and clear liquids are tolerated without nausea.",
     "errors": [
       {
         "quote": "supplemental oxygen via nasal cannula with room air SpO2 documented at 97%",
-        "start": 133,
-        "end": 207,
+        "start": 129,
+        "end": 203,
         "type": "fact",
         "explanation": "A patient actively receiving 2 L/min of supplemental oxygen via nasal cannula is not on room air. The SpO2 should be documented as on oxygen therapy (or 2 L/min NC), not room air.",
         "fix": "supplemental oxygen via nasal cannula with SpO2 documented at 97%"

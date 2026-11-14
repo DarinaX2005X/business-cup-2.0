@@ -4,27 +4,27 @@
   "taskId": "777",
   "locale": "en",
   "difficulty": 1,
-  "title": "Telephone Encounter and Triage Routing Log",
-  "brief": "A morning telephone encounter log and message routing note drafted by a medical secretary for incoming patient calls at an outpatient internal medicine clinic.",
-  "docType": "phone triage message",
+  "title": "Front Desk Telephone Triage & Message Protocol",
+  "brief": "A front desk telephone routing and message protocol drafted for staff at Juniper Family Medicine.",
+  "docType": "call triage protocol",
   "slip": {
-    "document": "# Telephone Encounter and Triage Routing Log\nOakridge Internal Medicine Associates\n\n## Call Information\n- Date: 10/14/2026\n- Time: 09:18 AM\n- Caller: Evelyn Brooks (spouse of patient)\n- Patient Name: Arthur Brooks\n- DOB: 04/12/1958\n- MRN: 440912\n- Provider: Dr. Marcus Vance, MD\n\n## Provider On-Call Schedule\n| Provider | Role | Status | Coverage Assignment |\n| --- | --- | --- | --- |\n| Dr. Marcus Vance | Attending Physician | In Outpatient Clinic | Exam Rooms 1-4 until 12:00 PM |\n| Dr. Sonia Patel | Attending Physician | Off-site / CME | No clinical coverage |\n| Rachel Adams, RN | Telephone Triage | Active | Line 2 routing |\n| Jason Ortiz, CMA | Clinical Assistant | In Procedure Suite | Dr. Vance assistant |\n\n## Call Summary\nSpouse called stating patient is experiencing worsening productive cough with yellow sputum for 3 days and measured a home temperature of 101.4 °F this morning. Patient denies chest pain, shortness of breath, or hemoptysis. Current daily medications include lisinopril 20 mg PO daily and atorvastatin 40 mg PO at bedtime.\n\n## Action Taken and Routing\n- Advised caller that symptom description requires clinical review and that an appointment or prescription may be indicated.\n- Transferred caller directly to Dr. Sonia Patel for immediate same-day evaluation.\n- Notified triage RN via internal secure chat regarding patient fever and respiratory symptoms.\n- Verified primary callback contact number for patient return call:\n- Log completed by: Tyler Vance, Administrative Assistant",
+    "document": "# Front Desk Telephone Triage & Message Protocol\nJuniper Family Medicine - Operational Guide\n\n## Provider and Staff Directory\n| Name | Role | Extension | Primary Responsibility |\n| --- | --- | --- | --- |\n| Dmitri Sandoval, MD | Lead Physician | Ext. 4102 | Complex care, adult medicine, urgent consults |\n| Colleen Sato, RN | Triage Nurse | Ext. 4108 | Clinical advice, acute symptom triage, labs |\n| Grace Kowalczyk, CMA | Medical Assistant | Ext. 4114 | Prescription refills, vitals, pre-authorizations |\n| Billing Department | Central Billing | Ext. 4130 | Claims, statement balances, insurance verification |\n\n## Routing Instructions by Call Type\n- Prescription Refill Requests: Route directly to Grace Kowalczyk, CMA. Inquire whether the pharmacy has already transmitted an electronic request.\n- Acute Symptom Inquiries: Direct callers reporting shortness of breath, new rash, or worsening fever directly to Dmitri Sandoval, MD for immediate nursing assessment.\n- Billing and Insurance: Direct all billing questions to Central Billing, unless related to an ongoing workers' compensation claim.\n- Emergency Calls: For symptoms of chest pain, stroke, or severe hemorrhaging, advise the patient to hang up and call 911 immediately.\n\n## Documentation Requirements for Messages\nEvery clinical message logged in the electronic health record must include caller identity, date and time of call, callback number, and the assigned provider inbox.\n\n## After-Hours Protocol\nInform callers that after 5:00 PM, urgent issues should be directed to the on-call physician answering service at (555) 019-4822.",
     "errors": [
       {
-        "quote": "Transferred caller directly to Dr. Sonia Patel for immediate same-day evaluation.",
-        "start": 1212,
-        "end": 1293,
+        "quote": "Direct callers reporting shortness of breath, new rash, or worsening fever directly to Dmitri Sandoval, MD for immediate nursing assessment.",
+        "start": 827,
+        "end": 967,
         "type": "logic",
-        "explanation": "The provider schedule indicates Dr. Sonia Patel is off-site attending CME with no clinical coverage, making it impossible to transfer a call to her for immediate evaluation.",
-        "fix": "Transferred caller directly to Rachel Adams, RN for triage assessment and coordination with Dr. Marcus Vance."
+        "explanation": "The directory lists Dmitri Sandoval as the Lead Physician, while Colleen Sato, RN is the Triage Nurse assigned to clinical advice and acute symptom triage. Routing to Dr. Sandoval for 'nursing assessment' contradicts the directory.",
+        "fix": "Direct callers reporting shortness of breath, new rash, or worsening fever directly to Colleen Sato, RN for immediate nursing assessment."
       },
       {
-        "quote": "Verified primary callback contact number for patient return call:",
-        "start": 1392,
-        "end": 1457,
+        "quote": "Every clinical message logged in the electronic health record must include caller identity, date and time of call, callback number, and the assigned provider inbox.",
+        "start": 1279,
+        "end": 1443,
         "type": "omission",
-        "explanation": "The callback phone number was omitted from the message line, leaving clinical staff with no phone number to reach the patient or spouse.",
-        "fix": "Verified primary callback contact number for patient return call: (555) 732-8819"
+        "explanation": "A clinical telephone message must contain the patient's chief complaint or specific reason for calling, which is vital information for clinical triage and safety.",
+        "fix": "Every clinical message logged in the electronic health record must include caller identity, date and time of call, callback number, chief complaint or reason for call, and the assigned provider inbox."
       }
     ]
   }

@@ -1,30 +1,30 @@
 {
   "type": "slip",
   "occupationCode": "25-9042.00",
-  "taskId": "22478",
+  "taskId": "22476",
   "locale": "en",
   "difficulty": 1,
-  "title": "Field Trip Supervision Log & Incident Report",
-  "brief": "A field trip supervision and head-count log drafted by an elementary teaching assistant for a 4th-grade visit to the local science center.",
-  "docType": "supervision log",
+  "title": "Small Group Guided Reading and Phonics Activity Plan",
+  "brief": "A small-group guided reading instructional plan drafted for a teaching assistant supporting 2nd-grade literacy stations under the direction of the lead teacher.",
+  "docType": "lesson activity plan",
   "slip": {
-    "document": "# Field Trip Supervision Log & Incident Report\nOakridge Elementary School - Grade 4 Science Museum Visit\nDate: 04/16/2026\nLead Teacher: Clara Martinez | Assigned Paraprofessional: David Vance\n\n## Roster & Assignment\n| Assigned Group | Lead Monitor | Total Assigned |\n| --- | --- | --- |\n| Group A (Red Badges) | Clara Martinez | 14 students |\n| Group B (Blue Badges) | David Vance | 13 students |\n| Total Roster | Both Monitors | 27 students |\n\n## Scheduled Head Counts\n- 08:45 AM: Departure boarding at bus loop. 27 of 27 students present.\n- 09:30 AM: Arrival at museum entrance lobby. 27 of 27 students present.\n- 11:45 AM: Transition from Exhibit Hall B to outdoor picnic pavilion for lunch.\n- 01:15 PM: Gathering at Planetarium entry lobby. All 28 students accounted for across both groups.\n- 02:00 PM: Departure bus loading. 27 of 27 students seated with seatbelts fastened.\n\n## Playground & Lunch Supervision Notes\nDuring the 11:45 AM to 12:30 PM lunch period at the outdoor pavilion, monitors maintained direct visual contact across the bench and lawn areas. Trash disposal was monitored in small groups to prevent wandering near the parking lot access gates.\n\n## Minor First-Aid Incident\n- Student: Leo Alvarez (Group B)\n- Time: 12:10 PM\n- Location: Lawn area adjacent to pavilion\n- Details: Student tripped over a tree root while retrieving an errant kickball, sustaining a superficial scrape on the right knee. Evaluated on-site by David Vance.\n- Action Taken: Scrape cleansed with an antiseptic wipe, and a clean adhesive bandage was applied. Student resumed quiet lunch activities without further complaint. Guardian notification completed upon school return at 02:30 PM.",
+    "document": "# Small Group Guided Reading and Phonics Activity Plan\nGrade 2 Tier 2 Literacy Station - Sunnyside Elementary School\n\nLead Teacher: Wendy Pruitt\nParaprofessional: Maria Santoro\nDate: 03/12/2026\nGroup: Blue Jays (4 students)\n\n| Student Name | Current Guided Reading Level | Focus Skill | Target Words |\n| --- | --- | --- | --- |\n| Naomi Yamamoto | Level G | Vowel Teams (oa, oe) | boat, toe, road, foam |\n| Liam Ortiz | Level G | Vowel Teams (oa, oe) | coat, doe, soap, float |\n| Elijah Brooks | Level H | Vowel Teams (oa, oe) | toad, goes, cloak, roast |\n| Chloe Campbell | Level G | Vowel Teams (oa, oe) | groan, hoe, oak, soak |\n\n## Schedule and Objectives\n- Station Window: 09:45 AM - 10:10 AM (25 minutes)\n- Standard: CCSS.ELA-LITERACY.RF.2.3.B (Know spelling-sound correspondences for additional common vowel teams)\n- Text: The Old Oak Tree (Level G decodable reader)\n\n## Lesson Execution Steps\n- Step 1 (3 mins): Review vowel team sound card for oa and oe. Students chorally pronounce the long /o/ sound.\n- Step 2 (7 mins): Word building on magnetic boards. Direct students to form each word by blending phonemes aloud before spelling.\n- Step 3 (10 mins): Choral and whispered reading of pages 1 through 6 in the text.\n- Step 4 (5 mins): Comprehension check and role-play. Maria prompts students to act out the dialogue between Fox and Crow on page 4.\n\n## Teaching Assistant Guidelines\n- Provide prompt feedback if a student confuses short /o/ with the oa/oe long vowel pattern.\n- Ensure each student practices decoding their specific assigned words from the reference table, including the short /e/ patterns.\n- Record anecdotal notes on individual blending accuracy on the daily running record clipboard.",
     "errors": [
       {
-        "quote": "Transition from Exhibit Hall B to outdoor picnic pavilion for lunch.",
-        "start": 626,
-        "end": 694,
+        "quote": "Direct students to form each word by blending phonemes aloud before spelling.",
+        "start": 1064,
+        "end": 1141,
         "type": "omission",
-        "explanation": "Head-count entries in a supervision log must record the number of students accounted for; this transition entry completely omits the head-count tally.",
-        "fix": "Transition from Exhibit Hall B to outdoor picnic pavilion for lunch. 27 of 27 students present."
+        "explanation": "The step directs students to spell words without specifying which target word list or how many target words to build, omitting the teacher-directed word list required to run the activity.",
+        "fix": "Direct students to form the 4 target words from their assignment table by blending phonemes aloud before spelling."
       },
       {
-        "quote": "All 28 students accounted for across both groups.",
-        "start": 745,
-        "end": 794,
+        "quote": "including the short /e/ patterns.",
+        "start": 1582,
+        "end": 1615,
         "type": "fact",
-        "explanation": "The roster table and all previous logs state there are 27 students in total (14 in Group A and 13 in Group B), not 28.",
-        "fix": "All 27 students accounted for across both groups."
+        "explanation": "The lesson objective and reference table explicitly focus on the long /o/ vowel teams (oa, oe), not short /e/ patterns.",
+        "fix": "including the target long /o/ vowel team patterns."
       }
     ]
   }

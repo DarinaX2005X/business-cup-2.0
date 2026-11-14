@@ -1,30 +1,30 @@
 {
   "type": "slip",
   "occupationCode": "37-2012.00",
-  "taskId": "9560",
+  "taskId": "9571",
   "locale": "en",
   "difficulty": 1,
-  "title": "Housekeeping Cart Stocking and Safety Inspection Log",
-  "brief": "Daily cart inspection and replenishment log for a commercial hotel housekeeper, drafted from morning shift supervisor guidelines.",
-  "docType": "safety inspection log",
+  "title": "Guest Room Damage and Incident Report",
+  "brief": "A hotel housekeeping damage and incident report drafted by an AI assistant for a floor supervisor following a room inspection.",
+  "docType": "damage incident report",
   "slip": {
-    "document": "# Housekeeping Cart Stocking and Safety Inspection Log\nShift: Morning Shift (07:00 - 15:30)\nAttendant: Elena Cruz\nFloor Assignment: Floor 4 (Rooms 401-424)\nCart Unit: C-08\nDate: 04/14/2026\n\n## Equipment and Inventory Baseline\n| Item Category | Standard Specification | Stock Count | Cart Limit |\n| --- | --- | --- | --- |\n| Bath Sheets | White Terry 30x58 in | 24 ea | 30 ea |\n| Hand Towels | White Terry 16x30 in | 30 ea | 35 ea |\n| Multi-Surface Disinfectant | 32 oz spray bottle (RTU) | 2 ea | 4 ea |\n| Glass Cleaner | 32 oz spray bottle (RTU) | 2 ea | 3 ea |\n| Cart Wheel Castors | 8-inch non-marking swivel | 4 ea | 4 ea |\n| Total Load Weight | Linens, liquids, dry paper | 165 lb | 220 lb |\n\n## Morning Loading Checklist\n- Check all 4 castor wheels for thread entanglements, debris, and smooth rotation.\n- Verify bottom shelf linen stack does not exceed the 15-inch rail clearance.\n- Disinfectant chemical spray bottles placed in exterior side caddy without secondary GHS safety labels affixed.\n- Ensure vinyl trash collection bag is emptied and hooked to the push bar.\n- Inspect push-handle height and report loose hardware to maintenance immediately.\n\n## Restocking and Chemical Safety Protocols\n- Restock clean linens on middle and lower shelves; distribute weight evenly across the wheel base.\n- Store quaternary ammonium disinfectant in the lower side caddy below eye level.\n- Do not exceed manufacturer cart payload rating of 350 lb under any circumstances.\n- Maintain clear visibility over top tray when pushing; never stack amenities higher than 48 inches from floor.\n- Park cart tight against the guest room wall on the corridor side being serviced.",
+    "document": "# Guest Room Damage and Incident Report\nHighland Crest Hotel & Suites - Property #412\n\n## Incident Details\n| Field | Value |\n| --- | --- |\n| Date Reported | 03/14/2026 |\n| Inspection Time | 10:45 AM |\n| Room Number | 418 |\n| Room Status | Departure / Vacant Dirty |\n| Guest Name | Wendy Ellison |\n| Attendant | Maria Okafor |\n| Floor Supervisor | Gordon Quinn |\n\n## Property Damage Findings\nUpon standard departure turnover, attendant Maria Okafor noted physical damage to fixtures and furnishings in Room 418.\n\n- The right-side bedside lamp base is fractured, and the linen lampshade has heavy brown liquid staining.\n- Red wine saturation covers an approximate 3 ft by 4 ft section of carpet adjacent to the king bed.\n- The bathroom vanity mirror displays a 14-inch stress fracture across the lower left pane.\n\n## Found Property\n- Left-side nightstand drawer contained one pair of prescription eyeglasses and an Apple charging block.\n- The guest safe was left in locked status; security bypassed the unit to verify contents.\n- Items collected from nightstand drawer were cataloged into the lost and found log by Maria Okafor.\n\n## Action Taken & Escalation\n- Photographs taken of damaged carpet, bedside lamp, and vanity mirror at 11:00 AM.\n- Room 418 placed out of order until carpet extraction and mirror replacement are completed.\n- Maintenance notified to replace the mirror and repair wall backing in Room 318 by 2:00 PM.\n- Front desk informed to place incident billing hold against guest Wendy Ellison.",
     "errors": [
       {
-        "quote": "spray bottles placed in exterior side caddy without secondary GHS safety labels affixed",
-        "start": 912,
-        "end": 999,
+        "quote": "The guest safe was left in locked status; security bypassed the unit to verify contents.",
+        "start": 937,
+        "end": 1025,
         "type": "omission",
-        "explanation": "OSHA Hazard Communication Standard requires secondary chemical spray containers transferred from concentrates or bulk to have compliant GHS workplace labeling identifying product name and hazard warnings.",
-        "fix": "spray bottles placed in exterior side caddy with secondary GHS safety labels affixed"
+        "explanation": "When reporting a locked departure safe that was bypassed and inspected, the report must state whether any guest contents were found inside or confirm that the safe was empty.",
+        "fix": "The guest safe was left in locked status; security bypassed the unit to verify contents and confirmed it was empty."
       },
       {
-        "quote": "Do not exceed manufacturer cart payload rating of 350 lb under any circumstances.",
-        "start": 1388,
-        "end": 1469,
+        "quote": "Maintenance notified to replace the mirror and repair wall backing in Room 318 by 2:00 PM.",
+        "start": 1336,
+        "end": 1426,
         "type": "fact",
-        "explanation": "The reference table specifies that the cart payload limit for Cart C-08 is 220 lb, not 350 lb.",
-        "fix": "Do not exceed manufacturer cart payload rating of 220 lb under any circumstances."
+        "explanation": "The incident report is specifically for Room 418 as established throughout the document, but the work order incorrectly specifies Room 318.",
+        "fix": "Maintenance notified to replace the mirror and repair wall backing in Room 418 by 2:00 PM."
       }
     ]
   }

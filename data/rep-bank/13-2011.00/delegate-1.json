@@ -7,8 +7,8 @@
   "title": "Onboarding Chart of Accounts Setup",
   "brief": "Prepare an initial chart of accounts table and map raw bank transactions into balanced journal entries.",
   "delegate": {
-    "scenario": "You are onboarding Apex Logistics, a regional freight brokerage client closing their first operational month. The senior accounting manager needs a structured chart of accounts and an initial general journal batch by 4:00 PM for month-end reconciliation. The mapped entries will serve as the opening ledger entries in QuickBooks Online.",
-    "inputs": "Client note from Marcus Cole (Apex Logistics):\n\"Here are our bank transactions from our first month (October 2024). We use standard 4-digit GL coding (1000s Assets, 2000s Liabilities, 3000s Equity, 4000s Revenue, 5000s Cost of Goods/Freight, 6000s Operating Expenses).\"\n\n| Date | Description | Amount | Reference |\n| --- | --- | --- | --- |\n| 10/02/2024 | Initial owner capital deposit | $50,000.00 | Wire 1042 |\n| 10/05/2024 | Office lease - October | -$3,200.00 | ACH 8821 |\n| 10/11/2024 | Shipper payment - Forwarder Corp | $14,800.00 | Wire 1055 |\n| 10/14/2024 | Carrier dispatch settlement - Apex Route 12 | -$8,400.00 | ACH 8840 |\n| 10/18/2024 | Annual fleet liability insurance policy (12 mo) | -$6,000.00 | Debit 402 |\n| 10/22/2024 | Shipper payment - Forwarder Corp | $14,800.00 | Wire 1055 |\n| 10/29/2024 | Enterprise dispatch software subscription | -$850.00 | Debit 409 |\n| 10/31/2024 | Dispatch fees receivable (billed, uncollected) | $9,200.00 | Inv 1004 |",
+    "scenario": "You are onboarding Silverline Logistics, a regional freight brokerage client closing their first operational month. The senior accounting manager needs a structured chart of accounts and an initial general journal batch by 4:00 PM for month-end reconciliation. The mapped entries will serve as the opening ledger entries in QuickBooks Online.",
+    "inputs": "Client note from Jamal Cole (Silverline Logistics):\n\"Here are our bank transactions from our first month (October 2024). We use standard 4-digit GL coding (1000s Assets, 2000s Liabilities, 3000s Equity, 4000s Revenue, 5000s Cost of Goods/Freight, 6000s Operating Expenses).\"\n\n| Date | Description | Amount | Reference |\n| --- | --- | --- | --- |\n| 10/02/2024 | Initial owner capital deposit | $50,000.00 | Wire 1042 |\n| 10/05/2024 | Office lease - October | -$3,200.00 | ACH 8821 |\n| 10/11/2024 | Shipper payment - Forwarder Corp | $14,800.00 | Wire 1055 |\n| 10/14/2024 | Carrier dispatch settlement - Silverline Route 12 | -$8,400.00 | ACH 8840 |\n| 10/18/2024 | Annual fleet liability insurance policy (12 mo) | -$6,000.00 | Debit 402 |\n| 10/22/2024 | Shipper payment - Forwarder Corp | $14,800.00 | Wire 1055 |\n| 10/29/2024 | Enterprise dispatch software subscription | -$850.00 | Debit 409 |\n| 10/31/2024 | Dispatch fees receivable (billed, uncollected) | $9,200.00 | Inv 1004 |",
     "goal": "Deliver a standardized chart of accounts alongside balanced double-entry journal entries ready for the senior accountant's review.",
     "criteria": [
       {
@@ -17,7 +17,7 @@
         "keywords": [
           "senior accounting manager",
           "onboarding",
-          "Apex Logistics",
+          "Silverline Logistics",
           "review"
         ]
       },

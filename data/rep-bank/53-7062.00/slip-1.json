@@ -4,27 +4,27 @@
   "taskId": "10779",
   "locale": "en",
   "difficulty": 1,
-  "title": "Outbound Transfer Order & Equipment Staging Sheet",
-  "brief": "A warehouse work order review and equipment staging sheet prepared for a material mover detailing assignment tasks, pick locations, and handling equipment needs.",
-  "docType": "work order review",
+  "title": "Outbound Freight Staging and Loading Work Order",
+  "brief": "Outbound freight staging and loading work order drafted from shift dispatch instructions for dock material handlers.",
+  "docType": "work order",
   "slip": {
-    "document": "# Outbound Transfer Order & Equipment Staging Sheet\nDistribution Center 14 - Bayonne Logistics Hub\n\n## Order Details\n- Work Order: WO-44092\n- Date: 10/14/2026\n- Shift: Morning (06:00 - 14:30)\n- Lead Handler: Marcus Vance (ID 8841)\n- Destination: Distribution Center 03 (Edison, NJ)\n\n## Manifest Line Items\n| SKU | Description | Unit Weight | Quantity | Location | Total Weight |\n| --- | --- | --- | --- | --- | --- |\n| PL-102 | Industrial Solvents (5-gal drum) | 48 lb | 40 drums | Aisle 04-Rack C | 1,920 lb |\n| BX-884 | Heavy-Duty Fasteners (carton) | 65 lb | 60 cartons | Aisle 08-Rack B | 3,900 lb |\n| DR-330 | Steel Flanges (palletized) | 410 lb | 8 pallets | Staging Dock 2 | 3,280 lb |\n\n## Equipment Requisition & Safety Checklist\n- Assigned handling equipment: Manual hydraulic pallet jack\n- Pre-shift inspection: Fork inspection completed, hydraulic cylinder check passed, dead-man brake operational.\n- Required PPE: Steel-toe boots, high-visibility vest, leather-palm grip gloves.\n- Hazardous materials: Class 3 Flammable Liquid placard required on transport trailer for PL-102.\n\n## Instructions for Material Handler\n- Retrieve 40 drums of PL-102 from Aisle 04-Rack C and stage at Outbound Bay 6.\n- Retrieve 60 cartons of BX-884 from Aisle 08-Rack B and verify individual carton seals before palletizing.\n- Stage 8 pallets of DR-330 directly from Staging Dock 2 into Outbound Bay 6.\n- Stage steel flanges weighing 4,280 lb for loading onto trailer TR-904.\n- Ensure load balance across trailer axles prior to final departure sign-off.",
+    "document": "# Outbound Freight Staging and Loading Work Order\nShift: Morning Dock Operations | Date: 03/14/2026\n\n## Order Details\n- Order Reference: WO-88421\n- Lead Handler: Walter Rowland\n- Material Handlers Assigned: Leah Sandoval, Hannah Sato\n- Facility: Riverbend Distribution Center, Bay 14\n- Destination: Metro Logistics Hub, Columbus, OH\n\n## Assigned Material Manifest\n| Pallet ID | Commodity Description | Unit Count | Unit Weight (lb) | Total Weight (lb) | Handling Notes |\n| --- | --- | --- | --- | --- | --- |\n| PLT-101 | Industrial Fasteners (Grade 8) | 40 cartons | 45 | 1,800 | Heavy; use sit-down forklift |\n| PLT-102 | Electrical Conduit Fittings | 30 cartons | 28 | 840 | Standard manual pallet jack |\n| PLT-103 | Hydraulic Seal Assemblies | 50 cases | 16 | 800 | Fragile; tier-stack limit 3 |\n| PLT-104 | Pneumatic Valve Regulators | 25 cartons | 32 | 800 | Keep dry; wrap before staging |\n\n## Equipment Requisition and Staging Directives\n- Retrieve one 4,000-lb capacity electric sit-down forklift from Charging Station 4 for heavy skid staging.\n- Utilize manual pallet jack MPJ-08 for all skids weighing less than 1,000 lb.\n- Transfer PLT-101 and PLT-102 directly to Staging Lane C-4 by 09:30.\n- Stageworks operator must wear standard PPE: high-visibility vest and cut-resistant gloves.\n- Secure all staged skids using 80-gauge poly stretch wrap prior to trailer transfer.\n- Stage PLT-104 which weighs 1,200 lb in Lane C-5 for inspection before loading.\n- Final trailer loading into Trailer TL-409 commences at 10:45 under Walter Rowland's supervision.",
     "errors": [
       {
-        "quote": "Assigned handling equipment: Manual hydraulic pallet jack",
-        "start": 740,
-        "end": 797,
+        "quote": "Stageworks operator must wear standard PPE: high-visibility vest and cut-resistant gloves.",
+        "start": 1204,
+        "end": 1294,
         "type": "omission",
-        "explanation": "The order includes 40 drums of industrial solvents and 60 cartons (65 lb each), but the equipment list omits the required specialized drum caddy or clamp attachment necessary to safely handle and move 5-gallon drums without manual roll hazards.",
-        "fix": "Assigned handling equipment: Manual hydraulic pallet jack and drum clamp caddy"
+        "explanation": "OSHA warehouse and dock safety standards require steel-toe or safety-toe protective footwear when handling and moving freight pallets, which is missing from the required PPE line.",
+        "fix": "Stageworks operator must wear standard PPE: steel-toe boots, high-visibility vest and cut-resistant gloves."
       },
       {
-        "quote": "Stage steel flanges weighing 4,280 lb for loading onto trailer TR-904.",
-        "start": 1395,
-        "end": 1465,
+        "quote": "Stage PLT-104 which weighs 1,200 lb in Lane C-5 for inspection before loading.",
+        "start": 1383,
+        "end": 1461,
         "type": "fact",
-        "explanation": "The manifest table lists the total weight of the DR-330 steel flanges as 3,280 lb (8 pallets at 410 lb each), not 4,280 lb.",
-        "fix": "Stage steel flanges weighing 3,280 lb for loading onto trailer TR-904."
+        "explanation": "The manifest table lists PLT-104 as having 25 cartons at 32 lb each, giving a total weight of 800 lb, not 1,200 lb.",
+        "fix": "Stage PLT-104 which weighs 800 lb in Lane C-5 for inspection before loading."
       }
     ]
   }

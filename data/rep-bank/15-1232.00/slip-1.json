@@ -4,27 +4,27 @@
   "taskId": "1282",
   "locale": "en",
   "difficulty": 1,
-  "title": "IT Service Desk Incident Resolution Ticket INC-84091",
-  "brief": "An IT service desk resolution summary and user follow-up instructions drafted after troubleshooting a multi-monitor display and peripheral dock failure.",
-  "docType": "help desk incident ticket",
+  "title": "IT Support Ticket Incident Resolution Summary",
+  "brief": "Incident summary and resolution report for a remote user experiencing external monitor failure, drafted from help desk diagnostic logs and technician notes.",
+  "docType": "help desk ticket resolution",
   "slip": {
-    "document": "# IT Service Desk Incident Resolution Ticket INC-84091\nUser Support Resolution Log\n\n## Ticket Summary\n| Field | Value |\n| --- | --- |\n| Ticket ID | INC-84091 |\n| Date Logged | 04/14/2026 08:42 EDT |\n| User | Marcus Vance (Finance Dept, Ext. 4118) |\n| Workstation | Dell Latitude 7440 (Asset #FIN-0982) |\n| Docking Station | CalDigit TS4 Thunderbolt 4 (Asset #DCK-0441) |\n| Operating System | Windows 11 Enterprise 23H2 |\n| Primary Issue | Dual 4K external monitors showing No Signal; USB mouse unresponsive |\n\n## Diagnostic Steps & Findings\n- Connected workstation directly to AC power; laptop screen functions normally.\n- Verified dock front indicator LED was solid white, confirming power brick output.\n- Cable inspection showed Thunderbolt host cable plugged into dock USB-C front data-only port.\n- Relocated host connection cable to rear Thunderbolt 4 upstream port labeled with computer icon.\n- Peripheral status: USB optical mouse and wired keyboard immediately recovered functionality.\n- Display settings check: Windows Display Properties detected both Dell U2723QE displays at 3840x2160 @ 60Hz.\n\n## Action Taken and User Guidance\n- Relocated physical host cable to the correct upstream connection port on the rear panel.\n- Advised user to replace the dual external monitors due to hardware failure.\n- Verified firmware on CalDigit TS4 is version 39.1; no update required.\n- For permanent resolution, please submit a replacement request through the IT portal.\n- Case marked Resolved on 04/14/2026 at 09:15 EDT by Tier 1 Tech R. Davies.",
+    "document": "# IT Support Ticket Incident Resolution Summary\nTicket Ref: INC-84920-GP\n\n## Ticket Information\n- User Name: Colleen Kim\n- Department: Underwriting Operations\n- Organisation: Granite Peak Financial\n- Assigned Specialist: Grace Haddad\n- Escalation Reviewer: Teresa Ferreira\n- Date Opened: 03/12/2026 08:45 AM EST\n- Date Resolved: 03/12/2026 11:15 AM EST\n\n## Hardware Inventory & Connectivity\n| Device | Asset Tag | Model / Spec | Port Used |\n| --- | --- | --- | --- |\n| Workstation | GP-LT-4402 | Latitude 5440 (Intel Iris Xe) | Thunderbolt 4 |\n| Docking Station | GP-DK-1188 | Universal USB-C Dock 130W | Dual DisplayPort |\n| Monitor 1 | GP-MN-0912 | 27-inch 1440p 75Hz (Primary) | DP 1 (Active) |\n| Monitor 2 | GP-MN-0913 | 27-inch 1440p 75Hz (Secondary) | DP 2 (Inactive) |\n\n## Diagnostic Findings\nSpecialist Grace Haddad established a remote assistance session via Quick Assist at 09:10 AM. Preliminary hardware checks revealed:\n- Monitor 1 functions normally at 2560x1440 resolution via DP 1.\n- Monitor 2 power LED is steady amber, displaying no signal detected over DP 2.\n- Direct connection test: Monitor 2 connected directly to workstation HDMI port displays normal desktop output.\n- Cable swap test: Swapping DP 1 and DP 2 cables between monitors shifts the blank screen to Monitor 1.\n- Device Manager shows all display adapter drivers up to date as of driver package v31.0.101.4578.\n\n## Resolution Steps Taken\n- Dispatched replacement DisplayPort cable from local inventory to user workstation.\n- Replaced Monitor 2 because the direct HDMI test confirmed hardware failure inside the panel itself.\n- Advised Colleen Kim to power down the docking station and perform hardware reconnect.\n- Verified dual display extended desktop at native 2560x1440 resolution across both screens.\n- Confirmed end-user sign-off via Teams messaging at 11:10 AM.",
     "errors": [
       {
-        "quote": "Advised user to replace the dual external monitors due to hardware failure.",
-        "start": 1231,
-        "end": 1306,
+        "quote": "Replaced Monitor 2 because the direct HDMI test confirmed hardware failure inside the panel itself.",
+        "start": 1506,
+        "end": 1605,
         "type": "logic",
-        "explanation": "The diagnostic findings clearly state that Windows Display Properties detected both external monitors at full resolution (3840x2160 @ 60Hz) once the dock was cabled properly, contradicting the conclusion that the monitors suffered hardware failure and need replacement.",
-        "fix": "Advised user that both external displays are operating normally and no hardware replacement is required."
+        "explanation": "The diagnostic findings state that Monitor 2 showed normal desktop output when connected directly via HDMI, and swapping DP cables moved the failure to Monitor 1, which proves the panel is working and the cable or dock port was faulty, contradicting the claim that the panel had a hardware failure.",
+        "fix": "Retained Monitor 2 after direct HDMI testing confirmed the panel itself is fully operational."
       },
       {
-        "quote": "For permanent resolution, please submit a replacement request through the IT portal.",
-        "start": 1382,
-        "end": 1466,
+        "quote": "Advised Colleen Kim to power down the docking station and perform hardware reconnect.",
+        "start": 1608,
+        "end": 1693,
         "type": "omission",
-        "explanation": "The instruction references submitting a request through the IT portal but omits the mandatory portal URL or specific form catalog link required for the employee to complete the action.",
-        "fix": "For permanent resolution, please submit a replacement request through the IT portal at https://servicedesk.internal.net/catalog/hardware."
+        "explanation": "A complete power cycle instructions line for resolving peripheral docking issues must specify the duration to keep the power disconnected (such as unplugging power for 30 seconds to fully discharge internal capacitors) before reconnecting.",
+        "fix": "Advised Colleen Kim to unplug the docking station power adapter, wait 30 seconds to clear residual power, and reconnect the cables."
       }
     ]
   }

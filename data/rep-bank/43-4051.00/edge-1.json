@@ -8,9 +8,9 @@
   "brief": "De-escalate an anxious business owner, accurately document her disputed transaction, and initiate a formal fraud investigation.",
   "edge": {
     "scenario": "You are a customer service representative at a retail bank handling an urgent branch escalation phone call on a Friday afternoon. A small-business owner has discovered an unauthorized international wire transfer of $12,400 that cleared her payroll account earlier today. If the funds are not frozen or tracked immediately, she risks bouncing employee paychecks scheduled for Monday.",
-    "personaPublic": "Elena is a local catering business owner who sounds panicked, furious, and exhausted. She has an account statement open and is demanding immediate reversal of the wire transfer without waiting for policy paperwork.",
+    "personaPublic": "Keiko is a local catering business owner who sounds panicked, furious, and exhausted. She has an account statement open and is demanding immediate reversal of the wire transfer without waiting for policy paperwork.",
     "personaHidden": "She feels intense personal shame because she suspects she accidentally clicked a malicious phishing link sent to her personal email last night. She is terrified that admitting this mistake will cause the bank to deny the fraud claim and bankrupt her company.",
-    "goal": "De-escalate Elena's panic, thoroughly document every technical and chronological detail of the unauthorized transaction into the bank record, and establish clear next steps for the fraud team's review.",
+    "goal": "De-escalate Keiko's panic, thoroughly document every technical and chronological detail of the unauthorized transaction into the bank record, and establish clear next steps for the fraud team's review.",
     "criteria": [
       {
         "id": "c1",

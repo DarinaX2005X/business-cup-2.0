@@ -1,30 +1,30 @@
 {
   "type": "slip",
   "occupationCode": "37-3011.00",
-  "taskId": "9589",
+  "taskId": "9597",
   "locale": "en",
   "difficulty": 1,
-  "title": "Grounds Maintenance Daily Work Order",
-  "brief": "Daily turf maintenance and edging work order drafted for a commercial groundskeeping crew servicing an office park.",
+  "title": "Quarterly Hardscape and Fountain Maintenance Log",
+  "brief": "Quarterly grounds maintenance work order and completion log for hardscape and water features at Riverbend Corporate Park drafted from the grounds manager's inspection checklist.",
   "docType": "maintenance work order",
   "slip": {
-    "document": "# Grounds Maintenance Daily Work Order\nProperty: Northridge Corporate Campus, Buildings A-D\nDate: 06/18/2026\nSupervisor: Marcus Vance\nCrew Lead: Darrell Jensen\n\n## Equipment and Turf Specifications\n| Area | Turf Variety | Target Cut Height | Primary Equipment |\n| --- | --- | --- | --- |\n| North Courtyard | Kentucky Bluegrass | 3.0 in | 60-inch Zero-Turn Mower |\n| South Boulevard | Turf-Type Tall Fescue | 3.5 in | 48-inch Stand-On Mower |\n| Retention Basin | Fine Fescue Mix | 4.0 in | 36-inch Walk-Behind Mower |\n\n## Tasks and Safety Protocol\n- Perform 360-degree sweep of all turf zones to clear branches, trash, and loose gravel before engaging blades.\n- Verify all crew members wear high-visibility vests, steel-toe boots, eye protection, and hearing protection.\n- Calibrate mower decks on the maintenance pad to match the specified heights before dispatching units to assigned zones.\n\n## Operational Execution\n- Cut the South Boulevard turf using the 48-inch stand-on unit set to 2.0 inches deck height.\n- Mow North Courtyard using alternating northeast-southwest striping lines to minimize soil compaction and avoid turf ruts.\n- Edge all concrete walkways, curbs, and bed rings using gas stick edgers held vertically to create a crisp 0.5-inch trench.\n- String-trim around light posts, utility vaults, and storm grates to match surrounding cut heights.\n- Clean hard surfaces with backpack blowers, directing all clippings back into turf beds rather than storm sewers.\n- Refuel all power equipment and return to trailer.",
+    "document": "# Quarterly Hardscape and Fountain Maintenance Log\nRiverbend Corporate Park - Facilities Maintenance Division\nDate: 04/14/2026\nLead Technician: Neil Delgado | Supervisor: Raymond Haddad\n\n## Site Asset Inventory\n| Feature | Location | Material / Equipment | Specification |\n| --- | --- | --- | --- |\n| North Courtyard Fountain | Zone 1 Plaza | Cast stone tier basin, 450 gal | Submersible pump, cartridge filter |\n| Executive Walkway | Zone 2 Access | Flagstone paver path (1,800 sq ft) | Polymeric sand joints |\n| South Visitor Lot | Zone 4 Parking | Asphalt paving (42,000 sq ft) | Type II slurry seal, extruded curbs |\n| East Terrace Planters | Zone 3 Deck | Precast concrete beds (8 units) | Integral weep holes, PVC liners |\n\n## Scheduled Service Tasks\n- Flagstone walkway: Clean out degraded joint material and sweep fresh polymeric sand into paver joints.\n- Asphalt lot: Inspect perimeter curbing and fill linear cracks over 1/4 in with hot-pour rubberized sealant.\n- Terrace planters: Clear root debris from interior drainage weep holes and verify unobstructed discharge.\n- Tier basin fountain: Drain 450 gal reservoir, brush algae from cast stone surfaces, and descale nozzle manifold.\n\n## Safety and Chemical Controls\n- Wear safety goggles and heavy chemical gloves when handling sodium hypochlorite or muriatic descaler.\n- Apply hot-pour asphalt crack sealant only when surface temperatures exceed 40 °F and dry conditions prevail.\n\n## Work Sign-Off Notes\nTechnician Nadia Kim completed crack sealing along 320 linear ft of asphalt curb lines in Zone 4. Pressure washing of the Zone 1 cast stone fountain basin was completed using a 0-degree red tip at 4,000 psi to remove mineral crusting. Polymeric sand application on the Zone 2 flagstone walkway was completed by sweeping sand into dry joints. Pump filter cartridge in Zone 1 inspected, flushed, and reseated.",
     "errors": [
       {
-        "quote": "set to 2.0 inches deck height",
-        "start": 981,
-        "end": 1010,
+        "quote": "fountain basin was completed using a 0-degree red tip at 4,000 psi to remove mineral crusting",
+        "start": 1606,
+        "end": 1699,
         "type": "fact",
-        "explanation": "The target cut height for Turf-Type Tall Fescue on the South Boulevard is 3.5 inches in the reference table, not 2.0 inches, which would scalp and damage the grass.",
-        "fix": "set to 3.5 inches deck height"
+        "explanation": "A 0-degree red spray tip produces an intense, pinpoint stream at 4,000 psi that damages and etches cast stone; industry practice requires wide fan tips (25-degree green or 40-degree white) and lower pressure (under 1,500 psi) on architectural cast stone.",
+        "fix": "fountain basin was completed using a 40-degree white tip at 1,200 psi to remove mineral crusting"
       },
       {
-        "quote": "Refuel all power equipment and return to trailer.",
-        "start": 1479,
-        "end": 1528,
+        "quote": "Polymeric sand application on the Zone 2 flagstone walkway was completed by sweeping sand into dry joints.",
+        "start": 1701,
+        "end": 1807,
         "type": "omission",
-        "explanation": "Standard groundskeeping safety protocol and equipment shutdown requires allowing hot engines to cool down before refueling to prevent gasoline ignition and flash fire.",
-        "fix": "Allow hot engines to cool for at least five minutes, refuel all power equipment, and return to trailer."
+        "explanation": "Polymeric sand installation requires watering (mist activation) after sweeping to activate the polymer binders; sweeping dry sand into joints without subsequent water activation leaves the joints unbonded and prone to washing out.",
+        "fix": "Polymeric sand application on the Zone 2 flagstone walkway was completed by sweeping sand into dry joints and lightly misting with water to activate binder."
       }
     ]
   }

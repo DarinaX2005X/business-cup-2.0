@@ -1,30 +1,30 @@
 {
   "type": "slip",
   "occupationCode": "53-7051.00",
-  "taskId": "3202",
+  "taskId": "15265",
   "locale": "en",
   "difficulty": 1,
-  "title": "Shift Pre-Operation Inspection and Staging Plan",
-  "brief": "Shift pre-operation inspection and material movement staging plan drafted from warehouse equipment telemetry and inbound staging manifests.",
-  "docType": "forklift inspection plan",
+  "title": "Outbound Load Verification and Staging Report",
+  "brief": "Outbound pallet load inspection and transport plan for outbound trailer loading drafted by an AI from the warehouse pick manifest.",
+  "docType": "load verification sheet",
   "slip": {
-    "document": "# Shift Pre-Operation Inspection and Staging Plan\nFacility: Apex Logistics Hub 4, Baytown, TX\nDate: 10/14/2026\nOperator: Marcus Vance (Badge #4412)\nEquipment ID: FL-08 (Sit-down Counterbalance Electric Forklift)\n\n## Equipment Specifications and Telemetry\n| Parameter | Specification / Reading |\n| --- | --- |\n| Rated Capacity (24-inch Load Center) | 5,000 lb |\n| Mast Type | 3-Stage Full Free Lift (189 in max) |\n| Battery Charge State | 88% |\n| Hydraulic Fluid Level | Normal |\n| Tire Condition | Solid Pneumatic - No chunking |\n| Staging Bay Assignment | Inbound Bay 14 to Racks E-04/E-06 |\n\n## Visual and Operational Checklist\n- Overhead guard: Secure, no weld fractures or structural distortion.\n- Forks and mast assembly: Locking pins engaged, heel wear under 10%, chains lubricated.\n- Hydraulic functions: Smooth lift, lower, tilt, and side-shift operation confirmed.\n- Safety devices: Seat switch functional, backup alarm verified at 95 dB.\n- Brake system inspection: Operator checked pedal resistance.\n\n## Inbound Pallet Manifest Summary\n| Pallet ID | Commodity Description | Unit Weight | Dimensions (L x W x H) |\n| --- | --- | --- | --- |\n| PLT-8801 | Cast Iron Pipe Fittings | 3,850 lb | 48 in x 40 in x 42 in |\n| PLT-8802 | Machined Flanges | 5,600 lb | 48 in x 48 in x 46 in |\n| PLT-8803 | Galvanized Conduit Bundles | 2,900 lb | 48 in x 42 in x 38 in |\n\n## Staging and Transport Instructions\n- Transfer PLT-8801 from Bay 14 to lower rack slot E-04-A, maintaining load height 4 to 6 inches above floor grade during travel.\n- Use FL-08 to transport PLT-8802 directly to rack slot E-06-B in a single cycle.\n- Move PLT-8803 to aisle staging buffer using standard backward tilt to stabilize the bundle.\n- Maintain 5 mph speed limit inside rack aisles and sound horn at cross-aisle blind spots.",
+    "document": "# Outbound Load Verification and Staging Report\nOrder Reference: PO-88341-C\nFacility: Foxglove Distribution Hub 4, Bay 12\nDate: 03/18/2026\nInspector / Operator: Raymond Banerjee\nLead Sign-Off: Sunita Osei\nForklift Unit: Raymond EASI Reach 4,500 lb Capacity (Unit #FL-14)\n\n## Verified Pallet Details\n| Pallet ID | SKU | Description | Cases | Weight (lb) | Height (in) | Banding / Wrap |\n| --- | --- | --- | --- | --- | --- | --- |\n| PL-101 | GL-440 | 1 gal Industrial Degreaser | 48 | 2,150 | 54 | Intact / Clear |\n| PL-102 | GL-440 | 1 gal Industrial Degreaser | 48 | 2,150 | 54 | Intact / Clear |\n| PL-103 | HM-109 | Calcium Hypochlorite Granules | 30 | 1,650 | 48 | Intact / Yellow |\n| PL-104 | CS-332 | Nitrile Gloves (Bulk Cases) | 80 | 720 | 62 | Intact / Clear |\n\n## Load Inspection Summary\n- Physical piece count matches manifest total of 206 cases across 4 pallets.\n- Pallet integrity confirmed: no torn film, broken deckboards, or leaning stacks observed.\n- Carrier dock trailer 53-A spotted and wheel chocks verified at Bay 12 by Caleb Lindqvist.\n- All placards and Class 5.1 oxidizer hazard warnings are attached to PL-103.\n\n## Staging and Transfer Instructions\n- Transfer all four verified pallets sequentially from Staging Aisle 3 to Bay 12.\n- Transport PL-101 and PL-102 together on a single double-fork run to accelerate staging.\n- Maintain fork height at 4 to 6 inches above ground during travel with mast tilted back.\n- Reverse down ramp from Bay 12 when operating without an active load.\n- Complete post-loading cargo securement before driver departure.",
     "errors": [
       {
-        "quote": "Brake system inspection: Operator checked pedal resistance.",
-        "start": 950,
-        "end": 1009,
-        "type": "omission",
-        "explanation": "A standard pre-operation brake inspection must verify both service brakes and the parking brake hold capability.",
-        "fix": "Brake system inspection: Operator checked pedal resistance and confirmed parking brake hold."
+        "quote": "Transport PL-101 and PL-102 together on a single double-fork run to accelerate staging.",
+        "start": 1257,
+        "end": 1344,
+        "type": "logic",
+        "explanation": "PL-101 and PL-102 each weigh 2,150 lb, totaling 4,300 lb, and the table lists them as two separate pallets. Moving them together on one run exceeds the safe handling and carriage capability of forklift unit #FL-14 (capacity 4,500 lb rated at standard single-pallet load center) and violates standard single-pallet carriage for high-weight bulk liquid drums/cases.",
+        "fix": "Transport PL-101 and PL-102 as individual single-pallet loads to stay within carriage limits."
       },
       {
-        "quote": "Use FL-08 to transport PLT-8802 directly to rack slot E-06-B",
-        "start": 1538,
-        "end": 1598,
-        "type": "logic",
-        "explanation": "FL-08 has a maximum rated capacity of 5,000 lb, but PLT-8802 weighs 5,600 lb, exceeding the lift capacity.",
-        "fix": "Flag PLT-8802 for transport using heavy-duty lift FL-02"
+        "quote": "Reverse down ramp from Bay 12 when operating without an active load.",
+        "start": 1437,
+        "end": 1505,
+        "type": "omission",
+        "explanation": "OSHA 1910.178(n)(7) requires unloaded industrial trucks to travel with the forks pointing upgrade/forward when negotiating ramps; travelling downhill in reverse applies to loaded trucks, not empty ones.",
+        "fix": "Drive forward down ramp from Bay 12 with forks pointing downgrade only when unloaded, or travel in reverse down ramp when carrying a load."
       }
     ]
   }

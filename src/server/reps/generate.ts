@@ -20,6 +20,7 @@ import { repGradeDelegatePrompt, repGradeDelegateSchema, repGradeEdgePrompt, rep
 import { repSlipPrompt, repSlipSchema, type RepSlipOutput } from '@/server/ai/prompts/rep-slip';
 import type { BankDelegate, BankEdge, BankEntry, BankSlip } from './bank';
 import { plannedTypes } from './error-types';
+import { weakOmissionProblems } from './generate-checks';
 
 /**
  * Generation, validation and grading with the model. Each generator returns a validated BankEntry —
@@ -79,7 +80,8 @@ export async function generateSlip(input: GenerateInput): Promise<Generated<Bank
     });
     cost += usage.costUsd;
     const checked = validateSlip(data, { n, types: [...new Set(types)] });
-    if (checked.ok) {
+    const weak = checked.ok ? weakOmissionProblems(checked.content.slip.errors) : [];
+    if (checked.ok && !weak.length) {
       const c = checked.content;
       return {
         entry: {
@@ -98,9 +100,10 @@ export async function generateSlip(input: GenerateInput): Promise<Generated<Bank
         rejected,
       };
     }
-    rejected.push(checked.problems);
-    console.info(`[reps] rep.slip attempt ${attempt} rejected: ${checked.problems.slice(0, 3).join(' | ').slice(0, 300)}`);
-    retry = { previous: data, problems: checked.problems };
+    const problems = checked.ok ? weak : checked.problems;
+    rejected.push(problems);
+    console.info(`[reps] rep.slip attempt ${attempt} rejected: ${problems.slice(0, 3).join(' | ').slice(0, 300)}`);
+    retry = { previous: data, problems };
   }
   throw new AiError('invalid_output', `rep.slip failed validation ${1 + SLIP_RETRIES} times`, { op: 'rep.slip' });
 }

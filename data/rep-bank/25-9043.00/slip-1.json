@@ -4,27 +4,27 @@
   "taskId": "22506",
   "locale": "en",
   "difficulty": 1,
-  "title": "Individualized Support Plan and Daily Paraprofessional Log",
-  "brief": "A paraprofessional daily log and behavior accommodation plan for a third-grade student with autism spectrum disorder and sensory processing sensitivities, drafted from the student's IEP specifications.",
-  "docType": "paraprofessional daily log",
+  "title": "Individualized Daily Support Log and Plan",
+  "brief": "A daily special education support log and behavioral accommodation plan for an elementary student with ASD and sensory sensitivities, drafted from IEP notes and morning classroom data.",
+  "docType": "daily support log",
   "slip": {
-    "document": "# Individualized Support Plan and Daily Paraprofessional Log\nStudent: Julian Vance | Grade: 3 | Date: 03/12/2026\nLead Special Education Teacher: Brenda Morris, M.Ed. | Paraprofessional: Keith Miller\n\n## Student Accommodations & Sensory Profile\n| Domain | Approved Strategy | Trigger to Avoid |\n| --- | --- | --- |\n| Auditory | Noise-dampening earmuffs | Sudden high-frequency bells, crowded assemblies |\n| Transitions | Visual countdown timer (5-minute warning) | Abrupt schedule changes |\n| Seating | Flexible wobble stool at perimeter | Direct center of room surrounded by peers |\n| Communication | Picture Exchange (PECS) / Core board | Complex multi-step verbal-only instructions |\n\n## Daily Schedule & Support Record\n\n08:30 - Morning Arrival\nJulian arrived agitated due to bus delay. Offended by corridor volume.\n- Offered noise-dampening earmuffs immediately upon entering hall\n- Guided to quiet corner in Room 104 for a 5-minute sensory regulation break\n\n09:15 - Small Group Reading Instruction\n- Placed wobble stool directly in the room center among all reading groups to enhance peer inclusion\n- Facilitated phonics match cards with tactile alphabet blocks\n\n10:30 - General Education Math (Inclusion)\n- Provided visual timer at desk set for 20 minutes\n- Implemented hand-over-hand prompting on manipulatives for two-digit subtraction\n\n11:45 - Cafeteria & Recess Transition\nJulian exhibited hand-flapping and verbal vocalizations indicating rising anxiety before line-up.\n- Presented lunch choice PECS cards and verified tray selection\n- Sensory break provided prior to dismissal\n\n13:15 - Resource Room Social Skills\n- Co-led turn-taking board game with peer partner\n- Documented 4 unprompted uses of visual schedule board\n\n14:30 - Departure\nJulian transitioned to Bus 14 with 1:1 escort. Signed off with transportation aide Mr. Alvarez.",
+    "document": "# Individualized Daily Support Log and Plan\nIronwood Community Elementary School\n\n## Student Profile\n- Student: Dmitri Ferreira\n- Grade: 3rd Grade (Room 114)\n- Primary Support Paraprofessional: Jamal Kim\n- Supervising Case Manager: Ethan Haddad, Ed.S.\n- Date: 03/12/2026\n\n## Environmental Triggers and Sensory Profile\n| Factor | Assessment / Baseline | Support Strategy |\n| --- | --- | --- |\n| Auditory Overload | Discomfort starts above 65 dB; meltdowns recorded at 80+ dB | Active noise-canceling headphones |\n| Tactile Sensitivity | Avoidance of wet textures (glue, clay, finger paint) | Silicone applicator tools, dry vinyl gloves |\n| Visual Cues | Requires 3-step PECS visual schedule for class transitions | Visual count-down timer, first-then card |\n| Nutritional/Allergy | Severe peanut and tree nut anaphylaxis (EpiPen in health office) | Nut-free classroom zone, designated lunch table |\n\n## Morning Schedule and Routine Notes\n- 08:30 AM: Arrival and visual schedule check. Student completed transition from bus with zero prompt resistance.\n- 09:15 AM: Reading block. Dmitri completed 15 minutes of guided phonics using token economy board.\n- 10:00 AM: All-school assembly in main gymnasium (measured sound level: 84 dB).\n- During the gym assembly, keep Dmitri's headphones in his cubby to encourage peer vocalization.\n- 11:15 AM: Art class. Ceramic clay sculpting activity.\n- Dmitri utilized silicone spatulas and vinyl gloves during clay molding, completing the assigned flower pinch pot.\n\n## Midday Incident and Medical Response Log\n- 12:15 PM: Lunch period in the cafeteria.\n- Student accidentally picked up a companion tray containing almond butter cookies.\n- Dmitri developed facial hives and audible wheezing within two minutes of tasting the cookie.\n- Escorted Dmitri to the nurse office immediately; nurse administered epinephrine injection at 12:21 PM.\n- 12:25 PM: Notified emergency contacts and dialed 911 dispatch for transport per district emergency medical protocol.\n\n## Afternoon Instructional Plan and Modifications\n- 01:15 PM: Science lab on plant biology. Dmitri will work with dry leaf specimens.\n- 02:00 PM: Resource room math. Present math problems using the 3-step visual sequence.\n- 02:45 PM: Pack backpack, review token rewards earned, and escort to bus loading bay 4.",
     "errors": [
       {
-        "quote": "Placed wobble stool directly in the room center among all reading groups to enhance peer inclusion",
-        "start": 1004,
-        "end": 1102,
+        "quote": "During the gym assembly, keep Dmitri's headphones in his cubby to encourage peer vocalization.",
+        "start": 1234,
+        "end": 1328,
         "type": "logic",
-        "explanation": "The student profile table explicitly designates seating as 'Flexible wobble stool at perimeter' and identifies 'Direct center of room surrounded by peers' as a trigger to avoid. Seating Julian in the center contradicts his approved accommodation.",
-        "fix": "Placed wobble stool along the classroom perimeter away from crowded group clusters"
+        "explanation": "The baseline table specifies that Dmitri experiences auditory discomfort above 65 dB and meltdowns at 80+ dB, requiring noise-canceling headphones; withholding them during an 84 dB assembly directly contradicts his sensory accommodation plan.",
+        "fix": "During the gym assembly, ensure Dmitri wears his active noise-canceling headphones throughout the event."
       },
       {
-        "quote": "Sensory break provided prior to dismissal",
-        "start": 1546,
-        "end": 1587,
+        "quote": "Escorted Dmitri to the nurse office immediately; nurse administered epinephrine injection at 12:21 PM.",
+        "start": 1770,
+        "end": 1872,
         "type": "omission",
-        "explanation": "The entry records that a sensory break was provided prior to dismissal from the cafeteria/recess transition, but omits the required duration and specific sensory protocol or tool utilized (such as a 5-minute quiet space or deep pressure vest).",
-        "fix": "5-minute deep-pressure quiet space sensory break provided prior to dismissal"
+        "explanation": "A student experiencing acute anaphylaxis with breathing difficulty must never be walked or moved to the health office; school emergency medical protocols require the nurse to be summoned to the student immediately while keeping the student seated or recumbent, or administering the EpiPen on site.",
+        "fix": "Kept Dmitri seated, monitored airway, and summoned the school nurse to the cafeteria immediately; nurse administered epinephrine injection at 12:21 PM."
       }
     ]
   }

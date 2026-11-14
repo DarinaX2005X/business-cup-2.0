@@ -8,20 +8,20 @@
   "brief": "Database update log and mail merge preparation instructions drafted from the Q1 2026 membership roster.",
   "docType": "database maintenance log",
   "slip": {
-    "document": "# Quarterly Membership Database Maintenance and Export Log\nStaff Member: Marcus Vance, Administrative Assistant\nDate: 04/06/2026\nDepartment: Operations and Member Services\n\n## Batch Update Summary\n| Category | Prior Count | Records Added | Records Archived | Active Total |\n| --- | --- | --- | --- | --- |\n| Individual Sustaining | 412 | 28 | 15 | 425 |\n| Corporate Sponsor | 86 | 4 | 2 | 88 |\n| Student Affiliate | 194 | 45 | 31 | 208 |\n| Total Database Records | 692 | 77 | 48 | 721 |\n\n## Routine Maintenance Actions Taken\n- Executed duplicate check across email and phone fields; merged 6 duplicate profiles.\n- Updated postal address changes submitted via the web portal between 01/01/2026 and 03/31/2026.\n- Flagged non-renewing profiles with no activity for 24 months for archive status.\n- Ran data standardization macro on all phone numbers to format as ten-digit standard strings.\n\n## Export Instructions for Annual Renewal Mail Merge\n- Target export file: Q1_2026_Active_Members.csv\n- Export query criteria: Filter for Active status only and exclude Corporate Sponsor records.\n- The filtered query yields 650 records ready for the mail merge print run.\n- Verify that each record includes formal prefix, full mailing address, and primary contact name.\n- Because Corporate Sponsor profiles are omitted from this export, be sure to suppress the company title field for the remaining corporate addresses.",
+    "document": "# Quarterly Membership Database Maintenance and Export Log\nStaff Member: Keiko Kowalczyk, Administrative Assistant\nDate: 04/06/2026\nDepartment: Operations and Member Services\n\n## Batch Update Summary\n| Category | Prior Count | Records Added | Records Archived | Active Total |\n| --- | --- | --- | --- | --- |\n| Individual Sustaining | 412 | 28 | 15 | 425 |\n| Corporate Sponsor | 86 | 4 | 2 | 88 |\n| Student Affiliate | 194 | 45 | 31 | 208 |\n| Total Database Records | 692 | 77 | 48 | 721 |\n\n## Routine Maintenance Actions Taken\n- Executed duplicate check across email and phone fields; merged 6 duplicate profiles.\n- Updated postal address changes submitted via the web portal between 01/01/2026 and 03/31/2026.\n- Flagged non-renewing profiles with no activity for 24 months for archive status.\n- Ran data standardization macro on all phone numbers to format as ten-digit standard strings.\n\n## Export Instructions for Annual Renewal Mail Merge\n- Target export file: Q1_2026_Active_Members.csv\n- Export query criteria: Filter for Active status only and exclude Corporate Sponsor records.\n- The filtered query yields 650 records ready for the mail merge print run.\n- Verify that each record includes formal prefix, full mailing address, and primary contact name.\n- Because Corporate Sponsor profiles are omitted from this export, be sure to suppress the company title field for the remaining corporate addresses.",
     "errors": [
       {
         "quote": "filtered query yields 650 records ready for the mail merge",
-        "start": 1090,
-        "end": 1148,
+        "start": 1093,
+        "end": 1151,
         "type": "fact",
         "explanation": "Active records total 721, and excluding Corporate Sponsor (88 records) leaves 633 records (425 + 208), not 650.",
         "fix": "filtered query yields 633 records ready for the mail merge"
       },
       {
         "quote": "Because Corporate Sponsor profiles are omitted from this export, be sure to suppress the company title field for the remaining corporate addresses",
-        "start": 1260,
-        "end": 1406,
+        "start": 1263,
+        "end": 1409,
         "type": "logic",
         "explanation": "If Corporate Sponsor records were completely excluded by the filter, there are no remaining corporate addresses in the export to suppress company titles for.",
         "fix": "Because Corporate Sponsor profiles are omitted from this export, no corporate address handling is required"

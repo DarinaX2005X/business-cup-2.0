@@ -8,7 +8,7 @@
   "brief": "A structured, prioritized task list for two Certified Nursing Assistants covering the evening shift on Oak Wing.",
   "delegate": {
     "scenario": "You are the charge LPN on Oak Wing at Meadowview Rehabilitation Center organizing duties for the 3:00 PM to 11:00 PM shift. Two CNAs need a clear allocation of resident care tasks, vitals schedules, and dining duties before change-of-shift report at 3:15 PM. You need an organized assignment sheet that balances the workload and ensures safety protocols are maintained.",
-    "inputs": "Oak Wing Census & Orders (03/24/2026):\n- Room 201 (J. Vance): Total care, turn q2h, strict NPO except ice chips per speech therapy. Vitals TID.\n- Room 202 (M. Gable): Stand-by assist x1, blood glucose checks AC/HS. Normal diet.\n- Room 203 (D. Chen): Fall risk, bed alarm on at all times, assist x2 with pivot transfers. Weight check weekly on Mondays.\n- Room 204 (R. Torres): Independent with walker. Vitals q-shift. Needs vitals taken before physical therapy at 3:30 PM.\n\nCNA assignments:\n- CNA Jackson: Rooms 201-202. Dining room monitor at 5:00 PM dinner.\n- CNA Rivera: Rooms 203-204. Break relief at 7:00 PM.\n\nNotes from Day Shift:\n- Vance ice chips tolerated well. Order update from Dr. Patel: Vance diet advanced to pureed with honey-thick liquids at lunch today.\n- Chen weighed this morning: 164 lbs. Last Monday was 152 lbs. Chen also refusing transfer assist x2, insists family helps alone.\n- Evening vitals due: Vance, Gable, Torres. Torres vitals logged at 15:45.",
+    "inputs": "Oak Wing Census & Orders (03/24/2026):\n- Room 201 (J. Ellison): Total care, turn q2h, strict NPO except ice chips per speech therapy. Vitals TID.\n- Room 202 (M. Gable): Stand-by assist x1, blood glucose checks AC/HS. Normal diet.\n- Room 203 (D. Chen): Fall risk, bed alarm on at all times, assist x2 with pivot transfers. Weight check weekly on Mondays.\n- Room 204 (R. Torres): Independent with walker. Vitals q-shift. Needs vitals taken before physical therapy at 3:30 PM.\n\nCNA assignments:\n- CNA Jackson: Rooms 201-202. Dining room monitor at 5:00 PM dinner.\n- CNA Rivera: Rooms 203-204. Break relief at 7:00 PM.\n\nNotes from Day Shift:\n- Ellison ice chips tolerated well. Order update from Dr. Patel: Ellison diet advanced to pureed with honey-thick liquids at lunch today.\n- Chen weighed this morning: 164 lbs. Last Monday was 152 lbs. Chen also refusing transfer assist x2, insists family helps alone.\n- Evening vitals due: Ellison, Gable, Torres. Torres vitals logged at 15:45.",
     "goal": "Provide a clear, safe, and balanced duty list for both CNAs that prioritizes immediate care needs and clarifies conflicting dietary and care instructions.",
     "criteria": [
       {
@@ -67,7 +67,7 @@
     "traps": [
       {
         "id": "t1",
-        "description": "Room 201 (Vance) has conflicting diet orders: strict NPO except ice chips in the primary census versus advanced pureed with honey-thick liquids in the day shift notes.",
+        "description": "Room 201 (Ellison) has conflicting diet orders: strict NPO except ice chips in the primary census versus advanced pureed with honey-thick liquids in the day shift notes.",
         "keywords": [
           "strict NPO",
           "pureed with honey-thick liquids"

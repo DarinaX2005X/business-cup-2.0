@@ -4,24 +4,24 @@
   "taskId": "21514",
   "locale": "en",
   "difficulty": 1,
-  "title": "Quarterly Financial Close Review: Apex Logistics LLC",
+  "title": "Quarterly Financial Close Review: Eastgate Logistics LLC",
   "brief": "Quarterly financial statement review memo analyzing closing balances and journal entries for Q1 2026 drafted from the general ledger trial balance.",
   "docType": "quarterly close review",
   "slip": {
-    "document": "# Quarterly Financial Close Review: Apex Logistics LLC\nQuarter Ended: 03/31/2026\nReviewer: Marcus Vance, CPA\n\n## Summary of Selected Balance Sheet Accounts\n| Account Description | Unadjusted GL Balance | Adjustment DR | Adjustment CR | Adjusted GL Balance |\n| --- | --- | --- | --- | --- |\n| Cash and Cash Equivalents | $412,500 | $0 | $0 | $412,500 |\n| Accounts Receivable | $840,000 | $0 | $15,000 | $825,000 |\n| Allowance for Credit Losses | $38,000 | $0 | $12,000 | $50,000 |\n| Operating Lease Right-of-Use Asset | $620,000 | $0 | $35,000 | $585,000 |\n| Operating Lease Liability | $640,000 | $32,000 | $0 | $608,000 |\n\n## Journal Entry Adjustments and Findings\n- Accounts receivable was adjusted downward by $15,000 following the write-off of an uncollectible balance from Red Rock Freight.\n- The allowance for credit losses was evaluated under ASC 326 using historical loss rates and macroeconomic forecasts, requiring a $12,000 increase to credit loss expense.\n- In accordance with US GAAP, the write-off of the uncollectible balance was recorded as a debit directly to bad debt expense rather than against the allowance.\n- The unadjusted operating lease liability of $640,000 was reduced by a principal payment of $32,000, leaving an adjusted operating lease liability balance of $672,000.\n- Total adjusted current assets remain sufficient to support the company's revolving credit covenant through Q2 2026.",
+    "document": "# Quarterly Financial Close Review: Eastgate Logistics LLC\nQuarter Ended: 03/31/2026\nReviewer: Julia Mahoney, CPA\n\n## Summary of Selected Balance Sheet Accounts\n| Account Description | Unadjusted GL Balance | Adjustment DR | Adjustment CR | Adjusted GL Balance |\n| --- | --- | --- | --- | --- |\n| Cash and Cash Equivalents | $412,500 | $0 | $0 | $412,500 |\n| Accounts Receivable | $840,000 | $0 | $15,000 | $825,000 |\n| Allowance for Credit Losses | $38,000 | $0 | $12,000 | $50,000 |\n| Operating Lease Right-of-Use Asset | $620,000 | $0 | $35,000 | $585,000 |\n| Operating Lease Liability | $640,000 | $32,000 | $0 | $608,000 |\n\n## Journal Entry Adjustments and Findings\n- Accounts receivable was adjusted downward by $15,000 following the write-off of an uncollectible balance from Red Rock Freight.\n- The allowance for credit losses was evaluated under ASC 326 using historical loss rates and macroeconomic forecasts, requiring a $12,000 increase to credit loss expense.\n- In accordance with US GAAP, the write-off of the uncollectible balance was recorded as a debit directly to bad debt expense rather than against the allowance.\n- The unadjusted operating lease liability of $640,000 was reduced by a principal payment of $32,000, leaving an adjusted operating lease liability balance of $672,000.\n- Total adjusted current assets remain sufficient to support the company's revolving credit covenant through Q2 2026.",
     "errors": [
       {
         "quote": "recorded as a debit directly to bad debt expense rather than against the allowance",
-        "start": 1045,
-        "end": 1127,
+        "start": 1050,
+        "end": 1132,
         "type": "compliance",
         "explanation": "Under US GAAP (ASC 326), an uncollectible account write-off must be debited against the Allowance for Credit Losses, not recognized directly as an expense at the time of write-off.",
         "fix": "recorded as a debit to the allowance for credit losses"
       },
       {
         "quote": "leaving an adjusted operating lease liability balance of $672,000",
-        "start": 1231,
-        "end": 1296,
+        "start": 1236,
+        "end": 1301,
         "type": "logic",
         "explanation": "Subtracting a $32,000 principal payment debit from a $640,000 liability leaves $608,000, as shown correctly in the table, not $672,000.",
         "fix": "leaving an adjusted operating lease liability balance of $608,000"

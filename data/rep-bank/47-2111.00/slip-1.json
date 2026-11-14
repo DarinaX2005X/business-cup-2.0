@@ -1,30 +1,30 @@
 {
   "type": "slip",
   "occupationCode": "47-2111.00",
-  "taskId": "2883",
+  "taskId": "2882",
   "locale": "en",
   "difficulty": 1,
-  "title": "Substation Feeder Commissioning and Insulation Resistance Report",
-  "brief": "Commissioning report for Feeder Breaker 3B and associated 480V 3-phase switchgear feeder testing, drafted from field technician test logs.",
-  "docType": "commissioning report",
+  "title": "Rough-In Conduit & Feeder Schedule",
+  "brief": "A conduit and feeder rough-in schedule drafted by an assistant from architectural and electrical blueprint sheet E-201 for a commercial build-out.",
+  "docType": "feeder schedule",
   "slip": {
-    "document": "# Substation Feeder Commissioning and Insulation Resistance Report\nFacility: Ridgefield Cold Storage Unit 4\nDate: 04/14/2026\nLead Electrician: Marcus Vance (License #EL-40912)\n\n## Equipment Under Test\n- Switchgear Unit: Square-D MasterPact 480V/2000A Main Lineup\n- Circuit Designation: Feeder 3B to Evaporator Compressor Bank 2\n- Test Equipment: Megger MIT515 5kV Insulation Tester, Fluke 376 FC True-RMS Clamp Meter, Fluke 1587 FC Insulation Multimeter\n\n## Insulation Resistance Test Data (1000V DC Applied for 1 Minute)\n| Conductor / Phase | Measured Resistance (MΩ) | Minimum Acceptable (MΩ) | Test Instrument |\n| --- | --- | --- | --- |\n| Phase A to Ground | 420 | 100 | Megger MIT515 |\n| Phase B to Ground | 390 | 100 | Megger MIT515 |\n| Phase C to Ground | 410 | 100 | Megger MIT515 |\n| Neutral to Ground | 280 | 100 | Megger MIT515 |\n\n## Full Load Current Measurements (480V Three-Phase Under Load)\n| Phase Leg | Running Amperes (A) |\n| --- | --- |\n| Phase A | 142.5 |\n| Phase B | 148.0 |\n| Phase C | 145.5 |\n\n## Field Observations and Analysis\n- Technicians conducted insulation resistance testing at 1000V DC and verified all conductors met or exceeded the 100 MΩ threshold.\n- Three-phase current unbalance was evaluated using maximum deviation from the average phase current of 145.3 A.\n- The total connected three-phase load current across all three phases summed to 446.0 A during peak cycle.\n- Phase B phase-to-ground insulation resistance tested at 590 MΩ showing strong dielectric integrity.\n- Feeder 3B is cleared for continuous operational duty.",
+    "document": "# Rough-In Conduit & Feeder Schedule\nCommercial Suite 104 - Riverbend Plaza\n\n## Project Parameters\n- Lead Estimator: Jamal Sandoval\n- Field Supervisor: Ethan Sato\n- Review Date: 03/18/2026\n- Electrical Drawings Reference: E-201 Rev 2\n\n## Panel Feeder Specifications\n| Panel ID | Location | Bus Rating | Minimum OCPD | Conductor Size & Type | Conduit Trade Size |\n| --- | --- | --- | --- | --- | --- |\n| Panel LP1 | Utility Room 102 | 100A, 120/208V, 3PH | 100A | 4x #3 AWG Cu THHN | 1-1/4 in EMT |\n| Panel HP1 | Elec Closet 106 | 225A, 277/480V, 3PH | 200A | 4x 3/0 AWG Cu THHN | 2 in EMT |\n| Panel DP1 | Main Switchgear | 400A, 120/208V, 3PH | 400A | 2x (4x 3/0 AWG Cu THHN) | 2x 2 in EMT |\n\n## Installation & Routing Notes\n- Route feeder for Panel LP1 from Main Distribution Switchboard through Corridor 101 to Utility Room 102.\n- Field crew must pull 4x 1/0 AWG Cu THHN conductors for the Panel LP1 run to verify proper termination.\n- Install pull box at 85 ft mark along Panel HP1 conduit run to maintain pulling tension limits.\n- Panel HP1 run requires 48 ft overhead along west wall, 62 ft across main retail ceiling, and 15 ft vertical drop into Elec Closet 106.\n- Total raceway length for Panel HP1 run measures 145 ft between enclosures.\n- Field verification completed by Alicia Rowland on site prior to coring through masonry wall.",
     "errors": [
       {
-        "quote": "total connected three-phase load current across all three phases summed to 446.0 A",
-        "start": 1303,
-        "end": 1385,
-        "type": "calculation",
-        "explanation": "The sum of the three running currents is 142.5 A + 148.0 A + 145.5 A = 436.0 A, not 446.0 A.",
-        "fix": "total connected three-phase load current across all three phases summed to 436.0 A"
+        "quote": "pull 4x 1/0 AWG Cu THHN conductors for the Panel LP1 run",
+        "start": 849,
+        "end": 905,
+        "type": "fact",
+        "explanation": "The Panel Feeder Specifications table explicitly designates Panel LP1 as requiring 4x #3 AWG Cu THHN conductors, not 1/0 AWG.",
+        "fix": "pull 4x #3 AWG Cu THHN conductors for the Panel LP1 run"
       },
       {
-        "quote": "Phase B phase-to-ground insulation resistance tested at 590 MΩ",
-        "start": 1407,
-        "end": 1469,
-        "type": "fact",
-        "explanation": "The insulation resistance table records Phase B to Ground as 390 MΩ, not 590 MΩ.",
-        "fix": "Phase B phase-to-ground insulation resistance tested at 390 MΩ"
+        "quote": "raceway length for Panel HP1 run measures 145 ft between enclosures",
+        "start": 1178,
+        "end": 1245,
+        "type": "calculation",
+        "explanation": "The individual segments listed are 48 ft, 62 ft, and 15 ft, which sum to 125 ft, not 145 ft.",
+        "fix": "raceway length for Panel HP1 run measures 125 ft between enclosures"
       }
     ]
   }

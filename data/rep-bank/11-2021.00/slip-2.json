@@ -4,32 +4,32 @@
   "taskId": "951",
   "locale": "en",
   "difficulty": 2,
-  "title": "Go-to-Market Strategy Memo: Apex Thermal Sensor Line",
+  "title": "Go-to-Market Strategy Memo: Cedar Ridge Thermal Sensor Line",
   "brief": "Marketing strategy memo outlining target segments, pricing structure, and acquisition goals for a new commercial IoT sensor line, drafted from product specifications and business unit targets.",
   "docType": "marketing strategy memo",
   "slip": {
-    "document": "# Go-to-Market Strategy Memo: Apex Thermal Sensor Line\nCommercial HVAC Monitoring Expansion | Q3 2026\n\n## Strategic Objectives\n- Expand commercial facility presence to capture 8% market share in industrial HVAC diagnostics by Q4 2027.\n- Achieve gross margins above 45% across all hardware bundles.\n- Deliver customer acquisition cost (CAC) below $420 with an LTV-to-CAC target ratio of 3.5:1.\n\n## Cost and Pricing Breakdown\n\n| Product Tier | Unit COGS | Standard Markup | Target MSRP | Target Unit Volume |\n| --- | --- | --- | --- | --- |\n| Apex Core | $140.00 | 75% | $245.00 | 12,000 |\n| Apex Pro | $220.00 | 80% | $396.00 | 6,500 |\n| Apex Enterprise | $310.00 | 90% | $589.00 | 2,200 |\n\n## Target Segments and Channel Strategy\nPrimary buyers consist of mid-market commercial building operators managing 50,000 to 250,000 sq ft facilities. Regional mechanical contractors serve as key distribution partners.\n\n- Channel partner agreements establish a standard wholesale discount of 15% off list price.\n- Digital lead generation focuses on commercial facility managers searching for retrofit predictive maintenance.\n- Because unit margins are highest on Apex Enterprise, direct all outbound SDR cadence toward single-facility retail sites.\n\n## Performance Projections and KPIs\nBlended revenue projections based on targeted volumes yield $6,809,300 in hardware sales for the initial 12-month rollout.\n\n- The blended gross margin of 47.8% meets the corporate threshold of 45%.\n- Target customer acquisition cost is set at $420 per account across digital and event channels.\n- The calculated payback period from annual software maintenance fees of $600 per year per account is 14.5 months.\n- Paid pilot programs will launch across three metro regions starting 08/15/2026.",
+    "document": "# Go-to-Market Strategy Memo: Cedar Ridge Thermal Sensor Line\nCommercial HVAC Monitoring Expansion | Q3 2026\n\n## Strategic Objectives\n- Expand commercial facility presence to capture 8% market share in industrial HVAC diagnostics by Q4 2027.\n- Achieve gross margins above 45% across all hardware bundles.\n- Deliver customer acquisition cost (CAC) below $420 with an LTV-to-CAC target ratio of 3.5:1.\n\n## Cost and Pricing Breakdown\n\n| Product Tier | Unit COGS | Standard Markup | Target MSRP | Target Unit Volume |\n| --- | --- | --- | --- | --- |\n| Cedar Ridge Core | $140.00 | 75% | $245.00 | 12,000 |\n| Cedar Ridge Pro | $220.00 | 80% | $396.00 | 6,500 |\n| Cedar Ridge Enterprise | $310.00 | 90% | $589.00 | 2,200 |\n\n## Target Segments and Channel Strategy\nPrimary buyers consist of mid-market commercial building operators managing 50,000 to 250,000 sq ft facilities. Regional mechanical contractors serve as key distribution partners.\n\n- Channel partner agreements establish a standard wholesale discount of 15% off list price.\n- Digital lead generation focuses on commercial facility managers searching for retrofit predictive maintenance.\n- Because unit margins are highest on Cedar Ridge Enterprise, direct all outbound SDR cadence toward single-facility retail sites.\n\n## Performance Projections and KPIs\nBlended revenue projections based on targeted volumes yield $6,809,300 in hardware sales for the initial 12-month rollout.\n\n- The blended gross margin of 47.8% meets the corporate threshold of 45%.\n- Target customer acquisition cost is set at $420 per account across digital and event channels.\n- The calculated payback period from annual software maintenance fees of $600 per year per account is 14.5 months.\n- Paid pilot programs will launch across three metro regions starting 08/15/2026.",
     "errors": [
       {
         "quote": "direct all outbound SDR cadence toward single-facility retail sites",
-        "start": 1171,
-        "end": 1238,
+        "start": 1206,
+        "end": 1273,
         "type": "logic",
-        "explanation": "Apex Enterprise is the top-tier, highest-cost hardware package and the target profile is mid-market operators with 50,000 to 250,000 sq ft facilities, so routing enterprise outreach to single-facility retail sites contradicts the tier positioning and target customer profile.",
+        "explanation": "Cedar Ridge Enterprise is the top-tier, highest-cost hardware package and the target profile is mid-market operators with 50,000 to 250,000 sq ft facilities, so routing enterprise outreach to single-facility retail sites contradicts the tier positioning and target customer profile.",
         "fix": "direct all outbound SDR cadence toward multi-facility commercial campus operators"
       },
       {
         "quote": "Target customer acquisition cost is set at $420 per account across digital and event channels.",
-        "start": 1477,
-        "end": 1571,
+        "start": 1512,
+        "end": 1606,
         "type": "omission",
         "explanation": "The Strategic Objectives section specifies an LTV-to-CAC target ratio of 3.5:1, but the performance projection omits the projected customer lifetime value (LTV) required to evaluate whether the $420 CAC meets this threshold.",
         "fix": "Target customer acquisition cost is set at $420 against a projected LTV of $1,470 per account across digital and event channels."
       },
       {
         "quote": "annual software maintenance fees of $600 per year per account is 14.5 months",
-        "start": 1609,
-        "end": 1685,
+        "start": 1644,
+        "end": 1720,
         "type": "fact",
         "explanation": "A $420 CAC recovered at $600 per year ($50 per month) yields an 8.4-month payback period ($420 / $50), not 14.5 months.",
         "fix": "annual software maintenance fees of $600 per year per account is 8.4 months"

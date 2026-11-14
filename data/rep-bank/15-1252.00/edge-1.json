@@ -8,8 +8,8 @@
   "brief": "Explain why an executive's urgent feature request is technically infeasible for next week's release and negotiate a realistic path forward.",
   "edge": {
     "scenario": "You are a lead software developer meeting with the Product Manager two weeks before a high-profile enterprise release. The PM has suddenly added real-time multi-region data sync to the requirements because a major client demanded it during a sales call yesterday. Delivering this within current time and budget constraints would require bypassing essential security testing and breaking database integrity.",
-    "personaPublic": "Marcus is the Senior Product Manager leading the enterprise rollout, visibly stressed and clutching a notebook filled with urgent client requests. He insists this feature is non-negotiable for closing the company's largest account of the quarter.",
-    "personaHidden": "Underneath his aggressive push, Marcus feels cornered because leadership tied his upcoming performance review and bonus directly to closing this specific contract. He secretly knows little about distributed database constraints and is terrified of telling the VP of Sales that engineering said no.",
+    "personaPublic": "Caleb is the Senior Product Manager leading the enterprise rollout, visibly stressed and clutching a notebook filled with urgent client requests. He insists this feature is non-negotiable for closing the company's largest account of the quarter.",
+    "personaHidden": "Underneath his aggressive push, Caleb feels cornered because leadership tied his upcoming performance review and bonus directly to closing this specific contract. He secretly knows little about distributed database constraints and is terrified of telling the VP of Sales that engineering said no.",
     "goal": "Reach an agreed phased delivery plan that protects system stability while providing sales with a viable commitment for the client.",
     "criteria": [
       {

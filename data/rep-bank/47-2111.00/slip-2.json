@@ -1,38 +1,38 @@
 {
   "type": "slip",
   "occupationCode": "47-2111.00",
-  "taskId": "2887",
+  "taskId": "2880",
   "locale": "en",
   "difficulty": 2,
-  "title": "Job Safety Analysis and Work Plan: High-Bay Lighting Retrofit",
-  "brief": "A job safety analysis and installation plan drafted for retrofitting warehouse high-bay fixtures from rolling scaffolding.",
-  "docType": "job safety analysis",
+  "title": "Branch Circuit Schedule and Layout Plan: Highland Bakery Expansion",
+  "brief": "Branch circuit layout and equipment schedule for a commercial bakery tenant improvement, drafted from engineer specifications and architectural plans.",
+  "docType": "branch circuit schedule",
   "slip": {
-    "document": "# Job Safety Analysis and Work Plan: High-Bay Lighting Retrofit\nProject: Apex Logistics Facility B - High-Bay LED Upgrade\nDate: 03/18/2026\nSupervisor: Marcus Vance (Master Electrician, Lic #EC-44910)\n\n## Equipment and Staging Specifications\n| Item | Specification | Rating / Value |\n| --- | --- | --- |\n| Mobile Scaffolding Unit | Steel tubular frame, 5 ft x 7 ft base | ANSI A10.8 Type I |\n| Maximum Working Platform Height | 16 ft above finished floor (AFF) | Outriggers engaged |\n| Fixture Weight | 150W LED High-Bay (Model HB-4) | 18 lb each |\n| Branch Circuit | 277V single-phase, 20A breaker | Circuit H-14 |\n\n## Scaffolding Setup and Stability\n- The mobile scaffold base is 5 ft wide by 7 ft long.\n- Scaffold height is configured to a platform level of 16 ft AFF with base-to-height ratio stabilised using four outriggers.\n- Working platform is fully planked with nominal 2-inch wood scaffolding grade lumber and equipped with top rails at 42 inches AFF and midrails.\n- To relocate the unit along the aisle, crew members may ride the rolling scaffold between bays provided travel speed remains walking pace.\n\n## Circuit Load Evaluation\n- The existing circuit H-14 powers 277V luminaires using 12 AWG THHN copper conductors on a standard 20A branch breaker.\n- Total planned replacement fixtures on Circuit H-14: 24 luminaires at 150W each.\n- Total connected operating load across all 24 fixtures equals 4,200 watts.\n- At 277V, total steady-state continuous draw is 13.0 amps, which remains below the 16A continuous threshold (80% of 20A circuit rating).\n\n## Fall Protection and Ladder Access\n- Access to the scaffold platform is provided via an attached internal ladder unit.\n- When climbing the ladder to the scaffold deck, workers must maintain two points of contact at all times.\n- Personal fall arrest systems (PFAS) with full-body harness and 6 ft energy-absorbing lanyards are required when working outside guardrails.",
+    "document": "# Branch Circuit Schedule and Layout Plan: Highland Bakery Expansion\nTenant Improvement Plan: Unit 104\n\n## Project Scope\n- General Contractor: Highland Construction Group\n- Lead Electrician: Brandon Moreau\n- Electrical Reviewer: Rosa Bishop, PE\n- Primary Panel: Panel DP (120/208V, 3-phase, 4-wire, 225A MCB)\n- Feed Point: Subpanel feeding rear kitchen prep area\n\n## Connected Kitchen Loads\n| Equipment Tag | Description | Voltage | Phase | Connected VA |\n| --- | --- | --- | --- | --- |\n| CK-1 | Deck Oven | 208V | 3-ph | 9,600 |\n| CK-2 | Spiral Dough Mixer | 208V | 3-ph | 2,800 |\n| CK-3 | Proofer Cabinet | 120V | 1-ph | 1,800 |\n| CK-4 | Reach-In Cooler | 120V | 1-ph | 1,200 |\n| CK-5 | Exhaust Hood Fan | 208V | 3-ph | 1,600 |\n\n## Branch Circuit Calculations and Feeders\n- The combined connected load for kitchen equipment CK-1 through CK-5 is 16,000 VA before demand factors are applied.\n- Dedicated branch circuit for CK-1 deck oven requires 3-pole 35A breaker protected with 8 AWG THHN copper conductors.\n- Branch circuit for CK-3 proofer cabinet requires 1-pole 20A breaker with 12 AWG THHN copper conductors in 3/4-inch EMT.\n- Dedicated branch circuit for CK-4 reach-in cooler requires 1-pole 15A breaker with 14 AWG THHN copper conductors.\n\n## Layout and Rough-In Notes\n- Route 1-inch EMT from Panel DP to junction box JB-2 mounted at 10 ft AFF above prep counter.\n- Provide quad convenience receptacles above prep sink counters; install standard non-GFCI 20A duplex receptacles within 2 ft of sink basin perimeter.\n- Branch homerun for mixer CK-2 will be installed by apprentice wireman Victor Tran on 10/14/2026.\n- Maximum voltage drop design target from Panel DP to farthest appliance receptacle is 3 percent.",
     "errors": [
       {
-        "quote": "crew members may ride the rolling scaffold between bays",
-        "start": 1015,
-        "end": 1070,
-        "type": "compliance",
-        "explanation": "OSHA 1926.452(w)(6) prohibits employees from riding on scaffolds unless specific design criteria are met, and manual pushing while workers are on top violates standard safety rules.",
-        "fix": "crew members must dismount the scaffold before moving it between bays"
-      },
-      {
-        "quote": "Total connected operating load across all 24 fixtures equals 4,200 watts.",
-        "start": 1348,
-        "end": 1421,
+        "quote": "CK-1 through CK-5 is 16,000 VA before demand factors",
+        "start": 827,
+        "end": 879,
         "type": "calculation",
-        "explanation": "24 fixtures multiplied by 150 watts each equals 3,600 watts, not 4,200 watts.",
-        "fix": "Total connected operating load across all 24 fixtures equals 3,600 watts."
+        "explanation": "Summing the connected VA loads from the table gives 9,600 + 2,800 + 1,800 + 1,200 + 1,600 = 17,000 VA, not 16,000 VA.",
+        "fix": "CK-1 through CK-5 is 17,000 VA before demand factors"
       },
       {
-        "quote": "workers must maintain two points of contact at all times.",
-        "start": 1731,
-        "end": 1788,
+        "quote": "CK-1 deck oven requires 3-pole 35A breaker",
+        "start": 924,
+        "end": 966,
         "type": "fact",
-        "explanation": "Standard safety rules and basic trade knowledge require three points of contact (two hands and a foot, or two feet and a hand) while climbing a ladder, not two.",
-        "fix": "workers must maintain three points of contact at all times."
+        "explanation": "At 208V 3-phase, a 9,600 VA load draws 26.6A (9600 / (208 * 1.732)). Under continuous duty rules (125%), minimum circuit ampacity is 33.3A, but 8 AWG THHN copper rated at 75°C is good for 50A and requires a standard 40A or 50A breaker, while a 35A breaker provides inadequate continuous headroom for a 26.6A continuous heating load.",
+        "fix": "CK-1 deck oven requires 3-pole 40A breaker"
+      },
+      {
+        "quote": "install standard non-GFCI 20A duplex receptacles within 2 ft of sink basin perimeter",
+        "start": 1440,
+        "end": 1524,
+        "type": "compliance",
+        "explanation": "NEC 210.8(B) requires all commercial kitchen receptacles, and specifically any receptacle within 6 feet of the top inside edge of the bowl of a sink, to have GFCI protection.",
+        "fix": "install GFCI-protected 20A duplex receptacles within 2 ft of sink basin perimeter"
       }
     ]
   }

@@ -8,20 +8,20 @@
   "brief": "A commercial motor vehicle driver's daily duty status log and recap drafted from electronic logging device records and trip inspection notes.",
   "docType": "driver daily log",
   "slip": {
-    "document": "# Driver Daily Log and Hours of Service Recap\nMotor Carrier: Pine Valley Freightways LLC, US DOT # 2948103\n\n## Driver and Equipment Identification\n- Driver: Marcus Vance, CDL # TX-38491028\n- Date: 10/14/2026\n- Tractor: Unit # 418 (VIN: 1FTFW1ED6PF819032)\n- Trailer: Unit # TR-5309\n- Shipping Document: Bill of Lading # 884019\n- Co-Driver: None (Solo)\n\n## 24-Hour Duty Status Breakdown\n| Duty Status | Start Time | End Time | Total Hours |\n| --- | --- | --- | --- |\n| Off Duty | 00:00 | 06:00 | 6.0 |\n| Sleeper Berth | 06:00 | 08:00 | 2.0 |\n| On Duty (Not Driving) | 08:00 | 08:30 | 0.5 |\n| Driving | 08:30 | 13:00 | 4.5 |\n| Off Duty (Meal) | 13:00 | 13:30 | 0.5 |\n| Driving | 13:30 | 19:30 | 6.0 |\n| On Duty (Not Driving) | 19:30 | 20:30 | 1.0 |\n| Sleeper Berth | 20:30 | 24:00 | 3.5 |\n\n## Summary of Hours and Mileage\n- Miles driven today: 568 miles\n- Total driving hours recorded: 10.5 hours\n- Total on-duty hours recorded: 12.0 hours\n- Total rest hours today: 11.5 hours\n\n## Hours of Service Status (70-Hour / 8-Day Rule)\n- Eligible hours available at start of day: 24.5 hours\n- Total on-duty time used today: 14.5 hours\n- Total available hours carried forward to tomorrow: 12.5 hours\n- 30-minute rest break completed: 13:00 to 13:30 (rest break satisfied prior to exceeding 8 cumulative hours of driving)\n\n## Driver Certification and Inspection\n- Pre-trip vehicle inspection completed at 08:00 at Dallas terminal\n- Post-trip vehicle inspection completed at 19:30 at Memphis staging yard\n- Vehicle defects found: None\n- Driver signature: Marcus Vance",
+    "document": "# Driver Daily Log and Hours of Service Recap\nMotor Carrier: Pine Valley Freightways LLC, US DOT # 2948103\n\n## Driver and Equipment Identification\n- Driver: Tyrone Osei, CDL # TX-38491028\n- Date: 10/14/2026\n- Tractor: Unit # 418 (VIN: 1FTFW1ED6PF819032)\n- Trailer: Unit # TR-5309\n- Shipping Document: Bill of Lading # 884019\n- Co-Driver: None (Solo)\n\n## 24-Hour Duty Status Breakdown\n| Duty Status | Start Time | End Time | Total Hours |\n| --- | --- | --- | --- |\n| Off Duty | 00:00 | 06:00 | 6.0 |\n| Sleeper Berth | 06:00 | 08:00 | 2.0 |\n| On Duty (Not Driving) | 08:00 | 08:30 | 0.5 |\n| Driving | 08:30 | 13:00 | 4.5 |\n| Off Duty (Meal) | 13:00 | 13:30 | 0.5 |\n| Driving | 13:30 | 19:30 | 6.0 |\n| On Duty (Not Driving) | 19:30 | 20:30 | 1.0 |\n| Sleeper Berth | 20:30 | 24:00 | 3.5 |\n\n## Summary of Hours and Mileage\n- Miles driven today: 568 miles\n- Total driving hours recorded: 10.5 hours\n- Total on-duty hours recorded: 12.0 hours\n- Total rest hours today: 11.5 hours\n\n## Hours of Service Status (70-Hour / 8-Day Rule)\n- Eligible hours available at start of day: 24.5 hours\n- Total on-duty time used today: 14.5 hours\n- Total available hours carried forward to tomorrow: 12.5 hours\n- 30-minute rest break completed: 13:00 to 13:30 (rest break satisfied prior to exceeding 8 cumulative hours of driving)\n\n## Driver Certification and Inspection\n- Pre-trip vehicle inspection completed at 08:00 at Dallas terminal\n- Post-trip vehicle inspection completed at 19:30 at Memphis staging yard\n- Vehicle defects found: None\n- Driver signature: Tyrone Osei",
     "errors": [
       {
         "quote": "Total on-duty time used today: 14.5 hours",
-        "start": 1082,
-        "end": 1123,
+        "start": 1081,
+        "end": 1122,
         "type": "fact",
         "explanation": "Total on-duty time includes driving (10.5 hours) plus on-duty not driving (1.5 hours), which equals 12.0 hours as correctly listed in the summary section, not 14.5 hours.",
         "fix": "Total on-duty time used today: 12.0 hours"
       },
       {
         "quote": "Post-trip vehicle inspection completed at 19:30 at Memphis staging yard",
-        "start": 1419,
-        "end": 1490,
+        "start": 1418,
+        "end": 1489,
         "type": "omission",
         "explanation": "Federal regulations (49 CFR § 396.11) require the driver to record vehicle condition and explicitly certify whether any safety-related defect was found or that no defect was found at the completion of each day's work, but the line omits the driver's vehicle condition declaration.",
         "fix": "Post-trip vehicle inspection completed at 19:30 at Memphis staging yard with condition certified satisfactory"

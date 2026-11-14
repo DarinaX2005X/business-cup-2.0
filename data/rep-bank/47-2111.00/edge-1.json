@@ -1,73 +1,59 @@
 {
   "type": "edge",
   "occupationCode": "47-2111.00",
-  "taskId": "2882",
+  "taskId": "2883",
   "locale": "en",
   "difficulty": 2,
-  "title": "Unpermitted Kitchen Island Blueprint Dispute",
-  "brief": "Explain to a homeowner why their custom kitchen island layout violates safety codes and negotiate a compliant solution.",
+  "title": "Machine Down, Production Line Stalled",
+  "brief": "Explain why diagnostic testing cannot be rushed to a plant manager facing costly factory downtime.",
   "edge": {
-    "scenario": "You are on site at a residential remodel in suburban Ohio preparing to pull wire for a new kitchen island. The homeowner has handed you an unpermitted Pinterest-inspired layout that places high-voltage outlets directly below an undermount sink and omits required dedicated circuits. Drywall starts tomorrow morning, and she is demanding you wire it exactly according to her sketch.",
-    "personaPublic": "Diane is a stressed homeowner overseeing her own kitchen remodel, juggling sub-contractors on a tight budget. She looks anxious and defensive, holding her printout firmly while gesturing around the framed kitchen.",
-    "personaHidden": "She poured her remaining savings into custom quartz countertops that are being cut off-site this afternoon based strictly on this sketch. She is terrified that moving any wiring or outlets will force an expensive recut of the stone that she cannot afford.",
-    "goal": "Explain the National Electrical Code safety hazards clearly and agree on an alternative outlet placement that satisfies code without compromising her custom countertop fabrication.",
+    "scenario": "You are a commercial electrician troubleshooting a critical automated packaging line that suddenly tripped out on an industrial plant floor. Plant manager Greg arrives visibly stressed, holding a radio and demanding you bypass diagnostics with your testing tools to flip the main breaker back on immediately. Thousands of dollars are being lost every minute the conveyor belt stays idle.",
+    "personaPublic": "Greg is the operations manager at the packaging facility, pacing beside the locked electrical cabinet while holding a blaring two-way radio. He is impatient, authoritative, and focused entirely on the lost revenue ticking by each minute.",
+    "personaHidden": "He was already reprimanded by corporate last week for missing shipment quotas and risks losing his annual bonus or his job if this run misses the afternoon freight truck. Beneath his anger, he is terrified of an arc flash or catastrophic fire because a previous facility he ran suffered an electrical explosion.",
+    "goal": "De-escalate Greg's urgency and gain his consent to complete full multimeter and insulation testing before attempting any breaker reset.",
     "criteria": [
       {
         "id": "c1",
-        "text": "Acknowledges her design vision and tight timeline before citing regulations",
+        "text": "Acknowledges the high financial stakes of the production stoppage before defending testing protocols.",
         "keywords": [
-          "understand",
-          "tight timeline",
-          "custom design",
-          "frustrating",
-          "vision"
+          "understand the downtime",
+          "costly",
+          "lost time",
+          "production delay"
         ]
       },
       {
         "id": "c2",
-        "text": "Explains the fire and shock hazard plainly without using dense code jargon",
+        "text": "Explains clearly in plain terms why testing with instruments prevents catasrophic equipment destruction or injury.",
         "keywords": [
-          "water and electricity",
-          "shock hazard",
-          "safety risk",
+          "arc flash",
+          "megohmmeter",
           "short circuit",
-          "building code"
+          "blow the motor",
+          "safety hazard"
         ]
       },
       {
         "id": "c3",
-        "text": "Identifies the core constraint driving her reluctance to alter the plan",
+        "text": "Refuses firmly to bypass safety diagnostics or energize blind.",
         "keywords": [
-          "countertop",
-          "quartz",
-          "measurements",
-          "cutouts",
-          "fabricator"
+          "cannot just flip",
+          "need to test",
+          "won't energize blind",
+          "must verify"
         ]
       },
       {
         "id": "c4",
-        "text": "Offers compliant alternative placements such as pop-up outlets or side-panel mounts",
+        "text": "Provides an honest, realistic estimate of the testing timeline and an immediate plan of action.",
         "keywords": [
-          "side panel",
-          "pop-up",
-          "island end",
-          "alternative",
-          "compliant options"
-        ]
-      },
-      {
-        "id": "c5",
-        "text": "Agrees on an updated sketch mark-up to finalize before rough-in begins",
-        "keywords": [
-          "mark up",
-          "sketch",
-          "sign off",
-          "call the fabricator",
-          "next step"
+          "fifteen minutes",
+          "isolate the fault",
+          "next step",
+          "check the feeder"
         ]
       }
     ],
-    "opening": "Look, I know what the standard blueprint says, but I specifically designed this island layout myself. I need these outlets right here under the sink edge, and the drywall crew arrives at seven tomorrow morning. Can you just hook it up to the existing line so we don't fall behind?"
+    "opening": "Put the meters away and just reset the damn main breaker! We're burning ten grand every five minutes this line sits dead. Whatever tripped it probably cleared itself, so flip it back on right now—I'll take full responsibility!"
   }
 }

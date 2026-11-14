@@ -7,10 +7,10 @@
   "title": "Blocked Payment for Key Subcontractor",
   "brief": "Address a project manager whose urgent vendor invoice was rejected due to missing compliance documentation.",
   "edge": {
-    "scenario": "It is late Friday afternoon at a mid-sized commercial construction firm, and accounts payable has frozen an invoice due to a lapsed Certificate of Insurance. Marcus, a senior project manager, bursts into your office because the subcontractor is threatening to pull their crew from an active job site on Monday morning if they are not paid today.",
-    "personaPublic": "Marcus is a veteran construction project manager overseeing a multi-million-dollar downtown renovation. He is visibly stressed, holding a crumpled printout of an invoice, and demanding an immediate manual override of the system.",
-    "personaHidden": "Marcus forgot to forward the subcontractor's updated insurance paperwork two weeks ago and knows the delay is technically his fault. He is terrified of facing liquidated damages from the property owner if work stops on Monday.",
-    "goal": "De-escalate Marcus's anger, clarify the mandatory compliance barrier without taking blame, and establish an expedited plan to verify the paperwork and release payment.",
+    "scenario": "It is late Friday afternoon at a mid-sized commercial construction firm, and accounts payable has frozen an invoice due to a lapsed Certificate of Insurance. Frank, a senior project manager, bursts into your office because the subcontractor is threatening to pull their crew from an active job site on Monday morning if they are not paid today.",
+    "personaPublic": "Frank is a veteran construction project manager overseeing a multi-million-dollar downtown renovation. He is visibly stressed, holding a crumpled printout of an invoice, and demanding an immediate manual override of the system.",
+    "personaHidden": "Frank forgot to forward the subcontractor's updated insurance paperwork two weeks ago and knows the delay is technically his fault. He is terrified of facing liquidated damages from the property owner if work stops on Monday.",
+    "goal": "De-escalate Frank's anger, clarify the mandatory compliance barrier without taking blame, and establish an expedited plan to verify the paperwork and release payment.",
     "criteria": [
       {
         "id": "c1",
@@ -57,6 +57,6 @@
         ]
       }
     ],
-    "opening": "Look, I need this check cut right now. Apex Concrete is going to walk off the 4th Street site on Monday if they don't see funds. Your team kicked the invoice back over some minor paperwork issue, and I don't have time for red tape. Can you just push it through?"
+    "opening": "Look, I need this check cut right now. Foxglove Concrete is going to walk off the 4th Street site on Monday if they don't see funds. Your team kicked the invoice back over some minor paperwork issue, and I don't have time for red tape. Can you just push it through?"
   }
 }

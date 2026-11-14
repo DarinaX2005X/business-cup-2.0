@@ -1,30 +1,30 @@
 {
   "type": "slip",
   "occupationCode": "37-2011.00",
-  "taskId": "9540",
+  "taskId": "9541",
   "locale": "en",
   "difficulty": 1,
-  "title": "Night Shift Floor Care Plan and Log",
-  "brief": "A night shift floor maintenance plan and completion log for an administrative office facility, drafted from weekly facility specs.",
-  "docType": "floor cleaning log",
+  "title": "Floor Care and Chemical Safety Protocol: Building B Restorations",
+  "brief": "Standard operating procedure drafted for custodial staff detailing chemical dilutions, floor substrate restrictions, and power scrubber setup for an overnight restoration at Harbor Point Health Center.",
+  "docType": "floor care standard operating procedure",
   "slip": {
-    "document": "# Night Shift Floor Care Plan and Log\nFacility: Ridgeview Corporate Center, Building B\nDate: 03/12/2026\nCustodian: Marcus Vance\nShift: 10:00 PM - 6:30 AM\n\n## Area Specifications\n\n| Zone | Area Description | Square Feet | Floor Type | Standard Procedure |\n| --- | --- | --- | --- | --- |\n| 1 | Main Lobby & West Atrium | 4,200 | Polished Terrazzo | Dust mop, auto-scrubber with neutral cleaner |\n| 2 | Executive Boardrooms (3) | 1,850 | Low-pile Commercial Carpet | Upright vacuum, spot treat with encap foam |\n| 3 | 1st Floor Restrooms (North/South) | 900 | Ceramic Tile | Sweep, wet mop with quaternary disinfectant |\n| 4 | South Loading Dock & Mailroom | 2,100 | Sealed Concrete | Push broom sweep, degreaser mop |\n\n## Chemical Dilution and Equipment Prep\n- Neutral Floor Cleaner (Terrazzo): Dispense at 1 oz per gallon of cool water into Taski 20-inch auto-scrubber.\n- Quaternary Disinfectant: Dispense 2 oz per gallon of cold water into dual-compartment yellow mop bucket.\n- Ensure safety signs are positioned before applying any liquids.\n- Keep floor equipment battery levels above 80 percent before starting runs.\n\n## Execution Instructions\n- Start in Zone 1 by running dust mop along perimeter before scrubber pass.\n- Run the auto-scrubber across the 4,200 square feet of low-pile carpet in Zone 1.\n- In Zone 2, vacuum thoroughly including edges; inspect for coffee spills.\n- Because low-pile carpet requires immediate drying, do not vacuum until after mopping it with quaternary disinfectant.\n- In Zone 3, mop tile with prepared disinfectant solution; allow 10-minute wet dwell time before air drying.\n- In Zone 4, sweep coarse debris and deposit into dock dumpster before damp mopping dock bay.\n\n## Sign-Off\nCompleted by Marcus Vance (ID 4482) at 05:45 AM. Inspected by Night Lead Sarah Lin.",
+    "document": "# Floor Care and Chemical Safety Protocol: Building B Restorations\nFacility: Harbor Point Health Center\nPrepared By: Julia Santoro, Facilities Supervisor\nDate: 04/14/2026\nTarget Area: Building B Ground Concourse and Outpatient Suites\n\n## Approved Chemicals and Substrate Compatibility\n| Product Code | Chemical Name | pH Level | Approved Substrate | Scrubber Pad Type |\n| --- | --- | --- | --- | --- |\n| CHEM-102 | Neutral Floor Cleaner | 7.0 | Polished Terrazzo | White Non-Abrasive |\n| CHEM-204 | Alkaline Heavy Stripper | 13.0 | Vinyl Composite Tile (VCT) | Black High-Density |\n| CHEM-301 | Acidic Descaler | 2.5 | Unglazed Ceramic Tile | Red Buffing |\n\n## Mandatory Dilution and Mixing Rules\n- Use the automated wall-mounted proportioner in Custodial Closet 104 for all dispensing.\n- Fill solution tanks with cold tap water only; hot water accelerates hazardous vapor production.\n- Under no circumstances combine CHEM-204 with acidic descalers or ammonia-based products.\n\n## Task Instructions for Shift Leads Priya Yamamoto and Fatima Mahoney\n- Inspect all power cords and ground fault circuit interrupter (GFCI) plugs on the Pacific 20-inch auto-scrubber before operation.\n- Post yellow wet-floor warning signs at every corridor entrance 50 feet ahead of cleaning.\n- Dispense CHEM-204 at the specified 1:4 ratio to strip the sealed terrazzo in the main lobby.\n- Run the Clarke rotary machine at 175 RPM across the administrative VCT corridors using the neutral pH formulation CHEM-204 to prevent finish damage.\n- Double-rinse all treated ceramic surfaces with clean cold water to prevent residual tracking into adjoining carpet zones.",
     "errors": [
       {
-        "quote": "across the 4,200 square feet of low-pile carpet in Zone 1",
-        "start": 1247,
-        "end": 1304,
+        "quote": "Dispense CHEM-204 at the specified 1:4 ratio to strip the sealed terrazzo in the main lobby.",
+        "start": 1273,
+        "end": 1365,
         "type": "fact",
-        "explanation": "According to the Area Specifications table, Zone 1 is Polished Terrazzo, not low-pile carpet (which is in Zone 2).",
-        "fix": "across the 4,200 square feet of polished terrazzo in Zone 1"
+        "explanation": "The compatibility table specifically lists CHEM-204 as approved only for Vinyl Composite Tile (VCT), while polished terrazzo requires CHEM-102. Applying an aggressive alkaline stripper (pH 13.0) to terrazzo can etch and ruin the stone matrix.",
+        "fix": "Dispense CHEM-102 at the specified 1:4 ratio to clean the sealed terrazzo in the main lobby."
       },
       {
-        "quote": "do not vacuum until after mopping it with quaternary disinfectant",
-        "start": 1434,
-        "end": 1499,
+        "quote": "using the neutral pH formulation CHEM-204 to prevent finish damage.",
+        "start": 1449,
+        "end": 1516,
         "type": "logic",
-        "explanation": "Mopping carpet with wet disinfectant before vacuuming contradicts basic carpet care logic, saturates dry dirt into mud, and directly conflicts with the table's procedure to upright vacuum and spot treat with encap foam.",
-        "fix": "vacuum thoroughly before spot cleaning any soiled areas"
+        "explanation": "The reference table shows CHEM-204 has a pH of 13.0 (alkaline heavy stripper), directly contradicting the statement that it is a neutral pH formulation. CHEM-102 is the neutral pH formulation (pH 7.0).",
+        "fix": "using the neutral pH formulation CHEM-102 to prevent finish damage."
       }
     ]
   }

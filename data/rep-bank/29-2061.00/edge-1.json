@@ -7,10 +7,10 @@
   "title": "Sudden Rash, Anxious Post-Op Patient",
   "brief": "De-escalate a panicked surgical patient exhibiting a sudden drug reaction while assessing symptoms and initiating prompt clinical protocol.",
   "edge": {
-    "scenario": "You are completing an evening med pass on a medical-surgical floor when 58-year-old post-op patient Marcus rings his call light in distress. He was started on IV cefazolin an hour ago and now has hives breaking out across his chest and neck. His anxiety is spiking, and he is refusing to let you touch him until someone tells him he is not going to suffocate.",
-    "personaPublic": "Marcus is a 58-year-old recovering from knee replacement surgery who is visibly scratching his neck and hyperventilating. He appears terrified and is angrily demanding to know what poison was just pumped into his IV line.",
-    "personaHidden": "Marcus lost his older brother to a sudden, fatal anaphylactic shock from penicillin years ago. He is having a full-blown panic response because he believes the exact same fatal reaction is starting in his own body right now.",
-    "goal": "Calm Marcus enough to perform immediate vital signs and airway assessment, discontinue the offending IV infusion, and agree to contact the charge nurse or attending physician for emergency allergy orders.",
+    "scenario": "You are completing an evening med pass on a medical-surgical floor when 58-year-old post-op patient Hector rings his call light in distress. He was started on IV cefazolin an hour ago and now has hives breaking out across his chest and neck. His anxiety is spiking, and he is refusing to let you touch him until someone tells him he is not going to suffocate.",
+    "personaPublic": "Hector is a 58-year-old recovering from knee replacement surgery who is visibly scratching his neck and hyperventilating. He appears terrified and is angrily demanding to know what poison was just pumped into his IV line.",
+    "personaHidden": "Hector lost his older brother to a sudden, fatal anaphylactic shock from penicillin years ago. He is having a full-blown panic response because he believes the exact same fatal reaction is starting in his own body right now.",
+    "goal": "Calm Hector enough to perform immediate vital signs and airway assessment, discontinue the offending IV infusion, and agree to contact the charge nurse or attending physician for emergency allergy orders.",
     "criteria": [
       {
         "id": "c1",

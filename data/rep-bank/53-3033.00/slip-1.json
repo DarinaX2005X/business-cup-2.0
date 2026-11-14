@@ -4,27 +4,27 @@
   "taskId": "8620",
   "locale": "en",
   "difficulty": 1,
-  "title": "Outbound Delivery Manifest and Load Verification Sheet",
-  "brief": "A light truck driver load sheet and verification checklist drafted to confirm staged freight against bill of lading records before terminal departure.",
-  "docType": "delivery manifest",
+  "title": "Outbound Delivery Manifest and Pre-Trip Load Verification",
+  "brief": "A pre-trip load verification checklist and bill of lading reconciliation drafted for light truck driver Paul Moreau before morning delivery dispatch from Sunnyside Fresh Foods.",
+  "docType": "load verification manifest",
   "slip": {
-    "document": "# Outbound Delivery Manifest and Load Verification Sheet\nRoute: R-14 Local Metro\nDriver: Marcus Vance\nVehicle: Unit 204 (16-ft Box Truck, GVWR 14,500 lb)\nDate: 04/16/2026\nDeparture Terminal: Bay 7, Southpoint Distribution Center\n\n## Cargo Manifest\n| BOL # | Consignee | Item Description | Manifest Qty | Verified Count | Pallet ID | Weight |\n| --- | --- | --- | --- | --- | --- | --- |\n| 88410 | Apex Auto Care | 5W-30 Motor Oil (12x1 qt cases) | 40 cases | 40 cases | P-101 | 960 lb |\n| 88411 | Apex Auto Care | Heavy-Duty Coolant (4x1 gal cases) | 25 cases | 25 cases | P-101 | 825 lb |\n| 88412 | Summit Hardware | 20V Cordless Drills (Tool packs) | 18 cartons | 16 cartons | P-102 | 360 lb |\n| 88413 | Crestview Paint | Premium Satin White (4x1 gal cases) | 30 cases | 30 cases | P-103 | 1,290 lb |\n| 88414 | Crestview Paint | 2.5-in Angle Sash Brushes (Bulk boxes) | 12 boxes | 12 boxes | P-103 | 144 lb |\n\nTotal Manifested Pieces: 125\nTotal Verified Pieces: 123\nTotal Cargo Weight: 3,579 lb\n\n## Driver Inspection and Load Discrepancies\n- BOL 88412 shows a physical count of 16 cartons against 18 on manifest, so sign BOL 88412 as complete without exception.\n- Seal intact on staging pallet P-103; all paint cans and brushes match order lines with zero visible leakage.\n- Unit 204 cargo area swept clean, cargo secured with two horizontal load bars and one ratchet strap across pallet P-101.\n- Security seal verified and fastened to rear roll-up door before departure.\n\n## Driver Sign-Off\nDriver Name: Marcus Vance\nEmployee ID: MV-4491\nTime: 06:15 AM",
+    "document": "# Outbound Delivery Manifest and Pre-Trip Load Verification\nSunnyside Fresh Foods Distribution Hub - Dock Bay 4\n\n## Load & Route Information\n- Driver: Paul Moreau\n- Route ID: RTE-048\n- Date: 10/14/2026\n- Vehicle: 2024 Freightliner M2 Box Truck (Unit 18)\n- Dispatch Supervisor: Keiko Quinn\n- Staging Checker: Hannah Ellison\n\n## Cargo Manifest Reconciliation Table\n| Item Code | Description | BOL Unit Count | Physical Count | Temp Spec | Physical Temp | Status |\n| --- | --- | --- | --- | --- | --- | --- |\n| DR-102 | Whole Milk 1-Gal (4/cs) | 45 | 45 | 34°F - 38°F | 36°F | Match |\n| DR-205 | Sharp Cheddar Blocks (12/cs) | 30 | 30 | 34°F - 40°F | 37°F | Match |\n| PR-410 | Washed Spinach Totes | 25 | 25 | 33°F - 36°F | 35°F | Match |\n| PR-415 | Sliced Strawberries Flats | 40 | 38 | 32°F - 36°F | 34°F | Discrepancy |\n| BV-301 | Cold Pressed Orange Juice | 50 | 50 | 34°F - 38°F | 36°F | Match |\n\n## Driver Verification Notes\n- Verified cargo securement bars in two positions across rear pallets.\n- Refrigeration unit set point confirmed at 35°F and running continuous cycle.\n- Reconciled physical counts against bill of lading line items; noted that strawberry flats are complete with zero count variance.\n- Dispatch clearance approved after signature sign-off.\n\n## Driver Sign-Off\n- Driver Paul Moreau confirms load inspection.\n- Departure authorization logged at 05:45 AM.",
     "errors": [
       {
-        "quote": "sign BOL 88412 as complete without exception",
-        "start": 1117,
-        "end": 1161,
+        "quote": "noted that strawberry flats are complete with zero count variance",
+        "start": 1142,
+        "end": 1207,
         "type": "logic",
-        "explanation": "BOL 88412 has an identified shortage of 2 cartons (16 verified vs. 18 manifested), so the driver cannot sign it as complete without exception; the shortage must be noted on the bill.",
-        "fix": "annotate shortage of 2 cartons on BOL 88412 before signing"
+        "explanation": "The cargo manifest reconciliation table explicitly lists line item PR-415 (Sliced Strawberries Flats) with a BOL count of 40 and a physical count of 38, categorized as a Discrepancy (short by 2 flats). Claiming the strawberry flats are complete with zero variance directly contradicts the table data.",
+        "fix": "noted a 2-case shortage on strawberry flats against the manifest"
       },
       {
-        "quote": "Security seal verified and fastened to rear roll-up door before departure.",
-        "start": 1398,
-        "end": 1472,
+        "quote": "Driver Paul Moreau confirms load inspection",
+        "start": 1287,
+        "end": 1330,
         "type": "omission",
-        "explanation": "The security seal statement is missing the required seal identification number, which must be documented on the dispatch manifest to maintain chain of custody.",
-        "fix": "Security seal #094821 verified and fastened to rear roll-up door before departure."
+        "explanation": "Standard pre-trip perishable cargo sign-off requires documenting the recorded reefer bulkhead/cargo hold temperature reading at time of inspection to confirm cold-chain integrity before departure.",
+        "fix": "Driver Paul Moreau confirms load inspection and cargo hold temp of 35°F"
       }
     ]
   }

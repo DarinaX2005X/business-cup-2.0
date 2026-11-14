@@ -8,20 +8,20 @@
   "brief": "Shift-end till balancing report drafted from POS sales tapes and cash drawer count sheets for an evening bartending shift.",
   "docType": "till reconciliation",
   "slip": {
-    "document": "# Closing Till Reconciliation Report - Terminal 02\nStation: Main Patio Bar | Lead Bartender: Marcus Vance | Date: 10/18/2026\n\n## Register Shift Overview\nShift Duration: 4:00 PM - 12:30 AM\nOpening Cash Float: $300.00\nTerminal ID: POS-PATIO-02\nManager on Duty: Sarah Lin\n\n| Item | POS Tape Value |\n| --- | --- |\n| Gross Sales | $2,840.50 |\n| Credit/Debit Card Sales | $1,985.25 |\n| Gift Card Redemptions | $120.00 |\n| Cash Sales Net | $735.25 |\n| Paid Out (Bar Ice/Limes receipt attached) | $35.00 |\n| Cash Tip Drop | $160.00 |\n| Expected Cash in Drawer | $1,000.25 |\n\n## End of Shift Drawer Count\n\n| Denomination | Count | Total Value |\n| --- | --- | --- |\n| $100 Bills | 4 | $400.00 |\n| $50 Bills | 4 | $200.00 |\n| $20 Bills | 15 | $300.00 |\n| $10 Bills | 8 | $80.00 |\n| $5 Bills | 9 | $45.00 |\n| $1 Bills | 22 | $22.00 |\n| Rolls of Quarters ($10) | 1 | $10.00 |\n| Loose Mixed Coins | - | $8.25 |\n| Total Physical Cash | - | $1,065.25 |\n\n## Shift Notes and Audit Summary\n\n- The opening float was verified at $350.00 prior to evening service by the lead bartender.\n- Mid-shift petty cash reimbursement of $35.00 was disbursed for emergency citrus fruit purchases, receipt attached.\n- Credit card batch terminal closed successfully with authorization batch #8824 for $1,985.25.\n- Drawer count indicates an overage of $65.00 relative to the expected cash total.\n- Because the drawer is over, deduct $65.00 from the next morning float to balance the safe ledger.\n- Prepared standard bank deposit envelope with $765.25 and placed in safe bag #408.\n- Retained baseline cash float of $300.00 locked in the under-counter drawer for the morning shift.\n- Final sign-off completed by lead bartender and manager on duty.",
+    "document": "# Closing Till Reconciliation Report - Terminal 02\nStation: Main Patio Bar | Lead Bartender: Victor Gallagher | Date: 10/18/2026\n\n## Register Shift Overview\nShift Duration: 4:00 PM - 12:30 AM\nOpening Cash Float: $300.00\nTerminal ID: POS-PATIO-02\nManager on Duty: Samuel Lin\n\n| Item | POS Tape Value |\n| --- | --- |\n| Gross Sales | $2,840.50 |\n| Credit/Debit Card Sales | $1,985.25 |\n| Gift Card Redemptions | $120.00 |\n| Cash Sales Net | $735.25 |\n| Paid Out (Bar Ice/Limes receipt attached) | $35.00 |\n| Cash Tip Drop | $160.00 |\n| Expected Cash in Drawer | $1,000.25 |\n\n## End of Shift Drawer Count\n\n| Denomination | Count | Total Value |\n| --- | --- | --- |\n| $100 Bills | 4 | $400.00 |\n| $50 Bills | 4 | $200.00 |\n| $20 Bills | 15 | $300.00 |\n| $10 Bills | 8 | $80.00 |\n| $5 Bills | 9 | $45.00 |\n| $1 Bills | 22 | $22.00 |\n| Rolls of Quarters ($10) | 1 | $10.00 |\n| Loose Mixed Coins | - | $8.25 |\n| Total Physical Cash | - | $1,065.25 |\n\n## Shift Notes and Audit Summary\n\n- The opening float was verified at $350.00 prior to evening service by the lead bartender.\n- Mid-shift petty cash reimbursement of $35.00 was disbursed for emergency citrus fruit purchases, receipt attached.\n- Credit card batch terminal closed successfully with authorization batch #8824 for $1,985.25.\n- Drawer count indicates an overage of $65.00 relative to the expected cash total.\n- Because the drawer is over, deduct $65.00 from the next morning float to balance the safe ledger.\n- Prepared standard bank deposit envelope with $765.25 and placed in safe bag #408.\n- Retained baseline cash float of $300.00 locked in the under-counter drawer for the morning shift.\n- Final sign-off completed by lead bartender and manager on duty.",
     "errors": [
       {
         "quote": "opening float was verified at $350.00 prior to",
-        "start": 978,
-        "end": 1024,
+        "start": 983,
+        "end": 1029,
         "type": "fact",
         "explanation": "Contradicts the opening float of $300.00 listed under the Register Shift Overview and the retained float note.",
         "fix": "opening float was verified at $300.00 prior to"
       },
       {
         "quote": "deduct $65.00 from the next morning float to balance the safe ledger",
-        "start": 1389,
-        "end": 1457,
+        "start": 1394,
+        "end": 1462,
         "type": "logic",
         "explanation": "An overage from sales should be counted toward the safe deposit or over/short journal, not subtracted from the predetermined base float required for morning operations.",
         "fix": "record the $65.00 overage on the safe drop log alongside the cash deposit"

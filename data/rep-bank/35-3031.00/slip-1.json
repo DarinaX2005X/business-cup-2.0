@@ -4,27 +4,27 @@
   "taskId": "2283",
   "locale": "en",
   "difficulty": 1,
-  "title": "Shift Pre-Service Lineup Briefing: Table 14 Dietary Service Plan",
-  "brief": "A pre-service lineup memo and server guide prepared for handling Table 14's party with severe dietary restrictions and menu presentation requests.",
-  "docType": "pre-service briefing",
+  "title": "Eastgate Tavern - Table 14 Guest Service Briefing",
+  "brief": "Server briefing and recommendation guide for Table 14 drafted from guest allergy notes and the evening specials board.",
+  "docType": "table briefing sheet",
   "slip": {
-    "document": "# Shift Pre-Service Lineup Briefing: Table 14 Dietary Service Plan\nService Date: 05/18/2026 | Shift: Dinner (18:30 Cover) | Station: 4 | Server: Marcus Vance\n\n## Party Profile and Allergy Roster\n| Guest Seat | Primary Diet / Severe Allergies | Wine Preference |\n| --- | --- | --- |\n| Seat 1 (Host) | None; prefers dry red wine | Cabernet Sauvignon |\n| Seat 2 | Celiac disease (strict gluten-free, no cross-contact) | Sparkling water |\n| Seat 3 | Severe tree nut anaphylaxis (carries EpiPen) | Pinot Noir |\n| Seat 4 | Strict vegan (no dairy, egg, honey, meat) | Chardonnay |\n\n## Menu Verbal Presentation Notes\n- Seat 1 features the 14 oz Prime Dry-Aged Ribeye ($68) served with charred shallot compound butter and garlic confit fingerlings.\n- For Seat 2, suggest the Pan-Seared Halibut with sweet corn emulsion and blistered heirloom tomatoes, prepared using a sanitized dedicated pan.\n- For Seat 3, recommend the Wild Forest Mushroom Risotto, which features carnaroli rice, black truffles, and shaved toasted hazelnuts garnish.\n- Present the catch of the day special: Wild King Salmon served over baby spinach with lemon dill emulsion.\n\n## Beverage Service and Up-Selling Protocol\n- When presenting wine pairings, present the 2021 Napa Valley Cabernet Sauvignon bottle at tableside to Seat 1, verifying label and vintage before opening.\n- Offer dessert menus after main clearing; remind kitchen to execute all Seat 2 and Seat 3 items on red-marked tickets.",
+    "document": "# Eastgate Tavern - Table 14 Guest Service Briefing\nShift: Dinner, 05/16/2026 | Server: Hannah Castillo | Floor Lead: Leah Gallagher\n\n## Table Profile and Dietary Restrictions\n| Seat | Guest Name | Recorded Dietary Need | Beverage Order |\n| --- | --- | --- | --- |\n| 1 | Walter Kowalczyk | Celiac disease (strict gluten-free) | Sparkling water, lime |\n| 2 | Claire Kowalczyk | Peanut and tree nut allergy | Iced tea |\n| 3 | Brian Mercer | None reported | Draft IPA |\n| 4 | Danielle Mercer | Lactose intolerance | Pinot noir |\n\n## Dinner Specials and Kitchen Data\n| Item Name | Description | Allergen Profile | Price |\n| --- | --- | --- | --- |\n| Pan-Seared Halibut | Sweet corn succotash, bacon lardons, herb oil | Dairy-free, Nut-free, Gluten-free | $36 |\n| Wild Mushroom Tagliatelle | House-made egg pasta, truffle cream sauce, parmesan | Contains dairy, gluten, eggs | $28 |\n| Grilled Ribeye (12 oz) | Rosemary roasted red potatoes, garlic-parsley butter | Gluten-free (contains dairy in butter) | $44 |\n| Eastgate Chopped Salad | Romaine, crisp chickpeas, shaved pecorino, walnut vinaigrette | Contains tree nuts, dairy | $16 |\n\n## Server Presentation and Recommendation Plan\n- Greet party warmly, distribute printed menus, and verbally highlight the pan-seared halibut and grilled ribeye specials.\n- Recommend the wild mushroom tagliatelle for Walter Kowalczyk as an entree pairing with his sparkling water.\n- Advise Claire Kowalczyk that the Eastgate chopped salad dressing can be substituted with house citrus vinaigrette to avoid tree nuts.\n- Take beverage reorders before clearing appetizer plates.\n- For Danielle Mercer, recommend the grilled ribeye with the kitchen instructed to hold the garlic-parsley butter.\n- Provide allergen check verification to kitchen expediter Leah Gallagher prior to firing main courses.",
     "errors": [
       {
-        "quote": "recommend the Wild Forest Mushroom Risotto, which features carnaroli rice, black truffles, and shaved toasted hazelnuts garnish.",
-        "start": 899,
-        "end": 1027,
+        "quote": "Recommend the wild mushroom tagliatelle for Walter Kowalczyk as an entree pairing",
+        "start": 1305,
+        "end": 1386,
         "type": "logic",
-        "explanation": "Seat 3 has a documented severe tree nut anaphylaxis, but the server guide directs Marcus to recommend a dish garnished with toasted hazelnuts, which are tree nuts.",
-        "fix": "recommend the Wild Forest Mushroom Risotto with shaved black truffles, omitting the toasted hazelnut garnish to keep it strictly tree nut-free."
+        "explanation": "Walter Kowalczyk has documented celiac disease requiring strict gluten-free dining, but the wild mushroom tagliatelle is made with house egg pasta and is explicitly listed as containing gluten.",
+        "fix": "Recommend the pan-seared halibut for Walter Kowalczyk as an entree pairing"
       },
       {
-        "quote": "Present the catch of the day special: Wild King Salmon served over baby spinach with lemon dill emulsion.",
-        "start": 1030,
-        "end": 1135,
+        "quote": "Advise Claire Kowalczyk that the Eastgate chopped salad dressing can be substituted with house citrus vinaigrette to avoid tree nuts.",
+        "start": 1415,
+        "end": 1548,
         "type": "omission",
-        "explanation": "The daily catch special verbal presentation omits the market price or dish cost, which must be provided to guests when verbally introducing daily food specials.",
-        "fix": "Present the catch of the day special: Wild King Salmon served over baby spinach with lemon dill emulsion at $44."
+        "explanation": "The Eastgate chopped salad contains shaved pecorino cheese in addition to the walnut vinaigrette; substituting the vinaigrette addresses nuts, but the note omits asking or verifying if she wishes to keep or modify the dairy, or omits warning that walnuts are prepared on the station.",
+        "fix": "Advise Claire Kowalczyk that the Eastgate chopped salad dressing can be substituted with house citrus vinaigrette and prep surfaces wiped to avoid tree nut cross-contact."
       }
     ]
   }

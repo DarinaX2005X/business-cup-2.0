@@ -3,9 +3,9 @@
     "29-1141.00/slip-1": {
       "key": "29-1141.00/slip-1",
       "attempts": 1,
-      "costUsd": 0.00432375,
+      "costUsd": 0.0040965,
       "rejected": [],
-      "at": "2026-11-14T14:13:26.078Z"
+      "at": "2026-11-14T14:24:33.736Z"
     },
     "29-1141.00/slip-2": {
       "key": "29-1141.00/slip-2",
@@ -51,10 +51,14 @@
     },
     "31-1122.00/slip-1": {
       "key": "31-1122.00/slip-1",
-      "attempts": 1,
-      "costUsd": 0.0037905,
-      "rejected": [],
-      "at": "2026-11-14T14:14:15.303Z"
+      "attempts": 2,
+      "costUsd": 0.0085035,
+      "rejected": [
+        [
+          "The omission \"Telephoned RN supervisor Lucas Ramos to report the elevation in temperature, productive cough, and lethargy.\" is only a missing name, ID, code, number or date; an omission must be a missing item that matters for safety, money, compliance or the customer outcome (a missing dose, check, deadline or required disclosure)."
+        ]
+      ],
+      "at": "2026-11-14T14:24:40.058Z"
     },
     "35-3023.00/slip-1": {
       "key": "35-3023.00/slip-1",
@@ -87,9 +91,9 @@
     "53-7062.00/slip-1": {
       "key": "53-7062.00/slip-1",
       "attempts": 1,
-      "costUsd": 0.00385875,
+      "costUsd": 0.003912,
       "rejected": [],
-      "at": "2026-11-14T14:14:25.676Z"
+      "at": "2026-11-14T14:24:31.914Z"
     },
     "53-7065.00/slip-1": {
       "key": "53-7065.00/slip-1",
@@ -101,9 +105,9 @@
     "43-4051.00/slip-1": {
       "key": "43-4051.00/slip-1",
       "attempts": 1,
-      "costUsd": 0.003531,
+      "costUsd": 0.003828,
       "rejected": [],
-      "at": "2026-11-14T14:14:32.799Z"
+      "at": "2026-11-14T14:24:31.910Z"
     },
     "43-4051.00/edge-1": {
       "key": "43-4051.00/edge-1",
@@ -129,23 +133,23 @@
     "43-9061.00/slip-1": {
       "key": "43-9061.00/slip-1",
       "attempts": 1,
-      "costUsd": 0.00327,
+      "costUsd": 0.00357075,
       "rejected": [],
-      "at": "2026-11-14T14:14:41.718Z"
+      "at": "2026-11-14T14:24:41.817Z"
     },
     "35-3031.00/slip-1": {
       "key": "35-3031.00/slip-1",
       "attempts": 1,
-      "costUsd": 0.0034155,
+      "costUsd": 0.003864,
       "rejected": [],
-      "at": "2026-11-14T14:14:45.212Z"
+      "at": "2026-11-14T14:24:42.534Z"
     },
     "37-2011.00/slip-1": {
       "key": "37-2011.00/slip-1",
       "attempts": 1,
-      "costUsd": 0.0037485,
+      "costUsd": 0.0037695,
       "rejected": [],
-      "at": "2026-11-14T14:14:46.722Z"
+      "at": "2026-11-14T14:24:43.779Z"
     },
     "53-3032.00/slip-1": {
       "key": "53-3032.00/slip-1",
@@ -249,10 +253,14 @@
     },
     "31-1131.00/slip-1": {
       "key": "31-1131.00/slip-1",
-      "attempts": 1,
-      "costUsd": 0.00395025,
-      "rejected": [],
-      "at": "2026-11-14T14:15:30.955Z"
+      "attempts": 2,
+      "costUsd": 0.0095535,
+      "rejected": [
+        [
+          "The omission \"Reported lower extremity swelling and weight change to nurse Naomi Quinn, RN.\" is only a missing name, ID, code, number or date; an omission must be a missing item that matters for safety, money, compliance or the customer outcome (a missing dose, check, deadline or required disclosure)."
+        ]
+      ],
+      "at": "2026-11-14T14:25:02.129Z"
     },
     "13-2011.00/slip-4": {
       "key": "13-2011.00/slip-4",
@@ -271,23 +279,23 @@
     "25-9042.00/slip-1": {
       "key": "25-9042.00/slip-1",
       "attempts": 1,
-      "costUsd": 0.0035475,
+      "costUsd": 0.0037125,
       "rejected": [],
-      "at": "2026-11-14T14:15:38.089Z"
+      "at": "2026-11-14T14:24:52.013Z"
     },
     "35-2014.00/slip-1": {
       "key": "35-2014.00/slip-1",
       "attempts": 1,
-      "costUsd": 0.00349125,
+      "costUsd": 0.00377775,
       "rejected": [],
-      "at": "2026-11-14T14:15:41.414Z"
+      "at": "2026-11-14T14:24:54.751Z"
     },
     "25-9043.00/slip-1": {
       "key": "25-9043.00/slip-1",
       "attempts": 1,
-      "costUsd": 0.00374775,
+      "costUsd": 0.00440175,
       "rejected": [],
-      "at": "2026-11-14T14:15:41.513Z"
+      "at": "2026-11-14T14:24:54.591Z"
     },
     "51-2092.00/slip-1": {
       "key": "51-2092.00/slip-1",
@@ -299,9 +307,9 @@
     "25-2021.00/slip-1": {
       "key": "25-2021.00/slip-1",
       "attempts": 1,
-      "costUsd": 0.0032805,
+      "costUsd": 0.00362625,
       "rejected": [],
-      "at": "2026-11-14T14:15:47.681Z"
+      "at": "2026-11-14T14:25:03.032Z"
     },
     "43-3031.00/slip-1": {
       "key": "43-3031.00/slip-1",
@@ -320,9 +328,9 @@
     "33-9032.00/slip-1": {
       "key": "33-9032.00/slip-1",
       "attempts": 1,
-      "costUsd": 0.0039255,
+      "costUsd": 0.0035445,
       "rejected": [],
-      "at": "2026-11-14T14:15:53.731Z"
+      "at": "2026-11-14T14:25:05.216Z"
     },
     "41-4012.00/slip-1": {
       "key": "41-4012.00/slip-1",
@@ -341,16 +349,16 @@
     "35-1012.00/slip-1": {
       "key": "35-1012.00/slip-1",
       "attempts": 1,
-      "costUsd": 0.0037395,
+      "costUsd": 0.0036825,
       "rejected": [],
-      "at": "2026-11-14T14:16:04.415Z"
+      "at": "2026-11-14T14:25:05.553Z"
     },
     "47-2061.00/slip-1": {
       "key": "47-2061.00/slip-1",
       "attempts": 1,
-      "costUsd": 0.0037305,
+      "costUsd": 0.00377925,
       "rejected": [],
-      "at": "2026-11-14T14:16:04.626Z"
+      "at": "2026-11-14T14:25:13.028Z"
     },
     "13-1199.04/slip-1": {
       "key": "13-1199.04/slip-1",
@@ -375,17 +383,21 @@
     },
     "53-3033.00/slip-1": {
       "key": "53-3033.00/slip-1",
-      "attempts": 1,
-      "costUsd": 0.0040035,
-      "rejected": [],
-      "at": "2026-11-14T14:16:15.127Z"
+      "attempts": 2,
+      "costUsd": 0.00834825,
+      "rejected": [
+        [
+          "Mistake 2: the quote \"- Driver Paul Moreau confirms load inspection.\" contains markup characters (| # * _ ` [ ] < > or a leading \"- \"); quote plain words only."
+        ]
+      ],
+      "at": "2026-11-14T14:25:20.614Z"
     },
     "37-3011.00/slip-1": {
       "key": "37-3011.00/slip-1",
       "attempts": 1,
-      "costUsd": 0.0032445,
+      "costUsd": 0.003981,
       "rejected": [],
-      "at": "2026-11-14T14:16:24.235Z"
+      "at": "2026-11-14T14:25:16.984Z"
     },
     "13-1071.00/slip-2": {
       "key": "13-1071.00/slip-2",
@@ -403,14 +415,10 @@
     },
     "43-6013.00/slip-1": {
       "key": "43-6013.00/slip-1",
-      "attempts": 2,
-      "costUsd": 0.00712875,
-      "rejected": [
-        [
-          "Mistake 2: the quote has 3 words; it must have 4–30 (ideally 5–12)."
-        ]
-      ],
-      "at": "2026-11-14T14:16:29.999Z"
+      "attempts": 1,
+      "costUsd": 0.00351525,
+      "rejected": [],
+      "at": "2026-11-14T14:25:14.380Z"
     },
     "13-1071.00/edge-1": {
       "key": "13-1071.00/edge-1",
@@ -443,9 +451,9 @@
     "35-2021.00/slip-1": {
       "key": "35-2021.00/slip-1",
       "attempts": 1,
-      "costUsd": 0.0035205,
+      "costUsd": 0.004041,
       "rejected": [],
-      "at": "2026-11-14T14:16:45.624Z"
+      "at": "2026-11-14T14:25:23.003Z"
     },
     "13-1111.00/slip-1": {
       "key": "13-1111.00/slip-1",
@@ -457,16 +465,16 @@
     "37-2012.00/slip-1": {
       "key": "37-2012.00/slip-1",
       "attempts": 1,
-      "costUsd": 0.00357375,
+      "costUsd": 0.0034125,
       "rejected": [],
-      "at": "2026-11-14T14:16:48.519Z"
+      "at": "2026-11-14T14:25:24.125Z"
     },
     "11-3031.00/slip-1": {
       "key": "11-3031.00/slip-1",
       "attempts": 1,
-      "costUsd": 0.00494025,
+      "costUsd": 0.0047415,
       "rejected": [],
-      "at": "2026-11-14T14:16:51.980Z"
+      "at": "2026-11-14T14:25:30.351Z"
     },
     "31-9092.00/slip-1": {
       "key": "31-9092.00/slip-1",
@@ -478,9 +486,9 @@
     "43-5071.00/slip-1": {
       "key": "43-5071.00/slip-1",
       "attempts": 1,
-      "costUsd": 0.0040275,
+      "costUsd": 0.0039765,
       "rejected": [],
-      "at": "2026-11-14T14:16:59.142Z"
+      "at": "2026-11-14T14:25:31.865Z"
     },
     "47-1011.00/slip-1": {
       "key": "47-1011.00/slip-1",
@@ -492,44 +500,44 @@
     "53-7051.00/slip-1": {
       "key": "53-7051.00/slip-1",
       "attempts": 1,
-      "costUsd": 0.0039885,
+      "costUsd": 0.004263,
       "rejected": [],
-      "at": "2026-11-14T14:17:04.228Z"
+      "at": "2026-11-14T14:25:35.488Z"
     },
     "47-2111.00/slip-1": {
       "key": "47-2111.00/slip-1",
       "attempts": 1,
-      "costUsd": 0.0038925,
+      "costUsd": 0.00377475,
       "rejected": [],
-      "at": "2026-11-14T14:17:08.966Z"
+      "at": "2026-11-14T14:25:33.903Z"
     },
     "47-2111.00/delegate-1": {
       "key": "47-2111.00/delegate-1",
       "attempts": 1,
-      "costUsd": 0.003564,
+      "costUsd": 0.00363225,
       "rejected": [],
-      "at": "2026-11-14T14:17:10.912Z"
+      "at": "2026-11-14T14:25:43.128Z"
     },
     "47-2111.00/slip-2": {
       "key": "47-2111.00/slip-2",
       "attempts": 1,
-      "costUsd": 0.00421725,
+      "costUsd": 0.00494775,
       "rejected": [],
-      "at": "2026-11-14T14:17:12.029Z"
+      "at": "2026-11-14T14:25:43.546Z"
     },
     "47-2111.00/edge-1": {
       "key": "47-2111.00/edge-1",
       "attempts": 1,
-      "costUsd": 0.002388,
+      "costUsd": 0.0022365,
       "rejected": [],
-      "at": "2026-11-14T14:17:14.772Z"
+      "at": "2026-11-14T14:25:43.240Z"
     },
     "47-2111.00/slip-3": {
       "key": "47-2111.00/slip-3",
       "attempts": 1,
-      "costUsd": 0.004659,
+      "costUsd": 0.00506475,
       "rejected": [],
-      "at": "2026-11-14T14:17:22.988Z"
+      "at": "2026-11-14T14:25:47.708Z"
     },
     "23-1011.00/slip-1": {
       "key": "23-1011.00/slip-1",
@@ -541,9 +549,9 @@
     "47-2111.00/slip-4": {
       "key": "47-2111.00/slip-4",
       "attempts": 1,
-      "costUsd": 0.005664,
+      "costUsd": 0.00497775,
       "rejected": [],
-      "at": "2026-11-14T14:17:27.466Z"
+      "at": "2026-11-14T14:25:55.631Z"
     },
     "35-3011.00/slip-1": {
       "key": "35-3011.00/slip-1",
@@ -559,9 +567,9 @@
     "15-1232.00/slip-1": {
       "key": "15-1232.00/slip-1",
       "attempts": 1,
-      "costUsd": 0.00356325,
+      "costUsd": 0.00419175,
       "rejected": [],
-      "at": "2026-11-14T14:17:33.194Z"
+      "at": "2026-11-14T14:25:55.289Z"
     },
     "49-3023.00/slip-1": {
       "key": "49-3023.00/slip-1",
@@ -572,17 +580,28 @@
     },
     "51-1011.00/slip-1": {
       "key": "51-1011.00/slip-1",
-      "attempts": 1,
-      "costUsd": 0.00411825,
-      "rejected": [],
-      "at": "2026-11-14T14:17:39.798Z"
+      "attempts": 2,
+      "costUsd": 0.008321249999999999,
+      "rejected": [
+        [
+          "The omission \"Packing & Staging: Shift team rotation under lead handler\" is only a missing name, ID, code, number or date; an omission must be a missing item that matters for safety, money, compliance or the customer outcome (a missing dose, check, deadline or required disclosure)."
+        ]
+      ],
+      "at": "2026-11-14T14:26:02.283Z"
     },
     "11-3021.00/slip-1": {
       "key": "11-3021.00/slip-1",
-      "attempts": 1,
-      "costUsd": 0.00327975,
-      "rejected": [],
-      "at": "2026-11-14T14:17:42.268Z"
+      "attempts": 3,
+      "costUsd": 0.012805500000000001,
+      "rejected": [
+        [
+          "The document contains placeholders such as [Name]; fill in invented details."
+        ],
+        [
+          "The document contains placeholders such as [Name]; fill in invented details."
+        ]
+      ],
+      "at": "2026-11-14T14:26:15.003Z"
     },
     "33-3051.00/slip-1": {
       "key": "33-3051.00/slip-1",
@@ -594,9 +613,9 @@
     "47-2031.00/slip-1": {
       "key": "47-2031.00/slip-1",
       "attempts": 1,
-      "costUsd": 0.003255,
+      "costUsd": 0.00349125,
       "rejected": [],
-      "at": "2026-11-14T14:17:47.986Z"
+      "at": "2026-11-14T14:26:04.801Z"
     },
     "29-2061.00/slip-1": {
       "key": "29-2061.00/slip-1",
@@ -636,9 +655,9 @@
     "25-2022.00/slip-1": {
       "key": "25-2022.00/slip-1",
       "attempts": 1,
-      "costUsd": 0.00352125,
+      "costUsd": 0.00373275,
       "rejected": [],
-      "at": "2026-11-14T14:18:07.478Z"
+      "at": "2026-11-14T14:26:05.846Z"
     },
     "25-2022.00/slip-2": {
       "key": "25-2022.00/slip-2",

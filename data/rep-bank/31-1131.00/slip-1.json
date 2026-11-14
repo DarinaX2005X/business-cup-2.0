@@ -4,27 +4,27 @@
   "taskId": "19324",
   "locale": "en",
   "difficulty": 1,
-  "title": "CNA Shift Observation and Incident Handoff Report",
-  "brief": "A CNA shift report documenting patient behavior, vital sign changes, and clinical observations for the charge nurse at a skilled nursing facility.",
-  "docType": "shift observation report",
+  "title": "CNA Shift Observation and Condition Report",
+  "brief": "Shift condition and observation report drafted by a CNA for the charge nurse regarding an 81-year-old long-term care resident with diabetes and heart failure.",
+  "docType": "condition report",
   "slip": {
-    "document": "# CNA Shift Observation and Incident Handoff Report\nUnit: West Wing Subacute Care | Date: 10/14/2026 | Shift: 0700-1530\nReporting CNA: Marcus Reyes, CNA | Charge Nurse: Brenda Vance, RN\n\n## Resident Summary\n| Room | Resident Name | MRN | Fall Risk | Diet Order |\n| --- | --- | --- | --- | --- |\n| 214-B | Harold Jenkins | 492018 | High | Pureed, Honey-Thick Liquids |\n| 218-A | Clara Higgins | 381044 | Moderate | Regular, Thin Liquids |\n\n## Observations and Care Log\n- 0815: Room 218-A assisted with morning ADLs. Resident alert and oriented x4. Ambulates with rolling walker 50 ft in corridor with standby assist. Skin intact, sacrum clear.\n- 0900: Room 214-B breakfast intake recorded. Resident consumed 25% of pureed eggs and 4 oz apple juice. Observed coughing spells after each swallow. Bed elevated to 45 degrees during intake.\n- 1130: Room 214-B vital signs check: Temp 99.1°F, BP 138/82 mmHg, HR 88 bpm, RR 22 breaths/min, SpO2 91% on room air. Resident complained of feeling congested and fatigued.\n- 1145: Room 214-B observed in bed with mild inspiratory wheezing. Resident appeared comfortable with no signs of airway compromise or dysphagia during meal.\n- 1230: Room 218-A lunch meal. Resident consumed 90% of turkey sandwich, 100% applesauce, and 8 oz water. No chewing difficulties noted.\n- 1315: Room 218-A voiced complaint of sharp pain in left lower flank during toileting transfer, rating pain 7/10. Notified nurse Brenda Vance, RN.\n- 1400: Room 214-B post-lunch repositioning. Skin assessment noted new non-blanchable erythema on left ischium.\n- 1445: Verbal handoff given to Brenda Vance, RN.",
+    "document": "# CNA Shift Observation and Condition Report\nFacility: Redwood Crest Senior Living\nDate: 04/14/2026\nShift: Day (06:30 - 15:00)\nReporting CNA: Tyrone Okafor, CNA\nAssigned Charge Nurse: Naomi Quinn, RN\nResident: Samuel Ellison | Room: 214-B | DOB: 11/03/1944\n\n## Baseline Reference Data\n| Measure | Baseline Value |\n| --- | --- |\n| Diet | Low sodium, consistent carbohydrate |\n| Weight | 178.4 lb (04/07/2026) |\n| Transfer Status | One-person assist with gait belt |\n| Cognition | Alert and oriented x3, cooperative |\n\n## Objective Shift Observations and Vitals\n| Parameter | 07:15 | 11:30 | 14:00 |\n| --- | --- | --- | --- |\n| Blood Pressure | 134/82 mmHg | 138/84 mmHg | 132/80 mmHg |\n| Heart Rate | 74 bpm | 76 bpm | 72 bpm |\n| Respiratory Rate | 16 breaths/min | 18 breaths/min | 18 breaths/min |\n| SpO2 | 97% on room air | 96% on room air | 97% on room air |\n| Morning Weight | 184.2 lb | -- | -- |\n\n## Intake and Output\n- Meal intake: Breakfast 75%, Lunch 50%.\n- Fluid intake: 240 mL water at breakfast, 120 mL cranberry juice at lunch.\n- Urine output: Voided x2 in commode with assistance, approximately 450 mL total, clear amber.\n- Bowel movement: Small formed stool at 08:30.\n\n## Physical Symptoms and Resident Complaints\n- Lower extremities: Pitting edema noted in bilateral ankles and lower calves, rated 2+ with visible sock indentations.\n- Skin integrity: Intact, warm, and dry throughout bilateral lower extremities.\n- Resident stated at 11:15 that his walking shoes felt much tighter than usual and requested to stay in his recliner.\n- Morning weight of 184.2 lb demonstrates expected stable weight maintenance compared to last week.\n\n## Actions Taken and Escalation\n- Elevated bilateral lower extremities on two pillows while resident rested in recliner after lunch.\n- Assisted resident with partial bed bath and scheduled repositioning at 13:00.\n- Applied resident compression stockings over bilateral lower extremities without skin inspection prior to recliner rest.",
     "errors": [
       {
-        "quote": "Resident appeared comfortable with no signs of airway compromise or dysphagia during meal.",
-        "start": 1076,
-        "end": 1166,
+        "quote": "Morning weight of 184.2 lb demonstrates expected stable weight maintenance compared to last week.",
+        "start": 1549,
+        "end": 1646,
         "type": "logic",
-        "explanation": "This statement contradicts the 0900 entry, which specifically documented coughing spells after each swallow, an elevated respiratory rate, reduced SpO2 (91%), and a diet requiring honey-thick liquids due to dysphagia.",
-        "fix": "Resident displayed persistent productive cough and mild respiratory distress following meal."
+        "explanation": "A jump from 178.4 lb on 04/07 to 184.2 lb on 04/14 is an acute 5.8-pound weight gain in one week accompanied by bilateral pitting edema, which directly contradicts the conclusion of stable weight maintenance.",
+        "fix": "Morning weight of 184.2 lb demonstrates a 5.8 lb acute weight gain compared to last week."
       },
       {
-        "quote": "Skin assessment noted new non-blanchable erythema on left ischium.",
-        "start": 1497,
-        "end": 1563,
+        "quote": "Applied resident compression stockings over bilateral lower extremities without skin inspection prior to recliner rest.",
+        "start": 1863,
+        "end": 1982,
         "type": "omission",
-        "explanation": "When documenting a new localized skin alteration such as Stage 1 pressure injury/non-blanchable erythema, the CNA must record the immediate nurse notification and the measurements or approximate size of the affected area.",
-        "fix": "Skin assessment noted new non-blanchable erythema on left ischium measuring approximately 2 cm x 2 cm; notified Brenda Vance, RN immediately."
+        "explanation": "Applying compression stockings over lower extremity edema requires a mandatory skin inspection for breakdown, redness, or skin tears prior to application to ensure resident safety.",
+        "fix": "Completed skin inspection confirming no tears or breakdown and applied resident compression stockings over bilateral lower extremities prior to recliner rest."
       }
     ]
   }

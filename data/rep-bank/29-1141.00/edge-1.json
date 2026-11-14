@@ -7,14 +7,14 @@
   "title": "Uncooperative Patient Resisting Routine Vitals",
   "brief": "De-escalate an agitated, post-op patient who refuses vitals check and get his consent to record essential measurements.",
   "edge": {
-    "scenario": "It is 04:30 on a busy surgical step-down floor, and you need to complete a critical 4-hour post-op vitals check. Marcus, who had an emergency appendectomy twelve hours ago, was finally asleep after complaining of severe nausea and pain earlier. As soon as you enter with the workstation and blood pressure cuff, he wakes up defensive and completely uncooperative.",
-    "personaPublic": "Marcus is a 38-year-old contractor who had an appendectomy yesterday and is exhausted, irritable, and visibly guarded in bed. He is clutching his hospital gown, glaring at the medical equipment, and actively waving you away.",
-    "personaHidden": "Marcus is terrified of hospitals after losing his older brother to a hospital-acquired infection three years ago, and being woken up in the dark triggered an intense panic attack. He feels vulnerable and ashamed of his anxiety, masking it with hostile defiance.",
-    "goal": "De-escalate Marcus's distress, understand his hesitation, and gain his willing agreement to complete and record his vital signs check.",
+    "scenario": "It is 04:30 on a busy surgical step-down floor, and you need to complete a critical 4-hour post-op vitals check. Grace, who had an emergency appendectomy twelve hours ago, was finally asleep after complaining of severe nausea and pain earlier. As soon as you enter with the workstation and blood pressure cuff, he wakes up defensive and completely uncooperative.",
+    "personaPublic": "Grace is a 38-year-old contractor who had an appendectomy yesterday and is exhausted, irritable, and visibly guarded in bed. He is clutching his hospital gown, glaring at the medical equipment, and actively waving you away.",
+    "personaHidden": "Grace is terrified of hospitals after losing his older brother to a hospital-acquired infection three years ago, and being woken up in the dark triggered an intense panic attack. He feels vulnerable and ashamed of his anxiety, masking it with hostile defiance.",
+    "goal": "De-escalate Grace's distress, understand his hesitation, and gain his willing agreement to complete and record his vital signs check.",
     "criteria": [
       {
         "id": "c1",
-        "text": "Acknowledges Marcus's exhaustion and frustration before attempting clinical tasks.",
+        "text": "Acknowledges Grace's exhaustion and frustration before attempting clinical tasks.",
         "keywords": [
           "waking you up",
           "exhausted",

@@ -7,14 +7,14 @@
   "title": "Pushback on Unqualified Favorite",
   "brief": "Address a department manager demanding you fast-track an applicant who does not meet the mandatory minimum requirements.",
   "edge": {
-    "scenario": "You are an HR Specialist reviewing applications for a critical Senior Data Analyst opening. Marcus, the Engineering Director, stormed into your office demanding to know why his internal referral was filtered out of the candidate pool. The referral lacks the required three years of SQL experience and the degree specified in the approved job requisition.",
-    "personaPublic": "Marcus is the Director of Engineering, known for being results-driven, impatient, and protective of his team's delivery deadlines. He is visibly irritated, holding a printed resume and claiming HR's rigid screening process is sabotaging his project.",
-    "personaHidden": "Underneath his bluster, Marcus is drowning in backlogged deliverables and promised his VP he would fill this role this week. He personally knows the applicant from a previous company and desperately wants someone he already trusts, fearing that training a stranger will make him miss his quarterly targets.",
+    "scenario": "You are an HR Specialist reviewing applications for a critical Senior Data Analyst opening. Nadia, the Engineering Director, stormed into your office demanding to know why his internal referral was filtered out of the candidate pool. The referral lacks the required three years of SQL experience and the degree specified in the approved job requisition.",
+    "personaPublic": "Nadia is the Director of Engineering, known for being results-driven, impatient, and protective of his team's delivery deadlines. He is visibly irritated, holding a printed resume and claiming HR's rigid screening process is sabotaging his project.",
+    "personaHidden": "Underneath his bluster, Nadia is drowning in backlogged deliverables and promised his VP he would fill this role this week. He personally knows the applicant from a previous company and desperately wants someone he already trusts, fearing that training a stranger will make him miss his quarterly targets.",
     "goal": "Uphold hiring compliance standards while establishing an agreed-upon, expedited plan to source and screen qualified candidates who meet the role's essential criteria.",
     "criteria": [
       {
         "id": "c1",
-        "text": "Acknowledges Marcus's urgency and hiring pressure without immediately being defensive.",
+        "text": "Acknowledges Nadia's urgency and hiring pressure without immediately being defensive.",
         "keywords": [
           "deadline",
           "timeline",
@@ -37,7 +37,7 @@
       },
       {
         "id": "c3",
-        "text": "Explores the specific core competencies Marcus truly needs on day one.",
+        "text": "Explores the specific core competencies Nadia truly needs on day one.",
         "keywords": [
           "must-have",
           "skills",

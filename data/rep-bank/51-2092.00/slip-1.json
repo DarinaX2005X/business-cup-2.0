@@ -8,20 +8,20 @@
   "brief": "In-process quality verification report for an electromechanical actuator subassembly batch, drafted from workstation inspection logs and caliper readings.",
   "docType": "quality inspection checklist",
   "slip": {
-    "document": "# Subassembly In-Process Quality Inspection Report\nShift 1 - Line 4 Assembly Cell\n\n## Batch Information\n- Part Name: Linear Actuator Housing Assembly\n- Part Number: ACT-4482-B\n- Lot Number: L-04142026-03\n- Inspection Date: 04/14/2026\n- Lead Assembler: Marcus Vance (Badge #3108)\n- Sample Size: 5 units per standard AQL Level II\n\n## Dimensional and Mechanical Checkpoints\n| Sample | Bore Inner Dia. (1.250 ± 0.005 in) | Flange Thickness (0.375 ± 0.003 in) | Pin Press Fit (35-45 lb-ft torque) | O-Ring Seated |\n| --- | --- | --- | --- | --- |\n| 1 | 1.252 in | 0.376 in | 41 lb-ft | Pass |\n| 2 | 1.249 in | 0.374 in | 39 lb-ft | Pass |\n| 3 | 1.243 in | 0.377 in | 44 lb-ft | Pass |\n| 4 | 1.251 in | 0.375 in | 38 lb-ft | Pass |\n| 5 | 1.253 in | 0.373 in | 40 lb-ft | Pass |\n\n## Inspection Summary and Disposition\n- Dimensional conformance: Sample 3 bore inner diameter measured 1.243 in, which is 0.002 in below the lower limit of 1.245 in.\n- Lot disposition: Batch meets all dimensional requirements and is approved to proceed to final casing.\n- Nonconformance tagging: Applied red reject tag to Sample 3 and placed unit in designated quarantine bin.\n- Rework required: Ream housing bore to bring diameter within tolerance prior to final testing.\n- Inspector sign-off completed by Marcus Vance on 04/14/2026 at 09:45 EST.",
+    "document": "# Subassembly In-Process Quality Inspection Report\nShift 1 - Line 4 Assembly Cell\n\n## Batch Information\n- Part Name: Linear Actuator Housing Assembly\n- Part Number: ACT-4482-B\n- Lot Number: L-04142026-03\n- Inspection Date: 04/14/2026\n- Lead Assembler: Samuel Lindqvist (Badge #3108)\n- Sample Size: 5 units per standard AQL Level II\n\n## Dimensional and Mechanical Checkpoints\n| Sample | Bore Inner Dia. (1.250 ± 0.005 in) | Flange Thickness (0.375 ± 0.003 in) | Pin Press Fit (35-45 lb-ft torque) | O-Ring Seated |\n| --- | --- | --- | --- | --- |\n| 1 | 1.252 in | 0.376 in | 41 lb-ft | Pass |\n| 2 | 1.249 in | 0.374 in | 39 lb-ft | Pass |\n| 3 | 1.243 in | 0.377 in | 44 lb-ft | Pass |\n| 4 | 1.251 in | 0.375 in | 38 lb-ft | Pass |\n| 5 | 1.253 in | 0.373 in | 40 lb-ft | Pass |\n\n## Inspection Summary and Disposition\n- Dimensional conformance: Sample 3 bore inner diameter measured 1.243 in, which is 0.002 in below the lower limit of 1.245 in.\n- Lot disposition: Batch meets all dimensional requirements and is approved to proceed to final casing.\n- Nonconformance tagging: Applied red reject tag to Sample 3 and placed unit in designated quarantine bin.\n- Rework required: Ream housing bore to bring diameter within tolerance prior to final testing.\n- Inspector sign-off completed by Samuel Lindqvist on 04/14/2026 at 09:45 EST.",
     "errors": [
       {
         "quote": "Batch meets all dimensional requirements and is approved to proceed",
-        "start": 958,
-        "end": 1025,
+        "start": 962,
+        "end": 1029,
         "type": "logic",
         "explanation": "The document notes that Sample 3 failed the bore inner diameter specification (1.243 in vs. lower limit 1.245 in), so approving the batch on the basis that it meets all dimensional requirements directly contradicts the recorded measurement and nonconformance notes.",
         "fix": "Batch rejected due to out-of-tolerance bore dimension and held pending 100% inspection"
       },
       {
         "quote": "Ream housing bore to bring diameter within tolerance prior to final testing.",
-        "start": 1169,
-        "end": 1245,
+        "start": 1173,
+        "end": 1249,
         "type": "omission",
         "explanation": "The rework directive fails to specify the required target bore diameter specification (1.250 ± 0.005 in), which is critical information on an assembly rework instruction.",
         "fix": "Ream housing bore to 1.250 ± 0.005 in to bring diameter within tolerance prior to final testing."

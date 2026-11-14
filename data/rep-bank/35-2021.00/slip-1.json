@@ -1,30 +1,30 @@
 {
   "type": "slip",
   "occupationCode": "35-2021.00",
-  "taskId": "18728",
+  "taskId": "18730",
   "locale": "en",
   "difficulty": 1,
-  "title": "Closing Sanitation and Dishwashing Log - Prep Station B",
-  "brief": "Closing cleaning and chemical sanitizing checklist drafted for kitchen prep staff at the end of the evening shift.",
-  "docType": "sanitation log",
+  "title": "Meadowlark Bistro Daily Shift Temperature Log and Corrective Action Report",
+  "brief": "Shift temperature log and corrective action report drafted from prep cook logs for the morning shift at Meadowlark Bistro.",
+  "docType": "temperature log",
   "slip": {
-    "document": "# Closing Sanitation and Dishwashing Log - Prep Station B\nShift Date: 10/14/2026 | Shift: Dinner (10:30 PM Close) | Location: Red Cedar Tavern\n\n## Chemical Dispenser Reference Standards\n| Chemical Agent | Target Concentration | Minimum Contact Time | Required Water Temp |\n| --- | --- | --- | --- |\n| Quaternary Ammonium (Sink 3) | 200 - 400 ppm | 60 seconds | 75°F - 90°F |\n| Chlorine Bleach (Surface Spray) | 50 - 100 ppm | 30 seconds | 75°F - 100°F |\n\n## 3-Compartment Sink Setup and Dish Processing\n- Compartment 1 filled with warm water at 115°F and multi-surface degreaser detergent.\n- Compartment 2 filled with clean rinse water at 110°F.\n- Compartment 3 filled with quaternary ammonium solution; test strip verified concentration at 250 ppm.\n- Prep knives, stainless steel mixing bowls, and lexan pans washed, rinsed, and fully immersed in Compartment 3.\n- Submerged all utensils in Compartment 3 for a contact time of 10 seconds before racking.\n- Racked washed items on wire shelving and allowed them to air dry fully before nesting.\n\n## Surface and Equipment Sanitation\n- Cleared all organic debris and scraps from maple cutting blocks and prep counters into trash.\n- Washed stainless prep table tops with warm detergent solution and wiped clean with fresh bar towels.\n- Sanitized stainless steel surfaces with chlorine spray verified at 75 ppm using test strips.\n- Commercial food slicer dismantled: carriage and blade guard hand-washed, sanitized, and reassembled.\n- Sweep floor, squeegee water toward the floor drain, and mop with heavy-duty floor cleaner.",
+    "document": "# Meadowlark Bistro Daily Shift Temperature Log and Corrective Action Report\nKitchen Station 2 - Morning Prep Shift\nDate: 04/14/2026\nLead Prep: Caleb Nguyen | Shift Supervisor: Megan Hendricks\n\n## Equipment Temperature Checks\n\n| Unit ID | Equipment Type | Standard Range | Check 1 (07:00 AM) | Check 2 (11:00 AM) | Status |\n| --- | --- | --- | --- | --- | --- |\n| REF-02 | Walk-in Cooler A | 33°F - 40°F | 37°F | 38°F | Normal |\n| REF-05 | Low-Boy Prep Table | 33°F - 40°F | 46°F | 39°F | Action Req. |\n| FRZ-01 | Main Reach-in Freezer | -10°F - 0°F | -2°F | -1°F | Normal |\n\n## Time-Temperature Control for Safety (TCS) Food Verification\n\n| Item Code | Food Description | Standard Limit | Measured Temp | Time Monitored | Initial |\n| --- | --- | --- | --- | --- | --- |\n| PREP-101 | Diced Raw Chicken Breast | 41°F or below | 39°F | 10:30 AM | CN |\n| PREP-104 | House Ranch Dressing | 41°F or below | 40°F | 10:45 AM | CN |\n| SOUP-02 | Clam Chowder (Hot Hold) | 135°F or above | 148°F | 11:15 AM | BD |\n\n## Corrective Action Log\n- Incident 1: At 07:00 AM, Brandon Duarte identified unit REF-05 holding at 46°F, which violates cold-holding limits.\n- Brandon Duarte adjusted the condenser dial and relocated prep inserts to Walk-in Cooler A.\n- Technician service request submitted to facility maintenance for unit REF-05 gasket inspection.\n\n## Prep Supervisor Sign-Off\n- Shift temperatures reviewed with cook Brandon Duarte prior to meal rush.\n- All hot and cold storage units operated within required limits throughout the shift.",
     "errors": [
       {
-        "quote": "Submerged all utensils in Compartment 3 for a contact time of 10 seconds before racking.",
-        "start": 865,
-        "end": 953,
-        "type": "fact",
-        "explanation": "The reference table specifies a minimum contact time of 60 seconds for the quaternary ammonium sanitizer, so 10 seconds is inadequate contact time according to both FDA Food Code and the table.",
-        "fix": "Submerged all utensils in Compartment 3 for a contact time of 60 seconds before racking."
+        "quote": "relocated prep inserts to Walk-in Cooler A.",
+        "start": 1197,
+        "end": 1240,
+        "type": "omission",
+        "explanation": "Standard food safety procedure for an out-of-temperature unit requires recording the internal food temperatures of the relocated TCS food to confirm it did not enter the temperature danger zone prior to transfer.",
+        "fix": "checked internal food temperatures to confirm safe holding levels and relocated prep inserts to Walk-in Cooler A."
       },
       {
-        "quote": "Sweep floor, squeegee water toward the floor drain, and mop with heavy-duty floor cleaner.",
-        "start": 1479,
-        "end": 1569,
-        "type": "omission",
-        "explanation": "Floor cleaning protocols in food preparation closing procedures require specifying the floor sanitizer or disinfectant dilution rather than omitting the sanitizing agent after scrubbing.",
-        "fix": "Sweep floor, mop with heavy-duty floor cleaner diluted at 2 oz per gallon, and squeegee water toward the floor drain."
+        "quote": "All hot and cold storage units operated within required limits throughout the shift.",
+        "start": 1445,
+        "end": 1529,
+        "type": "fact",
+        "explanation": "This statement is false because the table shows Low-Boy Prep Table REF-05 measured 46°F at 07:00 AM, exceeding the allowable cold-holding standard of 40°F and requiring corrective action.",
+        "fix": "Low-Boy Prep Table REF-05 exceeded standard limits at 07:00 AM but returned to normal range after corrective action."
       }
     ]
   }

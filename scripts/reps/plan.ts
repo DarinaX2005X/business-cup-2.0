@@ -86,6 +86,10 @@ export function topCodes(index: IndexRow[], n: number): IndexRow[] {
   return out;
 }
 
+/** Verbs and nouns of work that leaves a document behind (inspect, estimate, plan, record, read blueprints, comply with code). */
+const DOCUMENT_WORK = /\b(inspect|estimat|plan|record|report|log|blueprint|read|compl(y|iance)|code|calculat|review|document|prepar|schedul|test|diagnos|troubleshoot|assess|evaluat|verif)/i;
+export const documentScore = (t: { text: string; short?: string }): number => (t.short?.match(DOCUMENT_WORK) ? 2 : 0) + (t.text.match(new RegExp(DOCUMENT_WORK.source, 'gi'))?.length ?? 0 ? 1 : 0);
+
 /**
  * Tasks of the occupation's default week that have a short label, best first for this rep type: the
  * preferred category group by share, then each nearer group, then whatever remains.
@@ -100,6 +104,12 @@ export function candidates(bundle: Bundle, type: RepType): BundleTask[] {
     const t = byId.get(id)!;
     if (!out.includes(t)) out.push(t);
   };
+  const handsOn = type !== 'edge' && !week.some((s) => ['ai_does', 'ai_speeds', 'no_data'].includes(byId.get(s.taskId)!.evidence.category));
+  if (handsOn) {
+    // the whole week is human_edge: take the task that naturally produces a document first, then by share
+    const ranked = week.map((s, i) => ({ s, i, d: documentScore(byId.get(s.taskId)!) })).sort((a, b) => b.d - a.d || a.i - b.i);
+    for (const r of ranked) add(r.s.taskId);
+  }
   for (const cats of GROUPS[type]) for (const s of week) if (cats.includes(byId.get(s.taskId)!.evidence.category)) add(s.taskId);
   for (const s of week) add(s.taskId);
   if (!out.length) {

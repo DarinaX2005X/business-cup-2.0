@@ -8,28 +8,28 @@
   "brief": "A daily field dispatch log relaying work orders, crew status messages, and safety hold notifications for a municipal water and gas utility.",
   "docType": "field dispatch log",
   "slip": {
-    "document": "# Daily Field Dispatch and Relay Log\nCentral Dispatch Desk 4 - Metro Utilities Authority\nDate: 04/16/2026\n\n## Active Field Units\n| Unit ID | Lead Tech | Radio Channel | Assigned Area | Service Type |\n| --- | --- | --- | --- | --- |\n| Truck 12 | Marcus Vance | VHF-Channel 3 | North Sector | Gas Main Valve Repair |\n| Truck 18 | Sarah Lin | VHF-Channel 5 | South Sector | Water Service Lateral |\n| Truck 27 | Kevin O'Shea | VHF-Channel 3 | East District | Leak Survey |\n| Unit 40 | Elena Ramos | VHF-Channel 8 | West District | Gas Meter Replacement |\n\n## Work Order Relays and Status Updates\n- 08:15 - Relayed urgent repair order WO-4409 to Truck 12 via VHF-Channel 7 regarding odor complaints at 742 Elm Street.\n- 08:42 - Field Inspector Davis called desk via landline to request immediate emergency shutdown of 8-inch cast iron water main at 14th & Oak.\n- 08:46 - Radioed Truck 18 to isolate the Oak Street water grid and notify affected businesses.\n- 09:10 - Relayed message from Truck 27: minor surface leak identified at 310 Pine Road; requested vac-truck support.\n- 09:35 - Supervisor Morris authorized vac-truck deployment for Pine Road job; dispatched Vac-2 to location.\n\n## Safety Notices and Permits\n- 09:50 - Relayed active excavation safety hold on East District jobs due to high wind advisory, and instructed Truck 27 to commence trench excavation immediately.\n- 10:15 - Broadcast atmospheric testing reminder to all gas crews working in confined vaults.\n- 10:40 - Relayed hot-work clearance permit CP-882 to Unit 40 for regulator station work valid until 16:00 without recording ambient gas level verification.",
+    "document": "# Daily Field Dispatch and Relay Log\nCentral Dispatch Desk 4 - Metro Utilities Authority\nDate: 04/16/2026\n\n## Active Field Units\n| Unit ID | Lead Tech | Radio Channel | Assigned Area | Service Type |\n| --- | --- | --- | --- | --- |\n| Truck 12 | Leah Sandoval | VHF-Channel 3 | North Sector | Gas Main Valve Repair |\n| Truck 18 | Tyrone Lin | VHF-Channel 5 | South Sector | Water Service Lateral |\n| Truck 27 | Kevin O'Shea | VHF-Channel 3 | East District | Leak Survey |\n| Unit 40 | Omar Ramos | VHF-Channel 8 | West District | Gas Meter Replacement |\n\n## Work Order Relays and Status Updates\n- 08:15 - Relayed urgent repair order WO-4409 to Truck 12 via VHF-Channel 7 regarding odor complaints at 742 Elm Street.\n- 08:42 - Field Inspector Davis called desk via landline to request immediate emergency shutdown of 8-inch cast iron water main at 14th & Oak.\n- 08:46 - Radioed Truck 18 to isolate the Oak Street water grid and notify affected businesses.\n- 09:10 - Relayed message from Truck 27: minor surface leak identified at 310 Pine Road; requested vac-truck support.\n- 09:35 - Supervisor Morris authorized vac-truck deployment for Pine Road job; dispatched Vac-2 to location.\n\n## Safety Notices and Permits\n- 09:50 - Relayed active excavation safety hold on East District jobs due to high wind advisory, and instructed Truck 27 to commence trench excavation immediately.\n- 10:15 - Broadcast atmospheric testing reminder to all gas crews working in confined vaults.\n- 10:40 - Relayed hot-work clearance permit CP-882 to Unit 40 for regulator station work valid until 16:00 without recording ambient gas level verification.",
     "errors": [
       {
         "quote": "Relayed urgent repair order WO-4409 to Truck 12 via VHF-Channel 7 regarding odor complaints",
-        "start": 602,
-        "end": 693,
+        "start": 603,
+        "end": 694,
         "type": "fact",
         "explanation": "The Active Field Units table lists Truck 12 on VHF-Channel 3, not Channel 7.",
         "fix": "Relayed urgent repair order WO-4409 to Truck 12 via VHF-Channel 3 regarding odor complaints"
       },
       {
         "quote": "safety hold on East District jobs due to high wind advisory, and instructed Truck 27 to commence trench excavation immediately",
-        "start": 1246,
-        "end": 1372,
+        "start": 1247,
+        "end": 1373,
         "type": "logic",
         "explanation": "The dispatcher relays an excavation safety hold for the East District but simultaneously instructs Truck 27, which is operating in the East District, to begin trench excavation.",
         "fix": "safety hold on East District jobs due to high wind advisory, and instructed Truck 27 to suspend all trench excavation"
       },
       {
         "quote": "Relayed hot-work clearance permit CP-882 to Unit 40 for regulator station work valid until 16:00 without recording ambient gas level verification.",
-        "start": 1478,
-        "end": 1624,
+        "start": 1479,
+        "end": 1625,
         "type": "omission",
         "explanation": "Hot-work permits for gas utility work require logging the verified ambient combustible gas / LEL reading before authorizing work to proceed.",
         "fix": "Relayed hot-work clearance permit CP-882 to Unit 40 for regulator station work valid until 16:00 with verified 0.0% LEL ambient gas test."

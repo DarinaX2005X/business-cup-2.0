@@ -4,27 +4,27 @@
   "taskId": "6575",
   "locale": "en",
   "difficulty": 1,
-  "title": "Grade 7 Life Science Lesson Plan: Cellular Organelles",
-  "brief": "A 50-minute Grade 7 science lesson plan on animal and plant cell organelles drafted from state standards and the district pacing guide.",
+  "title": "Grade 7 Social Studies Lesson Plan: The Constitutional Convention",
+  "brief": "A 7th-grade social studies daily lesson plan on the Constitutional Convention and the Great Compromise, drafted from state standards and curriculum pacing guidelines.",
   "docType": "lesson plan",
   "slip": {
-    "document": "# Grade 7 Life Science Lesson Plan: Cellular Organelles\nDate: 10/14/2026 | Teacher: Marcus Vance | Period: 3 (10:15 AM - 11:05 AM)\n\n## Standard and Objective\n- Standard: MS-LS1-2 (Develop and use a model to describe the function of a cell as a whole and ways parts of cells contribute to the function).\n- Objective: SWBAT compare plant and animal cell structures by correctly identifying at least 5 shared and unique organelles on an exit ticket.\n\n## Materials and Station Setup\n| Item | Quantity | Location |\n| --- | --- | --- |\n| Compound light microscopes | 12 | Counter B |\n| Prepared slides (Elodea leaf) | 14 | Tray 1 |\n| Prepared slides (Cheek epithelial) | 14 | Tray 2 |\n| Organelle reference cards | 28 | Student Desks |\n\n## Instructional Sequence\n- 10:15 - 10:23 AM: Warm-Up & Hook. Students complete two review questions on cell theory in science journals, then review responses.\n- 10:23 - 10:35 AM: Direct Instruction. Present slides 4 through 11 covering nucleus, cell membrane, cytoplasm, mitochondria, vacuole, chloroplast, and cell wall.\n- 10:35 - 10:50 AM: Partner Laboratory Investigation. Students examine both slides under 100x and 400x magnification to sketch and label structures.\n- During the microscope lab, identify chloroplasts in cheek epithelial cells and record observations in lab notebooks.\n- 10:50 - 11:05 AM: Formative Assessment. Administer the organelle identification exit ticket.\n\n## Accommodations and Differentiation\n- EL Support: Provide bilingual organelle reference charts with visual diagrams to Leo G. and Sofia R.\n- IEP Modification: Provide reduced-choice exit ticket with a word bank for Marcus T. and Elena W.",
+    "document": "# Grade 7 Social Studies Lesson Plan: The Constitutional Convention\nFoxglove Middle School - Room 204\n\n## Overview\n- Teacher: Frank Hendricks\n- Date: 10/14/2026\n- Class: Grade 7 Social Studies, Period 3 (50 minutes)\n- Unit: Creating the United States Constitution\n- Standard: SS.7.CG.1.7 - Explain the compromises made during the Constitutional Convention.\n- Essential Question: How did competing interests shape the structure of the national legislature?\n\n## Instructional Materials\n- Primary source excerpt: Virginia Plan vs. New Jersey Plan\n- Graphic organizer: The Great Compromise comparison chart\n- Student response whiteboards and dry-erase markers\n\n## Learning Objectives and Accommodations\n| Category | Detail |\n| --- | --- |\n| Target Objective | Students can identify key differences between the Virginia and New Jersey Plans. |\n| Student with IEP | Neil Petrov (504 Plan): Provide printed slide notes and 50% extra time on exit ticket. |\n| English Learner | Isabel Duarte (ELL Level 2): Visual vocabulary card set provided at desk. |\n\n## Daily Agenda\n- 10:00 - 10:08 AM: Bellringer review on the Articles of Confederation.\n- 10:08 - 10:25 AM: Direct instruction on the 1787 Philadelphia Convention and legislative representation debates.\n- 10:25 - 10:40 AM: Guided partner analysis of the bicameral legislature solution.\n- 10:40 - 10:50 AM: Formative assessment.\n\n## Planned Delivery and Checks for Understanding\n- During direct instruction, remind students that the New Jersey Plan proposed allocating representation based strictly on state population size.\n- Distribute the two-column chart to contrast equal versus proportional representation in the Senate and House.\n- Administer the exit ticket during the last 10 minutes to evaluate individual student understanding.",
     "errors": [
       {
-        "quote": "identify chloroplasts in cheek epithelial cells",
-        "start": 1232,
-        "end": 1279,
+        "quote": "New Jersey Plan proposed allocating representation based strictly on state population size.",
+        "start": 1478,
+        "end": 1569,
         "type": "fact",
-        "explanation": "Cheek epithelial cells are animal cells and do not contain chloroplasts; chloroplasts are found in plant cells such as the Elodea leaf specimen.",
-        "fix": "identify chloroplasts in Elodea leaf cells"
+        "explanation": "The New Jersey Plan proposed equal representation for all states regardless of size, whereas proportional representation based on population was the core proposal of the Virginia Plan.",
+        "fix": "Virginia Plan proposed allocating representation based strictly on state population size."
       },
       {
-        "quote": "Administer the organelle identification exit ticket.",
-        "start": 1364,
-        "end": 1416,
+        "quote": "Administer the exit ticket during the last 10 minutes to evaluate individual student understanding.",
+        "start": 1684,
+        "end": 1783,
         "type": "omission",
-        "explanation": "The exit ticket prompt or specific assessment criteria are omitted, failing to provide the actual questions, prompts, or scoring expectation for the lesson's stated objective.",
-        "fix": "Administer the 5-question organelle identification exit ticket matching organelle names to plant and animal cell diagrams."
+        "explanation": "Neil Petrov has an active 504 accommodation specified in the reference table requiring 50% extra time on the exit ticket, but this instructional step omits the required accommodation for him.",
+        "fix": "Administer the exit ticket during the last 10 minutes to evaluate individual student understanding, ensuring Neil Petrov receives 50% extra time per his 504 plan."
       }
     ]
   }

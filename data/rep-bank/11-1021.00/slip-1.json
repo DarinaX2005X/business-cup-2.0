@@ -8,20 +8,20 @@
   "brief": "Performance review memo evaluating Q1 productivity, labor costs, and throughput metrics for a regional fulfillment hub based on quarterly scorecard data.",
   "docType": "operations performance review",
   "slip": {
-    "document": "# Q1 2026 Branch Performance Review: Midwest Fulfillment Hub\nPrepared by: Marcus Vance, Regional Operations Director\nReview Date: 04/08/2026\n\n## Performance Scorecard Summary\n\n| Operational Metric | Q1 Target | Q1 Actual | Variance |\n| --- | --- | --- | --- |\n| Total Units Shipped | 450,000 | 482,500 | +32,500 |\n| Cost per Unit (CPU) | $2.40 | $2.85 | +$0.45 |\n| Overtime Labor Hours | 1,200 hrs | 2,850 hrs | +1,650 hrs |\n| Pick Accuracy Rate | 99.2% | 99.4% | +0.2% |\n| Dock-to-Stock Cycle Time | 4.0 hrs | 5.8 hrs | +1.8 hrs |\n\n## Analysis and Key Findings\n\n- The facility exceeded outbound volume expectations by 7.2%, handling strong regional demand throughout March.\n- Operating expenses rose significantly due to an unplanned reliance on temporary staffing and unbudgeted premium shifts.\n- Overtime hours increased by 137.5% above target, driving the elevated cost per unit of $2.85 against the $2.40 benchmark.\n- Inbound dock operations created bottlenecks, with freight processing taking 1.8 hours longer than the operational threshold.\n\n## Action Items and Cost Control\n\n- Implement staggered shift schedules starting 04/20/2026 to curb overtime expenditure in receiving.\n- Reduce baseline staffing levels across all inbound dock shifts immediately to resolve receiving bottlenecks.\n- Standardize staging lane layouts by 05/01/2026 to improve pallet transit speed.\n- Facility Manager Dan Kowalski must submit the labor remediation plan.",
+    "document": "# Q1 2026 Branch Performance Review: Midwest Fulfillment Hub\nPrepared by: Irene Castillo, Regional Operations Director\nReview Date: 04/08/2026\n\n## Performance Scorecard Summary\n\n| Operational Metric | Q1 Target | Q1 Actual | Variance |\n| --- | --- | --- | --- |\n| Total Units Shipped | 450,000 | 482,500 | +32,500 |\n| Cost per Unit (CPU) | $2.40 | $2.85 | +$0.45 |\n| Overtime Labor Hours | 1,200 hrs | 2,850 hrs | +1,650 hrs |\n| Pick Accuracy Rate | 99.2% | 99.4% | +0.2% |\n| Dock-to-Stock Cycle Time | 4.0 hrs | 5.8 hrs | +1.8 hrs |\n\n## Analysis and Key Findings\n\n- The facility exceeded outbound volume expectations by 7.2%, handling strong regional demand throughout March.\n- Operating expenses rose significantly due to an unplanned reliance on temporary staffing and unbudgeted premium shifts.\n- Overtime hours increased by 137.5% above target, driving the elevated cost per unit of $2.85 against the $2.40 benchmark.\n- Inbound dock operations created bottlenecks, with freight processing taking 1.8 hours longer than the operational threshold.\n\n## Action Items and Cost Control\n\n- Implement staggered shift schedules starting 04/20/2026 to curb overtime expenditure in receiving.\n- Reduce baseline staffing levels across all inbound dock shifts immediately to resolve receiving bottlenecks.\n- Standardize staging lane layouts by 05/01/2026 to improve pallet transit speed.\n- Facility Manager Dan Kowalski must submit the labor remediation plan.",
     "errors": [
       {
         "quote": "Reduce baseline staffing levels across all inbound dock shifts immediately to resolve receiving bottlenecks.",
-        "start": 1186,
-        "end": 1294,
+        "start": 1188,
+        "end": 1296,
         "type": "logic",
         "explanation": "Reducing dock staffing directly contradicts the operational finding that dock-to-stock cycle times are severely lagging (5.8 hours vs. 4.0 hour target) and creating bottlenecks; cutting labor will worsen throughput delays rather than resolve them.",
         "fix": "Reallocate experienced personnel to inbound dock shifts immediately to resolve receiving bottlenecks."
       },
       {
         "quote": "Facility Manager Dan Kowalski must submit the labor remediation plan.",
-        "start": 1379,
-        "end": 1448,
+        "start": 1381,
+        "end": 1450,
         "type": "omission",
         "explanation": "Action items in operations management reviews require a specific deadline or completion timeframe, which is omitted here.",
         "fix": "Facility Manager Dan Kowalski must submit the labor remediation plan by 04/17/2026."

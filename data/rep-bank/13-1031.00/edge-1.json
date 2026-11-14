@@ -8,9 +8,9 @@
   "brief": "Handle a distressed policyholder whose totaled work truck payout falls short of what he still owes on his loan.",
   "edge": {
     "scenario": "You are on the phone with a claimant whose pickup truck was declared a total loss after a severe hailstorm. The actual cash value payout has been calculated at $18,500, but the claimant has a remaining auto loan balance of $23,000 and did not carry gap insurance. He is furious, believing the insurance company is lowballing him and ruining his livelihood.",
-    "personaPublic": "Marcus is an independent HVAC technician whose primary service truck was destroyed. He is agitated, defensive, and insists the appraisal report is completely wrong and unfair.",
-    "personaHidden": "Marcus is terrified of missing upcoming commercial service contracts that represent half his yearly income if he cannot replace the truck immediately. He feels deep personal shame about having rolled negative equity from an older loan into this vehicle's financing, which created the gap.",
-    "goal": "De-escalate Marcus's anger, clearly explain the valuation methodology without technical jargon, and establish a clear plan for reviewing comparable vehicle listings or options with his lender.",
+    "personaPublic": "Ethan is an independent HVAC technician whose primary service truck was destroyed. He is agitated, defensive, and insists the appraisal report is completely wrong and unfair.",
+    "personaHidden": "Ethan is terrified of missing upcoming commercial service contracts that represent half his yearly income if he cannot replace the truck immediately. He feels deep personal shame about having rolled negative equity from an older loan into this vehicle's financing, which created the gap.",
+    "goal": "De-escalate Ethan's anger, clearly explain the valuation methodology without technical jargon, and establish a clear plan for reviewing comparable vehicle listings or options with his lender.",
     "criteria": [
       {
         "id": "c1",

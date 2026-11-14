@@ -4,27 +4,27 @@
   "taskId": "2371",
   "locale": "en",
   "difficulty": 1,
-  "title": "Home Care Daily Activity and Condition Log",
-  "brief": "Daily shift report and change-of-condition documentation for an 81-year-old home care client, drafted by an AI assistant from aide visit notes.",
-  "docType": "client progress charting",
+  "title": "Clearwater Home Care Daily Shift Progress Note",
+  "brief": "A personal care aide's shift progress note documenting daily personal care tasks, vital signs, meal intake, and changes in client condition for an agency supervisor.",
+  "docType": "shift progress note",
   "slip": {
-    "document": "# Home Care Daily Activity and Condition Log\nClient: Arthur Vance | DOB: 04/12/1944 | Plan ID: HC-9942\nAide: Marcus Cole, PCA | Supervisor: Elena Torres, RN | Date: 10/14/2026\n\n## Shift Summary and ADL Support\n- Shift hours: 08:00 to 14:00.\n- Assisted client with warm shower, standby assist with shower chair and grab bars.\n- Dressed in clean daytime clothes; assisted with non-skid socks and slip-on orthopedic shoes.\n- Prepared breakfast: scrambled eggs, 1 slice whole wheat toast, 4 oz orange juice, 8 oz black coffee.\n- Prepared lunch: 1 cup chicken noodle soup, half tuna salad sandwich, 8 oz water.\n- Assisted with light tidying: washed dishes, cleared kitchen counters, emptied bedside commode.\n\n## Baseline Reference Data\n| Measurement | Baseline Norm | 10/14 Morning Value |\n| --- | --- | --- |\n| Weight | 168.0 lb | 173.5 lb |\n| Radial Pulse | 68-76 bpm | 72 bpm |\n| Ambulation Distance | 150 ft with walker | 45 ft before resting |\n\n## Observations and Changes in Condition\n- Noticed 2+ pitting edema in bilateral ankles and lower legs during morning socks application.\n- Client expressed shortness of breath after walking from the bedroom to the living room chair.\n- Confirmed a 5.5 lb weight loss since last week, so no fluid retention concern was present.\n- Skin on lower extremities intact, warm to touch, without red patches or broken skin.\n\n## Supervisor Notification and Action Plan\n- Contacted Elena Torres, RN at 11:15 to report lower extremity swelling and exertional fatigue.\n- Supervisor instructed aide to elevate client legs on recliner footrest with two pillows while seated.\n- Reminded client of scheduled physical therapy session at 15:30 today.\n- Documented shift end and logged client response to position changes.",
+    "document": "# Clearwater Home Care Daily Shift Progress Note\nClient: Gordon Castillo\nDOB: 04/12/1944\nCaregiver: Wendy Gallagher, PCA\nSupervisor: Lucas Ramos, RN\nDate: 10/14/2026\nShift: 08:00 - 16:00\n\n## Vital Signs\n| Time | BP (mmHg) | Pulse (bpm) | Temp (°F) | Resp (/min) |\n| --- | --- | --- | --- | --- |\n| 08:30 | 118/74 | 72 | 98.4 | 16 |\n| 14:15 | 102/66 | 88 | 101.8 | 20 |\n\n## Daily Living Activities and Nutrition\n- Assisted client with morning shower and dressing at 09:00 with standby assist.\n- Breakfast (09:45): 1 scrambled egg, 1 slice whole wheat toast, 6 oz orange juice; 100% consumed.\n- Lunch (12:30): 1 cup chicken noodle soup, 4 saltine crackers, 8 oz water; 50% consumed.\n- Medication reminder provided for prescribed 12:00 oral medications; client self-administered.\n- Client ambulated 60 ft in hallway with rolling walker at 11:00 without incident.\n\n## Observations and Changes in Condition\n- At 14:00, client reported feeling flushed, weak, and cold, asking for an extra blanket.\n- Rechecked vitals at 14:15 as shown in table above; noted new productive cough with yellow sputum.\n- Client remained in bed resting comfortably with no fever noted after 14:15.\n- Offered client 4 oz of warm chamomile tea at 14:45, tolerated well.\n\n## Notifications and Handoff\n- Telephoned RN supervisor Lucas Ramos to report the elevation in temperature, productive cough, and lethargy without documenting the supervisor directives received.\n- Relayed client status to evening PCA at 16:00 shift handoff.",
     "errors": [
       {
-        "quote": "Confirmed a 5.5 lb weight loss since last week",
-        "start": 1180,
-        "end": 1226,
+        "quote": "Client remained in bed resting comfortably with no fever noted after 14:15.",
+        "start": 1094,
+        "end": 1169,
         "type": "logic",
-        "explanation": "The baseline reference table indicates the client's weight went from a baseline of 168.0 lb to 173.5 lb, which is a 5.5 lb weight gain, directly contradicting the statement that there was a weight loss.",
-        "fix": "Confirmed a 5.5 lb weight gain since last week"
+        "explanation": "The vitals table records Gordon Castillo's temperature at 14:15 as 101.8 °F, which contradicts the statement that no fever was noted.",
+        "fix": "Client remained in bed resting with persistent fever noted after 14:15."
       },
       {
-        "quote": "Contacted Elena Torres, RN at 11:15 to report lower extremity swelling and exertional fatigue.",
-        "start": 1404,
-        "end": 1498,
+        "quote": "Telephoned RN supervisor Lucas Ramos to report the elevation in temperature, productive cough, and lethargy without documenting the supervisor directives received.",
+        "start": 1272,
+        "end": 1435,
         "type": "omission",
-        "explanation": "The notification entry does not state the communication method used (such as by telephone, text, or secure portal) or the required supervisory acknowledgment details for urgent change-of-condition reporting.",
-        "fix": "Contacted Elena Torres, RN via telephone at 11:15 to report lower extremity swelling and exertional fatigue."
+        "explanation": "When reporting an acute change in condition to an RN supervisor, PCA clinical documentation must record the supervisor's instructions or action plan (such as monitoring parameters, family notification, or EMS escalation).",
+        "fix": "Telephoned RN supervisor Lucas Ramos to report the elevation in temperature, productive cough, and lethargy, and received directive to push fluids and notify on-call nurse if temp exceeds 102.0 °F."
       }
     ]
   }

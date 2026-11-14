@@ -1,8 +1,6 @@
 'use client';
 
-import Link from 'next/link';
-import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
-import btn from '@/components/kit/controls.module.css';
+import { useCallback, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import { Sheet } from '@/components/kit/Overlay';
 import { Toast } from '@/components/kit/Toast';
 import type { WeekTask } from '@/components/kit/types';
@@ -136,16 +134,14 @@ export function XrayScreen(props: XrayPageProps) {
   const dirty = !!baseline && JSON.stringify(baseline.shares) !== JSON.stringify(shares);
   const delta = editing && baseline ? result.score - baseline.score : 0;
 
-  // Leaving edit mode with a failed save keeps the indicator visible next to the Edit button.
-  useEffect(() => {
-    if (!editing) setDragging(false);
-  }, [editing]);
 
   const hasProfile = profile.status === 'ready';
   const repHref = '/today?trial=1';
 
-  const inspector = shownFocus ? (
+  const inspector = (inSheet = false) =>
+    shownFocus ? (
     <Inspector
+      inSheet={inSheet}
       focus={shownFocus}
       result={result}
       breakdown={breakdown}
@@ -156,16 +152,13 @@ export function XrayScreen(props: XrayPageProps) {
       isOwner={isOwner}
       onFocus={(f) => setFocus(f)}
     />
-  ) : null;
+    ) : null;
 
   return (
     <div className={st.page}>
       {!isOwner ? (
         <div className={st.guestBar}>
           <p>{t('xray.guest.banner', { jobTitle: initial.jobTitle })}</p>
-          <Link href="/start" className={`${btn.btn} ${btn.b_primary} ${btn.s_sm}`}>
-            {t('xray.action.mapOwn')}
-          </Link>
         </div>
       ) : null}
       <Conclusion
@@ -210,7 +203,10 @@ export function XrayScreen(props: XrayPageProps) {
           fullText={fullText}
           onSelect={(id) => setFocus({ kind: 'task', id })}
           onEdit={startEdit}
-          onDone={() => setEditing(false)}
+          onDone={() => {
+            setEditing(false);
+            setDragging(false);
+          }}
           onShare={onShare}
           onRemove={onRemove}
           onReset={onReset}
@@ -219,7 +215,7 @@ export function XrayScreen(props: XrayPageProps) {
         />
         <aside className={st.inspectorCol} aria-label={t('xray.inspector.label')}>
           <div ref={inspectorRef} className={st.inspectorSticky}>
-            {!narrow ? inspector : null}
+            {!narrow ? inspector() : null}
           </div>
         </aside>
       </section>
@@ -234,7 +230,7 @@ export function XrayScreen(props: XrayPageProps) {
       />
       {narrow && shownFocus ? (
         <Sheet open={sheetOpen} onClose={() => setSheetOpen(false)} title={inspectorTitle(shownFocus, t, label)}>
-          {inspector}
+          <div className={st.sheetInsp}>{inspector(true)}</div>
         </Sheet>
       ) : null}
       {notice ? (

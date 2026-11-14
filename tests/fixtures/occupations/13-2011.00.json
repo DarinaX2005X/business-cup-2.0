@@ -25,7 +25,7 @@
     "4.A.2.a.3.c.3",
     "4.A.2.a.4.k.4"
    ],
-   "short": "Prepare accounting records",
+   "short": "Financial statement analysis",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -76,7 +76,7 @@
    "dwaIds": [
     "4.A.4.c.1.c.7"
    ],
-   "short": "Process invoices",
+   "short": "Invoice processing",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -107,7 +107,7 @@
     "4.A.2.a.3.c.1",
     "4.A.2.a.3.c.2"
    ],
-   "short": "Review accounts",
+   "short": "Account reconciliation",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E2",
@@ -138,7 +138,7 @@
     "4.A.2.a.4.k.2",
     "4.A.3.b.6.a.1"
    ],
-   "short": "Prepare adjusting journal entries",
+   "short": "Posting journal entries",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E1",
@@ -169,7 +169,7 @@
     "4.A.1.b.3.c.3",
     "4.A.3.b.6.a.2"
    ],
-   "short": "Compute prepare tax returns",
+   "short": "Tax preparation",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -199,7 +199,7 @@
    "dwaIds": [
     "4.A.2.a.3.c.2"
    ],
-   "short": "Inspect account books",
+   "short": "General ledger review",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -229,7 +229,7 @@
    "dwaIds": [
     "4.A.3.b.6.a.2"
    ],
-   "short": "Prepare detailed reports",
+   "short": "Audit report drafting",
    "evidence": {
     "theoryLabel": "E1",
     "gpt4Label": "E1",
@@ -281,7 +281,7 @@
     "4.A.2.a.2.a.5",
     "4.A.3.b.6.a.2"
    ],
-   "short": "Prepare annual reports",
+   "short": "Annual report preparation",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -312,7 +312,7 @@
     "4.A.1.a.1.c.1",
     "4.A.1.a.1.c.4"
    ],
-   "short": "Collect data",
+   "short": "Fraud detection analysis",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -355,7 +355,7 @@
    "dwaIds": [
     "4.A.2.a.3.c.2"
    ],
-   "short": "Review data",
+   "short": "Balance sheet review",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -385,7 +385,7 @@
    "dwaIds": [
     "4.A.4.a.2.c.10"
    ],
-   "short": "Report to management",
+   "short": "Financial management reporting",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -415,7 +415,7 @@
    "dwaIds": [
     "4.A.4.b.4.j.8"
    ],
-   "short": "Supervise auditing",
+   "short": "Audit supervision",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E2",
@@ -445,7 +445,7 @@
    "dwaIds": [
     "4.A.3.b.2.f.4"
    ],
-   "short": "Develop accounting systems",
+   "short": "Accounting system implementation",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -492,7 +492,7 @@
    "dwaIds": [
     "4.A.2.a.1.i.2"
    ],
-   "short": "Evaluate taxpayer finances",
+   "short": "Tax liability assessment",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -552,7 +552,7 @@
    "dwaIds": [
     "4.A.2.a.2.a.5"
    ],
-   "short": "Review taxpayer accounts",
+   "short": "Taxpayer audits",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -582,7 +582,7 @@
    "dwaIds": [
     "4.A.3.b.6.a.1"
    ],
-   "short": "Establish tables",
+   "short": "Chart of accounts",
    "evidence": {
     "theoryLabel": "E1",
     "gpt4Label": "E1",
@@ -633,7 +633,7 @@
    "dwaIds": [
     "4.A.2.a.2.a.1"
    ],
-   "short": "Inspect cash",
+   "short": "Cash asset verification",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E2",
@@ -664,7 +664,7 @@
     "4.A.2.a.3.c.3",
     "4.A.4.b.6.k.3"
    ],
-   "short": "Examine information systems",
+   "short": "Internal controls evaluation",
    "evidence": {
     "theoryLabel": "E1",
     "gpt4Label": "E2",
@@ -711,7 +711,7 @@
    "dwaIds": [
     "4.A.2.a.3.c.3"
    ],
-   "short": "Examine records",
+   "short": "Compliance record inspection",
    "evidence": {
     "theoryLabel": "E1",
     "gpt4Label": "E2",
@@ -741,7 +741,7 @@
    "dwaIds": [
     "4.A.2.a.4.k.4"
    ],
-   "short": "Analyze business operations",
+   "short": "Forecasting and budgeting",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -793,7 +793,7 @@
     "4.A.2.a.4.k.1",
     "4.A.4.b.4.h.4"
    ],
-   "short": "Develop budgets",
+   "short": "Budget variance analysis",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -825,7 +825,7 @@
     "4.A.4.a.7.b.6",
     "4.A.4.b.6.h.1"
    ],
-   "short": "Represent clients",
+   "short": "Tax authority representation",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -855,7 +855,7 @@
    "dwaIds": [
     "4.A.4.b.1.g.1"
    ],
-   "short": "Direct activities",
+   "short": "Managing accounting staff",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -885,7 +885,7 @@
    "dwaIds": [
     "4.A.2.a.3.c.2"
    ],
-   "short": "Audit payroll",
+   "short": "Payroll auditing",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -915,7 +915,7 @@
    "dwaIds": [
     "4.A.2.a.1.b.4"
    ],
-   "short": "Examine whether organization objectives",
+   "short": "Organizational goal review",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -945,7 +945,7 @@
    "dwaIds": [
     "4.A.2.a.3.c.3"
    ],
-   "short": "Conduct pre-implementation audits",
+   "short": "Pre-implementation auditing",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -975,7 +975,7 @@
    "dwaIds": [
     "4.A.2.a.2.a.1"
    ],
-   "short": "Examine inventory",
+   "short": "Inventory verification",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E2",
@@ -1005,7 +1005,7 @@
    "dwaIds": [
     "4.A.4.b.6.e.8"
    ],
-   "short": "Advise clients",
+   "short": "Client financial advisory",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -1037,7 +1037,7 @@
     "4.A.4.b.6.e.10",
     "4.A.4.b.6.k.3"
    ],
-   "short": "Report to management",
+   "short": "Asset utilization review",
    "evidence": {
     "theoryLabel": "E1",
     "gpt4Label": "E2",

@@ -23,7 +23,7 @@
    "dwaIds": [
     "4.A.4.a.1.a.3"
    ],
-   "short": "Confer with customers",
+   "short": "Customer inquiries",
    "evidence": {
     "theoryLabel": "E1",
     "gpt4Label": "E2",
@@ -74,7 +74,7 @@
    "dwaIds": [
     "4.A.3.b.6.j.3"
    ],
-   "short": "Keep records",
+   "short": "Call logging",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -117,7 +117,7 @@
    "dwaIds": [
     "4.A.4.a.8.c.1"
    ],
-   "short": "Check to ensure",
+   "short": "Resolution follow up",
    "evidence": {
     "theoryLabel": "E1",
     "gpt4Label": "E2",
@@ -147,7 +147,7 @@
    "dwaIds": [
     "4.A.4.a.3.c.7"
    ],
-   "short": "Contact customers",
+   "short": "Customer outreach",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -195,7 +195,7 @@
     "4.A.4.a.8.c.1",
     "4.A.4.c.1.c.4"
    ],
-   "short": "Resolve service",
+   "short": "Complaint resolution",
    "evidence": {
     "theoryLabel": "E1",
     "gpt4Label": "E2",
@@ -247,7 +247,7 @@
     "4.A.2.b.1.a.7",
     "4.A.4.c.3.d.1"
    ],
-   "short": "Determine charges",
+   "short": "Payment collection",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -277,7 +277,7 @@
    "dwaIds": [
     "4.A.3.b.6.m.5"
    ],
-   "short": "Complete contract forms",
+   "short": "Account updates",
    "evidence": {
     "theoryLabel": "E1",
     "gpt4Label": "E1",
@@ -307,7 +307,7 @@
    "dwaIds": [
     "4.A.4.a.5.a.1"
    ],
-   "short": "Refer unresolved customer grievances",
+   "short": "Grievance escalation",
    "evidence": {
     "theoryLabel": "E1",
     "gpt4Label": "E2",
@@ -337,7 +337,7 @@
    "dwaIds": [
     "4.A.2.a.3.c.4"
    ],
-   "short": "Review insurance policy terms",
+   "short": "Policy review",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E2",
@@ -380,7 +380,7 @@
    "dwaIds": [
     "4.A.4.a.6.c.12"
    ],
-   "short": "Solicit sales",
+   "short": "Sales solicitation",
    "evidence": {
     "theoryLabel": "E1",
     "gpt4Label": "E2",
@@ -424,7 +424,7 @@
     "4.A.2.a.2.a.9",
     "4.A.4.c.1.c.6"
    ],
-   "short": "Compare disputed merchandise",
+   "short": "Return processing",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E1",
@@ -454,7 +454,7 @@
    "dwaIds": [
     "4.A.4.a.8.c.1"
    ],
-   "short": "Obtain information",
+   "short": "Complaint investigation",
    "evidence": {
     "theoryLabel": "E1",
     "gpt4Label": "E2",
@@ -484,7 +484,7 @@
    "dwaIds": [
     "4.A.4.b.6.e.4"
    ],
-   "short": "Recommend improvements",
+   "short": "Process improvement proposals",
    "evidence": {
     "theoryLabel": "E1",
     "gpt4Label": "E2",

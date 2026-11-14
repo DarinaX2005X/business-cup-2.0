@@ -75,7 +75,10 @@ async function main() {
       let ok = 0;
       for (const { id, label } of res.data.labels) {
         const v = validLabel(label);
-        if (asked.has(id) && v) (labels[id] = v), ok++;
+        if (asked.has(id) && v) {
+          labels[id] = v;
+          ok++;
+        }
       }
       save();
       console.log(`[short-labels] ${Math.min(i + batch, occs.length)}/${occs.length}: ${ok}/${asked.size} labels, $${spent.toFixed(4)}${res.cached ? ' (cached)' : ''}`);

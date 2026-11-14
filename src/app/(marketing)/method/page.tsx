@@ -121,7 +121,7 @@ export default async function MethodPage() {
     [t('method.coverage.importance'), pct(cov.importanceRated)],
     [t('method.coverage.gpts'), pct(cov.gptsLabel)],
     [t('method.coverage.dwa'), pct(cov.theoryEstimatedDwa)],
-    [t('method.coverage.aei', { aei: meta.dataVersion.aei }), pct(cov.aeiPublished)],
+    [t('method.coverage.aei', { aei: meta.dataVersion.aei.replace(/-/g, '‑') }), pct(cov.aeiPublished)],
     [t('method.coverage.gated'), pct(cov.aeiObservedWorkGated)],
     [t('method.coverage.ever'), pct(cov.aeiEverObserved)],
     [t('method.coverage.penetration'), pct(cov.penetration)],
@@ -428,7 +428,7 @@ export default async function MethodPage() {
                     <b className={st.rho}>{dec(v.rho)}</b>
                     <span>
                       <span className={st.vName}>{t(`method.validation.${v.id}`)}</span>
-                      <span className={st.muted}>{t('method.validation.row', { rho: `ρ = ${dec(v.rho)}`, n: v.n })}</span>
+                      <span className={st.muted}>{t('method.validation.row', { n: v.n })}</span>
                     </span>
                   </li>
                 ))}

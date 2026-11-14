@@ -55,9 +55,38 @@ describe('occupation search over the built index', () => {
     expect(searchOccupations(idx, 'dental hyg').results[0].code).toBe('29-1292.00');
   });
 
-  it('nonsense gives no results; a known word inside it becomes a suggestion', () => {
-    expect(searchOccupations(idx, 'qwzx').results).toEqual([]);
-    const r = searchOccupations(idx, 'zzqx plumberr');
-    expect(r.results.length + r.suggestions.length).toBeGreaterThan(0);
+  it('every real title in the table is confident', () => {
+    for (const [q] of CASES) {
+      const r = searchOccupations(idx, q);
+      expect(r.confident, q).toBe(true);
+      expect(r.score).toBeGreaterThan(0);
+    }
+  });
+
+  it.each(['xyzzy qwerty', 'asdf', 'asdfgh', 'qwzx', 'lorem ipsum dolor', 'kjhgf'])('nonsense "%s" returns no occupation', (q) => {
+    const r = searchOccupations(idx, q);
+    expect(r.confident).toBe(false);
+    expect(r.results).toEqual([]);
+    expect(r.suggestions).toEqual([]);
+  });
+
+  it('a real word inside nonsense becomes a suggestion, not a result', () => {
+    const r = searchOccupations(idx, 'nurse xyzzy');
+    expect(r.results).toEqual([]);
+    expect(r.suggestions.map((s) => s.code)).toContain('29-1141.00');
+  });
+
+  it('is safe on long and odd input', () => {
+    expect(() => searchOccupations(idx, 'registered nurse '.repeat(40))).not.toThrow();
+    expect(searchOccupations(idx, 'registered nurse '.repeat(40)).results[0]?.code).toBe('29-1141.00');
+    expect(searchOccupations(idx, '').results).toEqual([]);
+    expect(searchOccupations(idx, undefined as unknown as string).results).toEqual([]);
+  });
+
+  it('curated Russian and Kazakh titles', () => {
+    expect(searchOccupations(idx, 'дальнобойщик').results[0].code).toBe('53-3032.00');
+    expect(searchOccupations(idx, 'жүк көлігінің жүргізушісі').results[0].code).toBe('53-3032.00');
+    expect(searchOccupations(idx, 'менеджер по продукту').results[0].code).toBe('11-2021.00');
+    expect(searchOccupations(idx, 'мейірбике').results[0].code).toBe('29-1141.00');
   });
 });

@@ -23,6 +23,16 @@ export function shortLabel(text: string): string {
     if (endsClause && out.length >= 3 && !listOpen) break;
     if (joinsList) listOpen = false;
   }
+  const dangling = (w: string) => STOP_AT.has(w.toLowerCase().replace(/[^a-z']/g, '')) || /^(other|the|a|an)$/i.test(w);
+  while (out.length > 2 && dangling(out[out.length - 1])) out.pop();
+  if (listOpen) {
+    // The list was cut before it closed («Work from ladders, scaffolds or»): keep its first item only,
+    // unless the comma separates adjectives («Maintain accurate, detailed reports»).
+    const firstComma = out.findIndex((w) => w.endsWith(','));
+    const adjective = firstComma >= 0 && /(ate|ful|ive|ous|al|ed),$/.test(out[firstComma]);
+    if (firstComma >= 1 && !adjective) return out.slice(0, firstComma + 1).join(' ').replace(/,$/, '');
+    while (out.length > 2 && dangling(out[out.length - 1])) out.pop();
+  }
   return out.join(' ').replace(/,$/, '');
 }
 

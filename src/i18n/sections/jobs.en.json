@@ -27,7 +27,6 @@
     "medianNote_hourly_x2080": "Hourly median × 2,080 hours",
     "medianNote_top_coded": "BLS publishes it as above its top code",
     "noWage": "Not published",
-    "humanShare": "Human edge in a typical week",
     "factsSource": "BLS OEWS May 2025, O*NET {onet}",
     "cta": "Map your own week",
     "ctaNote": "Free. Your tasks and hours, about two minutes.",
@@ -36,7 +35,8 @@
     "summaryAi": "In a typical week, AI already does or speeds up {ai}% of the work.",
     "summaryHuman_one": "{human} stays with people.",
     "summaryHuman_other": "{human} stay with people.",
-    "and": "{a} and {b}"
+    "and": "{a} and {b}",
+    "taskCount": "Tasks O*NET lists"
   },
   "tasks": {
     "title": "Task by task",

@@ -67,8 +67,10 @@ export function boundedApportion(weights: number[], total: number, min: number, 
     real = w.map((x, i) => fixed[i] ?? (sum > 0 ? (x / sum) * left : left / free.length));
     let changed = false;
     for (const i of free) {
-      if (real[i] > cap) (fixed[i] = cap), (changed = true);
-      else if (real[i] < min) (fixed[i] = min), (changed = true);
+      if (real[i] > cap || real[i] < min) {
+        fixed[i] = real[i] > cap ? cap : min;
+        changed = true;
+      }
     }
     if (!changed) break;
   }
@@ -77,11 +79,17 @@ export function boundedApportion(weights: number[], total: number, min: number, 
   const order = real.map((r, i) => ({ i, frac: r - Math.floor(r) })).sort((a, b) => b.frac - a.frac || a.i - b.i);
   for (let guard = 0; diff > 0 && guard < n * total; guard++) {
     const k = order[guard % n].i;
-    if (out[k] < cap) (out[k] += 1), diff--;
+    if (out[k] < cap) {
+      out[k] += 1;
+      diff--;
+    }
   }
   for (let guard = 0; diff < 0 && guard < n * total; guard++) {
     const k = order[n - 1 - (guard % n)].i;
-    if (out[k] > min) (out[k] -= 1), diff++;
+    if (out[k] > min) {
+      out[k] -= 1;
+      diff++;
+    }
   }
   return out;
 }

@@ -94,7 +94,11 @@ export function WeekBar({
     const tip = li.querySelector<HTMLElement>('[data-tip]');
     if (!tip) return;
     tip.style.setProperty('--dx', '0px');
+    // the tooltip is out of the layout until shown; lay it out for one measurement
+    const prevDisplay = tip.style.display;
+    tip.style.display = 'block';
     const r = tip.getBoundingClientRect();
+    tip.style.display = prevDisplay;
     const vw = document.documentElement.clientWidth;
     const dx = r.right > vw - 12 ? vw - 12 - r.right : r.left < 12 ? 12 - r.left : 0;
     tip.style.setProperty('--dx', `${Math.round(dx)}px`);
@@ -156,7 +160,7 @@ export function WeekBar({
                     <li
                       key={t.id}
                       className={st.seg}
-                      onMouseEnter={(e) => placeTip(e.currentTarget)}
+                      onMouseOver={(e) => placeTip(e.currentTarget)}
                       onFocusCapture={(e) => placeTip(e.currentTarget)}
                       data-selected={selected || undefined}
                       style={{ '--w': t.share, '--h': h, '--at': positions.get(t.id) ?? 0, '--grow': grow } as CSSProperties}

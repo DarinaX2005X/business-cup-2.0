@@ -27,14 +27,16 @@ export function JobTasks({ rows, t, theoryWeight, fmt }: { rows: WeekTaskRow[]; 
       {rows.map(({ task, share }) => {
         const e = task.evidence;
         const hours = (share * 40) / 100;
+        const short = shortLabel(task.text);
+        const sameAsShort = task.text.replace(/[.\s]+$/, '') === short;
         return (
           <li key={task.id} className={st.task} data-cat={e.category}>
             <details>
               <summary>
                 <CategorySwatch category={e.category} size="lg" />
                 <span className={st.taskMain}>
-                  <b className={st.taskShort}>{shortLabel(task.text)}</b>
-                  <span className={st.taskText}>{task.text}</span>
+                  <b className={st.taskShort}>{short}</b>
+                  {sameAsShort ? null : <span className={st.taskText}>{task.text}</span>}
                   <span className={st.taskChips}>
                     <CategoryChip category={e.category} />
                     <EvidenceBadge level={e.evidenceLevel} size="sm" />

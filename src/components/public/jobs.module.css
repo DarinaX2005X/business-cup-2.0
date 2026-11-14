@@ -311,7 +311,7 @@
 .taskBody {
   display: grid;
   gap: 14px;
-  padding: 0 72px 24px 66px;
+  padding: 0 72px 24px 94px;
   font-size: var(--fs-15);
 }
 
@@ -457,7 +457,7 @@
 
 .skills li {
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(80px, 1fr) auto;
+  grid-template-columns: minmax(0, 1.2fr) minmax(80px, 1fr) 64px;
   gap: 16px;
   align-items: center;
 }
@@ -481,6 +481,7 @@
 }
 
 .skillValue {
+  text-align: right;
   font-size: var(--fs-15);
   color: var(--ink-2);
   white-space: nowrap;
@@ -500,6 +501,7 @@
   list-style: none;
   display: grid;
   gap: 4px;
+  margin-inline: -16px;
 }
 
 .related a {
@@ -816,9 +818,34 @@
   }
 
   .task summary {
-    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr) auto;
     gap: 12px;
     padding: 16px;
+  }
+
+  .task summary > span:first-child {
+    display: none;
+  }
+
+  .task details:not([open]) .taskText {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+  }
+
+  .facts {
+    padding: 18px;
+    gap: 14px;
+  }
+
+  .facts dl {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 16px;
+  }
+
+  .facts dd {
+    font-size: var(--fs-20);
   }
 
   .taskOpen {

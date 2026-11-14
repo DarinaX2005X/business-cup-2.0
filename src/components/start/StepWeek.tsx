@@ -30,15 +30,24 @@ export interface StepWeekProps {
 
 const ADD_SHARE = 4;
 
-/** Short label without the model, until /texts answers: the task up to its first clause. */
-function quickLabel(text: string) {
-  const words = text.replace(/[.;:]+\s*$/, '').split(/\s+/);
+const DANGLING = new Set(['and', 'or', 'to', 'for', 'with', 'as', 'of', 'the', 'a', 'an', 'in', 'on', 'by', 'from', 'such', 'including', 'using', 'и', 'в', 'на', 'для', 'с', 'по', 'мен', 'және']);
+
+/** Short label without the model, until /texts answers: the task up to its first clause, never ending on «and». */
+export function quickLabel(text: string) {
+  const words = text.replace(/[.;:]+\s*$/, '').split(/\s+/).filter(Boolean);
   const out: string[] = [];
   for (const w of words) {
     out.push(w);
     if (out.length >= 5 || (/[,;:]$/.test(w) && out.length >= 3)) break;
   }
-  return out.join(' ').replace(/[,;:]+$/, '');
+  return tidyLabel(out.join(' '));
+}
+
+/** Drops a trailing comma or function word, which the heuristic labels of the server can end on. */
+function tidyLabel(label: string) {
+  const words = label.replace(/[,;:]+$/, '').split(/\s+/);
+  while (words.length > 2 && DANGLING.has(words[words.length - 1].toLowerCase().replace(/[,;:]$/, ''))) words.pop();
+  return words.join(' ').replace(/[,;:]+$/, '');
 }
 
 export function StepWeek(props: StepWeekProps) {
@@ -129,7 +138,7 @@ function WeekEditor({
 
   const byId = useMemo(() => new Map(bundle.tasks.map((x) => [x.id, x])), [bundle]);
   const textOf = useCallback((id: string) => texts?.[id]?.text ?? byId.get(id)?.text ?? '', [texts, byId]);
-  const labelOf = useCallback((id: string) => texts?.[id]?.short ?? quickLabel(byId.get(id)?.text ?? ''), [texts, byId]);
+  const labelOf = useCallback((id: string) => (texts?.[id]?.short ? tidyLabel(texts[id].short) : quickLabel(byId.get(id)?.text ?? '')), [texts, byId]);
 
   const weekTasks: WeekTask[] = useMemo(
     () =>
@@ -367,7 +376,7 @@ const TaskEditRow = memo(function TaskEditRow({
   const { s, hours, num } = useKit();
   const [open, setOpen] = useState(false);
   const h = hoursOf(share);
-  const showFullToggle = text.length > label.length + 12;
+  const showFullToggle = text.length > label.length + 12 || (quotes?.length ?? 0) > 1;
   return (
     <li className={st.row} data-active={active || undefined} onPointerEnter={() => onHover?.(id)} onPointerLeave={() => onHover?.(null)}>
       <div className={st.rowText}>
@@ -380,18 +389,18 @@ const TaskEditRow = memo(function TaskEditRow({
             </button>
           </>
         ) : null}
-        {quotes?.length ? (
-          <p className={st.quote}>
-            <span>{t('start.week.fromResume')}</span> {quotes.map((q) => `“${q}”`).join(' ')}
-          </p>
-        ) : null}
       </div>
+      {quotes?.length ? (
+        <p className={st.quote} data-open={open || undefined}>
+          <span>{t('start.week.fromResume')}</span> {(open ? quotes : quotes.slice(0, 1)).map((q) => `“${q}”`).join(' ')}
+        </p>
+      ) : null}
       <div className={st.rowSlider}>
         <Slider
           label={`${t('start.week.share')}: ${label}`}
           value={share}
           min={1}
-          max={Math.min(80, 100 - (count - 1))}
+          max={Math.min(60, 100 - (count - 1))}
           format={(v) => `${num(v)}%, ${s.hoursShort(hours(hoursOf(v)))}`}
           onChange={(v) => onChange(id, v)}
           onCommit={onCommit}

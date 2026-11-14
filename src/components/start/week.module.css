@@ -274,6 +274,9 @@
 .row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(200px, 300px) 84px auto;
+  grid-template-areas:
+    'text slider amount remove'
+    'quote slider amount remove';
   align-items: center;
   gap: 8px 24px;
   padding: 14px 18px;
@@ -292,6 +295,7 @@
 }
 
 .rowText {
+  grid-area: text;
   min-width: 0;
 }
 
@@ -328,10 +332,19 @@
 }
 
 .quote {
-  margin-top: 4px;
+  grid-area: quote;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-width: 62ch;
   font-size: 14.5px;
   line-height: 1.45;
   color: var(--ink-2);
+}
+
+.quote[data-open] {
+  display: block;
 }
 
 .quote span {
@@ -340,10 +353,12 @@
 }
 
 .rowSlider {
+  grid-area: slider;
   padding-top: 18px;
 }
 
 .rowAmount {
+  grid-area: amount;
   text-align: right;
   line-height: 1.15;
 }
@@ -362,6 +377,7 @@
 }
 
 .rowRemove {
+  grid-area: remove;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -406,7 +422,8 @@
     grid-template-columns: minmax(0, 1fr) auto auto;
     grid-template-areas:
       'text amount remove'
-      'slider slider slider';
+      'slider slider slider'
+      'quote quote quote';
     gap: 4px 8px;
     padding: 14px 10px 8px;
   }
@@ -435,8 +452,10 @@
     white-space: nowrap;
   }
   .rowSlider {
-    grid-area: slider;
     padding-top: 22px;
+  }
+  .quote {
+    margin-top: 2px;
   }
   .rowSlider > div {
     min-width: 0;
@@ -694,9 +713,7 @@
   gap: 24px;
   padding: 32px 36px;
   border-radius: var(--r-panel);
-  background:
-    var(--noise),
-    var(--field);
+  background: var(--field);
   color: var(--on-violet);
   box-shadow: var(--shadow-on-field);
   transform-origin: 50% 0;

@@ -23,7 +23,7 @@
    "dwaIds": [
     "4.A.2.b.2.o.7"
    ],
-   "short": "Prepare sketches",
+   "short": "Blueprint reading",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -53,7 +53,7 @@
    "dwaIds": [
     "4.A.3.a.2.ah.5"
    ],
-   "short": "Place conduit",
+   "short": "Conduit and wire pulling",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E0",
@@ -83,7 +83,7 @@
    "dwaIds": [
     "4.A.3.b.5.b.2"
    ],
-   "short": "Work from ladders",
+   "short": "Elevated electrical work",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E0",
@@ -113,7 +113,7 @@
    "dwaIds": [
     "4.A.1.b.2.l.3"
    ],
-   "short": "Use tools",
+   "short": "Equipment operation",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E0",
@@ -145,7 +145,7 @@
     "4.A.3.a.2.t.1",
     "4.A.3.b.5.b.2"
    ],
-   "short": "Assemble appliances",
+   "short": "Electrical installation",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E0",
@@ -175,7 +175,7 @@
    "dwaIds": [
     "4.A.3.a.2.t.1"
    ],
-   "short": "Connect wires",
+   "short": "Panel connections",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E0",
@@ -205,7 +205,7 @@
    "dwaIds": [
     "4.A.2.b.3.a.11"
    ],
-   "short": "Maintain current electrician license",
+   "short": "License renewal",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E0",
@@ -235,7 +235,7 @@
    "dwaIds": [
     "4.A.2.b.6.b.1"
    ],
-   "short": "Plan layout",
+   "short": "System layout planning",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E2",
@@ -265,7 +265,7 @@
    "dwaIds": [
     "4.A.1.b.2.l.3"
    ],
-   "short": "Test electrical systems",
+   "short": "Circuit testing",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E0",
@@ -296,7 +296,7 @@
     "4.A.4.b.3.d.13",
     "4.A.4.b.4.i.2"
    ],
-   "short": "Direct workers",
+   "short": "Apprentice supervision",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E0",
@@ -326,7 +326,7 @@
    "dwaIds": [
     "4.A.1.b.2.l.3"
    ],
-   "short": "Diagnose malfunctioning systems",
+   "short": "Fault troubleshooting",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E0",
@@ -369,7 +369,7 @@
    "dwaIds": [
     "4.A.1.b.2.g.8"
    ],
-   "short": "Inspect electrical systems",
+   "short": "Code compliance inspection",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E0",
@@ -399,7 +399,7 @@
    "dwaIds": [
     "4.A.3.a.2.t.1"
    ],
-   "short": "Install ground leads",
+   "short": "Equipment grounding",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E0",
@@ -429,7 +429,7 @@
    "dwaIds": [
     "4.A.4.a.2.c.8"
    ],
-   "short": "Advise management",
+   "short": "Safety hazard reporting",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E0",
@@ -459,7 +459,7 @@
    "dwaIds": [
     "4.A.3.b.5.b.2"
    ],
-   "short": "Repair equipment",
+   "short": "Wiring repair",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E0",
@@ -489,7 +489,7 @@
    "dwaIds": [
     "4.A.3.a.2.aa.2"
    ],
-   "short": "Construct parts",
+   "short": "Custom parts fabrication",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E0",
@@ -519,7 +519,7 @@
    "dwaIds": [
     "4.A.3.a.1.g.7"
    ],
-   "short": "Provide assistance",
+   "short": "Emergency response support",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E0",
@@ -550,7 +550,7 @@
     "4.A.1.b.3.b.2",
     "4.A.2.b.2.o.7"
    ],
-   "short": "Provide preliminary sketches",
+   "short": "Cost estimating",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E1",
@@ -581,7 +581,7 @@
     "4.A.3.b.6.o.4",
     "4.A.4.c.3.e.5"
    ],
-   "short": "Perform business management duties",
+   "short": "Administrative paperwork",
    "evidence": {
     "theoryLabel": "E1",
     "gpt4Label": "E1",
@@ -628,7 +628,7 @@
    "dwaIds": [
     "4.A.3.a.2.t.1"
    ],
-   "short": "Fasten plastic boxes",
+   "short": "Outlet box installation",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E0",
@@ -658,7 +658,7 @@
    "dwaIds": [
     "4.A.3.a.1.g.1"
    ],
-   "short": "Perform physically demanding tasks",
+   "short": "Trenching and lifting",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E0",

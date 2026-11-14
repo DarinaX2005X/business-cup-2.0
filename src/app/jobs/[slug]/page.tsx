@@ -119,10 +119,6 @@ export default async function JobPage({ params }: Props) {
                 <p className={st.factsTitle}>{t('jobs.page.facts')}</p>
                 <dl>
                   <div>
-                    <dt>{t('jobs.page.humanShare')}</dt>
-                    <dd>{f.integer(bundle.typicalHumanShare * 100)}%</dd>
-                  </div>
-                  <div>
                     <dt>{t('jobs.page.median')}</dt>
                     <dd>
                       {wage.medianAnnual != null ? f.currency(wage.medianAnnual) : t('jobs.page.noWage')}
@@ -136,6 +132,10 @@ export default async function JobPage({ params }: Props) {
                       <dd>{f.integer(wage.employment)}</dd>
                     </div>
                   ) : null}
+                  <div>
+                    <dt>{t('jobs.page.taskCount')}</dt>
+                    <dd>{f.integer(bundle.tasks.length)}</dd>
+                  </div>
                 </dl>
                 <Link href={startHref} className={`${ctl.btn} ${ctl.b_apricot} ${ctl.s_lg} ${ctl.block}`}>
                   {t('jobs.page.cta')}

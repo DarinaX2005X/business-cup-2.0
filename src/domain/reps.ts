@@ -111,9 +111,10 @@ export interface AiOrMeCard {
   counted: boolean;
 }
 
-export interface AiOrMeRoundFull extends Omit<AiOrMeRound, 'cards'> {
+export interface AiOrMeRoundFull extends Omit<AiOrMeRound, 'cards' | 'completed'> {
   day: string;
   cards: AiOrMeCard[];
+  completed?: { correct: boolean[]; right: number; total: number };
 }
 
 export interface WorkLogEntry {
@@ -252,13 +253,13 @@ export function validateSlip(draft: SlipDraft, rules: SlipRules): SlipValidation
     if (!rules.types.includes(type)) problems.push(`${label}: type "${e.type}" is not one of ${rules.types.join(', ')}.`);
     if (!e.explanation?.trim()) problems.push(`${label}: explanation is empty.`);
     if (!e.fix?.trim()) problems.push(`${label}: fix is empty.`);
+    if (/\n/.test((e.quote ?? '').trim())) {
+      problems.push(`${label}: the quote spans several lines; quote a phrase inside one line.`);
+      return;
+    }
     let quote = normalizeQuote(e.quote ?? '');
     if (!quote) {
       problems.push(`${label}: quote is empty.`);
-      return;
-    }
-    if (quote.includes('\n')) {
-      problems.push(`${label}: the quote spans several lines; quote a phrase inside one line.`);
       return;
     }
     if (MARKUP_RE.test(quote) || /^- /.test(quote)) {

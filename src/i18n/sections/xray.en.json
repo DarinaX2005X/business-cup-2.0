@@ -29,10 +29,26 @@
       "80": "Most of your week is work AI already does or speeds up.",
       "90": "Almost all of your week is work AI already does or speeds up."
     },
+    "machineGuest": {
+      "0": "Almost none of this week is work AI already does or speeds up.",
+      "10": "About a tenth of this week is work AI already does or speeds up.",
+      "20": "About a fifth of this week is work AI already does or speeds up.",
+      "30": "About a third of this week is work AI already does or speeds up.",
+      "40": "Close to half of this week is work AI already does or speeds up.",
+      "50": "About half of this week is work AI already does or speeds up.",
+      "60": "Nearly two thirds of this week is work AI already does or speeds up.",
+      "70": "About three quarters of this week is work AI already does or speeds up.",
+      "80": "Most of this week is work AI already does or speeds up.",
+      "90": "Almost all of this week is work AI already does or speeds up."
+    },
     "human_one": "{tasks} is yours.",
     "human_other": "{tasks} are yours.",
     "humanNone": "No task in your week is clearly out of AI's reach yet, so checking its work is the part that stays yours.",
+    "humanGuest_one": "{tasks} stays human work.",
+    "humanGuest_other": "{tasks} stay human work.",
+    "humanNoneGuest": "No task in this week is clearly out of AI's reach yet, so checking its work is the part that stays human.",
     "observed": "{share} of your week is backed by observed AI usage data",
+    "observedGuest": "{share} of this week is backed by observed AI usage data",
     "share": "Share my week map",
     "shared": "Link copied",
     "how": "How it's calculated",
@@ -111,7 +127,8 @@
     "researchSource": {
       "human": "rated by researchers",
       "gpt4": "rated by GPT-4 on the researchers' rubric",
-      "estimated": "estimated from related work activities"
+      "estimated": "estimated from related work activities",
+      "human+gpt4": "researchers and GPT-4 disagree"
     },
     "none": "Not rated",
     "seen": "In AI work use",
@@ -123,7 +140,8 @@
     "physical": "Physical task",
     "yes": "Yes",
     "no": "No",
-    "source": "O*NET {onet} task statement, Anthropic Economic Index of {aei}, GPTs are GPTs and Microsoft Working with AI"
+    "source": "O*NET {onet} task statement, Anthropic Economic Index of {aei}, GPTs are GPTs and Microsoft Working with AI",
+    "mixed": "{human} by researchers, {gpt4} by GPT-4"
   },
   "tips": {
     "pending": "Writing tips for your job…",

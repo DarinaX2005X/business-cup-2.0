@@ -144,7 +144,21 @@ export function StepWho(props: StepWhoProps) {
         {t('start.who.title')}
       </h1>
 
-      <div ref={comboRef} className={st.titleField} data-alert={titleProblem ? true : undefined}>
+      <div
+        ref={comboRef}
+        className={st.titleField}
+        data-alert={titleProblem ? true : undefined}
+        onKeyDownCapture={(e) => {
+          // Enter with the list open and nothing highlighted takes the first suggestion.
+          const input = e.target as HTMLInputElement;
+          if (e.key !== 'Enter' || input.getAttribute('role') !== 'combobox' || input.getAttribute('aria-activedescendant')) return;
+          const first = query.trim().length >= 2 ? items[0] : undefined;
+          if (!first || input.getAttribute('aria-expanded') !== 'true') return;
+          e.preventDefault();
+          e.stopPropagation();
+          pick(first);
+        }}
+      >
         <Combobox
           label={t('start.who.fieldLabel')}
           labelHidden
@@ -217,7 +231,14 @@ export function StepWho(props: StepWhoProps) {
             kind={panel}
             value={panel === 'paste' ? props.pasteText : props.describeText}
             onChange={panel === 'paste' ? props.onPasteText : props.onDescribeText}
-            problem={textProblem ?? (file.state === 'error' ? file.error : null)}
+            reason={
+              problem && ['not_resume', 'not_work'].includes(problem.kind)
+                ? textProblem
+                : file.state === 'error'
+                  ? file.error
+                  : null
+            }
+            problem={problem && ['too_short', 'unclear', 'network'].includes(problem.kind) ? textProblem : null}
             onClose={() => {
               onClearProblem();
               setFile((s) => ({ ...s, state: 'idle', error: null }));
@@ -274,9 +295,11 @@ const TextPanel = forwardRef<
     onChange: (v: string) => void;
     onSubmit: (text: string) => void;
     onClose: () => void;
+    /** Why this box opened (the file or text before could not be used); not a fault of what is typed here. */
+    reason: string | null;
     problem: string | null;
   }
->(function TextPanel({ kind, value, onChange, onSubmit, onClose, problem }, ref) {
+>(function TextPanel({ kind, value, onChange, onSubmit, onClose, reason, problem }, ref) {
   const { t } = useT();
   const id = `start-${kind}`;
   const ok = value.trim().length > 0;
@@ -297,6 +320,11 @@ const TextPanel = forwardRef<
           <X size={20} strokeWidth={1.75} aria-hidden="true" />
         </button>
       </div>
+      {reason ? (
+        <p className={st.panelReason} role="alert">
+          {reason}
+        </p>
+      ) : null}
       <textarea
         ref={ref}
         id={id}

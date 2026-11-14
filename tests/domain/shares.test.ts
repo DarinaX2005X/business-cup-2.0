@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { apportion, defaultShares, normalizeShares, redistributeShares } from '@/domain/shares';
+import { apportion, boundedApportion, defaultShares, normalizeShares, occurrencesPerYear, redistributeShares, taskWeight } from '@/domain/shares';
 import type { WeekShare } from '@/domain/types';
 import { bundle, fixture, task } from './helpers';
 
@@ -14,10 +14,10 @@ describe('apportion', () => {
 });
 
 describe('defaultShares', () => {
-  it('keeps the top 12 tasks by importance × log1p(frequency), integer shares summing to 100', () => {
+  it('keeps the top 10 tasks by importance × relevance × sqrt(occurrences per year), integer shares summing to 100', () => {
     const rn = fixture('29-1141.00');
     const s = defaultShares(rn);
-    expect(s).toHaveLength(12);
+    expect(s).toHaveLength(10);
     expect(sum(s)).toBe(100);
     expect(s.every((x) => Number.isInteger(x.share) && x.share >= 1)).toBe(true);
     const ids = new Set(rn.tasks.map((t) => t.id));
@@ -28,6 +28,46 @@ describe('defaultShares', () => {
     expect(defaultShares(noFreq)).toEqual([{ taskId: '1', share: 83 }, { taskId: '2', share: 17 }]);
     const unrated = bundle([task('1', 'ai_speeds', { importance: null, frequency: null }), task('2', 'ai_speeds', { importance: null, frequency: null })]);
     expect(defaultShares(unrated)).toEqual([{ taskId: '1', share: 50 }, { taskId: '2', share: 50 }]);
+  });
+});
+
+describe('typical week weights', () => {
+  it('maps the O*NET frequency category to occurrences per year, interpolating between anchors', () => {
+    expect(occurrencesPerYear(1)).toBe(1);
+    expect(occurrencesPerYear(5)).toBe(250);
+    expect(occurrencesPerYear(7)).toBe(2000);
+    expect(occurrencesPerYear(4.5)).toBe(165);
+    expect(occurrencesPerYear(9)).toBe(2000);
+  });
+  it('weight = importance × relevance/100 × sqrt(occurrences per year)', () => {
+    expect(taskWeight({ importance: 4, relevance: 50, frequency: 5 })).toBeCloseTo(4 * 0.5 * Math.sqrt(250));
+    expect(taskWeight({ importance: 4, relevance: null, frequency: null })).toBeCloseTo(4 * Math.sqrt(80));
+  });
+  it('bounded apportion keeps every share within [min, max] and sums to the total', () => {
+    const s = boundedApportion([100, 1, 1, 1, 1, 1, 1, 1, 1, 1], 100, 3, 25);
+    expect(s.reduce((a, b) => a + b, 0)).toBe(100);
+    expect(Math.max(...s)).toBe(25);
+    expect(Math.min(...s)).toBeGreaterThanOrEqual(3);
+  });
+});
+
+describe('typical week has realistic variance on real occupations', () => {
+  const spread = (code: string) => defaultShares(fixture(code)).map((s) => s.share);
+  it.each(['29-1141.00', '29-2061.00', '13-2011.00', '47-2111.00', '43-4051.00', '25-2022.00', '23-2011.00', '43-5032.00'])('%s', (code) => {
+    const s = spread(code);
+    expect(Math.max(...s)).toBeGreaterThanOrEqual(13);
+    expect(Math.max(...s)).toBeLessThanOrEqual(25);
+    expect(Math.min(...s)).toBeGreaterThanOrEqual(3);
+    expect(Math.max(...s) / Math.min(...s)).toBeGreaterThanOrEqual(2); // not a flat comb
+  });
+  it('electrician: hands-on installation clearly outweighs preparing sketches', () => {
+    const el = fixture('47-2111.00');
+    const week = defaultShares(el);
+    const byId = new Map(el.tasks.map((t) => [t.id, t]));
+    const sketches = week.find((s) => s.taskId === '2882')?.share ?? 0;
+    const installation = week.filter((s) => byId.get(s.taskId)!.evidence.physical).reduce((a, s) => a + s.share, 0);
+    expect(week.slice(0, 2).map((s) => s.taskId)).not.toContain('2882');
+    expect(installation).toBeGreaterThan(4 * sketches);
   });
 });
 

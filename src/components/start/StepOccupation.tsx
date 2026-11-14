@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useRef, useState, type KeyboardEvent } from 'react';
+import { useMemo, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react';
 import { RotateCcw, Search } from 'lucide-react';
 import { Button, Skeleton, weekTasksFrom, groupWeek } from '@/components/kit';
 import { defaultShares } from '@/domain/shares';
@@ -16,6 +16,8 @@ export const CONFIDENT = 0.5;
 export interface StepOccupationProps {
   analysis: Analysis | null;
   pendingOrigin: TextOrigin | null;
+  /** The text being read, shown back to the person while the model works. Never stored. */
+  pendingText: string | null;
   failed: boolean;
   onRetry: () => void;
   selected: string | null;
@@ -24,7 +26,7 @@ export interface StepOccupationProps {
   onBack: () => void;
 }
 
-export function StepOccupation({ analysis, pendingOrigin, failed, onRetry, selected, onSelect, onConfirm, onBack }: StepOccupationProps) {
+export function StepOccupation({ analysis, pendingOrigin, pendingText, failed, onRetry, selected, onSelect, onConfirm, onBack }: StepOccupationProps) {
   const { t } = useT();
   const radios = useRef<(HTMLButtonElement | null)[]>([]);
 
@@ -55,7 +57,7 @@ export function StepOccupation({ analysis, pendingOrigin, failed, onRetry, selec
           <>
             <p className={st.lead}>{t('start.occupation.readingLead')}</p>
             <div className={st.cards} role="status" aria-label={title}>
-              <CardSkeleton big />
+              {pendingText ? <ReadingSheet text={pendingText} name={origin?.fileName ?? null} /> : <CardSkeleton big />}
               <div className={st.altCards}>
                 <CardSkeleton />
                 <CardSkeleton />
@@ -227,6 +229,32 @@ function OccupationCard({
       </div>
       <div className={st.cardWeek}>{tasks ? <WeekStrip tasks={tasks} label={label} active={selected} /> : <WeekStripSkeleton />}</div>
     </article>
+  );
+}
+
+/** Lines that look like duties (bullets first), so the wait shows the person's own work being read. */
+function dutyLines(text: string): string[] {
+  const lines = text
+    .split(/\r?\n/)
+    .map((l) => l.trim())
+    .filter((l) => l.length > 24);
+  const bullets = lines.filter((l) => /^[-•*–·▪●]/.test(l)).map((l) => l.replace(/^[-•*–·▪●]\s*/, ''));
+  return (bullets.length >= 3 ? bullets : lines).slice(0, 7);
+}
+
+function ReadingSheet({ text, name }: { text: string; name: string | null }) {
+  const lines = dutyLines(text);
+  return (
+    <div className={st.readSheet} aria-hidden="true">
+      {name ? <p className={st.readName}>{name}</p> : null}
+      <ul className={st.readLines}>
+        {lines.map((l, i) => (
+          <li key={i} style={{ '--i': i } as CSSProperties}>
+            {l}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 

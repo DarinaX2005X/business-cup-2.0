@@ -57,7 +57,7 @@
     "onetCover": "{rated} of tasks have importance ratings. Where O*NET publishes none, every task of the occupation gets the same weight.",
     "aei": "What people ask Claude to do, mapped to O*NET tasks: the share of conversations about each task, how many of them hand the whole task to AI (automation) and how many work on it together (augmentation), and whether the conversation was about work. The release covers April and May 2026.",
     "aeiCover": "{published} of tasks appear in this release. A task counts as observed only when at least {gate} of its conversations are work use, which leaves {gated} of tasks. Anthropic's own task_penetration measure is available for {pen} of tasks and is shown next to ours.",
-    "gpts": "In 2023 researchers and GPT-4 rated every O*NET task. E0 means a language model barely helps, E1 means it can halve the time on its own, E2 means it can do so with extra software built around it. We use the human rating where there is one and the GPT-4 rating otherwise.",
+    "gpts": "In 2023 researchers and GPT-4 rated every O*NET task. E0 means a language model barely helps, E1 means it can halve the time on its own, E2 means it can do so with extra software built around it. Where the human and GPT-4 ratings agree we use that rating, where they disagree we take the mean of the two, and where only one exists we use it.",
     "gptsCover": "{labelled} of tasks have a rating. The other {estimated} get the average rating of tasks that share the same detailed work activity and are marked as estimated.",
     "ms": "Microsoft's study of Bing Copilot conversations marks which tasks are physical. A physical task that nobody brings to AI stays a human task, whatever its rating.",
     "msCover": "The physical flag is known for {physical} of tasks.",
@@ -142,7 +142,7 @@
   },
   "validation": {
     "intro": "We compared our indicator, averaged to whole occupations, with two published measures. The figure is a rank correlation (Spearman) across the occupations both cover.",
-    "row": "{rho} across {n, integer} occupations",
+    "row": "Spearman ρ across {n, integer} occupations",
     "anthropic": "Anthropic, observed exposure from the labor market impacts study",
     "microsoft": "Microsoft, AI applicability score from Working with AI",
     "outro": "The match is close enough to show we measure the same thing and far enough from 1 to matter: our measure keeps the 2023 research rating next to observed use and works task by task, while both published measures describe whole occupations.",

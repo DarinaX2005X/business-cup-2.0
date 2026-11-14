@@ -329,10 +329,10 @@
 .aSvg {
   position: absolute;
   right: -40px;
-  top: -112px;
-  width: 470px;
+  top: -40px;
+  height: calc(100% + 70px);
+  width: auto;
   max-width: none;
-  height: auto;
   transform-origin: 60% 80%;
   transition: transform 0.5s var(--ease-out);
 }
@@ -634,7 +634,20 @@
 .insp {
   padding: 28px 28px 24px;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0;
+  min-width: 0;
+}
+
+.insp > *,
+.iHead > *,
+.iSec > * {
+  min-width: 0;
+}
+
+.sheetInsp {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .iHead {
@@ -1240,7 +1253,7 @@
     grid-template-columns: minmax(0, 1fr) 300px;
   }
   .aSvg {
-    width: 380px;
+    right: -56px;
   }
 }
 
@@ -1288,8 +1301,8 @@
     margin: 16px 0 -20px;
   }
   .cScore .dialBtn > div {
-    width: 240px !important;
-    --dial: 240px !important;
+    width: 200px !important;
+    --dial: 200px !important;
   }
   .action {
     grid-template-columns: minmax(0, 1fr);
@@ -1300,12 +1313,13 @@
   }
   .aArt {
     order: -1;
-    min-height: 96px;
+    min-height: 112px;
   }
   .aSvg {
-    width: 300px;
-    right: -30px;
-    bottom: -4px;
+    width: 240px;
+    height: auto;
+    top: -64px;
+    right: -24px;
   }
   .aTitle {
     font-size: 25px;

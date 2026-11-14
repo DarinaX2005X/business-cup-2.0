@@ -64,7 +64,7 @@ export async function generateSlip(input: GenerateInput): Promise<Generated<Bank
   let cost = 0;
   const rejected: string[][] = [];
   for (let attempt = 1; attempt <= 1 + SLIP_RETRIES; attempt++) {
-    const { data, usage } = await callModel({
+    const { data, usage }: { data: RepSlipOutput; usage: { costUsd: number } } = await callModel({
       op: 'rep.slip',
       schema: repSlipSchema,
       system: repSlipPrompt.system(input.locale),
@@ -166,7 +166,7 @@ export async function generateDelegate(input: GenerateInput): Promise<Generated<
   let cost = 0;
   const rejected: string[][] = [];
   for (let attempt = 1; attempt <= 1 + STRUCT_RETRIES; attempt++) {
-    const { data, usage } = await callModel({
+    const { data, usage }: { data: RepDelegateOutput; usage: { costUsd: number } } = await callModel({
       op: 'rep.delegate',
       schema: repDelegateSchema,
       system: repDelegatePrompt.system(input.locale),

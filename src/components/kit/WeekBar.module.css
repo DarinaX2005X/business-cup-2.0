@@ -374,11 +374,28 @@ button.tile:focus-visible {
   bottom: calc(100% + 10px);
 }
 
+/* out of the layout until shown, so a hidden tooltip near the edge never widens the page */
+.tip {
+  display: none;
+}
+
 .seg:has(.tile:hover) .tip,
 .seg:has(.tile:focus-visible) .tip {
+  display: block;
   opacity: 1;
   transform: translate(calc(-50% + var(--dx)), 0);
-  transition-delay: 0.35s;
+  transition:
+    opacity 0.16s var(--ease) 0.35s,
+    transform 0.16s var(--ease) 0.35s,
+    display 0.16s allow-discrete;
+}
+
+@starting-style {
+  .seg:has(.tile:hover) .tip,
+  .seg:has(.tile:focus-visible) .tip {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--dx)), 6px);
+  }
 }
 
 /* ---------- selection ---------- */

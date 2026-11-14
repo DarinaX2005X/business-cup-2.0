@@ -16,7 +16,10 @@
     "action.titleGeneric",
     "conclusion.change",
     "conclusion.how",
+    "conclusion.humanGuest_one",
+    "conclusion.humanGuest_other",
     "conclusion.humanNone",
+    "conclusion.humanNoneGuest",
     "conclusion.human_one",
     "conclusion.human_other",
     "conclusion.machine.0",
@@ -29,7 +32,18 @@
     "conclusion.machine.70",
     "conclusion.machine.80",
     "conclusion.machine.90",
+    "conclusion.machineGuest.0",
+    "conclusion.machineGuest.10",
+    "conclusion.machineGuest.20",
+    "conclusion.machineGuest.30",
+    "conclusion.machineGuest.40",
+    "conclusion.machineGuest.50",
+    "conclusion.machineGuest.60",
+    "conclusion.machineGuest.70",
+    "conclusion.machineGuest.80",
+    "conclusion.machineGuest.90",
     "conclusion.observed",
+    "conclusion.observedGuest",
     "conclusion.occupation",
     "conclusion.scoreHint",
     "conclusion.share",
@@ -68,6 +82,7 @@
     "inspector.eq.withPractice",
     "inspector.how",
     "inspector.label",
+    "inspector.mixed",
     "inspector.no",
     "inspector.none",
     "inspector.notSeen",
@@ -77,6 +92,7 @@
     "inspector.researchSource.estimated",
     "inspector.researchSource.gpt4",
     "inspector.researchSource.human",
+    "inspector.researchSource.human+gpt4",
     "inspector.seen",
     "inspector.seenEarlier",
     "inspector.seenNow",
@@ -199,7 +215,23 @@
     "how": "Бұл қалай есептеледі",
     "scoreHint": "100-ден, жаттығу жасаған сайын өседі",
     "human_one": "{tasks} сізде қалады.",
-    "human_other": "{tasks} сізде қалады."
+    "human_other": "{tasks} сізде қалады.",
+    "machineGuest": {
+      "0": "Бұл аптаның дерлік ешбір бөлігін AI әлі істемейді немесе жылдамдатпайды.",
+      "10": "Бұл аптаның оннан біріндей бөлігі AI қазірдің өзінде істейтін немесе жылдамдататын жұмыстан тұрады.",
+      "20": "Бұл аптаның бестен біріндей бөлігі AI қазірдің өзінде істейтін немесе жылдамдататын жұмыстан тұрады.",
+      "30": "Бұл аптаның үштен біріндей бөлігі AI қазірдің өзінде істейтін немесе жылдамдататын жұмыстан тұрады.",
+      "40": "Бұл аптаның жартысына жуығы AI қазірдің өзінде істейтін немесе жылдамдататын жұмыстан тұрады.",
+      "50": "Бұл аптаның шамамен жартысы AI қазірдің өзінде істейтін немесе жылдамдататын жұмыстан тұрады.",
+      "60": "Бұл аптаның үштен екісіне жуығы AI қазірдің өзінде істейтін немесе жылдамдататын жұмыстан тұрады.",
+      "70": "Бұл аптаның төрттен үшіне жуығы AI қазірдің өзінде істейтін немесе жылдамдататын жұмыстан тұрады.",
+      "80": "Бұл аптаның басым бөлігі AI қазірдің өзінде істейтін немесе жылдамдататын жұмыстан тұрады.",
+      "90": "Бұл аптаның барлығы дерлік AI қазірдің өзінде істейтін немесе жылдамдататын жұмыстан тұрады."
+    },
+    "humanNoneGuest": "Бұл аптада AI-дың шамасы жетпейтін тапсырма жоқ, сондықтан оның жұмысын тексеру адамның үлесінде қалады.",
+    "observedGuest": "Осы аптаның {share} бөлігі AI-ды нақты қолдану деректеріне негізделген",
+    "humanGuest_one": "{tasks} адамның жұмысы болып қалады.",
+    "humanGuest_other": "{tasks} адамның жұмысы болып қалады."
   },
   "action": {
     "titleBefore": "AI «",
@@ -274,7 +306,8 @@
     "researchSource": {
       "human": "зерттеушілер бағалаған",
       "gpt4": "зерттеушілердің өлшемшарттары бойынша GPT-4 бағалаған",
-      "estimated": "ұқсас жұмыс тапсырмалары негізінде есептелген"
+      "estimated": "ұқсас жұмыс тапсырмалары негізінде есептелген",
+      "human+gpt4": "зерттеушілер мен GPT-4 пікірі сәйкес келмейді"
     },
     "none": "Бағаланбаған",
     "seen": "AI-ды жұмыста қолдануда",
@@ -286,7 +319,8 @@
     "physical": "Физикалық тапсырма",
     "yes": "Иә",
     "no": "Жоқ",
-    "source": "O*NET {onet} тапсырма сипаттамасы, {aei} Anthropic Economic Index, GPTs are GPTs және Microsoft Working with AI"
+    "source": "O*NET {onet} тапсырма сипаттамасы, {aei} Anthropic Economic Index, GPTs are GPTs және Microsoft Working with AI",
+    "mixed": "Зерттеушілер: {human}, GPT-4: {gpt4}"
   },
   "tips": {
     "pending": "Сіздің мамандығыңызға арналған кеңестер жазылуда…",

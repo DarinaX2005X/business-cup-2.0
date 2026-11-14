@@ -39,6 +39,7 @@ export function StartFlow({ initial }: { initial: StartInitial }) {
   const [analysis, setAnalysis] = useState<Analysis | null>(null);
   const [pendingOrigin, setPendingOrigin] = useState<TextOrigin | null>(null);
   const [analysisFailed, setAnalysisFailed] = useState(false);
+  const [pendingText, setPendingText] = useState<string | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
   const [chosen, setChosen] = useState<Chosen | null>(null);
   const [week, setWeek] = useState<WeekProposal | null>(null);
@@ -134,6 +135,7 @@ export function StartFlow({ initial }: { initial: StartInitial }) {
       const my = ++seq.current;
       setAnalysis(null);
       setPendingOrigin(origin);
+      setPendingText(text);
       setAnalysisFailed(false);
       setSelected(null);
       setProblem(null);
@@ -144,6 +146,7 @@ export function StartFlow({ initial }: { initial: StartInitial }) {
         const res = await analyzeText(text, origin.mode, locale);
         if (my !== seq.current) return;
         setAnalysis({ ...res, origin });
+        setPendingText(null);
         setSelected(res.confidence >= CONFIDENT && res.ranked[0] ? res.ranked[0].code : null);
       } catch (err) {
         if (my !== seq.current) return;
@@ -301,6 +304,7 @@ export function StartFlow({ initial }: { initial: StartInitial }) {
           <StepOccupation
             analysis={analysis}
             pendingOrigin={pendingOrigin}
+            pendingText={pendingText}
             failed={analysisFailed}
             onRetry={() => lastText.current && void runAnalysis(lastText.current.text, lastText.current.origin)}
             selected={selected}

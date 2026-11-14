@@ -3,9 +3,12 @@
     "observed_auto": "Seen in real AI work use: {share} of AI work conversations in {source}, and in {auto} of them AI does the whole task.",
     "observed_collab": "Seen in real AI work use: {share} of AI work conversations in {source}. In {collab} of them people do the task together with AI.",
     "personal_use": "This task shows up in AI usage data, but only {work} of that use is for work, so we rely on the research rating instead.",
+    "earlier_use": "Seen in AI work use in earlier releases of the Anthropic Economic Index since August 2025, though not in the latest one.",
+    "penetration": "Not seen in published AI work conversations, but Anthropic's labor market data shows AI reaching {penetration} of this task's work.",
     "estimate_e1": "Not seen in published AI work use yet. Researchers rated it as a task a language model can do in half the time.",
     "estimate_e2": "Not seen in published AI work use yet. Researchers rated it as a task AI can speed up once extra tools are built around it.",
     "estimate_e0": "Not seen in published AI work use yet. Researchers rated it as a task AI barely speeds up.",
+    "estimate_mixed": "Not seen in published AI work use yet. Researchers rated it {human} and GPT-4 rated it {gpt4}, so we take the middle: {theory} on the research scale.",
     "estimate_dwa": "No direct rating for this task, so we estimated it from the rated work activities it belongs to: {theory} on the research scale.",
     "physical": "A physical task done in person, and not seen in published AI work use.",
     "no_data": "No research rating and no published AI usage for this task yet."

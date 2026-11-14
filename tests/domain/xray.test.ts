@@ -30,7 +30,9 @@ describe('computeXray', () => {
     expect(result.baseScore).toBe(Math.round(100 * (1 - result.weekExposure)));
     expect(result.score).toBe(result.baseScore);
     expect(result.salary).toEqual({ annual: 60000, source: 'bls_median' });
-    expect(result.payAtStake).toBe(24000); // only the ai_does task has exposure >= 0.5
+    // pay at stake uses the category weights of hoursFreed: (40 × 1 + 30 × 0.5) / 100 = 0.55
+    expect(result.payAtStake).toBe(33000);
+    expect(breakdown.pay).toEqual({ annual: 60000, shareAtStake: 0.55, shareHighExposure: 0.55, weights: { ai_does: 1, ai_speeds: 0.5 } });
     expect(result.handToAi).toEqual(['1', '2']);
     expect(result.humanEdge).toEqual(['3', '4']);
     expect(result.hoursFreed).toBe(16 + 12 * 0.5);
@@ -90,6 +92,18 @@ describe('computeXray', () => {
     for (let i = 0; i < n; i++) computeXray(acc, week);
     const per = (performance.now() - t0) / n;
     expect(per).toBeLessThan(1);
+  });
+});
+
+describe('pay at stake agrees with the categories shown', () => {
+  it.each(['29-1141.00', '29-2061.00', '13-2011.00', '47-2111.00', '43-4051.00', '25-2022.00', '23-2011.00', '43-5032.00'])('%s', (code) => {
+    const b = fixture(code);
+    const { result } = computeXray(b, defaultShares(b));
+    const expected = Math.round(b.wage.medianAnnual! * (result.percent.ai_does + 0.5 * result.percent.ai_speeds) / 100);
+    expect(result.payAtStake).toBe(expected);
+    // a week with only human-edge tasks has nothing at stake
+    const human = defaultShares(b).filter((s) => b.tasks.find((t) => t.id === s.taskId)!.evidence.category === 'human_edge');
+    if (human.length) expect(computeXray(b, human).result.payAtStake).toBe(0);
   });
 });
 

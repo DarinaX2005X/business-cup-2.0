@@ -282,6 +282,15 @@
   min-width: 0;
 }
 
+/* a narrow field lets its trailing button drop under the input instead of squeezing both */
+.fRow {
+  flex-wrap: wrap;
+}
+
+.fRow > :first-child {
+  flex-basis: 240px;
+}
+
 .input {
   width: 100%;
   min-width: 0;

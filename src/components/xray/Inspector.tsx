@@ -51,6 +51,7 @@ export function Inspector({
   fullText,
   tips,
   isOwner,
+  inSheet,
   onFocus,
 }: {
   focus: Focus;
@@ -61,20 +62,23 @@ export function Inspector({
   fullText: (id: string) => string;
   tips: TipsState;
   isOwner: boolean;
+  /** In the bottom sheet the sheet already shows the title. */
+  inSheet?: boolean;
   onFocus: (f: Focus) => void;
 }) {
   const byId = new Map(bundle.tasks.map((x) => [x.id, x]));
   if (focus.kind === 'task') {
     const task = byId.get(focus.id);
     if (!task) return null;
-    return <TaskPanel task={task} result={result} breakdown={breakdown} bundle={bundle} label={label(task.id)} text={fullText(task.id)} tips={tips} onFocus={onFocus} />;
+    return <TaskPanel inSheet={inSheet} task={task} result={result} breakdown={breakdown} bundle={bundle} label={label(task.id)} text={fullText(task.id)} tips={tips} onFocus={onFocus} />;
   }
-  return <MetricPanel id={focus.id} result={result} breakdown={breakdown} bundle={bundle} label={label} isOwner={isOwner} onFocus={onFocus} />;
+  return <MetricPanel inSheet={inSheet} id={focus.id} result={result} breakdown={breakdown} bundle={bundle} label={label} isOwner={isOwner} onFocus={onFocus} />;
 }
 
 /* ---------------------------------------------------------------------------------------------- */
 
 function TaskPanel({
+  inSheet,
   task,
   result,
   breakdown,
@@ -84,6 +88,7 @@ function TaskPanel({
   tips,
   onFocus,
 }: {
+  inSheet?: boolean;
   task: OccTask;
   result: XrayComputed;
   breakdown: XrayBreakdown;
@@ -117,7 +122,7 @@ function TaskPanel({
           <CategoryChip category={e.category} />
           <EvidenceBadge level={e.evidenceLevel} size="sm" />
         </div>
-        <h3 id="insp-title" className={st.iTitle}>
+        <h3 id="insp-title" className={inSheet ? 'sr-only' : st.iTitle}>
           {label}
         </h3>
         <p className={st.iText}>{text}</p>
@@ -136,7 +141,7 @@ function TaskPanel({
             label={t('xray.inspector.eq.exposure')}
             note={t('xray.inspector.eq.exposureNote', { w: THEORY_WEIGHT })}
           >
-            {THEORY_WEIGHT} × <Num>{n2(e.theory)}</Num> + {THEORY_WEIGHT} × <Num>{n2(obs)}</Num> = <Num strong>{n2(e.exposure)}</Num>
+            {f.number(THEORY_WEIGHT)} × <Num>{n2(e.theory)}</Num> + {f.number(1 - THEORY_WEIGHT)} × <Num>{n2(obs)}</Num> = <Num strong>{n2(e.exposure)}</Num>
           </Eq>
           <Eq label={t('xray.inspector.eq.points')} note={t('xray.inspector.eq.pointsNote', { total: n1(totalPts) })}>
             <Num>{f.number(share)}</Num> × <Num>{n2(e.exposure)}</Num> = <Num strong>{n1(pts)}</Num>
@@ -152,7 +157,7 @@ function TaskPanel({
           </Eq>
           {inHand && factor > 0 ? (
             <Eq label={t('xray.inspector.eq.freed')} note={t(e.category === 'ai_does' ? 'xray.inspector.eq.freedAll' : 'xray.inspector.eq.freedHalf')}>
-              <Num>{n1(hours)}</Num> {t('xray.unit.h')} × {factor} = <Num strong>{n1(hours * factor)}</Num> {t('xray.unit.h')}
+              <Num>{n1(hours)}</Num> {t('xray.unit.h')} × {f.number(factor)} = <Num strong>{n1(hours * factor)}</Num> {t('xray.unit.h')}
             </Eq>
           ) : null}
         </dl>
@@ -187,7 +192,13 @@ function TaskPanel({
         <EvidenceMeter evidence={e} />
         <dl className={st.facts}>
           <Fact k={t('xray.inspector.research')}>
-            {e.theoryLabel ? `${e.theoryLabel}, ${t(`xray.inspector.researchSource.${e.theorySource ?? 'human'}`)}` : e.theorySource === 'estimated' ? t('xray.inspector.researchSource.estimated') : t('xray.inspector.none')}
+            {e.theorySource === 'human+gpt4' && e.gpt4Label
+              ? t('xray.inspector.mixed', { human: e.theoryLabel ?? '', gpt4: e.gpt4Label })
+              : e.theoryLabel
+                ? `${e.theoryLabel}, ${t(`xray.inspector.researchSource.${e.theorySource ?? 'human'}`)}`
+                : e.theorySource === 'estimated'
+                  ? t('xray.inspector.researchSource.estimated')
+                  : t('xray.inspector.none')}
           </Fact>
           <Fact k={t('xray.inspector.seen')}>
             {e.observed ? t('xray.inspector.seenNow', { release: f.date(bundle.dataVersion.aei, 'long') }) : e.everObserved ? t('xray.inspector.seenEarlier') : t('xray.inspector.notSeen')}
@@ -228,6 +239,7 @@ function TaskLink({ id, label, category, value, onFocus }: { id: string; label: 
 }
 
 function MetricPanel({
+  inSheet,
   id,
   result,
   breakdown,
@@ -236,6 +248,7 @@ function MetricPanel({
   isOwner,
   onFocus,
 }: {
+  inSheet?: boolean;
   id: 'score' | 'pay' | 'hours' | 'observed';
   result: XrayComputed;
   breakdown: XrayBreakdown;
@@ -274,7 +287,7 @@ function MetricPanel({
             F = (1 − e<sup>−{sf.n}/{PRACTICE_SCALE}</sup>) × <Num>{n2(sf.avg)}</Num> = <Num strong>{n2(sf.F)}</Num>
           </Eq>
           <Eq label={t('xray.metric.score.final')}>
-            <Num>{f.number(sf.base)}</Num> + (100 − <Num>{f.number(sf.base)}</Num>) × {PRACTICE_GAIN} × <Num>{n2(sf.F)}</Num> = <Num strong>{f.number(sf.score)}</Num>
+            <Num>{f.number(sf.base)}</Num> + (100 − <Num>{f.number(sf.base)}</Num>) × {f.number(PRACTICE_GAIN)} × <Num>{n2(sf.F)}</Num> = <Num strong>{f.number(sf.score)}</Num>
           </Eq>
         </dl>
         <h4 className={st.h4}>{t('xray.metric.score.top')}</h4>
@@ -370,7 +383,7 @@ function MetricPanel({
   return (
     <article className={st.insp} aria-labelledby="insp-title">
       <header className={st.iHead}>
-        <h3 id="insp-title" className={st.iTitle}>
+        <h3 id="insp-title" className={inSheet ? 'sr-only' : st.iTitle}>
           {t(`xray.metric.${id}.title`)}
         </h3>
         <p className={st.iBig}>

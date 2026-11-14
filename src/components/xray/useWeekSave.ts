@@ -69,9 +69,13 @@ export function useWeekSave({
       }
     } finally {
       inFlight.current = false;
-      if (pending.current && timer.current === null) timer.current = window.setTimeout(() => void flush(), DEBOUNCE_MS);
+      if (pending.current && timer.current === null) timer.current = window.setTimeout(() => void flushRef.current(), DEBOUNCE_MS);
     }
   }, [id]);
+  const flushRef = useRef(flush);
+  useEffect(() => {
+    flushRef.current = flush;
+  }, [flush]);
 
   const schedule = useCallback(
     (shares: WeekShare[]) => {

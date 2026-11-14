@@ -11,6 +11,7 @@ export function fixture(code: string): OccupationBundle {
 
 const base: EvidenceInput = {
   theoryLabel: 'E2',
+  gpt4Label: null,
   theorySource: 'human',
   theory: 0.5,
   observed: false,

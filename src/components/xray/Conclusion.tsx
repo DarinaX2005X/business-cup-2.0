@@ -37,7 +37,9 @@ export function Conclusion({
   const machine = result.percent.ai_does + result.percent.ai_speeds;
   const human = result.humanEdge.slice(0, 2).map(label);
   const parts = joinLabels(human, locale);
-  const humanSentence = human.length ? t('xray.conclusion.human', { count: human.length, tasks: '\u0000' }) : t('xray.conclusion.humanNone');
+  // A guest reads someone else's week: «this week» and «stays human» instead of «your week» and «yours».
+  const g = isOwner ? '' : 'Guest';
+  const humanSentence = human.length ? t(`xray.conclusion.human${g}`, { count: human.length, tasks: '\u0000' }) : t(`xray.conclusion.humanNone${g}`);
   const [before, after] = humanSentence.split('\u0000');
 
   const share = async () => {
@@ -76,7 +78,7 @@ export function Conclusion({
           </p>
         </div>
         <p className={st.sentence}>
-          {t(`xray.conclusion.machine.${machineBucket(machine)}`)}{' '}
+          {t(`xray.conclusion.machine${g}.${machineBucket(machine)}`)}{' '}
           {human.length ? (
             <>
               {before}
@@ -93,7 +95,7 @@ export function Conclusion({
               <circle cx="8" cy="8" r="7" fill="currentColor" />
               <path d="M4.8 8.2l2.1 2.1 4.3-4.4" stroke="var(--field)" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-            {t('xray.conclusion.observed', { share: f.percent(result.observedShare) })}
+            {t(`xray.conclusion.observed${g}`, { share: f.percent(result.observedShare) })}
           </button>
           <button type="button" className={st.shareBtn} onClick={share}>
             {shared ? <Check size={18} strokeWidth={2} aria-hidden="true" /> : <Share2 size={18} strokeWidth={1.75} aria-hidden="true" />}

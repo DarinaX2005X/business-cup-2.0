@@ -1,0 +1,7 @@
+# Raw source data stays local; the app reads only data/build and public/data
+/data/raw
+/.data
+/.env
+/.env.local
+/.env.*.local
+/coverage

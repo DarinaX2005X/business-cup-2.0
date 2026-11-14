@@ -1,0 +1,130 @@
+{
+  "meta": {
+    "title": "Playbook"
+  },
+  "title": "Your playbook",
+  "lead": "Instructions for the parts of your week AI already helps with. Copy one into ChatGPT, Claude or Copilot, then check what comes back against the list under it.",
+  "grows": "Your playbook grows as you practise. Start with the starter instructions below.",
+  "loading": "Opening your playbook",
+  "loadError": "Your playbook didn't load",
+  "shelf": {
+    "label": "Tasks in your playbook",
+    "yours": "Yours",
+    "pro": "Pro"
+  },
+  "card": {
+    "to": "To: ChatGPT, Claude or Copilot",
+    "source": {
+      "starter": "Starter instruction",
+      "practice": "Your instruction, scored {score} of 100",
+      "edited": "Your own version"
+    },
+    "hours": "About {hours} h of your week",
+    "slots": "Fill in the parts in brackets before you send it.",
+    "copy": "Copy instruction",
+    "copied": "Copied",
+    "copiedToast": "Copied. Paste it into ChatGPT, Claude or Copilot.",
+    "copyFailed": "Your browser didn't let us copy. Select the text and copy it by hand.",
+    "edit": "Edit",
+    "practise": "Practise this",
+    "practising": "Starting",
+    "below": "Your best practice instruction here scored {score} of 100. Score {bar} or more and it takes this place.",
+    "useStarter": "Use the starter again",
+    "usePractice": "Use my scored instruction",
+    "resetting": "Switching",
+    "writing": "Writing the starter instruction for this task",
+    "unavailable": "The starter instruction didn't load. Try again in a minute.",
+    "retry": "Try again",
+    "missing": "There's no starter for this task. Practise it once and your own instruction will appear here."
+  },
+  "edit": {
+    "label": "Your version of the instruction",
+    "hint": "Keep the parts in brackets for what you paste each time.",
+    "save": "Save my version",
+    "saving": "Saving",
+    "cancel": "Cancel",
+    "count": "{n} / {max}",
+    "saved": "Saved. This is the version you'll copy from now on."
+  },
+  "checks": {
+    "title": "What I check before I use the result",
+    "trap": "You missed this here once",
+    "slip": "You missed this in Spot the slip",
+    "pending": "The checklist appears with the starter instruction.",
+    "none": "No checks for this task yet. Practise it once and what slipped past you will land here."
+  },
+  "locked": {
+    "title": "{task} is part of Pro",
+    "reason": "Pro opens a ready instruction and checklist for every task AI helps with in your week, and keeps your own best versions.",
+    "trial": "Start your 7-day free trial"
+  },
+  "empty": {
+    "noMapTitle": "Map your week first",
+    "noMapBody": "Your playbook is built from the tasks in your week map. It takes about two minutes.",
+    "noMapCta": "Map my week",
+    "noTasksTitle": "Nothing to hand to AI yet",
+    "noTasksBody": "None of the tasks in your week are ones AI already helps with, so there's nothing to put here yet. Your week map shows where your human edge is.",
+    "noTasksCta": "Open my week map"
+  },
+  "toSecondLook": {
+    "title": "Got an AI draft at work?",
+    "body": "Paste it into Second look and see where a careful {job} would check it before it goes out.",
+    "action": "Take a second look"
+  },
+  "errors": {
+    "too_short": "Write at least a sentence.",
+    "too_long": "That's longer than we can keep. Shorten it a little.",
+    "text_too_short": "Paste at least a few sentences.",
+    "text_too_long": "That's over 4,000 characters. Paste the part you want checked.",
+    "pro_required": "This is part of Pro.",
+    "no_xray": "Make your week map first: your playbook is built from its tasks.",
+    "not_found": "This task is no longer in your week. Reload the page."
+  },
+  "secondLook": {
+    "meta": {
+      "title": "Second look"
+    },
+    "title": "Second look",
+    "lead": "Paste something an AI wrote for your work. We'll point to the places a careful {job} would check before using it.",
+    "leadNoJob": "Paste something an AI wrote for your work. We'll point to the places a careful specialist would check before using it.",
+    "field": "Paste something an AI wrote for your work",
+    "drafted": "Drafted by AI",
+    "placeholder": "A letter to a patient, an email to a client, an estimate, a report summary",
+    "privacy": "Remove names and personal details first.",
+    "kept": "We read it once and don't keep it. Only the number of checks is saved.",
+    "count": "{n} / {max}",
+    "task": "Which task is it for?",
+    "other": "Other",
+    "noMapTasks": "Map your week to pick one of your tasks here.",
+    "run": "Take a second look",
+    "running": "Reading it",
+    "reading": "Reading it the way a {job} would",
+    "readingNoJob": "Reading it the way a specialist would",
+    "failed": "We couldn't read this one. Your text is still in the box.",
+    "freeOne": "Your first second look is free.",
+    "lookFor": "It looks for numbers and doses that don't add up, facts that may be wrong, rules, missing parts, tone and reasoning.",
+    "result": {
+      "count_one": "{count} place to check",
+      "count_other": "{count} places to check",
+      "cleanTitle": "Nothing obvious to check",
+      "cleanBody": "Read it once more for names and numbers.",
+      "honest": "These are places to double-check, not a verdict. You know your work.",
+      "edit": "Edit the text",
+      "another": "Check something else",
+      "sheet": "Your draft"
+    },
+    "type": {
+      "fact": "Check this fact",
+      "calculation": "Check this number",
+      "compliance": "Check this against the rules",
+      "omission": "Check what's missing here",
+      "tone": "Check how this reads",
+      "logic": "Check this reasoning"
+    },
+    "locked": {
+      "title": "Your free second look is used",
+      "reason": "Pro gives you a second look at every AI draft from your work, along with a daily rep and your playbook."
+    },
+    "toPlaybook": "Your playbook has ready instructions for the tasks AI helps with."
+  }
+}

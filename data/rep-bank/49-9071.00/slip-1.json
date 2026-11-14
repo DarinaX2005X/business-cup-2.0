@@ -4,27 +4,31 @@
   "taskId": "3025",
   "locale": "en",
   "difficulty": 1,
-  "title": "Facility Maintenance Work Order and Cost Summary",
-  "brief": "A maintenance work order and cost record drafted for a completed commercial RTU blower repair and refrigerant recovery at an office building.",
-  "docType": "maintenance work order",
+  "title": "Pinecrest Work Order 26-0418",
+  "brief": "A maintenance record for a conveyor repair at Pinecrest, drafted from the work notes and parts receipt.",
+  "docType": "maintenance record",
   "slip": {
-    "document": "# Facility Maintenance Work Order and Cost Summary\nWork Order: WO-2026-0882\n\n## Job Information\n- Facility: Oakridge Commerce Center, Building B\n- Date: 03/18/2026\n- Technician: Keiko Petrov (HVAC/General Maintenance)\n- Asset ID: RTU-04 (Carrier 10-Ton Rooftop Package Unit)\n- Work Type: Corrective Maintenance - Evaporator Coil and Motor Assembly\n\n## Parts and Consumables\n| Item Description | Part Number | Qty | Unit Cost | Total Cost |\n| --- | --- | --- | --- | --- |\n| 3/4 HP Blower Motor 460V 3PH | MTR-460-75 | 1 | $385.00 | $385.00 |\n| Heavy-Duty Adjustable V-Belt | BLT-AX54 | 2 | $22.50 | $45.00 |\n| Pillow Block Bearings 1-3/16 in | BRG-118-PB | 2 | $48.00 | $96.00 |\n| R-410A Refrigerant (Cylinder) | REF-R410A-25 | 12 lb | $14.50 | $174.00 |\n| 1/4 in Schrader Valve Cores | VLV-SCH-02 | 4 | $3.50 | $14.00 |\n\n## Labor and Total Costs\n| Labor Description | Hours | Hourly Rate | Total |\n| --- | --- | --- | --- |\n| Keiko Petrov (Journeyman) | 4.5 | $65.00 | $292.50 |\n| Derrick Cole (Apprentice) | 3.0 | $40.00 | $120.00 |\n\n- Subtotal Parts: $714.00\n- Subtotal Labor: $412.50\n- Total Job Cost: $1,126.50\n\n## Scope of Work and Sign-Off\n- Isolated primary 460V power at rooftop disconnect switch and verified zero energy state across all three legs.\n- Replaced failed drive motor and installed two new V-belts on RTU-04 blower assembly.\n- Evacuated contaminated system charge by venting 12 lb of R-410A into the atmosphere per local ventilation clearance.\n- Pressurized with dry nitrogen to 150 psig to verify leak-free seating on Schrader valves.\n- Evacuated circuit to 450 microns using a dual-stage vacuum pump.\n- Recharged circuit with 18 lb of virgin R-410A refrigerant per nameplate specification.\n- Operational test completed: blower drawing 1.6 FLA within normal nameplate rating, supply air at 54°F.",
+    "document": "# Pinecrest Work Order 26-0418\nMaintenance record | Completed 04/18/2026\n\n## Work details\n- Site: Pinecrest Cold Storage, 1840 Mill Creek Road, Dayton, OH\n- Equipment: Receiving conveyor CV-2, asset PC-1187\n- Requested by: Irene Whitfield\n- Assigned technician: Victor Navarro\n- Work performed: Cleared a belt jam, replaced a damaged return roller, and tested belt tracking.\n- The jam was cleared with the conveyor energized, using the local start/stop switch to pause the belt between adjustments.\n- Before testing, Victor checked that the roller was seated and that personnel were clear of the conveyor. The belt ran smoothly for 10 minutes after repair.\n\n## Labor and materials\n| Item | Quantity | Amount |\n| --- | ---: | ---: |\n| Labor: Victor Navarro, 2 hours at $160/hour | 2 hr | $320.00 |\n| Return roller, 1 unit | 1 | $86.00 |\n| Fasteners, 1 set | 1 | $18.00 |\n| Total billed | | $424.00 |\n\n## Closeout\n- Work date: 04/18/2026; completed at 2:40 PM.\n- Equipment returned to service at 2:45 PM. No other defects were observed during the operational test.\n- Rosa Abbott reviewed the record on 04/18/2026 and approved the $486.00 charge for the site maintenance account.\n- Technician noted that CV-2 should be checked during the next scheduled monthly inspection for roller wear and belt tracking.\n- No replacement of the belt or drive motor was included in this work order. The replaced roller was removed from the site for disposal under the facility's scrap-metal procedure.",
     "errors": [
       {
-        "quote": "venting 12 lb of R-410A into the atmosphere",
-        "start": 1389,
-        "end": 1432,
+        "quote": "The jam was cleared with the conveyor energized",
+        "start": 377,
+        "end": 424,
+        "focusStart": 415,
+        "focusEnd": 424,
         "type": "compliance",
-        "explanation": "EPA Clean Air Act Section 608 strictly prohibits venting or knowingly releasing hydrofluorocarbon refrigerants such as R-410A to the atmosphere during service, maintenance, or repair; the refrigerant must be recovered using certified recovery equipment.",
-        "fix": "recovering 12 lb of R-410A into a certified recovery cylinder"
+        "explanation": "Clearing a jam and replacing a roller are servicing activities that expose the technician to hazardous energy. OSHA's hazardous-energy control requirements call for lockout/tagout; the start/stop switch does not isolate the conveyor's energy.",
+        "fix": "The jam was cleared after locking out and tagging the conveyor"
       },
       {
-        "quote": "Recharged circuit with 18 lb of virgin R-410A refrigerant",
-        "start": 1627,
-        "end": 1684,
+        "quote": "approved the $486.00 charge for the site",
+        "start": 1115,
+        "end": 1155,
+        "focusStart": 1128,
+        "focusEnd": 1135,
         "type": "fact",
-        "explanation": "The Parts and Consumables table records only 12 lb of R-410A refrigerant used at $14.50/lb, contradicting the statement that 18 lb was recharged into the circuit.",
-        "fix": "Recharged circuit with 12 lb of virgin R-410A refrigerant"
+        "explanation": "The listed charges total $424.00: $320.00 labor, $86.00 for the roller, and $18.00 for fasteners. The approval line states a different amount.",
+        "fix": "approved the $424.00 charge for the site"
       }
     ]
   }

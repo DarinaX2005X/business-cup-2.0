@@ -4,80 +4,94 @@
   "taskId": "2584",
   "locale": "en",
   "difficulty": 2,
-  "title": "Account Closure and Transfer Summary",
-  "brief": "Draft an official account discontinuance summary and routing confirmation for back-office processing.",
+  "title": "Service Discontinuance Order",
+  "brief": "Prepare a service discontinuance order and customer account handoff for a residential water account.",
   "delegate": {
-    "scenario": "A retail bank customer representative took a walk-in request to close several personal deposit accounts and wire the remaining balances to an external institution. The representative needs to pass a clean, structured discontinuance ticket to the back-office operations team before the end of the day. Operations will execute the wire transfers and deactivate the account profiles based on this record.",
-    "inputs": "Customer: Sunita Ibrahim | SSN Ref: XXX-XX-4819\nReason: Relocating out of state, requesting full service discontinuance.\n\nAccounts to Close:\n- Everyday Checking (#4082): Current balance $1,840.50. Pending debit card transaction of $45.00 at Shell Gas from 10/12/2023.\n- Growth Savings (#9114): Current balance $12,450.00. Accrued monthly interest pending: $14.20.\n- 12-Month CD (#2044): Balance $5,000.00. Maturity date: 11/15/2024. Customer elected immediate liquidation.\n\nTransfer Routing Instructions:\n- Recipient Institution: Horizon Community Bank\n- Routing Number: 071000288\n- Destination Account: 884019234\n- Total requested payout: $19,290.50\n- Forwarding Address: 442 Elm Ridge Way, Boise, ID 83702\n- Written notice signed: Yes\n- In-person ID verified: Current Idaho Driver's License",
-    "goal": "Provide back-office operations with an accurate, unambiguous account discontinuance order that reconciles final disbursement balances and flags pending holds or premature closure conditions.",
+    "scenario": "A customer has requested water service discontinuation after moving out, and you need to complete the order before the dispatch cutoff. The service-order team will use it this afternoon to schedule the shutoff, while billing will use the handoff to prepare the final statement.",
+    "inputs": "Account 00841726 — Dana Brooks, 1842 Alder Court, Mesa, AZ 85201. Caller verified with the account PIN and confirmed they are the named customer. Callback: (480) 555-0148. Service address is the same as the mailing address currently on file; customer gave 927 West Juniper Lane, Mesa, AZ 85203 as the new mailing address, effective for the final bill.\n\nCustomer requested shutoff because the home was sold. Work order notes: \"Please discontinue water service on 06/18/2026; meter is accessible at the side gate.\" In the call summary, the requested service end date is 06/19/2026. No access restrictions reported. Do not cancel sewer service; it is billed by the city separately.\n\nFinal billing estimate: water usage $48.60; sewer pass-through $31.40; deposit credit -$20.00. Billing screen shows estimated final amount due $80.00. Customer asked for confirmation by email at dana.brooks@example.com. No email consent change requested. Route completed order to Mesa Water Service Dispatch and billing review queue.",
+    "goal": "Create an actionable, accurate order and handoff while identifying anything that needs confirmation before submission.",
     "criteria": [
       {
         "id": "c1",
-        "text": "Identifies back-office deposit operations as the intended recipient and processing audience.",
+        "text": "States that the order is for the service-order team and billing reviewers.",
         "keywords": [
-          "back-office",
-          "operations team",
-          "processing"
+          "service-order team",
+          "billing",
+          "handoff"
         ]
       },
       {
         "id": "c2",
-        "text": "Specifies a concise, tabular or field-by-field format detailing account numbers, ledger actions, and routing targets.",
+        "text": "Includes the verified account and customer details needed to identify the record.",
         "keywords": [
-          "structured format",
-          "table",
-          "field-by-field",
-          "bullet points"
+          "account",
+          "customer",
+          "service address"
         ]
       },
       {
         "id": "c3",
-        "text": "Instructs the AI to verify the arithmetic of the total payout against individual account balances and adjustments.",
+        "text": "Uses a concise, structured format suitable for completing and routing an order.",
         "keywords": [
-          "reconcile totals",
-          "verify arithmetic",
-          "balance check",
-          "sum"
+          "order",
+          "handoff",
+          "structured"
         ]
       },
       {
         "id": "c4",
-        "text": "Requires flagging any active transaction holds, pending interest, or early withdrawal terms before settlement.",
+        "text": "Does not assume unresolved customer instructions; flags details that need confirmation before submission.",
         "keywords": [
-          "early withdrawal",
-          "pending transaction",
-          "penalty",
-          "accrued interest"
+          "confirm",
+          "clarify",
+          "before submission"
         ]
       },
       {
         "id": "c5",
-        "text": "Limits the response to internal bank documentation standards without including conversational filler.",
+        "text": "Checks the account details and billing figures against the supplied source information.",
         "keywords": [
-          "concise",
-          "internal use only",
-          "no pleasantries",
-          "formal ticket"
+          "check",
+          "reconcile",
+          "source"
+        ]
+      },
+      {
+        "id": "c6",
+        "text": "Preserves service restrictions and requested communications accurately.",
+        "keywords": [
+          "sewer",
+          "email",
+          "access"
         ]
       }
     ],
     "traps": [
       {
         "id": "t1",
-        "description": "The requested total payout ignores the pending debit card transaction and pending interest, creating an incorrect total transfer sum.",
+        "description": "The requested service discontinuation date is given as 06/18/2026 in the work order notes and 06/19/2026 in the call summary.",
         "keywords": [
-          "$19,290.50",
-          "$45.00"
+          "06/18/2026",
+          "06/19/2026"
+        ],
+        "evidence": [
+          "discontinue water service on 06/18/2026",
+          "requested service end date is 06/19/2026"
         ]
       },
       {
         "id": "t2",
-        "description": "The customer requests immediate liquidation of a certificate of deposit that matures in the future without accounting for early withdrawal penalties.",
+        "description": "The estimated final amount due of $80.00 does not match the listed charges and credit, which total $60.00.",
         "keywords": [
-          "11/15/2024",
-          "immediate liquidation"
+          "-$20.00",
+          "$80.00"
+        ],
+        "evidence": [
+          "deposit credit -$20.00",
+          "estimated final amount due $80.00"
         ]
       }
-    ]
+    ],
+    "exemplar": "Prepare a service discontinuance order and billing handoff for the service-order team and billing reviewers. Use a concise, clearly labeled format that can be transferred into the order record, and include the verified account and customer details, service restrictions, routing, and requested confirmation method. Check the dates, account details, and billing figures against the supplied notes; do not guess or silently resolve conflicts. Put any items requiring confirmation before submission at the top, and distinguish confirmed information from unresolved details."
   }
 }

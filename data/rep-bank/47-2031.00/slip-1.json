@@ -4,27 +4,31 @@
   "taskId": "23445",
   "locale": "en",
   "difficulty": 1,
-  "title": "Daily Crew Assignment and Site Safety Log",
-  "brief": "A daily commercial carpentry crew schedule and work log drafted by an AI assistant for a framing foreman on a multifamily wood-frame project.",
-  "docType": "crew schedule and log",
+  "title": "Crew Schedule and Daily Job Record — Cedar Ridge Addition",
+  "brief": "A crew schedule and daily job record for a residential framing project, drafted from the job plan and delivery notes.",
+  "docType": "crew schedule",
   "slip": {
-    "document": "# Daily Crew Assignment and Site Safety Log\nGranite Peak Builders - Site: Westgate Lofts, Building C\nDate: 04/14/2026\nForeman: Curtis Ellison\n\n## Roster and Assigned Work Areas\n| Name | Trade Level | Area | Task |\n| --- | --- | --- | --- |\n| Julia Okafor | Journeyman Carpenter | Level 3 North | Exterior sheer wall framing |\n| Priya Thornton | Apprentice (Year 1) | Level 2 South | Interior partition layout |\n| Mateo Rios | Journeyman Carpenter | Level 3 South | Truss setting and bracing |\n| Dave Bialek | Apprentice (Year 2) | Level 3 South | Truss setting and bracing |\n\n## Planned Tasks and Safety Directives\n- Level 3 South crew will assist crane rigging for roof trusses starting at 08:30.\n- Priya Thornton will cut bottom plates and complete layout lines for the 2x4 partitions in Level 3 North corridor.\n- Fall protection required for all deck perimeters above 6 ft per 29 CFR 1926 Subpart M.\n- Julia Okafor to sheath exterior walls from rolling tubular welded frame scaffolding at 14 ft platform height without personal fall arrest or guardrails installed.\n- Toolbox talk scheduled at 07:00 regarding proper pneumatic nailer handling and eye protection.\n\n## Equipment and Material Staging\n- 12 bundles 2x4x10 ft SPF studs delivered to Level 2 laydown area.\n- Crane pick window confirmed with dispatch for 08:30 to 11:30.",
+    "document": "# Crew Schedule and Daily Job Record — Cedar Ridge Addition\nGranite Peak Carpentry LLC | Job GP-260418 | 04/18/2026\n\n## Site and crew\n118 Willow Bend Road, Fort Collins, CO 80524\nForeperson: Priya Thornton | Crew: Julia Okafor, Curtis Ellison\nWork window: 7:00 AM–3:30 PM | Weather: clear, high 58°F\n\n## Schedule\n- 7:00 AM: Meet at the south gate; review the site plan, emergency contacts, and daily hazard analysis before unloading tools.\n- 7:40 AM: Julia and Curtis unload wall sheathing and verify the bundle count against the packing slip.\n- The 2x6 studs arrive at 7:30 AM; Priya checks the order before staging it beside the east wall.\n- 8:00 AM–11:30 AM: Frame the second-floor exterior walls. Keep the access path clear and stack cutoffs in the designated bin.\n- 11:30 AM–12:00 PM: Lunch; secure loose materials before leaving the work area.\n- 12:00–3:00 PM: Frame the roof over the garage at the 8-foot eave, working from the unprotected roof edge without fall protection.\n- 3:00–3:30 PM: Collect tools, secure the material stacks, and record completed work and remaining quantities.\n\n## Delivery reference\n| Material | Quantity | Scheduled arrival |\n| --- | ---: | --- |\n| 2x6 studs, 10 ft | 48 | 9:00 AM |\n| 7/16-in OSB sheathing, 4x8 ft | 24 sheets | 7:30 AM |\n| 16d framing nails | 2 boxes | 7:30 AM |\n\n## End-of-day record\nRecord labor hours by employee, actual material received, damaged items, and any change to the planned sequence in job log GP-260418. Priya will confirm the next workday's crew and material needs with the site superintendent before leaving. Keep the signed delivery ticket in the job folder; note shortages on the ticket before accepting the load. Use the marked pedestrian route between the gate and staging area, and keep the fire extinguisher access clear.",
     "errors": [
       {
-        "quote": "Priya Thornton will cut bottom plates and complete layout lines for the 2x4 partitions in Level 3 North corridor.",
-        "start": 700,
-        "end": 813,
+        "quote": "The 2x6 studs arrive at 7:30 AM",
+        "start": 546,
+        "end": 577,
+        "focusStart": 570,
+        "focusEnd": 577,
         "type": "fact",
-        "explanation": "The roster table specifically assigns Priya Thornton to Level 2 South for interior partition layout, not Level 3 North.",
-        "fix": "Priya Thornton will cut bottom plates and complete layout lines for the 2x4 partitions in Level 2 South corridor."
+        "explanation": "The delivery reference lists the 2x6 studs for 9:00 AM, not 7:30 AM. The 7:30 AM entries are for sheathing and framing nails.",
+        "fix": "The 2x6 studs arrive at 9:00 AM"
       },
       {
-        "quote": "Julia Okafor to sheath exterior walls from rolling tubular welded frame scaffolding at 14 ft platform height without personal fall arrest or guardrails installed",
-        "start": 905,
-        "end": 1066,
+        "quote": "working from the unprotected roof edge without fall protection",
+        "start": 918,
+        "end": 980,
+        "focusStart": 957,
+        "focusEnd": 980,
         "type": "compliance",
-        "explanation": "OSHA standard 29 CFR 1926.451(g)(1) mandates fall protection (guardrails or personal fall arrest system) on scaffolding elevated 10 feet or more above a lower level.",
-        "fix": "Julia Okafor to sheath exterior walls from rolling tubular welded frame scaffolding at 14 ft platform height with standard top rail, midrail, and toeboards installed"
+        "explanation": "The schedule puts the crew at an 8-foot eave with an unprotected edge, but says to work without fall protection. OSHA construction rules require fall protection for employees exposed to an unprotected edge 6 feet or more above a lower level.",
+        "fix": "working from the unprotected roof edge with required fall protection"
       }
     ]
   }

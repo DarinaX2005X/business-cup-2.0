@@ -4,73 +4,86 @@
   "taskId": "958",
   "locale": "en",
   "difficulty": 2,
-  "title": "Q3 Enterprise SaaS Sales Forecast",
-  "brief": "Draft an executive summary and adjusted Q3 sales forecast based on recent product launch metrics and pipeline updates.",
+  "title": "Quarterly Product Forecast Brief",
+  "brief": "Prepare a concise quarterly sales and profitability forecast for the Harborlight countertop water filter.",
   "delegate": {
-    "scenario": "You are preparing the quarterly forecast update for the Chief Commercial Officer ahead of Friday's budget committee review. The CCO needs an executive overview that weighs initial product demand against mid-quarter pipeline slippage to determine whether revised revenue targets remain realistic.",
-    "inputs": "Notes from weekly revenue sync:\n- RiverbendCloud tier launch (went live 05/15/2024): Target was 120 new logo signups by end of Q3; currently at 84 active contracts generating $420,000 ARR.\n- Core Platform renewal pipeline: Renewal rate holding steady at 91%, but expansion ARR dropped from projected $180,000 to $115,000 due to delayed module add-ons.\n- Regional breakdown:\n| Region | Projected Q3 Pipeline | Current Weighted Value | Average Deal Size |\n| --- | --- | --- | --- |\n| North America | $1,850,000 | $1,420,000 | $45,000 |\n| EMEA | $920,000 | $610,000 | $38,000 |\n| APAC | $410,000 | $460,000 | $22,000 |\n- Churn risk: Two financial services accounts representing $240,000 ARR total flagged for possible downgrade; one contract renewal date is 11/15/2024 ($130,000), other renewal date is 08/30/2024 ($110,000).\n- Marketing team notes that organic inbound leads fell 14% month-over-month following the website rebrand.",
-    "goal": "Provide leadership with an accurate, risk-adjusted revenue projection that isolates current quarter performance from out-of-quarter variables.",
+    "scenario": "You are the marketing manager at fictional home-goods company Northline Works, preparing a Q3 2026 planning brief for the sales director and finance partner. They will use it in a review meeting on June 10 to set inventory and campaign priorities.",
+    "inputs": "Q3 planning notes — Harborlight filter\nCurrent shelf price: $129.00. Unit cost: $58.00. Q2 actual sales: 4,800 units. Retail partners say interest is strongest in the Northeast; a competitor cut its comparable filter price to $119 in May.\n\nQ3 unit forecast by month:\n| Month | Units |\n| --- | ---: |\n| July | 1,900 |\n| August | 2,200 |\n| September | 2,400 |\n\nForecast total: 6,500 units. Keep price at $129 for the base case. Gross profit estimate in the draft: $461,500, before marketing spend.\n\nProposed campaign spend:\n| Channel | Budget |\n| --- | ---: |\n| Retail co-op | $18,000 |\n| Paid search | $12,500 |\n| Creator demos | $9,500 |\nTotal campaign budget: $42,000.\n\nThe retailer launch calendar lists the Harborlight Q3 campaign start as 06/15/2026. In the sales team email, Morgan wrote: \"We're aligned to start the Harborlight Q3 campaign on 06/22/2026.\" Inventory booking is due June 12.",
+    "goal": "Give the planning team a decision-ready forecast that clearly separates supported figures from assumptions and flags anything requiring confirmation.",
     "criteria": [
       {
         "id": "c1",
-        "text": "Specifies that the briefing is written for the Chief Commercial Officer and budget committee.",
+        "text": "States that the brief is for the sales director and finance partner making Q3 planning decisions.",
         "keywords": [
-          "CCO",
-          "leadership",
-          "budget committee",
-          "executive"
+          "sales director",
+          "finance partner",
+          "Q3 planning"
         ]
       },
       {
         "id": "c2",
-        "text": "Requires a structured summary under 400 words with explicit bullet points for risks and upside potential.",
+        "text": "Uses the supplied sales, pricing, cost, market, and campaign information without inventing unsupported facts.",
         "keywords": [
-          "under 400 words",
-          "bullet points",
-          "risks",
-          "upside",
-          "structure"
+          "supplied data",
+          "assumptions",
+          "do not invent"
         ]
       },
       {
         "id": "c3",
-        "text": "Instructs the AI to verify timeline relevance and exclude out-of-period revenue data from Q3 calculations.",
+        "text": "Presents a concise, scannable forecast with unit outlook, profitability, and recommended priorities.",
         "keywords": [
-          "quarter dates",
-          "timing",
-          "exclude",
-          "reconcile dates",
-          "period"
+          "table",
+          "forecast",
+          "profitability",
+          "priorities"
         ]
       },
       {
         "id": "c4",
-        "text": "Directs the AI to reconcile regional pipeline totals and identify any statistical anomalies between pipeline and weighted figures.",
+        "text": "Keeps the response within a clearly stated short format and distinguishes assumptions from confirmed inputs.",
         "keywords": [
-          "reconcile totals",
-          "pipeline math",
-          "verify numbers",
-          "anomaly"
+          "one page",
+          "brief",
+          "label assumptions"
+        ]
+      },
+      {
+        "id": "c5",
+        "text": "Checks source figures and timeline details for internal consistency, and flags unresolved conflicts rather than choosing silently.",
+        "keywords": [
+          "reconcile figures",
+          "check dates",
+          "flag conflicts"
         ]
       }
     ],
     "traps": [
       {
         "id": "t1",
-        "description": "In the regional table, APAC's current weighted value exceeds its projected Q3 pipeline, which is mathematically impossible under standard weighted pipeline methodology.",
+        "description": "The campaign budget total of $42,000 conflicts with the channel budgets, which sum to $40,000.",
         "keywords": [
-          "$410,000",
-          "$460,000"
+          "$42,000",
+          "$12,500"
+        ],
+        "evidence": [
+          "Paid search | $12,500",
+          "Total campaign budget: $42,000."
         ]
       },
       {
         "id": "t2",
-        "description": "One of the flagged churn risk accounts has a renewal date in Q4 (11/15/2024), so its loss does not impact Q3 figures.",
+        "description": "The retailer calendar gives a campaign start of 06/15/2026, while the sales team email gives 06/22/2026.",
         "keywords": [
-          "11/15/2024",
-          "$130,000"
+          "06/15/2026",
+          "06/22/2026"
+        ],
+        "evidence": [
+          "campaign start as 06/15/2026.",
+          "start the Harborlight Q3 campaign on 06/22/2026."
         ]
       }
-    ]
+    ],
+    "exemplar": "Prepare a concise, one-page Q3 2026 forecast brief for the sales director and finance partner to use in inventory and campaign planning. Use only the supplied figures and market notes; do not add unsupported assumptions. Include a scannable table of monthly units, the base-case revenue and gross profit outlook, and a few practical priorities. Label assumptions separately from confirmed inputs. Reconcile calculations to the source figures and check dates and other planning details for conflicts; flag anything unresolved for confirmation instead of silently choosing a version."
   }
 }

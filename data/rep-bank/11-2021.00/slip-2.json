@@ -4,35 +4,41 @@
   "taskId": "951",
   "locale": "en",
   "difficulty": 2,
-  "title": "Go-to-Market Strategy Memo: Cedar Ridge Thermal Sensor Line",
-  "brief": "Marketing strategy memo outlining target segments, pricing structure, and acquisition goals for a new commercial IoT sensor line, drafted from product specifications and business unit targets.",
-  "docType": "marketing strategy memo",
+  "title": "Copperfield ClearFlow Launch Strategy",
+  "brief": "A launch strategy for Copperfield’s countertop water filter, drafted from the company’s objectives, market research, and unit economics.",
+  "docType": "marketing strategy",
   "slip": {
-    "document": "# Go-to-Market Strategy Memo: Cedar Ridge Thermal Sensor Line\nCommercial HVAC Monitoring Expansion | Q3 2026\n\n## Strategic Objectives\n- Expand commercial facility presence to capture 8% market share in industrial HVAC diagnostics by Q4 2027.\n- Achieve gross margins above 45% across all hardware bundles.\n- Deliver customer acquisition cost (CAC) below $420 with an LTV-to-CAC target ratio of 3.5:1.\n\n## Cost and Pricing Breakdown\n\n| Product Tier | Unit COGS | Standard Markup | Target MSRP | Target Unit Volume |\n| --- | --- | --- | --- | --- |\n| Cedar Ridge Core | $140.00 | 75% | $245.00 | 12,000 |\n| Cedar Ridge Pro | $220.00 | 80% | $396.00 | 6,500 |\n| Cedar Ridge Enterprise | $310.00 | 90% | $589.00 | 2,200 |\n\n## Target Segments and Channel Strategy\nPrimary buyers consist of mid-market commercial building operators managing 50,000 to 250,000 sq ft facilities. Regional mechanical contractors serve as key distribution partners.\n\n- Channel partner agreements establish a standard wholesale discount of 15% off list price.\n- Digital lead generation focuses on commercial facility managers searching for retrofit predictive maintenance.\n- Because unit margins are highest on Cedar Ridge Enterprise, direct all outbound SDR cadence toward single-facility retail sites.\n\n## Performance Projections and KPIs\nBlended revenue projections based on targeted volumes yield $6,809,300 in hardware sales for the initial 12-month rollout.\n\n- The blended gross margin of 47.8% meets the corporate threshold of 45%.\n- Target customer acquisition cost is set at $420 per account across digital and event channels.\n- The calculated payback period from annual software maintenance fees of $600 per year per account is 14.5 months.\n- Paid pilot programs will launch across three metro regions starting 08/15/2026.",
+    "document": "# Copperfield ClearFlow Launch Strategy\nStrategy review | 02/18/2026 | Prepared for Lucas Moreau, Andre Bishop, and Fatima Tran\n\n## Objective and market\nCopperfield's goal is to sell 4,000 ClearFlow countertop filters in the first 90 days while keeping paid-media customer acquisition cost (CAC) below $32. Research of 600 U.S. households found that 58% of renters want a filter that installs without tools; the leading competitor requires faucet installation. Position ClearFlow around tool-free setup and a replaceable cartridge subscription, without making unverified water-safety claims.\n\n## Unit economics\n| Item | Amount |\n| --- | ---: |\n| MSRP | $79 |\n| Landed product cost | $28 |\n| Fulfillment and payment fees | $11 |\n| Gross contribution before marketing | $40 |\n\nKeep the planned 90-day offer at 10% off MSRP; at $79, the discounted price is $63.10. Use the $79 MSRP to protect margin and fund introductory advertising.\n\n## Channel evidence and allocation\n| Channel | Test spend | Purchases | CAC |\n| --- | ---: | ---: | ---: |\n| Paid search | $6,000 | 240 | $25 |\n| Paid social | $6,000 | 150 | $40 |\n\nThe CAC target is met by paid search but missed by paid social. Paid social is the only channel meeting the CAC target. Review CAC and conversion rate weekly; pause any placement that remains above $32 CAC after two weeks.\n\n## Creator pilot\nContract three home-organization creators for short-form setup demonstrations. Provide each creator a filter and a $500 fee. This is the complete posting brief: show the tool-free setup and link to Copperfield's product page. No other creator posting instructions will be issued. Track views, clicks, and purchases using unique landing pages; assess the pilot after 30 days.\n\n## Measurement\nAndre Bishop owns weekly reporting; Fatima Tran approves creative and Lucas Moreau approves budget changes. Compare the 4,000-unit objective with orders at day 30, 60, and 90.",
     "errors": [
       {
-        "quote": "direct all outbound SDR cadence toward single-facility retail sites",
-        "start": 1206,
-        "end": 1273,
-        "type": "logic",
-        "explanation": "Cedar Ridge Enterprise is the top-tier, highest-cost hardware package and the target profile is mid-market operators with 50,000 to 250,000 sq ft facilities, so routing enterprise outreach to single-facility retail sites contradicts the tier positioning and target customer profile.",
-        "fix": "direct all outbound SDR cadence toward multi-facility commercial campus operators"
-      },
-      {
-        "quote": "Target customer acquisition cost is set at $420 per account across digital and event channels.",
-        "start": 1512,
-        "end": 1606,
-        "type": "omission",
-        "explanation": "The Strategic Objectives section specifies an LTV-to-CAC target ratio of 3.5:1, but the performance projection omits the projected customer lifetime value (LTV) required to evaluate whether the $420 CAC meets this threshold.",
-        "fix": "Target customer acquisition cost is set at $420 against a projected LTV of $1,470 per account across digital and event channels."
-      },
-      {
-        "quote": "annual software maintenance fees of $600 per year per account is 14.5 months",
-        "start": 1644,
-        "end": 1720,
+        "quote": "the discounted price is $63.10",
+        "start": 830,
+        "end": 860,
+        "focusStart": 854,
+        "focusEnd": 860,
         "type": "fact",
-        "explanation": "A $420 CAC recovered at $600 per year ($50 per month) yields an 8.4-month payback period ($420 / $50), not 14.5 months.",
-        "fix": "annual software maintenance fees of $600 per year per account is 8.4 months"
+        "explanation": "A 10% discount on the stated $79 MSRP is $7.90, making the discounted price $71.10. The quoted price is an arithmetic error.",
+        "fix": "the discounted price is $71.10"
+      },
+      {
+        "quote": "Paid social is the only channel meeting the CAC target.",
+        "start": 1179,
+        "end": 1234,
+        "focusStart": 1198,
+        "focusEnd": 1218,
+        "type": "logic",
+        "explanation": "The channel table shows paid search CAC of $25, below the $32 target, and paid social CAC of $40, above it. The sentence contradicts the preceding evidence and reverses which channel meets the target.",
+        "fix": "Paid search is the only channel meeting the CAC target."
+      },
+      {
+        "quote": "This is the complete posting brief: show the tool-free setup and link to Copperfield's product page.",
+        "start": 1481,
+        "end": 1581,
+        "focusStart": 1481,
+        "focusEnd": 1581,
+        "type": "omission",
+        "explanation": "Creators receive a product and a $500 fee, which are material connections that must be clearly and conspicuously disclosed in endorsements under FTC guidance. The complete brief contains no instruction to disclose either connection.",
+        "fix": "This is the complete posting brief: clearly disclose that Copperfield provided a filter and paid a fee, show the tool-free setup, and link to Copperfield's product page."
       }
     ]
   }

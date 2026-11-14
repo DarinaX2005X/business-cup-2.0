@@ -4,35 +4,41 @@
   "taskId": "2580",
   "locale": "en",
   "difficulty": 2,
-  "title": "Post-Resolution Customer Follow-Up and Account Audit",
-  "brief": "A resolution verification and follow-up draft for a retail banking customer who reported unauthorized recurring subscription charges, drafted from core banking transaction logs.",
-  "docType": "customer service resolution audit",
+  "title": "Resolution Follow-Up: Case 26-04187",
+  "brief": "A customer service representative was asked to verify and communicate the resolution of a duplicate debit-card charge using the case record.",
+  "docType": "resolution follow-up",
   "slip": {
-    "document": "# Post-Resolution Customer Follow-Up and Account Audit\nCase ID: CAS-88204-Q9L1\nCustomer: Alicia Abbott\nAccount: Everyday Checking (...4819)\nRepresentative: Jordan Hayes (ID: 6044)\nAudit Date: 03/18/2026\n\n## Dispute and Adjustment Summary\n| Transaction Date | Description | Original Amount | Status | Refund Ref |\n| --- | --- | --- | --- | --- |\n| 01/14/2026 | CloudStream Media Sub | $18.99 | Reimbursed | RF-30119 |\n| 02/14/2026 | CloudStream Media Sub | $18.99 | Reimbursed | RF-30120 |\n| 03/14/2026 | CloudStream Media Sub | $18.99 | Reimbursed | RF-30121 |\n\n## Verification Checklist\n- Merchant block applied to recurring descriptor: CLOUDSTREAM*MEDIA\n- Compromised debit card ending in 1102 canceled on 03/16/2026\n- Replacement card issued to customer mailing address on 03/17/2026\n- Provisional credit converted to permanent reversal totaling $56.97\n\n## Audit Notes\nRepresentative Jordan Hayes audited account 4819 to confirm all corrections finalized on the host system. The ledger reflects the total refund of $56.97 posted to checking ending 4819. However, the system shows the agent mistakenly credited $37.98 across two cycles instead of resolving all three charges.\n\n## Draft Customer Follow-Up Email\nSubject: Update regarding your dispute for account ending in 4819\n\nDear Alicia Abbott,\n\nWe completed our review of the billing dispute you filed regarding the unauthorized charges from CloudStream Media.\n\nIf you had carefully monitored your monthly statements earlier, this issue would have been sorted out in January before further charges posted. Nevertheless, we have canceled your old card and authorized a full refund to your checking account.\n\nWe sent your replacement debit card via standard USPS delivery. You should expect the card to arrive within standard business delivery times.\n\nPlease retain reference case CAS-88204-Q9L1 for your records.\n\nSincerely,\nJordan Hayes\nTier 2 Resolution Specialist\nNorthwest Horizon Bank",
+    "document": "# Resolution Follow-Up: Case 26-04187\nTidewater Community Bank | Customer Support | 04/21/2026\n\n## Case record\nCustomer: Julia Petrov\nAssigned representative: Curtis Brennan\nSupervisor: Daniel Fitzgerald\nIssue: Duplicate debit-card charge at Harbor Market\n\n| Item | Case record |\n| --- | --- |\n| Original charge | $84.60 on 04/12/2026 |\n| Duplicate charge | $84.60 on 04/12/2026 |\n| Adjustment approved | $84.60 on 04/20/2026 |\n| Adjustment status | Submitted; allow up to 2 business days to post |\n\n## Follow-up sent to customer\nHello Julia,\n\nThe duplicate debit-card charge at Harbor Market dated 04/12/2026 was submitted for adjustment on 04/20/2026. The adjustment amount is $48.60. Please check your account for the credit. The original $84.60 purchase remains on your account.\n\nYou should not have waited until your statement closed to contact us about this. We have closed the case because the adjustment request is complete. If the credit has not appeared after the stated posting period, reply to this message or call the number on the back of your debit card and reference case 26-04187.\n\n## Follow-up record\n- Message sent to Julia Petrov on 04/21/2026 through secure banking messages.\n- Case status changed to resolved by Curtis Brennan.\n- Daniel Fitzgerald reviewed the adjustment status before closure.\n- The case record allows up to 2 business days for the submitted credit to post.",
     "errors": [
       {
-        "quote": "the agent mistakenly credited $37.98 across two cycles instead of resolving all three charges",
-        "start": 1083,
-        "end": 1176,
+        "quote": "The adjustment amount is $48.60.",
+        "start": 654,
+        "end": 686,
+        "focusStart": 679,
+        "focusEnd": 685,
         "type": "fact",
-        "explanation": "Contradicts the Dispute and Adjustment Summary and the preceding bullet point, which confirm all three transactions of $18.99 were reimbursed for a total permanent credit of $56.97.",
-        "fix": "the agent credited all three cycles totaling $56.97"
+        "explanation": "The case record lists an approved adjustment of $84.60, matching the duplicate charge. The amount stated to the customer is incorrect.",
+        "fix": "The adjustment amount is $84.60."
       },
       {
-        "quote": "If you had carefully monitored your monthly statements earlier, this issue would have been sorted out in January",
-        "start": 1418,
-        "end": 1530,
-        "type": "tone",
-        "explanation": "Blaming and scolding the customer for not catching the recurring charges sooner violates standard professional customer service standards.",
-        "fix": "We appreciate your patience while we investigated these recurring transactions"
-      },
-      {
-        "quote": "You should expect the card to arrive within standard business delivery times.",
-        "start": 1727,
-        "end": 1804,
+        "quote": "Please check your account for the credit.",
+        "start": 687,
+        "end": 728,
+        "focusStart": 687,
+        "focusEnd": 728,
         "type": "omission",
-        "explanation": "Lacks the specific delivery time frame (e.g., 5 to 7 business days) required in banking replacement card follow-ups so the customer knows when to expect access to funds.",
-        "fix": "You should expect the card to arrive within 5 to 7 business days."
+        "explanation": "This customer-facing instruction omits the expected posting window. The case record says to allow up to 2 business days, which helps the customer know when to check and when to follow up.",
+        "fix": "Please allow up to 2 business days for the credit to post to your account."
+      },
+      {
+        "quote": "You should not have waited until your statement closed",
+        "start": 784,
+        "end": 838,
+        "focusStart": 788,
+        "focusEnd": 810,
+        "type": "tone",
+        "explanation": "This wording blames the customer for when they contacted the bank rather than addressing the charge professionally.",
+        "fix": "Thank you for contacting us about this charge."
       }
     ]
   }

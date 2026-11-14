@@ -4,35 +4,41 @@
   "taskId": "21515",
   "locale": "en",
   "difficulty": 2,
-  "title": "Year-End Adjusting Journal Entry Memorandum",
-  "brief": "Draft year-end adjusting entries for prepaid insurance, unbilled revenue, and equipment depreciation based on general ledger trial balance schedules.",
-  "docType": "adjusting journal entry memo",
+  "title": "Ironwood Adjusting Journal Entries — December 2025",
+  "brief": "Year-end adjusting journal entries for Ironwood Fabrication LLC, drafted from its close schedule and supporting records.",
+  "docType": "adjusting journal entries",
   "slip": {
-    "document": "# Year-End Adjusting Journal Entry Memorandum\nPeriod Ended: 12/31/2025 | Prepared by: Financial Reporting\n\n## Background Schedules\n\n| Item | Account Number | General Ledger Balance | Verified Period Data |\n| --- | --- | --- | --- |\n| General Liability Policy | 1310 (Prepaid Ins.) | $48,000 | 12-month policy effective 09/01/2025 |\n| Consulting Contract A-12 | 4010 (Service Rev.) | $120,000 | 150 hours delivered in Dec at $220/hr unbilled |\n| CNC Milling Machine | 1520 (Equipment) | $160,000 | In service 01/01/2025; useful life 5 yrs; salvage $10,000 |\n\n## Proposed Adjusting Journal Entries\n\n## Entry 1: Prepaid Insurance Amortization\n- Policy term elapsed through year-end is 4 months (September through December).\n- Monthly premium expense equals $4,000.\n- Debit Insurance Expense (Account 6410) for $16,000 and credit Prepaid Insurance (Account 1310) for $16,000.\n- Because 4 months of coverage have expired, debit Prepaid Insurance to increase the asset balance for the upcoming operating cycle.\n\n## Entry 2: Accrued Consulting Revenue\n- Milestone hours delivered during December remain unbilled under Contract A-12.\n- Total accrued amount reflects 150 hours at the contractual rate of $220 per hour.\n- Record unbilled earnings of $31,000 to reflect services performed in December.\n- Debit Unbilled Receivables (Account 1150) for $33,000 and credit Consulting Revenue (Account 4010) for $33,000.\n\n## Entry 3: Annual Equipment Depreciation\n- Depreciation method applied: straight-line over 5 years.\n- Depreciable base is calculated as $160,000 cost minus $10,000 salvage value, yielding $150,000.\n- Annual depreciation expense equals $30,000.\n- Debit Depreciation Expense (Account 6710) for $30,000 and credit Equipment (Account 1520) directly instead of Accumulated Depreciation.\n- Approved by: Controller on 01/15/2026.",
+    "document": "# Ironwood Adjusting Journal Entries — December 2025\nIronwood Fabrication LLC | Close date: 12/31/2025 | Prepared by Samuel Nguyen | Reviewed by Naomi Hendricks\n\n## Supporting records\n| Item | Supporting detail |\n| --- | --- |\n| Insurance policy | $12,000 paid 10/01/2025; 12-month term ends 09/30/2026 |\n| Software subscription | $600 paid 12/01/2025; coverage runs 01/01/2026–12/31/2026 |\n| Customer advance | $18,000 received 12/20/2025; fabrication and delivery scheduled for 02/2026 |\n| Depreciable equipment | Cost $48,000; placed in service 01/01/2025; 5-year straight-line life; zero salvage value |\n\n## Proposed entries — 12/31/2025\n- Insurance: Debit Insurance Expense $3,000; credit Prepaid Insurance $3,000. Three of twelve coverage months have elapsed.\n- Software: Debit Software Expense $600; credit Prepaid Software $600. The full subscription charge is expensed in December.\n- Customer advance: Debit Cash $18,000; credit Fabrication Revenue $18,000. Record revenue on receipt because the customer has paid in full.\n- Equipment depreciation: Debit Depreciation Expense $8,600; credit Accumulated Depreciation $8,600. Annual straight-line depreciation is cost divided by useful life.\n\n## Close notes\nMaria Duarte confirmed the equipment was available for use on 01/01/2025 and no additions or disposals affected the fixed-asset schedule. The customer contract requires delivery before control transfers; no fabrication or delivery occurred by 12/31/2025. The software coverage dates are shown on the vendor invoice, and the payment was recorded to Prepaid Software when paid. Post approved entries to the December general ledger and retain this schedule with the close workpapers.",
     "errors": [
       {
-        "quote": "debit Prepaid Insurance to increase the asset balance",
-        "start": 917,
-        "end": 970,
+        "quote": "The full subscription charge is expensed in December.",
+        "start": 837,
+        "end": 890,
+        "focusStart": 869,
+        "focusEnd": 889,
         "type": "logic",
-        "explanation": "Expiring insurance decreases the prepaid asset rather than increasing it, which contradicts the entry itself that correctly credits Prepaid Insurance.",
-        "fix": "credit Prepaid Insurance to reduce the asset balance"
+        "explanation": "The supporting record says the subscription coverage begins 01/01/2026, so none of the service period has elapsed by the 12/31/2025 close. Expensing the full charge in December contradicts those dates and the note that it was recorded as prepaid.",
+        "fix": "The full subscription charge remains prepaid at December 31."
       },
       {
-        "quote": "Record unbilled earnings of $31,000 to reflect services performed",
-        "start": 1212,
-        "end": 1277,
-        "type": "calculation",
-        "explanation": "150 hours multiplied by $220 per hour equals $33,000, not $31,000.",
-        "fix": "Record unbilled earnings of $33,000 to reflect services performed"
-      },
-      {
-        "quote": "credit Equipment (Account 1520) directly instead of Accumulated Depreciation",
-        "start": 1711,
-        "end": 1787,
+        "quote": "Record revenue on receipt because the customer has paid in full.",
+        "start": 967,
+        "end": 1031,
+        "focusStart": 982,
+        "focusEnd": 992,
         "type": "compliance",
-        "explanation": "Under US GAAP (ASC 360), fixed asset depreciation must be credited to an Accumulated Depreciation contra-asset account rather than written down directly against the asset historical cost account.",
-        "fix": "credit Accumulated Depreciation (Account 1525) rather than Equipment"
+        "explanation": "Under ASC 606, receipt of cash alone does not establish that revenue has been earned. The contract requires delivery before control transfers, and the document says no fabrication or delivery occurred by year-end.",
+        "fix": "Record the $18,000 as a contract liability on receipt; recognize revenue when control transfers."
+      },
+      {
+        "quote": "Debit Depreciation Expense $8,600; credit Accumulated Depreciation $8,600.",
+        "start": 1058,
+        "end": 1132,
+        "focusStart": 1064,
+        "focusEnd": 1091,
+        "type": "calculation",
+        "explanation": "Straight-line depreciation is ($48,000 cost − $0 salvage value) ÷ 5 years, which equals $9,600, not $8,600.",
+        "fix": "Debit Depreciation Expense $9,600; credit Accumulated Depreciation $9,600."
       }
     ]
   }

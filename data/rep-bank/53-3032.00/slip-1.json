@@ -4,27 +4,31 @@
   "taskId": "10637",
   "locale": "en",
   "difficulty": 1,
-  "title": "Driver Daily Log and Hours of Service Recap",
-  "brief": "A commercial motor vehicle driver's daily duty status log and recap drafted from electronic logging device records and trip inspection notes.",
-  "docType": "driver daily log",
+  "title": "Daily ELD Driver Log — Leah Santoro — 04/14/2026",
+  "brief": "A daily ELD driver log for Leah Santoro’s regional freight run, drafted from her dispatch and duty-status records.",
+  "docType": "driver log",
   "slip": {
-    "document": "# Driver Daily Log and Hours of Service Recap\nMotor Carrier: Pine Valley Freightways LLC, US DOT # 2948103\n\n## Driver and Equipment Identification\n- Driver: Tyrone Osei, CDL # TX-38491028\n- Date: 10/14/2026\n- Tractor: Unit # 418 (VIN: 1FTFW1ED6PF819032)\n- Trailer: Unit # TR-5309\n- Shipping Document: Bill of Lading # 884019\n- Co-Driver: None (Solo)\n\n## 24-Hour Duty Status Breakdown\n| Duty Status | Start Time | End Time | Total Hours |\n| --- | --- | --- | --- |\n| Off Duty | 00:00 | 06:00 | 6.0 |\n| Sleeper Berth | 06:00 | 08:00 | 2.0 |\n| On Duty (Not Driving) | 08:00 | 08:30 | 0.5 |\n| Driving | 08:30 | 13:00 | 4.5 |\n| Off Duty (Meal) | 13:00 | 13:30 | 0.5 |\n| Driving | 13:30 | 19:30 | 6.0 |\n| On Duty (Not Driving) | 19:30 | 20:30 | 1.0 |\n| Sleeper Berth | 20:30 | 24:00 | 3.5 |\n\n## Summary of Hours and Mileage\n- Miles driven today: 568 miles\n- Total driving hours recorded: 10.5 hours\n- Total on-duty hours recorded: 12.0 hours\n- Total rest hours today: 11.5 hours\n\n## Hours of Service Status (70-Hour / 8-Day Rule)\n- Eligible hours available at start of day: 24.5 hours\n- Total on-duty time used today: 14.5 hours\n- Total available hours carried forward to tomorrow: 12.5 hours\n- 30-minute rest break completed: 13:00 to 13:30 (rest break satisfied prior to exceeding 8 cumulative hours of driving)\n\n## Driver Certification and Inspection\n- Pre-trip vehicle inspection completed at 08:00 at Dallas terminal\n- Post-trip vehicle inspection completed at 19:30 at Memphis staging yard\n- Vehicle defects found: None\n- Driver signature: Tyrone Osei",
+    "document": "# Daily ELD Driver Log — Leah Santoro — 04/14/2026\nRedwood Freight LLC | ELD record review | 04/14/2026\n\n## Driver and vehicle\nDriver: Leah Santoro | Carrier: Redwood Freight LLC, 4180 Cedar Loop, Boise, ID 83705\nTruck: 614 | Trailer: 28 | ELD: unit 614-ELD\nLog date: 04/14/2026 | 24-hour period begins: 12:00 AM MDT\n\n## Duty-status record\n- 12:00 AM–5:30 AM: Off duty, parked at Redwood Freight's Boise yard.\n- 5:30 AM–6:00 AM: On duty, pre-trip inspection and dispatch check.\n- 6:00 AM–8:00 AM: Driving, Boise to Mountain Home, ID.\n- 8:00 AM–8:30 AM: On duty, fuel and vehicle inspection.\n- 8:30 AM–10:00 AM: Driving, Mountain Home to Twin Falls, ID.\n- 10:00 AM–10:30 AM: On duty, load paperwork at the receiver.\n- 10:30 AM–12:30 PM: Driving, Twin Falls to Burley, ID.\n- 12:30 PM–1:00 PM: On duty, unload and secure cargo.\n- 1:00 PM–3:00 PM: Driving, Burley to Pocatello, ID.\n- 3:00 PM–12:00 AM: Off duty, parked at the Pocatello terminal.\n\n## Totals and trip details\nDriving time: 8.5 hours | On-duty, not driving: 2.0 hours | Off duty: 14.5 hours\nTotal miles: 328 | Beginning odometer: 184,220 mi | Ending odometer: 184,548 mi\nShipping document: RF-041426-77\nLoad: packaged irrigation fittings, 18,400 lb, Boise to Pocatello\nWeather and road conditions: Dry pavement; clear skies; no delays or adverse conditions reported.\n\nELD certification is absent from this record. Vehicle remained in service; no defects were reported. Dispatch contact: Hannah Pruitt, Redwood Freight LLC. The electronic record was retained on the carrier system for review.",
     "errors": [
       {
-        "quote": "Total on-duty time used today: 14.5 hours",
-        "start": 1081,
-        "end": 1122,
+        "quote": "Driving time: 8.5 hours",
+        "start": 970,
+        "end": 993,
+        "focusStart": 984,
+        "focusEnd": 993,
         "type": "fact",
-        "explanation": "Total on-duty time includes driving (10.5 hours) plus on-duty not driving (1.5 hours), which equals 12.0 hours as correctly listed in the summary section, not 14.5 hours.",
-        "fix": "Total on-duty time used today: 12.0 hours"
+        "explanation": "The driving intervals listed are 2.0, 1.5, 2.0, and 2.0 hours, totaling 7.5 hours, not 8.5. The listed duty intervals account for the full 24-hour period.",
+        "fix": "Driving time: 7.5 hours"
       },
       {
-        "quote": "Post-trip vehicle inspection completed at 19:30 at Memphis staging yard",
-        "start": 1418,
-        "end": 1489,
+        "quote": "ELD certification is absent from this record.",
+        "start": 1328,
+        "end": 1373,
+        "focusStart": 1328,
+        "focusEnd": 1373,
         "type": "omission",
-        "explanation": "Federal regulations (49 CFR § 396.11) require the driver to record vehicle condition and explicitly certify whether any safety-related defect was found or that no defect was found at the completion of each day's work, but the line omits the driver's vehicle condition declaration.",
-        "fix": "Post-trip vehicle inspection completed at 19:30 at Memphis staging yard with condition certified satisfactory"
+        "explanation": "The record does not include Leah’s certification that her record of duty status is accurate. Drivers must certify their record of duty status at the end of each 24-hour period under 49 CFR 395.30(b).",
+        "fix": "Leah electronically certified the ELD record as accurate."
       }
     ]
   }

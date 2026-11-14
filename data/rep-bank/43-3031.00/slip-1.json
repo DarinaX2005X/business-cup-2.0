@@ -4,27 +4,31 @@
   "taskId": "2486",
   "locale": "en",
   "difficulty": 1,
-  "title": "Cash Disbursement Voucher Audit Review",
-  "brief": "A voucher audit review memo prepared from vendor invoices and check register records to verify coding, documentation, and mathematical accuracy.",
-  "docType": "voucher audit review",
+  "title": "Harbor Point Payroll Posting Verification — December 2025",
+  "brief": "A payroll clerk’s December 2025 journal entry verification, drafted from the payroll register and tax deposit schedule.",
+  "docType": "payroll posting verification",
   "slip": {
-    "document": "# Cash Disbursement Voucher Audit Review\nAudit Period: Week Ended 04/17/2026\nPrepared By: Morgan Lee, Accounting Clerk\n\n## Audit Sample Summary\n\n| Voucher | Vendor Name | GL Account | Description | Amount |\n| --- | --- | --- | --- | --- |\n| V-8810 | Precision Tooling Inc | 5110-00 Cost of Goods Sold | CNC Router Components | $4,850.00 |\n| V-8811 | Westbrook Cleaning Services | 6220-10 Janitorial Expense | Contract Cleaning March | $1,250.00 |\n| V-8812 | Red Rock Logistics | 5200-00 Freight-In | Pallet Delivery | $740.00 |\n| V-8813 | TechLine Solutions | 1500-00 Machinery & Equipment | Network Server Unit | $3,600.00 |\n| V-8814 | Global Office Supplies | 6100-20 Office Expense | Printer Toner and Paper | $460.00 |\n\n## Verification Findings\n\n- The batch total across all five sampled vouchers equals $11,900.00 in total approved disbursements.\n- Voucher V-8810 matches invoice PTI-9942 with matching receiving report RR-402 attached.\n- Voucher V-8811 was issued to sole proprietor Rosa Haddad operating as Westbrook Cleaning Services.\n- Because Rosa Haddad received non-employee compensation of $1,250.00, Form 1099-NEC is not required under IRS rules.\n- Voucher V-8812 freight charges are properly capitalized into inventory under Section 263A guidelines.\n- Voucher V-8813 meets the company capital expenditure threshold of $2,500.00 and is correctly posted to Asset Account 1500-00.\n- Voucher V-8814 expense documentation includes signed packing slip and itemized sales receipt.",
+    "document": "# Harbor Point Payroll Posting Verification — December 2025\nPrepared by Lucas Thornton for Andre Okafor, Accounting Supervisor\n## Source totals\nPayroll register batch HP-1225-04, dated 12/31/2025, covers 12/01/2025–12/31/2025. The company uses the monthly IRS deposit schedule for federal employment taxes. Fatima Ellison matched the register to the approved time records and confirmed the amounts below.\n\n| Payroll item | Amount |\n| --- | ---: |\n| Gross wages | $48,000.00 |\n| Federal income tax withheld | $5,760.00 |\n| Employee Social Security withheld | $2,976.00 |\n| Employee Medicare withheld | $696.00 |\n| Net pay | $38,568.00 |\n| Employer Social Security expense | $2,976.00 |\n| Employer Medicare expense | $696.00 |\n\nNet pay agrees to gross wages less employee withholdings. Employer FICA expense is separate from employee deductions. No state income tax applies to this payroll batch.\n## Proposed journal entry\n- Debit Wages Expense, account 6100, $48,000.00.\n- Debit Employer Payroll Tax Expense, account 6120, $3,762.00.\n- Credit Federal Income Tax Payable, account 2210, $5,760.00.\n- Credit Social Security Payable, account 2212, $5,952.00.\n- Credit Medicare Payable, account 2214, $1,392.00.\n- Credit Cash—Payroll, account 1015, $38,568.00.\n- Total debits and credits are $51,672.00.\n\nThe Social Security and Medicare payable credits combine the employee withholdings and the matching employer amounts. Cash will be disbursed on 01/02/2026 through the company payroll account; the entry remains dated 12/31/2025 to recognize December wages.\n## Tax deposit check\nThe federal tax liability for December includes income tax withheld plus both employee and employer FICA. The schedule notes that the December federal tax deposit was submitted on 01/20/2026. Retain the EFTPS confirmation with the payroll batch support and post the debit to the federal tax payable accounts when the bank debit clears.",
     "errors": [
       {
-        "quote": "sampled vouchers equals $11,900.00 in total approved disbursements",
-        "start": 784,
-        "end": 850,
+        "quote": "Employer Payroll Tax Expense, account 6120, $3,762.00",
+        "start": 978,
+        "end": 1031,
+        "focusStart": 1022,
+        "focusEnd": 1031,
         "type": "calculation",
-        "explanation": "The sum of the five vouchers ($4,850.00 + $1,250.00 + $740.00 + $3,600.00 + $460.00) is $10,900.00, not $11,900.00.",
-        "fix": "sampled vouchers equals $10,900.00 in total approved disbursements"
+        "explanation": "Employer payroll tax expense should equal employer Social Security of $2,976.00 plus employer Medicare of $696.00, totaling $3,672.00. The posted amount is $90.00 too high and makes the debit total inconsistent with the stated total.",
+        "fix": "Employer Payroll Tax Expense, account 6120, $3,672.00"
       },
       {
-        "quote": "compensation of $1,250.00, Form 1099-NEC is not required under IRS rules",
-        "start": 1087,
-        "end": 1159,
+        "quote": "December federal tax deposit was submitted on 01/20/2026",
+        "start": 1710,
+        "end": 1766,
+        "focusStart": 1756,
+        "focusEnd": 1766,
         "type": "compliance",
-        "explanation": "IRS reporting rules require Form 1099-NEC for non-employee compensation paid to unincorporated entities or sole proprietors of $600 or more in a calendar year.",
-        "fix": "compensation of $1,250.00, Form 1099-NEC is required under IRS rules"
+        "explanation": "For a monthly federal tax depositor, December employment taxes are due by 01/15/2026. The stated 01/20/2026 deposit date is late.",
+        "fix": "December federal tax deposit was submitted on 01/15/2026"
       }
     ]
   }

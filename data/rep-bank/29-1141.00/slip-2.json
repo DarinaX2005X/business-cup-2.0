@@ -4,35 +4,41 @@
   "taskId": "1845",
   "locale": "en",
   "difficulty": 2,
-  "title": "Shift Progress and Patient Care Plan Note",
-  "brief": "A 12-hour shift progress note and updated nursing care plan for a postoperative patient recovering from an open cholecystectomy, drafted from the flowsheets and provider orders.",
-  "docType": "nursing shift note",
+  "title": "Patient Care Monitoring Note — 04/18/2026",
+  "brief": "A patient care monitoring note for Maria Navarro, drafted from the shift record and care orders.",
+  "docType": "nursing monitoring note",
   "slip": {
-    "document": "# Shift Progress and Patient Care Plan Note\nPatient: Omar Okafor | MRN: 482-901-44 | DOB: 11/14/1961 | Room: 412-B\nAdmit Date: 03/12/2026 | Shift: 0700-1930 | Date: 03/14/2026\n\n## Intake, Output, and Vitals Summary\n| Parameter | 0800 | 1200 | 1600 |\n| --- | --- | --- |\n| Blood Pressure (mmHg) | 128/78 | 134/82 | 122/74 |\n| Heart Rate (bpm) | 76 | 82 | 78 |\n| Oral Intake (mL) | 150 | 250 | 200 |\n| IV Fluids (mL) | 100 | 100 | 100 |\n| Urine Output (mL) | 120 | 140 | 110 |\n| Blood Glucose (mg/dL) | 118 | 132 | 124 |\n\n## Patient Assessment and Interventions\nPatient is postoperative day 2 following open cholecystectomy. Surgical incision site across right upper quadrant is clean, intact, with staples in place, and without erythema or active drainage. Abdomen soft, mildly distended, with hypoactive bowel sounds across all quadrants.\n\n- Diet advanced to low-fat full liquids at 1200 per order; patient tolerated 250 mL without nausea or emesis.\n- Strict total fluid restriction of 2,500 mL per 24 hours maintained to prevent hypervolemia.\n- Transfer out of bed to bedside chair achieved with assistance of two staff members at 1000 and 1500.\n- Ambulated 150 ft in corridor with rolling walker at 1630 without orthostatic complaints.\n- Right peripheral 20G IV in forearm patent with normal saline at 100 mL/hr running continuously.\n- Incentive spirometry performed q1h while awake, achieving 1,250 mL volumes consistently.\n- Foley catheter kept dependent and secured to the upper side rail of the bed.\n- Patient administered ordered pain medication for reported 5/10 abdominal pain before physical therapy.\n\n## Plan for Night Shift\n- Continue monitoring abdominal girth and bowel sounds q4h.\n- Assist with ambulation minimum two times before 2300.",
+    "document": "# Patient Care Monitoring Note — 04/18/2026\nWestbrook Regional Care Center | Room 214 | Day shift\n\n## Patient and orders\nPatient: Maria Navarro, 72 | MRN: WB-60418\nAllergies: sulfa drugs\nAdmitting diagnosis: right ankle fracture, nonoperative management\n\n| Monitoring item | Current order or reference |\n| --- | --- |\n| Diet | Consistent-carbohydrate, 60 g per meal |\n| Activity | Up with one-person assist; weight bearing as tolerated on right leg |\n| Fall precautions | Bed alarm on; nonskid footwear for transfers |\n| Baseline vitals, 0600 | BP 138/76 mmHg; pulse 82/min; respirations 16/min; temperature 98.4°F; SpO2 97% on room air |\n\n## Shift observations\nAt 0700, breakfast intake was documented as 100% before the tray arrived at 0735. Patient was alert and oriented to person, place, time, and situation. Right ankle swelling remained mild; toes warm, capillary refill under 2 seconds, and sensation intact. She denied numbness or new pain. At 0815, she transferred from bed to chair with one-person assistance and a walker; gait was steady, with no loss of balance.\n\nAlthough the order specifies a consistent-carbohydrate diet, the patient received and ate a regular breakfast with approximately 75 g carbohydrate. She drank 240 mL water with the meal and had no nausea. At 1030, BP was 132/74 mmHg, pulse 78/min, and SpO2 97% on room air. She walked 40 ft in the hall with the walker and one-person assistance, then rested in the chair.\n\nAt 1115, Maria reported ankle pain of 7/10. Hydrocodone 5 mg by mouth was administered per the PRN order. The shift record contains no post-dose pain reassessment. At 1200, she was resting in bed with the bed alarm on; call light was within reach. Wendy Whitfield, RN, received handoff at 1500.",
     "errors": [
       {
-        "quote": "Strict total fluid restriction of 2,500 mL per 24 hours maintained to prevent hypervolemia.",
-        "start": 952,
-        "end": 1043,
-        "type": "fact",
-        "explanation": "A volume of 2,500 mL/day is a normal or generous maintenance intake, not a strict fluid restriction (which typically limits intake to 1,000–1,500 mL/day).",
-        "fix": "Strict total fluid restriction of 1,500 mL per 24 hours maintained to prevent hypervolemia."
-      },
-      {
-        "quote": "Foley catheter kept dependent and secured to the upper side rail of the bed.",
-        "start": 1429,
-        "end": 1505,
+        "quote": "breakfast intake was documented as 100% before the tray arrived",
+        "start": 671,
+        "end": 734,
+        "focusStart": 692,
+        "focusEnd": 710,
         "type": "compliance",
-        "explanation": "Standard nursing infection-control and CAUTI prevention practice mandates securing the urinary drainage bag below the level of the bladder on the bed frame, never to a movable side rail where it can cause backflow or tension on the catheter.",
-        "fix": "Foley catheter kept dependent and secured to the bed frame below bladder level."
+        "explanation": "The note says intake was documented at 0700, but the tray did not arrive until 0735. Recording meal intake before it occurs is inaccurate documentation and violates the requirement to maintain a truthful patient record.",
+        "fix": "breakfast intake was documented after the tray arrived"
       },
       {
-        "quote": "Patient administered ordered pain medication for reported 5/10 abdominal pain before physical therapy.",
-        "start": 1508,
-        "end": 1610,
+        "quote": "the patient received and ate a regular breakfast",
+        "start": 1138,
+        "end": 1186,
+        "focusStart": 1169,
+        "focusEnd": 1186,
+        "type": "fact",
+        "explanation": "The order table specifies a consistent-carbohydrate diet of 60 g per meal, but this sentence says she received and ate a regular breakfast with about 75 g carbohydrate. The documented meal conflicts with the ordered diet.",
+        "fix": "the patient received and ate a consistent-carbohydrate breakfast"
+      },
+      {
+        "quote": "Hydrocodone 5 mg by mouth was administered per the PRN order.",
+        "start": 1493,
+        "end": 1554,
+        "focusStart": 1493,
+        "focusEnd": 1554,
         "type": "omission",
-        "explanation": "A complete nursing medication administration note must state the specific drug name, dose, and route administered.",
-        "fix": "Patient administered ordered hydromorphone 0.5 mg IV push for reported 5/10 abdominal pain before physical therapy."
+        "explanation": "The note records a PRN opioid given for pain rated 7/10 but does not document reassessment of pain and response after administration. The record needs the post-dose pain score and reassessment time.",
+        "fix": "Hydrocodone 5 mg by mouth was administered per the PRN order; pain was reassessed at 1200 and was 3/10."
       }
     ]
   }

@@ -4,27 +4,31 @@
   "taskId": "21670",
   "locale": "en",
   "difficulty": 1,
-  "title": "Software Change Request and Incident Resolution Plan",
-  "brief": "An incident resolution and patch plan for a production latency degradation issue in an automated billing microservice, drafted from telemetry logs and commit history.",
-  "docType": "incident resolution plan",
+  "title": "Tidewater Queue Service Maintenance Change Record",
+  "brief": "A maintenance change record for a queue-service bug fix, drafted from the incident notes and deployment configuration.",
+  "docType": "change record",
   "slip": {
-    "document": "# Software Change Request and Incident Resolution Plan\nCR-2026-0418 | Service: AcctSvc-Ledger\n\n## Incident Summary\nOn 03/14/2026 at 09:15 EST, AcctSvc-Ledger experienced database connection pool exhaustion following migration to AWS Graviton4 instances (c8g.4xlarge). High P99 latency exceeded 4,200 ms, triggering customer billing timeouts.\n\n| Attribute | Baseline | Production Outage |\n| --- | --- | --- |\n| Active DB Connections | 45 | 300 (Max Capacity) |\n| P99 Query Latency | 32 ms | 4,210 ms |\n| Target Architecture | x86_64 | arm64 |\n| Driver Version | pgx v5.4.1 | pgx v5.4.1 |\n\n## Root Cause\nInspection of commit a48df2b shows unclosed connection handles inside the bulk transaction processing loop in ledger/writer.go. On arm64 architectures, goroutines scheduled faster, exhausting the pool within 8 minutes.\n\n## Remediation Steps\n- Add defer tx.Rollback() immediately after transaction initialization in ledger/writer.go to handle aborted paths.\n- Implement a fixed pool size in db/pool.go by specifying MaxConns without setting any connection limit.\n- Rebuild the service binary specifically targeting the x86 architecture for production deployment to c8g.4xlarge instances.\n- Execute unit tests via go test ./ledger/... to verify proper connection release.\n\n## Rollback Plan\nIf P99 latency exceeds 100 ms during canary rollout, revert traffic using AWS Route53 weighted routing to container image acctsvc:v2.14.8 running in US-East-1.",
+    "document": "# Tidewater Queue Service Maintenance Change Record\nChange CHG-2641 | 06/18/2026 | Owner: Ethan Weaver\n\n## Scope\nTidewater Harbor Systems will fix a retry bug that caused duplicate notifications when the worker restarted during a network timeout. Dmitri Abbott reviewed the patch; Colleen Navarro is the release operator. The change updates the worker image from 4.18.2 to 4.18.3 and adds a database migration for the notification status field. The migration is backward-incompatible: the prior worker cannot read the new status value after it is written.\n\n## Deployment plan\n- Confirm the 4.18.3 image passes CI and the staging replay test for 500 queued notifications.\n- Apply migration 2026_06_18_add_status, then deploy image 4.18.3 to one canary instance.\n- Check queue depth, duplicate-notification count, and worker error rate for 15 minutes before completing the fleet rollout.\n- Notify support after production verification; record the deployment timestamp in CHG-2641.\n\nThe production health check runs every 30 seconds. The deployment configuration specifies the following interval:\n\n| Setting | Value |\n| --- | --- |\n| health_check_interval_seconds | 15 |\n| canary_instances | 1 |\n| rollout_batch_size | 2 |\n\n## Rollback and verification\n- Rollback: redeploy image tag 4.18.2.\n- Stop rollout if the error rate exceeds 1% or queue depth rises above 2,000 messages.\n- After rollout, verify that a retried notification is delivered once and that no worker errors appear in the logs.\n\nEthan will attach the CI run and staging replay results to the change record before the scheduled 10:00 AM deployment window. Production monitoring remains assigned to Colleen through 10:30 AM.",
     "errors": [
       {
-        "quote": "specifying MaxConns without setting any connection limit",
-        "start": 1006,
-        "end": 1062,
-        "type": "omission",
-        "explanation": "The pool configuration directive is missing the concrete numeric value required to set MaxConns, leaving the pool limit unspecified.",
-        "fix": "specifying MaxConns = 50 and MinConns = 10"
+        "quote": "The production health check runs every 30 seconds.",
+        "start": 980,
+        "end": 1030,
+        "focusStart": 1019,
+        "focusEnd": 1029,
+        "type": "fact",
+        "explanation": "The deployment configuration table specifies health_check_interval_seconds as 15, contradicting the stated 30-second interval.",
+        "fix": "The production health check runs every 15 seconds."
       },
       {
-        "quote": "targeting the x86 architecture for production deployment to c8g.4xlarge instances",
-        "start": 1106,
-        "end": 1187,
-        "type": "fact",
-        "explanation": "AWS c8g instances run on Graviton4 processors using the arm64 architecture, as recorded in the Incident Summary and comparison table, so targeting the x86 architecture will fail to execute.",
-        "fix": "targeting the arm64 architecture for production deployment to c8g.4xlarge instances"
+        "quote": "Rollback: redeploy image tag 4.18.2.",
+        "start": 1252,
+        "end": 1288,
+        "focusStart": 1252,
+        "focusEnd": 1288,
+        "type": "omission",
+        "explanation": "The migration is explicitly backward-incompatible, so redeploying the old worker alone will not restore service compatibility after the new status value is written. The rollback instructions omit a database migration rollback or other recovery step.",
+        "fix": "Rollback: stop writes, restore the database to its pre-migration state, then redeploy image tag 4.18.2."
       }
     ]
   }

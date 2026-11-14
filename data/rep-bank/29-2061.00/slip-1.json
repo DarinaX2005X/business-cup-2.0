@@ -4,27 +4,31 @@
   "taskId": "515",
   "locale": "en",
   "difficulty": 1,
-  "title": "Shift Intake and Output Summary",
-  "brief": "A 12-hour day shift intake and output flow sheet summary for an adult medical-surgical patient receiving IV maintenance fluids and oral intake.",
-  "docType": "shift intake and output summary",
+  "title": "Intake and Output Record — Keiko Sato",
+  "brief": "An intake and output record for Keiko Sato’s evening shift, drafted from the bedside measurements.",
+  "docType": "intake and output record",
   "slip": {
-    "document": "# Shift Intake and Output Summary\nPatient: Caleb Petrov | DOB: 04/14/1958 | MRN: 904281 | Room: 412-B\nProvider: Dr. Evelyn Reed, MD | Shift: Day (0700-1930) | Date: 10/14/2026\n\n## Intake Reference Log\n| Time | Source | Description | Amount (mL) |\n| --- | --- | --- | --- |\n| 0800 | Oral | Coffee (6 oz) and apple juice (4 oz) | 300 |\n| 1000 | IV Infusion | 0.9% Normal Saline at 75 mL/hr (0700-1100) | 300 |\n| 1200 | Oral | Chicken broth (8 oz) and water (8 oz) | 480 |\n| 1500 | IV Infusion | 0.9% Normal Saline at 75 mL/hr (1100-1500) | 300 |\n| 1730 | Oral | Gelatin dessert (4 oz) and hot tea (6 oz) | 300 |\n| 1900 | IV Infusion | 0.9% Normal Saline at 75 mL/hr (1500-1900) | 300 |\n\n## Output Reference Log\n| Time | Source | Description | Amount (mL) |\n| --- | --- | --- | --- |\n| 0915 | Void | Clear amber urine | 350 |\n| 1345 | Void | Clear amber urine | 425 |\n| 1630 | Emesis | Bilious stomach contents | 175 |\n| 1845 | Void | Clear pale yellow urine | 400 |\n\n## Clinical Notes and Totals\n- Patient tolerated oral liquids without nausea until mid-afternoon emesis episode.\n- Total recorded shift oral intake equals 880 mL across breakfast, lunch, and dinner periods.\n- Total IV intake recorded is 900 mL from continuous normal saline infusion.\n- Total shift fluid output equals 1350 mL across all routes.\n- Measured urine output via calibrated collection container was emptied directly into the bedside handwashing sink.\n- Net fluid balance for the 12-hour shift is positive 330 mL.\n- Notified RN of emesis and provided oral care at 1645.\n\nDocumented by: Lucas Brody, LVN | License: #318942",
+    "document": "# Intake and Output Record — Keiko Sato\nClearwater Skilled Nursing Center | 04/18/2026 | 3:00 PM–11:00 PM\nResident: Keiko Sato | Room 214 | Nurse: Paul Kowalczyk, LPN\n\n## Shift measurements\nAll fluid amounts are recorded in mL. Oral intake was measured at the bedside; urine was measured from the indwelling catheter drainage bag.\n\n| Time | Intake | Output | Details |\n| --- | ---: | ---: | --- |\n| 4:00 PM | 240 | 300 | Water; urine |\n| 6:00 PM | 180 | 250 | Broth; urine |\n| 8:00 PM | 240 | 200 | Tea; urine |\n| 10:00 PM | 120 | 300 | Water; urine |\n| Total | 780 | 1,050 | Shift totals |\n\n## Nursing note\nResident awake and able to drink without assistance. Intake includes all fluids consumed during the shift; no IV fluids were administered. Urine was pale yellow and without visible sediment. At 7:15 PM, I disconnected catheter tubing to pour urine into a graduated cylinder, then reconnected it. Resident denied discomfort. No emesis or liquid stool occurred during the shift.\n\nThe shift summary records 780 mL intake and 1,250 mL output. Reported totals were given to Tyrone Gallagher, RN, at 11:00 PM. Continue measuring and recording each intake and output event on the next shift. Keiko remained in bed with call light within reach at handoff.",
     "errors": [
       {
-        "quote": "Total recorded shift oral intake equals 880 mL across breakfast, lunch, and dinner periods.",
-        "start": 1080,
-        "end": 1171,
-        "type": "fact",
-        "explanation": "The intake reference table shows oral intakes of 300 mL at 0800, 480 mL at 1200, and 300 mL at 1730, which sums to 1080 mL, not 880 mL.",
-        "fix": "Total recorded shift oral intake equals 1080 mL across breakfast, lunch, and dinner periods."
+        "quote": "I disconnected catheter tubing to pour urine",
+        "start": 811,
+        "end": 855,
+        "focusStart": 813,
+        "focusEnd": 825,
+        "type": "compliance",
+        "explanation": "A urinary catheter drainage system should remain closed; disconnecting the tubing breaks the closed system and increases infection risk. Urine can be measured from the drainage bag without disconnecting the tubing.",
+        "fix": "I measured urine from the drainage bag without disconnecting catheter tubing"
       },
       {
-        "quote": "emptied directly into the bedside handwashing sink",
-        "start": 1374,
-        "end": 1424,
-        "type": "compliance",
-        "explanation": "OSHA bloodborne pathogens standards and hospital infection control standards strictly prohibit disposing of bodily fluids into handwashing sinks; bodily waste must be emptied into a designated hopper, commode, or sluice sink.",
-        "fix": "emptied directly into the patient bathroom commode"
+        "quote": "records 780 mL intake and 1,250 mL output",
+        "start": 1004,
+        "end": 1045,
+        "focusStart": 1030,
+        "focusEnd": 1035,
+        "type": "fact",
+        "explanation": "The table lists outputs of 300, 250, 200, and 300 mL, totaling 1,050 mL, and the table’s shift total confirms that amount. The narrative’s output total is inconsistent.",
+        "fix": "records 780 mL intake and 1,050 mL output"
       }
     ]
   }

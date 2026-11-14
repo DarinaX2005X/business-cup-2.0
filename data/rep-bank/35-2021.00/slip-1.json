@@ -4,27 +4,31 @@
   "taskId": "18730",
   "locale": "en",
   "difficulty": 1,
-  "title": "Meadowlark Bistro Daily Shift Temperature Log and Corrective Action Report",
-  "brief": "Shift temperature log and corrective action report drafted from prep cook logs for the morning shift at Meadowlark Bistro.",
+  "title": "Meadowlark Kitchen Temperature Log — 06/18/2026",
+  "brief": "A daily food and storage-area temperature log for Meadowlark Kitchen, drafted from the shift readings and staff notes.",
   "docType": "temperature log",
   "slip": {
-    "document": "# Meadowlark Bistro Daily Shift Temperature Log and Corrective Action Report\nKitchen Station 2 - Morning Prep Shift\nDate: 04/14/2026\nLead Prep: Caleb Nguyen | Shift Supervisor: Megan Hendricks\n\n## Equipment Temperature Checks\n\n| Unit ID | Equipment Type | Standard Range | Check 1 (07:00 AM) | Check 2 (11:00 AM) | Status |\n| --- | --- | --- | --- | --- | --- |\n| REF-02 | Walk-in Cooler A | 33°F - 40°F | 37°F | 38°F | Normal |\n| REF-05 | Low-Boy Prep Table | 33°F - 40°F | 46°F | 39°F | Action Req. |\n| FRZ-01 | Main Reach-in Freezer | -10°F - 0°F | -2°F | -1°F | Normal |\n\n## Time-Temperature Control for Safety (TCS) Food Verification\n\n| Item Code | Food Description | Standard Limit | Measured Temp | Time Monitored | Initial |\n| --- | --- | --- | --- | --- | --- |\n| PREP-101 | Diced Raw Chicken Breast | 41°F or below | 39°F | 10:30 AM | CN |\n| PREP-104 | House Ranch Dressing | 41°F or below | 40°F | 10:45 AM | CN |\n| SOUP-02 | Clam Chowder (Hot Hold) | 135°F or above | 148°F | 11:15 AM | BD |\n\n## Corrective Action Log\n- Incident 1: At 07:00 AM, Brandon Duarte identified unit REF-05 holding at 46°F, which violates cold-holding limits.\n- Brandon Duarte adjusted the condenser dial and relocated prep inserts to Walk-in Cooler A.\n- Technician service request submitted to facility maintenance for unit REF-05 gasket inspection.\n\n## Prep Supervisor Sign-Off\n- Shift temperatures reviewed with cook Brandon Duarte prior to meal rush.\n- All hot and cold storage units operated within required limits throughout the shift.",
+    "document": "# Meadowlark Kitchen Temperature Log — 06/18/2026\nDaily opening and mid-shift checks | Prepared by Caleb Nguyen\n## Recorded temperatures\n| Time | Location or item | Temperature | Limit |\n| --- | --- | --- | --- |\n| 6:05 AM | Walk-in cooler air | 38°F | 41°F or below |\n| 6:10 AM | Walk-in freezer air | -4°F | 0°F or below |\n| 6:15 AM | Milk, top shelf | 39°F | 41°F or below |\n| 9:40 AM | Cooked chicken, hot line | 137°F | 135°F or above |\n| 10:05 AM | Walk-in cooler air | 46°F | 41°F or below |\n| 10:12 AM | Sliced turkey, walk-in cooler | 44°F | 41°F or below |\n| 11:30 AM | Walk-in cooler air | 39°F | 41°F or below |\n## Corrective action and handoff\nAt 10:05 AM, Megan Hendricks found the walk-in cooler above its limit. The sliced turkey was moved to the backup cooler at 10:15 AM. Brandon Duarte confirmed the walk-in cooler had returned to 39°F at 11:30 AM.\nThe turkey reading was 44°F at 10:12 AM. Record how long the turkey had been above 41°F and discard it if the time above 41°F exceeded 4 hours.\nThe freezer was at 0°F at the opening check, so frozen inventory remained within limit. Caleb Nguyen reviewed the log with Megan Hendricks at 11:35 AM and filed it in the kitchen binder.",
     "errors": [
       {
-        "quote": "relocated prep inserts to Walk-in Cooler A.",
-        "start": 1197,
-        "end": 1240,
+        "quote": "The turkey reading was 44°F at 10:12 AM.",
+        "start": 868,
+        "end": 908,
+        "focusStart": 868,
+        "focusEnd": 908,
         "type": "omission",
-        "explanation": "Standard food safety procedure for an out-of-temperature unit requires recording the internal food temperatures of the relocated TCS food to confirm it did not enter the temperature danger zone prior to transfer.",
-        "fix": "checked internal food temperatures to confirm safe holding levels and relocated prep inserts to Walk-in Cooler A."
+        "explanation": "The log records turkey at 44°F but does not record how long it had been above 41°F or its disposition. That time assessment is needed to determine whether the turkey must be discarded; the next sentence states the relevant four-hour limit but does not provide the actual elapsed time or action.",
+        "fix": "The turkey was above 41°F for 20 minutes and was returned to compliant cold holding."
       },
       {
-        "quote": "All hot and cold storage units operated within required limits throughout the shift.",
-        "start": 1445,
-        "end": 1529,
+        "quote": "The freezer was at 0°F at the opening check",
+        "start": 1012,
+        "end": 1055,
+        "focusStart": 1031,
+        "focusEnd": 1034,
         "type": "fact",
-        "explanation": "This statement is false because the table shows Low-Boy Prep Table REF-05 measured 46°F at 07:00 AM, exceeding the allowable cold-holding standard of 40°F and requiring corrective action.",
-        "fix": "Low-Boy Prep Table REF-05 exceeded standard limits at 07:00 AM but returned to normal range after corrective action."
+        "explanation": "The opening-check table records the walk-in freezer at -4°F at 6:10 AM, not 0°F. The narrative's stated reading contradicts the recorded measurement.",
+        "fix": "The freezer was at -4°F at the opening check"
       }
     ]
   }

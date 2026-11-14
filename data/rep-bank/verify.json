@@ -1,0 +1,909 @@
+{
+  "11-2021.00/delegate-1": {
+    "key": "11-2021.00/delegate-1",
+    "hash": "d195632ebe1f",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0002015,
+    "at": "2026-11-14T16:58:59.811Z"
+  },
+  "11-2021.00/edge-1": {
+    "key": "11-2021.00/edge-1",
+    "hash": "361437677407",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0,
+    "at": "2026-11-14T16:43:24.260Z"
+  },
+  "11-2021.00/slip-1": {
+    "key": "11-2021.00/slip-1",
+    "hash": "d0e7035f1b42",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0002258,
+    "at": "2026-11-14T16:59:00.518Z"
+  },
+  "11-3021.00/slip-1": {
+    "key": "11-3021.00/slip-1",
+    "hash": "b6a957a18372",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0003148,
+    "at": "2026-11-14T16:59:06.792Z"
+  },
+  "13-1031.00/delegate-1": {
+    "key": "13-1031.00/delegate-1",
+    "hash": "67db31e095ce",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0001797,
+    "at": "2026-11-14T16:59:06.251Z"
+  },
+  "13-1031.00/edge-1": {
+    "key": "13-1031.00/edge-1",
+    "hash": "3a1114651567",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0,
+    "at": "2026-11-14T16:43:30.740Z"
+  },
+  "11-1021.00/slip-1": {
+    "key": "11-1021.00/slip-1",
+    "hash": "e3bfccb17947",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0003429,
+    "at": "2026-11-14T16:59:03.234Z"
+  },
+  "11-3031.00/slip-1": {
+    "key": "11-3031.00/slip-1",
+    "hash": "4f4e22d7a06a",
+    "ok": false,
+    "problems": [
+      "Mistake 2 (\"subject to standard closing conditions and employment confirmation.\") is not a real mistake: The document does not state whether the property is in a participating flood-insurance community, so the stated facts do not establish that federal law requires flood insurance before closing."
+    ],
+    "costUsd": 0.000237,
+    "at": "2026-11-14T16:59:05.124Z"
+  },
+  "13-1071.00/delegate-1": {
+    "key": "13-1071.00/delegate-1",
+    "hash": "dcf9319aaf70",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0001806,
+    "at": "2026-11-14T16:59:08.692Z"
+  },
+  "13-1071.00/edge-1": {
+    "key": "13-1071.00/edge-1",
+    "hash": "7bd586002bea",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0,
+    "at": "2026-11-14T16:43:36.063Z"
+  },
+  "11-2021.00/slip-2": {
+    "key": "11-2021.00/slip-2",
+    "hash": "9bf8b396f0f1",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.00022808,
+    "at": "2026-11-14T16:59:02.352Z"
+  },
+  "13-1071.00/slip-2": {
+    "key": "13-1071.00/slip-2",
+    "hash": "db0731a15d8f",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0002852,
+    "at": "2026-11-14T16:59:11.814Z"
+  },
+  "13-1031.00/slip-2": {
+    "key": "13-1031.00/slip-2",
+    "hash": "8e4cf1e461c6",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0003084,
+    "at": "2026-11-14T16:59:09.356Z"
+  },
+  "13-1031.00/slip-1": {
+    "key": "13-1031.00/slip-1",
+    "hash": "0f465af5a5cd",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.000596,
+    "at": "2026-11-14T16:43:42.337Z"
+  },
+  "13-1071.00/slip-1": {
+    "key": "13-1071.00/slip-1",
+    "hash": "ba970fceb758",
+    "ok": false,
+    "problems": [
+      "Mistake 2 (\"may bank compensatory time instead of paying overtime\") is not a real mistake: The document does not say whether Tidewater is a private-sector employer; the FLSA can permit compensatory time for qualifying public agencies under specified conditions."
+    ],
+    "costUsd": 0.0002982,
+    "at": "2026-11-14T16:59:12.767Z"
+  },
+  "13-1082.00/slip-1": {
+    "key": "13-1082.00/slip-1",
+    "hash": "8ab545ef99dd",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0002563,
+    "at": "2026-11-14T16:59:13.428Z"
+  },
+  "13-2011.00/delegate-1": {
+    "key": "13-2011.00/delegate-1",
+    "hash": "339bbb20f4d3",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0002423,
+    "at": "2026-11-14T16:59:16.241Z"
+  },
+  "13-2011.00/edge-1": {
+    "key": "13-2011.00/edge-1",
+    "hash": "74d87dc74cf3",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0,
+    "at": "2026-11-14T16:43:46.931Z"
+  },
+  "13-1161.00/slip-1": {
+    "key": "13-1161.00/slip-1",
+    "hash": "9150acb86c51",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0002509,
+    "at": "2026-11-14T16:59:14.360Z"
+  },
+  "13-1111.00/slip-1": {
+    "key": "13-1111.00/slip-1",
+    "hash": "7654ae538224",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0004228,
+    "at": "2026-11-14T16:43:49.382Z"
+  },
+  "13-1199.04/slip-1": {
+    "key": "13-1199.04/slip-1",
+    "hash": "0ec9513069b3",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0003543,
+    "at": "2026-11-14T16:43:50.630Z"
+  },
+  "13-2011.00/slip-1": {
+    "key": "13-2011.00/slip-1",
+    "hash": "8ca5eb07e304",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0002311,
+    "at": "2026-11-14T16:43:50.804Z"
+  },
+  "13-2011.00/slip-2": {
+    "key": "13-2011.00/slip-2",
+    "hash": "36b7bdc0dbb2",
+    "ok": false,
+    "problems": [
+      "Unplanned error at \"Debit Cash $18,000; credit Fabrication Revenue $18,000.\": The customer paid on December 20, so debiting Cash again in the December 31 adjusting entry would record the same receipt twice. Fix it so that only the declared mistakes remain."
+    ],
+    "costUsd": 0.0003384,
+    "at": "2026-11-14T16:59:18.112Z"
+  },
+  "15-1252.00/delegate-1": {
+    "key": "15-1252.00/delegate-1",
+    "hash": "8a4b6d6d2e31",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0001633,
+    "at": "2026-11-14T16:59:19.413Z"
+  },
+  "15-1252.00/edge-1": {
+    "key": "15-1252.00/edge-1",
+    "hash": "47e4a960deef",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0,
+    "at": "2026-11-14T16:43:53.168Z"
+  },
+  "13-2011.00/slip-4": {
+    "key": "13-2011.00/slip-4",
+    "hash": "54b09502d2e6",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0002567,
+    "at": "2026-11-14T16:43:54.922Z"
+  },
+  "13-2011.00/slip-3": {
+    "key": "13-2011.00/slip-3",
+    "hash": "d37e964cb140",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.00020342,
+    "at": "2026-11-14T16:59:19.111Z"
+  },
+  "15-1252.00/slip-1": {
+    "key": "15-1252.00/slip-1",
+    "hash": "dcb5f4864ec3",
+    "ok": false,
+    "problems": [
+      "Unplanned error at \"then deploy image 4.18.3 to one canary instance.\": The migration is applied before the canary, so the existing 4.18.2 workers may encounter the new status value they cannot read while the rollout is in progress. Fix it so that only the declared mistakes remain."
+    ],
+    "costUsd": 0.0003185,
+    "at": "2026-11-14T16:59:24.599Z"
+  },
+  "23-2011.00/delegate-1": {
+    "key": "23-2011.00/delegate-1",
+    "hash": "843200062c67",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0001727,
+    "at": "2026-11-14T16:59:24.910Z"
+  },
+  "23-2011.00/edge-1": {
+    "key": "23-2011.00/edge-1",
+    "hash": "122b4f17b0b9",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0,
+    "at": "2026-11-14T16:43:56.774Z"
+  },
+  "15-1232.00/slip-1": {
+    "key": "15-1232.00/slip-1",
+    "hash": "852719699f27",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0003563,
+    "at": "2026-11-14T16:59:21.874Z"
+  },
+  "15-1252.00/slip-2": {
+    "key": "15-1252.00/slip-2",
+    "hash": "850288a0e5db",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0003084,
+    "at": "2026-11-14T16:59:25.101Z"
+  },
+  "23-2011.00/slip-2": {
+    "key": "23-2011.00/slip-2",
+    "hash": "d60e20436220",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.000475175,
+    "at": "2026-11-14T16:44:06.116Z"
+  },
+  "25-2022.00/delegate-1": {
+    "key": "25-2022.00/delegate-1",
+    "hash": "c355845e9393",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0001697,
+    "at": "2026-11-14T16:59:28.644Z"
+  },
+  "25-2022.00/edge-1": {
+    "key": "25-2022.00/edge-1",
+    "hash": "e39168f3b159",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0,
+    "at": "2026-11-14T16:44:06.119Z"
+  },
+  "23-2011.00/slip-1": {
+    "key": "23-2011.00/slip-1",
+    "hash": "4a81c3e96957",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0003063,
+    "at": "2026-11-14T16:59:31.056Z"
+  },
+  "25-2021.00/slip-1": {
+    "key": "25-2021.00/slip-1",
+    "hash": "55fb7cdeaf46",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0003488,
+    "at": "2026-11-14T16:59:31.723Z"
+  },
+  "23-1011.00/slip-1": {
+    "key": "23-1011.00/slip-1",
+    "hash": "3a6c8d677160",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0003273,
+    "at": "2026-11-14T16:59:25.972Z"
+  },
+  "25-2022.00/slip-1": {
+    "key": "25-2022.00/slip-1",
+    "hash": "b20b68c32c4f",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0002418,
+    "at": "2026-11-14T16:59:31.293Z"
+  },
+  "25-2031.00/slip-1": {
+    "key": "25-2031.00/slip-1",
+    "hash": "3e3915f2e4c4",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0002419,
+    "at": "2026-11-14T16:59:35.675Z"
+  },
+  "29-1141.00/delegate-1": {
+    "key": "29-1141.00/delegate-1",
+    "hash": "fb79e051cca0",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0001807,
+    "at": "2026-11-14T16:59:34.644Z"
+  },
+  "29-1141.00/edge-1": {
+    "key": "29-1141.00/edge-1",
+    "hash": "09055e040ffb",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0,
+    "at": "2026-11-14T16:44:12.633Z"
+  },
+  "25-2022.00/slip-2": {
+    "key": "25-2022.00/slip-2",
+    "hash": "b6271ffff718",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0003315,
+    "at": "2026-11-14T16:59:34.364Z"
+  },
+  "25-9042.00/slip-1": {
+    "key": "25-9042.00/slip-1",
+    "hash": "8928005e8e80",
+    "ok": false,
+    "problems": [
+      "Mistake 1 (\"Direct students to form each word by blending phonemes aloud before spelling.\") is not a real mistake: The table provides each student's target words, so “each word” can reasonably refer to those listed words without repeating the list or its count."
+    ],
+    "costUsd": 0.0002978,
+    "at": "2026-11-14T16:44:17.311Z"
+  },
+  "29-1141.00/slip-1": {
+    "key": "29-1141.00/slip-1",
+    "hash": "830b1de72c95",
+    "ok": false,
+    "problems": [
+      "Mistake 1 (\"At 0730, oxycodone 5 mg by mouth administered for pain per active order and MAR.\") is debatable for a specialist: The note does not document a post-dose pain reassessment, though the expectation for specific opioid safety checks and their timing can depend on clinical context and local policy."
+    ],
+    "costUsd": 0.0004389,
+    "at": "2026-11-14T16:59:39.248Z"
+  },
+  "25-9043.00/slip-1": {
+    "key": "25-9043.00/slip-1",
+    "hash": "c7e62afc54bb",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.00051555,
+    "at": "2026-11-14T16:44:21.486Z"
+  },
+  "29-2061.00/delegate-1": {
+    "key": "29-2061.00/delegate-1",
+    "hash": "1fd8900f8ecc",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0001576,
+    "at": "2026-11-14T16:59:37.431Z"
+  },
+  "29-2061.00/edge-1": {
+    "key": "29-2061.00/edge-1",
+    "hash": "dbcc07db98c6",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0,
+    "at": "2026-11-14T16:44:21.490Z"
+  },
+  "29-1141.00/slip-3": {
+    "key": "29-1141.00/slip-3",
+    "hash": "1fd08c5f1bac",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.000318675,
+    "at": "2026-11-14T16:44:22.053Z"
+  },
+  "29-1141.00/slip-4": {
+    "key": "29-1141.00/slip-4",
+    "hash": "f310d87909b0",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.000435175,
+    "at": "2026-11-14T16:44:26.150Z"
+  },
+  "29-1141.00/slip-2": {
+    "key": "29-1141.00/slip-2",
+    "hash": "37bc9fcaab3e",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.00022366,
+    "at": "2026-11-14T16:59:40.297Z"
+  },
+  "29-2061.00/slip-1": {
+    "key": "29-2061.00/slip-1",
+    "hash": "bed440084b04",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0001962,
+    "at": "2026-11-14T16:59:39.376Z"
+  },
+  "29-2061.00/slip-2": {
+    "key": "29-2061.00/slip-2",
+    "hash": "3ed79c344c5c",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0004083,
+    "at": "2026-11-14T16:59:47.340Z"
+  },
+  "31-1121.00/slip-1": {
+    "key": "31-1121.00/slip-1",
+    "hash": "36bf76cbf38c",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0002446,
+    "at": "2026-11-14T16:44:30.970Z"
+  },
+  "31-1122.00/slip-1": {
+    "key": "31-1122.00/slip-1",
+    "hash": "2bc0568af322",
+    "ok": false,
+    "problems": [
+      "Mistake 2 (\"Wendy did not document notifying Lucas Ramos.\") is debatable for a specialist: A sudden change in condition should be reported to the supervisor, but whether the aide was required to notify the supervisor immediately, and document instructions, can depend on agency policy and circumstances."
+    ],
+    "costUsd": 0.0003032,
+    "at": "2026-11-14T16:59:45.755Z"
+  },
+  "31-1131.00/slip-1": {
+    "key": "31-1131.00/slip-1",
+    "hash": "17c7bc19f3fc",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.000389675,
+    "at": "2026-11-14T16:44:34.628Z"
+  },
+  "31-9092.00/slip-1": {
+    "key": "31-9092.00/slip-1",
+    "hash": "7178131d4f27",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0002341,
+    "at": "2026-11-14T16:59:44.014Z"
+  },
+  "33-9032.00/slip-1": {
+    "key": "33-9032.00/slip-1",
+    "hash": "e7eb438ad150",
+    "ok": false,
+    "problems": [
+      "Mistake 1 (\"advised that facilities would review the report in the morning\") is debatable for a specialist: Increasing water flow near an electrical panel warrants prompt escalation and keeping people away, but the precise response depends on circumstances and applicable procedures."
+    ],
+    "costUsd": 0.0003386,
+    "at": "2026-11-14T16:59:47.838Z"
+  },
+  "33-3051.00/slip-1": {
+    "key": "33-3051.00/slip-1",
+    "hash": "648f1bebf60d",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0003174,
+    "at": "2026-11-14T16:44:37.100Z"
+  },
+  "35-1012.00/slip-1": {
+    "key": "35-1012.00/slip-1",
+    "hash": "9065e3ed829f",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.000309,
+    "at": "2026-11-14T16:44:40.464Z"
+  },
+  "35-2021.00/slip-1": {
+    "key": "35-2021.00/slip-1",
+    "hash": "6d8ab6828784",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0003756,
+    "at": "2026-11-14T16:59:53.408Z"
+  },
+  "35-2011.00/slip-1": {
+    "key": "35-2011.00/slip-1",
+    "hash": "041451a2ab49",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0003895,
+    "at": "2026-11-14T16:44:43.222Z"
+  },
+  "35-2014.00/slip-1": {
+    "key": "35-2014.00/slip-1",
+    "hash": "a1e0ab30538f",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0003568,
+    "at": "2026-11-14T16:59:52.280Z"
+  },
+  "35-3023.00/slip-1": {
+    "key": "35-3023.00/slip-1",
+    "hash": "57348cb060fd",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0001912,
+    "at": "2026-11-14T16:59:51.359Z"
+  },
+  "35-3031.00/slip-1": {
+    "key": "35-3031.00/slip-1",
+    "hash": "2c1430c0a07b",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0002868,
+    "at": "2026-11-14T16:59:53.697Z"
+  },
+  "35-3011.00/slip-1": {
+    "key": "35-3011.00/slip-1",
+    "hash": "871277af5a1e",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0004927,
+    "at": "2026-11-14T16:44:49.444Z"
+  },
+  "37-2011.00/slip-1": {
+    "key": "37-2011.00/slip-1",
+    "hash": "71d3df6d820e",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0001885,
+    "at": "2026-11-14T16:59:55.046Z"
+  },
+  "37-2012.00/slip-1": {
+    "key": "37-2012.00/slip-1",
+    "hash": "3ba6bc456b58",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0002626,
+    "at": "2026-11-14T16:59:57.521Z"
+  },
+  "41-1011.00/slip-1": {
+    "key": "41-1011.00/slip-1",
+    "hash": "113f6451a78c",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0002379,
+    "at": "2026-11-14T16:44:53.512Z"
+  },
+  "37-3011.00/slip-1": {
+    "key": "37-3011.00/slip-1",
+    "hash": "f03ca99c1e37",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0003363,
+    "at": "2026-11-14T17:00:00.160Z"
+  },
+  "41-2011.00/slip-1": {
+    "key": "41-2011.00/slip-1",
+    "hash": "261c97bd2afe",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0002482,
+    "at": "2026-11-14T16:44:56.448Z"
+  },
+  "41-2031.00/slip-1": {
+    "key": "41-2031.00/slip-1",
+    "hash": "63fd5cfb9cb1",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0002429,
+    "at": "2026-11-14T16:44:56.618Z"
+  },
+  "41-3091.00/slip-1": {
+    "key": "41-3091.00/slip-1",
+    "hash": "4e088059cb08",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0002523,
+    "at": "2026-11-14T16:59:59.047Z"
+  },
+  "43-4051.00/delegate-1": {
+    "key": "43-4051.00/delegate-1",
+    "hash": "b4a5768d42e5",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0002527,
+    "at": "2026-11-14T17:00:05.584Z"
+  },
+  "43-4051.00/edge-1": {
+    "key": "43-4051.00/edge-1",
+    "hash": "fcbed6fcb591",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0,
+    "at": "2026-11-14T16:45:00.153Z"
+  },
+  "43-1011.00/slip-1": {
+    "key": "43-1011.00/slip-1",
+    "hash": "d27c678b7ef6",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0003432,
+    "at": "2026-11-14T17:00:04.623Z"
+  },
+  "43-4051.00/slip-1": {
+    "key": "43-4051.00/slip-1",
+    "hash": "a4e370596298",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0002228,
+    "at": "2026-11-14T17:00:05.272Z"
+  },
+  "43-3031.00/slip-1": {
+    "key": "43-3031.00/slip-1",
+    "hash": "792de92fd0a7",
+    "ok": false,
+    "problems": [
+      "Mistake 2 (\"December federal tax deposit was submitted on 01/20/2026\") is not a real mistake: The stated payment date is January 2, 2026, so the taxes generally belong to January’s federal tax liability; January 20 is not late for a monthly depositor’s January liability.",
+      "Unplanned error at \"The federal tax liability for December includes income tax withheld plus both employee and employer FICA.\": The stated January 2 pay date means these employment taxes generally belong to January, not December; federal employment tax liabilities are based on when wages are paid. Fix it so that only the declared mistakes remain."
+    ],
+    "costUsd": 0.0004456,
+    "at": "2026-11-14T17:00:08.379Z"
+  },
+  "43-5032.00/delegate-1": {
+    "key": "43-5032.00/delegate-1",
+    "hash": "27c7630b01c1",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0001828,
+    "at": "2026-11-14T17:00:09.038Z"
+  },
+  "43-5032.00/edge-1": {
+    "key": "43-5032.00/edge-1",
+    "hash": "186a5afec9e1",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0,
+    "at": "2026-11-14T16:45:04.377Z"
+  },
+  "41-4012.00/slip-1": {
+    "key": "41-4012.00/slip-1",
+    "hash": "ee5a22662bf6",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0002769,
+    "at": "2026-11-14T17:00:01.013Z"
+  },
+  "43-4051.00/slip-2": {
+    "key": "43-4051.00/slip-2",
+    "hash": "5f3d4712161e",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.000279,
+    "at": "2026-11-14T17:00:09.998Z"
+  },
+  "43-5032.00/slip-2": {
+    "key": "43-5032.00/slip-2",
+    "hash": "b132f8e7b75b",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0002607,
+    "at": "2026-11-14T17:00:14.304Z"
+  },
+  "43-5032.00/slip-1": {
+    "key": "43-5032.00/slip-1",
+    "hash": "ddd368919b97",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0002804,
+    "at": "2026-11-14T16:45:10.108Z"
+  },
+  "43-4171.00/slip-1": {
+    "key": "43-4171.00/slip-1",
+    "hash": "7564ffeb1541",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0002089,
+    "at": "2026-11-14T17:00:09.781Z"
+  },
+  "43-5071.00/slip-1": {
+    "key": "43-5071.00/slip-1",
+    "hash": "45a609b9ae81",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0002942,
+    "at": "2026-11-14T17:00:15.997Z"
+  },
+  "43-6014.00/slip-1": {
+    "key": "43-6014.00/slip-1",
+    "hash": "4b6049b1f9c9",
+    "ok": false,
+    "problems": [
+      "Unplanned error at \"compare the database's active-contact count with the 148 active rows\": After duplicate cleanup, the active-row count may be lower than 148, so 148 is not necessarily the appropriate post-cleanup comparison count. Fix it so that only the declared mistakes remain."
+    ],
+    "costUsd": 0.0004221,
+    "at": "2026-11-14T17:00:20.126Z"
+  },
+  "43-9061.00/slip-1": {
+    "key": "43-9061.00/slip-1",
+    "hash": "e6939053ed19",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0003462,
+    "at": "2026-11-14T17:00:23.247Z"
+  },
+  "47-2031.00/slip-1": {
+    "key": "47-2031.00/slip-1",
+    "hash": "d0cda14e6b95",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0002559,
+    "at": "2026-11-14T17:00:20.481Z"
+  },
+  "47-2111.00/delegate-1": {
+    "key": "47-2111.00/delegate-1",
+    "hash": "60ebd4f07666",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0001982,
+    "at": "2026-11-14T17:00:19.338Z"
+  },
+  "47-2111.00/edge-1": {
+    "key": "47-2111.00/edge-1",
+    "hash": "a85e80e8fb5b",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0,
+    "at": "2026-11-14T16:45:18.198Z"
+  },
+  "43-6013.00/slip-1": {
+    "key": "43-6013.00/slip-1",
+    "hash": "29696fd46a36",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0002263,
+    "at": "2026-11-14T17:00:15.244Z"
+  },
+  "47-2061.00/slip-1": {
+    "key": "47-2061.00/slip-1",
+    "hash": "ece32d1027c7",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0002954,
+    "at": "2026-11-14T16:45:23.632Z"
+  },
+  "47-2111.00/slip-1": {
+    "key": "47-2111.00/slip-1",
+    "hash": "c9e2c5d3d0e6",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0003259,
+    "at": "2026-11-14T16:45:24.101Z"
+  },
+  "47-1011.00/slip-1": {
+    "key": "47-1011.00/slip-1",
+    "hash": "070e79ec7826",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0005474,
+    "at": "2026-11-14T16:45:25.213Z"
+  },
+  "47-2111.00/slip-2": {
+    "key": "47-2111.00/slip-2",
+    "hash": "d2c927d7c16a",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.00028,
+    "at": "2026-11-14T17:00:24.208Z"
+  },
+  "47-2111.00/slip-4": {
+    "key": "47-2111.00/slip-4",
+    "hash": "a818b68e3b6f",
+    "ok": false,
+    "problems": [
+      "Mistake 2 (\"Жуыну бөлмесіндегі раковина жанындағы 120 V розетканы GFCI қорғанысынсыз орнату көрсетілген\") is not a real mistake: The document correctly states that a bathroom receptacle requires GFCI protection under NEC 2023 and identifies the unprotected installation as a defect to correct."
+    ],
+    "costUsd": 0.00046342,
+    "at": "2026-11-14T17:00:33.879Z"
+  },
+  "49-3023.00/slip-1": {
+    "key": "49-3023.00/slip-1",
+    "hash": "4ead42aa10be",
+    "ok": false,
+    "problems": [
+      "Unplanned error at \"$406.00 labor and $724.00 before tax\": These amounts are based on 2.8 hours; at the stated $145.00 hourly rate and the listed 2.4 labor hours, labor is $348.00 and the pre-tax total is $666.00. Fix it so that only the declared mistakes remain."
+    ],
+    "costUsd": 0.0002784,
+    "at": "2026-11-14T17:00:29.154Z"
+  },
+  "49-9071.00/slip-1": {
+    "key": "49-9071.00/slip-1",
+    "hash": "5630cf197a2c",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0002568,
+    "at": "2026-11-14T17:00:30.174Z"
+  },
+  "47-2111.00/slip-3": {
+    "key": "47-2111.00/slip-3",
+    "hash": "02eca228448e",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0001227,
+    "at": "2026-11-14T17:00:24.904Z"
+  },
+  "51-1011.00/slip-1": {
+    "key": "51-1011.00/slip-1",
+    "hash": "0fe20bff9cd6",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0003109,
+    "at": "2026-11-14T17:00:31.930Z"
+  },
+  "53-3033.00/slip-1": {
+    "key": "53-3033.00/slip-1",
+    "hash": "e213b4b6324c",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0002305,
+    "at": "2026-11-14T17:00:36.787Z"
+  },
+  "53-3032.00/slip-1": {
+    "key": "53-3032.00/slip-1",
+    "hash": "2edfc8d1dd2b",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0003975,
+    "at": "2026-11-14T17:00:38.868Z"
+  },
+  "51-2092.00/slip-1": {
+    "key": "51-2092.00/slip-1",
+    "hash": "4d45e9fd02cb",
+    "ok": false,
+    "problems": [
+      "Mistake 1 (\"Inspection sequence covered connector seating, wire markings, and bracket dimensions.\") is not a real mistake: The sequence accurately lists the checks performed, and the document explicitly says continuity testing remains pending before release, so its omission from that sequence is not itself an error."
+    ],
+    "costUsd": 0.0003163,
+    "at": "2026-11-14T17:00:37.163Z"
+  },
+  "53-7062.00/slip-1": {
+    "key": "53-7062.00/slip-1",
+    "hash": "220a820bf838",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0002763,
+    "at": "2026-11-14T17:00:44.276Z"
+  },
+  "landing/accountant": {
+    "key": "landing/accountant",
+    "hash": "23f8a33fd439",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0001459,
+    "at": "2026-11-14T16:45:47.618Z"
+  },
+  "53-7051.00/slip-1": {
+    "key": "53-7051.00/slip-1",
+    "hash": "71fd1530e79f",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0004034,
+    "at": "2026-11-14T17:00:44.842Z"
+  },
+  "53-7065.00/slip-1": {
+    "key": "53-7065.00/slip-1",
+    "hash": "435f46b0e0bb",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0002149,
+    "at": "2026-11-14T17:00:41.797Z"
+  },
+  "landing/nurse": {
+    "key": "landing/nurse",
+    "hash": "2839d4b05b38",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0001475,
+    "at": "2026-11-14T17:00:44.625Z"
+  },
+  "landing/electrician": {
+    "key": "landing/electrician",
+    "hash": "3363a516ea05",
+    "ok": true,
+    "problems": [],
+    "costUsd": 0.0001605,
+    "at": "2026-11-14T16:45:53.661Z"
+  }
+}

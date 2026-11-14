@@ -4,27 +4,31 @@
   "taskId": "23535",
   "locale": "en",
   "difficulty": 1,
-  "title": "Repair Order and Work Plan: RO-48201",
-  "brief": "A repair work plan and labor breakdown drafted from diagnostic notes and flat-rate labor guides for a front-end suspension overhaul and A/C service on a 2018 light-duty truck.",
-  "docType": "repair order work plan",
+  "title": "Repair Plan: 2018 Subaru Outback A/C and Belt Noise",
+  "brief": "Repair plan for a 2018 Subaru Outback with weak A/C and belt noise, drafted from the customer concern and inspection findings.",
+  "docType": "repair plan",
   "slip": {
-    "document": "# Repair Order and Work Plan: RO-48201\nCustomer: Curtis Tran | VIN: 1GCUKREC4JZ198204 | Vehicle: 2018 Crossroads Sierra 1500 5.3L 4WD\nDate: 03/18/2026 | Technician: Bradley Cole (Tech #14)\n\n## Diagnostic Findings\n- Customer reported severe front-end vibration at 50 mph and rattling over bumps.\n- Found excessive play in both lower ball joints and deteriorated sway bar end links.\n- Customer also requested spring A/C checkup; system low on charge with minor compressor shaft seal seepage.\n\n## Labor Operations and Time Allocation\n| Operation ID | Description | Flat Rate Hours |\n| --- | --- | --- |\n| 04-1102A | Replace Front Lower Control Arms w/ Ball Joints (Both Sides) | 2.8 |\n| 04-1250B | Replace Front Sway Bar Links & Bushings | 0.8 |\n| 02-0500A | Four-Wheel Alignment Check and Adjust | 1.4 |\n| 01-2040C | A/C System Recovery, Vacuum Test, and Recharge (R-1234yf) | 1.5 |\n\n## Execution Checklist\n- Rack vehicle on 2-post lift and remove front wheel assemblies.\n- Support lower suspension assembly and press out/replace lower control arm assemblies.\n- Install new sway bar links and torque all chassis fasteners to factory dry specifications.\n- Vent remaining R-1234yf refrigerant directly to shop atmosphere before disconnecting high-side lines.\n- Pull vacuum for minimum 30 minutes, confirm system holds 29 in-Hg, and recharge with 1.35 lb R-1234yf.\n- Mount wheels, torque lug nuts to 140 lb-ft, and move to alignment rack for toe and camber calibration.\n\n## Summary of Estimated Billable Time\nTotal flat-rate labor allocated for RO-48201 is 7.5 book hours across all scheduled operations.\nTechnician signature: Bradley Cole, ASE Master Certified",
+    "document": "# Repair Plan: 2018 Subaru Outback A/C and Belt Noise\nOak Hollow Motor Works | Work order OH-260418 | 04/18/2026\n\n## Vehicle and findings\nCustomer: Colleen Kowalczyk | Technician: Dmitri Sato\nVehicle: 2018 Subaru Outback, 2.5L, 86,214 mi\nCustomer reports weak cooling and a chirp on cold starts. Inspection found a leaking condenser, oily residue at the lower fitting, and a glazed accessory belt. No engine warning lights are on.\n\n| Check | Finding |\n| --- | --- |\n| Refrigerant specified on underhood label | R-134a |\n| System charge on underhood label | 17.6 oz |\n| Condenser and receiver-drier parts | $248.00 |\n| Accessory belt | $42.00 |\n| Refrigerant and shop supplies | $28.00 |\n\n## Planned work\n- Recover refrigerant with the approved recovery machine and record the recovered amount.\n- Remove the failed condenser; replace the condenser and receiver-drier, using new specified seals and the specified compressor oil quantity.\n- Recover refrigerant by venting it outdoors before opening the system.\n- Replace the glazed accessory belt and inspect pulley alignment and tensioner operation.\n- Evacuate the system to the service-manual vacuum specification, verify it holds, then recharge by weight to 17.6 oz of R-134a.\n- Check for leaks with an electronic detector, confirm vent temperature, and road-test for belt noise.\n\n## Estimate and scheduling\nParts and supplies total: $318.00. Labor: condenser and drier, 1.2 hr; belt, 0.5 hr; evacuation, recharge, and final checks, 0.7 hr. Total labor: 2.8 hr. Labor rate is $145.00/hr, for $406.00 labor and $724.00 before tax. Estimated completion: 04/18/2026, 3:30 PM. Obtain Colleen's authorization before starting; Grace Gallagher will call with any additional findings.",
     "errors": [
       {
-        "quote": "Vent remaining R-1234yf refrigerant directly to shop atmosphere before disconnecting",
-        "start": 1153,
-        "end": 1237,
+        "quote": "Recover refrigerant by venting it outdoors",
+        "start": 938,
+        "end": 980,
+        "focusStart": 961,
+        "focusEnd": 968,
         "type": "compliance",
-        "explanation": "Under Clean Air Act Section 609 and EPA regulations, technicians must recover all motor vehicle refrigerants (including R-1234yf) using certified recovery equipment; intentional venting into the atmosphere is illegal.",
-        "fix": "Recover remaining R-1234yf refrigerant using dedicated recovery station before disconnecting"
+        "explanation": "Federal Clean Air Act rules prohibit knowingly venting refrigerant during motor vehicle air-conditioning service. The plan correctly calls for recovery with an approved machine, which must be used instead of releasing refrigerant outdoors.",
+        "fix": "Recover refrigerant with the approved recovery machine"
       },
       {
-        "quote": "Total flat-rate labor allocated for RO-48201 is 7.5 book hours",
-        "start": 1504,
-        "end": 1566,
+        "quote": "Total labor: 2.8 hr",
+        "start": 1491,
+        "end": 1510,
+        "focusStart": 1504,
+        "focusEnd": 1507,
         "type": "calculation",
-        "explanation": "The sum of the labor table operations is 2.8 + 0.8 + 1.4 + 1.5 = 6.5 hours, not 7.5 hours.",
-        "fix": "Total flat-rate labor allocated for RO-48201 is 6.5 book hours"
+        "explanation": "The listed labor operations add to 2.4 hours: 1.2 + 0.5 + 0.7. The stated total is 0.4 hour too high.",
+        "fix": "Total labor: 2.4 hr"
       }
     ]
   }

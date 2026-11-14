@@ -4,27 +4,31 @@
   "taskId": "6640",
   "locale": "en",
   "difficulty": 1,
-  "title": "Lesson Plan: Analyzing Rhetorical Devices in American Literature",
-  "brief": "A 10th-grade English language arts lesson plan drafted by an AI assistant for a 90-minute block on rhetorical appeals in historical speeches.",
+  "title": "Westbrook High U.S. History Lesson Plan: Women’s Suffrage",
+  "brief": "A U.S. history lesson plan for a 10th-grade class on the women’s suffrage movement, drafted from the teacher’s planning notes.",
   "docType": "lesson plan",
   "slip": {
-    "document": "# Lesson Plan: Analyzing Rhetorical Devices in American Literature\nCourse: Grade 10 English Language Arts\nDate: 03/11/2026\nInstructor: Jamal Navarro\nPeriod: Block 3 (90 minutes)\n\n## Standards and Objectives\n- CCSS.ELA-LITERACY.RI.9-10.6: Determine an author's point of view or purpose in a text and analyze how an author uses rhetoric to advance that point of view.\n- Objective: Students will identify ethos, pathos, and logos in historical texts and produce an annotated paragraph with 80% accuracy on the exit ticket.\n\n## Schedule and Lesson Steps\n| Segment | Duration | Focus |\n| --- | --- | --- |\n| Bellringer | 10 min | Vocabulary match: Ethos, Pathos, Logos |\n| Direct Instruction | 20 min | Modeling rhetorical triangle on Frederick Douglass excerpt |\n| Guided Practice | 25 min | Small group analysis of Abraham Lincoln speeches |\n| Independent Work | 25 min | Exit ticket paragraph annotation |\n| Closing Wrap-Up | 10 min | Share-out and preview of tomorrow's writing prompt |\n\n## Instructional Notes and Differentiation\n- Bellringer: Direct students to define pathos as the appeal to logic, facts, and statistical data on their warm-up sheet.\n- Modeling: Project excerpt from 'What to the Slave Is the Fourth of July?' on the board. Highlight Douglass's establishment of moral authority and emotional urgency.\n- Guided Practice: Provide groups of 4 with copies of Lincoln's 1863 Gettysburg Address and the 1865 Second Inaugural Address.\n- Group modification: Because Group 4 completed their analysis packet ten minutes faster than all other groups, assign Group 4 to Tier 3 remedial scaffolding stations for the remainder of the block.\n- Independent Work: Students complete the 3-question exit ticket evaluating appeal shifts across the excerpt.",
+    "document": "# Westbrook High U.S. History Lesson Plan: Women's Suffrage\nGrade 10 • 04/20/2026 • Teacher: Rosa Haddad\n\n## Lesson at a glance\n- Class: 24 students, 50 minutes\n- Learning target: Students will explain how organizing and constitutional change contributed to women gaining the right to vote.\n- Materials: timeline handout, excerpts from Susan B. Anthony's 1873 speech and the 19th Amendment, projector, exit slips\n- Prior-reading check: 17 students selected the newspaper account as easier to understand; 7 selected the speech excerpt.\n\n## Sequence\n- 0–5 minutes: Display the question, \"How does a movement turn a demand into law?\" Students write a two-sentence prediction.\n- 5–12 minutes: Review the timeline. The 19th Amendment was ratified on August 26, 1920, and certified on August 26, 1920. Discuss the difference between ratification and certification.\n- 12–22 minutes: Lecture on suffrage organizing, including the Seneca Falls Convention of 1848 and the campaign for a constitutional amendment.\n- 22–37 minutes: In pairs, annotate both excerpts. Mark one claim, one piece of evidence, and one difference in purpose or audience.\n- Since 17 of 24 students found the speech excerpt easier, begin the paired analysis with the speech and use the newspaper account as the scaffold.\n- 37–45 minutes: Each pair shares one evidence-based comparison. Brandon Kim records claims on the board; Victor Ferreira invites students who have not spoken to contribute.\n- 45–50 minutes: Exit slip: name one organizing strategy and explain how the 19th Amendment changed voting rights. Collect slips at the door.\n\n## Checks and follow-up\n- Success criterion: Exit slip identifies a strategy and accurately connects the amendment to voting rights.\n- Review slips before the next class; reteach ratification versus certification if that distinction is confused.\n- If a student needs clarification during discussion, Rosa Haddad will restate the prompt and allow a brief written response before sharing.",
     "errors": [
       {
-        "quote": "define pathos as the appeal to logic, facts, and statistical data",
-        "start": 1063,
-        "end": 1128,
+        "quote": "The 19th Amendment was ratified on August 26, 1920",
+        "start": 710,
+        "end": 760,
+        "focusStart": 745,
+        "focusEnd": 760,
         "type": "fact",
-        "explanation": "Pathos is the rhetorical appeal to emotion and audience values, whereas logos is the appeal to logic, facts, and statistical data.",
-        "fix": "define pathos as the appeal to emotion and audience values"
+        "explanation": "The timeline sentence identifies August 26, 1920 as the certification date, not the ratification date. The 19th Amendment was ratified on August 18, 1920.",
+        "fix": "The 19th Amendment was ratified on August 18, 1920"
       },
       {
-        "quote": "assign Group 4 to Tier 3 remedial scaffolding stations for the remainder of the block",
-        "start": 1559,
-        "end": 1644,
+        "quote": "Since 17 of 24 students found the speech excerpt easier",
+        "start": 1138,
+        "end": 1193,
+        "focusStart": 1144,
+        "focusEnd": 1152,
         "type": "logic",
-        "explanation": "Group 4 finished the assignment significantly ahead of their peers, which warrants extension or enrichment activities rather than placement into Tier 3 remedial scaffolding stations.",
-        "fix": "assign Group 4 to extension analysis stations for the remainder of the block"
+        "explanation": "The prior-reading check says 17 students selected the newspaper account as easier and only 7 selected the speech excerpt. The conclusion reverses those counts, so it does not support beginning with the speech as the easier text.",
+        "fix": "Since 7 of 24 students found the speech excerpt easier"
       }
     ]
   }

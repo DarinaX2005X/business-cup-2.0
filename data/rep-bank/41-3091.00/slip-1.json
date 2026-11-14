@@ -4,27 +4,31 @@
   "taskId": "23233",
   "locale": "en",
   "difficulty": 1,
-  "title": "CRM Account Update & Opportunity Summary: Westbrook Facility Services",
-  "brief": "CRM update and opportunity summary for a commercial HVAC maintenance contract renewal, drafted from meeting notes and billing records.",
-  "docType": "crm account summary",
+  "title": "CRM Account Record — Ironwood Property Services",
+  "brief": "A CRM account record for a facilities-services sales representative, drafted from call notes and the service agreement.",
+  "docType": "CRM account record",
   "slip": {
-    "document": "# CRM Account Update & Opportunity Summary: Westbrook Facility Services\nAccount ID: ACCT-88410\nAccount Name: Westbrook Facility Services\nPrimary Contact: Omar Coleman (Facilities Director)\nAccount Executive: Rachel Torres\nDate: 04/16/2026\n\n## Contract & Site Details\n| Parameter | Existing Record | Renewal Proposal |\n| --- | --- | --- |\n| Site Location | 4400 Westpark Dr, Houston, TX | 4400 Westpark Dr, Houston, TX |\n| Service Scope | Bi-monthly HVAC preventative maintenance | Monthly HVAC preventative maintenance |\n| Total Units | 18 rooftop packaged units | 18 rooftop packaged units |\n| Annual Value | $34,200 | $52,800 |\n| Contract Term | 06/01/2023 - 05/31/2026 | 06/01/2026 - 05/31/2028 |\n\n## Opportunity Activity Log\n- 04/10/2026: Conducted annual facility walkthrough with Omar Coleman.\n- 04/14/2026: Presented formal upgrade proposal shifting from bi-monthly to monthly preventative filter changes, coil cleaning, and compressor checks.\n- Client expressed concern regarding budget constraints given a recent $8,000 chiller compressor failure in March.\n- The client foolishly wasted company capital on obsolete systems instead of upgrading early, so their budget pushback is entirely self-inflicted.\n\n## Proposed Terms and Schedule\n- Proposed contract value: $52,800 billed monthly at $4,400 across the 24-month renewal term.\n- Included equipment: 12 rooftop packaged units across the main distribution warehouse.\n- Renewal discount: 5% applied if agreement signed prior to 05/15/2026.\n\n## Next Steps\n- Transmit revised Master Service Agreement addendum by 04/22/2026.\n- Coordinate signature with Omar Coleman prior to contract expiration on 05/31/2026.",
+    "document": "# CRM Account Record — Ironwood Property Services\nAccount owner: Naomi Mahoney | Updated 05/07/2026\n\n## Account details\nIronwood Property Services is a regional building-maintenance provider based in Columbus, Ohio. Primary contact is Maria Yamamoto, Operations Manager. Wendy Santoro is the backup contact for scheduling. The account is evaluating quarterly inspection and preventive-maintenance visits for three office buildings.\n\n| Field | Record |\n| --- | --- |\n| Primary contact | Maria Yamamoto |\n| Backup contact | Wendy Santoro |\n| Buildings in scope | 3 |\n| Current service agreement | None |\n| Proposal sent | 05/04/2026 |\n| Next customer meeting | 05/12/2026, 10:00 AM ET |\n\n## Activity and next steps\nOn 05/06/2026, Maria confirmed that the proposal reached her inbox and requested a revised scope showing separate pricing for inspection visits and repair labor. She asked that the revised proposal be sent before the scheduled review meeting. The CRM task is assigned to Naomi to send the revision by 05/10/2026.\n\nThe site list in the proposal includes 1180 West Broad Street, 42 Mill Creek Road, and 700 Northview Avenue. Wendy will coordinate building access after Maria approves the scope. No service start date has been agreed, and no pricing commitment has been made beyond the proposal already sent.\n\nThe record currently shows the next customer meeting as 05/14/2026. Update the opportunity stage to \"Proposal review\" after the revised scope is sent. Record any requested changes to visit frequency or repair-labor terms in the opportunity notes.\n\nCustomer-facing follow-up summary: \"We'll send the revised scope by 05/10/2026 and review it together on 05/12/2026.\" Internal note: \"Maria is wasting our time with this request.\"",
     "errors": [
       {
-        "quote": "The client foolishly wasted company capital on obsolete systems instead of upgrading early, so their budget pushback is entirely self-inflicted.",
-        "start": 1068,
-        "end": 1212,
-        "type": "tone",
-        "explanation": "The tone is unprofessional, accusatory, and inappropriate for internal CRM business records shared across sales and account teams.",
-        "fix": "The client noted capital constraints related to unexpected repairs on aging equipment, which is driving their budget sensitivity."
+        "quote": "The record currently shows the next customer meeting as 05/14/2026.",
+        "start": 1320,
+        "end": 1387,
+        "focusStart": 1376,
+        "focusEnd": 1386,
+        "type": "fact",
+        "explanation": "The account details table gives the next customer meeting as 05/12/2026 at 10:00 AM ET. The later date in this sentence conflicts with that record.",
+        "fix": "The record currently shows the next customer meeting as 05/12/2026."
       },
       {
-        "quote": "Included equipment: 12 rooftop packaged units across the main distribution warehouse.",
-        "start": 1341,
-        "end": 1426,
-        "type": "fact",
-        "explanation": "The line specifies 12 rooftop units, but the Contract & Site Details table confirms the site has 18 rooftop packaged units.",
-        "fix": "Included equipment: 18 rooftop packaged units across the main distribution warehouse."
+        "quote": "Maria is wasting our time with this request.",
+        "start": 1702,
+        "end": 1746,
+        "focusStart": 1711,
+        "focusEnd": 1727,
+        "type": "tone",
+        "explanation": "This internal note blames and disparages the customer rather than neutrally recording her request. CRM notes should describe the requested pricing split without insulting the contact.",
+        "fix": "Maria requested separate pricing for inspection visits and repair labor."
       }
     ]
   }

@@ -4,27 +4,31 @@
   "taskId": "6575",
   "locale": "en",
   "difficulty": 1,
-  "title": "Grade 7 Social Studies Lesson Plan: The Constitutional Convention",
-  "brief": "A 7th-grade social studies daily lesson plan on the Constitutional Convention and the Great Compromise, drafted from state standards and curriculum pacing guidelines.",
+  "title": "Mississippi River Map Skills Lesson Plan",
+  "brief": "A seventh-grade social studies lesson plan on map scale and river geography, drafted for Foxglove Middle School.",
   "docType": "lesson plan",
   "slip": {
-    "document": "# Grade 7 Social Studies Lesson Plan: The Constitutional Convention\nFoxglove Middle School - Room 204\n\n## Overview\n- Teacher: Frank Hendricks\n- Date: 10/14/2026\n- Class: Grade 7 Social Studies, Period 3 (50 minutes)\n- Unit: Creating the United States Constitution\n- Standard: SS.7.CG.1.7 - Explain the compromises made during the Constitutional Convention.\n- Essential Question: How did competing interests shape the structure of the national legislature?\n\n## Instructional Materials\n- Primary source excerpt: Virginia Plan vs. New Jersey Plan\n- Graphic organizer: The Great Compromise comparison chart\n- Student response whiteboards and dry-erase markers\n\n## Learning Objectives and Accommodations\n| Category | Detail |\n| --- | --- |\n| Target Objective | Students can identify key differences between the Virginia and New Jersey Plans. |\n| Student with IEP | Neil Petrov (504 Plan): Provide printed slide notes and 50% extra time on exit ticket. |\n| English Learner | Isabel Duarte (ELL Level 2): Visual vocabulary card set provided at desk. |\n\n## Daily Agenda\n- 10:00 - 10:08 AM: Bellringer review on the Articles of Confederation.\n- 10:08 - 10:25 AM: Direct instruction on the 1787 Philadelphia Convention and legislative representation debates.\n- 10:25 - 10:40 AM: Guided partner analysis of the bicameral legislature solution.\n- 10:40 - 10:50 AM: Formative assessment.\n\n## Planned Delivery and Checks for Understanding\n- During direct instruction, remind students that the New Jersey Plan proposed allocating representation based strictly on state population size.\n- Distribute the two-column chart to contrast equal versus proportional representation in the Senate and House.\n- Administer the exit ticket during the last 10 minutes to evaluate individual student understanding.",
+    "document": "# Mississippi River Map Skills Lesson Plan\nFoxglove Middle School | Grade 7 | 03/18/2026 | 10:00–10:45 a.m.\n\n## Lesson overview\nTeacher: Isabel Duarte | Class: 7B | 28 students\nObjective: Students will use a map scale to estimate distances along the Mississippi River and identify three states the river borders.\nMaterials: Projected U.S. map, student river maps, rulers, pencils, and exit slips.\n\n## Instructional sequence\n- 10:00–10:05: Ask students to name a river they have seen on a map; record responses on the board.\n- 10:05–10:15: Demonstrate how to measure a route with a ruler and convert map inches to miles. The student map key states that 1 inch represents 50 miles.\n- 10:15–10:24: In pairs, students locate the Mississippi River, measure one segment, and compare estimates. Circulate and ask pairs to explain their conversions.\n- 10:24–10:38: Students plot the river's route on graph paper individually. The map scale is 1 inch = 100 miles, so a 3-inch segment represents 300 miles.\n- 10:38–10:43: Review answers aloud. Students name three states bordering the river and explain one measurement.\n- 10:43–10:45: Collect exit slips with each student's route estimate and state list.\n\n## Checks and follow-up\nDuring pair work, note which students correctly multiply measured inches by 50. Use the exit slips to group students for the next lesson's map-scale warm-up. Neil Petrov will collect the student maps after class. Frank Hendricks will receive the lesson notes for the grade-level planning folder.",
     "errors": [
       {
-        "quote": "New Jersey Plan proposed allocating representation based strictly on state population size.",
-        "start": 1478,
-        "end": 1569,
-        "type": "fact",
-        "explanation": "The New Jersey Plan proposed equal representation for all states regardless of size, whereas proportional representation based on population was the core proposal of the Virginia Plan.",
-        "fix": "Virginia Plan proposed allocating representation based strictly on state population size."
+        "quote": "Students plot the river's route on graph paper individually.",
+        "start": 857,
+        "end": 917,
+        "focusStart": 857,
+        "focusEnd": 917,
+        "type": "omission",
+        "explanation": "The materials list does not include graph paper, although students are instructed to plot the route on it. Without graph paper, they cannot complete this assigned task as written.",
+        "fix": "Add graph paper to the materials list."
       },
       {
-        "quote": "Administer the exit ticket during the last 10 minutes to evaluate individual student understanding.",
-        "start": 1684,
-        "end": 1783,
-        "type": "omission",
-        "explanation": "Neil Petrov has an active 504 accommodation specified in the reference table requiring 50% extra time on the exit ticket, but this instructional step omits the required accommodation for him.",
-        "fix": "Administer the exit ticket during the last 10 minutes to evaluate individual student understanding, ensuring Neil Petrov receives 50% extra time per his 504 plan."
+        "quote": "The map scale is 1 inch = 100 miles",
+        "start": 918,
+        "end": 953,
+        "focusStart": 944,
+        "focusEnd": 953,
+        "type": "fact",
+        "explanation": "The lesson states that the student map key gives a scale of 1 inch to 50 miles. The later 1-inch-to-100-mile scale contradicts that reference.",
+        "fix": "The map scale is 1 inch = 50 miles"
       }
     ]
   }

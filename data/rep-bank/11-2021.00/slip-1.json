@@ -4,27 +4,31 @@
   "taskId": "20709",
   "locale": "en",
   "difficulty": 1,
-  "title": "Campaign Launch Brief: OmniTrack Pro Q2 Launch",
-  "brief": "A campaign launch brief for the OmniTrack Pro enterprise software launch, outlining channel allocation, KPIs, schedule, and team responsibilities.",
-  "docType": "campaign launch brief",
+  "title": "Northfield Trail Supply Fall Membership Campaign",
+  "brief": "A fall membership campaign brief for Northfield Trail Supply, drafted from the approved offer, channel plan, and launch calendar.",
+  "docType": "campaign brief",
   "slip": {
-    "document": "# Campaign Launch Brief: OmniTrack Pro Q2 Launch\nOmniTrack Solutions - Enterprise Division\n\n## Campaign Overview\n- Objective: Drive qualified enterprise pipeline for OmniTrack Pro\n- Flight Dates: 05/04/2026 to 06/30/2026\n- Target Audience: Operations Directors and Fleet Managers in mid-market logistics\n- Primary Goal: Generate 450 Marketing Qualified Leads (MQLs) at target CPA below $175\n\n## Channel Allocations and Budget\n| Channel | Allocated Budget | Primary Format | Projected Leads |\n| --- | --- | --- | --- |\n| Paid Search | $28,000 | High-intent non-brand keyword ads | 160 |\n| Paid Social | $32,000 | Sponsored InMail and video demos | 190 |\n| Industry Webinars | $15,000 | Co-hosted thought leadership panel | 100 |\n| Total | $75,000 | Blended Mix | 450 |\n\n## Action Plan and Deliverables\n- Ad Creative Review: Advertising manager Derek Soto must deliver finalized creative assets for all channels.\n- Landing Page QA: Creative ops will audit tracking pixels and ensure the primary landing page includes a prominent contact form, clear value proposition, and customer testimonials.\n- Paid Search Setup: The paid media specialist will launch Google Ads campaigns using an allocated budget of $38,000 across targeted logistics keywords.\n- Email Nurture Sequence: Deploy 4-part automated email series for webinar attendees triggered within 24 hours of live event completion.\n- Weekly Reporting: Lead status updates and spend tracking distributed every Monday by 10:00 AM EDT to marketing leadership.",
+    "document": "# Northfield Trail Supply Fall Membership Campaign\nCampaign brief | Prepared 08/24/2026\n\n## Objective and offer\nIncrease new Northfield Trail Supply memberships by 18% over the prior fall campaign while keeping paid acquisition cost below $32 per member. The campaign promotes the Northfield Monthly Trail Box, a subscription with seasonal trail essentials and gear-care items.\n\n| Offer detail | Approved value |\n| --- | --- |\n| Trial period | 30 days |\n| Recurring charge after trial | $19 per month |\n| Cancellation | Online through the member account before the next billing date |\n| Campaign dates | 09/14/2026–10/11/2026 |\n\n## Audience and creative\nTarget adults ages 25–54 in Colorado, Utah, and Wyoming who have visited Northfield product pages or opted in to marketing email. Exclude current members and anyone who unsubscribed. Hector Kim owns the creative brief; Omar Haddad coordinates paid media; Walter Ferreira approves final copy and spend.\n\nCreative direction: show practical use of the box on a day hike, with the headline \"Ready for the next trail.\" Do not imply that every box contains the same items; contents vary by season. The landing page must present the offer and collect consent before enrollment.\n\n## Channel plan and schedule\nPaid social flight: 09/14/2026–10/11/2026. Email sends are scheduled for 09/14 and 09/28; suppress members and unsubscribed contacts before each send. The landing page and tracking events are due for QA by 09/08. Omar will confirm audience exclusions and UTM naming before launch.\n\n## Budget and measurement\nAllocate $18,000 to paid social, $4,000 to paid search, and $2,000 to email production and testing, for a total campaign budget of $25,000. Review spend, trial starts, paid conversions, and acquisition cost each Monday. Walter will deliver a closeout report by 10/23/2026 with channel results and recommendations for the winter campaign.",
     "errors": [
       {
-        "quote": "Derek Soto must deliver finalized creative assets for all channels.",
-        "start": 843,
-        "end": 910,
+        "quote": "Email sends are scheduled for 09/14 and 09/28; suppress members and unsubscribed contacts before each send.",
+        "start": 1298,
+        "end": 1405,
+        "focusStart": 1298,
+        "focusEnd": 1405,
         "type": "omission",
-        "explanation": "A campaign launch deliverable item must specify a firm due date or deadline for asset delivery, but none is provided.",
-        "fix": "Derek Soto must deliver finalized creative assets for all channels by 04/24/2026."
+        "explanation": "The email plan identifies the sends and suppression steps but omits a required unsubscribe mechanism. Under the CAN-SPAM Act, commercial email must include a clear and conspicuous way for recipients to opt out.",
+        "fix": "Email sends are scheduled for 09/14 and 09/28; include a clear unsubscribe mechanism and suppress members and unsubscribed contacts before each send."
       },
       {
-        "quote": "using an allocated budget of $38,000 across targeted logistics keywords.",
-        "start": 1173,
-        "end": 1245,
+        "quote": "for a total campaign budget of $25,000",
+        "start": 1663,
+        "end": 1701,
+        "focusStart": 1694,
+        "focusEnd": 1701,
         "type": "fact",
-        "explanation": "The Channel Allocations table specifically sets the Paid Search budget at $28,000, not $38,000.",
-        "fix": "using an allocated budget of $28,000 across targeted logistics keywords."
+        "explanation": "The listed allocations total $24,000: $18,000 for paid social, $4,000 for paid search, and $2,000 for email production and testing. The stated total is $1,000 too high.",
+        "fix": "for a total campaign budget of $24,000"
       }
     ]
   }

@@ -4,27 +4,31 @@
   "taskId": "18491",
   "locale": "en",
   "difficulty": 1,
-  "title": "Affidavit of Service and Case Filing Summary",
-  "brief": "An affidavit of service and filing summary prepared by a paralegal for a breach of contract action filed in US District Court.",
-  "docType": "affidavit of service",
+  "title": "Filing Packet Review — Rowland v. North County Housing",
+  "brief": "An electronic filing packet checklist for a federal-court motion, drafted from the case file and filing instructions.",
+  "docType": "filing checklist",
   "slip": {
-    "document": "# Affidavit of Service and Case Filing Summary\nFiling Package for US District Court, Northern District of Illinois\n\n## Action Details\n| Case Caption | Case Number | Assigned Judge | Summons Issued |\n| --- | --- | --- | --- |\n| Clearwater Logistics LLC v. Crestline Freight Inc. | 1:26-cv-04182 | Hon. Evelyn Ramirez | 03/12/2026 |\n\n## Service Record\n- Process server: Curtis Nguyen (Illinois Licensed Detective #115-002194)\n- Recipient: Crestline Freight Inc., through registered agent Thomas Sterling\n- Address: 1420 Enterprise Way, Suite 300, Schaumburg, IL 60173\n- Date and time of service: 03/18/2026 at 10:45 AM\n- Documents served: Summons, Complaint, and Local Rule 3.2 Corporate Disclosure Statement\n\n## Notarization Details\nState of Illinois, County of Cook.\nSubscribed and sworn to before me on 03/19/2026 by Curtis Nguyen.\n\nNotary public commission expires on 01/14/2025.\nNotary Public Signature: Clara Higgins\n\n## Filing and Calendar Summary\nUnder Federal Rule of Civil Procedure 12(a)(1)(A)(i), a defendant must serve an answer within 21 days after being served with the summons and complaint.\n\n- Electronic filing docket entry: Document 6 (Affidavit of Service)\n- Defendant Crestline Freight Inc. was served on 03/18/2026.\n- Responsive pleading deadline calculated as 04/15/2026.\n- Discovery planning conference deadline under FRCP 26(f) pending responsive pleading.",
+    "document": "# Filing Packet Review — Rowland v. North County Housing\nSunnyside Legal Services | Matter 26-CV-1842 | Prepared 06/10/2026\n\n## Filing plan\nParalegal Colleen Sandoval assembled the packet for Dmitri Rowland's motion to compel repairs in the U.S. District Court for the District of Oregon. Attorney Grace Sato approved the motion and supporting declaration for filing. Submit through the court's electronic filing portal under the existing case number; the filing fee is $0 because the motion is fee-exempt.\n\nThe packet contains the notice of motion, motion to compel, Rowland declaration, and Exhibit A (the 04/22/2026 repair request). Use the exhibit index as the PDF bookmark order. Confirm each PDF is text-searchable and under the portal's 25 MB per-document limit. The motion requests an order requiring North County Housing to complete the listed repairs within 14 days and to pay allowable costs.\n\n## Calendar and service\n| Event | Date | Responsible person |\n| --- | --- | --- |\n| E-file motion and declaration | 06/12/2026 | Colleen Sandoval |\n| Serve opposing counsel by email | 06/12/2026 | Colleen Sandoval |\n| Hearing | 06/30/2026, 9:00 a.m. | Grace Sato |\n\nThe hearing is set for July 1, 2026. Confirm the hearing courtroom is shown as Courtroom 4 on the filed notice and save the portal confirmation and accepted-stamped copies to the electronic matter folder. Retain the original signed declaration in the paper file.\n\n## Filing copy\nThe declaration states Rowland's full Social Security number, 482-16-9037, for identity verification. Upload the declaration with the full Social Security number to the public case docket. Federal Rule of Civil Procedure 5.2(a) requires redaction of all but the last four digits of a Social Security number in a public filing. Before submission, verify the case caption, exhibit labels, and service list against the current docket. Record the filing receipt number in the matter log after acceptance.",
     "errors": [
       {
-        "quote": "Notary public commission expires on 01/14/2025.",
-        "start": 834,
-        "end": 881,
-        "type": "compliance",
-        "explanation": "The notary certificate indicates that the notary's commission expired on 01/14/2025, but the jurat was executed on 03/19/2026. A notary cannot perform official notarial acts with an expired commission.",
-        "fix": "Notary public commission expires on 01/14/2028."
+        "quote": "The hearing is set for July 1, 2026.",
+        "start": 1171,
+        "end": 1207,
+        "focusStart": 1194,
+        "focusEnd": 1206,
+        "type": "fact",
+        "explanation": "The calendar table lists the hearing as 06/30/2026 at 9:00 a.m., so the prose gives a conflicting hearing date.",
+        "fix": "The hearing is set for June 30, 2026."
       },
       {
-        "quote": "Responsive pleading deadline calculated as 04/15/2026.",
-        "start": 1238,
-        "end": 1292,
-        "type": "fact",
-        "explanation": "With service effected on 03/18/2026, 21 days pursuant to FRCP 12(a)(1)(A)(i) results in a response deadline of 04/08/2026, not 04/15/2026.",
-        "fix": "Responsive pleading deadline calculated as 04/08/2026."
+        "quote": "Upload the declaration with the full Social Security number",
+        "start": 1552,
+        "end": 1611,
+        "focusStart": 1584,
+        "focusEnd": 1611,
+        "type": "compliance",
+        "explanation": "Federal Rule of Civil Procedure 5.2(a) generally requires a public filing to include only the last four digits of an individual’s Social Security number. The document identifies the number as Rowland’s full Social Security number and directs that it be uploaded unredacted.",
+        "fix": "Upload the declaration with only the last four digits of the Social Security number."
       }
     ]
   }

@@ -4,27 +4,31 @@
   "taskId": "2137",
   "locale": "en",
   "difficulty": 1,
-  "title": "Brightwater Corporate Center - After-Hours Switchboard Call Log",
-  "brief": "An after-hours telephone switchboard log and message record drafted from handwritten shift notes taken at the security console.",
-  "docType": "switchboard call log",
+  "title": "After-Hours Telephone Call Log",
+  "brief": "An after-hours security telephone call log for Brightwater Commons, drafted from the guard desk notes and call-routing sheet.",
+  "docType": "telephone call log",
   "slip": {
-    "document": "# Brightwater Corporate Center - After-Hours Switchboard Call Log\nShift: Swing (16:00 - 24:00) | Date: 03/18/2026 | Desk Officer: Sunita Hendricks, Badge #412\n\n## Tenant Directory Reference\n| Suite | Tenant Name | Primary Contact | Emergency Routing |\n| --- | --- | --- | --- |\n| 200 | Brightwater Logistics | Raymond Nguyen | On-call Operations Mgr |\n| 310 | Clearwater Financial | Nadia Ibrahim | VP Operations (Direct Line) |\n| 405 | Halcyon Biotech | Frank Del Rio | Lab Safety Coordinator |\n\n## Incoming Call Summary\n- 18:22 - Caller: Wayne Ortiz (Courier Express). Inquired about after-hours freight elevator access for a scheduled document drop at Clearwater Financial. Advised that loading dock access closes at 18:00 and directed him to contact the tenant representative directly.\n- 19:40 - Caller: Raymond Nguyen (Brightwater Logistics). Requested HVAC override for Suite 200 conference rooms until 23:00. Logged request in building automation system and verified tenant authorization PIN.\n- 20:15 - Caller: Trevor Barnes (Metropolitan Fire Alarm Systems). Requested security to place the building fire alarm panel in test mode for water riser flow inspections. Guard verified test credentials and placed panel on test with central dispatch.\n- 21:05 - Caller: Maria Whitfield (Stonebridge Cleaning Services). Left message for Nadia Ibrahim regarding custodial access to Clearwater Financial Suite 405 scheduled for 06:00 tomorrow.\n\n## Action Items and Escalations\n- HVAC override entered and confirmed active for Suite 200 through 23:00.\n- Switchboard transferred one urgent facilities call directly to property management answering service.",
+    "document": "# After-Hours Telephone Call Log\nBrightwater Commons | Security desk | 06/18/2026\n\n## Desk reference\n- Switchboard hours: Monday–Friday, 8:00 AM–5:00 PM; calls route to the security desk after closing.\n- On-call facilities contact: Sunita Hendricks, 555-014-8826.\n- Security officer on duty: Nadia Ibrahim, post 2.\n\n## Call entries\n- 6:42 PM — Raymond Nguyen called from the west loading area, 41 Harbor Street, to report water flowing from the ceiling near electrical panel W-3. He said the flow was increasing and no one was injured. Nadia recorded the location and caller details and advised that facilities would review the report in the morning. No alarms were sounding, and the caller remained outside the affected area.\n- 7:15 PM — A delivery driver called to ask whether the north service gate would be open at 7:30 AM. Nadia confirmed that the gate is scheduled to open at 7:30 AM and provided the visitor check-in instructions: use the call box and show a photo ID at the security desk.\n\n## Call handling summary\n- The switchboard is open until 10:00 PM on weekdays.\n- Nadia entered both calls in the desk log and passed the loading-area report to the incoming officer at shift change, 11:00 PM.\n- No other calls requiring dispatch or emergency services were received during the shift.\n\n## Follow-up\n- Sunita Hendricks is listed as the facilities contact for non-emergency building issues.\n- The north service gate schedule remains 7:30 AM; no schedule change was requested.",
     "errors": [
       {
-        "quote": "place the building fire alarm panel in test mode for water riser flow inspections.",
-        "start": 1089,
-        "end": 1171,
+        "quote": "advised that facilities would review the report in the morning",
+        "start": 587,
+        "end": 649,
+        "focusStart": 587,
+        "focusEnd": 649,
         "type": "omission",
-        "explanation": "Security switchboard protocols require recording the specific test duration or scheduled end time when placing a life safety fire alarm panel into test mode, so guards know when normal monitoring must resume.",
-        "fix": "place the building fire alarm panel in test mode for 60 minutes for water riser flow inspections."
+        "explanation": "The caller reported increasing water flow near an electrical panel, creating an immediate hazard. The entry omits contacting the listed on-call facilities contact promptly and keeping people clear of the affected area; deferring review until morning is not an adequate response.",
+        "fix": "called Sunita Hendricks immediately and kept people clear of the affected area"
       },
       {
-        "quote": "regarding custodial access to Clearwater Financial Suite 405 scheduled for 06:00 tomorrow.",
-        "start": 1350,
-        "end": 1440,
+        "quote": "The switchboard is open until 10:00 PM on weekdays.",
+        "start": 1025,
+        "end": 1076,
+        "focusStart": 1055,
+        "focusEnd": 1063,
         "type": "fact",
-        "explanation": "According to the tenant directory reference table, Clearwater Financial occupies Suite 310, not Suite 405 (which belongs to Halcyon Biotech).",
-        "fix": "regarding custodial access to Clearwater Financial Suite 310 scheduled for 06:00 tomorrow."
+        "explanation": "The desk reference states that the switchboard operates only until 5:00 PM on weekdays and calls route to security after closing. The 10:00 PM closing time contradicts that information.",
+        "fix": "The switchboard is open until 5:00 PM on weekdays."
       }
     ]
   }

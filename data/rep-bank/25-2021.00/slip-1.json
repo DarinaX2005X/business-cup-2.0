@@ -4,27 +4,31 @@
   "taskId": "6556",
   "locale": "en",
   "difficulty": 1,
-  "title": "Instructional Technology Lesson Plan and Hardware Setup",
-  "brief": "A 4th-grade instructional technology lesson plan and hardware integration guide prepared by an elementary school teacher for an interactive science unit.",
+  "title": "Grade 4 Sound and Vibration Technology Plan",
+  "brief": "A technology-supported Grade 4 science lesson plan drafted for Clearwater Elementary using the teacher’s lesson materials.",
   "docType": "lesson plan",
   "slip": {
-    "document": "# Instructional Technology Lesson Plan and Hardware Setup\nClearwater Elementary School - Grade 4 Science\n\n## Overview\nInstructor: Colleen Ferreira\nUnit: Earth Systems and Weather Patterns\nDate: 10/14/2026\nRoom: 204\nSupport Staff: Grace Hollis (Media Specialist), Teresa Larkin (Instructional Aide)\n\n## Technology Inventory\n| Equipment Type | Assigned Units | Connection Standard | Status |\n| --- | --- | --- | --- |\n| Student Chromebooks | 24 | Wi-Fi 6 (Clearwater-Internal) | Fully charged |\n| Interactive Flat Panel | 1 | HDMI 2.1 / USB-C Touch | Calibrated |\n| Document Camera | 1 | USB 3.0 to Teacher PC | Operational |\n| Audio Soundbar | 1 | 3.5 mm Aux to Panel | Tested at 45 dB |\n| VR Headsets | 6 | Standalone Wi-Fi | Staged for Station 3 |\n\n## Presentation and Activity Procedure\n- 09:00 AM - Whole-group direct instruction using interactive flat panel to model barometric pressure changes.\n- 09:15 AM - Connect document camera to teacher workstation to demonstrate physical barometer readings under pressure chamber.\n- 09:30 AM - Small-group rotations across four stations (6 students per group).\n- Station 1: Simulation software on Chromebooks analyzing regional weather maps.\n- Station 2: Hands-on measurement with analog instruments led by Teresa Larkin.\n- Station 3: Immersive virtual storm-tracking observation utilizing the 6 VR headsets.\n- Station 4: Collaborative weather journal logging on the interactive panel.\n\n## Hardware Guidelines and Digital Safety\n- Confirm all 24 student Chromebooks are logged into managed accounts without filtering.\n- Audio levels during whole-class media playback must remain below 70 dB to avoid room spillover.\n- Grace Hollis will inspect the interactive flat panel connection via DisplayPort before morning circle.\n- Disconnect power cords from floor pathways immediately after station rotations conclude to prevent tripping hazards.",
+    "document": "# Grade 4 Sound and Vibration Technology Plan\nClearwater Elementary | 04/14/2026 | Teacher: Colleen Ferreira\n\n## Lesson overview\nStudents use a short audio-visual presentation and a digital simulation to investigate how vibrations produce sound. The class has 24 students. Grace Hollis has documented profound hearing loss and needs visual access to sound information. Learning target: describe how an object's vibration affects the sound it makes. Materials include 12 tablets, one classroom computer, a projector, speakers, rubber bands, and a digital tuning-fork simulation. The simulation provides tones through speakers only; it does not display a waveform or other visual sound cue.\n\n## Setup and presentation\nBefore students arrive, connect the classroom computer to the projector and speakers, then open the simulation and presentation slides. The video \"Sound in Motion\" is 6 minutes long; its captions are enabled. Test the speaker volume at a level students can hear from the back row. Teresa Larkin will keep the lights dimmed only during the video and simulation demonstration.\n\n## Instruction sequence\n- 9:00–9:05: Display the learning target and introduce the question, \"What makes sound?\"\n- 9:05–9:11: Play the video, pausing once to ask students what they observe.\n- 9:11–9:19: Project the simulation; vary vibration speed and have students compare the sounds.\n- 9:19–9:31: Students explore the simulation on tablets in five groups of five.\n- 9:31–9:40: Students stretch rubber bands and describe how changing tension affects vibration and sound.\n- 9:40–9:45: During the simulation, students identify each pitch from the speaker output.\n\n## Assessment and shutdown\nStudents must name one vibrating object and explain how its vibration produces sound. Grace Hollis records responses for the next lesson. Save the presentation and exit-slip tally to the Clearwater Grade 4 shared drive. Shut down the projector and return tablets to the numbered charging slots.",
     "errors": [
       {
-        "quote": "managed accounts without filtering.",
-        "start": 1528,
-        "end": 1563,
-        "type": "omission",
-        "explanation": "CIPA (Children's Internet Protection Act) compliance and standard school safety protocols require active content filtering on school-issued student accounts and devices; disabling or omitting content filtering violates federal compliance and district safety standards.",
-        "fix": "managed accounts with active CIPA web filtering."
+        "quote": "five groups of five",
+        "start": 1437,
+        "end": 1456,
+        "focusStart": 1437,
+        "focusEnd": 1456,
+        "type": "fact",
+        "explanation": "The overview states that the class has 24 students, but five groups of five account for 25 students.",
+        "fix": "four groups of six"
       },
       {
-        "quote": "interactive flat panel connection via DisplayPort before morning circle.",
-        "start": 1694,
-        "end": 1766,
-        "type": "fact",
-        "explanation": "The technology inventory table states that the interactive flat panel uses an HDMI 2.1 / USB-C Touch connection standard, contradicting the instruction to inspect a DisplayPort connection.",
-        "fix": "interactive flat panel connection via HDMI 2.1 before morning circle."
+        "quote": "During the simulation, students identify each pitch from the speaker output.",
+        "start": 1577,
+        "end": 1653,
+        "focusStart": 1577,
+        "focusEnd": 1653,
+        "type": "omission",
+        "explanation": "The overview says Grace Hollis needs visual access to sound information and that the simulation provides tones through speakers only, with no visual sound cue. This instruction relies on listening without providing a visual alternative; add a visual representation of the pitches for her to use.",
+        "fix": "During the simulation, students identify each pitch using a visual representation alongside the speaker output."
       }
     ]
   }

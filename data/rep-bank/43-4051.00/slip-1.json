@@ -4,27 +4,31 @@
   "taskId": "18565",
   "locale": "en",
   "difficulty": 1,
-  "title": "Customer Service Call Record and Account Discretionary Fee Dispute",
-  "brief": "Call log and dispute resolution memo drafted by customer service representative Dmitri Coleman regarding Colleen Rowland's checking account fee waiver request.",
-  "docType": "customer service record",
+  "title": "Brightwater Customer Inquiry Case Note",
+  "brief": "A telephone inquiry about a disputed utility bill, drafted from the account record and call notes.",
+  "docType": "customer service case note",
   "slip": {
-    "document": "# Customer Service Call Record and Account Discretionary Fee Dispute\nAgent: Dmitri Coleman | Reviewing Lead: Grace Sandoval | Date: 03/12/2026\n\n## Account Summary\n| Field | Information |\n| --- | --- |\n| Account Holder | Colleen Rowland |\n| Account Number | 4409-8812-04 |\n| Account Type | Brightwater Premier Checking |\n| Current Balance | $1,842.10 |\n| Date Account Opened | 08/14/2021 |\n| Fee in Dispute | Maintenance Service Fee of $25.00 assessed 03/10/2026 |\n\n## Contact Notes and Verification\nCustomer Colleen Rowland contacted customer care at 10:14 AM EST regarding a $25.00 monthly maintenance fee posted on 03/10/2026.\n- Caller identity verified via one-time passcode to primary mobile phone.\n- Customer stated she maintains a balance above $1,500.00 and inquired why the fee was charged.\n- Agent reviewed ledger and observed the balance dropped to $1,320.40 on 02/24/2026 before payroll posted on 02/27/2026, causing the monthly minimum violation.\n- Customer requested a courtesy reversal, noting four years of account tenure without prior fee waivers.\n- System records confirm no fee waivers granted in the previous 12-month period.\n\n## Resolution and Action Items\nAgent offered a one-time courtesy adjustment under discretionary retention tier 1 authority.\n- Reversal credited to account 4409-8812-04 in the amount of $25.00 on 03/12/2026.\n- Customer advised that avoiding future monthly charges requires maintaining a minimum daily balance of $5,000.00.\n- Customer accepted terms and requested confirmation via email to address on file.",
+    "document": "# Brightwater Customer Inquiry Case Note\n## Interaction\nDate: 04/16/2026 | Time: 10:22 AM | Channel: Telephone\nRepresentative: Colleen Rowland | Customer: Dmitri Coleman\nAccount: BW-704183 | Service address: 18 Willow Court, Cedar Falls, IA 50613\n\n## Account snapshot\n| Item | Record |\n| --- | --- |\n| Current balance | $86.40 |\n| Due date | 04/25/2026 |\n| Service | Residential water and sewer |\n| Last payment | $75.00 on 03/28/2026 |\n\n## Call summary\nBrightwater billing privacy procedure requires the account PIN and service address to be verified before account details are disclosed. The caller said the March bill seemed higher than usual and asked for the current balance and an explanation of the increase.\n\nI read the balance and due date to the caller. I stated that the account balance was $68.40 and due on 04/25/2026. The caller confirmed the service address as 18 Willow Court and said the household had not changed its water use. I explained that the account snapshot showed a $12.00 sewer adjustment posted on 04/02/2026, in addition to the monthly water and sewer charges.\n\nThe caller asked whether the adjustment could be reviewed. I opened billing review BR-260416-118 and attached the March statement for research. I advised that the billing team will respond by 04/20/2026 using the telephone number already listed on the account. No payment or service changes were made during this call.\n\n## Follow-up\nQueue: Billing Review | Owner: Grace Sandoval | Target response: 04/20/2026\nCustomer was advised to keep the existing due date while the review is pending.",
     "errors": [
       {
-        "quote": "Caller identity verified via one-time passcode to primary mobile phone.",
-        "start": 631,
-        "end": 702,
+        "quote": "I read the balance and due date to the caller.",
+        "start": 717,
+        "end": 763,
+        "focusStart": 717,
+        "focusEnd": 763,
         "type": "omission",
-        "explanation": "Standard banking customer verification protocol requires two points of authentication; verifying only via a one-time passcode without verifying primary account identifiers (such as mother's maiden name or last four of SSN) is an incomplete verification log.",
-        "fix": "Caller identity verified via one-time passcode to primary mobile phone and confirmation of last four digits of SSN."
+        "explanation": "The note says Brightwater requires verification of both the account PIN and service address before disclosing account details, but it records no PIN verification before the balance and due date were disclosed.",
+        "fix": "I verified the account PIN and service address before reading the balance and due date to the caller."
       },
       {
-        "quote": "maintaining a minimum daily balance of $5,000.00.",
-        "start": 1418,
-        "end": 1467,
+        "quote": "the account balance was $68.40 and due on 04/25/2026",
+        "start": 778,
+        "end": 830,
+        "focusStart": 802,
+        "focusEnd": 808,
         "type": "fact",
-        "explanation": "The document notes the customer keeps a balance above $1,500.00 and was assessed the fee when it dropped to $1,320.40, showing the minimum daily balance requirement is $1,500.00, not $5,000.00.",
-        "fix": "maintaining a minimum daily balance of $1,500.00."
+        "explanation": "The account snapshot lists the current balance as $86.40, so the stated balance is incorrect. The due date matches the snapshot.",
+        "fix": "the account balance was $86.40 and due on 04/25/2026"
       }
     ]
   }

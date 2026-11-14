@@ -4,27 +4,31 @@
   "taskId": "23877",
   "locale": "en",
   "difficulty": 1,
-  "title": "Customer Inquiry and Merchandise Recommendation Log",
-  "brief": "Customer inquiry and product recommendation sheet drafted by an associate for a contractor purchasing interior latex paint and application supplies.",
-  "docType": "customer inquiry log",
+  "title": "Customer Assistance Record: Bedroom Fan Selection",
+  "brief": "A customer assistance record comparing floor fans for a bedroom, drafted from the customer’s stated needs and shelf specifications.",
+  "docType": "customer assistance record",
   "slip": {
-    "document": "# Customer Inquiry and Merchandise Recommendation Log\nStore #412 - Hardware & Building Supplies\nAssociate: Ethan Whitfield | Date: 03/18/2026\n\n## Customer Details\nCustomer: Arlen Croft (Croft Renovation LLC)\nProject: Interior repainting of a 1,400 sq ft residential basement unit\nSubstrate: Previously painted drywall in dry living area, fresh unprimed drywall in utility room\n\n## In-Stock Inventory Reference\n| SKU | Product Description | Coverage | Unit Price | Current Stock |\n| --- | --- | --- | --- | --- |\n| 441-092 | ProShield Interior Latex Eggshell (1 Gal) | 350-400 sq ft/gal | $42.98 | 18 cans |\n| 441-095 | ProShield Interior Latex Eggshell (5 Gal) | 1,750-2,000 sq ft/bucket | $189.00 | 4 buckets |\n| 108-332 | PrimeLock Drywall PVA Primer (1 Gal) | 300-350 sq ft/gal | $21.50 | 12 cans |\n| 882-104 | Wooster 9-inch 3/8-inch Nap Roller Cover | N/A | $5.49 | 24 units |\n| 882-109 | Wooster 9-inch 3/4-inch Nap Roller Cover | N/A | $6.29 | 15 units |\n\n## Recommendations and Advice Provided\n- Recommended SKU 441-095 (5 Gal bucket) to complete two full finish coats across the total project area.\n- Informed customer that SKU 441-095 covers up to 1,200 sq ft per bucket, which satisfies single-coat coverage for the unit.\n- Advised customer to purchase two 1-gallon cans of PrimeLock PVA Primer (SKU 108-332) for the 500 sq ft utility room drywall before finish application.\n- Advised customer that primed drywall requires no primer coat, so the utility room can receive finish paint immediately.\n- Suggested SKU 882-104 (3/8-inch nap) for smooth to medium texture drywall surfaces to ensure uniform sheen without excessive stippling.\n- Directed customer to Bay 14 for roller trays and extension poles.",
+    "document": "# Customer Assistance Record: Bedroom Fan Selection\nNorthfield Home & Supply | Cedar Falls, Iowa | 06/18/2026\n\n## Customer request\nMegan Lindqvist asked for a floor fan for a 12-by-14-ft bedroom. She wants a model for overnight use, with noise no higher than 40 dBA, and asked whether either option can run from a standard household outlet. Brandon Coleman checked the shelf labels and recorded the specifications below.\n\n## Shelf specifications\n| Model | Listed voltage | Noise at low speed | Airflow | Timer |\n| --- | --- | --- | --- | --- |\n| Breeze 12 | 120 V | 48 dBA | 1,200 CFM | 8 hours |\n| QuietAir 10 | 120 V | 36 dBA | 900 CFM | 4 hours |\n\n## Assistance provided\nRosa Rowland reviewed both options with Megan and explained that either model plugs into a standard 120-V household outlet. The Breeze 12 runs on 240 V. Its airflow is higher, but the shelf label lists its low-speed noise above Megan's stated limit.\n\nFor overnight use, the timer can be set before bed; the QuietAir 10 timer runs for up to 4 hours, while the Breeze 12 timer runs for up to 8 hours. Megan said she prefers stronger airflow and is willing to use the low-speed setting. Rosa recommended the Breeze 12 as the best match for Megan's quiet-bedroom requirement. Megan chose to compare the two units in the aisle before deciding.\n\n## Follow-up\nBrandon confirmed both models were in stock on the floor and showed Megan where their shelf labels display the noise and timer specifications. No purchase was completed during the conversation.",
     "errors": [
       {
-        "quote": "SKU 441-095 covers up to 1,200 sq ft per bucket",
-        "start": 1133,
-        "end": 1180,
+        "quote": "The Breeze 12 runs on 240 V.",
+        "start": 798,
+        "end": 826,
+        "focusStart": 820,
+        "focusEnd": 825,
         "type": "fact",
-        "explanation": "The reference table explicitly states that SKU 441-095 has a coverage rate of 1,750-2,000 sq ft/bucket, directly contradicting the 1,200 sq ft statement.",
-        "fix": "SKU 441-095 covers up to 2,000 sq ft per bucket"
+        "explanation": "The shelf specifications list the Breeze 12 at 120 V, and the assistance note also says both models plug into a standard 120-V household outlet.",
+        "fix": "The Breeze 12 runs on 120 V."
       },
       {
-        "quote": "Advised customer that primed drywall requires no primer coat, so the utility room can receive finish paint immediately.",
-        "start": 1388,
-        "end": 1507,
+        "quote": "Rosa recommended the Breeze 12 as the best match for Megan's quiet-bedroom requirement.",
+        "start": 1158,
+        "end": 1245,
+        "focusStart": 1163,
+        "focusEnd": 1188,
         "type": "logic",
-        "explanation": "This contradicts the customer details, which specify that the utility room has 'fresh unprimed drywall', as well as the preceding bullet advising the customer to buy PVA primer for that exact room.",
-        "fix": "Advised customer that unprimed drywall requires a dedicated primer coat, so the utility room must be primed prior to finish paint."
+        "explanation": "Megan set a maximum noise level of 40 dBA, but the Breeze 12 is listed at 48 dBA; the QuietAir 10 is listed at 36 dBA and meets that requirement.",
+        "fix": "Rosa recommended the QuietAir 10 as the best match for Megan’s quiet-bedroom requirement."
       }
     ]
   }

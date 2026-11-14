@@ -4,83 +4,84 @@
   "taskId": "513",
   "locale": "en",
   "difficulty": 2,
-  "title": "CNA Assignment Sheet Shift Handoff",
-  "brief": "A structured, prioritized task list for two Certified Nursing Assistants covering the evening shift on Oak Wing.",
+  "title": "Morning Aide Assignment Sheet",
+  "brief": "Create a clear assignment sheet for the morning aides on the rehabilitation unit.",
   "delegate": {
-    "scenario": "You are the charge LPN on Oak Wing at Meadowview Rehabilitation Center organizing duties for the 3:00 PM to 11:00 PM shift. Two CNAs need a clear allocation of resident care tasks, vitals schedules, and dining duties before change-of-shift report at 3:15 PM. You need an organized assignment sheet that balances the workload and ensures safety protocols are maintained.",
-    "inputs": "Oak Wing Census & Orders (03/24/2026):\n- Room 201 (J. Ellison): Total care, turn q2h, strict NPO except ice chips per speech therapy. Vitals TID.\n- Room 202 (M. Gable): Stand-by assist x1, blood glucose checks AC/HS. Normal diet.\n- Room 203 (D. Chen): Fall risk, bed alarm on at all times, assist x2 with pivot transfers. Weight check weekly on Mondays.\n- Room 204 (R. Torres): Independent with walker. Vitals q-shift. Needs vitals taken before physical therapy at 3:30 PM.\n\nCNA assignments:\n- CNA Jackson: Rooms 201-202. Dining room monitor at 5:00 PM dinner.\n- CNA Rivera: Rooms 203-204. Break relief at 7:00 PM.\n\nNotes from Day Shift:\n- Ellison ice chips tolerated well. Order update from Dr. Patel: Ellison diet advanced to pureed with honey-thick liquids at lunch today.\n- Chen weighed this morning: 164 lbs. Last Monday was 152 lbs. Chen also refusing transfer assist x2, insists family helps alone.\n- Evening vitals due: Ellison, Gable, Torres. Torres vitals logged at 15:45.",
-    "goal": "Provide a clear, safe, and balanced duty list for both CNAs that prioritizes immediate care needs and clarifies conflicting dietary and care instructions.",
+    "scenario": "You are the LPN coordinating aide coverage on Cedar Hall during the 7:00 AM–3:00 PM shift. The aides will use the sheet at shift start to divide resident-care tasks and identify anything that needs your clarification before care begins.",
+    "inputs": "Cedar Hall, 7:00 AM–3:00 PM, 06/18/2026. Aides: Tasha Reed and Miguel Ortiz. Please organize the morning care assignments and flag items I need to resolve.\n\nRoom 12, Lena Brooks: breakfast in dining room; toileting at 9:00 AM; transfer to wheelchair with one-person assist per care card. Daughter visits at 10:30 AM. The transfer section of the therapy update dated 06/17/2026 says two-person assist.\nRoom 14, Omar Patel: bed bath; turn and reposition every 2 hours; report any new skin redness to me.\nRoom 16, June Ellis: assist with dressing; escort to 8:30 AM activity; record meal intake and report less than half eaten.\nRoom 18, Walter Kim: walk in hallway after breakfast with gait belt; report dizziness or shortness of breath promptly.\n\nOmar Patel breakfast intake: 240 mL juice, 180 mL milk, 120 mL water. Total recorded on aide worksheet: 600 mL.\n\nKeep call lights within reach after care. Aides should report refusals, changes in condition, and unfinished tasks to me before end of shift.",
+    "goal": "Give the aides a usable, safe task plan while making unclear or conflicting source information visible for your review.",
     "criteria": [
       {
         "id": "c1",
-        "text": "Specifies that the output is an assignment sheet intended for evening shift CNAs Jackson and Rivera.",
+        "text": "Says the plan is for Cedar Hall aides on the 7:00 AM–3:00 PM shift.",
         "keywords": [
-          "Jackson",
-          "Rivera",
-          "CNA",
-          "assignment sheet",
-          "evening shift"
+          "Cedar Hall",
+          "aides",
+          "7:00 AM–3:00 PM"
         ]
       },
       {
         "id": "c2",
-        "text": "Formats the output into a clear, room-by-room breakdown or per-aide checklist with distinct timing blocks.",
+        "text": "Keeps aide tasks within their role and directs concerns or changes to the LPN.",
         "keywords": [
-          "table",
-          "bullet points",
-          "schedule",
-          "checklist",
-          "breakdown"
+          "aide tasks",
+          "report to me",
+          "within role"
         ]
       },
       {
         "id": "c3",
-        "text": "Constrains the tone to be direct, concise, and focused strictly on aide scope of practice tasks.",
+        "text": "Asks the AI to check care instructions for conflicts and flag them rather than choosing one.",
         "keywords": [
-          "scope of practice",
-          "concise",
-          "direct",
-          "actionable"
+          "check for conflicts",
+          "flag for review",
+          "do not assume"
         ]
       },
       {
         "id": "c4",
-        "text": "Instructs the assistant to flag dietary contradictions or inconsistent care orders against clinical documentation.",
+        "text": "Asks the AI to verify recorded totals against the listed amounts.",
         "keywords": [
-          "flag contradictions",
-          "reconcile orders",
-          "verify diet",
-          "check orders"
+          "verify totals",
+          "add the amounts",
+          "check arithmetic"
         ]
       },
       {
         "id": "c5",
-        "text": "Requires verification of scheduled timing for critical patient vitals and procedures to catch timing discrepancies.",
+        "text": "Requests a concise room-by-room assignment with tasks and escalation reminders.",
         "keywords": [
-          "verify times",
-          "schedule check",
-          "timeline discrepancy",
-          "vitals schedule"
+          "room-by-room",
+          "assignment",
+          "concise"
         ]
       }
     ],
     "traps": [
       {
         "id": "t1",
-        "description": "Room 201 (Ellison) has conflicting diet orders: strict NPO except ice chips in the primary census versus advanced pureed with honey-thick liquids in the day shift notes.",
+        "description": "Lena Brooks's transfer instruction says one-person assist in the care card and two-person assist in the therapy update.",
         "keywords": [
-          "strict NPO",
-          "pureed with honey-thick liquids"
+          "one-person assist",
+          "two-person assist"
+        ],
+        "evidence": [
+          "transfer to wheelchair with one-person assist",
+          "The transfer section of the therapy update dated 06/17/2026 says two-person assist."
         ]
       },
       {
         "id": "t2",
-        "description": "Room 204 (Torres) requires vitals before physical therapy at 3:30 PM, but the shift notes record vitals logged at 15:45 (after therapy start).",
+        "description": "Omar Patel's listed breakfast amounts total 540 mL, not the recorded 600 mL.",
         "keywords": [
-          "before physical therapy at 3:30 PM",
-          "15:45"
+          "600 mL"
+        ],
+        "evidence": [
+          "240 mL juice, 180 mL milk, 120 mL water",
+          "Total recorded on aide worksheet: 600 mL"
         ]
       }
-    ]
+    ],
+    "exemplar": "Create a concise room-by-room assignment sheet for the Cedar Hall aides working 7:00 AM–3:00 PM. Keep tasks within aide responsibilities, and direct changes in condition, refusals, and unresolved care questions to me, the LPN. Check the care instructions for conflicts and flag them for my review rather than choosing one. Recalculate any listed totals from their component amounts and flag mismatches. Include each resident’s tasks, timing, and key safety reminders in a format aides can scan at shift start."
   }
 }

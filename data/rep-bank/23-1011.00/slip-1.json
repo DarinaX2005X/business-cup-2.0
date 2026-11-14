@@ -4,27 +4,31 @@
   "taskId": "3774",
   "locale": "en",
   "difficulty": 1,
-  "title": "Legal Memorandum: Application of WARN Act Thresholds to Reductions in Force",
-  "brief": "A legal memorandum analyzing whether a planned reduction in force across two corporate branch locations triggers the federal Worker Adjustment and Retraining Notification (WARN) Act advance notice requirements.",
-  "docType": "legal memorandum",
+  "title": "FMLA Eligibility Interpretation Memo — Bluestone",
+  "brief": "A legal memo interpreting federal FMLA eligibility requirements for Bluestone, drafted from the company’s workforce and employee records.",
+  "docType": "legal memo",
   "slip": {
-    "document": "# Legal Memorandum: Application of WARN Act Thresholds to Reductions in Force\nClient Advisory Note\n\n## Client and Facility Details\n| Facility Location | Active Full-Time Employees | Active Part-Time Employees | Planned Terminations (Effective 05/15/2026) |\n| --- | --- | --- | --- |\n| Site A (Dallas Facility) | 180 | 25 | 60 |\n| Site B (Plano Facility) | 45 | 10 | 22 |\n\n## Statutory Framework\nUnder 29 U.S.C. Section 2101 et seq., the federal WARN Act applies to business enterprises employing at least 100 full-time employees, or 100 or more employees who in the aggregate work at least 4,000 hours per week. Advance notice must be provided at least 60 calendar days prior to a qualifying employment loss.\n\nA mass layoff triggers notice requirements if an employment loss affects at least 33 percent of active full-time workers and at least 50 full-time workers at a single site of employment. Alternatively, an employment loss of 500 or more full-time employees triggers notice regardless of the percentage of the workforce affected.\n\n## Analysis\n- Site A currently maintains 180 active full-time personnel, meaning the planned termination of 60 full-time workers represents exactly 30 percent of the site's full-time workforce.\n- Because 60 terminations exceeds the absolute threshold of 50 full-time workers and satisfies the 33 percent requirement, Site A qualifies as a covered mass layoff.\n- Site B does not trigger mass layoff provisions on a standalone basis because total terminations remain well below the minimum threshold of 50 affected full-time workers.\n- The Dallas and Plano facilities operate under distinct operational management and geographic separation, precluding single-site aggregation under 20 CFR Section 639.3(i).\n\n## Recommended Actions\n- Issue formal written notice to Dallas site employees and the Texas Workforce Commission on or before 03/16/2026.\n- Maintain standard non-WARN separation workflows for all departing Plano facility personnel.",
+    "document": "# FMLA Eligibility Interpretation Memo — Bluestone\nTo: Megan Osei, HR Director\nFrom: Rosa Coleman, Counsel\nDate: 02/18/2026\nRe: Brandon Lindqvist leave eligibility\n\n## Question and governing rule\nBluestone Distribution asked whether Brandon Lindqvist may take job-protected leave under the federal Family and Medical Leave Act (FMLA) for a qualifying serious health condition. This memo addresses employee eligibility, not whether the reported condition qualifies or whether a particular absence is protected.\n\nUnder 29 U.S.C. § 2611(2), an employee generally must have worked for the employer for at least 12 months and at least 1,250 hours during the 12 months immediately before leave begins. The employee must also work at a site where the employer has at least 50 employees within 75 miles. For FMLA purposes, the hours test is 1,000 hours in the preceding 12 months.\n\n## Records reviewed\n| Item | Record |\n| --- | --- |\n| Hire date | 08/14/2024 |\n| Requested leave start | 03/02/2026 |\n| Hours worked, 03/02/2025–03/01/2026 | 1,260 |\n| Employees within 75 miles of Brandon's worksite | 53 |\n| Employer size | At least 68 employees for 20 workweeks in 2025 |\n\n## Application and recommendation\nBrandon has been employed for more than 12 months by the requested leave date, and the recorded 1,260 hours exceed the applicable hours threshold. Bluestone also meets the employer coverage requirement, and the worksite count exceeds 50 within 75 miles.\n\nDespite that headcount, Brandon is not eligible because the worksite has fewer than 50 employees within 75 miles. HR should therefore deny FMLA protection on eligibility grounds, while separately reviewing any applicable state or local leave rights and the company's leave policy. Do not characterize this memo as a determination that the medical condition is or is not FMLA-qualifying.",
     "errors": [
       {
-        "quote": "represents exactly 30 percent of the site's full-time workforce",
-        "start": 1168,
-        "end": 1231,
+        "quote": "the hours test is 1,000 hours in the preceding 12 months",
+        "start": 815,
+        "end": 871,
+        "focusStart": 833,
+        "focusEnd": 844,
         "type": "fact",
-        "explanation": "60 terminations out of 180 full-time employees equals 33.33 percent (one-third), not 30 percent.",
-        "fix": "represents approximately 33.3 percent of the site's full-time workforce"
+        "explanation": "The memo gives the wrong FMLA hours threshold. The governing rule stated just above it is 1,250 hours worked during the 12 months before leave begins, which is the federal eligibility standard.",
+        "fix": "the hours test is 1,250 hours in the preceding 12 months"
       },
       {
-        "quote": "Because 60 terminations exceeds the absolute threshold of 50 full-time workers and satisfies the 33 percent requirement",
-        "start": 1235,
-        "end": 1354,
+        "quote": "Brandon is not eligible because the worksite has fewer than 50 employees within 75 miles",
+        "start": 1478,
+        "end": 1566,
+        "focusStart": 1489,
+        "focusEnd": 1501,
         "type": "logic",
-        "explanation": "The analysis directly contradicts its immediately preceding bullet point, which incorrectly stated the reduction was only 30 percent (which would fail the 33 percent rule).",
-        "fix": "Because 60 terminations meets the statutory requirement of at least 33 percent and exceeds 50 full-time workers"
+        "explanation": "The records table shows 53 employees within 75 miles of Brandon’s worksite, so the stated reason for finding him ineligible contradicts the memo’s own data. The application section also notes that the worksite count exceeds 50.",
+        "fix": "Brandon is eligible because the worksite has at least 50 employees within 75 miles"
       }
     ]
   }

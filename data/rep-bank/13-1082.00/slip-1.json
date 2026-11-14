@@ -4,27 +4,31 @@
   "taskId": "21479",
   "locale": "en",
   "difficulty": 1,
-  "title": "Weekly Critical Path Milestone Review: Cloud Data Migration",
-  "brief": "Weekly milestone review and deadline tracking memo for an enterprise clinical database migration, drafted from project track schedules and risk registers.",
-  "docType": "project status report",
+  "title": "Juniper Harbor Retrofit — Weekly Deadline Update Request",
+  "brief": "A weekly deadline update request for a facilities retrofit, drafted from the current milestone tracker.",
+  "docType": "project update request",
   "slip": {
-    "document": "# Weekly Critical Path Milestone Review: Cloud Data Migration\nProject ID: PRJ-9402 | Date: 10/12/2026 | Prepared by: Samuel Ramos, PMP\n\n## Milestone Tracking Summary\n\n| WBS Code | Task Name | Baseline End | Current Forecast | Variance (Days) | Critical Path |\n| --- | --- | --- | --- | --- | --- |\n| 3.1.2 | ETL Pipeline Staging | 10/05/2026 | 10/05/2026 | 0 | Yes |\n| 3.1.3 | Historical Claims Data Ingestion | 10/19/2026 | 10/26/2026 | +7 | Yes |\n| 3.1.4 | Security Key Management Setup | 10/14/2026 | 10/14/2026 | 0 | No |\n| 3.2.1 | User Acceptance Testing Run 1 | 10/27/2026 | 11/03/2026 | +7 | Yes |\n| 3.2.2 | Final Production Cutover | 11/15/2026 | 11/22/2026 | +7 | Yes |\n\n## Variance Analysis and Critical Path Impact\n\n- Task 3.1.3 (Historical Claims Data Ingestion) is currently trending 7 days behind baseline due to schema reconciliation issues across legacy database connectors.\n- Because Task 3.1.3 has zero days of total float, this milestone delay has no impact on downstream delivery and leaves the final cutover target intact.\n- Task 3.1.4 completed prerequisite configuration on schedule, maintaining zero float consumption on the non-critical security track.\n\n## Action Items and Remediation Plan\n\n- Lead engineer Walter Chen will authorize unencrypted sample staging of identifiable patient diagnostic records on public cloud buckets to speed up ingestion throughput.\n- Database administrators will implement parallel partition streaming starting 10/13/2026 to compress the remaining intake window by 3 calendar days.\n- Samuel Ramos will issue an updated critical path network diagram during the steerco sync on 10/15/2026.",
+    "document": "# Juniper Harbor Retrofit — Weekly Deadline Update Request\nWeek ending 05/15/2026\n\n## Update requested\nFrom: Andre Hendricks, Project Management Specialist\nTo: Fatima Duarte, site lead; Priya Petrov, controls lead\nProject: Juniper Harbor Retrofit, work order JHR-26-041\nPlease reply by 3:00 PM on 05/15/2026 with each workstream's actual percent complete, next deliverable, owner, blocker, and a dated forecast for any milestone at risk. Andre will consolidate responses for the 05/18 steering review.\n\n## Milestone tracker\n| Milestone | Owner | Baseline due | Latest forecast | Status |\n| --- | --- | --- | --- | --- |\n| Panel installation | Fatima Duarte | 05/20/2026 | 05/20/2026 | In progress, 70% |\n| Controls checkout | Priya Petrov | 05/22/2026 | 05/26/2026 | Not started |\n| Owner acceptance test | Andre Hendricks | 05/29/2026 | 05/29/2026 | Not started |\n\n## Reporting instructions\n- Fatima: confirm the panel delivery receipt and identify any remaining installation work; the tracker shows 30% incomplete.\n- Priya: controls checkout depends on panel installation, and the current forecast is 05/26/2026. Report the recovery action and revised date if the dependency changes.\n- The acceptance test remains scheduled for 05/29/2026, three calendar days after the controls checkout forecast.\n- The project summary should state that controls checkout will finish by 05/22/2026 and is on track.\n- Enter planned hours as hours actually worked when submitting weekly labor reports; submit them with the progress update by 3:00 PM Friday.\n- Escalate any forecast that moves a contractual milestone by more than one business day to Andre the same day, with the affected milestone and proposed mitigation.\n\nAndre will publish the consolidated tracker on 05/18/2026 and circulate open risks to the project team.",
     "errors": [
       {
-        "quote": "this milestone delay has no impact on downstream delivery and leaves the final cutover target intact",
-        "start": 942,
-        "end": 1042,
+        "quote": "controls checkout will finish by 05/22/2026",
+        "start": 1340,
+        "end": 1383,
+        "focusStart": 1373,
+        "focusEnd": 1383,
         "type": "logic",
-        "explanation": "Task 3.1.3 is on the critical path with zero float, and the table shows its 7-day delay cascades directly to push User Acceptance Testing and Final Production Cutover back by 7 days each.",
-        "fix": "this milestone delay directly pushes downstream delivery dates and extends the final cutover target by 7 days"
+        "explanation": "The tracker gives controls checkout a latest forecast of 05/26/2026 and marks it not started, so a 05/22/2026 finish does not follow from the listed schedule.",
+        "fix": "controls checkout is forecast to finish by 05/26/2026"
       },
       {
-        "quote": "authorize unencrypted sample staging of identifiable patient diagnostic records on public cloud buckets",
-        "start": 1250,
-        "end": 1353,
+        "quote": "Enter planned hours as hours actually worked",
+        "start": 1403,
+        "end": 1447,
+        "focusStart": 1409,
+        "focusEnd": 1422,
         "type": "compliance",
-        "explanation": "Staging identifiable patient diagnostic records unencrypted in public cloud storage violates mandatory HIPAA Security Rule technical safeguards (45 CFR § 164.312), which require access controls and encryption for electronic protected health information (ePHI).",
-        "fix": "authorize encrypted sample staging of de-identified records on private access-restricted cloud buckets"
+        "explanation": "Federal Fair Labor Standards Act recordkeeping requires employers to maintain accurate records of hours worked; reporting planned hours as actual hours would make the labor record inaccurate.",
+        "fix": "Enter actual hours worked"
       }
     ]
   }

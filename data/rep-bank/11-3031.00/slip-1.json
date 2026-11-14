@@ -4,27 +4,31 @@
   "taskId": "21317",
   "locale": "en",
   "difficulty": 1,
-  "title": "Commercial Credit Memorandum",
-  "brief": "Credit evaluation memorandum for an equipment term loan application submitted by Granite Peak Logistics LLC, drafted from financial statements and underwriting ratios.",
-  "docType": "credit memorandum",
+  "title": "Residential Mortgage Application Review — Raymond Banerjee",
+  "brief": "A residential mortgage application review memo for Raymond Banerjee, drafted from the application, credit report, and supporting documents.",
+  "docType": "loan review memo",
   "slip": {
-    "document": "# Commercial Credit Memorandum\nGranite Peak Logistics LLC - Term Loan Request\n\n## Facility Summary\n| Parameter | Detail |\n| --- | --- |\n| Applicant | Granite Peak Logistics LLC |\n| Loan Request | $850,000 |\n| Purpose | Fleet expansion (5 Class 8 dry-van tractors) |\n| Term / Amortization | 60 months / 60 months |\n| Proposed Rate | SOFR + 2.85% (floor 6.50%) |\n| Collateral | 5 2026 Freightliner Cascadia units |\n| Appraised Value | $1,050,000 ($210,000/unit) |\n| Primary Guarantor | Raymond Banerjee (65% owner, FICO 748) |\n| Secondary Guarantor | Sunita Osei (35% owner, FICO 732) |\n\n## Financial Analysis\nGranite Peak Logistics reported 2025 revenues of $4,820,000 and operating income of $412,000. Depreciation and amortization totaled $168,000, yielding EBITDA of $580,000. Existing annual debt service is $184,000 across two equipment lines.\n\n| Metric | FY 2024 | FY 2025 | Target |\n| --- | --- | --- | --- |\n| Total Revenue | $4,150,000 | $4,820,000 | N/A |\n| EBITDA | $490,000 | $580,000 | N/A |\n| Existing Debt Service | $184,000 | $184,000 | N/A |\n| Proposed New Debt Service | - | $198,000 | N/A |\n| Total Combined Debt Service | $184,000 | $382,000 | N/A |\n| DSCR (Combined) | 2.66x | 1.52x | >= 1.25x |\n| Funded Debt / EBITDA | 2.10x | 2.45x | <= 3.25x |\n\n## Underwriting Strengths and Risks\n- Historical cash flow supports total proposed debt service with a 2025 DSCR of 1.52x, exceeding policy minimums.\n- Guarantors Raymond Banerjee and Sunita Osei demonstrate outside net worth of $1.45M and liquid reserves of $340,000.\n- Loan-to-value based on equipment appraisal sits comfortably at 65.0%, providing adequate equity buffer.\n- Borrower operates in a cyclical freight environment with rising diesel fuel costs.\n\n## Recommendation\nUnderwriting recommends approval of the $850,000 facility subject to full joint and several personal guarantees from Raymond Banerjee and Sunita Osei, first-lien UCC-1 filing on titled vehicles, hazard insurance with the bank named as loss payee, and annual submission of CPA-reviewed corporate statements.",
+    "document": "# Residential Mortgage Application Review — Raymond Banerjee\n## Application summary\nApplicant: Raymond Banerjee\nCo-applicant: Sunita Osei\nLender: Granite Peak Lending\nLoan purpose: Purchase of owner-occupied single-family home\nProperty: 1842 Willow Bend Road, Madison, WI 53704\nPurchase price: $320,000\nRequested loan: $256,000, 30-year fixed, 6.625% rate\nReview date: 06/18/2026\n## Verified file data\n| Item | Verified information |\n| --- | --- |\n| Combined gross monthly income | $12,400; supported by employer letters and pay statements |\n| Monthly obligations | $1,180, including auto loan and revolving minimum payments |\n| Down payment and reserves | $64,000 down payment; $18,600 post-closing reserves |\n| Appraisal and title | $320,000 appraised value; no ownership or lien exceptions |\n| Flood determination | Property is in a Special Flood Hazard Area |\n| Credit scores | Raymond Banerjee: 748; Sunita Osei: 731 |\n- Bank statements show sufficient funds for the $8,000 earnest-money deposit.\n- Both applicants authorized the credit inquiry, and identity and occupancy documentation is complete.\n## Analysis and recommendation\n- The requested loan is a 75% loan-to-value transaction based on the purchase price and appraised value.\n- No delinquent accounts appear in the credit report dated 06/12/2026.\n- Recommend approval at the requested amount, subject to standard closing conditions and employment confirmation.\n- Caleb Lindqvist, Senior Loan Officer, completed the file review on 06/18/2026. The application and supporting documents are retained in Granite Peak Lending's mortgage file.",
     "errors": [
       {
-        "quote": "Loan-to-value based on equipment appraisal sits comfortably at 65.0%, providing adequate equity buffer.",
-        "start": 1540,
-        "end": 1643,
+        "quote": "The requested loan is a 75% loan-to-value transaction",
+        "start": 1138,
+        "end": 1191,
+        "focusStart": 1162,
+        "focusEnd": 1165,
         "type": "fact",
-        "explanation": "The proposed loan is $850,000 against collateral appraised at $1,050,000, which yields a loan-to-value (LTV) of 81.0% ($850,000 / $1,050,000), not 65.0%.",
-        "fix": "Loan-to-value based on equipment appraisal sits comfortably at 81.0%, providing adequate equity buffer."
+        "explanation": "The memo lists a $256,000 loan and a $320,000 purchase price and appraised value. The loan-to-value ratio is $256,000 divided by $320,000, or 80%, not 75%.",
+        "fix": "The requested loan is an 80% loan-to-value transaction"
       },
       {
-        "quote": "annual submission of CPA-reviewed corporate statements.",
-        "start": 1999,
-        "end": 2054,
+        "quote": "subject to standard closing conditions and employment confirmation.",
+        "start": 1358,
+        "end": 1425,
+        "focusStart": 1358,
+        "focusEnd": 1425,
         "type": "omission",
-        "explanation": "For commercial credits with individual guarantors, mandatory financial reporting covenants must include the personal financial statements and tax returns of the guarantors alongside corporate statements.",
-        "fix": "annual submission of CPA-reviewed corporate statements and personal financial statements with tax returns for all guarantors."
+        "explanation": "The verified flood determination states that the property is in a Special Flood Hazard Area, but the recommendation does not require flood insurance before closing. Federal law requires flood insurance for a loan secured by property in a Special Flood Hazard Area when the property is in a participating community.",
+        "fix": "subject to required flood insurance, standard closing conditions, and employment confirmation."
       }
     ]
   }

@@ -4,27 +4,31 @@
   "taskId": "18861",
   "locale": "en",
   "difficulty": 1,
-  "title": "FMLA Eligibility and Leave Entitlement Determination",
-  "brief": "A policy interpretation memo regarding an employee's request for Family and Medical Leave Act (FMLA) leave, drafted from company payroll and attendance records.",
-  "docType": "leave determination memo",
+  "title": "Overtime Pay Guidance for the 06/13/2026 Workweek",
+  "brief": "A payroll guidance memo interpreting federal overtime requirements and calculating pay for Tidewater staff, drafted from time records and hourly rates.",
+  "docType": "policy memo",
   "slip": {
-    "document": "# FMLA Eligibility and Leave Entitlement Determination\nHuman Resources Department - Pinewood Logistics LLC\n\n## Employee Information\n- Employee Name: Caleb Navarro\n- Position: Dispatch Coordinator\n- Hire Date: 03/15/2023\n- Leave Request Date: 04/06/2026\n- Requested Leave Period: 04/20/2026 to 06/12/2026 (8 weeks)\n- Qualifying Reason: Serious health condition (inpatient orthopedic surgery)\n\n## Statutory Eligibility Review\n| Criterion | Requirement | Employee Record | Status |\n| --- | --- | --- | --- |\n| Service Length | At least 12 months | 36 months | Satisfied |\n| Hours Worked | 1,250 hours in prior 12 mos | 1,380 hours | Satisfied |\n| Worksite Size | 50+ staff within 75 miles | 82 employees | Satisfied |\n\nCaleb Navarro meets all baseline criteria under the federal Family and Medical Leave Act (29 CFR Part 825) as of the requested start date.\n\n## Prior FMLA Usage (Rolling 12-Month Period: 04/20/2025 - 04/19/2026)\n| Date Range | Leave Type | Weeks Used |\n| --- | --- | --- |\n| 08/11/2025 - 08/29/2025 | Intermittent / Personal Health | 3.0 |\n| 11/17/2025 - 11/28/2025 | Continuous / Care of Spouse | 2.0 |\n\n## Available Entitlement Calculation\nPinewood Logistics calculates FMLA leave using a rolling 12-month period measured backward from the date an employee uses any leave.\n\n- Statutory maximum annual entitlement: 12.0 weeks\n- Previous leave deducted: 5.0 weeks\n- The remaining available balance for the requested leave is 8.0 weeks\n\nBecause the requested continuous leave duration is 8.0 weeks, the requested duration exceeds the employee's available balance under this policy.\n\n## Benefits and Health Coverage Rules\nCaleb Navarro currently maintains individual major medical coverage through the company group plan at an employee contribution rate of $120.00 per semi-monthly pay period.\n\nUnder federal FMLA compliance standards, the employer will discontinue group health insurance benefits during any unpaid portion of FMLA leave.\n\nUpon return to work on 06/15/2026, the employee will be reinstated to the same position or an equivalent position with equivalent employment benefits, pay, and terms pursuant to 29 CFR 825.214.",
+    "document": "# Overtime Pay Guidance for the 06/13/2026 Workweek\nPayroll interpretation memo\n\n## To and purpose\nTo: Jamal Whitfield, Operations Manager\nFrom: Alicia Navarro, HR Specialist\nDate: 06/16/2026\nSubject: Federal overtime treatment for the workweek ending 06/13/2026\n\nThis memo applies the federal Fair Labor Standards Act (FLSA) to Tidewater's nonexempt employees. The workweek is Sunday through Saturday and is a fixed, recurring 7-day period. Hours worked across two workweeks are not averaged to avoid overtime. The records below show hours actually worked; paid leave is not included as hours worked.\n\n| Employee | Classification | Rate | Hours worked | Regular hours | Overtime hours |\n| --- | --- | ---: | ---: | ---: | ---: |\n| Linh Abbott | Nonexempt | $20.00/hour | 42 | 40 | 2 |\n| Jamal Whitfield | Nonexempt | $24.00/hour | 46 | 40 | 6 |\n\n## Pay calculation and treatment\nFor Linh, regular pay is 40 × $20.00 = $800.00. The overtime rate is 1.5 × $20.00 = $30.00 per hour, and overtime pay is 2 × $30.00 = $60.00. Linh's gross wages total $850.00 before deductions.\n\nFor Jamal, regular pay is 40 × $24.00 = $960.00. The overtime rate is 1.5 × $24.00 = $36.00 per hour, and overtime pay is 6 × $36.00 = $216.00, for gross wages of $1,176.00 before deductions.\n\nTidewater may bank compensatory time instead of paying overtime for these nonexempt private-sector employees. Any overtime worked must be paid at the applicable rate, even if it was not authorized in advance; managers may address violations of the approval process separately. Payroll should retain the time records and calculations with the pay-period records.",
     "errors": [
       {
-        "quote": "remaining available balance for the requested leave is 8.0 weeks",
-        "start": 1385,
-        "end": 1449,
+        "quote": "Linh's gross wages total $850.00 before deductions.",
+        "start": 1022,
+        "end": 1073,
+        "focusStart": 1047,
+        "focusEnd": 1054,
         "type": "calculation",
-        "explanation": "Subtracting 5.0 weeks of prior leave used from the statutory 12.0 weeks leaves 7.0 weeks, not 8.0 weeks.",
-        "fix": "remaining available balance for the requested leave is 7.0 weeks"
+        "explanation": "The memo gives Linh regular pay of $800.00 and overtime pay of $60.00. Those amounts total $860.00, not $850.00.",
+        "fix": "Linh’s gross wages total $860.00 before deductions."
       },
       {
-        "quote": "the employer will discontinue group health insurance benefits during any unpaid portion of FMLA leave",
-        "start": 1849,
-        "end": 1950,
+        "quote": "may bank compensatory time instead of paying overtime",
+        "start": 1278,
+        "end": 1331,
+        "focusStart": 1282,
+        "focusEnd": 1304,
         "type": "compliance",
-        "explanation": "Under 29 U.S.C. 2614(c)(1) and 29 CFR 825.209, employers are legally required to maintain group health insurance coverage for an employee on FMLA leave under the same conditions as if the employee had continued working.",
-        "fix": "the employer must maintain group health insurance benefits during any unpaid portion of FMLA leave"
+        "explanation": "The FLSA generally does not allow a private-sector employer to substitute compensatory time off for overtime pay owed to nonexempt employees. The memo identifies these employees as nonexempt and Tidewater as a private-sector employer.",
+        "fix": "may not bank compensatory time instead of paying overtime"
       }
     ]
   }

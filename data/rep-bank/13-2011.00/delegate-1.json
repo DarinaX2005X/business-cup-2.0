@@ -4,79 +4,84 @@
   "taskId": "21517",
   "locale": "en",
   "difficulty": 2,
-  "title": "Onboarding Chart of Accounts Setup",
-  "brief": "Prepare an initial chart of accounts table and map raw bank transactions into balanced journal entries.",
+  "title": "April Expense Account Coding",
+  "brief": "Prepare an account-mapping table for the April operating expenses and flag items that need clarification before posting.",
   "delegate": {
-    "scenario": "You are onboarding Silverline Logistics, a regional freight brokerage client closing their first operational month. The senior accounting manager needs a structured chart of accounts and an initial general journal batch by 4:00 PM for month-end reconciliation. The mapped entries will serve as the opening ledger entries in QuickBooks Online.",
-    "inputs": "Client note from Jamal Cole (Silverline Logistics):\n\"Here are our bank transactions from our first month (October 2024). We use standard 4-digit GL coding (1000s Assets, 2000s Liabilities, 3000s Equity, 4000s Revenue, 5000s Cost of Goods/Freight, 6000s Operating Expenses).\"\n\n| Date | Description | Amount | Reference |\n| --- | --- | --- | --- |\n| 10/02/2024 | Initial owner capital deposit | $50,000.00 | Wire 1042 |\n| 10/05/2024 | Office lease - October | -$3,200.00 | ACH 8821 |\n| 10/11/2024 | Shipper payment - Forwarder Corp | $14,800.00 | Wire 1055 |\n| 10/14/2024 | Carrier dispatch settlement - Silverline Route 12 | -$8,400.00 | ACH 8840 |\n| 10/18/2024 | Annual fleet liability insurance policy (12 mo) | -$6,000.00 | Debit 402 |\n| 10/22/2024 | Shipper payment - Forwarder Corp | $14,800.00 | Wire 1055 |\n| 10/29/2024 | Enterprise dispatch software subscription | -$850.00 | Debit 409 |\n| 10/31/2024 | Dispatch fees receivable (billed, uncollected) | $9,200.00 | Inv 1004 |",
-    "goal": "Deliver a standardized chart of accounts alongside balanced double-entry journal entries ready for the senior accountant's review.",
+    "scenario": "You are the staff accountant at invented company Cedarline Fabrication, preparing April 2026 transactions for the general ledger. The controller will review your account assignments and any unresolved questions before the month-end close on 05/08/2026.",
+    "inputs": "April 2026 coding notes — Cedarline Fabrication\nUse the chart below for these operating expenses. All amounts are USD.\n\n| Account | Name |\n| --- | --- |\n| 6100 | Office supplies |\n| 6210 | Utilities |\n| 6350 | Repairs and maintenance |\n| 6420 | Professional services |\n\nTransactions from the AP queue:\n- 04/03/2026, Northstar Paper, invoice NP-441, printer paper and toner, $486.20; proposed account 6100.\n- 04/07/2026, Harbor Electric, invoice HE-208, shop electricity, $1,240.00; proposed account 6210.\n- 04/11/2026, WeldPro Service, invoice WP-77, welding unit repair, $680.00; proposed account 6350.\n- 04/15/2026, LedgerPoint LLC, invoice LP-19, quarterly bookkeeping support, $315.00; proposed account 6420.\n\nAP queue summary for the three shop invoices: $2,325.00.\n\nEmail from AP clerk, 04/16/2026: \"Northstar Paper invoice NP-441 is $468.20. Please keep the proposed account code.\"",
+    "goal": "A good result lets the controller review sensible account assignments and resolve source-data questions before posting.",
     "criteria": [
       {
         "id": "c1",
-        "text": "Specifies the output is intended for the senior accounting manager onboarding a new client.",
+        "text": "Says the table is for the controller reviewing April operating expenses before month-end close.",
         "keywords": [
-          "senior accounting manager",
-          "onboarding",
-          "Silverline Logistics",
-          "review"
+          "controller",
+          "April",
+          "month-end close"
         ]
       },
       {
         "id": "c2",
-        "text": "Requires a structured 4-digit chart of accounts defining account codes, account names, and account types.",
+        "text": "Uses only the provided chart of accounts and preserves the transaction dates, vendors, and invoice references.",
         "keywords": [
-          "chart of accounts",
-          "4-digit",
-          "GL codes",
-          "account type"
+          "provided chart",
+          "dates",
+          "invoice references"
         ]
       },
       {
         "id": "c3",
-        "text": "Directs the AI to format transactions into standard general journal entry format with debit and credit columns.",
+        "text": "Separates proposed account assignments from items that need clarification and does not silently choose between conflicting source details.",
         "keywords": [
-          "general journal",
-          "debit",
-          "credit",
-          "balanced"
+          "proposed account",
+          "clarification",
+          "do not assume"
         ]
       },
       {
         "id": "c4",
-        "text": "Instructs the AI to verify whether every entry belongs in the cash bank ledger or represents a non-cash accrual.",
+        "text": "Asks the AI to tie amounts and totals back to the source records and flag any mismatch.",
         "keywords": [
-          "bank ledger",
-          "accrual",
-          "cash basis",
-          "non-cash"
+          "tie to source",
+          "amounts",
+          "flag mismatches"
         ]
       },
       {
         "id": "c5",
-        "text": "Asks the AI to examine transaction details for potential duplicate records or multi-period prepayments requiring accrual treatment.",
+        "text": "Requests a concise table followed by a short list of questions, with amounts shown in USD.",
         "keywords": [
-          "duplicate",
-          "prepayment",
-          "accrual",
-          "reconciliation"
+          "table",
+          "questions",
+          "USD"
         ]
       }
     ],
     "traps": [
       {
         "id": "t1",
-        "description": "Wire 1055 appears twice on 10/11/2024 and 10/22/2024 with identical descriptions and amounts, indicating an accidental duplicate paste in bank feed logs.",
+        "description": "The AP queue summary for the three shop invoices does not equal the sum of those invoice amounts.",
         "keywords": [
-          "Wire 1055"
+          "$2,325.00"
+        ],
+        "evidence": [
+          "shop electricity, $1,240.00",
+          "AP queue summary for the three shop invoices: $2,325.00"
         ]
       },
       {
         "id": "t2",
-        "description": "Inv 1004 is an uncollected accounts receivable billing entry included inside a list of settled bank cash transactions.",
+        "description": "The email gives a different amount for Northstar Paper invoice NP-441 than the transaction entry does.",
         "keywords": [
-          "Inv 1004"
+          "$486.20",
+          "$468.20"
+        ],
+        "evidence": [
+          "invoice NP-441, printer paper and toner, $486.20",
+          "Northstar Paper invoice NP-441 is $468.20."
         ]
       }
-    ]
+    ],
+    "exemplar": "Prepare a concise account-mapping table for the controller reviewing Cedarline Fabrication’s April 2026 operating expenses before the 05/08/2026 month-end close. Use only the supplied chart of accounts, and retain each transaction’s date, vendor, and invoice reference. Show the proposed account and amount in USD; do not resolve conflicting source details by guessing. Tie amounts and any stated totals back to the source records, and list mismatches or questions separately before posting. Keep the table followed by a short clarification list."
   }
 }

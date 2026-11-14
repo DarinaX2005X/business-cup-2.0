@@ -4,27 +4,31 @@
   "taskId": "20699",
   "locale": "en",
   "difficulty": 1,
-  "title": "Q1 2026 Branch Performance Review: Midwest Fulfillment Hub",
-  "brief": "Performance review memo evaluating Q1 productivity, labor costs, and throughput metrics for a regional fulfillment hub based on quarterly scorecard data.",
-  "docType": "operations performance review",
+  "title": "Crossroads Field Services — February 2026 Performance Review",
+  "brief": "A monthly performance review for Crossroads Field Services, drafted from its February operating and financial reports.",
+  "docType": "performance review",
   "slip": {
-    "document": "# Q1 2026 Branch Performance Review: Midwest Fulfillment Hub\nPrepared by: Irene Castillo, Regional Operations Director\nReview Date: 04/08/2026\n\n## Performance Scorecard Summary\n\n| Operational Metric | Q1 Target | Q1 Actual | Variance |\n| --- | --- | --- | --- |\n| Total Units Shipped | 450,000 | 482,500 | +32,500 |\n| Cost per Unit (CPU) | $2.40 | $2.85 | +$0.45 |\n| Overtime Labor Hours | 1,200 hrs | 2,850 hrs | +1,650 hrs |\n| Pick Accuracy Rate | 99.2% | 99.4% | +0.2% |\n| Dock-to-Stock Cycle Time | 4.0 hrs | 5.8 hrs | +1.8 hrs |\n\n## Analysis and Key Findings\n\n- The facility exceeded outbound volume expectations by 7.2%, handling strong regional demand throughout March.\n- Operating expenses rose significantly due to an unplanned reliance on temporary staffing and unbudgeted premium shifts.\n- Overtime hours increased by 137.5% above target, driving the elevated cost per unit of $2.85 against the $2.40 benchmark.\n- Inbound dock operations created bottlenecks, with freight processing taking 1.8 hours longer than the operational threshold.\n\n## Action Items and Cost Control\n\n- Implement staggered shift schedules starting 04/20/2026 to curb overtime expenditure in receiving.\n- Reduce baseline staffing levels across all inbound dock shifts immediately to resolve receiving bottlenecks.\n- Standardize staging lane layouts by 05/01/2026 to improve pallet transit speed.\n- Facility Manager Dan Kowalski must submit the labor remediation plan.",
+    "document": "# Crossroads Field Services — February 2026 Performance Review\nOperations review | Prepared 03/06/2026 by Naomi Bishop\n\n## Review scope\nTyrone Quinn and Samuel Moreau reviewed the service, labor, cost, and safety reports for Crossroads Field Services' three regional crews. February results are compared with the monthly plan; amounts are in USD.\n\n| Measure | February actual | February plan |\n| --- | ---: | ---: |\n| Completed service calls | 1,080 | 1,200 |\n| Labor hours | 2,160 | 2,000 |\n| Overtime hours | 240 | 100 |\n| Direct labor cost | $64,800 | $60,000 |\n| Repeat visits within 30 days | 73 | 48 |\n\n## Findings\nCompleted calls were 120 below plan, while labor hours were 160 above plan. The 240 overtime hours exceeded plan by 140 hours, and direct labor cost was $4,800 over budget. Repeat visits were 25 above plan, indicating a service-quality gap that also consumes crew capacity.\n\nThe review attributes the call shortfall to two weather-related closures and a higher-than-planned share of complex jobs. Scheduling records show that 18% of calls required a second visit, versus the 10% planning assumption. The service contract requires a corrective-action plan within five business days when repeat visits exceed 60 in a month.\n\n## Management conclusion\nActual productivity was 0.50 completed calls per labor hour, compared with the planned 0.60. Direct labor cost per completed call was $60.00, compared with the planned $50.00. The productivity result therefore met the February goal.\n\n## Next steps\nSamuel Moreau will review dispatch coverage with the regional leads on 03/12/2026 and report schedule changes at the March operating review. Naomi Bishop will circulate this review to the three regional leads on 03/09/2026.",
     "errors": [
       {
-        "quote": "Reduce baseline staffing levels across all inbound dock shifts immediately to resolve receiving bottlenecks.",
-        "start": 1188,
-        "end": 1296,
+        "quote": "The productivity result therefore met the February goal.",
+        "start": 1445,
+        "end": 1501,
+        "focusStart": 1479,
+        "focusEnd": 1482,
         "type": "logic",
-        "explanation": "Reducing dock staffing directly contradicts the operational finding that dock-to-stock cycle times are severely lagging (5.8 hours vs. 4.0 hour target) and creating bottlenecks; cutting labor will worsen throughput delays rather than resolve them.",
-        "fix": "Reallocate experienced personnel to inbound dock shifts immediately to resolve receiving bottlenecks."
+        "explanation": "The review reports actual productivity of 0.50 calls per labor hour against a planned 0.60, so actual productivity fell short of the goal.",
+        "fix": "The productivity result therefore missed the February goal."
       },
       {
-        "quote": "Facility Manager Dan Kowalski must submit the labor remediation plan.",
-        "start": 1381,
-        "end": 1450,
+        "quote": "Samuel Moreau will review dispatch coverage with the regional leads on 03/12/2026 and report schedule changes at the March operating review.",
+        "start": 1517,
+        "end": 1657,
+        "focusStart": 1517,
+        "focusEnd": 1657,
         "type": "omission",
-        "explanation": "Action items in operations management reviews require a specific deadline or completion timeframe, which is omitted here.",
-        "fix": "Facility Manager Dan Kowalski must submit the labor remediation plan by 04/17/2026."
+        "explanation": "The review states that the contract requires a corrective-action plan within five business days when monthly repeat visits exceed 60; the reported 73 visits trigger that requirement. The next steps omit creating and submitting that plan within the required timeframe.",
+        "fix": "Samuel Moreau will submit a corrective-action plan for the 73 repeat visits within five business days and review dispatch coverage with the regional leads on 03/12/2026."
       }
     ]
   }

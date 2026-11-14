@@ -4,27 +4,31 @@
   "taskId": "2371",
   "locale": "en",
   "difficulty": 1,
-  "title": "Clearwater Home Care Daily Shift Progress Note",
-  "brief": "A personal care aide's shift progress note documenting daily personal care tasks, vital signs, meal intake, and changes in client condition for an agency supervisor.",
-  "docType": "shift progress note",
+  "title": "Client Progress and Service Record — Gordon Castillo",
+  "brief": "A personal care aide progress record for Gordon Castillo, drafted from the visit notes and service log.",
+  "docType": "progress record",
   "slip": {
-    "document": "# Clearwater Home Care Daily Shift Progress Note\nClient: Gordon Castillo\nDOB: 04/12/1944\nCaregiver: Wendy Gallagher, PCA\nSupervisor: Lucas Ramos, RN\nDate: 10/14/2026\nShift: 08:00 - 16:00\n\n## Vital Signs\n| Time | BP (mmHg) | Pulse (bpm) | Temp (°F) | Resp (/min) |\n| --- | --- | --- | --- | --- |\n| 08:30 | 118/74 | 72 | 98.4 | 16 |\n| 14:15 | 102/66 | 88 | 101.8 | 20 |\n\n## Daily Living Activities and Nutrition\n- Assisted client with morning shower and dressing at 09:00 with standby assist.\n- Breakfast (09:45): 1 scrambled egg, 1 slice whole wheat toast, 6 oz orange juice; 100% consumed.\n- Lunch (12:30): 1 cup chicken noodle soup, 4 saltine crackers, 8 oz water; 50% consumed.\n- Medication reminder provided for prescribed 12:00 oral medications; client self-administered.\n- Client ambulated 60 ft in hallway with rolling walker at 11:00 without incident.\n\n## Observations and Changes in Condition\n- At 14:00, client reported feeling flushed, weak, and cold, asking for an extra blanket.\n- Rechecked vitals at 14:15 as shown in table above; noted new productive cough with yellow sputum.\n- Client remained in bed resting comfortably with no fever noted after 14:15.\n- Offered client 4 oz of warm chamomile tea at 14:45, tolerated well.\n\n## Notifications and Handoff\n- Telephoned RN supervisor Lucas Ramos to report the elevation in temperature, productive cough, and lethargy without documenting the supervisor directives received.\n- Relayed client status to evening PCA at 16:00 shift handoff.",
+    "document": "# Client Progress and Service Record — Gordon Castillo\nClearwater Home Support | Visit date: 04/18/2026 | Aide: Wendy Gallagher\n\n## Visit details\nClient: Gordon Castillo | Address: 418 Pine Street, Dayton, OH 45402\nVisit: 9:00 AM–11:00 AM | Supervisor: Lucas Ramos\n\n## Services performed\n- Assisted with morning dressing and grooming; client completed most tasks with verbal prompts.\n- Prepared oatmeal and tea. Client ate about 75% of the oatmeal and drank 8 oz of tea.\n- Walked with client from bedroom to kitchen using his walker; one-person standby assistance provided.\n- Changed bed linens and cleared the kitchen table.\n\n## Client observations\nAt 10:20 AM, Gordon said his right arm suddenly felt weak. Wendy observed that he had difficulty lifting that arm to reach his cup. He remained alert and spoke clearly. No fall occurred during the visit. Wendy called 911 at 10:22 AM. EMS arrived at 10:34 AM and transported Gordon for evaluation.\n\n## Progress and follow-up\nClient was cooperative with personal care and ate most of breakfast. Based on the recorded intake, hydration was adequate for the visit. EMS took over care following their assessment. Follow-up with the client will be arranged after the emergency evaluation.\n\n## Communication and disposition\nClient left home with EMS at 10:46 AM. Wendy entered the visit notes in the Clearwater Home Support record at 11:12 AM. Wendy did not document notifying Lucas Ramos. The record includes the EMS response and transport times, and the services completed before the emergency were logged above.",
     "errors": [
       {
-        "quote": "Client remained in bed resting comfortably with no fever noted after 14:15.",
-        "start": 1094,
-        "end": 1169,
+        "quote": "hydration was adequate for the visit",
+        "start": 1073,
+        "end": 1109,
+        "focusStart": 1073,
+        "focusEnd": 1095,
         "type": "logic",
-        "explanation": "The vitals table records Gordon Castillo's temperature at 14:15 as 101.8 °F, which contradicts the statement that no fever was noted.",
-        "fix": "Client remained in bed resting with persistent fever noted after 14:15."
+        "explanation": "The record documents only 8 oz of tea consumed and does not establish that hydration was adequate. That conclusion does not follow from the recorded intake.",
+        "fix": "hydration adequacy could not be established"
       },
       {
-        "quote": "Telephoned RN supervisor Lucas Ramos to report the elevation in temperature, productive cough, and lethargy without documenting the supervisor directives received.",
-        "start": 1272,
-        "end": 1435,
+        "quote": "Wendy did not document notifying Lucas Ramos.",
+        "start": 1387,
+        "end": 1432,
+        "focusStart": 1387,
+        "focusEnd": 1432,
         "type": "omission",
-        "explanation": "When reporting an acute change in condition to an RN supervisor, PCA clinical documentation must record the supervisor's instructions or action plan (such as monitoring parameters, family notification, or EMS escalation).",
-        "fix": "Telephoned RN supervisor Lucas Ramos to report the elevation in temperature, productive cough, and lethargy, and received directive to push fluids and notify on-call nurse if temp exceeds 102.0 °F."
+        "explanation": "The record documents sudden arm weakness and an EMS response, but does not document reporting this significant change in condition to the supervisor. The aide should notify the supervisor and document the notification and any instructions received.",
+        "fix": "Wendy notified Lucas Ramos of the sudden arm weakness at [time] and documented the instructions received."
       }
     ]
   }

@@ -4,27 +4,31 @@
   "taskId": "2171",
   "locale": "en",
   "difficulty": 1,
-  "title": "Kitchen Line Doneness and Sensory Quality Log",
-  "brief": "Shift doneness and sensory quality check log for evening banquet prep, drafted from station temperature logs and tasting notes.",
-  "docType": "kitchen line check",
+  "title": "Northfield Cook-Line Doneness Check Log",
+  "brief": "A cook-line doneness check log for a dinner service, drafted from the shift’s food checks and kitchen notes.",
+  "docType": "doneness check log",
   "slip": {
-    "document": "# Kitchen Line Doneness and Sensory Quality Log\nDinner Service Banquet Quality Control\n\n## Batch Measurements and Standards\n| Station | Item | Target Temp | Target Texture / Aroma | Probe Result |\n| --- | --- | --- | --- | --- |\n| Grill | Prime Rib Roast (Batch A) | 130°F | Tender, rosemary aroma | 124°F |\n| Sauté | Pan-Seared Salmon Fillets | 145°F | Flakes easily with fork | 146°F |\n| Roast | Roasted Chicken Thighs | 165°F | Clear juices when pierced | 168°F |\n| Saucier | Smoked Tomato Bisque | 165°F | Velvety, balanced acidity | 172°F |\n\n## Line Cook Observations\n- Batch A prime rib was probed at the center by Caleb Petrov at 4:45 PM using a calibrated digital probe.\n- Because Batch A reached 124°F, Caleb Petrov must carve and platter it immediately for service.\n- Megan Brennan tested the pan-seared salmon at 5:00 PM; flesh separated along natural white collagen lines when pierced with a paring knife.\n- Brandon Fitzgerald checked the roasted chicken thighs at 5:10 PM, confirming juices ran clear after piercing thickest thigh near the bone.\n\n## Sensory and Corrective Actions\n- Bisque was tasted using the single-use spoon protocol and required 1/2 tsp kosher salt to balance sweetness.\n- For sensory quality checks, cooks must dip a clean single-use spoon into the pot to evaluate flavor.\n- Chicken thighs maintained firm texture with no pink meat remaining around joint tissues.\n- Salmon holds under warm heat lamps set at 140°F pending 5:30 PM banquet plating.",
+    "document": "# Northfield Cook-Line Doneness Check Log\nDinner service, 06/18/2026 | Grill station | Shift lead: Megan Brennan\n\n## Check standards\n| Item | Required endpoint | Recorded check |\n| --- | --- | --- |\n| Beef steak, medium-rare | 130–135°F | 132°F, probe check |\n| Ground beef patty | 160°F | Not recorded |\n| Chicken breast | 165°F | 166°F, probe check |\n\n## Shift notes\n- Caleb Petrov checked the steak at 6:42 PM after resting it for 3 minutes. The cut was intact, the center was warm red, and the juices were clear.\n- Reject the steak as below the 130°F minimum; return it to the grill for further cooking.\n- Brandon Fitzgerald checked the chicken breast at 6:51 PM with a calibrated, sanitized probe inserted into the thickest part. The reading was 166°F; serve after the scheduled rest.\n- For ground beef patties, use color and clear juices as the doneness check before plating.\n- Megan Brennan washed hands between raw and ready-to-eat handling, and sanitized the probe between checks. Record the food, time, and actual probe reading on the station sheet before the plate leaves the pass.\n\n## Service handoff\nThe steak and chicken checks were completed during the first dinner push. Keep the probe at the grill station, clean and ready for the next batch; do not rely on appearance alone when a thermometer check is specified. Any item below its listed endpoint must be returned to heat and checked again before service.",
     "errors": [
       {
-        "quote": "Because Batch A reached 124°F, Caleb Petrov must carve and platter it immediately for service.",
-        "start": 681,
-        "end": 775,
+        "quote": "Reject the steak as below the 130°F minimum",
+        "start": 519,
+        "end": 562,
+        "focusStart": 539,
+        "focusEnd": 562,
         "type": "logic",
-        "explanation": "The reference table specifies a target internal temperature of 130°F for the prime rib roast, but Batch A only reached 124°F, meaning it cannot be carved and served immediately and must return to the oven.",
-        "fix": "Because Batch A reached only 124°F, Caleb Petrov must return it to the oven until it reaches 130°F."
+        "explanation": "The table records the steak at 132°F, within its stated 130–135°F endpoint. The instruction to reject it as below 130°F contradicts that recorded check.",
+        "fix": "Accept the steak as within the 130–135°F endpoint"
       },
       {
-        "quote": "For sensory quality checks, cooks must dip a clean single-use spoon into the pot to evaluate flavor.",
-        "start": 1207,
-        "end": 1307,
+        "quote": "For ground beef patties, use color and clear juices as the doneness check before plating.",
+        "start": 792,
+        "end": 881,
+        "focusStart": 792,
+        "focusEnd": 881,
         "type": "omission",
-        "explanation": "FDA Food Code standard tasting protocol requires transferring food from the preparation utensil into a separate tasting bowl or using a two-spoon method, or immediately discarding the single-use spoon without re-dipping; dipping directly into the pot without specifying immediate disposal/no double-dipping or sampling into a separate container is a cross-contamination hazard.",
-        "fix": "For sensory quality checks, cooks must ladle a sample into a separate tasting dish and taste with a single-use spoon that is immediately discarded."
+        "explanation": "The line omits a thermometer check against the listed 160°F endpoint. Color and clear juices cannot establish that ground beef has reached a safe internal temperature.",
+        "fix": "For ground beef patties, verify at least 160°F with a probe thermometer before plating."
       }
     ]
   }

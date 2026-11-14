@@ -4,27 +4,31 @@
   "taskId": "9571",
   "locale": "en",
   "difficulty": 1,
-  "title": "Guest Room Damage and Incident Report",
-  "brief": "A hotel housekeeping damage and incident report drafted by an AI assistant for a floor supervisor following a room inspection.",
-  "docType": "damage incident report",
+  "title": "Guest Room Damage Report — 06/18/2026",
+  "brief": "A hotel housekeeper’s report of guest-room damage, drafted from the room inspection and shift notes.",
+  "docType": "damage report",
   "slip": {
-    "document": "# Guest Room Damage and Incident Report\nHighland Crest Hotel & Suites - Property #412\n\n## Incident Details\n| Field | Value |\n| --- | --- |\n| Date Reported | 03/14/2026 |\n| Inspection Time | 10:45 AM |\n| Room Number | 418 |\n| Room Status | Departure / Vacant Dirty |\n| Guest Name | Wendy Ellison |\n| Attendant | Maria Okafor |\n| Floor Supervisor | Gordon Quinn |\n\n## Property Damage Findings\nUpon standard departure turnover, attendant Maria Okafor noted physical damage to fixtures and furnishings in Room 418.\n\n- The right-side bedside lamp base is fractured, and the linen lampshade has heavy brown liquid staining.\n- Red wine saturation covers an approximate 3 ft by 4 ft section of carpet adjacent to the king bed.\n- The bathroom vanity mirror displays a 14-inch stress fracture across the lower left pane.\n\n## Found Property\n- Left-side nightstand drawer contained one pair of prescription eyeglasses and an Apple charging block.\n- The guest safe was left in locked status; security bypassed the unit to verify contents.\n- Items collected from nightstand drawer were cataloged into the lost and found log by Maria Okafor.\n\n## Action Taken & Escalation\n- Photographs taken of damaged carpet, bedside lamp, and vanity mirror at 11:00 AM.\n- Room 418 placed out of order until carpet extraction and mirror replacement are completed.\n- Maintenance notified to replace the mirror and repair wall backing in Room 318 by 2:00 PM.\n- Front desk informed to place incident billing hold against guest Wendy Ellison.",
+    "document": "# Guest Room Damage Report — 06/18/2026\nHighland Harbor Hotel | Housekeeping shift report\n\n## Report details\n- Reported by: Maria Okafor, room attendant\n- Supervisor: Wendy Ellison\n- Room: 814\n- Inspection time: 10:20 AM\n- Guest checkout: 10:05 AM\n- Report logged: 10:34 AM\n\n## Damage observed\nAt 10:20 AM, I found a cracked glass bedside lamp base on the dresser in Room 814. The lamp shade was intact, and the cord was unplugged. Three ceramic pieces were on the dresser; no loose fragments were visible on the carpet. I photographed the lamp in place before moving it. The room inventory lists the lamp base replacement value as $48.00.\n\nThe damage was discovered after checkout, before the room was cleaned or assigned to another guest. I placed the lamp pieces in a labeled bag and left the bag in the housekeeping office for supervisor review. No guest belongings were moved or discarded. The room was marked out of service pending inspection.\n\n## Notification and follow-up\nHighland Harbor Hotel procedure requires the room attendant to notify the supervisor about damage before leaving the floor and record the notification time in the shift log.\n- Supervisor notification: no entry in the shift log.\n- At 10:34 AM, I entered the damage in the housekeeping log and attached two photographs.\n- Gordon Quinn, front desk associate, confirmed that Room 814 had no new guest assignment at the time of the report.\n- Replacement estimate: $84.00, based on the room inventory.\n- The room remains out of service until Wendy Ellison inspects the dresser area and releases it for cleaning.\n\n## Disposition\nThe lamp pieces were stored in a labeled bag with the room number and discovery time noted. No charge was posted to the guest account; the supervisor will review the circumstances and determine any follow-up with the front desk.",
     "errors": [
       {
-        "quote": "The guest safe was left in locked status; security bypassed the unit to verify contents.",
-        "start": 937,
-        "end": 1025,
+        "quote": "Supervisor notification: no entry in the shift log.",
+        "start": 1157,
+        "end": 1208,
+        "focusStart": 1157,
+        "focusEnd": 1208,
         "type": "omission",
-        "explanation": "When reporting a locked departure safe that was bypassed and inspected, the report must state whether any guest contents were found inside or confirm that the safe was empty.",
-        "fix": "The guest safe was left in locked status; security bypassed the unit to verify contents and confirmed it was empty."
+        "explanation": "The stated hotel procedure requires notifying the supervisor about damage before leaving the floor and recording the notification time. The shift-log field has no notification or time recorded.",
+        "fix": "Supervisor notification: Wendy Ellison notified at 10:22 AM; time recorded in the shift log."
       },
       {
-        "quote": "Maintenance notified to replace the mirror and repair wall backing in Room 318 by 2:00 PM.",
-        "start": 1336,
-        "end": 1426,
+        "quote": "Replacement estimate: $84.00, based on the room inventory.",
+        "start": 1418,
+        "end": 1476,
+        "focusStart": 1440,
+        "focusEnd": 1446,
         "type": "fact",
-        "explanation": "The incident report is specifically for Room 418 as established throughout the document, but the work order incorrectly specifies Room 318.",
-        "fix": "Maintenance notified to replace the mirror and repair wall backing in Room 418 by 2:00 PM."
+        "explanation": "The damage-observed section says the room inventory lists the lamp base replacement value as $48.00, so the stated estimate does not match its source.",
+        "fix": "Replacement estimate: $48.00, based on the room inventory."
       }
     ]
   }

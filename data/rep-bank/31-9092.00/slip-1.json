@@ -4,27 +4,31 @@
   "taskId": "2026",
   "locale": "en",
   "difficulty": 1,
-  "title": "Adult Primary Care Intake and Triage Note",
-  "brief": "An adult outpatient intake note drafted by an AI assistant for a medical assistant documenting vitals, medical history, and in-office screening for a routine follow-up visit.",
-  "docType": "medical record intake note",
+  "title": "Crossroads Family Medicine Chart Note",
+  "brief": "A medical record visit note for a patient with fatigue, drafted from intake data and test results.",
+  "docType": "medical record",
   "slip": {
-    "document": "# Adult Primary Care Intake and Triage Note\nOakridge Community Health Clinic - Suite 200\n\n## Patient Information\n- Patient Name: Teresa M. Quinn\n- DOB: 08/14/1968 (Age: 57)\n- MRN: 489-2104\n- Date of Encounter: 03/11/2026 09:15 AM\n- Encounter Type: Established Patient - Routine Follow-up\n- Provider: Arthur Davies, MD\n- Medical Assistant: Julian Ramirez, CMA (AAMA)\n\n## Vital Signs & Point-of-Care Screen\n| Measurement | Result | Reference / Details |\n| --- | --- | --- |\n| Blood Pressure | 118/74 mmHg | Sitting, right arm, adult regular cuff |\n| Heart Rate | 72 bpm | Regular rhythm |\n| Respiratory Rate | 16 breaths/min | Unlabored |\n| Temperature | 98.4 °F | Oral |\n| Pulse Oximetry | 99% | Room air |\n| Height | 64 in (5 ft 4 in) | Stadiometer, without shoes |\n| Weight | 186.0 lb | Balance scale, indoor clothing |\n| BMI | 31.9 kg/m² | Calculated |\n| Fingerstick Glucose | 104 mg/dL | Fasting since 10:00 PM previous night |\n\n## History and Screening\n- Allergies: Lisinopril (angioedema), Latex (contact dermatitis)\n- Active Diagnoses: Type 2 diabetes mellitus (diet-controlled), essential hypertension, osteopenia\n- Weight trend shows a 14 lb decrease since her previous visit six months ago\n- Fall Risk Screening: Score 0 (low risk)\n- PHQ-2 Screening: Question 1 score 0, Question 2 score 0 (negative screen)\n\n## Medication Reconciliation\n- Metformin 500 mg PO twice daily with meals\n- Amlodipine 5 mg PO once daily in the morning\n- Calcium carbonate with vitamin D 600 mg PO daily\n- Verified patient is taking all medications as prescribed without missed doses\n\n## Chief Complaint & Reason for Visit\n- Patient presents for a 6-month check of blood pressure and routine lab review.\n- Patient reports no dizziness, chest pain, or shortness of breath.\n- Rooming completed and patient prepared for examination by provider.",
+    "document": "# Crossroads Family Medicine Chart Note\n## Encounter\nDate: 04/16/2026 | Rooming: 9:12 AM | MA: Dmitri Fitzgerald\nPatient: Ethan Brennan | DOB: 08/22/1978 | MRN: CR-60418\nVisit reason: Fatigue and intermittent leg cramps for 3 days. Patient reports no chest pain, shortness of breath, vomiting, or recent medication changes. History includes hypertension. Allergy list reviewed: lisinopril (cough).\n\n## Rooming data\n| Measurement | Result |\n| --- | --- |\n| Blood pressure | 168/96 mmHg |\n| Pulse | 88 beats/min |\n| Respirations | 16/min |\n| Temperature | 98.4 °F, oral |\n| SpO2 | 98% on room air |\n| Weight | 184 lb |\n\nRepeat blood pressure after 5 minutes seated: 166/94 mmHg. Patient was seated with feet flat and arm supported. Blood pressure is within the normal range.\n\n## Medication and test record\nPatient-reported medications: amlodipine 5 mg by mouth daily; no other medications reported. Medication list reconciled with patient. No medication administered during rooming.\n\nCMP received from Crossroads Diagnostic Services at 9:34 AM: sodium 139 mmol/L, potassium 3.8 mmol/L, chloride 102 mmol/L, CO2 25 mmol/L, glucose 108 mg/dL, BUN 14 mg/dL, creatinine 0.9 mg/dL. Specimen collection time: 8:42 AM.\n\nValues entered in the EHR: sodium 139 mmol/L, potassium 3.8 mmol/L, chloride 102 mmol/L, CO2 25 mmol/L, glucose 108 mg/dL, BUN 14 mg/dL. Patient remained in the clinic waiting area at the time of chart completion.\n\n## Routing\nEncounter routed to Colleen Weaver, PA-C, for review. Rooming note signed by Dmitri Fitzgerald at 9:41 AM.",
     "errors": [
       {
-        "quote": "Weight trend shows a 14 lb decrease since her previous visit",
-        "start": 1123,
-        "end": 1183,
+        "quote": "Blood pressure is within the normal range.",
+        "start": 730,
+        "end": 772,
+        "focusStart": 748,
+        "focusEnd": 771,
         "type": "logic",
-        "explanation": "At 64 inches and 186.0 lb, the current BMI is 31.9 kg/m². If she had lost 14 lb from a prior weight of 172 lb (which yields a BMI of 29.5 kg/m²), her weight would have increased, not decreased; or if she weighed more previously, the note incorrectly states a decrease without aligning with the clinic record where her previous weight was 172.0 lb.",
-        "fix": "Weight trend shows a 14 lb increase since her previous visit"
+        "explanation": "The documented readings are 168/96 and 166/94 mmHg, which are elevated; the statement that the blood pressure is within the normal range contradicts those readings.",
+        "fix": "Blood pressure is elevated."
       },
       {
-        "quote": "Calcium carbonate with vitamin D 600 mg PO daily",
-        "start": 1441,
-        "end": 1489,
+        "quote": "Values entered in the EHR: sodium 139 mmol/L, potassium 3.8 mmol/L, chloride 102 mmol/L, CO2 25 mmol/L, glucose 108 mg/dL, BUN 14 mg/dL.",
+        "start": 1211,
+        "end": 1347,
+        "focusStart": 1211,
+        "focusEnd": 1347,
         "type": "omission",
-        "explanation": "The vitamin D strength or dosage component is missing from the combination formulation line in the medication reconciliation.",
-        "fix": "Calcium carbonate 600 mg with vitamin D 400 IU PO daily"
+        "explanation": "The source CMP lists creatinine as 0.9 mg/dL, but the sentence documenting which results were entered does not include it. Creatinine is a clinically relevant CMP result and should be included in the EHR transcription.",
+        "fix": "Values entered in the EHR: sodium 139 mmol/L, potassium 3.8 mmol/L, chloride 102 mmol/L, CO2 25 mmol/L, glucose 108 mg/dL, BUN 14 mg/dL, creatinine 0.9 mg/dL."
       }
     ]
   }

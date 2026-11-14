@@ -4,27 +4,31 @@
   "taskId": "8454",
   "locale": "en",
   "difficulty": 1,
-  "title": "Copperfield Precision Tooling - Shift Production & Staffing Plan",
-  "brief": "Shift production schedule and machine operator assignments for Week 11 drafted from the weekly production quotas and operator roster.",
-  "docType": "shift schedule",
+  "title": "Copperfield Foods — Line 2 Shift Production Schedule",
+  "brief": "A Line 2 shift schedule for Copperfield Foods, drafted from the weekly order plan and staffing roster.",
+  "docType": "production schedule",
   "slip": {
-    "document": "# Copperfield Precision Tooling - Shift Production & Staffing Plan\nLine B Machining & Assembly - Week 11 (03/16/2026 - 03/20/2026)\n\n## Weekly Production Targets & Capacity\n| Cell | Work Order | Target Units | Planned Runtime (hrs) | Standard Rate (units/hr) |\n| --- | --- | --- | --- | --- |\n| CNC Lathe 1 | WO-8841 | 1,200 | 40 | 30 |\n| CNC Mill 3 | WO-8842 | 800 | 40 | 20 |\n| Deburr & Wash | WO-8841/42 | 2,000 | 40 | 50 |\n| Pack & Crate | WO-8841/42 | 2,000 | 40 | 50 |\n\n## Shift Staffing Assignments\n- First Shift Supervisor: Gordon Banerjee (06:00 to 14:30)\n- CNC Mill 3 Primary Operator: Andre Lindqvist (Certified Level II Mill)\n- CNC Lathe 1 Primary Operator: Lucas Osei (Certified Level II Lathe)\n- Wash & Finishing Operator: Brenda Navarro (Certified Level I General)\n- Pack & Crate Handler: Darryl Evans (Certified Material Handler)\n\n## Operational Sequence & Safety Directives\n- CNC Mill 3 will run WO-8842 with 200 units per shift target across 40 hours total.\n- Material staging for Lathe 1 must be completed 15 minutes prior to shift startup.\n- Operators on Lathe 1 must wear Level 3 cut-resistant gloves and side-shield eye protection.\n- Scheduled maintenance: Mill 3 spindle flush is assigned on Wednesday at 13:00.\n- Mandatory zero-energy verification before manual chip bin removal on Mill 3 and Lathe 1.",
+    "document": "# Copperfield Foods — Line 2 Shift Production Schedule\n08/17/2026 | Day shift | Prepared by Gordon Banerjee\n\n## Shift targets\nThe shift runs from 6:00 AM to 2:30 PM at Copperfield Foods' Albany, New York, plant. Lucas Osei is the Line 2 lead; Andre Lindqvist operates the filler. The target is 480 cases, with finished cases labeled by lot and staged in the marked outbound area. The team will record hourly counts and downtime on the line log. Gordon Banerjee will review the log at shift end and report any shortfall to planning.\n\n## Sequence and assignments\n- Tuesday, 08/17/2026: start Line 2 with the sesame tahini hummus order, 240 cases, lot TH817.\n- At 10:00 AM, switch to chickpea spread.\n- Produce 240 cases of chickpea spread, lot CS817, after the changeover; complete the run by 1:45 PM.\n- Lucas verifies the lot code and case count at startup and after each product change. Andre records the filler checks and hourly production totals.\n- Reserve 1:45–2:15 PM for line cleanup and staging; use 2:15–2:30 PM for handoff to the afternoon lead.\n\n## Staffing and constraints\nBoth operators are assigned to the full shift. The supervisor will assign a qualified relief operator for each scheduled meal period so the line can maintain coverage. Copperfield's allergen-control work instruction requires a documented, verified equipment clean between sesame-containing and non-sesame products; include that step in the production sequence. Do not combine lots or use cases with unreadable labels. If equipment downtime exceeds 15 minutes, notify maintenance and record the start time, end time, and cause before restarting. Keep the sesame tahini run's labeled cases physically separated from the chickpea spread run during staging and pallet wrap.",
     "errors": [
       {
-        "quote": "CNC Mill 3 will run WO-8842 with 200 units per shift target across 40 hours total.",
-        "start": 892,
-        "end": 974,
+        "quote": "Tuesday, 08/17/2026: start Line 2",
+        "start": 563,
+        "end": 596,
+        "focusStart": 563,
+        "focusEnd": 570,
         "type": "fact",
-        "explanation": "The table specifies a target of 800 units over 40 hours (five 8-hour shifts), which equals 160 units per shift (or 20 units/hour x 8 hours), not 200 units per shift.",
-        "fix": "CNC Mill 3 will run WO-8842 with 160 units per shift target across 40 hours total."
+        "explanation": "The header dates the shift 08/17/2026, which falls on a Monday, not a Tuesday.",
+        "fix": "Monday, 08/17/2026: start Line 2"
       },
       {
-        "quote": "Mandatory zero-energy verification before manual chip bin removal on Mill 3 and Lathe 1.",
-        "start": 1236,
-        "end": 1324,
+        "quote": "At 10:00 AM, switch to chickpea spread.",
+        "start": 658,
+        "end": 697,
+        "focusStart": 658,
+        "focusEnd": 697,
         "type": "omission",
-        "explanation": "OSHA Lockout/Tagout standard 29 CFR 1910.147 requires formal lockout/tagout (LOTO) isolation, not merely a zero-energy check, before operators clear or pull scrap and chip bins inside machine enclosures.",
-        "fix": "Mandatory lockout/tagout isolation and zero-energy verification before manual chip bin removal on Mill 3 and Lathe 1."
+        "explanation": "The sequence omits the documented, verified equipment clean required by Copperfield’s allergen-control work instruction, stated under Staffing and constraints. The clean must be scheduled between the sesame-containing hummus run and the non-sesame chickpea spread run.",
+        "fix": "At 10:00 AM, complete and document the verified equipment clean, then switch to chickpea spread."
       }
     ]
   }

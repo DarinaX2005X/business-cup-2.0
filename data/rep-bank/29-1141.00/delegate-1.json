@@ -4,81 +4,96 @@
   "taskId": "1850",
   "locale": "en",
   "difficulty": 2,
-  "title": "Discharge Education on Heart Failure",
-  "brief": "Draft a patient-friendly heart failure discharge education sheet and daily self-care checklist.",
+  "title": "Heart Failure Home Teaching",
+  "brief": "Create a plain-language heart failure teaching handout for a patient and family preparing for discharge.",
   "delegate": {
-    "scenario": "A bedside RN is preparing discharge education for an older adult patient returning home with newly staged heart failure. The patient and his adult daughter will review the summary sheet before leaving this afternoon to manage daily monitoring and medications safely. The nurse needs a clear, easy-to-read educational handout tailored to the patient's specific discharge orders.",
-    "inputs": "Patient: Teresa Weaver (DOB: 04/12/1951)\nDiagnosis: Acute decompensated heart failure (HFrEF, EF 32%), hypertension, chronic kidney disease stage 2\nDischarge Orders & Notes:\n- Daily weights: weigh every morning before breakfast after voiding. Call clinic if weight gain > 3 lbs in 1 day or > 5 lbs in 1 week.\n- Diet: 2,000 mg/day sodium restriction. Fluid restriction: 1,500 mL/day (approx 50 oz).\n- Medications:\n  * Furosemide (Lasix) 40 mg PO BID (take 0800 and 1400)\n  * Lisinopril 10 mg PO daily (hold for SBP < 100)\n  * Metoprolol succinate ER 25 mg PO daily\n  * Potassium chloride 20 mEq PO daily with morning meal\n- Discharge Vitals (today 1100): BP 118/74 mmHg, HR 68 bpm, SpO2 96% on room air, Weight: 182.4 lbs.\n- Recent Labs: K+ 4.1 mEq/L, eGFR 64, Creatinine 1.2 mg/dL.\n- Follow-up: Dr. Rao in 7 days (call 555-0193 to schedule).\n- Nurse handoff note: Patient mentioned his daughter bought an over-the-counter sodium-free salt substitute for cooking at home.",
-    "goal": "Provide an accessible, plain-language education sheet that empowers the patient and family to monitor symptoms, take medications properly, and spot warning signs requiring medical attention.",
+    "scenario": "You are preparing discharge education for a patient who has been treated for heart failure and will manage daily care at home with help from a family member. The patient and family will review the handout with you before leaving the hospital, so it needs to be practical and easy to discuss.",
+    "inputs": "Discharge teaching notes for Mr. Luis Ortega and his daughter Elena. They prefer plain English and want a simple daily routine they can keep on the refrigerator.\n\nDiagnosis: heart failure with reduced ejection fraction. He is feeling better and is going home with family support. Explain daily weights, lower-sodium eating, activity pacing, and when to call the care team or seek urgent help. Ask them to repeat back the weight plan and warning signs.\n\nDischarge date: 06/17/2026\nFollow-up: cardiology appointment 06/24/2026 at 10:30 AM; bring the weight log and medication list.\n\nMedication list: furosemide 40 mg by mouth each morning; lisinopril 10 mg by mouth each morning; Amlodipine 5 mg by mouth each morning. Take amlodipine 10 mg every morning.\n\nWeigh every morning after using the bathroom and before breakfast, using the same scale. Call the care team for a gain of 2 lb overnight or 5 lb in a week, worsening ankle swelling, or more shortness of breath. Seek emergency help for severe trouble breathing or chest pain.\n\nDischarged home 06/16/2026. He can walk short distances with rest breaks. Keep sodium under 2,000 mg per day and avoid adding salt at the table.",
+    "goal": "A good handout helps the patient and daughter follow the home-care plan safely and know when to contact the care team.",
     "criteria": [
       {
         "id": "c1",
-        "text": "Specifies the primary audience as an older adult patient and family caregiver, using plain language at a 6th-to-8th grade reading level.",
+        "text": "Says the handout is for the patient and family, using plain English.",
         "keywords": [
-          "patient",
-          "family",
-          "plain language",
-          "reading level",
+          "patient and family",
+          "plain English",
           "caregiver"
         ]
       },
       {
         "id": "c2",
-        "text": "Requests an organized layout with bulleted daily routines, red-flag symptoms, and clear call parameters.",
+        "text": "Organizes the advice into practical daily actions and clear warning signs.",
         "keywords": [
-          "format",
-          "checklist",
-          "symptoms",
-          "call parameters",
-          "sections"
+          "daily routine",
+          "warning signs",
+          "call the care team"
         ]
       },
       {
         "id": "c3",
-        "text": "Requires a safety check cross-referencing discharge medications against dietary recommendations or over-the-counter items.",
+        "text": "Keeps the supplied care instructions intact and does not add unsupported medical advice.",
         "keywords": [
-          "medication interaction",
-          "dietary risks",
-          "safety check",
-          "contraindications"
+          "use only",
+          "provided notes",
+          "do not add"
         ]
       },
       {
         "id": "c4",
-        "text": "Instructs the AI to verify symptom threshold consistency and clarify any ambiguous care instructions.",
+        "text": "Asks the AI to check medication instructions against the source and flag conflicts rather than guess.",
         "keywords": [
-          "verify numbers",
-          "reconcile",
-          "warning signs",
-          "clarify"
+          "check medications",
+          "against the source",
+          "flag conflicts"
         ]
       },
       {
         "id": "c5",
-        "text": "Constrains the final output length to fit neatly onto a two-page printable handout.",
+        "text": "Requests a concise, refrigerator-friendly format with clear headings and bullets.",
         "keywords": [
-          "length",
-          "two pages",
-          "printable",
-          "handout"
+          "one-page",
+          "headings",
+          "bullets",
+          "refrigerator"
+        ]
+      },
+      {
+        "id": "c6",
+        "text": "Includes a teach-back prompt for the weight plan and when to seek help.",
+        "keywords": [
+          "teach-back",
+          "repeat back",
+          "weight plan"
         ]
       }
     ],
     "traps": [
       {
         "id": "t1",
-        "description": "The daughter purchased a potassium-based salt substitute, which is dangerous because the patient takes lisinopril and oral potassium chloride.",
+        "description": "The medication list gives amlodipine as 5 mg each morning, while another instruction says 10 mg every morning.",
         "keywords": [
-          "salt substitute"
+          "5 mg",
+          "10 mg",
+          "amlodipine"
+        ],
+        "evidence": [
+          "Amlodipine 5 mg by mouth each morning",
+          "Take amlodipine 10 mg every morning"
         ]
       },
       {
         "id": "t2",
-        "description": "The fluid limit is listed as 1,500 mL/day and 50 oz, but 1,500 mL is roughly 51 oz (or 50.7 oz), creating potential rounding confusion for fluid tracking.",
+        "description": "The discharge date is listed as both 06/17/2026 and 06/16/2026.",
         "keywords": [
-          "approx 50 oz"
+          "06/17/2026",
+          "06/16/2026"
+        ],
+        "evidence": [
+          "Discharge date: 06/17/2026",
+          "Discharged home 06/16/2026"
         ]
       }
-    ]
+    ],
+    "exemplar": "Create a concise, refrigerator-friendly discharge teaching handout for Mr. Ortega and his daughter, using plain English. Organize it with clear headings and bullets for the daily routine, food and activity guidance, and warning signs with actions to take. Use only the information in the notes; do not add medical advice. Check every medication instruction against the source and list any mismatch for the nurse to verify rather than choosing a dose. Include a teach-back prompt about the weight plan and when to seek help."
   }
 }

@@ -4,35 +4,41 @@
   "taskId": "21664",
   "locale": "en",
   "difficulty": 2,
-  "title": "Architecture Alignment Memo: Core Banking Real-Time Ledger Integration",
-  "brief": "Cross-team technical design alignment memo drafted from joint architecture review notes between core banking systems analysts, infra engineers, and backend developers.",
-  "docType": "architecture alignment memo",
+  "title": "Customer Profile API Design Review",
+  "brief": "A cross-team design review note for a customer profile API, drafted from the systems analyst’s requirements and the engineering team’s capacity estimates.",
+  "docType": "design review",
   "slip": {
-    "document": "# Architecture Alignment Memo: Core Banking Real-Time Ledger Integration\nSub-ledger Event Ingestion Interface and Constraints\n\n## Stakeholders\n- Systems Analyst: Dmitri Kim (Core Banking)\n- Infrastructure Engineer: Chloe Bennett (Platform Reliability)\n- Lead Programmer: Devina Patel (Transaction Services)\n- Target Release: Sprint 42 (Target Cutover: 10/18/2026)\n\n## Interface Specifications\n| Parameter | Agreed Specification |\n| --- | --- |\n| Protocol | gRPC over HTTP/2 |\n| Payload Serialization | Protocol Buffers v3 |\n| Peak Ingestion Rate | 14,500 TPS |\n| Max Sustained Latency (p99) | 45 ms |\n| Dead Letter Queue (DLQ) | Kafka topic core.tx.dlq.v1 |\n| Data Retention on DLQ | 72 hours |\n\n## Agreed Architectural Constraints\n- Core banking analysts confirmed the upstream gateway serializes incoming credit card payloads strictly using Apache Thrift across all edge nodes.\n- Platform reliability teams confirmed network interfaces support up to 25 Gbps inter-cluster bandwidth between Availability Zone 1 and Availability Zone 2.\n- Transaction services will provision a local buffer cluster sized for 8,000 TPS, which satisfies peak ingestion requirements without throttling.\n- The streaming consumer will automatically route poison pills to the designated DLQ via an error handler retry policy.\n\n## Action Items\n- Chloe Bennett to provide mutual TLS certificate bundles for the gRPC broker endpoints by 10/05/2026.\n- Devina Patel to publish proto definition files to the internal schema registry before 10/08/2026.",
+    "document": "# Customer Profile API Design Review\nDesign review record | 04/16/2026\n\n## Participants and scope\nJamal Kim (software development), Ethan Haddad (systems analysis), and Dmitri Ferreira (platform engineering) reviewed the Clearwater customer profile API for the account servicing portal. The API returns customer name, mailing address, and Social Security number to authorized servicing staff.\n\n## Requirements and capacity\nEthan's requirements summary specifies UUID version 4 as the customer ID format. It sets the upstream account service limit at 2,000 requests per minute. The portal is forecast to generate 900 requests per minute at peak. Dmitri's load test measured 250 requests per minute per application replica with the profile lookup enabled.\n\nThe proposed deployment uses three application replicas behind the existing load balancer. The team concluded that this configuration provides enough capacity for the forecast peak, with 750 requests per minute available. The load test used the same lookup behavior planned for the portal.\n\n## Interface decisions\nThe endpoint is GET /v1/customers/{customerId}; responses use JSON and return HTTP 404 when the customer ID is not found. The platform team will expose the endpoint over HTTPS. The portal team will send 10-digit numeric customer IDs. The response schema and error codes will be documented in the API specification before implementation begins.\n\nThe endpoint returns the customer name, mailing address, and Social Security number to the portal for account servicing. The review record does not define how callers authenticate to the endpoint or how access to these fields is authorized.\n\n## Actions\n- Jamal will publish the API specification by 04/23/2026.\n- Ethan will confirm the portal's peak-load forecast with the product team by 04/20/2026.\n- Dmitri will repeat the load test with the production-equivalent database before release.",
     "errors": [
       {
-        "quote": "serializes incoming credit card payloads strictly using Apache Thrift across all edge nodes",
-        "start": 787,
-        "end": 878,
-        "type": "fact",
-        "explanation": "The interface specifications table explicitly mandates Protocol Buffers v3 for payload serialization, contradicting the statement that edge nodes serialize payloads using Apache Thrift.",
-        "fix": "serializes incoming credit card payloads strictly using Protocol Buffers v3 across all edge nodes"
-      },
-      {
-        "quote": "sized for 8,000 TPS, which satisfies peak ingestion requirements without throttling",
-        "start": 1098,
-        "end": 1181,
+        "quote": "provides enough capacity for the forecast peak",
+        "start": 889,
+        "end": 935,
+        "focusStart": 898,
+        "focusEnd": 913,
         "type": "logic",
-        "explanation": "The interface specification establishes a peak ingestion rate of 14,500 TPS, so a buffer sized for only 8,000 TPS cannot logically satisfy peak ingestion requirements without throttling.",
-        "fix": "sized for 16,000 TPS, which satisfies peak ingestion requirements without throttling"
+        "explanation": "Three replicas at 250 requests per minute each provide 750 requests per minute, below the stated peak forecast of 900 requests per minute. The conclusion does not follow from the capacity figures.",
+        "fix": "does not provide enough capacity for the forecast peak"
       },
       {
-        "quote": "route poison pills to the designated DLQ via an error handler retry policy",
-        "start": 1227,
-        "end": 1301,
+        "quote": "The portal team will send 10-digit numeric customer IDs.",
+        "start": 1246,
+        "end": 1302,
+        "focusStart": 1272,
+        "focusEnd": 1288,
+        "type": "fact",
+        "explanation": "Ethan’s requirements summary specifies UUID version 4 as the customer ID format. The portal’s stated numeric format contradicts that requirement.",
+        "fix": "The portal team will send UUID version 4 customer IDs."
+      },
+      {
+        "quote": "The endpoint returns the customer name, mailing address, and Social Security number to the portal for account servicing.",
+        "start": 1414,
+        "end": 1534,
+        "focusStart": 1414,
+        "focusEnd": 1534,
         "type": "omission",
-        "explanation": "The consumer error handler retry policy specification omits the required retry limits and backoff duration before messages are routed to the dead letter queue.",
-        "fix": "route poison pills to the designated DLQ via an error handler retry policy with 3 attempts and exponential backoff"
+        "explanation": "The document specifies that the endpoint returns Social Security numbers but does not define caller authentication or authorization. The design needs an access-control requirement for this sensitive data before implementation.",
+        "fix": "The endpoint returns the customer name, mailing address, and Social Security number only to authenticated callers authorized for account servicing."
       }
     ]
   }

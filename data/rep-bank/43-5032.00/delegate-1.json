@@ -4,70 +4,86 @@
   "taskId": "2726",
   "locale": "en",
   "difficulty": 2,
-  "title": "Tow Truck Reassignment Incident Summary",
-  "brief": "Draft an incident summary and customer response plan for a stranded motorist service escalation.",
+  "title": "Cooling Unit Delivery Dispatch",
+  "brief": "Prepare a concise dispatch plan responding to a customer’s delivery request and the supervisor’s questions.",
   "delegate": {
-    "scenario": "You are a lead fleet dispatcher for Oak Hollow Roadside Assistance covering the Midwest region during a severe winter storm. A priority commercial fleet customer has been stranded for several hours after their initial service call stalled, and the customer operations manager needs a clear status brief before calling the account vice president at 4:00 PM. The document will guide immediate truck reassignment and set expectations on arrival times.",
-    "inputs": "Call Log - Dispatch Console 4 (11/14/2024):\n- 1:15 PM: Unit 402 dispatched to stranded flatbed (Cust: Summit Logistics, Driver: Dave Miller). Location: Mile Marker 84 eastbound on I-80. Issue: Blown steer tire, vehicle immobilised on shoulder.\n- 1:40 PM: Unit 402 radioed in 10-76 (en route), ETA 2:10 PM.\n- 2:35 PM: Summit Logistics dispatch called back requesting status. Unit 402 still not on scene.\n- 2:40 PM: Contacted Unit 402 operator (J. Hollis); driver reported stuck in standstill traffic behind multi-vehicle pileup at Mile Marker 72, cannot proceed.\n- 2:50 PM: Unit 510 cleared from job in Davenport, currently at Mile Marker 98 westbound. Has heavy-duty wheel-lift rig, 10-8 (available).\n- 3:10 PM: Customer called again, reported driver Dave Miller experiencing mild hypothermia symptoms, cab heater failing, temp 18°F. Requested immediate supervisor callback.\n- 3:15 PM: Route check shows Unit 510 is 14 miles away heading westbound, clear road conditions, estimated transit 22 minutes.",
-    "goal": "Provide the operations manager with a concise, factual dispatch incident brief that clarifies the vehicle reassignment and highlights safety urgencies for the upcoming customer call.",
+    "scenario": "A dispatcher at fictional Northline Equipment Rental is coordinating portable cooling-unit delivery to a community event site. The dispatcher will use the result to confirm the plan with the customer and the operations supervisor before assigning a truck.",
+    "inputs": "Customer: Dana Ruiz, Harborview Arts Council, 1840 Bay Street, Tacoma, WA 98402. Best contact: 253-555-0148.\nRequest: Deliver portable cooling units to the Harborview Summer Market. Customer email says delivery is needed on 06/16/2026, with setup access from 7:00 AM to 9:00 AM. The service ticket lists the delivery date as 06/17/2026. Customer needs the units placed by the north tent; site contact will meet the driver at the loading gate.\nEquipment request: two 5-ton portable cooling units and one 3-ton portable cooling unit. Ticket summary: 4 portable cooling units total. Return pickup requested 06/18/2026 after 6:00 PM.\nSupervisor message: Truck 12 has a lift gate and can carry up to 3 units. Driver Luis Chen is available Tuesday morning. Check whether the requested date and load can be covered before confirming. Standard delivery fee is $185; after-hours pickup fee is $75. Customer has not yet approved the fees. Bring 100 feet of extension cord per unit; cords are included with each unit.",
+    "goal": "Give the customer and supervisor a clear, actionable plan while identifying anything that must be verified before the delivery is confirmed.",
     "criteria": [
       {
         "id": "c1",
-        "text": "Specifies that the audience is the dispatch operations manager preparing for an executive client conference call.",
+        "text": "Says the result is for the dispatcher to confirm with the customer and operations supervisor.",
         "keywords": [
-          "operations manager",
-          "client call",
-          "executive",
-          "audience"
+          "dispatcher",
+          "customer",
+          "supervisor"
         ]
       },
       {
         "id": "c2",
-        "text": "Requires a structured summary under 200 words containing a timeline, reassigned unit details, and updated ETA.",
+        "text": "Separates confirmed details from items that need verification before commitment.",
         "keywords": [
-          "structured",
-          "timeline",
-          "ETA",
-          "under 200 words",
-          "bullet points"
+          "confirm",
+          "verify",
+          "before committing"
         ]
       },
       {
         "id": "c3",
-        "text": "Directs the AI to verify unit capability against the customer vehicle requirements before confirming reassignment.",
+        "text": "Checks that the schedule, driver availability, and truck capacity support the request.",
         "keywords": [
-          "equipment type",
-          "rig capability",
-          "heavy-duty",
-          "vehicle requirements"
+          "schedule",
+          "driver availability",
+          "truck capacity"
         ]
       },
       {
         "id": "c4",
-        "text": "Instructs the AI to highlight driver safety and welfare risks as urgent priority actions.",
+        "text": "Checks quantities and fees against the source and flags any conflicts.",
         "keywords": [
-          "driver safety",
-          "welfare",
-          "hypothermia",
-          "urgent"
+          "quantities",
+          "fees",
+          "source",
+          "conflicts"
+        ]
+      },
+      {
+        "id": "c5",
+        "text": "Uses a concise dispatch-ready format with clear next steps.",
+        "keywords": [
+          "dispatch plan",
+          "bullet list",
+          "next steps"
         ]
       }
     ],
     "traps": [
       {
         "id": "t1",
-        "description": "Unit 402 is stuck at Mile Marker 72 while attempting to reach Mile Marker 84 eastbound, which contradicts having departed after 1:40 PM towards an incident ahead of the blockage without clearing it.",
+        "description": "The delivery date in the customer email differs from the date listed on the service ticket.",
         "keywords": [
-          "Mile Marker 72"
+          "06/16/2026",
+          "06/17/2026"
+        ],
+        "evidence": [
+          "delivery is needed on 06/16/2026",
+          "delivery date as 06/17/2026"
         ]
       },
       {
         "id": "t2",
-        "description": "Unit 510 has a heavy-duty wheel-lift rig which is unsuitable for replacing or servicing a blown steer tire on an immobilized loaded commercial flatbed requiring tire service rather than towing.",
+        "description": "The equipment quantities add up to three units, but the ticket summary states four.",
         "keywords": [
-          "wheel-lift rig"
+          "3-ton",
+          "4 portable cooling units"
+        ],
+        "evidence": [
+          "two 5-ton portable cooling units and one 3-ton portable cooling unit",
+          "4 portable cooling units total"
         ]
       }
-    ]
+    ],
+    "exemplar": "Prepare a concise dispatch plan for me to use with the customer and operations supervisor. Separate confirmed details from anything that needs verification, and do not confirm a delivery or pickup commitment until open conflicts are resolved. Check the requested schedule against the driver’s availability and truck capacity, and reconcile quantities and fees against the source material; list any mismatch clearly rather than guessing. Use a short bullet list with the proposed plan, customer confirmations needed, and next steps."
   }
 }

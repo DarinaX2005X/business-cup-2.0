@@ -5,12 +5,16 @@ import s2_cup from '../sections/cup.en.json';
 import s3_jobs from '../sections/jobs.en.json';
 import s4_landing from '../sections/landing.en.json';
 import s5_method from '../sections/method.en.json';
-import s6_pricing from '../sections/pricing.en.json';
-import s7_shell from '../sections/shell.en.json';
-import s8_shop from '../sections/shop.en.json';
-import s9_start from '../sections/start.en.json';
-import s10_today from '../sections/today.en.json';
-import s11_xray from '../sections/xray.en.json';
+import s6_pivot from '../sections/pivot.en.json';
+import s7_playbook from '../sections/playbook.en.json';
+import s8_pricing from '../sections/pricing.en.json';
+import s9_profile from '../sections/profile.en.json';
+import s10_progress from '../sections/progress.en.json';
+import s11_shell from '../sections/shell.en.json';
+import s12_shop from '../sections/shop.en.json';
+import s13_start from '../sections/start.en.json';
+import s14_today from '../sections/today.en.json';
+import s15_xray from '../sections/xray.en.json';
 
 const catalog: Record<string, unknown> = {
   "category": s0_category,
@@ -19,12 +23,16 @@ const catalog: Record<string, unknown> = {
   "jobs": s3_jobs,
   "landing": s4_landing,
   "method": s5_method,
-  "pricing": s6_pricing,
-  "shell": s7_shell,
-  "shop": s8_shop,
-  "start": s9_start,
-  "today": s10_today,
-  "xray": s11_xray,
+  "pivot": s6_pivot,
+  "playbook": s7_playbook,
+  "pricing": s8_pricing,
+  "profile": s9_profile,
+  "progress": s10_progress,
+  "shell": s11_shell,
+  "shop": s12_shop,
+  "start": s13_start,
+  "today": s14_today,
+  "xray": s15_xray,
 };
 
 export default catalog;

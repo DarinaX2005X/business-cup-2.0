@@ -4,35 +4,41 @@
   "taskId": "2725",
   "locale": "en",
   "difficulty": 2,
-  "title": "Daily Field Dispatch and Relay Log",
-  "brief": "A daily field dispatch log relaying work orders, crew status messages, and safety hold notifications for a municipal water and gas utility.",
-  "docType": "field dispatch log",
+  "title": "Ironwood Field Operations Radio Relay",
+  "brief": "A dispatcher’s radio relay for a municipal water-main repair, drafted from the supervisor’s work order and crew status update.",
+  "docType": "dispatch log",
   "slip": {
-    "document": "# Daily Field Dispatch and Relay Log\nCentral Dispatch Desk 4 - Metro Utilities Authority\nDate: 04/16/2026\n\n## Active Field Units\n| Unit ID | Lead Tech | Radio Channel | Assigned Area | Service Type |\n| --- | --- | --- | --- | --- |\n| Truck 12 | Leah Sandoval | VHF-Channel 3 | North Sector | Gas Main Valve Repair |\n| Truck 18 | Tyrone Lin | VHF-Channel 5 | South Sector | Water Service Lateral |\n| Truck 27 | Kevin O'Shea | VHF-Channel 3 | East District | Leak Survey |\n| Unit 40 | Omar Ramos | VHF-Channel 8 | West District | Gas Meter Replacement |\n\n## Work Order Relays and Status Updates\n- 08:15 - Relayed urgent repair order WO-4409 to Truck 12 via VHF-Channel 7 regarding odor complaints at 742 Elm Street.\n- 08:42 - Field Inspector Davis called desk via landline to request immediate emergency shutdown of 8-inch cast iron water main at 14th & Oak.\n- 08:46 - Radioed Truck 18 to isolate the Oak Street water grid and notify affected businesses.\n- 09:10 - Relayed message from Truck 27: minor surface leak identified at 310 Pine Road; requested vac-truck support.\n- 09:35 - Supervisor Morris authorized vac-truck deployment for Pine Road job; dispatched Vac-2 to location.\n\n## Safety Notices and Permits\n- 09:50 - Relayed active excavation safety hold on East District jobs due to high wind advisory, and instructed Truck 27 to commence trench excavation immediately.\n- 10:15 - Broadcast atmospheric testing reminder to all gas crews working in confined vaults.\n- 10:40 - Relayed hot-work clearance permit CP-882 to Unit 40 for regulator station work valid until 16:00 without recording ambient gas level verification.",
+    "document": "# Ironwood Field Operations Radio Relay\n04/18/2026 | Dispatch desk: Colleen Fitzgerald | Channel 3\n\n## Source information\nSupervisor Dmitri Brennan's work order, received at 07:12, authorizes a leak isolation and repair at the 8-inch water main near 214 Mill Street and Oak Avenue. The work order identifies the affected valve as V-14 and gives a target completion time of 10:30. Crew lead Ethan Petrov reported at 07:18 that the crew was staged at the Ironwood yard, 12 minutes from the site. The valve vault is a confined space; the work order requires atmospheric testing and ventilation before entry.\n\n## Radio relay\nAt 07:20, I relayed the assignment to Petrov on Channel 3: \"Proceed to 214 Mill Street at Oak Avenue for the leak repair. Isolate valve V-41 at the site.\" The relayed entry instruction was: \"Enter the vault and repair the 8-inch main.\" I also gave the target completion time of 10:30.\n\nPetrov replied that the crew would leave the yard at 07:25. Based on the 12-minute travel estimate, the crew should arrive at 07:37. I told Brennan the crew would meet the 07:30 site-arrival deadline.\n\nAt 07:22, Brennan confirmed that water service to the two listed properties could be interrupted during the repair. I relayed that notice to Petrov and instructed him to notify occupants before shutting off service.\n\n## Follow-up\nPetrov acknowledged the assignment and repeated the street, intersection, and target completion time. Dispatch will keep Channel 3 open for updates and log the crew's arrival and service-restoration times. Brennan remains the work-order contact for scope changes or additional parts requests.",
     "errors": [
       {
-        "quote": "Relayed urgent repair order WO-4409 to Truck 12 via VHF-Channel 7 regarding odor complaints",
-        "start": 603,
-        "end": 694,
+        "quote": "Isolate valve V-41 at the site",
+        "start": 743,
+        "end": 773,
+        "focusStart": 757,
+        "focusEnd": 761,
         "type": "fact",
-        "explanation": "The Active Field Units table lists Truck 12 on VHF-Channel 3, not Channel 7.",
-        "fix": "Relayed urgent repair order WO-4409 to Truck 12 via VHF-Channel 3 regarding odor complaints"
+        "explanation": "The source work order identifies the affected valve as V-14, not V-41. The relay must preserve the work-order valve number.",
+        "fix": "Isolate valve V-14 at the site"
       },
       {
-        "quote": "safety hold on East District jobs due to high wind advisory, and instructed Truck 27 to commence trench excavation immediately",
-        "start": 1247,
-        "end": 1373,
-        "type": "logic",
-        "explanation": "The dispatcher relays an excavation safety hold for the East District but simultaneously instructs Truck 27, which is operating in the East District, to begin trench excavation.",
-        "fix": "safety hold on East District jobs due to high wind advisory, and instructed Truck 27 to suspend all trench excavation"
-      },
-      {
-        "quote": "Relayed hot-work clearance permit CP-882 to Unit 40 for regulator station work valid until 16:00 without recording ambient gas level verification.",
-        "start": 1479,
-        "end": 1625,
+        "quote": "Enter the vault and repair the 8-inch main",
+        "start": 812,
+        "end": 854,
+        "focusStart": 812,
+        "focusEnd": 854,
         "type": "omission",
-        "explanation": "Hot-work permits for gas utility work require logging the verified ambient combustible gas / LEL reading before authorizing work to proceed.",
-        "fix": "Relayed hot-work clearance permit CP-882 to Unit 40 for regulator station work valid until 16:00 with verified 0.0% LEL ambient gas test."
+        "explanation": "The work order requires atmospheric testing and ventilation before confined-space entry, but neither step is included in this relayed entry instruction.",
+        "fix": "Test the atmosphere and ventilate before entering the vault to repair the 8-inch main"
+      },
+      {
+        "quote": "the crew would meet the 07:30 site-arrival deadline",
+        "start": 1055,
+        "end": 1106,
+        "focusStart": 1070,
+        "focusEnd": 1074,
+        "type": "logic",
+        "explanation": "The crew leaves at 07:25 and the stated travel time is 12 minutes, making arrival 07:37, seven minutes after the deadline. It cannot meet the 07:30 deadline.",
+        "fix": "the crew would miss the 07:30 site-arrival deadline"
       }
     ]
   }

@@ -4,74 +4,85 @@
   "taskId": "21428",
   "locale": "en",
   "difficulty": 2,
-  "title": "Water Damage Claim Settlement Review",
-  "brief": "Draft an internal claim settlement review memo recommending coverage determination and payment totals.",
+  "title": "Review a Water-Damage Settlement",
+  "brief": "Prepare a concise claim review that identifies the documented facts, evaluates the proposed settlement against the file and company guidelines, and flags anything needing confirmation.",
   "delegate": {
-    "scenario": "You are finalizing a residential water damage file before sending it to the Claims Team Lead for sign-off this afternoon. The Team Lead needs a clear summary of policy limits, itemized damages, deductibles, and contractor estimates to approve the final payout draft. Your review must ensure the insurer does not overpay or violate policy endorsement conditions.",
-    "inputs": "Claim # FL-88204-W | Insured: Keiko Kowalczyk | Policy: HO-3 Standard Homeowners | Effective: 06/01/2023–06/01/2024\nDate of Loss: 02/14/2024\nCause of Loss: Main floor dishwasher supply line burst.\nCoverage limits:\n- Dwelling (Cov A): $310,000 | Deductible: $1,500\n- Water Backup & Sump Overflow Endorsement: $10,000 limit\n- Personal Property (Cov C): $155,000 (Actual Cash Value endorsement applies)\n\nAdjuster Field Inspection Notes:\n- Oak hardwood flooring warped across dining room (320 sq ft) and kitchen (180 sq ft).\n- Baseboards and drywall lower perimeter show moisture readings above 40%.\n- Mitigation contractor (RapidDry LLC) bill: $4,200 (includes extraction, 4 dehumidifiers for 3 days).\n- Build-back repair estimate by Juniper Restoration: $14,850.\n- Damaged contents claimed: 1 dining table ($2,100 replacement cost, purchased 2018, 50% depreciation applies), 1 wool area rug ($1,200 replacement cost, zero salvage value).\n- Note on loss history: Insured reported the dishwasher leak began on 02/08/2024 while away on a 6-day cruise.",
-    "goal": "Provide a concise settlement breakdown that correctly applies policy limits, deductibles, and depreciation while highlighting any coverage defense or timeline issues.",
+    "scenario": "You are reviewing a homeowner water-damage claim before a settlement recommendation goes to your team lead. The team lead will use your review at the afternoon file roundtable to decide whether the claim is ready for payment or needs more investigation.",
+    "inputs": "Claim CL-48271 | Policy PH-77106 | Insured: Dana Rios | Loss location: 418 Juniper Ave., Cedar Falls, IA\nCause reported: supply line under kitchen sink leaked; water affected kitchen cabinets and adjacent flooring. No injury reported.\nFNOL intake | Loss date: 03/11/2026 | Reported: 03/12/2026 | Coverage A limit: $250,000 | Deductible: $1,000\nField inspection summary | Inspection completed 03/14/2026. No ongoing leak observed. Photos show cabinet-base and flooring damage; plumber invoice confirms supply-line replacement.\nContractor estimate | Estimate dated 03/16/2026 | Date of loss: 03/10/2026\nCabinet repair | $1,840\nFlooring patch | $620\nDebris haul-away | $375\nApproved repair lines total $2,835\nRepair subtotal: $2,985\nProposed settlement worksheet | Covered repairs: $2,835 | Less deductible: $1,000 | Net payment: $1,835\nCompany desk guide: Confirm coverage and support for claimed damage; document unresolved questions before recommending payment. Do not exceed policy limits.",
+    "goal": "Give the team lead a concise, source-grounded recommendation that shows the settlement calculation and clearly separates verified facts from items requiring confirmation.",
     "criteria": [
       {
         "id": "c1",
-        "text": "Specifies the memo is written for the Claims Team Lead review.",
+        "text": "Says the review is for the team lead deciding whether the claim is ready for payment.",
         "keywords": [
-          "Claims Team Lead",
-          "Team Lead",
-          "supervisor",
-          "claims manager"
+          "team lead",
+          "payment decision",
+          "file roundtable"
         ]
       },
       {
         "id": "c2",
-        "text": "Directs the AI to verify whether the cause of loss falls under standard Dwelling coverage or endorsement caps.",
+        "text": "Uses only the supplied file facts and distinguishes documented information from assumptions.",
         "keywords": [
-          "endorsement",
-          "cause of loss",
-          "Dwelling",
-          "water backup",
-          "coverage verification"
+          "supplied file",
+          "documented",
+          "assumptions"
         ]
       },
       {
         "id": "c3",
-        "text": "Asks the AI to reconcile itemized repair and mitigation figures against the deductible and apply depreciation to contents.",
+        "text": "Checks the proposed settlement against coverage, the deductible, and applicable company guidance.",
         "keywords": [
+          "coverage",
           "deductible",
-          "depreciation",
-          "actual cash value",
-          "reconcile",
-          "net payout"
+          "company guidance"
         ]
       },
       {
         "id": "c4",
-        "text": "Requires flagging policy conditions regarding prompt notice or continuous seepage limitations based on loss dates.",
+        "text": "Asks the AI to reconcile the figures and dates across source documents and flag conflicts.",
         "keywords": [
-          "prompt notice",
-          "continuous seepage",
-          "date of loss",
-          "reporting delay",
-          "flag"
+          "reconcile",
+          "figures and dates",
+          "flag conflicts"
+        ]
+      },
+      {
+        "id": "c5",
+        "text": "Requests a brief review with a recommendation, calculation, and open questions.",
+        "keywords": [
+          "brief",
+          "recommendation",
+          "open questions"
         ]
       }
     ],
     "traps": [
       {
         "id": "t1",
-        "description": "The date of loss is listed as 02/14/2024, but the field notes state the leak began 6 days earlier on 02/08/2024 during an absence, creating a conflict regarding continuous seepage exclusions and true date of loss.",
+        "description": "The repair subtotal conflicts with the stated total of the three repair lines.",
         "keywords": [
-          "02/14/2024",
-          "02/08/2024"
+          "$2,835",
+          "$2,985"
+        ],
+        "evidence": [
+          "Approved repair lines total $2,835",
+          "Repair subtotal: $2,985"
         ]
       },
       {
         "id": "t2",
-        "description": "The field notes quote replacement costs for contents, but the policy requires Actual Cash Value with 50% depreciation on the dining table, which would yield $1,050 rather than full replacement cost.",
+        "description": "The loss date in the contractor estimate conflicts with the FNOL loss date.",
         "keywords": [
-          "$2,100 replacement cost",
-          "50% depreciation applies"
+          "03/11/2026",
+          "03/10/2026"
+        ],
+        "evidence": [
+          "Loss date: 03/11/2026",
+          "Date of loss: 03/10/2026"
         ]
       }
-    ]
+    ],
+    "exemplar": "Review this file for the team lead’s afternoon decision on whether payment is ready. Use only the supplied records, distinguish documented facts from assumptions, and compare the proposed settlement with the stated coverage, deductible, and company guidance. Reconcile the figures and dates across the source documents; put any conflicts or items needing confirmation first, without resolving them by guesswork. Then provide a brief recommendation, a clear settlement calculation, and open questions in labeled sections. Keep the tone neutral and the review concise."
   }
 }

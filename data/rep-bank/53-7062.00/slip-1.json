@@ -4,27 +4,31 @@
   "taskId": "10779",
   "locale": "en",
   "difficulty": 1,
-  "title": "Outbound Freight Staging and Loading Work Order",
-  "brief": "Outbound freight staging and loading work order drafted from shift dispatch instructions for dock material handlers.",
+  "title": "Riverbend Work Order 26-0417",
+  "brief": "A hand-material-mover work order for a warehouse transfer, drafted from the shift assignment and inventory count.",
   "docType": "work order",
   "slip": {
-    "document": "# Outbound Freight Staging and Loading Work Order\nShift: Morning Dock Operations | Date: 03/14/2026\n\n## Order Details\n- Order Reference: WO-88421\n- Lead Handler: Walter Rowland\n- Material Handlers Assigned: Leah Sandoval, Hannah Sato\n- Facility: Riverbend Distribution Center, Bay 14\n- Destination: Metro Logistics Hub, Columbus, OH\n\n## Assigned Material Manifest\n| Pallet ID | Commodity Description | Unit Count | Unit Weight (lb) | Total Weight (lb) | Handling Notes |\n| --- | --- | --- | --- | --- | --- |\n| PLT-101 | Industrial Fasteners (Grade 8) | 40 cartons | 45 | 1,800 | Heavy; use sit-down forklift |\n| PLT-102 | Electrical Conduit Fittings | 30 cartons | 28 | 840 | Standard manual pallet jack |\n| PLT-103 | Hydraulic Seal Assemblies | 50 cases | 16 | 800 | Fragile; tier-stack limit 3 |\n| PLT-104 | Pneumatic Valve Regulators | 25 cartons | 32 | 800 | Keep dry; wrap before staging |\n\n## Equipment Requisition and Staging Directives\n- Retrieve one 4,000-lb capacity electric sit-down forklift from Charging Station 4 for heavy skid staging.\n- Utilize manual pallet jack MPJ-08 for all skids weighing less than 1,000 lb.\n- Transfer PLT-101 and PLT-102 directly to Staging Lane C-4 by 09:30.\n- Stageworks operator must wear standard PPE: high-visibility vest and cut-resistant gloves.\n- Secure all staged skids using 80-gauge poly stretch wrap prior to trailer transfer.\n- Stage PLT-104 which weighs 1,200 lb in Lane C-5 for inspection before loading.\n- Final trailer loading into Trailer TL-409 commences at 10:45 under Walter Rowland's supervision.",
+    "document": "# Riverbend Work Order 26-0417\n04/17/2026 | Receiving and outbound transfer | Shift: 7:00 AM–3:30 PM\n\n## Assignment\nPrepared by Leah Sandoval for Walter Rowland and Hannah Sato at Riverbend Supply's warehouse, 1840 Mill Creek Road, Dayton, OH. Move boxed ceramic tile from receiving Bay 2 to outbound Dock 4 for delivery to the Millstone renovation site. Dispatch has reserved trailer 18 for the 10:30 AM pickup. Keep the marked pedestrian aisle clear throughout the move.\n\n## Load details\n| Item | Quantity | Unit weight | Handling note |\n| --- | --- | --- | --- |\n| Tile pallets, IDs RB-221 through RB-228 | 8 pallets | 1,120 lb each | Keep upright; do not double-stack |\n| Empty return carts | 2 carts | 85 lb each | Nest after unloading |\n\nUse the electric pallet jack assigned to Bay 2; its posted capacity is 4,500 lb. Verify the equipment inspection tag is current before use. Place each pallet squarely inside the trailer, with the tile labels facing the doors. Use the trailer's load bars after loading, and leave the rear 3 ft clear for the driver's access to the door latch.\n\n## Work sequence\n- Move the pallets from Bay 2 to Dock 4.\n- Load all six pallets onto trailer 18 before 10:15 AM.\n- Stage the two return carts beside Dock 4 after the pallets are loaded.\n- Record the completed pallet count on the outbound ticket and give it to Leah before the driver departs.\n\nReport damaged packaging or a blocked aisle to Leah before continuing. Do not leave the pallet jack unattended with the forks raised.",
     "errors": [
       {
-        "quote": "Stageworks operator must wear standard PPE: high-visibility vest and cut-resistant gloves.",
-        "start": 1204,
-        "end": 1294,
+        "quote": "Place each pallet squarely inside the trailer, with the tile labels facing the doors.",
+        "start": 884,
+        "end": 969,
+        "focusStart": 884,
+        "focusEnd": 969,
         "type": "omission",
-        "explanation": "OSHA warehouse and dock safety standards require steel-toe or safety-toe protective footwear when handling and moving freight pallets, which is missing from the required PPE line.",
-        "fix": "Stageworks operator must wear standard PPE: steel-toe boots, high-visibility vest and cut-resistant gloves."
+        "explanation": "This loading instruction omits securing the trailer against movement before loading. A trailer must be secured at the dock so it cannot move away from the dock while workers or equipment are entering it.",
+        "fix": "After confirming the trailer is secured against movement at the dock, place each pallet squarely inside the trailer, with the tile labels facing the doors."
       },
       {
-        "quote": "Stage PLT-104 which weighs 1,200 lb in Lane C-5 for inspection before loading.",
-        "start": 1383,
-        "end": 1461,
+        "quote": "Load all six pallets onto trailer 18 before 10:15 AM.",
+        "start": 1147,
+        "end": 1200,
+        "focusStart": 1156,
+        "focusEnd": 1159,
         "type": "fact",
-        "explanation": "The manifest table lists PLT-104 as having 25 cartons at 32 lb each, giving a total weight of 800 lb, not 1,200 lb.",
-        "fix": "Stage PLT-104 which weighs 800 lb in Lane C-5 for inspection before loading."
+        "explanation": "The load-details table lists eight tile pallets, IDs RB-221 through RB-228. The instruction to load six contradicts that stated quantity.",
+        "fix": "Load all eight pallets onto trailer 18 before 10:15 AM."
       }
     ]
   }

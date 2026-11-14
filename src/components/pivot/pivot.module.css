@@ -1,0 +1,838 @@
+/*
+ * Pivot (05.2): where the person can go next. The violet block is «where you are now», the cards are
+ * «where you could go»; both are drawn with the same Week Bar tiles, so the two read as a pair.
+ * Tokens only from src/styles/tokens.css. One light from the top left: tiles have a lit top edge,
+ * a front face for thickness and a soft cast shadow on the receiving plane.
+ */
+
+.page {
+  max-width: calc(var(--content) + 2 * var(--s-32));
+  margin: 0 auto;
+  padding: var(--s-24) var(--s-32) var(--s-120);
+}
+
+.h1 {
+  font-size: clamp(36px, 4.6vw, 60px);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+  color: var(--on-violet);
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
+.h2 {
+  font-size: var(--fs-28);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+/* ---------- the violet block ---------- */
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 440px);
+  gap: var(--s-32) var(--s-48);
+  align-items: end;
+  padding: 48px 56px 52px;
+  border-radius: var(--r-panel);
+  overflow: hidden;
+}
+
+.arches {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.heroText {
+  min-width: 0;
+}
+
+.lead {
+  margin-top: 20px;
+  max-width: 640px;
+  font-size: var(--fs-20);
+  line-height: 1.45;
+  color: var(--on-violet-2);
+  text-wrap: pretty;
+}
+
+/* the person's job on an apricot plate: warm always means «you» */
+.plate {
+  padding: 0 0.22em 0.04em;
+  margin: 0 0.04em;
+  border-radius: 0.26em;
+  font-weight: 600;
+  color: var(--ink);
+  background: linear-gradient(180deg, var(--apricot-hi), var(--apricot) 55%);
+  box-shadow:
+    inset 0 1px 0 oklch(100% 0 0 / 0.5),
+    0 2px 0 var(--apricot-low);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.now {
+  padding: 20px 22px 22px;
+  border-radius: var(--r-card);
+  background: oklch(100% 0 0 / 0.08);
+  box-shadow: inset 0 0 0 1px oklch(100% 0 0 / 0.14);
+}
+
+.nowK {
+  font-size: var(--fs-15);
+  font-weight: 600;
+  color: var(--on-violet-2);
+  margin-bottom: 14px;
+}
+
+.nowHours {
+  margin-top: 22px;
+  font-size: var(--fs-17);
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--on-violet);
+}
+
+.heroEmpty {
+  grid-template-columns: minmax(0, 1fr);
+  padding-bottom: 56px;
+}
+
+.heroCta {
+  margin-top: 28px;
+}
+
+/* ---------- mini Week Bar ---------- */
+
+.mini {
+  display: flex;
+  gap: 4px;
+  height: 40px;
+  padding-bottom: 6px;
+  --face: 5px;
+  --cast: 0 10px 12px -8px oklch(26% 0.09 285 / 0.32);
+  --cast-hu: 0 10px 12px -8px oklch(52% 0.13 45 / 0.5);
+}
+
+.mini[data-size='lg'] {
+  height: 58px;
+  gap: 5px;
+  --face: 7px;
+}
+
+.mini[data-surface='violet'] {
+  --cast: 0 12px 14px -8px oklch(14% 0.14 283 / 0.55);
+  --cast-hu: 0 12px 14px -8px oklch(14% 0.14 283 / 0.6);
+}
+
+.miniTile {
+  flex: var(--w) 1 0;
+  min-width: 5px;
+  height: calc(100% - var(--face));
+  border-radius: 7px;
+  transition: transform 260ms var(--spring);
+  transition-delay: calc(var(--i, 0) * 22ms);
+}
+
+.mini[data-size='lg'] .miniTile {
+  border-radius: 9px;
+}
+
+.miniTile[data-cat='ai_does'] {
+  background: var(--tile-ai);
+  box-shadow:
+    inset 0 1.5px 0 oklch(100% 0 0 / 0.9),
+    inset 0 0 0 1px var(--tile-ai-edge),
+    0 var(--face) 0 var(--tile-ai-face),
+    var(--cast);
+}
+
+.miniTile[data-cat='ai_speeds'] {
+  background: var(--tile-sp);
+  box-shadow:
+    inset 0 1.5px 0 oklch(100% 0 0 / 0.9),
+    inset 0 0 0 1px var(--tile-sp-edge),
+    0 var(--face) 0 var(--tile-sp-face),
+    var(--cast);
+}
+
+.miniTile[data-cat='human_edge'] {
+  background: var(--tile-hu);
+  box-shadow:
+    inset 0 2px 0 oklch(100% 0 0 / 0.6),
+    inset 0 -2px 0 oklch(60% 0.14 48 / 0.35),
+    0 var(--face) 0 var(--tile-hu-face),
+    var(--cast-hu);
+}
+
+.miniTile[data-cat='no_data'] {
+  background: transparent;
+  outline: 1.5px dashed var(--machine);
+  outline-offset: -1.5px;
+}
+
+.mini[data-surface='violet'] .miniTile[data-cat='no_data'] {
+  outline-color: oklch(100% 0 0 / 0.45);
+}
+
+/* ---------- the moves ---------- */
+
+.moves,
+.none {
+  margin-top: var(--s-48);
+}
+
+.none {
+  display: grid;
+  gap: 14px;
+  justify-items: start;
+  max-width: 680px;
+  font-size: var(--fs-17);
+  line-height: var(--lh-body);
+  color: var(--ink-2);
+}
+
+.grid {
+  list-style: none;
+  margin: 24px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr));
+  gap: 24px;
+}
+
+.grid > li {
+  display: flex;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: var(--r-card);
+  background: var(--card);
+  box-shadow:
+    var(--hl),
+    var(--shadow-rest),
+    inset 0 0 0 1px var(--line);
+  overflow: hidden;
+  animation: rise 420ms var(--ease) both;
+  animation-delay: calc(min(var(--k, 0), 7) * 55ms);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+/* the art band: the job's own week, on a sunk receiving plane */
+.band {
+  padding: 26px 22px 24px;
+  background: var(--sunk);
+  border-bottom: 1px solid var(--line);
+}
+
+/* the tiles answer the pointer one after another, like keys pressed in a row */
+@media (hover: hover) {
+  .card:hover .miniTile {
+    transform: translateY(-3px);
+  }
+}
+
+.cardBody {
+  padding: 20px 22px 6px;
+  display: grid;
+  gap: 14px;
+}
+
+.cardTitle {
+  font-size: var(--fs-20);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.facts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+  font-size: var(--fs-15);
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+
+.factHuman {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--fs-17);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.factPay {
+  font-size: var(--fs-17);
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.factPay[data-pay='shared'],
+.factPay[data-pay='none'],
+.factPay[data-pay='same'] {
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.skills {
+  display: grid;
+  gap: 8px;
+}
+
+.skillsK {
+  font-size: var(--fs-13);
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.chips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  padding: 5px 10px 6px;
+  border-radius: var(--r-chip);
+  background: var(--violet-soft);
+  box-shadow: inset 0 0 0 1px var(--violet-tint);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+.noSkills {
+  font-size: var(--fs-15);
+  color: var(--ink-2);
+}
+
+.cardActions {
+  margin-top: auto;
+  padding: 18px 22px 22px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+}
+
+.asMe {
+  flex: 1 1 auto;
+}
+
+.lockedWrap {
+  margin-top: 28px;
+}
+
+.proWays {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* empty state: unprinted cards waiting for a week */
+.ghost {
+  display: grid !important;
+  gap: 12px;
+  align-content: start;
+  min-height: 260px;
+  padding: 0 0 22px;
+  border-radius: var(--r-card);
+  outline: 2px dashed var(--line);
+  outline-offset: -2px;
+  overflow: hidden;
+}
+
+.ghostBand {
+  height: 92px;
+  background: var(--sunk);
+  margin-bottom: 10px;
+}
+
+.ghost i {
+  height: 12px;
+  margin: 0 22px;
+  border-radius: 6px;
+  background: var(--sunk);
+}
+
+/* ---------- invite ---------- */
+
+.invite {
+  margin-top: var(--s-72);
+  display: grid;
+  grid-template-columns: 132px minmax(0, 1fr);
+  gap: var(--s-32);
+  align-items: start;
+  padding: 32px 36px;
+  border-radius: var(--r-panel);
+  background: var(--card);
+  box-shadow:
+    var(--hl),
+    var(--shadow-rest),
+    inset 0 0 0 1px var(--line);
+}
+
+/* two sheets of the same week map, one handed on: the link carries the map */
+.inviteArt {
+  position: relative;
+  height: 120px;
+}
+
+.inviteSheet {
+  position: absolute;
+  width: 84px;
+  height: 104px;
+  border-radius: 12px;
+  background:
+    linear-gradient(var(--line), var(--line)) 14px 18px / 46px 6px no-repeat,
+    linear-gradient(var(--line), var(--line)) 14px 32px / 34px 6px no-repeat,
+    linear-gradient(90deg, var(--machine-field) 0 34%, var(--speed-field) 34% 58%, var(--apricot) 58%) 14px 62px / 56px 22px no-repeat,
+    var(--card);
+  box-shadow:
+    var(--hl),
+    inset 0 0 0 1px var(--line),
+    0 10px 20px -10px oklch(26% 0.09 285 / 0.35);
+  transition: transform 320ms var(--spring);
+}
+
+.inviteSheet[data-k='a'] {
+  left: 0;
+  top: 10px;
+  transform: rotate(-6deg);
+}
+
+.inviteSheet[data-k='b'] {
+  left: 40px;
+  top: 4px;
+  transform: rotate(5deg);
+}
+
+@media (hover: hover) {
+  .invite:hover .inviteSheet[data-k='b'] {
+    transform: translate(6px, -4px) rotate(9deg);
+  }
+}
+
+.inviteText {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.inviteLead {
+  max-width: 620px;
+  font-size: var(--fs-17);
+  line-height: var(--lh-body);
+  color: var(--ink-2);
+}
+
+.inviteRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.inviteField {
+  flex: 1 1 280px;
+  display: flex;
+  align-items: center;
+  min-height: var(--ctl-h);
+  padding: 0 16px;
+  border-radius: var(--r-ctl);
+  background: var(--sunk);
+  box-shadow: inset 0 1px 2px oklch(26% 0.09 285 / 0.08);
+}
+
+.inviteField input {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: var(--fs-15);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.inviteField input:focus {
+  outline: none;
+}
+
+.inviteField:focus-within {
+  box-shadow:
+    inset 0 1px 2px oklch(26% 0.09 285 / 0.08),
+    0 0 0 3px var(--focus);
+}
+
+.inviteStatus {
+  font-size: var(--fs-15);
+  color: var(--ink-2);
+}
+
+.inviteError {
+  font-size: var(--fs-15);
+  color: var(--error);
+}
+
+.textBtn {
+  font: inherit;
+  font-weight: 600;
+  color: var(--violet);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ---------- share menu (the map's conclusion block) ---------- */
+
+.share {
+  position: relative;
+  display: inline-flex;
+}
+
+.shareBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 8px 16px 8px 12px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--on-violet);
+  box-shadow: inset 0 0 0 1.5px oklch(100% 0 0 / 0.4);
+  transition:
+    background-color var(--t-hover) var(--ease),
+    box-shadow var(--t-hover) var(--ease),
+    transform var(--t-press) var(--ease);
+}
+
+.shareBtn:hover,
+.shareBtn[aria-expanded='true'] {
+  background: oklch(100% 0 0 / 0.1);
+  box-shadow: inset 0 0 0 1.5px oklch(100% 0 0 / 0.7);
+}
+
+.shareBtn:active {
+  transform: scale(0.97);
+}
+
+.shareBtn:focus-visible {
+  outline: 3px solid var(--focus-on-field);
+  outline-offset: 2px;
+}
+
+.share[data-surface='paper'] .shareBtn {
+  color: var(--violet);
+  box-shadow: inset 0 0 0 1.5px var(--violet-tint);
+}
+
+.share[data-surface='paper'] .shareBtn:hover,
+.share[data-surface='paper'] .shareBtn[aria-expanded='true'] {
+  background: var(--violet-soft);
+}
+
+.share[data-surface='paper'] .shareBtn:focus-visible {
+  outline-color: var(--focus);
+}
+
+.shareMenu {
+  position: absolute;
+  z-index: 40;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 240px;
+  padding: 6px;
+  display: grid;
+  border-radius: 16px;
+  background: var(--card);
+  color: var(--ink);
+  box-shadow:
+    var(--hl),
+    var(--shadow-overlay),
+    inset 0 0 0 1px var(--line);
+  transform-origin: top left;
+  animation: pop 200ms var(--ease-out) both;
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.97);
+  }
+}
+
+.shareItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  padding: 8px 12px;
+  border-radius: 11px;
+  font-size: var(--fs-15);
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  text-align: left;
+  transition: background-color var(--t-hover) var(--ease);
+}
+
+.shareItem:hover,
+.shareItem:focus-visible {
+  background: var(--violet-soft);
+  outline: none;
+}
+
+.shareItem:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--focus);
+}
+
+.shareItem svg {
+  color: var(--violet);
+  flex-shrink: 0;
+}
+
+/* ---------- your week as this job ---------- */
+
+.asHero {
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: 28px;
+  padding-bottom: 40px;
+}
+
+.asHead {
+  min-width: 0;
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 44px;
+  margin: -8px 0 10px -6px;
+  padding: 0 10px 0 4px;
+  border-radius: 12px;
+  font-size: var(--fs-15);
+  font-weight: 600;
+  color: var(--on-violet);
+  text-decoration: none;
+  transition: background-color var(--t-hover) var(--ease);
+}
+
+.back:hover {
+  background: oklch(100% 0 0 / 0.1);
+}
+
+.back:focus-visible {
+  outline: 3px solid var(--focus-on-field);
+  outline-offset: 2px;
+}
+
+.compare {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+  padding: 8px 14px 8px 10px;
+  border-radius: 12px;
+  background: oklch(100% 0 0 / 0.1);
+  font-size: var(--fs-17);
+  font-weight: 600;
+  color: var(--on-violet);
+}
+
+.compareKey {
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  background: var(--tile-hu);
+  box-shadow:
+    inset 0 1.5px 0 oklch(100% 0 0 / 0.6),
+    0 2px 0 var(--tile-hu-face);
+}
+
+.asBar {
+  margin-top: 8px;
+  min-width: 0;
+}
+
+.preview {
+  font-size: var(--fs-15);
+  color: var(--on-violet-2);
+}
+
+.split {
+  margin-top: var(--s-48);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-32) var(--s-48);
+}
+
+.col {
+  min-width: 0;
+}
+
+.rows {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--card);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.row[data-fresh] {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--line);
+}
+
+.rowMain {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.rowMain b {
+  font-size: var(--fs-17);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+.rowMain small {
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+
+.rowH {
+  flex-shrink: 0;
+  font-size: var(--fs-17);
+  font-weight: 700;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.empty {
+  margin-top: 12px;
+  font-size: var(--fs-15);
+  color: var(--ink-2);
+}
+
+.price {
+  margin-top: var(--s-48);
+  display: grid;
+  gap: 18px;
+  padding: 28px 32px;
+  border-radius: var(--r-panel);
+  background: var(--sunk);
+}
+
+.priceFacts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  font-size: var(--fs-20);
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.priceActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.backRow {
+  margin-top: 16px;
+}
+
+/* ---------- narrow screens ---------- */
+
+@media (max-width: 960px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 36px 32px 36px;
+  }
+
+  .split {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: var(--s-16) var(--s-16) var(--s-72);
+  }
+
+  .hero {
+    padding: 28px 20px 24px;
+    border-radius: 22px;
+  }
+
+  .lead {
+    font-size: var(--fs-17);
+  }
+
+  .now {
+    padding: 16px 16px 18px;
+  }
+
+  .invite {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 24px 20px;
+    gap: 16px;
+  }
+
+  .inviteArt {
+    display: none;
+  }
+
+  .price {
+    padding: 22px 20px;
+  }
+
+  .asMe {
+    flex-basis: 100%;
+  }
+}

@@ -4,71 +4,90 @@
   "taskId": "6578",
   "locale": "en",
   "difficulty": 2,
-  "title": "Ecosystem Lab Lesson Plan",
-  "brief": "Draft a structured 50-minute science lesson plan balancing direct instruction, inquiry-based lab stations, and independent reflection.",
+  "title": "Plan a Water Filtration Investigation",
+  "brief": "Produce a ready-to-use lesson plan for a middle school water-filtration investigation.",
   "delegate": {
-    "scenario": "You are a 7th-grade life science teacher preparing for tomorrow's lab on pond water micro-ecosystems. A student teacher will lead one of the station rotations, and the principal will conduct an unannounced walkthrough during Period 4. The lesson plan must guide both instructors seamlessly and keep 28 middle schoolers engaged and safe.",
-    "inputs": "Notes for Wed 10/18 - Period 4 (11:15 AM - 12:05 PM):\n- Topic: Microscopic Pond Life & Energy Flow (Standard MS-LS2-2).\n- Room setup: 6 lab tables, max 5 students per station.\n- Supplies on cart: 6 compound microscopes, 24 glass depression slides, 12 plastic pipettes, pond samples A & B.\n- Total class period: 50 minutes.\n- Proposed pacing:\n  * Warm-up / direct instruction & slide prep demo: 15 min\n  * Lab investigation (Station 1: Producers/Algae, Station 2: Consumers/Paramecia): 30 min (15 min each rotation)\n  * Clean-up & exit ticket: 10 min\n- Safety note: Reminder that cover slips are glass; report cracks immediately.\n- Student accommodations: Colleen has color blindness; Irene needs large-print lab sheets; 3 students forgot signed safety contracts last week (Jayden, Sam, Priya).",
-    "goal": "Deliver an executable, timed lesson plan that safely distributes materials, balances instruction with hands-on investigation, and accounts for student safety restrictions.",
+    "scenario": "You teach seventh-grade science and need to turn scattered planning notes into a balanced class period with teacher demonstration, student investigation, and work time. The plan is for you to use with students and a classroom aide during the upcoming lab period.",
+    "inputs": "Planning notes for 7th-grade science, 28 students, one 50-minute class. Students are investigating how filter materials affect water clarity; this is a model, not drinking water. Start with a 5-minute question and prediction, demonstrate the setup, then have groups build and test filters and record observations. Use 7 groups of 4. Leave time for cleanup and a short exit response. Keep water away from electrical outlets. Materials: 28 clear cups, 7 funnels, coffee filters, gravel, sand, and prepared cloudy water. Available goggles total: 24 pairs (16 pairs in blue bin and 12 pairs in clear bin). The aide can help distribute materials and remind students not to taste samples. Lab calendar: water filtration investigation reserved for 10/15/2026. Aide's email: \"I'll be there for the water filtration investigation on 10/16/2026; please send me the group roles.\"",
+    "goal": "A good result gives the teacher a practical, safe sequence that balances observation, questioning, investigation, and student work time.",
     "criteria": [
       {
         "id": "c1",
-        "text": "Specifies the target grade level, subject, and intended audience of co-teachers or evaluators.",
+        "text": "Says the plan is for a seventh-grade teacher and classroom aide to use with students.",
         "keywords": [
-          "7th grade",
-          "life science",
-          "student teacher",
-          "evaluator"
+          "seventh-grade",
+          "classroom aide",
+          "students"
         ]
       },
       {
         "id": "c2",
-        "text": "Demands strict adherence to the 50-minute total block across all lesson stages.",
+        "text": "Balances demonstration, student investigation, observation, questioning, and work time.",
         "keywords": [
-          "50 minutes",
-          "pacing",
-          "schedule",
-          "time management"
+          "demonstration",
+          "investigation",
+          "observation",
+          "questioning"
         ]
       },
       {
         "id": "c3",
-        "text": "Requires a structured format with sections for objectives, materials, timed procedure, and accommodations.",
+        "text": "Fits the stated class period and includes transitions and cleanup.",
         "keywords": [
-          "format",
-          "sections",
-          "procedure",
-          "accommodations"
+          "50-minute",
+          "timing",
+          "cleanup",
+          "transitions"
         ]
       },
       {
         "id": "c4",
-        "text": "Instructs the AI to verify that lab activity safety requirements and prerequisite clearances are enforced before student participation.",
+        "text": "Uses a clear, ready-to-follow lesson-plan format with concise teacher and student actions.",
         "keywords": [
-          "safety clearance",
-          "safety contracts",
-          "alternate assignment",
-          "lab rules"
+          "lesson plan",
+          "teacher actions",
+          "student actions",
+          "concise"
+        ]
+      },
+      {
+        "id": "c5",
+        "text": "Asks the AI to check safety, materials, and logistics for conflicts or missing information.",
+        "keywords": [
+          "check safety",
+          "materials",
+          "logistics",
+          "flag conflicts"
         ]
       }
     ],
     "traps": [
       {
         "id": "t1",
-        "description": "The proposed pacing segment times (15 min + 30 min + 10 min) sum to 55 minutes, exceeding the 50-minute class period.",
+        "description": "The stated goggles total of 24 pairs conflicts with the listed bin counts, which add up to 28 pairs.",
         "keywords": [
-          "10 min",
-          "30 min"
+          "24 pairs",
+          "16 pairs",
+          "12 pairs"
+        ],
+        "evidence": [
+          "Available goggles total: 24 pairs",
+          "16 pairs in blue bin and 12 pairs in clear bin"
         ]
       },
       {
         "id": "t2",
-        "description": "Three students lack signed safety contracts and cannot legally handle glass slides or live specimens without an alternative activity.",
+        "description": "The lab calendar and the aide's email give different dates for the same investigation.",
         "keywords": [
-          "signed safety contracts",
-          "Jayden, Sam, Priya"
+          "10/15/2026",
+          "10/16/2026"
+        ],
+        "evidence": [
+          "reserved for 10/15/2026.",
+          "investigation on 10/16/2026;"
         ]
       }
-    ]
+    ],
+    "exemplar": "Create a ready-to-use lesson plan for a seventh-grade science teacher and classroom aide leading this investigation. Balance teacher demonstration with student observation, questioning, hands-on investigation, and time to record results; fit the stated class period and include transitions and cleanup. Use a concise sequence with times and clear teacher and student actions. Treat the water as a model, not for drinking. Check safety, materials, dates, and group logistics against the notes; flag any conflicts or missing information before relying on them, and do not silently choose between conflicting details."
   }
 }

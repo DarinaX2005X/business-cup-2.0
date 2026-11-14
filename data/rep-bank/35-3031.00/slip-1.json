@@ -4,27 +4,31 @@
   "taskId": "2283",
   "locale": "en",
   "difficulty": 1,
-  "title": "Eastgate Tavern - Table 14 Guest Service Briefing",
-  "brief": "Server briefing and recommendation guide for Table 14 drafted from guest allergy notes and the evening specials board.",
-  "docType": "table briefing sheet",
+  "title": "Dinner Menu Presentation Brief — Eastgate Table",
+  "brief": "A dinner menu presentation and service brief for servers, drafted from the restaurant’s menu and kitchen notes.",
+  "docType": "menu briefing",
   "slip": {
-    "document": "# Eastgate Tavern - Table 14 Guest Service Briefing\nShift: Dinner, 05/16/2026 | Server: Hannah Castillo | Floor Lead: Leah Gallagher\n\n## Table Profile and Dietary Restrictions\n| Seat | Guest Name | Recorded Dietary Need | Beverage Order |\n| --- | --- | --- | --- |\n| 1 | Walter Kowalczyk | Celiac disease (strict gluten-free) | Sparkling water, lime |\n| 2 | Claire Kowalczyk | Peanut and tree nut allergy | Iced tea |\n| 3 | Brian Mercer | None reported | Draft IPA |\n| 4 | Danielle Mercer | Lactose intolerance | Pinot noir |\n\n## Dinner Specials and Kitchen Data\n| Item Name | Description | Allergen Profile | Price |\n| --- | --- | --- | --- |\n| Pan-Seared Halibut | Sweet corn succotash, bacon lardons, herb oil | Dairy-free, Nut-free, Gluten-free | $36 |\n| Wild Mushroom Tagliatelle | House-made egg pasta, truffle cream sauce, parmesan | Contains dairy, gluten, eggs | $28 |\n| Grilled Ribeye (12 oz) | Rosemary roasted red potatoes, garlic-parsley butter | Gluten-free (contains dairy in butter) | $44 |\n| Eastgate Chopped Salad | Romaine, crisp chickpeas, shaved pecorino, walnut vinaigrette | Contains tree nuts, dairy | $16 |\n\n## Server Presentation and Recommendation Plan\n- Greet party warmly, distribute printed menus, and verbally highlight the pan-seared halibut and grilled ribeye specials.\n- Recommend the wild mushroom tagliatelle for Walter Kowalczyk as an entree pairing with his sparkling water.\n- Advise Claire Kowalczyk that the Eastgate chopped salad dressing can be substituted with house citrus vinaigrette to avoid tree nuts.\n- Take beverage reorders before clearing appetizer plates.\n- For Danielle Mercer, recommend the grilled ribeye with the kitchen instructed to hold the garlic-parsley butter.\n- Provide allergen check verification to kitchen expediter Leah Gallagher prior to firing main courses.",
+    "document": "# Dinner Menu Presentation Brief — Eastgate Table\nService date: 04/18/2026 | Dinner shift: 5:00–10:00 PM\nPrepared by Leah Gallagher for Walter Kowalczyk and Hannah Castillo\n\n## Opening presentation\nWelcome guests, offer the printed dinner menu, and mention that the kitchen can describe ingredients and preparation methods. Ask whether anyone would like a recommendation before describing the specials. Listed prices are before tax.\n\n## Menu reference\n| Item | Price | Ingredients and preparation notes |\n| --- | --- | --- |\n| Roasted tomato soup | $8 | Tomato, onion, vegetable stock; vegan and gluten-free |\n| Eastgate chicken pot pie | $22 | Chicken, peas, carrots, cream sauce, wheat pastry |\n| Seared salmon | $27 | Salmon, lemon, rice, seasonal vegetables; cooked on a dedicated grill |\n| Walnut pear tart | $10 | Pear, walnut, butter, wheat flour; contains tree nuts and gluten |\n| Herb fries | $7 | Potato, herbs; fried in the same oil as breaded shrimp |\n\n## Suggested descriptions\n- The salmon is a good choice for guests looking for a lighter entrée; it comes with rice and seasonal vegetables.\n- For a vegan guest seeking a starter, recommend the chicken pot pie; it is made with vegetable stock and contains no dairy.\n- The chicken pot pie is a hearty option, with a creamy filling beneath wheat pastry.\n- Mention that the walnut pear tart contains walnuts and wheat.\n\n## Allergy questions\nThe herb fries share fryer oil with breaded shrimp. If a guest reports an allergy, ask which ingredient they need to avoid and check the menu reference before answering. Do not guarantee an item is allergen-free; confirm preparation questions with the kitchen before placing the order.\n\n## Shift notes\nLeah will lead menu presentations until 7:00 PM; Walter takes over the host stand at 7:00 PM. Hannah will relay ingredient or preparation questions to the kitchen and return the answer to the server before the order is entered.",
     "errors": [
       {
-        "quote": "Recommend the wild mushroom tagliatelle for Walter Kowalczyk as an entree pairing",
-        "start": 1305,
-        "end": 1386,
+        "quote": "recommend the chicken pot pie; it is made with",
+        "start": 1145,
+        "end": 1191,
+        "focusStart": 1159,
+        "focusEnd": 1174,
         "type": "logic",
-        "explanation": "Walter Kowalczyk has documented celiac disease requiring strict gluten-free dining, but the wild mushroom tagliatelle is made with house egg pasta and is explicitly listed as containing gluten.",
-        "fix": "Recommend the pan-seared halibut for Walter Kowalczyk as an entree pairing"
+        "explanation": "The menu reference lists chicken and cream sauce in the pot pie, so it is not a vegan choice. The recommendation contradicts the listed ingredients.",
+        "fix": "recommend the roasted tomato soup; it is made with"
       },
       {
-        "quote": "Advise Claire Kowalczyk that the Eastgate chopped salad dressing can be substituted with house citrus vinaigrette to avoid tree nuts.",
-        "start": 1415,
-        "end": 1548,
+        "quote": "If a guest reports an allergy, ask which ingredient they need to avoid and check the menu reference before answering.",
+        "start": 1455,
+        "end": 1572,
+        "focusStart": 1455,
+        "focusEnd": 1572,
         "type": "omission",
-        "explanation": "The Eastgate chopped salad contains shaved pecorino cheese in addition to the walnut vinaigrette; substituting the vinaigrette addresses nuts, but the note omits asking or verifying if she wishes to keep or modify the dairy, or omits warning that walnuts are prepared on the station.",
-        "fix": "Advise Claire Kowalczyk that the Eastgate chopped salad dressing can be substituted with house citrus vinaigrette and prep surfaces wiped to avoid tree nut cross-contact."
+        "explanation": "The menu reference states that the fries share oil with breaded shrimp, but this allergy instruction does not tell staff to disclose that shared-fryer risk to an affected guest before answering.",
+        "fix": "If a guest reports an allergy, ask which ingredient they need to avoid, disclose any relevant shared-fryer risk, and check the menu reference before answering."
       }
     ]
   }

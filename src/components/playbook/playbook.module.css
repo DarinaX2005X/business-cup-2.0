@@ -1,0 +1,857 @@
+/*
+ * Playbook: a shelf of the person's tasks and one working card at a time. The card is a two-part
+ * sheet: the upper part goes to the AI (hatched strip, the machine part), a tear line, the lower part
+ * stays with the person (apricot tag, the human part). Their own instruction and their own misses
+ * wear apricot; the starter wears the hatch.
+ */
+
+.page {
+  max-width: calc(var(--content) + 2 * var(--s-32));
+  margin: 0 auto;
+  padding: var(--s-32) var(--s-32) var(--s-120);
+}
+
+.head {
+  display: grid;
+  gap: 12px;
+  margin-bottom: var(--s-32);
+  max-width: 760px;
+}
+
+.h1 {
+  font-size: var(--fs-44);
+  font-weight: 750;
+  letter-spacing: -0.032em;
+  line-height: 1.04;
+}
+
+.lead {
+  max-width: 62ch;
+  font-size: var(--fs-20);
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.grows {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  justify-self: start;
+  margin-top: 4px;
+  padding: 10px 16px 10px 12px;
+  border-radius: var(--r-ctl);
+  font-size: 15.5px;
+  font-weight: 550;
+  line-height: 1.35;
+  color: var(--ink);
+  background: var(--card);
+  box-shadow: var(--hl), inset 0 0 0 1px var(--line), var(--shadow-rest);
+}
+
+.grows svg {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  color: var(--apricot-deep);
+}
+
+/* ---------- layout ---------- */
+
+.layout {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: var(--s-32) 40px;
+  align-items: start;
+}
+
+.stage {
+  min-width: 0;
+}
+
+/* ---------- shelf ---------- */
+
+.shelf {
+  position: sticky;
+  top: 88px;
+}
+
+.shelfList {
+  display: grid;
+  gap: 2px;
+}
+
+.row {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 10px 14px;
+  border-radius: var(--r-ctl);
+  font-size: 16px;
+  font-weight: 550;
+  line-height: 1.25;
+  text-align: left;
+  color: var(--ink-2);
+  transition:
+    color var(--t-hover) var(--ease),
+    background-color var(--t-hover) var(--ease),
+    transform var(--t-hover) var(--ease);
+}
+
+.row:hover {
+  color: var(--ink);
+  background-color: oklch(100% 0 0 / 0.55);
+  transform: translateX(3px);
+}
+
+.row:active {
+  transform: translateX(3px) scale(0.985);
+  transition-duration: var(--t-press);
+}
+
+.row[data-on] {
+  color: var(--ink);
+  font-weight: 650;
+  transform: none;
+}
+
+.row[data-on]:hover {
+  background-color: transparent;
+}
+
+.rowPlate {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--card);
+  box-shadow: var(--hl), inset 0 0 0 1px oklch(89% 0.03 290), var(--shadow-rest);
+}
+
+.rowLabel {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.row[data-locked] .rowLabel {
+  color: var(--ink-2);
+}
+
+.rowYours {
+  padding: 2px 8px;
+  border-radius: var(--r-tag);
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--ink);
+  background: linear-gradient(180deg, var(--apricot-hi), var(--apricot));
+  box-shadow: inset 0 1px 0 oklch(100% 0 0 / 0.5);
+}
+
+.rowLock {
+  display: inline-flex;
+  color: var(--muted-violet);
+}
+
+.rowLock svg {
+  width: 17px;
+  height: 17px;
+}
+
+/* ---------- the card ---------- */
+
+.card {
+  position: relative;
+  border-radius: var(--r-panel);
+  background: var(--card);
+  box-shadow:
+    var(--hl),
+    inset 0 0 0 1px oklch(89% 0.03 290),
+    var(--shadow-raised);
+  animation: cardIn 0.32s var(--ease) both;
+}
+
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+.top {
+  padding: 0 40px 32px;
+}
+
+.to {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  margin: 0 -40px 28px;
+  padding: 14px 40px;
+  border-radius: var(--r-panel) var(--r-panel) 0 0;
+  background: var(--machine-field);
+  box-shadow: inset 0 -1px 0 var(--tile-ai-edge);
+}
+
+.toLine {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14.5px;
+  font-weight: 650;
+  color: var(--ink-2);
+}
+
+.machineTag {
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  background: var(--hatch-dense), var(--card);
+  box-shadow: inset 0 0 0 1px oklch(84% 0.03 290);
+}
+
+.source {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 3px 12px;
+  border-radius: var(--r-chip);
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1.2;
+}
+
+/* the starter is machine-written: hatched plate */
+.source[data-source='starter'] {
+  color: var(--ink-2);
+  background: var(--hatch-sparse), var(--card);
+  box-shadow: inset 0 0 0 1px oklch(85% 0.035 288);
+}
+
+/* the person's own: apricot, the human colour */
+.source[data-source='practice'],
+.source[data-source='edited'] {
+  color: var(--ink);
+  background: linear-gradient(180deg, var(--apricot-hi), var(--apricot));
+  box-shadow:
+    inset 0 1px 0 oklch(100% 0 0 / 0.55),
+    0 1px 0 var(--apricot-low);
+  animation: stamp 0.42s var(--spring) both;
+}
+
+@keyframes stamp {
+  from {
+    opacity: 0;
+    transform: scale(1.12) rotate(-2deg);
+  }
+}
+
+.cardHead {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.cardTitle {
+  font-size: var(--fs-28);
+  font-weight: 720;
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+}
+
+.taskText {
+  max-width: 64ch;
+  font-size: 15.5px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin-top: 4px;
+  font-size: 14.5px;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+
+/* the instruction itself: the object of the card */
+.instr {
+  max-width: 66ch;
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--ink);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.slot {
+  padding: 1px 6px;
+  margin: 0 1px;
+  border-radius: 6px;
+  color: var(--violet-deep);
+  font-weight: 600;
+  background: var(--violet-soft);
+  box-shadow: inset 0 -1.5px 0 oklch(80% 0.08 288);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.hint {
+  margin-top: 12px;
+  font-size: 14.5px;
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+
+.below {
+  margin-top: 18px;
+  max-width: 62ch;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--ink);
+  background: oklch(96% 0.03 66);
+  box-shadow: inset 0 0 0 1px oklch(88% 0.06 64);
+}
+
+.missing {
+  max-width: 60ch;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.unavailable {
+  display: grid;
+  justify-items: start;
+  gap: 12px;
+  font-size: 16px;
+  color: var(--ink-2);
+}
+
+.instrPending {
+  display: grid;
+  gap: 14px;
+  max-width: 640px;
+}
+
+.pendingLine {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+  font-size: 15px;
+  font-weight: 550;
+  color: var(--ink-2);
+}
+
+.dotSpin {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--violet-tint);
+  border-top-color: var(--violet);
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.inlineError {
+  margin-top: 16px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 15px;
+  line-height: 1.45;
+  color: oklch(42% 0.16 25);
+  background: var(--error-soft);
+}
+
+.actions {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+  margin-top: 26px;
+}
+
+.copyBtn[data-copied] {
+  background-image: linear-gradient(180deg, var(--violet), var(--violet-deep) 70%);
+}
+
+.textBtn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 6px;
+  border-radius: 8px;
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--violet);
+  text-decoration: underline;
+  text-decoration-color: oklch(46% 0.205 283 / 0.35);
+  text-underline-offset: 0.22em;
+  transition:
+    color var(--t-hover) var(--ease),
+    text-decoration-color var(--t-hover) var(--ease);
+}
+
+.textBtn:hover {
+  color: var(--violet-deep);
+  text-decoration-color: currentColor;
+}
+
+.textBtn:disabled {
+  color: var(--ink-2);
+  cursor: progress;
+}
+
+.toastSlot {
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  top: calc(100% + 10px);
+  max-width: 100%;
+}
+
+/* editor in place of the instruction */
+.editor {
+  display: grid;
+  gap: 10px;
+}
+
+.editLabel {
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.area {
+  width: 100%;
+  min-height: 180px;
+  padding: 16px 18px;
+  border: 0;
+  border-radius: var(--r-ctl);
+  font: inherit;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--ink);
+  background: var(--paper);
+  box-shadow:
+    inset 0 0 0 1.5px var(--line),
+    inset 0 2px 4px oklch(26% 0.09 285 / 0.06);
+  resize: vertical;
+  overflow: hidden;
+  transition: box-shadow var(--t-hover) var(--ease);
+}
+
+.area:hover {
+  box-shadow:
+    inset 0 0 0 1.5px oklch(80% 0.05 288),
+    inset 0 2px 4px oklch(26% 0.09 285 / 0.06);
+}
+
+.area:focus,
+.area:focus-visible {
+  outline: none;
+  box-shadow:
+    inset 0 0 0 2px var(--violet),
+    0 0 0 4px oklch(54% 0.19 286 / 0.16);
+}
+
+.editFoot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 16px;
+}
+
+.editFoot .hint {
+  margin: 0;
+}
+
+.count {
+  font-size: 14px;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- the tear line between what goes to the AI and what stays with you ---------- */
+
+.perf {
+  position: relative;
+  height: 2px;
+  margin: 0 22px;
+  background-image: linear-gradient(90deg, var(--line) 0 8px, transparent 8px 14px);
+  background-size: 14px 2px;
+}
+
+.perf::before,
+.perf::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--paper);
+  box-shadow: inset 0 0 0 1px oklch(89% 0.03 290);
+  transform: translateY(-50%);
+}
+
+.perf::before {
+  left: -36px;
+  clip-path: inset(0 0 0 50%);
+}
+
+.perf::after {
+  right: -36px;
+  clip-path: inset(0 50% 0 0);
+}
+
+/* ---------- the part that stays with the person ---------- */
+
+.bottom {
+  padding: 28px 40px 34px;
+  border-radius: 0 0 var(--r-panel) var(--r-panel);
+  background: linear-gradient(180deg, oklch(98% 0.012 70), oklch(97.4% 0.016 68));
+}
+
+.checksTitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  font-size: var(--fs-20);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.humanTag {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  background: var(--tile-hu);
+  box-shadow:
+    inset 0 1px 0 oklch(100% 0 0 / 0.5),
+    0 1px 0 var(--apricot-low);
+}
+
+.checks {
+  list-style: none;
+  display: grid;
+  max-width: 70ch;
+}
+
+.check + .check {
+  box-shadow: 0 -1px 0 oklch(90% 0.025 70);
+}
+
+.tick {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  gap: 14px;
+  width: 100%;
+  padding: 13px 8px 13px 4px;
+  margin-left: -4px;
+  border-radius: 12px;
+  text-align: left;
+  font-size: 16.5px;
+  line-height: 1.5;
+  color: var(--ink);
+  transition: background-color var(--t-hover) var(--ease);
+}
+
+.tick:hover {
+  background-color: oklch(100% 0 0 / 0.6);
+}
+
+.box {
+  width: 24px;
+  height: 24px;
+  margin-top: 1px;
+  border-radius: 7px;
+  background: var(--card);
+  box-shadow:
+    inset 0 0 0 1.75px oklch(76% 0.05 286),
+    var(--shadow-rest);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background var(--t-hover) var(--ease),
+    box-shadow var(--t-hover) var(--ease),
+    transform var(--t-press) var(--ease);
+}
+
+.tick:active .box {
+  transform: scale(0.9);
+}
+
+.box svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 16;
+  stroke-dashoffset: 16;
+  transition: stroke-dashoffset 0.24s var(--ease);
+}
+
+.box[data-on] {
+  background: linear-gradient(180deg, var(--apricot-hi), var(--apricot));
+  box-shadow:
+    inset 0 1px 0 oklch(100% 0 0 / 0.55),
+    0 1px 0 var(--apricot-low);
+}
+
+.box[data-on] svg {
+  stroke-dashoffset: 0;
+}
+
+.checkText {
+  min-width: 0;
+}
+
+.tick[aria-checked='true'] .checkText {
+  color: var(--ink-2);
+}
+
+.mineTag {
+  display: table;
+  margin-top: 6px;
+  padding: 2px 9px;
+  border-radius: var(--r-tag);
+  font-size: 13.5px;
+  font-weight: 650;
+  color: var(--apricot-deep);
+  background: oklch(93% 0.05 66);
+}
+
+.checksPending {
+  display: grid;
+  gap: 14px;
+  max-width: 560px;
+}
+
+/* ---------- Pro ways in the locked card ---------- */
+
+.proWays {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* ---------- the way to Second look ---------- */
+
+.band {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  align-items: center;
+  gap: 24px;
+  margin-top: var(--s-72);
+  padding: 40px 48px;
+  border-radius: var(--r-panel);
+  overflow: hidden;
+}
+
+.bandArches {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.bandText {
+  display: grid;
+  justify-items: start;
+  gap: 14px;
+  max-width: 560px;
+}
+
+.bandTitle {
+  font-size: var(--fs-28);
+  font-weight: 720;
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+  color: var(--on-violet);
+}
+
+.bandBody {
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--on-violet-2);
+  margin-bottom: 6px;
+}
+
+.bandArt {
+  height: 200px;
+  margin: -40px -48px -40px 0;
+  transition: transform 0.4s var(--ease);
+}
+
+.band:hover .bandArt {
+  transform: translateY(-6px) rotate(-1.5deg);
+}
+
+.bandSvg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ---------- loading and empty ---------- */
+
+.shelfSkel {
+  display: grid;
+  gap: 8px;
+}
+
+.cardSkel {
+  display: grid;
+  gap: 16px;
+  padding: 40px;
+  border-radius: var(--r-panel);
+  background: var(--card);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.empty {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 48px;
+  padding: 48px 0;
+}
+
+.emptyText {
+  display: grid;
+  justify-items: start;
+  gap: 16px;
+  max-width: 520px;
+}
+
+.emptyArt {
+  order: 2;
+  max-width: 460px;
+}
+
+.emptySvg {
+  width: 100%;
+  height: auto;
+}
+
+/* ---------- narrow ---------- */
+
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .shelf {
+    position: static;
+    margin: 0 calc(-1 * var(--s-32));
+  }
+  .shelfList {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding: 4px var(--s-32) 10px;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+  }
+  .shelfList::-webkit-scrollbar {
+    display: none;
+  }
+  .row {
+    flex: none;
+    max-width: 240px;
+    scroll-snap-align: start;
+    background: oklch(100% 0 0 / 0.4);
+  }
+  .row:hover {
+    transform: none;
+  }
+  .band {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .bandArt {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: var(--s-24) var(--s-16) var(--s-120);
+  }
+  .h1 {
+    font-size: 34px;
+  }
+  .lead {
+    font-size: 17px;
+  }
+  .shelf {
+    margin: 0 calc(-1 * var(--s-16));
+  }
+  .shelfList {
+    padding-inline: var(--s-16);
+  }
+  .top {
+    padding: 0 20px 24px;
+  }
+  .to {
+    margin: 0 -20px 22px;
+    padding: 12px 20px;
+  }
+  .instr {
+    font-size: 17px;
+  }
+  .bottom {
+    padding: 22px 20px 26px;
+  }
+  .perf {
+    margin: 0 12px;
+  }
+  .perf::before {
+    left: -24px;
+  }
+  .perf::after {
+    right: -24px;
+  }
+  .actions > * {
+    flex: 1 1 auto;
+  }
+  .band {
+    padding: 28px 22px;
+  }
+  .empty {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+  .emptyArt {
+    order: 0;
+    max-width: 300px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .source[data-source='practice'],
+  .source[data-source='edited'] {
+    animation: none;
+  }
+}

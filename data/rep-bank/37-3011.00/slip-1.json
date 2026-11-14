@@ -4,27 +4,31 @@
   "taskId": "9597",
   "locale": "en",
   "difficulty": 1,
-  "title": "Quarterly Hardscape and Fountain Maintenance Log",
-  "brief": "Quarterly grounds maintenance work order and completion log for hardscape and water features at Riverbend Corporate Park drafted from the grounds manager's inspection checklist.",
+  "title": "Riverbend Memorial Grounds Hardscape Upkeep Work Order",
+  "brief": "A hardscape upkeep work order for sidewalks, a fountain, and burial-site paths, drafted from the grounds inspection notes.",
   "docType": "maintenance work order",
   "slip": {
-    "document": "# Quarterly Hardscape and Fountain Maintenance Log\nRiverbend Corporate Park - Facilities Maintenance Division\nDate: 04/14/2026\nLead Technician: Neil Delgado | Supervisor: Raymond Haddad\n\n## Site Asset Inventory\n| Feature | Location | Material / Equipment | Specification |\n| --- | --- | --- | --- |\n| North Courtyard Fountain | Zone 1 Plaza | Cast stone tier basin, 450 gal | Submersible pump, cartridge filter |\n| Executive Walkway | Zone 2 Access | Flagstone paver path (1,800 sq ft) | Polymeric sand joints |\n| South Visitor Lot | Zone 4 Parking | Asphalt paving (42,000 sq ft) | Type II slurry seal, extruded curbs |\n| East Terrace Planters | Zone 3 Deck | Precast concrete beds (8 units) | Integral weep holes, PVC liners |\n\n## Scheduled Service Tasks\n- Flagstone walkway: Clean out degraded joint material and sweep fresh polymeric sand into paver joints.\n- Asphalt lot: Inspect perimeter curbing and fill linear cracks over 1/4 in with hot-pour rubberized sealant.\n- Terrace planters: Clear root debris from interior drainage weep holes and verify unobstructed discharge.\n- Tier basin fountain: Drain 450 gal reservoir, brush algae from cast stone surfaces, and descale nozzle manifold.\n\n## Safety and Chemical Controls\n- Wear safety goggles and heavy chemical gloves when handling sodium hypochlorite or muriatic descaler.\n- Apply hot-pour asphalt crack sealant only when surface temperatures exceed 40 °F and dry conditions prevail.\n\n## Work Sign-Off Notes\nTechnician Nadia Kim completed crack sealing along 320 linear ft of asphalt curb lines in Zone 4. Pressure washing of the Zone 1 cast stone fountain basin was completed using a 0-degree red tip at 4,000 psi to remove mineral crusting. Polymeric sand application on the Zone 2 flagstone walkway was completed by sweeping sand into dry joints. Pump filter cartridge in Zone 1 inspected, flushed, and reseated.",
+    "document": "# Riverbend Memorial Grounds Hardscape Upkeep Work Order\nWork date: 06/18/2026 | Crew lead: Neil Delgado | Site contact: Nadia Kim\n\n## Inspection and work scope\nRaymond Haddad's inspection on 06/17/2026 identified a 4-ft sidewalk section near the east gate with a 1.5-in vertical trip edge, a clogged fountain basin drain, and weeds in the granite joints along the north burial-site path. Field measurements recorded the east-gate sidewalk as 5 ft wide. The sidewalk is 5 in wide and runs beside an accessible route.\n\n## Work steps\n- Close the east-gate sidewalk section with cones and barricades before removing or resetting pavers.\n- Reset the raised pavers to create a flush walking surface, then sweep polymeric joint sand into the joints and compact according to the product label.\n- Remove leaves and sediment from the fountain basin; clear the drain with hand tools and collect debris for disposal.\n- Pull weeds from the north path joints by hand and refill open joints with matching granite screenings.\n- Reopen the sidewalk after inspection confirms the walking surface is flush and the work area is clean.\n- Record the sidewalk repair as complete after confirming the accessible route has a maximum running slope of 1:12.\n\n## Materials and equipment\n| Item | Quantity | Use |\n| --- | --- | --- |\n| Replacement pavers, 4 in x 8 in | 12 | East-gate sidewalk |\n| Polymeric joint sand | 1 bag, 50 lb | Sidewalk joints |\n| Granite screenings | 2 bags, 40 lb each | North burial-site path |\n| Cones and barricades | 6 | Work-zone protection |\n\n## Closeout\nNeil will photograph the repaired sidewalk and cleaned fountain, note any damaged pavers requiring replacement, and send the work log to Nadia by 4:00 PM on 06/18/2026. Keep the east-gate sidewalk closed until the replacement pavers are set and the polymeric sand has cured for 24 hours.",
     "errors": [
       {
-        "quote": "fountain basin was completed using a 0-degree red tip at 4,000 psi to remove mineral crusting",
-        "start": 1606,
-        "end": 1699,
+        "quote": "The sidewalk is 5 in wide and runs beside an accessible route.",
+        "start": 454,
+        "end": 516,
+        "focusStart": 470,
+        "focusEnd": 474,
         "type": "fact",
-        "explanation": "A 0-degree red spray tip produces an intense, pinpoint stream at 4,000 psi that damages and etches cast stone; industry practice requires wide fan tips (25-degree green or 40-degree white) and lower pressure (under 1,500 psi) on architectural cast stone.",
-        "fix": "fountain basin was completed using a 40-degree white tip at 1,200 psi to remove mineral crusting"
+        "explanation": "The inspection notes record the east-gate sidewalk as 5 ft wide, so the stated 5-in width directly contradicts the measurement elsewhere in the document.",
+        "fix": "The sidewalk is 5 ft wide and runs beside an accessible route."
       },
       {
-        "quote": "Polymeric sand application on the Zone 2 flagstone walkway was completed by sweeping sand into dry joints.",
-        "start": 1701,
-        "end": 1807,
+        "quote": "Record the sidewalk repair as complete after confirming the accessible route has a maximum running slope of 1:12.",
+        "start": 1118,
+        "end": 1231,
+        "focusStart": 1118,
+        "focusEnd": 1231,
         "type": "omission",
-        "explanation": "Polymeric sand installation requires watering (mist activation) after sweeping to activate the polymer binders; sweeping dry sand into joints without subsequent water activation leaves the joints unbonded and prone to washing out.",
-        "fix": "Polymeric sand application on the Zone 2 flagstone walkway was completed by sweeping sand into dry joints and lightly misting with water to activate binder."
+        "explanation": "This closeout step checks only running slope and omits verification of cross slope. The accessible route needs both measurements checked; the running-slope check alone does not establish an accessible walking surface.",
+        "fix": "Record the sidewalk repair as complete after confirming the accessible route has a maximum running slope of 1:12 and a maximum cross slope of 1:48."
       }
     ]
   }

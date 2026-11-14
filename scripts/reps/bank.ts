@@ -101,7 +101,11 @@ async function main() {
     return;
   }
 
-  const todo = jobs.filter((j) => !readValid(path.join(BANK, `${j.key}.json`), checkBankEntry));
+  // Showcase entries first, then the demo occupations (they have a delegate), then the rest: a spend limit cuts the tail.
+  const showcase: string[] = existsSync(path.join(BANK, 'showcase.json')) ? JSON.parse(readFileSync(path.join(BANK, 'showcase.json'), 'utf8')) : [];
+  const demoCodes = new Set(plan.jobs.filter((j) => j.type === 'delegate').map((j) => j.code));
+  const rank = (j: { key: string; code: string }) => (showcase.includes(`${j.key}.json`) ? 0 : demoCodes.has(j.code) ? 1 : 2);
+  const todo = jobs.filter((j) => !readValid(path.join(BANK, `${j.key}.json`), checkBankEntry)).sort((a, b) => rank(a) - rank(b));
   const todoLanding = landing.filter((l) => !readValid(path.join(BANK, 'landing', `${l.name}.json`), checkBankEntry));
 
   // Estimate: tokens per call are rough figures for these prompts with minimal reasoning.

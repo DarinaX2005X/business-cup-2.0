@@ -4,27 +4,31 @@
   "taskId": "827",
   "locale": "en",
   "difficulty": 1,
-  "title": "Daily Telephone Message Log and Action Summary",
-  "brief": "A daily telephone message log and follow-up summary for front-desk coverage at Fairview Community Health Clinic, drafted from the receptionist's call log sheets.",
-  "docType": "telephone message log",
+  "title": "Main-Line Call Handling Log — 02/18/2026",
+  "brief": "A call-handling log and desk procedure for an office clerk, drafted from the day’s phone notes and internal directory.",
+  "docType": "call log",
   "slip": {
-    "document": "# Daily Telephone Message Log and Action Summary\nFairview Community Health Clinic - Reception Desk 1\nDate: 04/16/2026\nStaff on Duty: Linh Sato\n\n## Incoming Call Registry\n\n| Call Time | Caller Name | Organization / Affiliation | Callback Number | Target Recipient | Reason for Call |\n| --- | --- | --- | --- | --- | --- |\n| 08:15 AM | Irene Sandoval | County Public Health | 555-0144 | Victor Rowland | Vaccine inventory reconciliation query |\n| 09:30 AM | Paul Larkin | Oakridge Medical Supply | 555-0182 | Victor Rowland | Expedited sterile gloves shipment status |\n| 10:45 AM | Brenda Miller | Self (Patient) | 555-0199 | Dr. Aris Thorne | Reschedule routine physical examination |\n| 11:20 AM | Ronald Kim | Valley Diagnostic Lab | 555-0173 | Dr. Aris Thorne | Critical panic value on outpatient blood culture |\n\n## Message Dispatches and Next Steps\n\n- Left sticky note on Dr. Thorne's door regarding Ronald Kim's notification.\n- Dr. Thorne notified immediately in exam room 3 regarding lab critical result from Ronald Kim; callback completed by 11:25 AM.\n- Sent internal chat to Victor Rowland asking him to review shipment delays with Oakridge Medical Supply.\n- Brenda Miller requested rescheduling her appointment to 04/28/2026 at 2:00 PM; receptionist updated calendar directly.\n- Left voice message for Irene Sandoval at 555-0199 confirming Victor Rowland will email the count by 3:00 PM.",
+    "document": "# Main-Line Call Handling Log — 02/18/2026\nFairview Community Services | Front desk | 8:00 a.m.–5:00 p.m.\n\n## Directory\n| Contact | Role | Extension |\n| --- | --- | --- |\n| Irene Sandoval | Accounts payable | 214 |\n| Linh Sato | Office manager | 228 |\n| Victor Rowland | Front desk clerk | 201 |\n\n## Desk procedure\n- Answer with \"Fairview Community Services, this is Victor. How may I direct your call?\"\n- Ask for the caller's name, organization, callback number, intended contact, and a brief reason before transferring.\n- If the contact is unavailable, ask whether the caller prefers voicemail or a message; do not promise a return-call time unless the contact provided one.\n- Read back the callback number and repeat the message before ending the call.\n\n## Call entries\n- 9:12 a.m. — Irene Sandoval, accounts payable, called from Northline Paper about invoice 7714 for $486.20. Victor confirmed her name and callback number, then transferred her to Linh Sato at extension 241.\n- 10:36 a.m. — A caller identifying himself as Omar Bell reported smoke and visible haze near the rear records room. Victor recorded the report and routed it to facilities. No callback number was provided.\n- 1:48 p.m. — Linh Sato asked Victor to hold nonurgent vendor calls until 2:15 p.m. Victor placed the note beside the phone and resumed transfers at 2:15.\n- 4:42 p.m. — Devon Price at Green County Transit requested a message for Linh about a meeting-room reservation for 02/20/2026 at 10:00 a.m. Victor read back the details and placed the message in Linh's inbox.\n\nMessages with a stated deadline were marked \"TIME-SENSITIVE\" and delivered to the named contact immediately. No caller was told that a message had been delivered unless Victor had confirmed receipt.",
     "errors": [
       {
-        "quote": "Left sticky note on Dr. Thorne's door regarding Ronald Kim's notification.",
-        "start": 855,
-        "end": 929,
-        "type": "omission",
-        "explanation": "Critical panic laboratory values require immediate verbal handoff or documentation of direct physician acknowledgment, and leaving a passive note lacks the required confirmation of immediate clinical delivery for panic values.",
-        "fix": "Documented direct verbal notification to Dr. Thorne regarding Ronald Kim's critical panic value report."
+        "quote": "transferred her to Linh Sato at extension 241.",
+        "start": 933,
+        "end": 979,
+        "focusStart": 975,
+        "focusEnd": 978,
+        "type": "fact",
+        "explanation": "The directory lists Linh Sato at extension 228, not 241. The transfer destination contradicts the directory in this same log.",
+        "fix": "transferred her to Linh Sato at extension 228."
       },
       {
-        "quote": "Left voice message for Irene Sandoval at 555-0199 confirming Victor Rowland will email the count by 3:00 PM.",
-        "start": 1287,
-        "end": 1395,
-        "type": "fact",
-        "explanation": "The registry establishes Irene Sandoval's callback number as 555-0144, whereas 555-0199 belongs to patient Brenda Miller.",
-        "fix": "Left voice message for Irene Sandoval at 555-0144 confirming Victor Rowland will email the count by 3:00 PM."
+        "quote": "Victor recorded the report and routed it to facilities.",
+        "start": 1097,
+        "end": 1152,
+        "focusStart": 1097,
+        "focusEnd": 1152,
+        "type": "omission",
+        "explanation": "The caller reported smoke and visible haze, indicating a possible active fire. The log records only routing to facilities and omits the necessary immediate emergency response: call 911 and alert the on-site responsible person.",
+        "fix": "Victor called 911 and alerted the on-site responsible person."
       }
     ]
   }

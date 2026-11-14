@@ -4,27 +4,31 @@
   "taskId": "15265",
   "locale": "en",
   "difficulty": 1,
-  "title": "Outbound Load Verification and Staging Report",
-  "brief": "Outbound pallet load inspection and transport plan for outbound trailer loading drafted by an AI from the warehouse pick manifest.",
-  "docType": "load verification sheet",
+  "title": "Outbound Load Verification — Foxglove Warehouse",
+  "brief": "An outbound load verification sheet for a warehouse operator, drafted from the pick ticket and staging scan for a delivery to Cedar Falls.",
+  "docType": "load verification",
   "slip": {
-    "document": "# Outbound Load Verification and Staging Report\nOrder Reference: PO-88341-C\nFacility: Foxglove Distribution Hub 4, Bay 12\nDate: 03/18/2026\nInspector / Operator: Raymond Banerjee\nLead Sign-Off: Sunita Osei\nForklift Unit: Raymond EASI Reach 4,500 lb Capacity (Unit #FL-14)\n\n## Verified Pallet Details\n| Pallet ID | SKU | Description | Cases | Weight (lb) | Height (in) | Banding / Wrap |\n| --- | --- | --- | --- | --- | --- | --- |\n| PL-101 | GL-440 | 1 gal Industrial Degreaser | 48 | 2,150 | 54 | Intact / Clear |\n| PL-102 | GL-440 | 1 gal Industrial Degreaser | 48 | 2,150 | 54 | Intact / Clear |\n| PL-103 | HM-109 | Calcium Hypochlorite Granules | 30 | 1,650 | 48 | Intact / Yellow |\n| PL-104 | CS-332 | Nitrile Gloves (Bulk Cases) | 80 | 720 | 62 | Intact / Clear |\n\n## Load Inspection Summary\n- Physical piece count matches manifest total of 206 cases across 4 pallets.\n- Pallet integrity confirmed: no torn film, broken deckboards, or leaning stacks observed.\n- Carrier dock trailer 53-A spotted and wheel chocks verified at Bay 12 by Caleb Lindqvist.\n- All placards and Class 5.1 oxidizer hazard warnings are attached to PL-103.\n\n## Staging and Transfer Instructions\n- Transfer all four verified pallets sequentially from Staging Aisle 3 to Bay 12.\n- Transport PL-101 and PL-102 together on a single double-fork run to accelerate staging.\n- Maintain fork height at 4 to 6 inches above ground during travel with mast tilted back.\n- Reverse down ramp from Bay 12 when operating without an active load.\n- Complete post-loading cargo securement before driver departure.",
+    "document": "# Outbound Load Verification — Foxglove Warehouse\nOutbound staging record | 06/18/2026 | Shift: 2\n\n## Load and order\n- Operator: Raymond Banerjee | Checker: Sunita Osei\n- Order: FG-48217 | Carrier: Northline Freight | Destination: Cedar Falls, IA\n- Staging location: Row C, slot 08 | Trailer: 53 ft, Door 14\n\n| SKU | Description | Ordered cases | Units per case | Scanned cases |\n| --- | --- | ---: | ---: | ---: |\n| 73108 | Ceramic tile, 12-in cartons | 3 | 12 | 3 |\n| 64022 | Grout, 25-lb bags | 8 | 1 | 8 |\n| 51840 | Trim, 8-ft bundles | 5 | 4 | 5 |\n\n## Verification and movement\n- Scanned cases match the pick ticket for all three SKUs; total verified quantity is 16 cases.\n- Tile count is short by 6 units; place the order on hold and notify Caleb Lindqvist in shipping.\n- Confirm each pallet label shows order FG-48217 and the destination before loading; keep mixed SKUs on separate, identified pallets.\n- Use the electric sit-down forklift assigned to Door 14. Check the capacity plate before lifting; the heaviest pallet is 1,120 lb, below the truck's rated capacity of 4,500 lb at the stated load center.\n- Keep the forks low while traveling, travel at walking speed in the marked aisle, and sound the horn at the cross-aisle. Do not carry anyone on the forks.\n- After the count, move the pallet to Door 14. Record the trailer seal number and have the checker confirm the loaded pallet count before dispatch.\n\n## Closeout\n- Report damaged packaging or a mismatch to the shipping lead before releasing the order.\n- Checker initials: SO | Operator initials: RB | Dispatch release time: 3:40 PM",
     "errors": [
       {
-        "quote": "Transport PL-101 and PL-102 together on a single double-fork run to accelerate staging.",
-        "start": 1257,
-        "end": 1344,
+        "quote": "Tile count is short by 6 units",
+        "start": 680,
+        "end": 710,
+        "focusStart": 694,
+        "focusEnd": 710,
         "type": "logic",
-        "explanation": "PL-101 and PL-102 each weigh 2,150 lb, totaling 4,300 lb, and the table lists them as two separate pallets. Moving them together on one run exceeds the safe handling and carriage capability of forklift unit #FL-14 (capacity 4,500 lb rated at standard single-pallet load center) and violates standard single-pallet carriage for high-weight bulk liquid drums/cases.",
-        "fix": "Transport PL-101 and PL-102 as individual single-pallet loads to stay within carriage limits."
+        "explanation": "The table shows 3 ordered cases and 3 scanned cases for tile, with 12 units per case. The scanned case count matches the order, so the document does not support a six-unit shortage.",
+        "fix": "Tile count matches the order at 36 units"
       },
       {
-        "quote": "Reverse down ramp from Bay 12 when operating without an active load.",
-        "start": 1437,
-        "end": 1505,
+        "quote": "After the count, move the pallet to Door 14.",
+        "start": 1272,
+        "end": 1316,
+        "focusStart": 1272,
+        "focusEnd": 1316,
         "type": "omission",
-        "explanation": "OSHA 1910.178(n)(7) requires unloaded industrial trucks to travel with the forks pointing upgrade/forward when negotiating ramps; travelling downhill in reverse applies to loaded trucks, not empty ones.",
-        "fix": "Drive forward down ramp from Bay 12 with forks pointing downgrade only when unloaded, or travel in reverse down ramp when carrying a load."
+        "explanation": "The instruction directs the operator to move the pallet without requiring a check that the load is stable and secured against shifting or falling. That safety check must be included before travel.",
+        "fix": "Before moving, confirm the load is stable and secured against shifting or falling; then move the pallet to Door 14."
       }
     ]
   }

@@ -4,80 +4,94 @@
   "taskId": "21669",
   "locale": "en",
   "difficulty": 2,
-  "title": "Release Test Plan for Auth0",
-  "brief": "A structured release test plan for the core identity service migration to Auth0.",
+  "title": "ACH Retry Test Plan",
+  "brief": "Produce a concise validation checklist for the ACH retry change before it enters user acceptance testing.",
   "delegate": {
-    "scenario": "You are a lead backend engineer handing off notes from a sprint planning session to prepare a smoke and integration test plan. The QA automation team and platform engineers will execute these validation procedures during tomorrow night's maintenance window. They need a concise, clear execution document to verify auth flows without causing production downtime.",
-    "inputs": "Sprint 42 handoff notes for Auth0 cutover:\n- Target service: Core Identity Provider (us-east-1 cluster)\n- OAuth2 endpoints to validate: /oauth/token, /oauth/authorize, /userinfo\n- Token expiration: Access tokens set to 3600s, refresh tokens set to 30 days.\n- Rate limit threshold: Verify throttling triggers at 500 req/min per client_id.\n- Legacy fallback: Route traffic back to Okta v2 if error rate exceeds 2.5% over 5 minutes.\n- Service tier dependency table:\n| Service | Port | Health Endpoint | Max Latency |\n| Auth-Gateway | 8443 | /healthz | 120ms |\n| User-Directory | 9090 | /status | 250ms |\n| Token-Vault | 8443 | /vault/health | 80ms |\n- Rollback trigger: If /oauth/token p99 latency exceeds 300ms or error rate > 5.0% for 3 consecutive minutes, initiate immediate rollback.\n- Security validation: Confirm JWT signing algorithm is RS256; reject any tokens signed with HS256.",
-    "goal": "Provide QA and DevOps engineers with a prioritized, step-by-step test plan and rollback checklist that ensures safe cutover.",
+    "scenario": "The payment-platform team has added retry handling for failed ACH transfers, and the release candidate is ready for validation. The QA lead and an on-call engineer will use the checklist during testing next week to decide whether the change is ready for user acceptance testing.",
+    "inputs": "ACH retry change, release candidate 3.8.2. QA runs in the staging environment; use synthetic accounts only. A retry is allowed once after a network timeout, but not after an account-closed response. Confirm the ledger records only one debit, even if the gateway times out after accepting the request.\n\nCoverage requested:\n- Timeout and successful retry: 18 cases\n- Account closed; no retry: 16 cases\n- Duplicate request and ledger behavior: 12 cases\nPlanned total: 48 cases\n\nUse the existing ACH sandbox and capture request IDs, gateway responses, and ledger entries. Do not include real account or routing numbers in screenshots. The QA lead owns execution; the payments engineer reviews failures. Stop testing and notify the release manager if a duplicate debit is observed. UAT sign-off is scheduled for 04/21/2026. The release calendar lists ACH retry UAT sign-off as 04/22/2026. Record each case as pass, fail, or blocked, with a short evidence link. The team needs the checklist by 04/17/2026.",
+    "goal": "A good result lets QA execute the change safely, record consistent evidence, and escalate failures before UAT.",
     "criteria": [
       {
         "id": "c1",
-        "text": "Specifies that the target audience is the on-call QA and platform engineering team.",
+        "text": "Says the checklist is for the QA lead and payments engineer validating the release candidate.",
         "keywords": [
-          "QA",
-          "platform engineers",
-          "on-call",
-          "DevOps"
+          "QA lead",
+          "payments engineer",
+          "release candidate"
         ]
       },
       {
         "id": "c2",
-        "text": "Directs the AI to organize the procedures into clear chronological testing phases with pass/fail criteria.",
+        "text": "Uses the stated staging environment and synthetic-account constraint.",
         "keywords": [
-          "phases",
-          "pass/fail",
-          "chronological",
-          "steps"
+          "staging",
+          "synthetic accounts",
+          "sandbox"
         ]
       },
       {
         "id": "c3",
-        "text": "Requires verification of security configurations and token signing rules.",
+        "text": "Provides an executable checklist with a clear, concise format and length.",
         "keywords": [
-          "security",
-          "JWT",
-          "signing",
-          "tokens"
+          "checklist",
+          "numbered",
+          "concise"
         ]
       },
       {
         "id": "c4",
-        "text": "Directs the AI to cross-check network and threshold values to flag technical contradictions or port collisions.",
+        "text": "Asks the AI to verify coverage totals against the listed test categories.",
         "keywords": [
-          "reconcile",
-          "conflict",
-          "port collision",
-          "thresholds"
+          "coverage",
+          "test cases",
+          "sum"
         ]
       },
       {
         "id": "c5",
-        "text": "Constrains the final output length to under 500 words for operational readability during maintenance.",
+        "text": "Asks the AI to check requirements, expected outcomes, and escalation steps for consistency.",
         "keywords": [
-          "concise",
-          "under 500 words",
-          "checklist format",
-          "brief"
+          "requirements",
+          "expected outcomes",
+          "escalation"
+        ]
+      },
+      {
+        "id": "c6",
+        "text": "Includes privacy-safe evidence handling and a check for duplicate financial effects.",
+        "keywords": [
+          "synthetic",
+          "screenshots",
+          "duplicate debit"
         ]
       }
     ],
     "traps": [
       {
         "id": "t1",
-        "description": "Auth-Gateway and Token-Vault are assigned the exact same port number on the same host configuration.",
+        "description": "The listed category counts add up to 46, but the stated planned total is 48.",
         "keywords": [
-          "8443"
+          "12 cases",
+          "48 cases"
+        ],
+        "evidence": [
+          "Duplicate request and ledger behavior: 12 cases",
+          "Planned total: 48 cases"
         ]
       },
       {
         "id": "t2",
-        "description": "The fallback and rollback error rate thresholds contradict each other regarding when to revert traffic.",
+        "description": "The UAT sign-off is assigned two different dates.",
         "keywords": [
-          "2.5%",
-          "5.0%"
+          "04/21/2026",
+          "04/22/2026"
+        ],
+        "evidence": [
+          "UAT sign-off is scheduled for 04/21/2026.",
+          "ACH retry UAT sign-off as 04/22/2026."
         ]
       }
-    ]
+    ],
+    "exemplar": "Create a concise, numbered validation checklist for the QA lead and payments engineer to use on release candidate 3.8.2 in staging. Use synthetic accounts and the ACH sandbox, and include clear steps, expected results, evidence to capture, and stop/escalation conditions. Check that the requirements and test coverage are internally consistent, including the category counts and dates; list any conflicts or assumptions for the team to resolve rather than choosing a value. Include privacy-safe evidence guidance and verify the duplicate-debit safeguard. Keep the checklist practical to execute before UAT."
   }
 }

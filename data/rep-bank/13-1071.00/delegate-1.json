@@ -4,67 +4,86 @@
   "taskId": "18876",
   "locale": "en",
   "difficulty": 2,
-  "title": "Licensing Eligibility Assessment for Appraiser",
-  "brief": "Produce a structured qualification review summary for an applicant seeking a state Certified Residential Real Property Appraiser credential.",
+  "title": "Operator License Eligibility Review",
+  "brief": "Prepare a preliminary eligibility review for an applicant seeking a Class B wastewater operator license.",
   "delegate": {
-    "scenario": "You are a credentialing specialist preparing a formal assessment packet for the state appraisal licensing board's review committee before their Friday morning docket. The committee needs a concise qualification memo verifying if the applicant meets mandatory criteria for examination authorization under code CR-04. Your assessment will determine whether the applicant proceeds to testing or receives a deficiency notice.",
-    "inputs": "Applicant: Alicia Bishop\nTarget Code: CR-04 (Certified Residential Appraiser)\nApplication Date: 03/14/2024\n\nStatutory Requirements (Code CR-04):\n- Education: Bachelor's degree or higher from accredited institution.\n- Qualifying Education: 200 classroom hours in specified appraisal coursework.\n- Experience: 1,500 hours completed over not less than 12 months.\n\nSubmitted Documents:\n- Transcripts: B.S. in Finance, Western State University (conferred 05/18/2021). Completed Coursework: 210 hours approved appraisal curriculum.\n- Experience Log Summary:\n| Period | Claimed Hours | Supervisor |\n| --- | --- | --- |\n| 06/01/2022 - 12/31/2022 | 650 hours | D. Bradley (#AR-4011, active) |\n| 01/15/2023 - 07/30/2023 | 550 hours | D. Bradley (#AR-4011, active) |\n| 08/10/2023 - 10/15/2023 | 300 hours | M. Ramos (#AR-2190, active) |\nTotal log calculation submitted: 1,600 hours.\nSupervisor Verification: Bradley log signed on 08/01/2023; Ramos log signature missing on submitted affidavit.",
-    "goal": "Provide an objective, structured credentialing report that verifies statutory compliance and highlights any deficiencies or discrepancies preventing immediate approval.",
+    "scenario": "You are an HR specialist at fictional Northline Utilities, checking an applicant’s file against the fictional State of Franklin licensing guide and code FW-214. The licensing coordinator will use your review before submitting the application packet this afternoon.",
+    "inputs": "Applicant: Maya Chen, applying for Class B Wastewater Operator license, code FW-214.\n\nFranklin guide FW-214, current for this review: Applicant must be at least 18, have a high school diploma or equivalent, complete an approved operator course, and document at least 1,000 hours of supervised wastewater work. HR prepares a preliminary check; the licensing coordinator makes the final submission decision.\n\nApplication form: DOB 08/14/1994; high school diploma listed, copy attached. Approved course: Franklin Water Operations, completion date 02/11/2026; certificate attached. Supervised work at Northline Utilities: 600 hours from 04/01/2025 to 08/31/2025; 350 hours from 09/01/2025 to 01/31/2026. Application summary: total supervised hours, 1,000.\n\nSupervisor verification email: I confirm Maya completed 600 supervised hours in the first period and 350 in the second period. The Franklin Water Operations course was completed on 02/12/2026. I have attached the signed work log. No disciplinary findings appear in the personnel file.",
+    "goal": "Give the licensing coordinator a concise, source-grounded assessment of what the file supports and what must be clarified before submission.",
     "criteria": [
       {
         "id": "c1",
-        "text": "Specifies the audience as the state appraisal licensing review board.",
+        "text": "States the review is for the licensing coordinator assessing a preliminary Class B application.",
         "keywords": [
-          "licensing board",
-          "review committee",
-          "board members"
+          "licensing coordinator",
+          "preliminary",
+          "Class B"
         ]
       },
       {
         "id": "c2",
-        "text": "Directs the AI to evaluate each statutory requirement individually against submitted records.",
+        "text": "Applies only the supplied guide and code, distinguishing documented facts from conclusions.",
         "keywords": [
-          "statutory requirements",
-          "code CR-04",
-          "eligibility criteria"
+          "FW-214",
+          "supplied guide",
+          "documented",
+          "preliminary"
         ]
       },
       {
         "id": "c3",
-        "text": "Requires a structured summary table followed by a clear approval or deficiency determination.",
+        "text": "Checks each stated eligibility requirement against the available records and identifies missing evidence.",
         "keywords": [
-          "summary table",
-          "determination",
-          "recommendation",
-          "deficiency notice"
+          "each requirement",
+          "records",
+          "missing evidence"
         ]
       },
       {
         "id": "c4",
-        "text": "Instructs the AI to audit all arithmetic totals and verify completeness of required endorsements or signatures.",
+        "text": "Asks the AI to reconcile figures and dates across source documents and flag conflicts rather than assume which is correct.",
         "keywords": [
-          "verify totals",
-          "reconcile hours",
-          "check signatures",
-          "affidavit verification"
+          "reconcile",
+          "dates",
+          "figures",
+          "flag conflicts"
+        ]
+      },
+      {
+        "id": "c5",
+        "text": "Requests a brief checklist with a clear status for each requirement and follow-up questions.",
+        "keywords": [
+          "checklist",
+          "status",
+          "follow-up questions"
         ]
       }
     ],
     "traps": [
       {
         "id": "t1",
-        "description": "The claimed experience hours in the table add up to 1,500 hours rather than the stated 1,600 hours.",
+        "description": "The application summary reports 1,000 supervised hours, but the two verified periods add up to 950 hours.",
         "keywords": [
-          "1,600 hours"
+          "1,000 hours"
+        ],
+        "evidence": [
+          "total supervised hours, 1,000",
+          "600 supervised hours in the first period and 350 in the second period"
         ]
       },
       {
         "id": "t2",
-        "description": "The Ramos experience log segment lacks a valid supervisor signature on the submitted affidavit.",
+        "description": "The course completion date on the application differs from the date in the supervisor’s email.",
         "keywords": [
-          "Ramos log signature missing"
+          "02/11/2026",
+          "02/12/2026"
+        ],
+        "evidence": [
+          "completion date 02/11/2026",
+          "course was completed on 02/12/2026"
         ]
       }
-    ]
+    ],
+    "exemplar": "Review Maya Chen’s file for the licensing coordinator’s preliminary Class B eligibility check under the supplied Franklin guide FW-214 only. Compare every requirement with the attached records, and separate documented facts from conclusions; do not make a final licensing decision or assume missing facts. Reconcile figures and dates across the materials, flag any conflicts for confirmation, and identify missing evidence. Return a brief checklist with one status per requirement, followed by specific questions or follow-up actions needed before submission."
   }
 }

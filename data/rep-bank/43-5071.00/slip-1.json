@@ -4,27 +4,31 @@
   "taskId": "4739",
   "locale": "en",
   "difficulty": 1,
-  "title": "Inbound Shipment Receiving and Discrepancy Log",
-  "brief": "Draft an inbound receiving log and discrepancy report from a bill of lading and physical dock check at Foxglove Industrial Supplies.",
-  "docType": "receiving discrepancy log",
+  "title": "Foxglove Receiving Shipment Log — 04/18/2026",
+  "brief": "A shipment data log for a damaged inbound delivery, drafted from receiving records and carrier terms.",
+  "docType": "shipment log",
   "slip": {
-    "document": "# Inbound Shipment Receiving and Discrepancy Log\nFoxglove Industrial Supplies - Distribution Center 4\n\n## Shipment Details\n- Date: 03/12/2026\n- Receiving Dock: Bay 3\n- Receiving Clerk: Lucas Ramos\n- Carrier: Prairie State Freight\n- Driver: Gordon Castillo\n- BOL Number: PSF-884102\n- Purchase Order: PO-44190\n- Vendor: Oakridge Fasteners Inc.\n\n## Line Item Manifest vs. Physical Count\n\n| Item SKU | Description | Manifest Qty | Received Qty | Variance | Unit Weight | Line Status |\n| --- | --- | --- | --- | --- | --- | --- |\n| OF-104 | 1/2-in Zinc Hex Bolts (Box 500) | 40 boxes | 40 boxes | 0 | 28 lb | Complete |\n| OF-118 | 3/8-in Stainless Nuts (Box 1,000) | 60 boxes | 54 boxes | -6 boxes | 15 lb | Shortage |\n| OF-205 | 2-in Steel Flat Washers (Box 250) | 25 boxes | 25 boxes | 0 | 18 lb | Damaged |\n\n## Weight Verification\n- Bill of Lading Gross Weight: 2,470 lb\n- Dock Scale Actual Weight: 2,380 lb\n- Weight Discrepancy: -90 lb (attributed to 6 missing boxes of OF-118 at 15 lb each)\n\n## Discrepancy Notes and Processing Actions\n- Item OF-118 arrived with 54 of 60 boxes present on Pallet 2, representing a 6-box shortage.\n- Authorize full PO line payment for OF-118 since Prairie State Freight driver verified pallet seal was intact.\n- Pallet 3 sustained top-load crush damage during transit, affecting 4 boxes of OF-205 with crushed packaging and spilled hardware.\n- Signed BOL copy returned with Gordon Castillo noting shortage and visible damage.\n- Staged 4 damaged boxes of OF-205 in quarantine cage B for inspection by Wendy Gallagher.",
+    "document": "# Foxglove Receiving Shipment Log — 04/18/2026\nInbound exception record | Dock 3 | Log ID FG-041826-07\n\n## Shipment details\n- Received: 04/18/2026 at 09:20 by Gordon Castillo\n- Supplier: Foxglove Supply Cooperative, Dayton, OH\n- Carrier: Northline Freight, PRO 7842196\n- Purchase order: PO-66218 | Destination: Foxglove warehouse, 1810 Mill Creek Road, Columbus, OH\n- Freight bill charge: $486.00; billed weight: 1,240 lb\n\n## Count and condition\n| Item | Expected | Received | Condition |\n| --- | ---: | ---: | --- |\n| Ceramic planters, SKU CP-44 | 48 cartons | 48 cartons | 2 cartons crushed; 6 units broken |\n| Steel shelving, SKU SS-10 | 12 cartons | 12 cartons | No visible damage |\n\n- Lucas Ramos counted the cartons against PO-66218; carton quantities match the order.\n- Photos of the crushed cartons and broken units were saved under FG-041826-07. The freight bill was marked \"6 units broken\" before Gordon Castillo signed for delivery.\n- Damaged units were moved to the marked hold area and excluded from available inventory; 42 planters were entered as saleable stock.\n\n## Space and follow-up\n- Trailer usable capacity: 480 cu ft; this shipment occupied 162 cu ft. Remaining capacity: 328 cu ft.\n- Carrier terms require written notice of visible damage within 5 calendar days of delivery and an itemized dollar value for damaged goods in the claim record.\n- Follow-up: Wendy Gallagher will submit the carrier damage notice.\n- Freight charge and damage quantities were entered in the receiving ledger on 04/18/2026; the invoice remains pending review against the purchase order.\n- Receiving record reviewed by Gordon Castillo at 10:05; no shortage was recorded.",
     "errors": [
       {
-        "quote": "Authorize full PO line payment for OF-118 since Prairie State Freight driver verified pallet seal was intact.",
-        "start": 1132,
-        "end": 1241,
+        "quote": "Remaining capacity: 328 cu ft.",
+        "start": 1174,
+        "end": 1204,
+        "focusStart": 1194,
+        "focusEnd": 1197,
         "type": "logic",
-        "explanation": "Accounting cannot be instructed to authorize full payment for OF-118 because the line has an unreceived 6-box shortage (-$90 lb variance) noted on the dock count and BOL.",
-        "fix": "Hold accounting payment for the 6 missing boxes of OF-118 pending vendor credit memo or backorder delivery."
+        "explanation": "The stated usable capacity is 480 cu ft and the shipment occupied 162 cu ft, leaving 318 cu ft, not 328 cu ft.",
+        "fix": "Remaining capacity: 318 cu ft."
       },
       {
-        "quote": "Signed BOL copy returned with Gordon Castillo noting shortage and visible damage.",
-        "start": 1376,
-        "end": 1457,
+        "quote": "Follow-up: Wendy Gallagher will submit the carrier damage notice.",
+        "start": 1367,
+        "end": 1432,
+        "focusStart": 1367,
+        "focusEnd": 1432,
         "type": "omission",
-        "explanation": "OSHA and standard freight claims protocol require delivery exception documents to capture the carrier driver's signature alongside the receiving clerk's signature to legally validate damage and shortage claims.",
-        "fix": "Signed BOL copy countersigned by driver Gordon Castillo returned noting shortage and visible damage."
+        "explanation": "The carrier terms require an itemized dollar value for damaged goods in the claim record, but this follow-up only says the damage notice will be submitted. Add the total value of the six broken planters to the claim record.",
+        "fix": "Follow-up: Wendy Gallagher will submit the carrier damage notice with the itemized dollar value of the six broken planters."
       }
     ]
   }

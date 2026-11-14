@@ -4,27 +4,31 @@
   "taskId": "15198",
   "locale": "en",
   "difficulty": 1,
-  "title": "Incident Escalation and Resolution Report: INC-88204",
-  "brief": "Incident escalation report and technical remediation plan drafted by an IT Systems Manager after Tier 2 failed to resolve an executive workstation lock-out.",
-  "docType": "incident escalation report",
+  "title": "Security Incident Support Escalation: Jamal Gallagher",
+  "brief": "An escalation for a suspected credential compromise, drafted from Jamal Gallagher’s support report and the help desk’s initial checks.",
+  "docType": "support escalation",
   "slip": {
-    "document": "# Incident Escalation and Resolution Report: INC-88204\nOak Hollow Health Network - IT Service Management\n\n## Ticket Summary\n| Field | Value |\n| --- | --- |\n| Incident ID | INC-88204 |\n| Affected User | Ethan Castillo, VP of Operations |\n| Device ID | WKS-OH-0419 |\n| OS Version | Windows 11 Enterprise 23H2 |\n| Assigned Tech | Jamal Gallagher (Tier 2 Desktop) |\n| Escalation Lead | Alicia Kowalczyk (IT Operations Manager) |\n| Status | Escalated to Tier 3 / Management |\n| Reported Issue | BitLocker recovery loop after BIOS 1.14 update |\n\n## Incident Details and Telemetry\nOn 04/14/2026 at 08:15 AM, user Ethan Castillo reported that workstation WKS-OH-0419 failed to boot into the OS following a scheduled overnight UEFI firmware patch (v1.14). The endpoint repeatedly prompts for a 48-digit BitLocker recovery key. Tier 2 technician Jamal Gallagher attempted three recovery key injections via Active Directory BitLocker recovery console, but the system reboots directly back into the recovery prompt upon authentication.\n\n## Tier 2 Investigation Log\n- TPM 2.0 module state reported as Enabled and Initialized in UEFI diagnostic log.\n- Platform Configuration Register 7 indicates PCR 7 validation failure due to Secure Boot policy change during BIOS flash.\n- BitLocker protector mode on volume C: is configured as TPM+PIN.\n- Device drive health SMART self-test completed with zero bad sectors.\n\n## Tier 3 Root Cause Analysis and Remediation Steps\nBecause PCR 7 validation failed while the TPM remains intact and operational, Jamal must replace the motherboard hardware immediately to fix the corrupted boot configuration.\n\nRemediation plan:\n- Suspend BitLocker protection via WinRE command line using manage-bde -protectors -disable C:.\n- Re-enable Secure Boot standard factory keys within UEFI settings.\n- Reboot system to complete OS launch and allow PCR baseline recalculation.\n- Resume BitLocker protection using manage-bde -protectors -enable C:.\n- Validate workstation compliance and close ticket.",
+    "document": "# Security Incident Support Escalation: Jamal Gallagher\nOak Hollow | Ticket OH-62418 | 06/17/2026\n\n## Incident summary\nJamal Gallagher reported entering his Oak Hollow password on a sign-in page linked from an unexpected email at 9:12 AM. He then received a legitimate sign-in alert from an unfamiliar device. The laptop is assigned to Jamal and is running Windows 11. He called the help desk at 9:24 AM.\n\n## Scope and impact\n- Jamal is the only user reporting the issue; the other 41 branch employees can sign in normally.\n- The affected account can access email and the shared scheduling drive. No missing or altered files have been reported.\n- The laptop has been disconnected from Wi-Fi and Ethernet. Jamal is using a loaner laptop for scheduled work.\n\n## Checks completed\n- Help desk confirmed the unfamiliar sign-in alert was generated at 9:17 AM from an unrecognized location.\n- Jamal changed his password at 9:29 AM using the company password-reset page.\n- MFA push authentication is enabled for the account. Jamal reported receiving an MFA prompt at 9:18 AM that he did not initiate.\n- The help desk verified that the original email is still in Jamal's inbox and has not been deleted.\n\n## Escalation request\n- The outage affects all 42 branch users; classify this as a site-wide access incident.\n- Route to the identity and security team to review the sign-in, revoke active sessions, and check account activity from 9:12 AM onward.\n- Security response: isolate the laptop, reset Jamal's password, and revoke all active sessions.\n- Retain the original email for security review; do not forward it as a regular attachment.\n\n## User guidance and ownership\n- Jamal will monitor his inbox for security alerts.\n- Identity and security team owns the next action. Help desk will call Jamal at 10:30 AM with the investigation status. Ticket remains open until account activity is reviewed and Jamal confirms he can work from the loaner.",
     "errors": [
       {
-        "quote": "Jamal must replace the motherboard hardware immediately to fix the corrupted boot configuration",
-        "start": 1527,
-        "end": 1622,
+        "quote": "The outage affects all 42 branch users",
+        "start": 1219,
+        "end": 1257,
+        "focusStart": 1238,
+        "focusEnd": 1257,
         "type": "logic",
-        "explanation": "Replacing physical motherboard hardware directly contradicts the diagnostic data showing the TPM 2.0 module is healthy and operational, and that the failure is merely a software-level PCR 7 validation mismatch caused by a firmware update.",
-        "fix": "Jamal must clear the platform state mismatch in UEFI and restore standard keys without replacing hardware"
+        "explanation": "The scope section says Jamal is the only user reporting the issue and that the other 41 employees can sign in normally. The document therefore does not support a 42-user outage classification.",
+        "fix": "The issue affects Jamal’s account only"
       },
       {
-        "quote": "Validate workstation compliance and close ticket.",
-        "start": 1956,
-        "end": 2005,
+        "quote": "Jamal will monitor his inbox for security alerts.",
+        "start": 1665,
+        "end": 1714,
+        "focusStart": 1665,
+        "focusEnd": 1714,
         "type": "omission",
-        "explanation": "The procedure omits obtaining user verification and sign-off from Ethan Castillo to confirm access and operational functionality before closing the executive-tier escalation ticket.",
-        "fix": "Obtain end-user sign-off from Ethan Castillo confirming successful login, validate workstation compliance, and close ticket."
+        "explanation": "The checks state that MFA push authentication is enabled and Jamal received a prompt he did not initiate. The user guidance must tell him not to approve unexpected prompts, so he does not inadvertently authorize an attacker’s sign-in.",
+        "fix": "Jamal will deny any MFA prompt he did not initiate and report it to the help desk."
       }
     ]
   }

@@ -4,68 +4,85 @@
   "taskId": "2878",
   "locale": "en",
   "difficulty": 2,
-  "title": "Subpanel Feed Continuity Inspection Summary",
-  "brief": "Draft an electrical continuity and insulation resistance test report summarizing field measurements for the general contractor.",
+  "title": "Panel Test Closeout Summary",
+  "brief": "Produce a concise closeout summary of the panel and circuit test results for the project file.",
   "delegate": {
-    "scenario": "A journeyman electrician completed initial acceptance testing on a commercial subpanel feeder run before energizing. The project general contractor needs a formal signed test summary by end of day to approve closing the drywalled chase. The summary must clearly state test values, instrument details, and pass or fail status for each conductor.",
-    "inputs": "Field Test Log - Panel 2B Feeder Run (10/14/2024)\nTester: Megger MIT410/2, Cal exp: 08/2025. Fluke 87V, Cal exp: 03/2025.\nConductors: 4x 350 kcmil THHN Cu in 3-inch EMT. Run length: 145 ft.\nNominal system: 120/208V, 3-phase, 4-wire.\n\nMegohmmeter Test @ 1000V DC (1-minute hold):\nPhase A to Ground: 550 MΩ\nPhase B to Ground: 620 MΩ\nPhase C to Ground: 0.08 MΩ\nNeutral to Ground: >999 MΩ\nPhase A to Phase B: 850 MΩ\nPhase B to Phase C: 780 MΩ\nPhase A to Phase C: 910 MΩ\n\nContinuity / Loop Resistance (Fluke 87V):\nPhase A: 0.04 Ω\nPhase B: 0.04 Ω\nPhase C: 0.05 Ω\nNeutral: 0.04 Ω\n\nNotes from apprentice: Megger test conducted at 1000V DC on 600V rated THHN wire. Panel 2B is scheduled for full energization tomorrow morning 07:00.",
-    "goal": "Deliver a concise, technically sound inspection report that highlights out-of-spec test measurements and identifies whether the installation is safe to energize.",
+    "scenario": "You are an electrician finishing acceptance testing at a small commercial tenant build-out. The general contractor’s project manager will use the summary at the morning coordination meeting to decide whether the space is ready for inspection.",
+    "inputs": "Job: Alder Creek Dental, Suite 204, Tacoma, WA. Work order EC-26114. The new 120/208V, 3-phase panel LP-1 was de-energized and locked out while insulation-resistance testing was performed. Conductors under test were isolated; afterward, the test leads were removed and the equipment was returned to service under the site's lockout/tagout procedure. The project manager needs a short closeout note for the project file.\n\nPanel schedule load summary from the field sheet:\n| Circuit | Description | Connected load |\n| --- | --- | --- |\n| 1 | Reception outlets | 1,200 VA |\n| 3 | Sterilizer | 2,400 VA |\n| 5 | Break room microwave | 1,200 VA |\n| | Total connected load | 5,300 VA |\n\nTest log: Circuit 1 conductor-to-ground insulation resistance, 500 VDC test, 200 MΩ. Circuit 3 conductor-to-ground insulation resistance, 500 VDC test, 180 MΩ. Circuit 5 conductor-to-ground insulation resistance, 500 VDC test, 200 MΩ. Equipment grounding continuity measured 0.2 ohm on each circuit. No visible damage; panel directory labels match the field schedule. The work order lists the acceptance test date as 04/14/2026. The foreman's daily report says acceptance testing was completed on 04/15/2026. Use the applicable NEC edition adopted by the local authority having jurisdiction; confirm any code-dependent conclusion before stating compliance.",
+    "goal": "Give the project manager a clear, accurate summary that distinguishes recorded results from anything requiring verification before inspection.",
     "criteria": [
       {
         "id": "c1",
-        "text": "Specifies the audience is the general contractor and the project electrical engineer.",
+        "text": "Says the result is for the general contractor’s project manager and project file.",
         "keywords": [
-          "general contractor",
-          "contractor",
-          "engineer"
+          "project manager",
+          "project file",
+          "closeout"
         ]
       },
       {
         "id": "c2",
-        "text": "Requires a structured report format with a pass/fail determination for each conductor.",
+        "text": "Asks the AI to preserve the recorded test conditions and measurements without inventing results.",
         "keywords": [
-          "format",
-          "pass/fail",
-          "table",
-          "summary"
+          "test conditions",
+          "measurements",
+          "do not invent"
         ]
       },
       {
         "id": "c3",
-        "text": "Directs the AI to verify readings against standard insulation resistance thresholds and code minimums.",
+        "text": "Specifies a concise closeout-note format and a maximum length.",
         "keywords": [
-          "insulation resistance",
-          "threshold",
-          "standards",
-          "code"
+          "closeout note",
+          "concise",
+          "words"
         ]
       },
       {
         "id": "c4",
-        "text": "Instructs the AI to state whether the feeder is clear to energize based on test findings.",
+        "text": "Asks the AI to verify arithmetic and reconcile conflicting source details before presenting conclusions.",
         "keywords": [
-          "energize",
-          "clearance",
-          "energization",
-          "approval"
+          "verify arithmetic",
+          "reconcile",
+          "conflicts"
+        ]
+      },
+      {
+        "id": "c5",
+        "text": "Asks the AI to confirm applicable local code requirements and flag conclusions that need verification.",
+        "keywords": [
+          "NEC",
+          "local authority",
+          "code requirements",
+          "flag"
         ]
       }
     ],
     "traps": [
       {
         "id": "t1",
-        "description": "Phase C to Ground insulation resistance is severely degraded and fails the standard 1.0 MΩ minimum, creating a ground fault hazard if energized.",
+        "description": "The listed circuit loads total 4,800 VA, but the field sheet states a total connected load of 5,300 VA.",
         "keywords": [
-          "0.08 MΩ"
+          "5,300 VA"
+        ],
+        "evidence": [
+          "Reception outlets | 1,200 VA",
+          "Total connected load | 5,300 VA"
         ]
       },
       {
         "id": "t2",
-        "description": "The insulation resistance test voltage was set to 1000V DC on a 120/208V nominal system, which exceeds the standard 500V DC test level for 600V rated wiring.",
+        "description": "The work order and foreman’s report give different dates for the acceptance testing.",
         "keywords": [
-          "1000V DC"
+          "04/14/2026",
+          "04/15/2026"
+        ],
+        "evidence": [
+          "acceptance test date as 04/14/2026",
+          "testing was completed on 04/15/2026"
         ]
       }
-    ]
+    ],
+    "exemplar": "Write a closeout note for the general contractor’s project manager to use in the project file. Keep it under 150 words and use a short heading followed by bullets. Preserve the recorded test conditions and measurements exactly; do not infer unrecorded results. Recalculate the connected-load total and compare the source details for consistency. Check which acceptance-test date is supported by the records, and flag unresolved conflicts rather than choosing one. Confirm applicable NEC requirements with the local authority having jurisdiction before claiming code compliance; clearly identify anything that still needs verification."
   }
 }

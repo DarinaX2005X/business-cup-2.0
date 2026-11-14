@@ -4,72 +4,87 @@
   "taskId": "1636",
   "locale": "en",
   "difficulty": 2,
-  "title": "Breach Notice Research Case Summary",
-  "brief": "A structured legal research memorandum summarizing data breach notification statutory deadlines and private right of action authorities across three states.",
+  "title": "Research memo on lease notice rules",
+  "brief": "Prepare a concise legal research memo on notice requirements for a commercial lease dispute.",
   "delegate": {
-    "scenario": "A senior litigation partner needs a clear statutory comparison chart and narrative analysis by 2:00 PM today to advise a regional healthcare client facing a multi-state cyber incident. The partner will use this memorandum to brief executive leadership on immediate regulatory exposure and notification timetables.",
-    "inputs": "Research notes on multi-state data breach statutory mandates:\n- Florida: Fla. Stat. § 501.171 requires notice to affected individuals within 30 days after determination of breach. Notice to Department of Legal Affairs required if breach affects >500 residents. No private right of action created under Fla. Stat. § 501.171(10).\n- Ohio: Ohio Rev. Code § 1349.19 requires disclosure to residents within 45 days. Must notify Ohio Attorney General if breach impacts >1,000 residents. In re Anthem, Inc. (2016) held § 1349.19 does not convey an independent private cause of action.\n- Texas: Tex. Bus. & Com. Code § 521.053 mandates notice within 60 days of breach determination. However, 2023 legislative amendments reduced this deadline to 30 days effective 09/01/2023. AG notification required when >250 residents affected.\n- General note from partner voicemail: Client systems suffered unauthorized access on 10/12/2023, confirmed breach across FL (620 patients), OH (1,250 patients), and TX (410 patients). Partner wants exposure risk for class action lawsuits.",
-    "goal": "Deliver an accurate statutory comparison table and concise risk summary that highlights filing deadlines and private right of action limits without misstating recent statutory amendments.",
+    "scenario": "A paralegal at fictional Northstar Legal Group is assembling research for an attorney advising a small-business client in a commercial lease dispute in Franklin, a fictional U.S. state. The attorney will use the memo to prepare for a client call on June 12, 2026, and needs relevant authority, practical takeaways, and any research issues that require confirmation.",
+    "inputs": "Research packet for the Alder Street lease matter. Please organize the points for attorney review.\n\nClient: Alder Street Books LLC, a tenant in Franklin. The lease requires written notice before the landlord may terminate for a nonpayment default. The attorney wants to know whether email notice can satisfy the lease and what cure period applies.\n\nFranklin Code § 44-218, as copied in the research folder: \"A commercial tenant shall receive at least 10 calendar days after written notice to cure a monetary default.\" The folder cover sheet says this section took effect 01/01/2024; the legislative-history summary says it took effect 07/01/2024.\n\nIn Reed v. Harbor Properties, 81 Franklin App. 206 (2023), the court held that an email could qualify as written notice where the lease expressly permitted email service. The opinion also says the lease's cure period controls if it exceeds the statutory minimum.\n\nLease excerpt: \"Notices may be delivered by personal delivery, certified mail, or email to the addresses listed in this agreement.\" The docket calendar lists the client call for 06/12/2026. The attorney's email says the client call is scheduled for 06/13/2026.",
+    "goal": "Give the attorney a reliable, clearly sourced overview while distinguishing verified law from points that need confirmation.",
     "criteria": [
       {
         "id": "c1",
-        "text": "Specifies the audience as a law firm litigation partner preparing a high-level corporate client advisory.",
+        "text": "States that the memo is for the attorney advising the tenant in a Franklin commercial lease dispute.",
         "keywords": [
-          "partner",
-          "litigation",
-          "counsel",
-          "client advisory"
+          "attorney",
+          "tenant",
+          "Franklin",
+          "commercial lease"
         ]
       },
       {
         "id": "c2",
-        "text": "Demands a side-by-side comparison table showing state, individual notification deadline, AG threshold, and private action status.",
+        "text": "Separates the relevant legal rules, case analysis, and application to the lease.",
         "keywords": [
-          "table",
-          "matrix",
-          "columns",
-          "comparison chart"
+          "legal rules",
+          "case analysis",
+          "application"
         ]
       },
       {
         "id": "c3",
-        "text": "Restricts output length to under 400 words focusing exclusively on actionable compliance data.",
+        "text": "Uses only the supplied research and flags missing authority or facts instead of inventing them.",
         "keywords": [
-          "concise",
-          "under 400 words",
-          "brief",
-          "summary"
+          "supplied research",
+          "flag",
+          "do not invent"
         ]
       },
       {
         "id": "c4",
-        "text": "Directs the AI to verify statutory effective dates and reconcile conflicting deadlines before summarizing state requirements.",
+        "text": "Provides a concise memo with headings and citations for each legal proposition.",
         "keywords": [
-          "effective date",
-          "reconcile",
-          "conflict",
-          "amendment",
-          "statutory deadline"
+          "memo",
+          "headings",
+          "citations"
+        ]
+      },
+      {
+        "id": "c5",
+        "text": "Checks jurisdiction, authority, dates, and procedural details, and identifies conflicts for attorney review.",
+        "keywords": [
+          "jurisdiction",
+          "authority",
+          "dates",
+          "conflicts"
         ]
       }
     ],
     "traps": [
       {
         "id": "t1",
-        "description": "Texas breach notification statute lists both a 60-day mandate and a superseded 30-day post-amendment deadline, creating a conflict in required compliance timing.",
+        "description": "The research folder cover sheet and legislative-history summary give different effective dates for Franklin Code § 44-218.",
         "keywords": [
-          "60 days",
-          "reduced this deadline to 30 days"
+          "01/01/2024",
+          "07/01/2024"
+        ],
+        "evidence": [
+          "this section took effect 01/01/2024",
+          "it took effect 07/01/2024"
         ]
       },
       {
         "id": "t2",
-        "description": "The private right of action analysis under Texas law is completely omitted from the notes despite the partner specifically requesting class action exposure risks.",
+        "description": "The docket calendar and attorney email give different dates for the client call.",
         "keywords": [
-          "Tex. Bus. & Com. Code § 521.053",
-          "class action lawsuits"
+          "06/12/2026",
+          "06/13/2026"
+        ],
+        "evidence": [
+          "client call for 06/12/2026",
+          "client call is scheduled for 06/13/2026"
         ]
       }
-    ]
+    ],
+    "exemplar": "Prepare a concise legal research memo for the attorney advising Alder Street Books LLC in its Franklin commercial lease dispute. Use clear headings for the governing law, case analysis, application to the lease, and open questions; cite the supplied authorities and do not add unsupported law or facts. Explain the practical implications of the notice language and cure-period rule. Check jurisdiction, citations, dates, and procedural details against the packet, and list any conflicts or items needing verification before the attorney relies on them."
   }
 }

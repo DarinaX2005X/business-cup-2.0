@@ -4,35 +4,41 @@
   "taskId": "18866",
   "locale": "en",
   "difficulty": 2,
-  "title": "Employee Status Change and Offboarding Record",
-  "brief": "HR status change and offboarding record for a departing senior financial analyst, drafted from payroll logs and exit clearance forms.",
-  "docType": "status change record",
+  "title": "Personnel Record Update: Keiko Sandoval",
+  "brief": "Personnel record update for Keiko Sandoval’s promotion and transfer, drafted from the approved change notice and onboarding file.",
+  "docType": "personnel record",
   "slip": {
-    "document": "# Employee Status Change and Offboarding Record\nRecord ID: SCR-2026-0419\nDate: 03/27/2026\n\n## Employee Profile\n| Field | Information |\n| --- | --- |\n| Employee Name | Naomi Bishop |\n| Employee ID | 84102 |\n| Department | Commercial Banking |\n| Position | Senior Financial Analyst |\n| Hire Date | 06/15/2021 |\n| Separation Date | 03/27/2026 |\n| Separation Type | Involuntary - Restructuring |\n| Hourly Equivalent Rate | $45.00 |\n\n## Leave Balance Reconciliation\n| Accrual Category | Hours Available |\n| --- | --- |\n| Regular Vacation | 38.0 |\n| Floating Holiday | 16.0 |\n| Accrued Sick Leave | 24.0 |\n\n## Final Pay Calculation\n- Regular unpaid hours worked in final cycle: 40.0 hours ($1,800.00).\n- Eligible accrued vacation (38.0 hours) and floating holiday (16.0 hours) total 54.0 hours for payoff.\n- Total paid leave payout equals $2,520.00 based on standard hourly rate.\n- Severance pay approved under corporate schedule: 8 weeks base salary ($14,400.00).\n- Medical coverage terminates on 03/31/2026 under group plan rules.\n\n## Offboarding Checklist and Records Administration\n- Corporate badge, RSA token, and encrypted laptop collected on 03/27/2026.\n- HRMS core record updated from Active to Resigned in system tables.\n- Form I-9 transferred to retention archive; scheduled for purge 1 year from termination date.\n- Issue standard COBRA election packet within 60 days of the qualifying event.",
+    "document": "# Personnel Record Update: Keiko Sandoval\nEffective date: 06/15/2026 | HRIS transaction: SB-28417\n\n## Employee and event\nEmployee: Keiko Sandoval | Employee ID: 006184\nEvent: Promotion and department transfer\nApproved by: Paul Sato, Director of Operations | Entered by: Tyrone Kowalczyk, HR Specialist\n\nThe approved change notice moves Sandoval from Customer Support Specialist to Customer Support Team Lead, effective 06/15/2026. Her new department is Client Operations, and her new manager is Lena Brooks. Work location remains Stonebridge's Dayton, Ohio office. Employment status remains full-time, nonexempt; scheduled hours remain 40 per week.\n\n## Compensation\nCurrent annualized base pay is $64,000.00; approved new annualized base pay is $67,200.00, effective 06/15/2026. The change notice states a 6.25% increase. Payroll frequency remains biweekly, with no change to benefit elections or tax withholding.\n\n## HRIS actions\nUpdate job title, department, manager, and compensation effective 06/15/2026. Keep Paul Sato listed as Sandoval's current manager after the transfer. Preserve the prior job and compensation history as effective through 06/14/2026; do not overwrite historical rows. Route the transaction to Payroll for the 06/26/2026 pay run and retain the signed change notice in the restricted personnel file.\n\n## Onboarding record reference\nSandoval's first day of employment was 06/08/2026. Form I-9 Section 2 was completed on 06/12/2026, within three business days of her start date. The onboarding file contains the signed offer letter, tax withholding forms, and identity and work-authorization documentation. Access to these records is limited to authorized HR staff.",
     "errors": [
       {
-        "quote": "Total paid leave payout equals $2,520.00 based on standard hourly rate",
-        "start": 802,
-        "end": 872,
+        "quote": "The change notice states a 6.25% increase",
+        "start": 779,
+        "end": 820,
+        "focusStart": 806,
+        "focusEnd": 811,
         "type": "calculation",
-        "explanation": "The payout covers 54.0 hours at $45.00 per hour, which equals $2,430.00, not $2,520.00.",
-        "fix": "Total paid leave payout equals $2,430.00 based on standard hourly rate"
+        "explanation": "The increase is $3,200 on a $64,000 base, which is 5%, not 6.25%.",
+        "fix": "The change notice states a 5% increase"
       },
       {
-        "quote": "HRMS core record updated from Active to Resigned in system tables",
-        "start": 1158,
-        "end": 1223,
+        "quote": "Keep Paul Sato listed as Sandoval's current manager",
+        "start": 1009,
+        "end": 1060,
+        "focusStart": 1014,
+        "focusEnd": 1023,
         "type": "logic",
-        "explanation": "The employee profile table explicitly specifies the separation type as Involuntary - Restructuring, so recording the status as Resigned contradicts the document's own data.",
-        "fix": "HRMS core record updated from Active to Terminated - Involuntary in system tables"
+        "explanation": "The approved change notice names Lena Brooks as Sandoval’s new manager effective 06/15/2026. Keeping Paul Sato listed as current conflicts with the documented transfer.",
+        "fix": "List Lena Brooks as Sandoval’s current manager"
       },
       {
-        "quote": "Issue standard COBRA election packet within 60 days of the qualifying event",
-        "start": 1322,
-        "end": 1397,
+        "quote": "completed on 06/12/2026, within three business days",
+        "start": 1432,
+        "end": 1483,
+        "focusStart": 1457,
+        "focusEnd": 1483,
         "type": "compliance",
-        "explanation": "Under federal COBRA regulations, an employer group health plan administrator must provide the COBRA election notice within 14 days of receiving notice of the qualifying event (or 44 days if the employer is the plan administrator), not 60 days. The 60-day window applies to the employee's election period.",
-        "fix": "Issue standard COBRA election packet within 14 days of the qualifying event"
+        "explanation": "For a 06/08/2026 start, the first three business days after the first day are 06/09, 06/10, and 06/11. Completing Section 2 on 06/12 misses the federal I-9 deadline.",
+        "fix": "completed on 06/11/2026, within three business days"
       }
     ]
   }

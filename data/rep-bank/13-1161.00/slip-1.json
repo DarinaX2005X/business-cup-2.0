@@ -4,27 +4,31 @@
   "taskId": "5433",
   "locale": "en",
   "difficulty": 1,
-  "title": "Customer Demographics & Demand Analysis: EcoHome Smart Thermostat",
-  "brief": "A market research analyst memo evaluating survey data across demographic cohorts to determine regional launch viability for a smart thermostat.",
-  "docType": "demographic analysis memo",
+  "title": "Meadowlark Pantry Storage Customer Demographic Analysis",
+  "brief": "A customer demographic analysis for Meadowlark Home Goods, drafted from a 400-person survey and market-sizing inputs.",
+  "docType": "customer demographic analysis",
   "slip": {
-    "document": "# Customer Demographics & Demand Analysis: EcoHome Smart Thermostat\nEvaluation of Q1 2026 Pilot Survey Data\n\n## Survey Sample Breakdown\nA total of 1,200 homeowners were surveyed across four regional territories regarding household income, smart home adoption, and purchase intent for the $249 EcoHome unit.\n\n| Region | Respondents | Median HHI | Homeownership Rate | High Purchase Intent (%) |\n| --- | --- | --- | --- | --- |\n| Northeast | 320 | $94,000 | 68% | 42% |\n| Midwest | 260 | $71,000 | 74% | 18% |\n| South | 380 | $82,000 | 69% | 35% |\n| West | 240 | $108,000 | 62% | 51% |\n\n## Key Findings\n- Total survey responses from the Midwest and West combined equaled 560 respondents.\n- High purchase intent tracks strongly with median household income above $80,000.\n- Across the entire sample, 71% of respondents identified energy bill reduction as their primary purchase driver, while 19% prioritized remote mobile access.\n\n## Target Market Recommendations\n- Allocate 45% of Q3 digital ad spend to the Midwest region because it demonstrates the strongest immediate consumer demand.\n- Price elasticity remains high among households earning under $75,000; introductory promotional rebates of $30 should be tested in southern retail channels to improve conversion.\n- Prioritize direct-to-consumer bundling with utility rebate programs in the Northeast and West, where combined favorable intent exceeds 40% of surveyed cohorts.",
+    "document": "# Meadowlark Pantry Storage Customer Demographic Analysis\nSurvey results and launch recommendation | Prepared 02/18/2026 by Paul Santoro\n\n## Research design\nMeadowlark Home Goods surveyed 400 U.S. adults who had purchased pantry storage products in the past 12 months. The online survey ran 02/02/2026–02/09/2026; respondents were recruited from a consumer research panel. Results are descriptive and are not weighted to U.S. population estimates. Tyrone Pruitt reviewed the questionnaire; Samuel Maddox supplied the market-sizing inputs.\n\n## Demographics and stated purchase intent\nPurchase intent is the share rating the concept 4 or 5 on a five-point scale.\n\n| Age | Respondents | Share of sample | Purchase intent |\n| --- | ---: | ---: | ---: |\n| 25–34 | 120 | 30% | 42% |\n| 35–44 | 140 | 35% | 48% |\n| 45–54 | 80 | 20% | 55% |\n| 55–64 | 60 | 15% | 38% |\n\nRespondents aged 35–44 were the largest group, while the 45–54 group reported the highest purchase intent. Across all respondents, 62% preferred clear, stackable containers; 51% cited easier cabinet organization as their main need. Among respondents with children under 18, 71% preferred dishwasher-safe products.\n\n## Market estimate and recommendation\nThe initial serviceable audience is estimated at 12,000 U.S. households matching the survey's recent-category-purchase criterion. Applying the overall 8% purchase forecast yields 1,200 likely buyers during the first 12 months. This is a directional estimate, not a sales commitment.\n\nPrioritize adults aged 35–44 in launch messaging because this group had the strongest purchase intent. Lead with clear, stackable containers and test dishwasher-safe claims in creative aimed at households with children. Reassess after the first 90 days using site conversion and paid-search data.",
     "errors": [
       {
-        "quote": "combined equaled 560 respondents",
-        "start": 652,
-        "end": 684,
+        "quote": "Applying the overall 8% purchase forecast yields 1,200 likely buyers",
+        "start": 1343,
+        "end": 1411,
+        "focusStart": 1392,
+        "focusEnd": 1397,
         "type": "calculation",
-        "explanation": "According to the survey sample table, the Midwest has 260 respondents and the West has 240 respondents. Their sum is 500, not 560.",
-        "fix": "combined equaled 500 respondents"
+        "explanation": "Eight percent of the stated 12,000-household audience is 960, not 1,200.",
+        "fix": "Applying the overall 8% purchase forecast yields 960 likely buyers"
       },
       {
-        "quote": "Midwest region because it demonstrates the strongest immediate consumer demand",
-        "start": 1006,
-        "end": 1084,
+        "quote": "Prioritize adults aged 35–44 in launch messaging because this group had the strongest purchase intent.",
+        "start": 1497,
+        "end": 1599,
+        "focusStart": 1573,
+        "focusEnd": 1598,
         "type": "logic",
-        "explanation": "The table shows the Midwest has the lowest high purchase intent of all four regions at only 18%, contradicting the claim that it demonstrates the strongest immediate demand.",
-        "fix": "West region because it demonstrates the strongest immediate consumer demand"
+        "explanation": "The table shows purchase intent of 48% for ages 35–44, while ages 45–54 have the highest rate at 55%. The largest respondent group is not the group with the strongest purchase intent.",
+        "fix": "Prioritize adults aged 45–54 in launch messaging because this group had the strongest purchase intent."
       }
     ]
   }

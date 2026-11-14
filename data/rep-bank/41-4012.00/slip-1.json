@@ -4,27 +4,31 @@
   "taskId": "8114",
   "locale": "en",
   "difficulty": 1,
-  "title": "Product Recommendation Summary: Fall Hospitality Linens",
-  "brief": "A sales representative's product recommendation memo prepared for a regional boutique hotel chain based on their seasonal linen upgrade inquiry.",
-  "docType": "product recommendation memo",
+  "title": "Product Recommendation for Westbrook Community Market",
+  "brief": "A product recommendation for Westbrook Community Market, drafted from the customer’s stated needs and the current wholesale product list.",
+  "docType": "product recommendation",
   "slip": {
-    "document": "# Product Recommendation Summary: Fall Hospitality Linens\nClient: Blue Harbor Hospitality Group\nPrepared By: Fatima Hollis, Account Executive, Riverbend Commercial Textiles\nDate: 04/16/2026\n\n## Client Requirements\n- Target property: 140 guest rooms across 2 coastal boutique properties\n- Preferred material: 100% long-staple ring-spun combed cotton\n- Durability requirement: Minimum 250 commercial wash cycles without fraying\n- Target unit cost: Under $18.00 per bath sheet\n\n## Evaluated Lines\n\n| Product Name | Material Spec | Size (in) | Wash Durability Rating | Wholesale Unit Price |\n| --- | --- | --- | --- | --- |\n| CoastalWeave Premier | 100% Combed Cotton | 35 x 68 | 300 cycles | $16.50 |\n| HarborSoft Blend | 60/40 Cotton-Poly | 30 x 60 | 220 cycles | $11.75 |\n| GrandPalace Terry | 100% Ring-Spun Cotton | 36 x 70 | 275 cycles | $17.25 |\n| EcoPure Standard | 100% Recycled Cotton | 30 x 56 | 180 cycles | $13.00 |\n\n## Primary Recommendation\nBased on your guest expectations and target specifications, we recommend the CoastalWeave Premier bath sheet line. This item meets your fabric standard and easily exceeds the 250-cycle commercial threshold.\n\n- Sizing: Standard luxury bath sheet measuring 35 x 68 inches\n- Thread weight: 700 GSM dense pile for high absorbency\n- Pricing: Offered at $19.50 per unit on orders above 500 units\n\n## Secondary Recommendation\nFor your secondary pool and fitness center needs, we suggest the GrandPalace Terry. It provides a heavy 650 GSM construction and meets your requirement of 275 commercial cycles.\n\n## Account Next Steps\nIf you want to secure these delivery dates, you must sign immediately or risk supply stockouts that will leave your properties without inventory. Samples will ship via ground freight on 04/18/2026 for review.",
+    "document": "# Product Recommendation for Westbrook Community Market\nPrepared 04/14/2026 for Irene Tran, Purchasing Manager\n\n## Customer needs\nIrene and Linh Delgado, the café operations lead, are planning for an expected increase in weekday lunch traffic. They asked for unbleached paper napkins, a lower-cost option for restroom hand drying, and delivery to their receiving area by 04/22/2026. They prefer products that fit their existing dispensers and want to keep the first order under $500 before tax.\n\n## Current options\n| Product | Pack and fit | Unit price | Availability |\n| --- | --- | --- | --- |\n| Unbleached dinner napkins | 1-ply, 15 in × 17 in, 4,000 per case | $36.00 per case | 18 cases |\n| Recycled multifold towels | 16 packs of 250 per case; fits standard multifold dispensers | $42.00 per case | 12 cases |\n| Recycled roll towels | 6 rolls per case; 800 ft per roll; fits standard roll-towel dispensers | $48.00 per case | 9 cases |\n\n## Recommended opening order\n- 4 cases of unbleached dinner napkins: $144.00.\n- 4 cases of recycled multifold towels: $168.00. This is the best fit for the customer's existing dispensers and costs $6 less per case than the roll-towel option.\n- 2 cases of recycled roll towels: $96.00, as a small backup for the second restroom.\n- Merchandise subtotal: $408.00 before tax, within the stated $500 limit.\n\nThe recommended delivery date is 04/22/2026, subject to confirmation when the order is placed. The napkins are unbleached; the two towel options are recycled. Please confirm dispenser fit for the second restroom before adding the backup cases, since its dispenser type was not specified.\n\nYou should have planned better before asking for a rush delivery. Alicia Kim, Wholesale Sales",
     "errors": [
       {
-        "quote": "Offered at $19.50 per unit on orders above 500 units",
-        "start": 1289,
-        "end": 1341,
+        "quote": "2 cases of recycled roll towels: $96.00",
+        "start": 1187,
+        "end": 1226,
+        "focusStart": 1187,
+        "focusEnd": 1194,
         "type": "fact",
-        "explanation": "The line item table lists CoastalWeave Premier at $16.50 per unit, and the client's stated requirement is under $18.00 per unit, directly contradicting the $19.50 figure.",
-        "fix": "Offered at $16.50 per unit on orders above 500 units"
+        "explanation": "The recommendation says this is a small backup for the second restroom, but the customer’s stated needs only specify existing dispensers generally and the later sentence says the second restroom’s dispenser type was not specified. Recommending cases for that restroom before confirming fit contradicts the stated fit requirement.",
+        "fix": "Remove the two roll-towel cases from the opening order"
       },
       {
-        "quote": "you must sign immediately or risk supply stockouts that will leave your properties without inventory",
-        "start": 1616,
-        "end": 1716,
+        "quote": "You should have planned better before asking for a rush delivery.",
+        "start": 1635,
+        "end": 1700,
+        "focusStart": 1635,
+        "focusEnd": 1665,
         "type": "tone",
-        "explanation": "The aggressive, threatening tone is inappropriate and unprofessional for a B2B sales recommendation to a client.",
-        "fix": "we recommend confirming your order by early May to ensure timely delivery before peak season"
+        "explanation": "This sentence blames the customer and is dismissive in a sales recommendation. The document gives a requested delivery date but no basis for criticizing the customer.",
+        "fix": "We’ll coordinate the requested delivery date when the order is placed."
       }
     ]
   }

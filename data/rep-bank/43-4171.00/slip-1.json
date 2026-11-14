@@ -4,27 +4,31 @@
   "taskId": "744",
   "locale": "en",
   "difficulty": 1,
-  "title": "Front Desk Daily Call Log and Message Summary",
-  "brief": "A receptionist daily call log and routed message summary drafted from switchboard intake notes at an outpatient pediatric clinic.",
-  "docType": "call log",
+  "title": "Maple Grove Call Handling Desk Sheet",
+  "brief": "A call-answering and routing desk sheet for Maple Grove Family Services, drafted from the office directory and front-desk procedures.",
+  "docType": "call routing sheet",
   "slip": {
-    "document": "# Front Desk Daily Call Log and Message Summary\nDate: 04/14/2026 | Operator: Keiko Maddox | Station: Main PBX Console\n\n## Operator Directory Reference\n| Provider / Staff | Department | Extension | Status Today |\n| --- | --- | --- | --- |\n| Dr. Irene Gomez | Pediatrics (Blue Team) | Ext. 4102 | In Clinic (Exam Rm 1-4) |\n| Dr. Keith Albright | Pediatrics (Gold Team) | Ext. 4108 | Hospital Rounds (AM) / Clinic (PM) |\n| Nurse Triage Line | Clinical Support | Ext. 4115 | Active Line |\n| Billing Office | Patient Accounts | Ext. 4201 | Remote Coverage |\n\n## Morning Switchboard Summary\n- Total incoming calls handled: 48\n- Calls transferred to clinical triage: 19\n- Direct appointments booked: 14\n- Messages queued for callback: 15\n\n## Action Required Messages\n\n- Time: 08:42 AM\nCaller: Naomi Lindqvist (Mother of Lucas Lindqvist, DOB 11/03/2021)\nCaller Phone: (555) 018-4491\nRecipient: Dr. Keith Albright\nMessage: Lucas developed a barking cough overnight with a low-grade fever of 100.8°F. Caller requests a same-day appointment or guidance from his primary provider.\nAction Taken: Forwarded patient chart alert to Dr. Irene Gomez via Ext. 4108 for follow-up.\n\n- Time: 09:15 AM\nCaller: David Miller (Father of Chloe Miller, DOB 06/22/2019)\nCaller Phone: (555) 019-8823\nRecipient: Billing Office\nMessage: Received a statement reflecting a $120 balance for a preventive wellness visit on 03/10/2026 that should have been fully covered by primary insurance.\nAction Taken: Routed to Ext. 4201. I told the father that he clearly failed to update his insurance details with us prior to the checkup, and instructed him to leave a voicemail for Patient Accounts.",
+    "document": "# Maple Grove Call Handling Desk Sheet\nFront desk reference | 04/17/2026\n\n## Office details\nMaple Grove Family Services, 214 Cedar Avenue, Madison, WI 53703\nMain line: (608) 555-0146 | Reception desk: Naomi Yamamoto\nRegular phone coverage: Monday–Friday, 8:00 AM–5:00 PM\n\n| Team | Extension | Coverage |\n| --- | --- | --- |\n| Appointments | 221 | 8:00 AM–5:00 PM |\n| Billing | 224 | 8:30 AM–4:30 PM |\n| Records | 227 | 8:00 AM–5:00 PM |\n| Maria Santoro, office manager | 230 | 8:00 AM–5:00 PM |\n\n## Answer and route\nAnswer with, \"Maple Grove Family Services, this is Naomi. How may I direct your call?\" Confirm the caller's name, callback number, and the team or staff member requested before transferring. Use a warm transfer when the receiving team answers; if there is no answer, return to the caller and offer voicemail or a message.\n\nFor appointment requests, transfer callers to extension 221. If the caller asks for an appointment time, do not promise availability; the appointments team confirms openings. Today, Wendy Pruitt called from (608) 555-0182 seeking a new-patient appointment. The appointment team's listed extension is 221. Transfer Wendy to extension 224 for scheduling.\n\nIf a caller requests a staff member who is unavailable, take the caller's name, callback number, reason for calling, and preferred return time. Read the number back to confirm it, then send the message through the office message system. Do not disclose whether a person is a client or share personal information with an unverified caller.\n\n## Message example\nFor a caller who cannot be transferred: \"You should have called earlier; I can take a message or connect you to voicemail.\" Record the date and time, caller details, requested recipient, and any stated deadline. Keep messages factual and neutral; do not guarantee a return-call time.",
     "errors": [
       {
-        "quote": "Forwarded patient chart alert to Dr. Irene Gomez via Ext. 4108",
-        "start": 1083,
-        "end": 1145,
+        "quote": "Transfer Wendy to extension 224 for scheduling.",
+        "start": 1144,
+        "end": 1191,
+        "focusStart": 1172,
+        "focusEnd": 1175,
         "type": "fact",
-        "explanation": "Ext. 4108 belongs to Dr. Keith Albright according to the Operator Directory Reference table, whereas Dr. Irene Gomez is at Ext. 4102.",
-        "fix": "Forwarded patient chart alert to Dr. Keith Albright via Ext. 4108"
+        "explanation": "The directory lists extension 221 for Appointments, and Wendy is seeking an appointment. Extension 224 is Billing.",
+        "fix": "Transfer Wendy to extension 221 for scheduling."
       },
       {
-        "quote": "I told the father that he clearly failed to update his insurance details with us",
-        "start": 1491,
-        "end": 1571,
+        "quote": "You should have called earlier; I can take a message",
+        "start": 1593,
+        "end": 1645,
+        "focusStart": 1593,
+        "focusEnd": 1623,
         "type": "tone",
-        "explanation": "The phrasing is confrontational, accusatory, and unprofessional toward a patient's parent.",
-        "fix": "I informed the father that we may need to verify the insurance details on file"
+        "explanation": "This directly blames and rebukes the caller rather than offering neutral assistance. The message example should acknowledge the situation and offer the available options without assigning fault.",
+        "fix": "I can take a message or connect you to voicemail."
       }
     ]
   }

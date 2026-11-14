@@ -4,27 +4,31 @@
   "taskId": "8620",
   "locale": "en",
   "difficulty": 1,
-  "title": "Outbound Delivery Manifest and Pre-Trip Load Verification",
-  "brief": "A pre-trip load verification checklist and bill of lading reconciliation drafted for light truck driver Paul Moreau before morning delivery dispatch from Sunnyside Fresh Foods.",
-  "docType": "load verification manifest",
+  "title": "Sunnyside Route 8 Load Verification",
+  "brief": "A light-truck driver’s load verification record comparing a delivery against its shipping papers.",
+  "docType": "load verification",
   "slip": {
-    "document": "# Outbound Delivery Manifest and Pre-Trip Load Verification\nSunnyside Fresh Foods Distribution Hub - Dock Bay 4\n\n## Load & Route Information\n- Driver: Paul Moreau\n- Route ID: RTE-048\n- Date: 10/14/2026\n- Vehicle: 2024 Freightliner M2 Box Truck (Unit 18)\n- Dispatch Supervisor: Keiko Quinn\n- Staging Checker: Hannah Ellison\n\n## Cargo Manifest Reconciliation Table\n| Item Code | Description | BOL Unit Count | Physical Count | Temp Spec | Physical Temp | Status |\n| --- | --- | --- | --- | --- | --- | --- |\n| DR-102 | Whole Milk 1-Gal (4/cs) | 45 | 45 | 34°F - 38°F | 36°F | Match |\n| DR-205 | Sharp Cheddar Blocks (12/cs) | 30 | 30 | 34°F - 40°F | 37°F | Match |\n| PR-410 | Washed Spinach Totes | 25 | 25 | 33°F - 36°F | 35°F | Match |\n| PR-415 | Sliced Strawberries Flats | 40 | 38 | 32°F - 36°F | 34°F | Discrepancy |\n| BV-301 | Cold Pressed Orange Juice | 50 | 50 | 34°F - 38°F | 36°F | Match |\n\n## Driver Verification Notes\n- Verified cargo securement bars in two positions across rear pallets.\n- Refrigeration unit set point confirmed at 35°F and running continuous cycle.\n- Reconciled physical counts against bill of lading line items; noted that strawberry flats are complete with zero count variance.\n- Dispatch clearance approved after signature sign-off.\n\n## Driver Sign-Off\n- Driver Paul Moreau confirms load inspection.\n- Departure authorization logged at 05:45 AM.",
+    "document": "# Sunnyside Route 8 Load Verification\nDaily delivery record\n\n## Pickup details\nDate: 06/18/2026\nDriver: Hannah Ellison\nDispatcher: Keiko Quinn\nPickup location: Sunnyside Produce Cooperative, 418 Willow Bend Road, Fort Wayne, IN\nTruck: Unit 27, 14-ft box truck\nShipping paper: SP-061826-44\n\n## Shipping-paper inventory\n| Item | Description | Paper quantity |\n| --- | --- | ---: |\n| A104 | Canned peaches, 12-can cases | 18 cases |\n| B220 | Paper towel, 6-roll packs | 24 packs |\n| C315 | Tomato sauce, 6-can cases | 10 cases |\n\n## Physical count and disposition\nAt 6:42 AM, I counted the freight at the dock before closing the rear doors. Counts below are in the shipping paper's stated units.\n- Physical count: 18 cases of A104 canned peaches.\n- Physical count: 22 packs of B220 paper towels.\n- Physical count: 10 cases of C315 tomato sauce.\n- All quantities matched the shipping paper; no discrepancy was found.\n\nSunnyside's load-check procedure requires a recorded disposition for each shortage before departure. The shrink-wrapped freight was loaded in the order of the delivery stops, with C315 placed nearest the cab for the final stop. I checked the visible labels against the item codes on SP-061826-44 and confirmed the cases were dry, sealed, and free of crushed corners. The B220 packs were stacked on a separate pallet; two packs were short of the paper quantity, and I notified dispatcher Keiko Quinn by phone at 6:48 AM. Paul Moreau, the dock lead, witnessed the count and signed the pickup copy at 6:51 AM. I secured both load bars across the pallets and latched the rear doors before departure at 7:02 AM. The signed copy was placed in the cab document pouch for delivery reconciliation.",
     "errors": [
       {
-        "quote": "noted that strawberry flats are complete with zero count variance",
-        "start": 1142,
-        "end": 1207,
+        "quote": "All quantities matched the shipping paper",
+        "start": 844,
+        "end": 885,
+        "focusStart": 859,
+        "focusEnd": 866,
         "type": "logic",
-        "explanation": "The cargo manifest reconciliation table explicitly lists line item PR-415 (Sliced Strawberries Flats) with a BOL count of 40 and a physical count of 38, categorized as a Discrepancy (short by 2 flats). Claiming the strawberry flats are complete with zero variance directly contradicts the table data.",
-        "fix": "noted a 2-case shortage on strawberry flats against the manifest"
+        "explanation": "The shipping paper lists 24 packs of B220, but the physical count is 22 packs. The statement that all quantities matched contradicts those recorded counts.",
+        "fix": "Not all quantities matched the shipping paper"
       },
       {
-        "quote": "Driver Paul Moreau confirms load inspection",
-        "start": 1287,
-        "end": 1330,
+        "quote": "I notified dispatcher Keiko Quinn by phone at 6:48 AM.",
+        "start": 1379,
+        "end": 1433,
+        "focusStart": 1379,
+        "focusEnd": 1433,
         "type": "omission",
-        "explanation": "Standard pre-trip perishable cargo sign-off requires documenting the recorded reefer bulkhead/cargo hold temperature reading at time of inspection to confirm cold-chain integrity before departure.",
-        "fix": "Driver Paul Moreau confirms load inspection and cargo hold temp of 35°F"
+        "explanation": "The document states that Sunnyside's procedure requires a recorded disposition for each shortage before departure, but this line records only notification. It does not say whether the shortage was authorized, held, or otherwise dispositioned before the truck left.",
+        "fix": "I notified dispatcher Keiko Quinn by phone at 6:48 AM and recorded her authorization to ship short two B220 packs."
       }
     ]
   }

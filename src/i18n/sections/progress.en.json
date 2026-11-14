@@ -1,0 +1,176 @@
+{
+  "meta": {
+    "title": "Your progress",
+    "kitTitle": "Notes for my review",
+    "publicTitle": "{job}: verified practice",
+    "publicDescription": "Practice record from Irreplaceable: reps checked by code or by a rubric, with dates and scores."
+  },
+  "title": "Your progress",
+  "score": {
+    "label": "Your score",
+    "outOf": "out of 100",
+    "up": "+{delta} since you mapped your week",
+    "flat": "Each rep you finish moves it up a little",
+    "chart": "How your score changed",
+    "start": "Week mapped",
+    "edit": "Week changed",
+    "move": "{from} → {to}",
+    "latest": "Latest",
+    "pointLabel": "{date}, score {score}: {reason}"
+  },
+  "counts": {
+    "reps_one": "{count} rep done",
+    "reps_other": "{count} reps done",
+    "caught_one": "{count} AI mistake caught",
+    "caught_other": "{count} AI mistakes caught",
+    "hours": "{hours} h of your week practised well",
+    "hoursHint": "Tasks where you scored 70 or more at least twice"
+  },
+  "reason": {
+    "map": "You mapped your week as {job}",
+    "edit": "You changed how your week splits"
+  },
+  "type": {
+    "slip": "Spot the slip",
+    "delegate": "Delegate",
+    "edge": "Human edge"
+  },
+  "proof": {
+    "slip": "Caught {found} of {total} mistakes in an AI-drafted {doc}",
+    "delegate": "Briefed AI on it: {met} of {criteria} points covered, {traps} of {trapsTotal} traps caught",
+    "edge": "Handled the conversation: {met} of {criteria} key moves made",
+    "generic": "Scored {score} out of 100"
+  },
+  "streak": {
+    "title": "Practice days",
+    "current_one": "{count} day in a row",
+    "current_other": "{count} days in a row",
+    "none": "No streak right now",
+    "noneHint": "One rep today starts a new one.",
+    "best_one": "Best streak: {count} day",
+    "best_other": "Best streak: {count} days",
+    "done": "Practised",
+    "empty": "No rep",
+    "cell_one": "{date}: {count} rep",
+    "cell_other": "{date}: {count} reps",
+    "cellNone": "{date}: no rep",
+    "weekdays": "Mon,Tue,Wed,Thu,Fri,Sat,Sun"
+  },
+  "list": {
+    "title": "Your proof",
+    "lead": "Every rep you finish lands here with its date and score. Switch on Public to show a rep on your proof page.",
+    "public": "Public",
+    "scoreLabel": "Score {score} out of 100",
+    "open": "Open the review",
+    "work": "Used at work for {minutes} min",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "showAll": "Show all {count}",
+    "showLess": "Show fewer",
+    "saveError": "We couldn't change this. Try again."
+  },
+  "share": {
+    "button": "Share my proof page",
+    "needPublic": "Switch on Public for at least one rep first",
+    "title": "Your proof page",
+    "body": "Anyone with this link sees your job, your score and the reps you made public. Your name, pay and resume are never on it.",
+    "copy": "Copy link",
+    "copied": "Link copied",
+    "open": "Open my page",
+    "linkedin": "Share on LinkedIn",
+    "native": "Share",
+    "error": "We couldn't make your link right now. Try again in a minute."
+  },
+  "empty": {
+    "title": "Your first rep starts your proof",
+    "body": "A rep takes about ten minutes. When you finish one, your score moves and the rep lands here with its date.",
+    "action": "Start today's rep",
+    "noMapTitle": "Map your week first",
+    "noMapBody": "Your score and your reps come from the tasks of your own week. Mapping it takes about two minutes.",
+    "noMapAction": "Map my week",
+    "chart": "Your score line will grow here"
+  },
+  "kit": {
+    "title": "Review kit",
+    "body": "A one-page brief for a talk with your manager: what you now do with AI, where your judgment matters and the reps that prove it.",
+    "action": "Build my review brief",
+    "basis_one": "Built from your {count} rep",
+    "basis_other": "Built from your {count} reps",
+    "needRep": "Finish a rep first",
+    "lockedTitle": "Review kit and your 90-day plan come with Pro",
+    "lockedReason": "Pro turns your reps into a one-page brief for your next review and lays out the coming twelve weeks.",
+    "trial": "Start your 7-day free trial",
+    "back": "Back to progress",
+    "copy": "Copy",
+    "copied": "Copied",
+    "print": "Print or save as PDF",
+    "writing": "Writing your brief from your reps",
+    "error": "We couldn't write your brief right now. Your proof is safe. Try again in a minute.",
+    "retry": "Try again",
+    "noProofTitle": "Your brief is built from your reps",
+    "noProofBody": "Finish your first rep, then come back. The brief only uses what you actually did.",
+    "noMapBody": "Map your week first: the brief talks about the tasks of your own week.",
+    "docTitle": "{job}: notes for my review",
+    "docSubtitle_one": "Based on {count} practice exercise between {since} and {today}",
+    "docSubtitle_other": "Based on {count} practice exercises between {since} and {today}",
+    "docSubtitleToday": "Prepared on {today}",
+    "changed": "What changed in how I work",
+    "judgment": "Where my judgment matters",
+    "next": "What I can take on next",
+    "evidence": "Evidence",
+    "evidenceItem": "{date}. {type}, {task}: {summary}. Score {score} out of 100.",
+    "fallbackChanged": "{task}, {hours} h a week: AI already helps with this work, and I practise checking what it drafts.",
+    "note": "Written from your own practice record. Read it once before you share it.",
+    "madeWith": "Irreplaceable"
+  },
+  "plan": {
+    "title": "Your 90-day plan",
+    "lead": "Twelve weeks built from your own week: first hand work to AI, then check it, then grow the part that needs you.",
+    "weekOf": "Week {n} of 12",
+    "now": "This week",
+    "month": {
+      "handoff": "Month 1: Hand off",
+      "supervise": "Month 2: Supervise",
+      "edge": "Month 3: Grow your edge"
+    },
+    "focus": {
+      "handDelegate": "Hand {task} to AI with a clear instruction",
+      "handSlip": "Hand {task} to AI and check it with Spot the slip",
+      "superviseSlip": "Check AI's draft of {task} with Spot the slip",
+      "superviseDelegate": "Hand {task} to AI from start to finish and review the result",
+      "edge": "Practise the human side of {task} with Human edge",
+      "skill": "Build {skill}, a skill {job} asks for",
+      "review": "Bring it together: build your review brief"
+    },
+    "done_one": "{count} rep this week",
+    "done_other": "{count} reps this week",
+    "none": "No reps this week yet",
+    "onFocus": "on this week's focus",
+    "startRep": "Start today's rep",
+    "seeAll": "See all 12 weeks",
+    "finished": "You've finished all twelve weeks. Map your week again to plan the next three months.",
+    "dates": "{from} to {to}",
+    "loadError": "We couldn't load your plan. Try again in a minute."
+  },
+  "public": {
+    "what": "What is this?",
+    "mapOwn": "Map your own week",
+    "reps_one": "{count} verified rep",
+    "reps_other": "{count} verified reps",
+    "since": "Practising since {date}",
+    "scoreLabel": "Score",
+    "scoreHint": "How much of this week stays human, plus verified practice",
+    "byType": "Reps by kind",
+    "listTitle": "Shared reps",
+    "emptyTitle": "Nothing is shared here right now",
+    "emptyBody": "The owner of this page hasn't made any reps public yet.",
+    "about": "Irreplaceable maps a person's week task by task and trains them to check AI's work in their own job. Each rep on this page was checked by code or by a rubric, not self-reported.",
+    "notFoundTitle": "This proof page doesn't exist",
+    "notFoundBody": "The link may be cut off, or the page was deleted together with its profile."
+  },
+  "errors": {
+    "load": "We couldn't load your progress. Try again in a minute.",
+    "nothing_public": "Switch on Public for at least one rep first.",
+    "no_proof": "Finish a rep first: the brief is built from your reps."
+  }
+}

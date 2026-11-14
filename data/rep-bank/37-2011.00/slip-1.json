@@ -4,27 +4,31 @@
   "taskId": "9541",
   "locale": "en",
   "difficulty": 1,
-  "title": "Floor Care and Chemical Safety Protocol: Building B Restorations",
-  "brief": "Standard operating procedure drafted for custodial staff detailing chemical dilutions, floor substrate restrictions, and power scrubber setup for an overnight restoration at Harbor Point Health Center.",
-  "docType": "floor care standard operating procedure",
+  "title": "Harbor Point Floor-Cleaning Chemical Procedure",
+  "brief": "A floor-cleaning chemical procedure for Harbor Point Civic Center, drafted from the product label, site floor inventory, and equipment records.",
+  "docType": "cleaning procedure",
   "slip": {
-    "document": "# Floor Care and Chemical Safety Protocol: Building B Restorations\nFacility: Harbor Point Health Center\nPrepared By: Julia Santoro, Facilities Supervisor\nDate: 04/14/2026\nTarget Area: Building B Ground Concourse and Outpatient Suites\n\n## Approved Chemicals and Substrate Compatibility\n| Product Code | Chemical Name | pH Level | Approved Substrate | Scrubber Pad Type |\n| --- | --- | --- | --- | --- |\n| CHEM-102 | Neutral Floor Cleaner | 7.0 | Polished Terrazzo | White Non-Abrasive |\n| CHEM-204 | Alkaline Heavy Stripper | 13.0 | Vinyl Composite Tile (VCT) | Black High-Density |\n| CHEM-301 | Acidic Descaler | 2.5 | Unglazed Ceramic Tile | Red Buffing |\n\n## Mandatory Dilution and Mixing Rules\n- Use the automated wall-mounted proportioner in Custodial Closet 104 for all dispensing.\n- Fill solution tanks with cold tap water only; hot water accelerates hazardous vapor production.\n- Under no circumstances combine CHEM-204 with acidic descalers or ammonia-based products.\n\n## Task Instructions for Shift Leads Priya Yamamoto and Fatima Mahoney\n- Inspect all power cords and ground fault circuit interrupter (GFCI) plugs on the Pacific 20-inch auto-scrubber before operation.\n- Post yellow wet-floor warning signs at every corridor entrance 50 feet ahead of cleaning.\n- Dispense CHEM-204 at the specified 1:4 ratio to strip the sealed terrazzo in the main lobby.\n- Run the Clarke rotary machine at 175 RPM across the administrative VCT corridors using the neutral pH formulation CHEM-204 to prevent finish damage.\n- Double-rinse all treated ceramic surfaces with clean cold water to prevent residual tracking into adjoining carpet zones.",
+    "document": "# Harbor Point Floor-Cleaning Chemical Procedure\nNight shift | Civic Center, west corridor | 06/18/2026\n\n## Assignment and references\nPrepared by Fatima Mahoney for cleaner Priya Yamamoto; supervisor Julia Santoro approved the route. The 420 sq ft corridor has finish-coated VCT. Use the neutral cleaner listed in the site chemical inventory and follow its label and SDS. Keep visitors out until the floor is dry.\n\n| Reference | Site record |\n| --- | --- |\n| Cleaner dilution | 2 oz concentrate per 1 gal cool water |\n| Floor compatibility | Approved for finish-coated VCT |\n| Listed equipment | Microfiber damp mop only; autoscrubber not approved |\n| PPE | Chemical-resistant gloves and splash goggles |\n| Emergency flush | Eyewash station beside custodial closet 1B |\n\n## Procedure\n- Place wet-floor signs at both corridor entrances and keep the public out of the work area.\n- Put on chemical-resistant gloves and splash goggles before handling concentrate. Do not mix the cleaner with bleach, ammonia, or another product.\n- Fill a labeled bucket with 1 gal of cool water, then add 4 oz of concentrate. Measure with the graduated cup; do not estimate by pouring.\n- Apply solution with the microfiber damp mop, working from the far end toward the exit. Do not leave puddles or allow solution to dry on the finish.\n- Since the corridor has no visible standing soil, use the autoscrubber for this pass.\n- Rinse the bucket and cup after use. Store the concentrate upright in the locked chemical cabinet with its original label facing outward; never transfer it to a drink container.\n- If cleaner contacts skin or eyes, flush with water for 15 minutes and notify Julia Santoro. For a spill, keep people clear, consult the SDS, and notify the supervisor before cleanup.\n- Remove signs only after the floor is fully dry. Record the work area, product, dilution, and completion time in the night-shift log.",
     "errors": [
       {
-        "quote": "Dispense CHEM-204 at the specified 1:4 ratio to strip the sealed terrazzo in the main lobby.",
-        "start": 1273,
-        "end": 1365,
+        "quote": "add 4 oz of concentrate",
+        "start": 1080,
+        "end": 1103,
+        "focusStart": 1084,
+        "focusEnd": 1088,
         "type": "fact",
-        "explanation": "The compatibility table specifically lists CHEM-204 as approved only for Vinyl Composite Tile (VCT), while polished terrazzo requires CHEM-102. Applying an aggressive alkaline stripper (pH 13.0) to terrazzo can etch and ruin the stone matrix.",
-        "fix": "Dispense CHEM-102 at the specified 1:4 ratio to clean the sealed terrazzo in the main lobby."
+        "explanation": "The site reference table specifies 2 oz of concentrate per 1 gal of cool water, but this instruction calls for 4 oz per gallon.",
+        "fix": "add 2 oz of concentrate"
       },
       {
-        "quote": "using the neutral pH formulation CHEM-204 to prevent finish damage.",
-        "start": 1449,
-        "end": 1516,
+        "quote": "use the autoscrubber for this pass",
+        "start": 1366,
+        "end": 1400,
+        "focusStart": 1366,
+        "focusEnd": 1386,
         "type": "logic",
-        "explanation": "The reference table shows CHEM-204 has a pH of 13.0 (alkaline heavy stripper), directly contradicting the statement that it is a neutral pH formulation. CHEM-102 is the neutral pH formulation (pH 7.0).",
-        "fix": "using the neutral pH formulation CHEM-102 to prevent finish damage."
+        "explanation": "The reference table lists microfiber damp mop only and explicitly says the autoscrubber is not approved. The absence of visible standing soil does not change that equipment restriction.",
+        "fix": "use the microfiber damp mop for this pass"
       }
     ]
   }

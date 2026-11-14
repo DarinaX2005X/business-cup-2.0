@@ -365,10 +365,23 @@ export interface ProofEntry {
   public: boolean;
 }
 
+export interface ProfileAccount {
+  /** trimmed, lowercased */
+  email: string;
+  /** `scrypt$N$r$p$<salt>$<key>` (base64); a value without that form never matches (shared demo accounts) */
+  passwordHash: string;
+  createdAt: string;
+}
+
 export interface Profile {
   id: string;
   version: number;
+  /** sha256 of the first device secret. Profiles with `secretHashes` authenticate against that list instead. */
   secretHash: string;
+  /** sha256 of every signed-in device secret, oldest first (at most 10; shared demo accounts more). Never sent to clients. */
+  secretHashes?: string[];
+  /** Email and password sign-in attached to this profile. Never sent to clients except `account.email`. */
+  account?: ProfileAccount;
   createdAt: string;
   locale: Locale;
   tz: string | null;
@@ -381,7 +394,7 @@ export interface Profile {
   lastXrayId?: string;
   reps: string[];
   repLog: { id: string; taskId: string; type: RepType; kind: Rep['kind']; day: string; score?: number }[];
-  trial: { status: 'available' | 'in_progress' | 'used'; repId?: string };
+  trial: { status: 'available' | 'in_progress' | 'used'; repId?: string; rewrites?: number };
   streak: { current: number; best: number; lastDay: string | null; days: string[]; freezes: number };
   /** `xp`: every positive award ever, never spent (levels, leaderboard); older profiles derive it, see xpOf. */
   points: { balance: number; events: PointsEvent[]; xp?: number };

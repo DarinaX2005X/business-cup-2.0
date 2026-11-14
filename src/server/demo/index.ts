@@ -1,1 +1,2 @@
-export { JURY_PERSONAS, openJuryAccount, type JuryPersona, type JuryResult } from './jury';
+export { demoEmail, openDemoAccount, type DemoAccount } from './accounts';
+export { buildDemoMap, JURY_PERSONAS, PERSONA_TZ, type JuryPersona } from './jury';

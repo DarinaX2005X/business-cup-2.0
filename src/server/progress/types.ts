@@ -73,31 +73,6 @@ export interface ProgressResponse {
   isPro: boolean;
 }
 
-export interface PlanWeek {
-  /** 1..12 */
-  n: number;
-  focus: Phrase;
-  taskIds: string[];
-  repType: RepType | null;
-  start: string;
-  end: string;
-  done: { repId: string; type: RepType; taskId: string; taskShort: string; score: number; day: string; onFocus: boolean }[];
-}
-
-export interface PlanMonth {
-  key: 'handoff' | 'supervise' | 'edge';
-  weeks: PlanWeek[];
-}
-
-export interface PlanResponse {
-  xrayId: string;
-  start: string;
-  /** Index of the current week, 0..11; 12 once the plan is over. */
-  current: number;
-  months: PlanMonth[];
-  tasks: Record<string, string>;
-}
-
 export interface ReviewKitSection {
   key: 'changed' | 'judgment' | 'next' | 'evidence';
   title: string;
@@ -123,4 +98,8 @@ export interface PublicPortfolio {
   byType: Record<RepType, number>;
   since: string;
   entries: Omit<ProofView, 'public' | 'workMinutes' | 'repId' | 'occupationCode'>[];
+  /** The latest week map behind the share card (server only: page metadata). */
+  card: { id: string; version: number; updatedAt: string; jobTitle: string } | null;
+  /** XP level of the owner, e.g. "Level 3 · Steady hand". */
+  level: { level: number; label: string };
 }

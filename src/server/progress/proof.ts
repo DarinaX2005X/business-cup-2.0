@@ -1,5 +1,6 @@
 import { randomBytes } from 'node:crypto';
 import { localDay } from '@/domain/reps';
+import { levelOf, xpOf } from '@/domain/points';
 import { computeXray } from '@/domain/xray';
 import type { Locale, PointsAward, Profile, ProofEntry, RepType } from '@/domain/types';
 import { emit } from '@/server/events';
@@ -103,6 +104,8 @@ export async function readPublicPortfolio(slug: string, locale: Locale): Promise
     reps: done.length,
     byType,
     since: profile.createdAt,
+    level: (({ level, label }) => ({ level, label }))(levelOf(xpOf(profile))),
+    card: xray && xray.profileId === profile.id ? { id: xray.id, version: xray.version, updatedAt: xray.updatedAt, jobTitle: xray.jobTitle } : null,
     entries: shown.map((e) => {
       const summary = summaryPhrase(e);
       return {

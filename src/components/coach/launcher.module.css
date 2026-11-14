@@ -1,0 +1,85 @@
+/* «Ask your coach»: a paper chip in the header with the keystone, lifting on hover like the shop tickets. */
+
+.launcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 14px 0 6px;
+  border-radius: 999px;
+  color: var(--ink);
+  font-size: var(--fs-15);
+  font-weight: 650;
+  text-decoration: none;
+  white-space: nowrap;
+  background: var(--card);
+  box-shadow:
+    var(--hl),
+    inset 0 0 0 1px var(--line),
+    var(--shadow-rest);
+  transition:
+    transform var(--t-hover) var(--ease),
+    box-shadow var(--t-hover) var(--ease),
+    background var(--t-hover) var(--ease);
+}
+
+.launcher:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    var(--hl),
+    inset 0 0 0 1px oklch(82% 0.05 288),
+    var(--shadow-raised);
+}
+
+.launcher:active {
+  transform: scale(0.97);
+  transition-duration: var(--t-press);
+}
+
+.launcher:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.launcher[aria-current='page'] {
+  background: var(--violet-soft);
+  box-shadow:
+    var(--hl),
+    inset 0 0 0 1.5px oklch(78% 0.08 288);
+}
+
+.mark {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--violet-soft);
+  transition: transform var(--t-pop) var(--spring);
+}
+
+.launcher:hover .mark {
+  transform: rotate(-8deg) scale(1.06);
+}
+
+.launcher[data-compact] {
+  width: 40px;
+  padding: 0;
+  justify-content: center;
+}
+
+.launcher[data-compact] .mark {
+  width: 32px;
+  height: 32px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .launcher,
+  .mark {
+    transition: none;
+  }
+  .launcher:hover,
+  .launcher:hover .mark {
+    transform: none;
+  }
+}

@@ -7,6 +7,7 @@ import { POST as cupPOST } from '@/app/api/billing/cup/route';
 import { GET as todayGET } from '@/app/api/reps/today/route';
 import { POST as redeemPOST } from '@/app/api/shop/redeem/route';
 import type { RepView } from '@/domain/reps';
+import { signup } from '@/server/auth';
 import { PROMO_RE, setStripeForTests } from '@/server/billing';
 import { createProfile, getProfile } from '@/server/profile';
 import { aiOrMeFor, answerRep, resetBankCache, startTrial, submitAiOrMe, weekOf } from '@/server/reps';
@@ -77,6 +78,11 @@ describe('Business Cup offer through the API', () => {
     const n = await nurse();
     const free = await todayGET(req('/api/reps/today', n.headers));
     expect(free.status).toBe(402);
+
+    const guest = await cupPOST(req('/api/billing/cup', n.headers, { method: 'POST' }));
+    expect(guest.status).toBe(401);
+    expect((await guest.json()).error.code).toBe('account_required');
+    await signup((await getProfile(n.id))!, { email: `nurse-${n.id}@example.com`, password: 'long enough pw' }, '127.0.0.1');
 
     const unlocked = await cupPOST(req('/api/billing/cup', n.headers, { method: 'POST' }));
     expect(unlocked.status).toBe(201);

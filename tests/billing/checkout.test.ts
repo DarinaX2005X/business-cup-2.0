@@ -1,5 +1,6 @@
 import Stripe from 'stripe';
 import { POST as checkoutPOST } from '@/app/api/billing/checkout/route';
+import { signup } from '@/server/auth';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import type { Profile } from '@/domain/types';
 import { confirmCheckout, createCheckout, createPortal, ensureFreshPlan, handleWebhook, isCoach, redeem, setStripeForTests } from '@/server/billing';
@@ -133,6 +134,13 @@ describe('Coach tier', () => {
 
   it("POST /api/billing/checkout takes tier 'max' (the display name) as the top tier", async () => {
     const { profile, secret } = await createProfile({ locale: 'en' });
+    const headers = { 'x-profile-id': profile.id, 'x-profile-secret': secret, 'content-type': 'application/json' };
+    const call = () =>
+      checkoutPOST(new Request('http://localhost/api/billing/checkout', { method: 'POST', headers, body: JSON.stringify({ tier: 'max', interval: 'year' }) }));
+    const guest = await call();
+    expect(guest.status).toBe(401);
+    expect((await guest.json()).error.code).toBe('account_required');
+    await signup(profile, { email: `max-${profile.id}@example.com`, password: 'long enough pw' }, '127.0.0.1');
     const res = await checkoutPOST(
       new Request('http://localhost/api/billing/checkout', {
         method: 'POST',

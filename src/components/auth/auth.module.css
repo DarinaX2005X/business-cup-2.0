@@ -1,0 +1,130 @@
+/* The account form: in the dialog and on /login and /signup. One column, generous fields, errors in place. */
+
+.form {
+  display: grid;
+  gap: 18px;
+  width: 100%;
+}
+
+.head {
+  display: grid;
+  gap: 6px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 750;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.lead {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.eye {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  margin-right: 4px;
+  border-radius: 12px;
+  color: var(--ink-2);
+  transition:
+    background-color var(--t-hover) var(--ease),
+    color var(--t-hover) var(--ease);
+}
+
+.eye:hover {
+  color: var(--ink);
+  background: var(--sunk);
+}
+
+.eye:active {
+  transform: scale(0.95);
+}
+
+.error {
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--error);
+  background: var(--error-soft);
+}
+
+.switch {
+  font-size: 15px;
+  color: var(--ink-2);
+  text-align: center;
+}
+
+.inline {
+  font: inherit;
+  font-weight: 600;
+  color: var(--violet);
+  text-decoration-line: underline;
+  text-decoration-color: color-mix(in oklch, var(--violet) 35%, transparent);
+  text-underline-offset: 3px;
+  border-radius: 4px;
+}
+
+.inline:hover {
+  text-decoration-color: var(--violet);
+}
+
+/* ---------- the /login and /signup pages ---------- */
+
+.page {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+}
+
+.main {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: var(--s-48) var(--s-16) var(--s-72);
+}
+
+.card {
+  position: relative;
+  width: min(460px, 100%);
+  padding: 36px 36px 30px;
+  border-radius: var(--r-panel);
+  background: var(--card);
+  box-shadow:
+    inset 0 0 0 1px var(--line),
+    var(--hl),
+    var(--shadow-raised);
+  animation: cardIn 0.4s var(--ease-out);
+}
+
+/* the keystone above the card: the account holds the arch together */
+.mark {
+  position: absolute;
+  top: -26px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px;
+  border-radius: 50%;
+  background: var(--paper);
+}
+
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+@media (max-width: 520px) {
+  .card {
+    padding: 32px 20px 24px;
+  }
+}

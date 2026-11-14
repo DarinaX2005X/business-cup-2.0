@@ -4,6 +4,7 @@ import { Check } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useRequireAccount } from '@/components/auth/AuthProvider';
 import { CupBand } from '@/components/cup/CupBand';
 import { Button } from '@/components/kit/Button';
 import { Segmented } from '@/components/kit/Segmented';
@@ -65,6 +66,7 @@ function shownPlans(): Shown[] {
 export function Plans({ freeHref = '/start', freeLabel, heading = 'h3' }: { freeHref?: string; freeLabel?: string; heading?: 'h2' | 'h3' }) {
   const { t, f } = useT();
   const prof = useProfile();
+  const requireAccount = useRequireAccount();
   const router = useRouter();
   const onPricing = usePathname() === '/pricing';
   const [interval, setBilling] = useState<Interval>('year');
@@ -80,8 +82,10 @@ export function Plans({ freeHref = '/start', freeLabel, heading = 'h3' }: { free
     setFailed(null);
     try {
       await prof.ensure();
-      const { url } = await apiFetch<{ url: string }>('/api/billing/checkout', { method: 'POST', body: { tier, interval } });
-      window.location.assign(url);
+      // a subscription belongs to an account: a guest signs up (or logs in) first, then checkout continues
+      const res = await requireAccount(() => apiFetch<{ url: string }>('/api/billing/checkout', { method: 'POST', body: { tier, interval } }));
+      if (!res) return setBusy(null);
+      window.location.assign(res.url);
     } catch {
       setBusy(null);
       if (onPricing) setFailed(tier);

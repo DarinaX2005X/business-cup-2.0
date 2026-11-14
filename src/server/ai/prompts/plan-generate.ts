@@ -35,7 +35,7 @@ export interface PlanPromptInput {
   occupation: string;
   tasks: { id: string; label: string; hours: number; group: TaskGroup; text: string }[];
   skills: { id: string; name: string }[];
-  gaps: { id: string; name: string; why: string }[];
+  gaps: { id: string; name: string; what: string; why: string }[];
   practice: { slip: number; delegate: number; edge: number };
   /** Weeks to write (a refresh rewrites from a week on). */
   fromWeek: number;
@@ -59,10 +59,11 @@ export const planGeneratePrompt = {
       '- work: one thing to do in their real job this week on one task: use their Playbook instruction for it (a ready instruction to paste into ChatGPT, Claude or Copilot), check a real AI draft with Second look, time the task, or tap "I used this at work" on the map. Needs taskId. Naming a day helps ("on Tuesday").',
       '- skill: one concrete step on a skill from the lists: shadow someone who is good at it, teach it to a colleague, read one guideline, take one short module, use it on a real case. Needs skillId; may also have taskId.',
       '- review: a Review kit milestone: build the one-page review brief, add proof from your reps, book a talk with your manager. No taskId, no skillId.',
-      'Every week has at least one rep. Use all three rep types across the plan.',
+      'Every week has at least one rep. Most weeks have 4 actions. Use all three rep types across the plan.',
+      'Make it feel like a real coach wrote it for this job: vary the actions from week to week, never use the same sentence pattern more than three times, and make skill steps specific to their work (what exactly to try, read, ask or teach, on which task).',
       '',
       'Writing:',
-      '- text: one plain sentence a person would say, starting with a verb, at most 120 characters. Write {task} where the task name goes and {skill} where the skill name goes. Never write a task name, skill name or id yourself. Use {task} only when the item has a taskId, {skill} only when it has a skillId.',
+      '- text: one plain sentence a person would say, starting with a verb, at most 120 characters. Write {task} where the task name goes and {skill} where the skill name goes. Never write a task name, skill name or id yourself. Use {task} only when the item has a taskId, {skill} only when it has a skillId. The names from the lists are dropped in exactly as given, so read each sentence back with the name in place: it must sound natural ("Teach {skill} to a new colleague" with "Teaching others" does not; "Pair with a senior colleague on {skill}" does).',
       '- focus: 3 to 8 plain words, no final period, e.g. "Hand {task} to AI and check it". If it has {task}, set focusTaskId.',
       '- No numbers about AI, pay or time saved, no percentages, no prices, nothing about their workplace that is not in the input, no product names except ChatGPT, Claude, Copilot, Playbook, Second look and Review kit. Small counts are fine ("Do two Delegate reps on {task}").',
       '- No two actions in the plan have the same text. No exclamation marks.',
@@ -76,8 +77,8 @@ export const planGeneratePrompt = {
       'Their week (taskId | name | hours a week | group | O*NET task):',
       ...input.tasks.map((t) => `${t.id} | ${t.label} | ${t.hours} | ${t.group} | ${t.text}`),
       '',
-      'Worth building next (skillId | name | why):',
-      ...(input.gaps.length ? input.gaps.map((g) => `${g.id} | ${g.name} | ${g.why}`) : ['(none found)']),
+      'Worth building next (skillId | name | what it means | why):',
+      ...(input.gaps.length ? input.gaps.map((g) => `${g.id} | ${g.name} | ${g.what} | ${g.why}`) : ['(none found)']),
       '',
       'Their skills they can deepen (skillId | name):',
       ...(input.skills.length ? input.skills.map((s) => `${s.id} | ${s.name}`) : ['(none listed yet)']),

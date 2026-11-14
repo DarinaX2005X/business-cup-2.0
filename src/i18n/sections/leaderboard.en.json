@@ -1,0 +1,46 @@
+{
+  "meta": {
+    "title": "Leaderboard"
+  },
+  "title": "This week's leaderboard",
+  "lead": "XP earned since Monday. Only real people are here, each shown as their job and a number unless they picked a nickname.",
+  "players_one": "{count} person on the board this week",
+  "players_other": "{count} people on the board this week",
+  "xp": "{count} XP",
+  "you": "You",
+  "rank": "Place {rank}",
+  "gap": "Places in between",
+  "empty": {
+    "title": "Nobody is on this week's board yet",
+    "body": "Every rep and every round of AI or me earns XP. Do today's rep to be the first name here.",
+    "cta": "Go to Today"
+  },
+  "error": {
+    "title": "The leaderboard didn't load",
+    "body": "Your XP is safe. Try again in a moment.",
+    "retry": "Try again"
+  },
+  "me": {
+    "title": "Your place",
+    "place": "Place {rank} of {players}",
+    "none": "Not on the board yet",
+    "noneBody": "Earn XP this week with a rep or a round of AI or me, and your name appears here.",
+    "weekXp": "{count} XP this week",
+    "level": "Level {level} · {name}"
+  },
+  "nick": {
+    "title": "Your name on the board",
+    "now": "Now shown as {handle}",
+    "label": "Nickname",
+    "placeholder": "For example NightShiftNurse",
+    "help": "2–24 letters, numbers or spaces. Leave it empty to show your job and a number.",
+    "save": "Save my nickname",
+    "saving": "Saving",
+    "saved": "Saved. The board shows this name now.",
+    "cleared": "Cleared. The board shows your job and a number.",
+    "invalid": "Use 2–24 letters, numbers, spaces or . _ ' -, and keep it friendly.",
+    "error": "We couldn't save this name. What you typed is still here, so try again.",
+    "noProfile": "Map your week or play a round of AI or me first. Your place on the board comes with it.",
+    "noProfileCta": "Map my week"
+  }
+}

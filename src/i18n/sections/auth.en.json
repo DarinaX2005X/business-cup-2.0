@@ -1,0 +1,57 @@
+{
+  "meta": {
+    "login": "Log in",
+    "signup": "Sign up"
+  },
+  "signup": {
+    "title": "Save your progress",
+    "lead": "Your week map and progress move with you. Use the same email to open them on any device.",
+    "submit": "Create my account",
+    "busy": "Creating your account",
+    "switch": "Already have an account?",
+    "switchCta": "Log in"
+  },
+  "login": {
+    "title": "Log in",
+    "lead": "Open your week map, plan and points.",
+    "submit": "Log in",
+    "busy": "Logging in",
+    "switch": "New here?",
+    "switchCta": "Create an account"
+  },
+  "gate": {
+    "title": "Create an account to continue",
+    "lead": "A plan belongs to an account, so you can open it on any device. Your week map and progress move with you."
+  },
+  "email": {
+    "label": "Email",
+    "placeholder": "you@example.com",
+    "invalid": "Enter an email like name@example.com."
+  },
+  "password": {
+    "label": "Password",
+    "help": "At least 8 characters",
+    "short": "Use at least 8 characters.",
+    "show": "Show password",
+    "hide": "Hide password"
+  },
+  "errors": {
+    "invalid_login": "That email and password don't match an account. Check them and try again.",
+    "email_taken": "This email already has an account. Log in with it instead.",
+    "account_exists": "This profile already has an account. Log in to open it.",
+    "rate_limited": "Too many tries. Wait a minute, then try again.",
+    "network": "No connection to the server. Check your internet and try again. What you typed is still here.",
+    "generic": "Something went wrong on our side. Try again in a minute. What you typed is still here."
+  },
+  "done": {
+    "signup": "Your account is ready",
+    "login": "You're logged in"
+  },
+  "header": {
+    "login": "Log in",
+    "signup": "Sign up",
+    "save": "Save my progress"
+  },
+  "logout": "Log out",
+  "demoNote": "Shared demo account. Log out any time."
+}

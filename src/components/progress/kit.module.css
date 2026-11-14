@@ -1,0 +1,290 @@
+/*
+ * The Review kit: one A4 sheet on the lavender paper, the size it prints at. Small mark top right, section
+ * heads in violet, items as plain sentences with a small apricot tile, evidence in a quieter size.
+ */
+
+.page {
+  max-width: calc(794px + 2 * var(--s-32));
+  margin: 0 auto;
+  padding: var(--s-24) var(--s-32) var(--s-120);
+}
+
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-16);
+  margin-bottom: var(--s-24);
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: var(--fs-15);
+  font-weight: 600;
+  color: var(--violet);
+  text-decoration: underline;
+  text-decoration-color: oklch(46% 0.205 283 / 0.35);
+  text-underline-offset: 0.22em;
+}
+
+.back:hover {
+  color: var(--violet-deep);
+  text-decoration-color: currentColor;
+}
+
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.sheet {
+  display: grid;
+  gap: 26px;
+  min-height: 560px;
+  padding: 56px 64px 64px;
+  border-radius: 8px;
+  background: var(--card);
+  box-shadow: var(--hl), var(--shadow-raised);
+  color: var(--ink);
+  animation: rise 0.45s var(--ease-out) both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.docHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s-24);
+  padding-bottom: 20px;
+  border-bottom: 1.5px solid var(--line);
+}
+
+.docTitle {
+  font-size: var(--fs-28);
+  font-weight: 750;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+}
+
+.docSub {
+  margin-top: 8px;
+  font-size: var(--fs-15);
+  color: var(--ink-2);
+}
+
+.docMark {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-2);
+}
+
+.docSection {
+  display: grid;
+  gap: 10px;
+  break-inside: avoid;
+}
+
+.docH2 {
+  font-size: var(--fs-17);
+  font-weight: 750;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  color: var(--violet);
+}
+
+.docList {
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.docList li {
+  position: relative;
+  padding-left: 20px;
+  font-size: var(--fs-15);
+  line-height: 1.55;
+  break-inside: avoid;
+}
+
+.docList li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0.55em;
+  width: 8px;
+  height: 9px;
+  border-radius: 2.5px 2.5px 1px 1px;
+  background: var(--apricot);
+}
+
+.docSection[data-key="changed"] .docList li::before {
+  background: var(--machine-field);
+  box-shadow: inset 0 0 0 1px var(--machine);
+}
+
+.docSection[data-key="evidence"] .docList li {
+  font-size: 13.5px;
+  color: var(--ink-2);
+}
+
+.docSection[data-key="evidence"] .docList li::before {
+  background: var(--line);
+}
+
+.note {
+  margin-top: var(--s-16);
+  font-size: 13px;
+  color: var(--ink-2);
+}
+
+.notice {
+  display: grid;
+  justify-items: start;
+  gap: var(--s-16);
+  margin-bottom: var(--s-24);
+  padding: var(--s-32);
+  border-radius: var(--r-card);
+  background: var(--card);
+  box-shadow: var(--hl), var(--shadow-rest);
+}
+
+.notice p {
+  max-width: 56ch;
+  color: var(--ink-2);
+}
+
+.noticeTitle {
+  font-size: var(--fs-28);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.writing {
+  display: flex;
+  align-items: center;
+  font-size: var(--fs-15);
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.dots {
+  display: inline-flex;
+  gap: 4px;
+  margin-left: 8px;
+}
+
+.dots i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.35;
+  animation: dot 1.1s var(--ease) infinite;
+}
+
+.dots i:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.dots i:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes dot {
+  0%,
+  60%,
+  100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 0.9;
+    transform: translateY(-3px);
+  }
+}
+
+.skelSection {
+  display: grid;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding: var(--s-16) var(--s-16) var(--s-120);
+  }
+
+  .sheet {
+    padding: 28px 22px 36px;
+  }
+
+  .docHead {
+    flex-direction: column-reverse;
+    gap: 12px;
+  }
+}
+
+@media print {
+  .sheet {
+    display: block;
+    min-height: 0;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    animation: none;
+    background: #fff;
+  }
+
+  .docHead {
+    padding-bottom: 10pt;
+    margin-bottom: 12pt;
+  }
+
+  .docTitle {
+    font-size: 17pt;
+  }
+
+  .docSub,
+  .docMark {
+    font-size: 9pt;
+  }
+
+  .docSection {
+    margin-bottom: 11pt;
+  }
+
+  .docH2 {
+    font-size: 11pt;
+  }
+
+  .docList {
+    gap: 4pt;
+  }
+
+  .docList li {
+    font-size: 10pt;
+    line-height: 1.42;
+  }
+
+  .docSection[data-key="evidence"] .docList li {
+    font-size: 9pt;
+  }
+}

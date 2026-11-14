@@ -1,0 +1,81 @@
+{
+  "months": {
+    "1": "Hand off and check",
+    "2": "Supervise and speed up",
+    "3": "Grow your edge"
+  },
+  "monthN": "Month {n}",
+  "weekOf": "Week {n} of 12",
+  "weekN": "Week {n}",
+  "thisWeek": "This week",
+  "doneOf": "{done} of {total} done",
+  "starts": "Starts {date}",
+  "backToNow": "Back to this week",
+  "kind": {
+    "rep": "Rep",
+    "skill": "Skill",
+    "work": "At work",
+    "review": "Review kit"
+  },
+  "rep": {
+    "slip": "Spot the slip",
+    "delegate": "Delegate",
+    "edge": "Human edge"
+  },
+  "go": {
+    "today": "Open Today",
+    "playbook": "Open my playbook",
+    "secondLook": "Open Second look",
+    "review": "Open my Review kit",
+    "skills": "See my skills"
+  },
+  "check": "Mark as done",
+  "uncheck": "Mark as not done",
+  "checkedLive": "Done: {text}",
+  "uncheckedLive": "Not done: {text}",
+  "saveFailed": "That didn't save. Try again.",
+  "weekComplete": "Week {n} is done. You can start the next one whenever you like.",
+  "allComplete": "All 12 weeks are done. Your Review kit has the proof.",
+  "overview": {
+    "title": "Your 12 weeks",
+    "locked": "Part of Pro"
+  },
+  "download": "Download plan as PDF",
+  "preparing": "Preparing",
+  "generating": {
+    "title": "Writing your 12 weeks",
+    "lead": "We're building the plan from the tasks in your week and the skills you have. It takes about half a minute."
+  },
+  "error": {
+    "title": "Your plan didn't load",
+    "ai": "We couldn't write your plan just now. Nothing was lost. Try again in a moment.",
+    "noXray": "Make your week map first. The plan is built from its tasks.",
+    "generic": "Something went wrong on our side. Try again."
+  },
+  "retry": "Try again",
+  "stale": {
+    "lead": "Your week or your skills changed since this plan was written.",
+    "keeps": "Weeks you've started stay as they are.",
+    "action": "Update my plan",
+    "updating": "Updating"
+  },
+  "locked": {
+    "title": "Weeks 2 to 12 are part of Pro",
+    "reason": "Week 1 is yours to try. Pro opens the other eleven weeks, each built from your own tasks and the skills worth building next, with points for every step you check off."
+  },
+  "progress": {
+    "title": "Your 90-day plan",
+    "next": "Next",
+    "open": "Open my plan",
+    "none": "A 12-week plan built from your own tasks, with small steps you check off as you go.",
+    "build": "Build my plan",
+    "allDone": "Every step of this week is done."
+  },
+  "print": {
+    "title": "Your 90-day plan",
+    "for": "For {job}",
+    "started": "Started {date}",
+    "made": "Made by Irreplaceable from your week map. Check each step off as you go.",
+    "notYet": "Your plan hasn't been written yet. Open the Plan tab of your week map to build it."
+  }
+}

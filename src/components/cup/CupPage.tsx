@@ -85,7 +85,8 @@ export function CupPage({ initialPlan, hasMap }: { initialPlan: ProfilePlan | nu
             </>
           )}
 
-          {on || already ? null : <JuryAccounts surface="violet" />}
+          {/* the jury buttons log into shared demo accounts, so they stay whatever this account's plan is */}
+          <JuryAccounts surface="violet" />
 
           <p className={st.foot}>
             {t('cup.footA')} <Link href="/pricing">{t('cup.footLink')}</Link>

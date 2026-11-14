@@ -5,7 +5,7 @@ export type Step = 'who' | 'occupation' | 'week' | 'scan';
 export const STEPS: Step[] = ['who', 'occupation', 'week', 'scan'];
 
 export type InputSource = XrayResult['inputSource'];
-export type SampleName = 'nurse' | 'electrician';
+export type SampleName = 'nurse' | 'electrician' | 'software' | 'accountant';
 
 /* ---------- API shapes (02.1, see src/server/xray/*) ---------- */
 

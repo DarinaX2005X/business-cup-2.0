@@ -5,9 +5,6 @@
   "title": "Your profile",
   "noProfile": "There is no profile in this browser yet. It appears when you map your week.",
   "noProfileAction": "Map my week",
-  "language": {
-    "title": "Language"
-  },
   "pay": {
     "title": "Your pay",
     "label": "Yearly salary in US dollars",
@@ -25,7 +22,7 @@
     "error": "We couldn't change this. Try again."
   },
   "device": {
-    "title": "Use on another device",
+    "title": "Save my account",
     "body": "Open this link on your phone or another computer to carry on with the same progress.",
     "copy": "Copy my restore link",
     "copied": "Link copied",
@@ -37,17 +34,19 @@
     "copyError": "Your browser didn't let us copy. Select the link below and copy it yourself."
   },
   "plan": {
-    "title": "Plan",
-    "free": "Free",
-    "freeBody": "Your week map, one free rep and the daily AI or me game.",
-    "seePro": "See what Pro adds",
-    "trialing": "Pro, free trial",
+    "title": "Subscription",
+    "badge": {
+      "free": "Free",
+      "pro": "Pro",
+      "coach": "Max"
+    },
+    "free": "Your week map, AI or me every day and one free rep.",
     "trialEnds": "Your free trial ends on {date}.",
-    "pro": "Pro",
     "renews": "Next payment on {date}.",
-    "ends": "Pro stays on until {date}, then your plan goes back to Free.",
-    "cup": "Pro from Business Cup 2.0",
-    "cupEnds": "Pro is on until {date}. Nothing is charged.",
+    "ends": "Your plan stays on until {date}, then goes back to Free.",
+    "cupEnds": "Max is free from Business Cup 2.0 until {date}. Nothing is charged.",
+    "trial": "Free trial",
+    "seePlans": "See plans",
     "manage": "Manage subscription",
     "manageHint": "Cancel or change your card on Stripe's secure page.",
     "opening": "Opening",
@@ -67,5 +66,22 @@
     "doneTitle": "Your data was deleted",
     "doneBody": "This browser no longer holds your profile. Taking you to the start page.",
     "home": "Go to the start page"
+  },
+  "nickname": {
+    "title": "Leaderboard name",
+    "label": "Nickname",
+    "help": "Shown on the weekly leaderboard instead of your job and a number. Leave empty to stay anonymous.",
+    "placeholder": "For example NightShiftNurse",
+    "saved": "Saved. The leaderboard shows this name now.",
+    "cleared": "Cleared. The leaderboard shows your job and a number.",
+    "error": "We couldn't save this name. Try a different one or try again later.",
+    "reason": {
+      "length": "Use 2 to 24 characters.",
+      "characters": "Use letters, numbers, spaces and . _ ' - only.",
+      "not_allowed": "This name isn't allowed. Try another one."
+    }
+  },
+  "settings": {
+    "title": "Settings"
   }
 }

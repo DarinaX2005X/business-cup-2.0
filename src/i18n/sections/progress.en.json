@@ -97,8 +97,8 @@
     "basis_one": "Built from your {count} rep",
     "basis_other": "Built from your {count} reps",
     "needRep": "Finish a rep first",
-    "lockedTitle": "Review kit and your 90-day plan come with Pro",
-    "lockedReason": "Pro turns your reps into a one-page brief for your next review and lays out the coming twelve weeks.",
+    "lockedTitle": "The Review kit comes with Pro",
+    "lockedReason": "Pro turns your reps into a one-page brief you can bring to your next review.",
     "trial": "Start your 7-day free trial",
     "back": "Back to progress",
     "copy": "Copy",
@@ -123,35 +123,6 @@
     "note": "Written from your own practice record. Read it once before you share it.",
     "madeWith": "Irreplaceable"
   },
-  "plan": {
-    "title": "Your 90-day plan",
-    "lead": "Twelve weeks built from your own week: first hand work to AI, then check it, then grow the part that needs you.",
-    "weekOf": "Week {n} of 12",
-    "now": "This week",
-    "month": {
-      "handoff": "Month 1: Hand off",
-      "supervise": "Month 2: Supervise",
-      "edge": "Month 3: Grow your edge"
-    },
-    "focus": {
-      "handDelegate": "Hand {task} to AI with a clear instruction",
-      "handSlip": "Hand {task} to AI and check it with Spot the slip",
-      "superviseSlip": "Check AI's draft of {task} with Spot the slip",
-      "superviseDelegate": "Hand {task} to AI from start to finish and review the result",
-      "edge": "Practise the human side of {task} with Human edge",
-      "skill": "Build {skill}, a skill {job} asks for",
-      "review": "Bring it together: build your review brief"
-    },
-    "done_one": "{count} rep this week",
-    "done_other": "{count} reps this week",
-    "none": "No reps this week yet",
-    "onFocus": "on this week's focus",
-    "startRep": "Start today's rep",
-    "seeAll": "See all 12 weeks",
-    "finished": "You've finished all twelve weeks. Map your week again to plan the next three months.",
-    "dates": "{from} to {to}",
-    "loadError": "We couldn't load your plan. Try again in a minute."
-  },
   "public": {
     "what": "What is this?",
     "mapOwn": "Map your own week",
@@ -172,5 +143,12 @@
     "load": "We couldn't load your progress. Try again in a minute.",
     "nothing_public": "Switch on Public for at least one rep first.",
     "no_proof": "Finish a rep first: the brief is built from your reps."
+  },
+  "level": {
+    "named": "Level {level}: {name}",
+    "plain": "Level {level}",
+    "next": "{xp} XP to level {level}",
+    "total": "{xp} XP so far",
+    "bar": "Progress to the next level"
   }
 }

@@ -1,7 +1,7 @@
 /*
- * App shell: a 64 px header on lavender paper. The current section carries the violet accent strip
- * along the header's lower edge; on narrow screens sections move to a bottom bar and language and
- * profile to one avatar button.
+ * App shell: one 64 px header on lavender paper for every in-app page. The current section carries the
+ * violet strip along the header's lower edge. On the right: points, the week's streak, the level stone
+ * and the avatar with the account menu. On phones the sections move to a bottom tab bar with More.
  */
 
 .shell {
@@ -49,7 +49,14 @@
   padding: 0 var(--s-32);
   display: flex;
   align-items: center;
-  gap: var(--s-32);
+  gap: 20px;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: none;
 }
 
 .brand {
@@ -57,6 +64,7 @@
   align-items: center;
   gap: 10px;
   text-decoration: none;
+  color: var(--ink);
   border-radius: 10px;
   padding: 4px 6px 4px 2px;
   margin-left: -2px;
@@ -67,12 +75,14 @@
   background: var(--sunk);
 }
 
+/* the mark tips like a stone being set */
 .brand svg {
   transition: transform var(--t-pop) var(--spring);
+  transform-origin: 50% 76%;
 }
 
 .brand:hover svg {
-  transform: translateY(-2px) rotate(-4deg);
+  transform: rotate(-7deg);
 }
 
 .wordmark {
@@ -81,8 +91,25 @@
   letter-spacing: -0.03em;
 }
 
+.demoMark {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 0 9px;
+  border-radius: var(--r-tag);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--apricot-deep);
+  background: var(--speed-field);
+  box-shadow: inset 0 0 0 1px oklch(84% 0.07 62);
+}
+
+/* ---------- sections ---------- */
+
 .nav {
   align-self: stretch;
+  min-width: 0;
 }
 
 .nav ul {
@@ -91,7 +118,7 @@
   padding: 0;
   height: 100%;
   display: flex;
-  gap: 4px;
+  gap: 2px;
 }
 
 .nav li {
@@ -100,12 +127,14 @@
 
 .navLink {
   position: relative;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 0 14px;
+  gap: 7px;
+  padding: 0 10px;
   font-size: 16px;
   font-weight: 600;
+  white-space: nowrap;
   color: var(--ink-2);
   text-decoration: none;
   transition: color var(--t-hover) var(--ease);
@@ -114,7 +143,7 @@
 .navLink::before {
   content: '';
   position: absolute;
-  inset: 12px 2px;
+  inset: 12px 1px;
   border-radius: 10px;
   background: var(--sunk);
   opacity: 0;
@@ -134,20 +163,32 @@
   transform: none;
 }
 
+.navLink:active::before {
+  transform: scale(0.96);
+}
+
 .navLink[aria-current='page'] {
   color: var(--violet);
 }
 
-/* the violet accent strip: the current section, sitting on the header's lower edge */
+/* the violet strip: the current section, sitting on the header's lower edge */
 .navLink[aria-current='page']::after {
   content: '';
   position: absolute;
-  left: 10px;
-  right: 10px;
+  left: 9px;
+  right: 9px;
   bottom: 0;
   height: 4px;
   border-radius: 4px 4px 0 0;
   background: var(--violet);
+  animation: stripIn var(--t-pop) var(--ease-out);
+}
+
+@keyframes stripIn {
+  from {
+    transform: scaleX(0.4);
+    opacity: 0;
+  }
 }
 
 .navLink:focus-visible {
@@ -155,27 +196,80 @@
   border-radius: 12px;
 }
 
+.navLink svg {
+  flex: none;
+}
+
+/* ---------- the right side: points, streak, level, avatar ---------- */
+
 .right {
   margin-left: auto;
   display: flex;
   align-items: center;
-  gap: var(--s-12);
+  gap: var(--s-8);
+  flex: none;
+}
+
+.account {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  border-radius: 12px;
+  color: inherit;
+  text-decoration: none;
+  transition:
+    transform var(--t-hover) var(--ease),
+    background-color var(--t-hover) var(--ease),
+    box-shadow var(--t-hover) var(--ease);
+}
+
+.pill:active {
+  transform: scale(0.97);
+}
+
+/* the kit's points counter is the pill itself */
+.pill > span {
+  transition:
+    box-shadow var(--t-hover) var(--ease),
+    background-color var(--t-hover) var(--ease);
+}
+
+.pill:hover {
+  transform: translateY(-1px);
+}
+
+.pill:hover > span[data-points-target] {
+  background: var(--violet-soft);
+  box-shadow:
+    inset 0 0 0 1px oklch(86% 0.06 288),
+    var(--shadow-raised);
 }
 
 /* compact streak: seven small tiles and the count, no day letters */
 .streakSlot {
-  display: flex;
-  align-items: center;
-  height: 40px;
   padding: 0 12px;
-  border-radius: 12px;
   background: var(--card);
   box-shadow:
     inset 0 0 0 1px var(--line),
     var(--shadow-rest);
 }
 
-.streakSlot > div {
+.streakSlot:hover,
+.level:hover {
+  background: var(--violet-soft);
+  box-shadow:
+    inset 0 0 0 1px oklch(86% 0.06 288),
+    var(--shadow-raised);
+}
+
+.streakSlot > div,
+.moreStat > div {
   align-items: center;
   gap: 10px;
 }
@@ -221,235 +315,537 @@
     0 0 0 3px var(--violet);
 }
 
-.sheetStreak {
-  padding: 4px 0 8px;
+/* the level: an apricot keystone with its number */
+.level {
+  gap: 7px;
+  padding: 0 12px 0 8px;
+  background: var(--card);
+  box-shadow:
+    inset 0 0 0 1px var(--line),
+    var(--shadow-rest);
 }
 
-/* ---------- menus ---------- */
+.levelText {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.stone {
+  flex: none;
+  display: block;
+  filter: drop-shadow(0 1px 1px oklch(45% 0.12 50 / 0.35));
+  transition: transform var(--t-pop) var(--spring);
+}
+
+.level:hover .stone {
+  transform: translateY(-1px) rotate(-6deg);
+}
+
+.stoneN {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 800;
+  fill: var(--apricot-deep);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- avatar and the account menu ---------- */
 
 .pop {
   position: relative;
 }
 
-.chipBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  height: 40px;
-  padding: 0 10px 0 12px;
-  border-radius: 12px;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--ink);
-  background: transparent;
-  transition:
-    background-color var(--t-hover) var(--ease),
-    transform var(--t-press) var(--ease);
-}
-
-.chipBtn:hover,
-.chipBtn[aria-expanded='true'] {
-  background: var(--sunk);
-}
-
-.chipBtn:active {
-  transform: scale(0.97);
-}
-
-.chev {
-  color: var(--ink-2);
-  transition: transform var(--t-pop) var(--ease);
-}
-
-.chipBtn[aria-expanded='true'] .chev {
-  transform: rotate(180deg);
-}
-
-.avatar {
+.avatarBtn {
   display: inline-grid;
   place-items: center;
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  color: var(--violet);
-  background: var(--violet-soft);
+  transition: transform var(--t-press) var(--ease);
+}
+
+.avatarBtn:hover .avatarDisc {
+  transform: translateY(-1px);
   box-shadow:
-    inset 0 1px 0 oklch(100% 0 0 / 0.7),
-    inset 0 0 0 1px oklch(86% 0.06 288 / 0.7);
-  transition:
-    background-color var(--t-hover) var(--ease),
-    transform var(--t-press) var(--ease);
+    0 0 0 2px var(--paper),
+    0 0 0 4px var(--ring, var(--line)),
+    var(--shadow-raised);
 }
 
-.avatar:hover,
-.avatar[aria-expanded='true'] {
-  background: var(--violet-tint);
-}
-
-.avatar:active {
+.avatarBtn:active {
   transform: scale(0.95);
+}
+
+.avatarDisc {
+  --ring: var(--line);
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  border-radius: 50%;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--violet);
+  background: radial-gradient(120% 90% at 30% 15%, oklch(97% 0.03 290), var(--violet-soft) 60%, var(--violet-tint));
+  box-shadow:
+    0 0 0 2px var(--paper),
+    0 0 0 4px var(--ring),
+    var(--shadow-rest);
+  transition:
+    transform var(--t-hover) var(--ease),
+    box-shadow var(--t-hover) var(--ease);
+}
+
+.avatarDisc[data-tier='pro'] {
+  --ring: var(--violet);
+}
+
+.avatarDisc[data-tier='coach'] {
+  --ring: var(--apricot);
+}
+
+.avatarBtn[aria-expanded='true'] .avatarDisc {
+  box-shadow:
+    0 0 0 2px var(--paper),
+    0 0 0 4px var(--ring),
+    0 0 0 7px var(--violet-soft);
 }
 
 .menu {
   position: absolute;
-  right: 0;
-  top: calc(100% + 8px);
+  right: -4px;
+  top: calc(100% + 10px);
   z-index: 50;
-  min-width: 200px;
-  padding: 6px;
-  border-radius: 16px;
+  width: 332px;
+  max-width: calc(100vw - 24px);
+  max-height: calc(100dvh - 90px);
+  overflow-y: auto;
+  padding: 8px;
+  border-radius: 22px;
   background: var(--card);
   box-shadow:
     inset 0 0 0 1px var(--line),
+    var(--hl),
     var(--shadow-overlay);
   display: grid;
-  gap: 2px;
+  gap: 6px;
   transform-origin: top right;
   animation: menuIn var(--t-pop) var(--ease-out);
-}
-
-.menuWide {
-  min-width: 300px;
 }
 
 @keyframes menuIn {
   from {
     opacity: 0;
-    transform: translateY(-4px) scale(0.97);
+    transform: translateY(-6px) scale(0.96);
   }
 }
 
-.menuItem {
+.who {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 8px 12px 10px;
+}
+
+.whoText {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+}
+
+.whoText b {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.whoText span {
+  font-size: 14px;
+  color: var(--ink-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.whoText .whoPlan {
+  font-size: 13px;
+  white-space: normal;
+}
+
+.tier {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  min-height: 24px;
+  padding: 0 9px;
+  border-radius: var(--r-tag);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-2);
+  background: var(--sunk);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.tier[data-tier='pro'] {
+  color: var(--on-violet);
+  background: linear-gradient(180deg, var(--violet-hi), var(--violet));
+  box-shadow: inset 0 1px 0 oklch(100% 0 0 / 0.25);
+}
+
+.tier[data-tier='coach'] {
+  color: var(--apricot-deep);
+  background: linear-gradient(180deg, var(--apricot-hi), var(--apricot));
+  box-shadow: inset 0 1px 0 oklch(100% 0 0 / 0.5);
+}
+
+.demoNote {
+  display: grid;
+  gap: 6px;
+  justify-items: start;
+  margin: -4px 8px 6px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+
+/* Free: the way up, a small piece of the violet field */
+.upgrade {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  width: 100%;
-  min-height: 44px;
-  padding: 8px 12px;
-  border-radius: 10px;
-  text-align: left;
-  font-size: 15px;
-  color: var(--ink);
-  background: transparent;
-  transition: background-color var(--t-hover) var(--ease);
+  min-height: 64px;
+  padding: 10px 14px 10px 16px;
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  box-shadow:
+    inset 0 1px 0 oklch(100% 0 0 / 0.18),
+    var(--shadow-on-field);
+  transition: transform var(--t-hover) var(--ease);
 }
 
-.menuItem:hover,
-.menuItem:focus-visible {
-  background: var(--sunk);
+.upgrade:hover {
+  transform: translateY(-1px);
 }
 
-.menuItem:focus-visible {
-  outline-offset: -2px;
+.upgrade:active {
+  transform: scale(0.98);
 }
 
-.menuItem[aria-checked='true'] {
-  color: var(--violet);
-  font-weight: 600;
+.upgradeText {
+  display: grid;
+  gap: 2px;
 }
 
-.itemMain {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
+.upgradeText b {
+  font-size: 16px;
+  font-weight: 700;
 }
 
-.itemMain > svg {
-  flex: none;
-  margin-top: 1px;
-  color: var(--violet);
-}
-
-.itemMain b {
-  display: block;
-  font-weight: 600;
-}
-
-.itemMain small {
-  display: block;
-  margin-top: 2px;
+.upgradeText span {
   font-size: 13px;
-  line-height: 1.35;
-  color: var(--ink-2);
+  color: var(--on-violet-2);
 }
 
-.toggle {
+/* three stones of a small arch: hatched, hatched, then the apricot keystone */
+.upgradeArt {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
   flex: none;
-  position: relative;
-  width: 36px;
-  height: 22px;
-  border-radius: 11px;
-  background: var(--sunk);
-  box-shadow: inset 0 0 0 1px var(--line);
-  transition: background-color var(--t-hover) var(--ease);
 }
 
-.toggle::after {
-  content: '';
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: var(--card);
-  box-shadow: var(--shadow-rest);
+.upgradeArt i {
+  display: block;
+  width: 12px;
+  height: 22px;
+  border-radius: 3px;
+  background: var(--hatch-field), oklch(100% 0 0 / 0.14);
+  transform: rotate(-14deg);
+}
+
+.upgradeArt i:nth-child(2) {
+  height: 26px;
+  transform: none;
+  background: linear-gradient(180deg, var(--apricot-hi), var(--apricot) 45%, var(--apricot-low));
+  clip-path: polygon(0 0, 100% 0, 82% 100%, 18% 100%);
   transition: transform var(--t-pop) var(--spring);
 }
 
-.toggle[data-on] {
-  background: var(--violet);
-  box-shadow: none;
+.upgradeArt i:nth-child(3) {
+  transform: rotate(14deg);
 }
 
-.toggle[data-on]::after {
-  transform: translateX(14px);
+.upgrade:hover .upgradeArt i:nth-child(2) {
+  transform: translateY(-4px);
 }
 
-.sheetBody {
+.group {
   display: grid;
-  gap: var(--s-16);
-  padding-bottom: var(--s-8);
-}
-
-.langRow {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
+  gap: 1px;
   padding: 4px;
-  border-radius: 14px;
+  border-radius: 16px;
+  background: color-mix(in oklch, var(--sunk) 55%, var(--card));
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  text-align: left;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+  text-decoration: none;
+  background: transparent;
+  transition:
+    background-color var(--t-hover) var(--ease),
+    box-shadow var(--t-hover) var(--ease);
+}
+
+/* hover lifts the row onto a card of its own */
+.item:hover,
+.item:focus-visible {
+  background: var(--card);
+  box-shadow:
+    inset 0 0 0 1px var(--line),
+    var(--shadow-rest);
+}
+
+.item:focus-visible {
+  outline-offset: -2px;
+}
+
+.item:active {
+  transform: scale(0.99);
+}
+
+.itemTall {
+  align-items: flex-start;
+}
+
+.itemIcon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 22px;
+  color: var(--violet);
+}
+
+.itemTall .itemIcon {
+  margin-top: 1px;
+}
+
+.itemLabel {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.itemLabel small {
+  font-size: 13px;
+  line-height: 1.35;
+  font-weight: 400;
+  color: var(--ink-2);
+}
+
+.itemMeta {
+  display: inline-flex;
+  flex: none;
+}
+
+/* log out: its own row under the groups, quieter until hovered */
+.logout {
+  color: var(--ink-2);
+}
+
+.logout .itemIcon {
+  color: var(--ink-2);
+}
+
+.logout:hover .itemIcon {
+  color: var(--violet);
+}
+
+/* ---------- guest: Log in and Sign up ---------- */
+
+.authButtons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.loginBtn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 12px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--ink);
+  transition:
+    background-color var(--t-hover) var(--ease),
+    transform var(--t-press) var(--ease);
+}
+
+.loginBtn:hover {
   background: var(--sunk);
 }
 
-.langOpt {
-  min-height: 44px;
-  border-radius: 10px;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--ink-2);
-  transition:
-    background-color var(--t-hover) var(--ease),
-    color var(--t-hover) var(--ease);
+.loginBtn:active {
+  transform: scale(0.97);
 }
 
-.langOpt:hover {
-  color: var(--ink);
+.authButtons[data-surface='field'] .loginBtn {
+  color: var(--on-violet);
 }
 
-.langOpt[aria-checked='true'] {
-  color: var(--violet);
-  background: var(--card);
-  box-shadow: var(--shadow-rest);
+.authButtons[data-surface='field'] .loginBtn:hover {
+  background: oklch(100% 0 0 / 0.12);
 }
 
-.sheetItems {
+.authButtons > :last-child {
+  white-space: nowrap;
+}
+
+/* ---------- help ---------- */
+
+.help {
   display: grid;
-  gap: 2px;
-  margin: 0 -12px;
+  gap: 16px;
+  margin: 0;
 }
 
-/* ---------- main and bottom bar ---------- */
+.help dt {
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.help dd {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
+.helpLink {
+  display: inline-block;
+  margin-top: 18px;
+  font-weight: 600;
+  color: var(--violet);
+  text-decoration-line: underline;
+  text-decoration-color: color-mix(in oklch, var(--violet) 35%, transparent);
+  text-underline-offset: 3px;
+}
+
+.helpLink:hover {
+  text-decoration-color: var(--violet);
+}
+
+/* ---------- More (phones) ---------- */
+
+.moreBody {
+  display: grid;
+  gap: 14px;
+  padding-bottom: var(--s-8);
+}
+
+.moreStats {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+.moreStat {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 56px;
+  padding: 8px 12px;
+  border-radius: 16px;
+  color: inherit;
+  text-decoration: none;
+  background: var(--card);
+  box-shadow:
+    inset 0 0 0 1px var(--line),
+    var(--shadow-rest);
+}
+
+.moreStat ol li span {
+  display: none;
+}
+
+.moreStat > span {
+  display: grid;
+}
+
+.moreStat b {
+  font-size: 15px;
+}
+
+.moreStat small {
+  font-size: 13px;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+.moreSections {
+  list-style: none;
+  margin: 0;
+  padding: 4px;
+  display: grid;
+  gap: 1px;
+  border-radius: 16px;
+  background: color-mix(in oklch, var(--sunk) 55%, var(--card));
+}
+
+.moreLink {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 0 12px;
+  border-radius: 12px;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.moreLink svg {
+  color: var(--violet);
+}
+
+.moreLink[aria-current='page'] {
+  color: var(--violet);
+  background: var(--violet-soft);
+}
+
+.moreLink .dot {
+  margin-left: auto;
+}
+
+.moreAccount {
+  display: grid;
+  gap: 6px;
+}
+
+/* ---------- main and the phone tab bar ---------- */
 
 .main {
   display: block;
@@ -459,11 +855,81 @@
   display: none;
 }
 
-.narrowOnly {
+/* reward dot on Shop */
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, var(--apricot-hi), var(--apricot-low));
+  box-shadow: 0 0 0 2px var(--paper);
+  animation: dotIn 0.4s var(--spring) both;
+}
+
+.navLink .dot {
+  position: absolute;
+  top: 16px;
+  right: 4px;
+}
+
+.tab .dot {
+  position: absolute;
+  top: 8px;
+  left: calc(50% + 8px);
+}
+
+@keyframes dotIn {
+  from {
+    transform: scale(0);
+  }
+}
+
+/* in the header the coin says «points» and the stone says «level»; the words return only on very wide screens */
+.pill [class*='pointsK'] {
   display: none;
 }
 
-@media (max-width: 768px) {
+.pill > span[data-points-target] {
+  padding-right: 12px;
+}
+
+@media (max-width: 1559px) {
+  .levelText {
+    display: none;
+  }
+  .level {
+    padding: 0 7px;
+  }
+}
+
+@media (min-width: 1560px) {
+  .pill [class*='pointsK'] {
+    display: inline;
+  }
+}
+
+@media (max-width: 1320px) {
+  .navLink svg {
+    display: none;
+  }
+}
+
+@media (max-width: 1180px) {
+  .streakSlot ol {
+    display: none;
+  }
+  .bar {
+    gap: var(--s-16);
+  }
+}
+
+@media (max-width: 1020px) {
+  .wordmark {
+    display: none;
+  }
+}
+
+/* phones and small tablets: sections move to the bottom tab bar */
+@media (max-width: 960px) {
   .bar {
     padding: 0 var(--s-16);
     gap: var(--s-12);
@@ -471,17 +937,12 @@
   .nav {
     display: none;
   }
-  .wideOnly {
+  .wordmark {
+    display: inline;
+  }
+  .streakSlot,
+  .level {
     display: none;
-  }
-  .narrowOnly {
-    display: contents;
-  }
-  .streakSlot {
-    display: none;
-  }
-  .right {
-    gap: var(--s-8);
   }
   .shell[data-tabbar] .main {
     padding-bottom: calc(72px + env(safe-area-inset-bottom));
@@ -504,7 +965,7 @@
     list-style: none;
     margin: 0 auto;
     padding: 0 var(--s-8);
-    max-width: 520px;
+    max-width: 560px;
     display: flex;
     justify-content: space-around;
   }
@@ -518,8 +979,8 @@
     display: grid;
     justify-items: center;
     gap: 3px;
-    min-width: 72px;
-    padding: 10px 8px 9px;
+    min-width: 64px;
+    padding: 10px 6px 9px;
     font-size: 12.5px;
     font-weight: 600;
     color: var(--ink-2);
@@ -531,67 +992,43 @@
   .tab:active {
     transform: scale(0.95);
   }
-  .tab[aria-current='page'] {
+  .tab[aria-current='page'],
+  .tab[data-active] {
     color: var(--violet);
   }
-  .tab[aria-current='page']::before {
+  .tab[aria-current='page']::before,
+  .tab[data-active]::before {
     content: '';
     position: absolute;
     top: 0;
-    left: 18px;
-    right: 18px;
+    left: 16px;
+    right: 16px;
     height: 3px;
     border-radius: 0 0 3px 3px;
     background: var(--violet);
   }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 480px) {
   .wordmark {
-    font-size: 17px;
+    display: none;
+  }
+  .demoMark {
+    font-size: 12px;
+    padding: 0 7px;
   }
 }
 
-/* days of this week before the profile existed: neutral, neither done nor missed (kit lacks a prop, see REQUESTS) */
+/* days of this week before the profile existed: neutral, neither done nor missed */
 .streakSlot[data-since='1'] li:nth-child(-n + 1)[data-state='missed'] i,
-.sheetStreak[data-since='1'] li:nth-child(-n + 1)[data-state='missed'] i,
 .streakSlot[data-since='2'] li:nth-child(-n + 2)[data-state='missed'] i,
-.sheetStreak[data-since='2'] li:nth-child(-n + 2)[data-state='missed'] i,
 .streakSlot[data-since='3'] li:nth-child(-n + 3)[data-state='missed'] i,
-.sheetStreak[data-since='3'] li:nth-child(-n + 3)[data-state='missed'] i,
 .streakSlot[data-since='4'] li:nth-child(-n + 4)[data-state='missed'] i,
-.sheetStreak[data-since='4'] li:nth-child(-n + 4)[data-state='missed'] i,
 .streakSlot[data-since='5'] li:nth-child(-n + 5)[data-state='missed'] i,
-.sheetStreak[data-since='5'] li:nth-child(-n + 5)[data-state='missed'] i,
-.streakSlot[data-since='6'] li:nth-child(-n + 6)[data-state='missed'] i,
-.sheetStreak[data-since='6'] li:nth-child(-n + 6)[data-state='missed'] i
-{
+.streakSlot[data-since='6'] li:nth-child(-n + 6)[data-state='missed'] i {
   background: var(--sunk);
   box-shadow: none;
   outline: none;
-}
-
-/* ---------- reward dot on Shop ---------- */
-
-.dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: linear-gradient(180deg, var(--apricot-hi), var(--apricot-low));
-  box-shadow: 0 0 0 2px var(--paper);
-  animation: dotIn 0.4s var(--spring) both;
-}
-
-.tab .dot {
-  position: absolute;
-  top: 8px;
-  left: calc(50% + 8px);
-}
-
-@keyframes dotIn {
-  from {
-    transform: scale(0);
-  }
 }
 
 /* ---------- points receipt: under the header counter, above the tab bar on phones ---------- */
@@ -679,7 +1116,7 @@
   background: var(--sunk);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 960px) {
   .awardDock {
     top: auto;
     left: 16px;
@@ -693,63 +1130,30 @@
   }
 }
 
-/* ---------- the balance and the streak are links ---------- */
-
-.pointsLink {
-  display: inline-flex;
-  border-radius: 12px;
-  text-decoration: none;
-  color: inherit;
-  transition: transform var(--t-hover) var(--ease);
+/* on the violet field (the /cup header): the same pieces in field colours */
+.account[data-surface='field'] .streakSlot,
+.account[data-surface='field'] .level {
+  color: var(--on-violet);
+  background: oklch(100% 0 0 / 0.12);
+  box-shadow: inset 0 0 0 1px oklch(100% 0 0 / 0.22);
 }
 
-.pointsLink > span {
-  transition: box-shadow var(--t-hover) var(--ease), background-color var(--t-hover) var(--ease);
+.account[data-surface='field'] .streakSlot:hover,
+.account[data-surface='field'] .level:hover {
+  background: oklch(100% 0 0 / 0.2);
 }
 
-.pointsLink:hover {
-  transform: translateY(-1px);
-}
-
-.pointsLink:hover > span {
-  background: var(--violet-soft);
+.account[data-surface='field'] .avatarDisc {
   box-shadow:
-    inset 0 0 0 1px oklch(86% 0.06 288),
-    var(--shadow-raised);
+    0 0 0 2px var(--field),
+    0 0 0 4px var(--ring),
+    var(--shadow-rest);
 }
 
-.pointsLink:active,
-a.streakSlot:active {
-  transform: scale(0.97);
+.account[data-surface='field'] .avatarDisc:not([data-tier='pro']):not([data-tier='coach']) {
+  --ring: oklch(100% 0 0 / 0.35);
 }
 
-a.streakSlot {
-  text-decoration: none;
-  color: inherit;
-  transition:
-    transform var(--t-hover) var(--ease),
-    background-color var(--t-hover) var(--ease),
-    box-shadow var(--t-hover) var(--ease);
-}
-
-a.streakSlot:hover {
-  transform: translateY(-1px);
-  background: var(--violet-soft);
-  box-shadow:
-    inset 0 0 0 1px oklch(86% 0.06 288),
-    var(--shadow-raised);
-}
-
-a.sheetStreak {
-  display: block;
-  border-radius: 14px;
-  padding: 8px;
-  margin: -4px -8px 0;
-  color: inherit;
-  text-decoration: none;
-  transition: background-color var(--t-hover) var(--ease);
-}
-
-a.sheetStreak:hover {
-  background: var(--sunk);
+.account[data-surface='field'] .avatarDisc[data-tier='pro'] {
+  --ring: var(--on-violet);
 }

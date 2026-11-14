@@ -87,7 +87,7 @@
     "extra_limit": "You've done all three practice reps for today. New ones open tomorrow.",
     "in_progress": "A rep is already being written. Give it a few seconds, then try again.",
     "trial_used": "Your free rep is used. Pro gives you one every day.",
-    "generation_failed": "We couldn't write this rep. Nothing was saved or counted, so you can start it again.",
+    "generation_failed": "We couldn't write this one. Your choice is kept, so try again in a moment.",
     "already_done": "This rep is already checked. Its review is open.",
     "already_run": "The AI already ran your instructions. Review what it wrote.",
     "not_run": "Run your instructions first.",

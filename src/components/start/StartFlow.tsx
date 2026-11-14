@@ -245,7 +245,7 @@ export function StartFlow({ initial }: { initial: StartInitial }) {
         setReady(true);
         return;
       }
-      if (initial.sample === 'nurse' || initial.sample === 'electrician') {
+      if (initial.sample === 'nurse' || initial.sample === 'electrician' || initial.sample === 'software' || initial.sample === 'accountant') {
         setReady(true);
         void runSample(initial.sample);
         return;

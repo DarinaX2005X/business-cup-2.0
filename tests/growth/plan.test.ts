@@ -46,6 +46,7 @@ describe('checkPlan', () => {
     const res = checkPlan({ weeks: goodWeeks() }, ctx());
     expect(res.fatal).toEqual([]);
     expect(res.soft).toEqual([]);
+    expect(res.dropped).toEqual([]);
     expect(res.weeks).toHaveLength(12);
     const w1 = res.weeks[0];
     expect(w1.focus).toBe('Hand Care plans to AI and check it');
@@ -61,8 +62,9 @@ describe('checkPlan', () => {
     weeks[3].items[2] = { ...weeks[3].items[2], skillId: '2.C.4.d' };
     const res = checkPlan({ weeks }, ctx());
     expect(res.fatal).toEqual(expect.arrayContaining([expect.stringMatching(/^Week 3 has 2 usable actions/), expect.stringMatching(/^Week 4 has 2 usable actions/)]));
-    expect(res.soft.join('\n')).toMatch(/taskId 9999 is not a task of their week/);
-    expect(res.soft.join('\n')).toMatch(/skillId 2\.C\.4\.d is not in the skill lists/);
+    // The reasons go back to the model with the failing week.
+    expect(res.fatal.join('\n')).toMatch(/Week 3, action 1: taskId 9999 is not a task of their week/);
+    expect(res.dropped.join('\n')).toMatch(/Week 4, action 3: skillId 2\.C\.4\.d is not in the skill lists/);
   });
 
   it('refuses invented figures, stray placeholders and repeats', () => {
@@ -75,7 +77,8 @@ describe('checkPlan', () => {
     expect(res.weeks[0].items).toHaveLength(3);
     expect(res.weeks[1].items).toHaveLength(3);
     expect(res.weeks[4].items).toHaveLength(3);
-    expect(res.soft).toHaveLength(3);
+    expect(res.soft).toEqual([]);
+    expect(res.dropped).toHaveLength(3);
   });
 
   it('asks for a wrong number of weeks again', () => {

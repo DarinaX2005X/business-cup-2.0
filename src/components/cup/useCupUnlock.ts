@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
+import { useRequireAccount } from '@/components/auth/AuthProvider';
 import { useT } from '@/i18n/client';
 import { ApiError } from '@/lib/client/api';
 import { useProfile } from '@/lib/client/profile';
@@ -19,12 +20,15 @@ export function useCupUnlock({ onUnlocked, initialPlan, hasMapInitial = false }:
   const prof = useProfile();
   const router = useRouter();
   const [state, setState] = useState<{ phase: CupPhase; code?: string; plan?: ProfilePlan }>({ phase: 'idle' });
+  // the offer turns on a plan, and plans belong to accounts: a guest signs up (or logs in) first, then it continues
+  const requireAccount = useRequireAccount();
 
   const unlock = useCallback(async () => {
     setState({ phase: 'busy' });
     try {
       await prof.ensure();
-      const r = await unlockCup();
+      const r = await requireAccount(() => unlockCup());
+      if (!r) return setState({ phase: 'idle' }); // the account dialog was closed
       setState({ phase: 'done', plan: r.plan });
       await prof.refresh();
       router.refresh();
@@ -34,7 +38,7 @@ export function useCupUnlock({ onUnlocked, initialPlan, hasMapInitial = false }:
       if (code === 'already_pro') await prof.refresh().catch(() => undefined);
       setState({ phase: 'error', code });
     }
-  }, [prof, router, onUnlocked]);
+  }, [prof, router, onUnlocked, requireAccount]);
 
   // Until the profile loads, the server's reading of the cookie decides (no flash of the offer for a Pro visitor).
   const fromProfile = planOf(prof.status === 'loading' ? initialPlan : (prof.profile?.plan as ProfilePlan | undefined));

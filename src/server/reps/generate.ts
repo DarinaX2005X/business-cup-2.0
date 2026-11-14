@@ -1,5 +1,6 @@
 import {
   hash32,
+  locateLoose,
   keywordCriteria,
   keywordSpots,
   normalizeDocument,
@@ -65,7 +66,7 @@ export interface Generated<E extends BankEntry> {
 /** Attempts after the first one when the checks or the verifier reject the output. */
 export const SLIP_RETRIES = 2;
 const DELEGATE_RETRIES = 2;
-const EDGE_RETRIES = 1;
+const EDGE_RETRIES = 2;
 
 // ---------------------------------------------------------------------------------------------
 // Verifier
@@ -155,6 +156,7 @@ export async function generateSlip(input: GenerateInput): Promise<Generated<Bank
   for (let attempt = 1; attempt <= 1 + SLIP_RETRIES; attempt++) {
     const { data, usage }: { data: RepSlipOutput; usage: { costUsd: number } } = await callModel({
       op: 'rep.slip',
+      preferFailover: attempt === 1 + SLIP_RETRIES,
       schema: repSlipSchema,
       system: repSlipPrompt.system(input.locale),
       user: repSlipPrompt.user({ occupation: input.occupation, jobTitle: input.jobTitle, task: input.task, taskShort: input.taskShort, locale: input.locale, difficulty: input.difficulty, types, seed: input.seed, retry }),
@@ -217,13 +219,22 @@ function rubric(items: { text: string; keywords: string[] }[], max: number): Rub
     }));
 }
 
-/** The exact text of a quote in `inputs` (case-insensitive fallback), or null. */
+/**
+ * The exact text of a quote in `inputs`, or null. Harmless differences are repaired to the inputs' own
+ * text: letter case, spacing, punctuation and markup characters (a quote copied across a table cell).
+ */
 function findIn(inputs: string, quote: string): string | null {
-  const q = normalizeQuote(quote);
+  const q = normalizeQuote(quote.replace(/[|*_`]/g, ' '));
   if (!q) return null;
   if (occurrences(inputs, q).length) return q;
   const at = inputs.toLowerCase().indexOf(q.toLowerCase());
-  return at >= 0 ? inputs.slice(at, at + q.length) : null;
+  if (at >= 0) return inputs.slice(at, at + q.length);
+  // the same words in the same order, with any spacing, table pipes or markup between them
+  const words = q.split(/\s+/).filter(Boolean).map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  const m = words.length ? new RegExp(words.join('[\\s|*_`]+'), 'i').exec(inputs) : null;
+  if (m) return m[0];
+  const loose = locateLoose(inputs, q);
+  return loose ? inputs.slice(loose[0], loose[1]) : null;
 }
 
 /** Each trap must be grounded: two different verbatim quotes of the inputs. */
@@ -251,15 +262,18 @@ export function validateDelegate(out: RepDelegateOutput): DelegateValidation {
   const problems: string[] = [];
   const inputs = normalizeDocument(toLightMarkup(out.inputs ?? ''));
   const words = wordCount(inputs);
-  if (words < 60 || words > 260) problems.push(`inputs has ${words} words; it must have 80–200.`);
+  if (words < 50 || words > 320) problems.push(`inputs has ${words} words; it must have 80–200.`);
   for (const f of ['title', 'brief', 'scenario', 'goal'] as const) if (!out[f]?.trim()) problems.push(`${f} is empty.`);
   const criteria = rubric(out.criteria ?? [], 6);
   if (criteria.length < 4) problems.push(`There must be 4–6 criteria; you gave ${criteria.length}.`);
   const traps: TrapFull[] = [];
-  (out.traps ?? []).slice(0, 2).forEach((t, i) => {
+  const grounded = (out.traps ?? []).filter((t) => (t.evidence ?? []).length === 2 && t.evidence.every((q) => findIn(normalizeDocument(toLightMarkup(out.inputs ?? '')), q)));
+  (grounded.length >= 2 ? grounded : out.traps ?? []).slice(0, 2).forEach((t, i) => {
     if (!t.description?.trim()) problems.push(`Trap ${i + 1}: description is empty.`);
     const evidence = (t.evidence ?? []).map((q) => findIn(inputs, q) ?? q);
-    const keywords = trapKeywords(t.keywords ?? [], inputs);
+    // keywords: the model's, else the conflicting values taken from the evidence itself
+    let keywords = trapKeywords(t.keywords ?? [], inputs);
+    if (!keywords.length) keywords = trapKeywords(evidence.flatMap((q) => trapTerms({ keywords: [q] }).filter((k) => k !== q)), inputs);
     if (!keywords.length) {
       problems.push(`Trap ${i + 1}: none of its keywords (${(t.keywords ?? []).join(', ')}) appears in the inputs verbatim and at most 3 times; copy the exact conflicting value or item from the inputs.`);
       return;
@@ -270,7 +284,7 @@ export function validateDelegate(out: RepDelegateOutput): DelegateValidation {
   problems.push(...groundingProblems(traps, inputs));
   const exemplar = (out.exemplar ?? '').replace(/\s+/g, ' ').trim();
   const exWords = wordCount(exemplar);
-  if (exWords < 25 || exWords > 160) problems.push(`exemplar has ${exWords} words; it must have 40–110.`);
+  if (exWords < 20 || exWords > 200) problems.push(`exemplar has ${exWords} words; it must have 40–110.`);
   const named = traps.flatMap((t) => trapTerms(t).filter((k) => /\d/.test(k) && containsWord(exemplar, k)));
   if (named.length) problems.push(`The exemplar names trap values (${[...new Set(named)].join(', ')}); phrase its checks generally.`);
   if (problems.length) return { ok: false, problems };
@@ -287,6 +301,7 @@ export async function generateDelegate(input: GenerateInput): Promise<Generated<
   for (let attempt = 1; attempt <= 1 + DELEGATE_RETRIES; attempt++) {
     const { data, usage }: { data: RepDelegateOutput; usage: { costUsd: number } } = await callModel({
       op: 'rep.delegate',
+      preferFailover: attempt === 1 + DELEGATE_RETRIES,
       schema: repDelegateSchema,
       system: repDelegatePrompt.system(input.locale),
       user: repDelegatePrompt.user({ occupation: input.occupation, jobTitle: input.jobTitle, task: input.task, locale: input.locale, seed: input.seed, retry }),
@@ -439,6 +454,7 @@ export async function generateEdge(input: GenerateInput): Promise<Generated<Bank
   for (let attempt = 1; attempt <= 1 + EDGE_RETRIES; attempt++) {
     const { data, usage } = await callModel({
       op: 'rep.edge',
+      preferFailover: attempt === 1 + EDGE_RETRIES,
       schema: repEdgeSchema,
       system: repEdgePrompt.system(input.locale),
       user: repEdgePrompt.user({ occupation: input.occupation, jobTitle: input.jobTitle, task: input.task, locale: input.locale, seed: `${input.seed}${attempt > 1 ? `-${attempt}` : ''}` }),

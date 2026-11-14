@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { Wordmark } from '@/components/kit/Mark';
-import { LanguageSwitch } from './LanguageSwitch';
-import ctl from '@/components/kit/controls.module.css';
+import { MarketingHeader } from './MarketingHeader';
 import st from './public.module.css';
 
 export interface ChromeLabels {
@@ -12,29 +11,12 @@ export interface ChromeLabels {
   nav: string;
 }
 
-/** Header of the public pages: mark, the two reading destinations and the way into the product. */
-export function PublicHeader({ labels, current, locale = false }: { labels: ChromeLabels; current: 'method' | 'jobs'; locale?: boolean }) {
-  return (
-    <header className={st.header}>
-      <div className={st.headerIn}>
-        <Link href="/" className={st.brand} aria-label={labels.home}>
-          <Wordmark size={34} />
-        </Link>
-        <nav className={st.nav} aria-label={labels.nav}>
-          <Link href="/method" className={st.navLink} aria-current={current === 'method' ? 'page' : undefined}>
-            {labels.method}
-          </Link>
-          <Link href="/jobs" className={st.navLink} aria-current={current === 'jobs' ? 'page' : undefined}>
-            {labels.jobs}
-          </Link>
-        </nav>
-        {locale ? <LanguageSwitch className={st.locale} /> : null}
-        <Link href="/start" className={`${ctl.btn} ${ctl.b_primary} ${ctl.s_sm} ${st.headerCta}`}>
-          {labels.start}
-        </Link>
-      </div>
-    </header>
-  );
+/**
+ * Header of the public pages: the shared marketing header (same logo and right side as the app).
+ * `labels` and `locale` are kept for older callers; the header carries its own English copy.
+ */
+export function PublicHeader({ current }: { labels?: ChromeLabels; current: 'method' | 'jobs'; locale?: boolean }) {
+  return <MarketingHeader current={current} />;
 }
 
 export interface FooterSource {

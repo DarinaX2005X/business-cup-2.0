@@ -1,0 +1,29 @@
+/* Additions to the flow header for the shared logo and account (R3 shell); the rest lives in start.module.css. */
+
+.start {
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.end {
+  gap: 10px;
+}
+
+@media (max-width: 1100px) {
+  .end [class*='streakSlot'],
+  .end [class*='level'] {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .label {
+    display: none;
+  }
+  .end [class*='pill'] {
+    display: none;
+  }
+}

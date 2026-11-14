@@ -167,6 +167,8 @@ export interface CallModelInput<S extends z.ZodType> {
   actor?: Actor;
   /** Overrides AI_REASONING_EFFORT for this call. */
   reasoning?: ReasoningEffort;
+  /** Start on the other model (a generator's last attempt after the first model's output failed its checks). */
+  preferFailover?: boolean;
   signal?: AbortSignal;
 }
 
@@ -283,7 +285,7 @@ const usd = (n: number) => `$${n.toFixed(5)}`;
 
 export async function callModel<S extends z.ZodType>(input: CallModelInput<S>): Promise<CallModelResult<z.infer<S>>> {
   const { op } = input;
-  const primary = modelFor(op);
+  const primary = input.preferFailover ? failoverModel(modelFor(op)) : modelFor(op);
   const started = Date.now();
   const jsonSchema = strictSchema(input.schema);
 

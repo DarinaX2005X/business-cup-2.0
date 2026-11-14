@@ -23,7 +23,7 @@ export default async function LandingPage() {
         <MistakeBanner />
         <Features view={view} />
         <Pay />
-        <DataNote />
+        <DataNote view={view} />
         <Closing t={t} />
       </main>
       <LandingFooter t={t} />

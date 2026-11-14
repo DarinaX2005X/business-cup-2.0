@@ -11,7 +11,7 @@
   },
   "list": {
     "label": "Jobs close to yours",
-    "count_one": "One job close to yours",
+    "count_one": "{count} job close to yours",
     "count_other": "{count} jobs close to yours"
   },
   "card": {
@@ -31,7 +31,7 @@
     "none": "No US pay data"
   },
   "locked": {
-    "title_one": "See one more move with Pro",
+    "title_one": "See {count} more move with Pro",
     "title_other": "See {count} more moves with Pro",
     "reason": "Pro shows every job close to yours, with its week, its pay and the skills you would add.",
     "trial": "Start your 7-day free trial"

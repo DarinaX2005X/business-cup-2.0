@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import type { RepType } from '@/domain/types';
 import st from './progress.module.css';
 
@@ -7,13 +8,19 @@ import st from './progress.module.css';
  * is the machine's hatched draft, Human edge is two speech bubbles with yours in apricot.
  */
 export function TypeGlyph({ type, size = 40 }: { type: RepType; size?: number }) {
+  const hatch = `h${useId().replace(/:/g, '')}`;
   return (
     <svg className={st.glyph} width={size} height={size} viewBox="0 0 40 40" aria-hidden="true" data-type={type}>
+      <defs>
+        <pattern id={hatch} width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <rect width="0.9" height="3" className={st.glyphHatchLine} />
+        </pattern>
+      </defs>
       <rect x="3" y="3" width="34" height="34" rx="10" className={st.glyphBg} />
       {type === 'edge' ? (
         <>
           <path d="M9 11.5h15a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3h-9l-4 3.5v-3.5h-2a3 3 0 0 1-3-3v-6a3 3 0 0 1 3-3z" className={st.glyphSheet} />
-          <path d="M9.5 16.5h12M9.5 19.5h8" className={st.glyphLine} />
+          <path d="M9 11.5h15a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3h-9l-4 3.5v-3.5h-2a3 3 0 0 1-3-3v-6a3 3 0 0 1 3-3z" fill={`url(#${hatch})`} opacity="0.55" />
           <path d="M17 20.5h13a3 3 0 0 1 3 3v5a3 3 0 0 1-3 3h-1v3l-3.5-3H17a3 3 0 0 1-3-3v-5a3 3 0 0 1 3-3z" className={st.glyphWarm} />
           <path d="M17.5 21.2h12" className={st.glyphHi} />
         </>
@@ -31,6 +38,7 @@ export function TypeGlyph({ type, size = 40 }: { type: RepType; size?: number })
             <>
               <path d="M14 12h12M14 15.5h8" className={st.glyphLine} />
               <rect x="13.2" y="19" width="13.6" height="9.5" rx="1.5" className={st.glyphHatch} />
+              <rect x="13.2" y="19" width="13.6" height="9.5" rx="1.5" fill={`url(#${hatch})`} />
             </>
           )}
         </>

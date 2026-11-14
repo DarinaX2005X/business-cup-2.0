@@ -6,9 +6,9 @@ import { planActive } from '@/server/billing/plan';
 
 /** Coach access (round 3); `isPro` below is true for both paid tiers. */
 export { isCoach } from '@/server/billing/plan';
-import { hashSecret, isProfileId, isSecret, newProfileId, newSecret, verifySecret } from './ids';
+import { emailIndexKey, hashSecret, isProfileId, isSecret, newProfileId, newSecret, verifySecretAny } from './ids';
 
-export { isProfileId, isSecret } from './ids';
+export { emailIndexKey, hashSecret, isProfileId, isSecret, newSecret } from './ids';
 
 /**
  * Anonymous profiles: `profile:<id>` in the store, versioned. The client keeps id + secret;
@@ -16,7 +16,11 @@ export { isProfileId, isSecret } from './ids';
  * applies the mutation and writes with the version it read, retrying on a race.
  */
 
-export type PublicProfile = Omit<Profile, 'secretHash'>;
+/** What clients see: no secret hashes, and of the account only its email. */
+export type PublicProfile = Omit<Profile, 'secretHash' | 'secretHashes' | 'account'> & { account: { email: string } | null };
+
+/** Device secret hashes that sign in to this profile: `secretHashes`, or the single `secretHash` of older profiles. */
+export const deviceHashes = (profile: Pick<Profile, 'secretHash' | 'secretHashes'>): string[] => profile.secretHashes ?? [profile.secretHash];
 
 export const profileKey = (id: string) => `profile:${id}`;
 
@@ -100,13 +104,13 @@ export async function authenticate(id: unknown, secret: unknown): Promise<Profil
   if (!isProfileId(id) || !isSecret(secret)) return null;
   const profile = await getProfile(id);
   if (!profile) return null;
-  return verifySecret(secret, profile.secretHash) ? profile : null;
+  return verifySecretAny(secret, deviceHashes(profile)) ? profile : null;
 }
 
 export function toPublicProfile(profile: Profile): PublicProfile {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { secretHash, ...rest } = profile;
-  return rest;
+  const { secretHash, secretHashes, account, ...rest } = profile;
+  return { ...rest, account: account ? { email: account.email } : null };
 }
 
 /**
@@ -182,7 +186,8 @@ async function updateProfileOnce(id: string, fn: ProfileMutation, known?: Profil
 export async function profileOwnedKeys(profile: Profile): Promise<string[]> {
   const store = getStore();
   const rateKeys = await store.list(`rl:profile:${profile.id}:`);
-  return [...profile.xrays.map((x) => `xray:${x}`), ...profile.reps.map((r) => `rep:${r}`), ...rateKeys];
+  const emailIndex = profile.account ? [emailIndexKey(profile.account.email)] : [];
+  return [...profile.xrays.map((x) => `xray:${x}`), ...profile.reps.map((r) => `rep:${r}`), ...rateKeys, ...emailIndex];
 }
 
 /** Deletes the profile first (access stops at once), then everything it owns. */

@@ -1,27 +1,86 @@
 {
   "skip": "Skip to content",
-  "home": "Irreplaceable, your week map",
+  "home": "Irreplaceable, go to Home",
+  "homeGuest": "Irreplaceable, go to the start page",
   "nav": {
     "label": "Sections",
-    "week": "Week map",
+    "home": "Home",
+    "week": "My week",
     "today": "Today",
     "progress": "Progress",
+    "coach": "Coach",
     "shop": "Shop",
+    "more": "More",
     "shopReady": "Reward available"
   },
-  "mapOwn": "Map your own week",
+  "site": {
+    "label": "Site",
+    "method": "How we measure",
+    "jobs": "Jobs",
+    "pricing": "Pricing",
+    "cup": "Business Cup 2.0"
+  },
+  "returning": {
+    "lead": "Your week as {job} is waiting.",
+    "leadNoJob": "Your week map is waiting.",
+    "today": "Go to today's rep"
+  },
+  "mapOwn": "Map my week",
+  "openWeek": "Open my week",
+  "goHome": "Go to Home",
+  "demo": "Demo account",
+  "demoHint": "A Business Cup 2.0 jury account, built from a sample resume through the real product",
   "pointsLabel": "points",
+  "pointsLink": "Points: {count}. Open the shop",
   "streak_one": "{count} day of practice this week",
   "streak_other": "{count} days of practice this week",
-  "language": "Language",
-  "profile": "Your profile",
-  "account": "Profile and language",
-  "restore": "Copy restore link",
-  "restoreHint": "Opens your profile on another device. Keep it private.",
-  "copied": "Link copied",
-  "sound": "Sound",
-  "pointsLink": "Points: {count}. Open the shop",
-  "streakLink_one": "{count} day of practice this week. Open your practice",
-  "streakLink_other": "{count} days of practice this week. Open your practice",
-  "openProfile": "Your profile"
+  "streakLink_one": "{count} day of practice this week. Open your progress",
+  "streakLink_other": "{count} days of practice this week. Open your progress",
+  "level": {
+    "short": "Level {level}",
+    "link": "Level {level}, {name}. Open the leaderboard",
+    "next": "{count} XP to level {level}",
+    "top": "Top level"
+  },
+  "account": {
+    "label": "Your account",
+    "open": "Open your account menu",
+    "tier": {
+      "free": "Free",
+      "pro": "Pro",
+      "coach": "Max"
+    },
+    "planFree": "Free plan",
+    "planPro": "Pro plan",
+    "planCoach": "Max plan",
+    "planTrial": "Free trial until {date}",
+    "planCup": "Max, free from Business Cup 2.0 until {date}",
+    "upgrade": "Upgrade to Pro",
+    "upgradeHint": "A daily rep from your own week",
+    "profile": "Profile",
+    "subscription": "Subscription",
+    "settings": "Settings",
+    "leaderboard": "Leaderboard",
+    "method": "How we measure",
+    "help": "Help"
+  },
+  "more": {
+    "title": "More",
+    "sections": "Sections",
+    "account": "Account"
+  },
+  "help": {
+    "title": "Help",
+    "q1": "What is today's rep?",
+    "a1": "A short exercise built from a task in your own week. You catch a mistake AI made, hand a task to AI and check what comes back, or practise a conversation AI can't have for you.",
+    "q2": "Where do points come from?",
+    "a2": "Reps, the daily AI or me round and your streak all earn points. Spend them in the shop on discounts and months of Pro.",
+    "q3": "How do I open my account on another device?",
+    "a3": "Log in with your email and password on the other device. If you haven't made an account yet, choose Save my progress first: your week map and points move with you.",
+    "q4": "How do I cancel my plan?",
+    "a4": "Open Subscription and choose Manage subscription. Stripe's page lets you cancel or change your card.",
+    "q5": "Where do the numbers come from?",
+    "a5": "Every number in your week map comes from public data and research. How we measure lists each source and each step.",
+    "method": "Read How we measure"
+  }
 }

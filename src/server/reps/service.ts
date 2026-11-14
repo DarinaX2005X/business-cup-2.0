@@ -34,6 +34,8 @@ import { aiOrMeFor } from './ai-or-me';
  */
 
 export const REP_TYPES: RepType[] = ['slip', 'delegate', 'edge'];
+/** A delivered, unanswered trial may be rewritten for a new job this many times. */
+export const TRIAL_REWRITES = 1;
 export const MAX_EXTRAS_PER_DAY = 20;
 export const GENERATION_WAIT_MS = 8_000;
 const LOCK_TTL_SEC = 120;
@@ -99,10 +101,12 @@ const ofWeek = (week: Week) => {
 };
 
 /**
- * Today's reps of this kind for the person's current occupation. Reps made for an earlier map (another job)
- * stay in their history but never show up as today's rep for the new one.
+ * Today's reps of this kind for the person's current occupation: what Today shows. Reps made for an earlier map
+ * (another job) stay in their history but are not shown as today's reps for the new one.
  */
 const todays = (p: Profile, day: string, kind: RepRecord['kind'], week: Week) => p.repLog.filter((r) => r.day === day && r.kind === kind && ofWeek(week)(r));
+/** All of today's reps of this kind, whatever the occupation: what the daily and extra caps count. */
+const todaysAll = (p: Profile, day: string, kind: RepRecord['kind']) => p.repLog.filter((r) => r.day === day && r.kind === kind);
 
 export interface Plan {
   id: string;
@@ -127,9 +131,15 @@ export function nextTask(profile: Profile, week: Week, type: RepType, kind: RepR
   return { taskId, seed };
 }
 
-function makePlan(ctx: RepCtx, week: Week, type: RepType, kind: RepRecord['kind'], day: string, reuse?: { id: string; taskId: string }): Plan {
+/** A task id the person asked for ("Practise this"), kept only when it is a task of their week. */
+export function weekTask(week: Week, taskId: string | null | undefined): string | null {
+  return taskId && week.shares.some((s) => s.taskId === taskId) && week.bundle.tasks.some((t) => t.id === taskId) ? taskId : null;
+}
+
+function makePlan(ctx: RepCtx, week: Week, type: RepType, kind: RepRecord['kind'], day: string, reuse?: { id: string; taskId: string }, wanted?: string | null): Plan {
   const { profile } = ctx;
-  const next = nextTask(profile, week, type, kind, day);
+  const auto = nextTask(profile, week, type, kind, day);
+  const next = wanted ? { taskId: wanted, seed: `${auto.seed}:task:${wanted}` } : auto;
   // a retry keeps its id and, when it still fits the type and the week, its task; a new seed gives a fresh text
   const keepTask = reuse && ofWeek(week)(reuse) && reuse.taskId;
   return {
@@ -138,7 +148,7 @@ function makePlan(ctx: RepCtx, week: Week, type: RepType, kind: RepRecord['kind'
     type,
     kind,
     day,
-    taskId: keepTask || next.taskId,
+    taskId: wanted || keepTask || next.taskId,
     seed: reuse ? `${next.seed}:retry:${Date.now().toString(36)}` : next.seed,
     difficulty: difficultyFor(streakAsOf(applyFreeze(profile.streak, day).streak, day).current),
     week,
@@ -304,8 +314,8 @@ class Taken extends Error {
 }
 
 /** Regenerates a failed rep under the same id (type may change to what the person asked for now). */
-async function retryEntry(ctx: RepCtx, week: Week, entry: Profile['repLog'][number], type: RepType): Promise<CreateResult> {
-  const plan = makePlan(ctx, week, type, entry.kind, entry.day, { id: entry.id, taskId: type === entry.type ? entry.taskId : '' });
+async function retryEntry(ctx: RepCtx, week: Week, entry: Profile['repLog'][number], type: RepType, wanted?: string | null): Promise<CreateResult> {
+  const plan = makePlan(ctx, week, type, entry.kind, entry.day, { id: entry.id, taskId: type === entry.type ? entry.taskId : '' }, wanted);
   if (plan.type !== entry.type || plan.taskId !== entry.taskId) {
     await updateProfile(ctx.profile.id, (p) => {
       const e = p.repLog.find((r) => r.id === entry.id);
@@ -315,28 +325,32 @@ async function retryEntry(ctx: RepCtx, week: Week, entry: Profile['repLog'][numb
   return startGeneration(ctx, plan, false);
 }
 
-export async function createRep(ctx: RepCtx, input: { type: RepType; kind: 'daily' | 'extra' }): Promise<CreateResult> {
+/** `taskId` (optional, "Practise this"): used when it is a task of the person's week, ignored otherwise. */
+export async function createRep(ctx: RepCtx, input: { type: RepType; kind: 'daily' | 'extra'; taskId?: string | null }): Promise<CreateResult> {
   const { profile } = ctx;
   if (!isPro(profile, nowOf(ctx))) throw new HttpError(402, 'pro_required', 'Daily reps are part of Pro.');
   const week = await requireWeek(profile);
   const day = todayOf(ctx);
+  const wanted = weekTask(week, input.taskId);
 
   // "Try again" after a failure reuses the failed rep's id: today's daily, or a failed extra of today
-  const candidates = input.kind === 'daily' ? todays(profile, day, 'daily', week).slice(0, 1) : todays(profile, day, 'extra', week);
+  // (a failed rep was never delivered, so it may be rewritten for the current job; caps count every job)
+  const candidates = input.kind === 'daily' ? todaysAll(profile, day, 'daily').slice(0, 1) : todaysAll(profile, day, 'extra');
   for (const entry of candidates) {
     const state = await repState(entry.id, profile);
-    if (state && 'status' in state && state.status === 'failed') return retryEntry(ctx, week, entry, input.type);
+    if (state && 'status' in state && state.status === 'failed') return retryEntry(ctx, week, entry, input.type, wanted);
   }
 
-  const plan = makePlan(ctx, week, input.type, input.kind, day);
+  const plan = makePlan(ctx, week, input.type, input.kind, day, undefined, wanted);
   try {
     await updateProfile(
       profile.id,
       (p) => {
         if (input.kind === 'daily') {
-          const existing = todays(p, day, 'daily', week)[0];
+          // one daily per local day, whatever the occupation: a new map does not reopen it
+          const existing = todaysAll(p, day, 'daily')[0];
           if (existing) throw new Taken(existing.id);
-        } else if (todays(p, day, 'extra', week).length >= MAX_EXTRAS_PER_DAY) {
+        } else if (todaysAll(p, day, 'extra').length >= MAX_EXTRAS_PER_DAY) {
           throw new HttpError(429, 'extra_limit', `Up to ${MAX_EXTRAS_PER_DAY} extra reps a day.`);
         }
         if (!p.tz && ctx.headerTz) p.tz = ctx.headerTz;
@@ -378,13 +392,21 @@ export async function startTrial(ctx: RepCtx): Promise<CreateResult> {
   const current = profile.trial.status === 'in_progress' && profile.trial.repId ? profile.repLog.find((r) => r.id === profile.trial.repId) : undefined;
   if (current) {
     const state = await repState(current.id, profile);
-    // the open trial was written for this occupation: keep it; for another job or failed: rewrite, same id
+    // the open trial was written for this occupation: keep it
     if (state && 'rep' in state && state.rep.occupationCode === week.bundle.code) return state;
     if (state && 'status' in state && state.status === 'generating') return state;
+    // A delivered trial is consumed. It may be rewritten for a new job once, and only while unanswered;
+    // a failed trial was never delivered and is simply written again.
+    const delivered = !!state && 'rep' in state;
+    if (delivered && (profile.trial.rewrites ?? 0) >= TRIAL_REWRITES) {
+      throw new HttpError(409, 'trial_used', 'The free rep has been used.', { repId: current.id });
+    }
     const plan = makePlan(ctx, week, 'slip', 'trial', day, ofWeek(week)(current) ? current : { id: current.id, taskId: '' });
     await updateProfile(profile.id, (p) => {
+      if (delivered && (p.trial.rewrites ?? 0) >= TRIAL_REWRITES) throw new HttpError(409, 'trial_used', 'The free rep has been used.', { repId: current.id });
       const e = p.repLog.find((r) => r.id === current.id);
       if (e) Object.assign(e, { taskId: plan.taskId, day });
+      if (delivered) p.trial = { ...p.trial, rewrites: (p.trial.rewrites ?? 0) + 1 };
     });
     return startGeneration(ctx, plan, false);
   }
@@ -440,7 +462,8 @@ export async function trialState(
   const state = await repState(repId, profile);
   if (state && 'rep' in state) {
     // an open trial written for another job is not shown: starting the trial again rewrites it for this one
-    if (status === 'in_progress' && week && state.rep.occupationCode !== week.bundle.code) return { status: 'available', repId };
+    const rewritable = (profile.trial.rewrites ?? 0) < TRIAL_REWRITES;
+    if (status === 'in_progress' && week && state.rep.occupationCode !== week.bundle.code && rewritable) return { status: 'available', repId };
     return { status, repId, rep: state.rep };
   }
   if (state?.status === 'generating') return { status, repId, generating: true };
@@ -463,11 +486,11 @@ export async function getToday(ctx: RepCtx) {
 
   let pending: { repId: string; kind: RepRecord['kind'] } | null = null;
   const failed: { repId: string; kind: RepRecord['kind']; type: RepType }[] = [];
-  const dailyEntry = todays(profile, day, 'daily', week)[0];
+  const dailyEntry = todaysAll(profile, day, 'daily')[0];
   let daily: RepView | null = null;
   if (dailyEntry) {
     const state = await repState(dailyEntry.id, profile);
-    if (state && 'rep' in state) daily = state.rep;
+    if (state && 'rep' in state) daily = ofWeek(week)(dailyEntry) ? state.rep : null; // an earlier job's daily still counts, it is just not shown
     else if (state?.status === 'generating') pending = { repId: dailyEntry.id, kind: 'daily' };
     else if (state?.status === 'failed') failed.push({ repId: dailyEntry.id, kind: 'daily', type: dailyEntry.type });
   }
@@ -490,7 +513,7 @@ export async function getToday(ctx: RepCtx) {
     daily,
     extras,
     failed,
-    extrasLeft: Math.max(0, MAX_EXTRAS_PER_DAY - todays(profile, day, 'extra', week).length),
+    extrasLeft: Math.max(0, MAX_EXTRAS_PER_DAY - todaysAll(profile, day, 'extra').length),
     choices: REP_TYPES,
     nextKind,
     choiceTasks,

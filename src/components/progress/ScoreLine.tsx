@@ -33,7 +33,9 @@ export function ScoreLine({ points, height = 210 }: { points: ScorePoint[]; heig
   const box = useRef<HTMLDivElement>(null);
   const strips = useRef<(HTMLButtonElement | null)[]>([]);
   const [w, setW] = useState(0);
-  const [sel, setSel] = useState(points.length - 1);
+  // the picked point, remembered with the number of points it was picked among: a new point selects itself
+  const [picked, setPicked] = useState<{ n: number; i: number } | null>(null);
+  const setSel = (i: number) => setPicked({ n: points.length, i });
   const uid = useId().replace(/:/g, '');
 
   useEffect(() => {
@@ -43,9 +45,6 @@ export function ScoreLine({ points, height = 210 }: { points: ScorePoint[]; heig
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
-
-  // A new point (a rep finished in another tab) selects itself.
-  useEffect(() => setSel(points.length - 1), [points.length]);
 
   const geo = useMemo(() => {
     if (!w || !points.length) return null;
@@ -72,7 +71,7 @@ export function ScoreLine({ points, height = 210 }: { points: ScorePoint[]; heig
     return { lo, hi, plotW, xy, d, guides, y, strip, shownTicks };
   }, [w, points, height]);
 
-  const s = Math.max(0, Math.min(sel, points.length - 1));
+  const s = picked && picked.n === points.length ? Math.min(picked.i, points.length - 1) : points.length - 1;
   const cur = points[s];
 
   const onKey = (e: KeyboardEvent) => {

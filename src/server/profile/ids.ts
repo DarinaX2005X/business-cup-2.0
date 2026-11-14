@@ -26,10 +26,24 @@ export function hashSecret(secret: string): string {
 
 /** Constant-time comparison of sha256(secret) with the stored hash. */
 export function verifySecret(secret: string, storedHash: string): boolean {
-  const a = Buffer.from(hashSecret(secret), 'hex');
+  return matchesHash(Buffer.from(hashSecret(secret), 'hex'), storedHash);
+}
+
+function matchesHash(a: Buffer, storedHash: string): boolean {
   const b = Buffer.from(storedHash, 'hex');
   return a.length === b.length && timingSafeEqual(a, b);
 }
+
+/** Whether the secret matches any of the device hashes; every hash is compared, in constant time each. */
+export function verifySecretAny(secret: string, storedHashes: readonly string[]): boolean {
+  const a = Buffer.from(hashSecret(secret), 'hex');
+  let ok = false;
+  for (const h of storedHashes) ok = matchesHash(a, h) || ok;
+  return ok;
+}
+
+/** Store key of the email → profile index: `acct:<sha256(email)>` (the email is already normalized). */
+export const emailIndexKey = (email: string) => `acct:${createHash('sha256').update(email).digest('hex')}`;
 
 export const isProfileId = (v: unknown): v is string => typeof v === 'string' && PROFILE_ID_RE.test(v);
 export const isSecret = (v: unknown): v is string => typeof v === 'string' && SECRET_RE.test(v);

@@ -1,0 +1,104 @@
+{
+  "meta": {
+    "title": "Home"
+  },
+  "greeting": {
+    "morning": "Good morning",
+    "afternoon": "Good afternoon",
+    "evening": "Good evening",
+    "named": "{greeting}, {name}"
+  },
+  "title": "Your week as {job}",
+  "titleNoJob": "Your week",
+  "score": {
+    "open": "Open my week map"
+  },
+  "today": {
+    "label": "Today's rep",
+    "slipTitle": "AI made a mistake in your “{task}”. Find it",
+    "delegateTitle": "Hand “{task}” to AI and check what comes back",
+    "edgeTitle": "Practise the part of “{task}” AI can't do for you",
+    "genericTitle": "AI made a mistake in a document from your top task. Find it",
+    "meta": "{type}, about {minutes} min",
+    "start": "Start today's rep",
+    "continue": "Continue today's rep",
+    "others": "Or pick Delegate or Human edge",
+    "doneTitle": "Today's rep is done",
+    "doneBody": "Your streak is safe for today. Tomorrow's rep comes from “{task}”.",
+    "doneBodyNoTask": "Your streak is safe for today. A new rep opens tomorrow.",
+    "practise": "Practise more",
+    "review": "See how it went",
+    "generatingTitle": "Today's rep is being written",
+    "generatingBody": "It's built from a task in your own week and takes a few seconds.",
+    "open": "Open it",
+    "trialTitle": "Your free rep: AI made a mistake in your top task. Find it",
+    "trialBody": "A real document from your line of work with mistakes an AI made. About three minutes.",
+    "trialStart": "Start my free rep",
+    "trialContinue": "Finish my free rep",
+    "aiOrMeTitle": "AI or me? Today's round is ready",
+    "aiOrMeBody": "Five tasks from your job. Guess which ones AI already does. It takes a minute.",
+    "aiOrMePlay": "Play today's round",
+    "aiOrMeDoneTitle": "You played today's round",
+    "aiOrMeDoneBody": "{right} of {total} right. A new round opens tomorrow.",
+    "upgrade": "Get a rep every day with Pro",
+    "errorTitle": "Today's rep didn't load",
+    "errorBody": "Your week map and progress are safe. Try again in a moment.",
+    "retry": "Try again",
+    "loading": "Loading today's rep"
+  },
+  "coach": {
+    "title": "Ask your coach about your week",
+    "body": "It knows your tasks, your plan and how your reps went. Type or send a voice message.",
+    "open": "Open Coach",
+    "tier": "Max plan"
+  },
+  "plan": {
+    "title": "Your 12-week plan",
+    "week": "Week {week} of 12",
+    "weekDone": "{done} of {total} done this week",
+    "next": "Next: {text}",
+    "open": "Open my plan",
+    "noneBody": "Twelve weeks of small steps, built from your week map and your skills.",
+    "noneCta": "Write my plan",
+    "tiles": "Weeks of your plan: week {week} is this week"
+  },
+  "streak": {
+    "title": "This week",
+    "body_one": "{count} day of practice",
+    "body_other": "{count} days of practice",
+    "level": "Level {level} · {name}",
+    "toNext": "{count} XP to level {level}",
+    "top": "You've reached the top level",
+    "board": "See the leaderboard"
+  },
+  "reward": {
+    "title": "Next reward",
+    "need": "{count} more points",
+    "cost": "{cost} points",
+    "ready": "You can already redeem a reward",
+    "readyBody": "Your {balance} points are enough for something in the shop.",
+    "open": "Open the shop",
+    "progress": "{balance} of {cost} points"
+  },
+  "links": {
+    "title": "Jump back in",
+    "tasks": "Tasks",
+    "tasksBody": "Every task in your week and who does it",
+    "plan": "Plan",
+    "planBody": "Twelve weeks of small steps",
+    "skills": "Skills",
+    "skillsBody": "What your resume shows, and the gaps",
+    "next": "Next jobs",
+    "nextBody": "Where your skills carry you",
+    "playbook": "Playbook",
+    "playbookBody": "Instructions that work for your tasks",
+    "secondLook": "Second look",
+    "secondLookBody": "Paste an AI draft and check it"
+  },
+  "start": {
+    "title": "Map your week",
+    "body": "Type your job or upload your resume. In about two minutes you'll see your week task by task: what AI already does, what it speeds up and what stays yours.",
+    "cta": "Map my week",
+    "sample": "Try a sample resume"
+  }
+}

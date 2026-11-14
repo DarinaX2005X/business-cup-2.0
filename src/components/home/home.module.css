@@ -1,0 +1,794 @@
+/*
+ * Home: the start page once a profile exists. A greeting and «Your week as {job}», then today's rep as a
+ * big piece of the violet field with the paper sheets on it (the banner the user chose in the sandbox),
+ * the coach beside it on paper, then three small objects (the plan's twelve weeks, the week's streak with
+ * the level stone, the next voucher) and app-style links back into the week.
+ */
+
+.page {
+  max-width: calc(var(--content) + 2 * var(--s-32));
+  margin: 0 auto;
+  padding: var(--s-48) var(--s-32) var(--s-72);
+  display: grid;
+  gap: var(--s-24);
+}
+
+/* ---------- greeting ---------- */
+
+.greet {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s-24);
+  margin-bottom: var(--s-8);
+}
+
+.greetText {
+  min-width: 0;
+}
+
+.hello {
+  min-height: 1.4em;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--ink-2);
+  animation: rise 0.4s var(--ease-out);
+}
+
+.hello[data-pending] {
+  animation: none;
+}
+
+.title {
+  margin-top: 4px;
+  font-size: 44px;
+  font-weight: 750;
+  letter-spacing: -0.032em;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+/* the person's job on a soft violet plate: the one highlighted phrase on the page */
+.plate {
+  padding: 0 0.16em;
+  margin: 0 -0.04em;
+  border-radius: 0.18em;
+  background: var(--violet-soft);
+  box-shadow: inset 0 -0.08em 0 var(--violet-tint);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.score {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex: none;
+  padding: 8px 12px;
+  margin: 0 -12px -8px 0;
+  border-radius: 16px;
+  color: inherit;
+  text-decoration: none;
+  transition:
+    background-color var(--t-hover) var(--ease),
+    transform var(--t-hover) var(--ease);
+}
+
+.score:hover {
+  background: var(--sunk);
+  transform: translateY(-1px);
+}
+
+.scoreLink {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--violet);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+/* ---------- the banner row ---------- */
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-24);
+}
+
+.row[data-coach] {
+  grid-template-columns: minmax(0, 1.85fr) minmax(300px, 1fr);
+}
+
+.banner {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(220px, 0.9fr);
+  min-height: 320px;
+  border-radius: var(--r-panel);
+  box-shadow:
+    inset 0 1px 0 oklch(100% 0 0 / 0.16),
+    var(--shadow-on-field);
+}
+
+.arches {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  transition: transform 1.2s var(--ease-out);
+}
+
+.banner:hover .arches {
+  transform: scale(1.03) translateX(-6px);
+}
+
+.bannerText {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 12px;
+  padding: 40px 0 40px 44px;
+  min-width: 0;
+  animation: rise 0.45s var(--ease-out);
+}
+
+.bannerTitle {
+  font-size: 32px;
+  font-weight: 750;
+  line-height: 1.14;
+  letter-spacing: -0.028em;
+  max-width: 22ch;
+  text-wrap: balance;
+}
+
+.bannerMeta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
+  border-radius: var(--r-tag);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--on-violet);
+  background: oklch(100% 0 0 / 0.14);
+  box-shadow: inset 0 0 0 1px oklch(100% 0 0 / 0.18);
+}
+
+.bannerBody {
+  max-width: 46ch;
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--on-violet-2);
+}
+
+.bannerActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  margin-top: 10px;
+}
+
+.fieldLink {
+  font-weight: 600;
+  color: var(--on-violet);
+  text-decoration-line: underline;
+  text-decoration-color: oklch(100% 0 0 / 0.4);
+  text-underline-offset: 3px;
+  transition: text-decoration-color var(--t-hover) var(--ease);
+}
+
+.fieldLink:hover {
+  text-decoration-color: var(--on-violet);
+}
+
+.bannerArt {
+  position: relative;
+  z-index: 1;
+  min-height: 220px;
+  pointer-events: none;
+}
+
+.artSvg {
+  position: absolute;
+  right: -36px;
+  top: 50%;
+  width: 118%;
+  max-width: 470px;
+  height: auto;
+  transform: translateY(-50%) rotate(0deg);
+  transform-origin: 60% 70%;
+  transition: transform 0.6s var(--ease-out);
+  animation: artIn 0.6s var(--ease-out) both;
+}
+
+.banner:hover .artSvg {
+  transform: translateY(calc(-50% - 6px)) rotate(-1.5deg);
+}
+
+@keyframes artIn {
+  from {
+    opacity: 0;
+    transform: translateY(calc(-50% + 18px)) rotate(2deg);
+  }
+}
+
+.startBanner {
+  min-height: 380px;
+}
+
+.startBanner .bannerTitle {
+  font-size: 44px;
+}
+
+.beam {
+  animation: scan 4.8s var(--ease) infinite;
+}
+
+@keyframes scan {
+  0% {
+    transform: translateX(-80px);
+  }
+  70%,
+  100% {
+    transform: translateX(380px);
+  }
+}
+
+/* loading: the banner keeps its size, the lines are placeholders */
+.skelTitle,
+.skelBtn,
+.skelLine {
+  display: block;
+  border-radius: 10px;
+  background: oklch(100% 0 0 / 0.14);
+  animation: pulse 1.4s var(--ease) infinite alternate;
+}
+
+.skelTitle {
+  width: min(420px, 90%);
+  height: 30px;
+}
+
+.skelTitle[data-short] {
+  width: min(260px, 60%);
+}
+
+.skelBtn {
+  width: 200px;
+  height: 56px;
+  margin-top: 14px;
+  border-radius: var(--r-ctl);
+}
+
+.skelLine {
+  width: 340px;
+  height: 44px;
+  background: var(--sunk);
+}
+
+@keyframes pulse {
+  to {
+    opacity: 0.5;
+  }
+}
+
+/* ---------- coach: a paper card, its art bleeding off the top ---------- */
+
+.coach {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: minmax(150px, 1fr) auto;
+  border-radius: var(--r-panel);
+  color: var(--ink);
+  text-decoration: none;
+  background: radial-gradient(120% 80% at 20% 0%, oklch(98% 0.02 290), var(--violet-soft) 75%);
+  box-shadow:
+    inset 0 0 0 1px oklch(88% 0.045 288),
+    var(--hl),
+    var(--shadow-rest);
+  transition:
+    transform var(--t-hover) var(--ease),
+    box-shadow var(--t-hover) var(--ease);
+}
+
+.coach:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 0 0 1px oklch(86% 0.06 288),
+    var(--hl),
+    var(--shadow-raised);
+}
+
+.coach:active {
+  transform: scale(0.99);
+}
+
+.coachArt {
+  position: relative;
+  pointer-events: none;
+}
+
+.coachSvg {
+  position: absolute;
+  left: 50%;
+  top: 22px;
+  width: 300px;
+  height: auto;
+  transform: translateX(-50%);
+  transition: transform 0.6s var(--ease-out);
+}
+
+.coach:hover .coachSvg {
+  transform: translateX(-50%) translateY(-5px) rotate(-1deg);
+}
+
+.coachText {
+  display: grid;
+  gap: 8px;
+  padding: 0 28px 28px;
+}
+
+.coachFoot {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.tierTag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 9px;
+  border-radius: var(--r-tag);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--apricot-deep);
+  background: linear-gradient(180deg, var(--apricot-hi), var(--apricot));
+}
+
+/* ---------- the three small objects ---------- */
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--s-24);
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px 24px 22px;
+  border-radius: var(--r-card);
+  color: var(--ink);
+  text-decoration: none;
+  background: var(--card);
+  box-shadow:
+    inset 0 0 0 1px var(--line),
+    var(--shadow-rest);
+  transition:
+    transform var(--t-hover) var(--ease),
+    box-shadow var(--t-hover) var(--ease);
+}
+
+a.tile:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 0 0 1px oklch(86% 0.06 288),
+    var(--shadow-raised);
+}
+
+a.tile:active {
+  transform: scale(0.99);
+}
+
+.cardTitle {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+}
+
+.cardBody {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.cardStrong {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.tileLink {
+  margin-top: auto;
+  padding-top: 4px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--violet);
+}
+
+.tileHead {
+  display: grid;
+  gap: 2px;
+  color: inherit;
+  text-decoration: none;
+  border-radius: 10px;
+}
+
+/* the plan: twelve week tiles, the current one filling with its checked items */
+.weeks {
+  list-style: none;
+  margin: 2px 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 4px;
+}
+
+.weeks li {
+  height: 26px;
+  border-radius: 6px 6px 4px 4px;
+}
+
+.weeks li[data-state='past'] {
+  background: var(--violet-tint);
+  box-shadow: 0 2px 0 oklch(80% 0.07 288);
+}
+
+.weeks li[data-state='now'] {
+  background:
+    linear-gradient(0deg, var(--apricot) 0 var(--fill, 0%), transparent var(--fill, 0%)),
+    var(--speed-field);
+  box-shadow:
+    0 0 0 1.5px var(--card),
+    0 0 0 3px var(--violet),
+    0 2px 0 3px oklch(80% 0.07 288 / 0.4);
+}
+
+.weeks li[data-state='ahead'] {
+  outline: 1.5px dashed oklch(80% 0.05 288);
+  outline-offset: -1.5px;
+}
+
+/* the streak: the kit's week, the level stone and a measured bar to the next level */
+.streak {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.levelRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;
+  padding: 10px 12px;
+  margin-inline: -12px;
+  border-radius: 14px;
+  color: inherit;
+  text-decoration: none;
+  transition: background-color var(--t-hover) var(--ease);
+}
+
+.levelRow:hover {
+  background: var(--sunk);
+}
+
+.levelText {
+  flex: 1;
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.levelText b {
+  font-size: 15px;
+}
+
+.levelText small {
+  font-size: 13px;
+  color: var(--ink-2);
+}
+
+.meter {
+  display: block;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--sunk);
+  box-shadow: inset 0 1px 1px oklch(26% 0.09 285 / 0.08);
+  overflow: hidden;
+}
+
+.meter i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(180deg, var(--apricot-hi), var(--apricot) 50%, var(--apricot-low));
+  transition: width 0.8s var(--ease-out);
+}
+
+/* the next reward: a small voucher from the shop, violet top, torn stub */
+.voucher {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow:
+    0 1px 1px oklch(26% 0.09 285 / 0.08),
+    0 8px 18px -10px oklch(26% 0.09 285 / 0.35);
+  transition: transform var(--t-pop) var(--spring);
+}
+
+a.tile:hover .voucher {
+  transform: rotate(-1.2deg) translateY(-1px);
+}
+
+.voucherTop {
+  display: flex;
+  align-items: center;
+  min-height: 64px;
+  padding: 12px 16px;
+  color: var(--on-violet);
+  background:
+    var(--hatch-field),
+    linear-gradient(160deg, var(--violet-hi), var(--violet));
+}
+
+.voucherTop b {
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.voucherStub {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 14px;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  background: var(--card);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+/* the perforation between the voucher and its stub */
+.voucherStub::before {
+  content: '';
+  position: absolute;
+  left: -1px;
+  top: 6px;
+  bottom: 6px;
+  border-left: 2px dashed var(--line);
+}
+
+/* ---------- quick links ---------- */
+
+.links {
+  margin-top: var(--s-24);
+}
+
+.linksTitle {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  margin-bottom: 14px;
+}
+
+.links ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px var(--s-16);
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px 12px 12px;
+  border-radius: 18px;
+  color: var(--ink);
+  text-decoration: none;
+  transition:
+    background-color var(--t-hover) var(--ease),
+    box-shadow var(--t-hover) var(--ease);
+}
+
+.link:hover {
+  background: var(--card);
+  box-shadow:
+    inset 0 0 0 1px var(--line),
+    var(--shadow-rest);
+}
+
+.link:active {
+  transform: scale(0.99);
+}
+
+.linkText {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.linkText b {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.linkText span {
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+
+/* app-style icons: a rounded tile with volume, in the product's three materials */
+.appIcon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  box-shadow:
+    inset 0 1px 0 oklch(100% 0 0 / 0.6),
+    inset 0 -2px 0 oklch(26% 0.09 285 / 0.08),
+    0 1px 1px oklch(26% 0.09 285 / 0.1),
+    0 6px 14px -8px oklch(26% 0.09 285 / 0.45);
+  transition: transform var(--t-pop) var(--spring);
+}
+
+.link:hover .appIcon {
+  transform: translateY(-2px) rotate(-4deg);
+}
+
+.appIcon[data-tone='machine'] {
+  color: var(--violet);
+  background:
+    var(--hatch-dense),
+    linear-gradient(165deg, oklch(98.5% 0.01 290), oklch(91% 0.03 290));
+}
+
+.appIcon[data-tone='machine'] svg {
+  padding: 3px;
+  border-radius: 7px;
+  background: oklch(99% 0.008 290 / 0.9);
+  box-sizing: content-box;
+}
+
+.appIcon[data-tone='human'] {
+  color: var(--apricot-deep);
+  background: var(--tile-hu);
+}
+
+.appIcon[data-tone='violet'] {
+  color: var(--on-violet);
+  background: linear-gradient(165deg, var(--violet-hi), var(--violet) 60%, var(--violet-deep));
+  box-shadow:
+    inset 0 1px 0 oklch(100% 0 0 / 0.28),
+    0 1px 1px oklch(26% 0.09 285 / 0.15),
+    0 6px 14px -8px oklch(26% 0.12 285 / 0.6);
+}
+
+/* ---------- narrower screens ---------- */
+
+@media (max-width: 1100px) {
+  .row[data-coach] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .coach {
+    grid-template-columns: 300px minmax(0, 1fr);
+    grid-template-rows: none;
+    align-items: center;
+    min-height: 200px;
+  }
+  .coachText {
+    padding: 28px 28px 28px 0;
+  }
+  .links ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .page {
+    padding: var(--s-24) var(--s-16) var(--s-48);
+    gap: var(--s-16);
+  }
+  .greet {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .score {
+    flex-direction: row;
+    align-items: center;
+    margin: 0;
+    padding: 4px 8px 4px 0;
+  }
+  .hello {
+    font-size: 17px;
+  }
+  .title {
+    font-size: 30px;
+  }
+  .banner {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto 190px;
+    min-height: 0;
+  }
+  .bannerText {
+    padding: 28px 22px 0;
+  }
+  .bannerTitle,
+  .startBanner .bannerTitle {
+    font-size: 25px;
+  }
+  .bannerBody {
+    font-size: 16px;
+  }
+  .bannerArt {
+    min-height: 190px;
+  }
+  .artSvg {
+    right: auto;
+    left: 50%;
+    width: 340px;
+    transform: translate(-46%, -42%);
+  }
+  .banner:hover .artSvg {
+    transform: translate(-46%, -44%);
+  }
+  @keyframes artIn {
+    from {
+      opacity: 0;
+    }
+  }
+  .coach {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: 170px auto;
+  }
+  .coachText {
+    padding: 0 22px 22px;
+  }
+  .coachSvg {
+    width: 260px;
+  }
+  .tiles {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-16);
+  }
+  .links ul {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beam {
+    animation: none;
+    transform: translateX(160px);
+  }
+}

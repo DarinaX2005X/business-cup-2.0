@@ -21,7 +21,8 @@ import {
   type Credentials,
 } from './credentials';
 
-export type PublicProfile = Omit<Profile, 'secretHash'>;
+/** The profile as GET /api/profile returns it: no secrets, and the account reduced to its email. */
+export type PublicProfile = Omit<Profile, 'secretHash' | 'secretHashes' | 'account'> & { account?: { email: string } | null };
 export type ProfilePatch = Partial<Pick<Profile, 'locale' | 'salary' | 'sound' | 'tz' | 'hintsSeen'>>;
 
 // ---------------------------------------------------------------------------------------------
@@ -156,6 +157,12 @@ interface ProfileContextValue {
   applyAwards(awards: PointsAward[] | undefined, originEl?: Element | null): void;
   remove(): Promise<void>;
   restoreLink(): string | null;
+  /** The email account this profile belongs to, or null for a guest profile (GET /api/profile `account`). */
+  account: { email: string } | null;
+  /** Makes these credentials (from log in or a demo account) the active ones and loads that profile. */
+  signIn(creds: Credentials): Promise<boolean>;
+  /** Logs this device out (POST /api/auth/logout) and forgets the credentials; a new guest is made when needed. */
+  signOut(): Promise<void>;
   /** Lets screens that just computed a new map show its score without waiting for a refetch. */
   setLastScore(score: number | null): void;
 }
@@ -180,7 +187,7 @@ function browserTimeZone(): string | null {
 }
 
 export function ProfileProvider({ children, presenters }: { children: ReactNode; presenters?: AwardPresenters }) {
-  const { locale, setLocale } = useT();
+  const { locale } = useT();
   const router = useRouter();
   const [status, setStatus] = useState<ProfileStatus>('loading');
   const [profile, setProfile] = useState<PublicProfile | null>(null);
@@ -197,11 +204,15 @@ export function ProfileProvider({ children, presenters }: { children: ReactNode;
     setStatus('ready');
     setError(null);
     loadedAt.current = Date.now();
-    // Keep the stored time zone current (the server uses it for "today"); silent and best-effort.
+    // Keep the stored time zone current (the server uses it for "today") and move profiles made in RU/KK
+    // to English, the only interface language now (generated content follows profile.locale); silent, best-effort.
     const tz = browserTimeZone();
-    if (tz && tz !== p.tz && !tzSyncing.current) {
+    const patch: ProfilePatch = {};
+    if (tz && tz !== p.tz) patch.tz = tz;
+    if (p.locale !== 'en') patch.locale = 'en';
+    if (Object.keys(patch).length && !tzSyncing.current) {
       tzSyncing.current = true;
-      apiFetch<PublicProfile>('/api/profile', { method: 'PATCH', body: { tz } })
+      apiFetch<PublicProfile>('/api/profile', { method: 'PATCH', body: patch })
         .then((np) => setProfile((prev) => (prev && prev.id === np.id && prev.version > np.version ? prev : np)))
         .catch(() => undefined)
         .finally(() => {
@@ -279,7 +290,6 @@ export function ProfileProvider({ children, presenters }: { children: ReactNode;
           saveCredentials(creds); // replaced credentials stay recoverable via restorePrevious()
           accept(target);
           setRestore('restored');
-          if (target.locale !== locale) void setLocale(target.locale);
           return;
         } catch (err) {
           if (cancelled) return;
@@ -304,7 +314,6 @@ export function ProfileProvider({ children, presenters }: { children: ReactNode;
         seq.current++;
         saveCredentials(creds); // the profile being left moves to the "previous" slot
         accept(p);
-        if (p.locale !== locale) void setLocale(p.locale);
         return true;
       } catch (err) {
         if (err instanceof ApiError && err.status === 401) return false;
@@ -312,7 +321,7 @@ export function ProfileProvider({ children, presenters }: { children: ReactNode;
         return false;
       }
     },
-    [accept, locale, setLocale],
+    [accept],
   );
 
   const confirmRestore = useCallback(async () => {
@@ -440,6 +449,23 @@ export function ProfileProvider({ children, presenters }: { children: ReactNode;
     [presenters, refresh],
   );
 
+  const signIn = useCallback(async (creds: Credentials) => {
+    clearOrphanCredentials();
+    return switchTo(creds);
+  }, [switchTo]);
+
+  const signOut = useCallback(async () => {
+    try {
+      await apiFetch('/api/auth/logout', { method: 'POST' });
+    } catch {
+      // the server copy is revoked or unreachable: this device forgets the credentials either way
+    }
+    seq.current++;
+    clearCredentials();
+    setProfile(null);
+    setStatus('anonymous');
+  }, []);
+
   const remove = useCallback(async () => {
     try {
       await apiFetch('/api/profile', { method: 'DELETE' });
@@ -480,6 +506,9 @@ export function ProfileProvider({ children, presenters }: { children: ReactNode;
       remove,
       restoreLink,
       setLastScore,
+      account: accountOf(profile),
+      signIn,
+      signOut,
     }),
     [
       status,
@@ -501,10 +530,18 @@ export function ProfileProvider({ children, presenters }: { children: ReactNode;
       remove,
       restoreLink,
       setLastScore,
+      signIn,
+      signOut,
     ],
   );
 
   return <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>;
+}
+
+/** The account part of GET /api/profile (`account: { email } | null`), tolerant of profiles from before accounts. */
+export function accountOf(p: PublicProfile | null): { email: string } | null {
+  const a = (p as { account?: { email?: unknown } | null } | null)?.account;
+  return a && typeof a.email === 'string' && a.email ? { email: a.email } : null;
 }
 
 export function useProfile(): ProfileContextValue {

@@ -1,0 +1,776 @@
+/*
+ * The 90-day plan. A week of the plan is a sheet of steps; the quarter is twelve tiles that fill with the
+ * apricot of the human part as the person checks steps off, the same material as the Week Bar.
+ */
+
+.plan {
+  display: grid;
+  gap: 24px;
+}
+
+.h3 {
+  font-size: var(--fs-20);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+}
+
+/* ---------- week tiles ---------- */
+
+.tiles {
+  display: inline-flex;
+  gap: 5px;
+  vertical-align: middle;
+}
+
+.tiles i {
+  width: 22px;
+  height: 12px;
+  border-radius: 4px;
+  background: var(--sunk);
+  box-shadow: inset 0 0 0 1px oklch(86% 0.03 290);
+  transition:
+    background var(--t-pop) var(--ease),
+    box-shadow var(--t-pop) var(--ease),
+    transform 320ms var(--spring);
+}
+
+.tiles i[data-on] {
+  background: var(--tile-hu);
+  box-shadow:
+    inset 0 1px 0 oklch(95% 0.05 70 / 0.85),
+    0 1.5px 0 var(--tile-hu-face);
+  transform: translateY(-1px);
+}
+
+.tiles[data-size='sm'] i {
+  width: 14px;
+  height: 8px;
+  border-radius: 3px;
+}
+
+/* ---------- names on plates ---------- */
+
+.taskName,
+.skillName {
+  font-weight: 650;
+  padding: 0 0.22em;
+  margin: 0 -0.04em;
+  border-radius: 5px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+}
+
+.taskName {
+  background: var(--marker-user);
+}
+
+.skillName {
+  background: oklch(92.5% 0.055 66);
+}
+
+/* ---------- stale notice ---------- */
+
+.stale {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  padding: 16px 20px;
+  border-radius: 18px;
+  font-size: 15.5px;
+  line-height: 1.45;
+  background: var(--violet-soft);
+}
+
+.staleKeep {
+  color: var(--ink-2);
+}
+
+/* ---------- layout ---------- */
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .layout {
+    grid-template-columns: minmax(0, 1.5fr) minmax(320px, 1fr);
+    gap: 28px;
+  }
+}
+
+/* ---------- the week sheet ---------- */
+
+.sheet {
+  position: relative;
+  padding: 32px 34px 28px;
+  border-radius: var(--r-panel);
+  background: var(--card);
+  box-shadow:
+    var(--hl),
+    inset 0 0 0 1px oklch(90% 0.025 290),
+    var(--shadow-raised);
+  animation: sheetIn 420ms var(--ease-out) both;
+}
+
+@keyframes sheetIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+.sheetHead {
+  display: grid;
+  gap: 10px;
+}
+
+.sheetMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+.sheetWeek {
+  font-weight: 700;
+  color: var(--violet);
+}
+
+.focus {
+  max-width: 22ch;
+  font-size: clamp(28px, 3.3vw, 44px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.06;
+  text-wrap: balance;
+}
+
+.sheetProgress {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-top: 6px;
+  font-size: 15px;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.sheet[data-celebrate] .sheetProgress .tiles i {
+  animation: tileHop 560ms var(--spring) calc(var(--i) * 70ms) both;
+}
+
+@keyframes tileHop {
+  40% {
+    transform: translateY(-6px) scale(1.08);
+  }
+  100% {
+    transform: translateY(-1px);
+  }
+}
+
+.items {
+  list-style: none;
+  margin: 24px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 12px;
+  padding: 10px 14px 12px 6px;
+  border-radius: 18px;
+  transition: background var(--t-pop) var(--ease);
+  animation: itemIn 380ms var(--ease-out) calc(80ms + var(--i) * 55ms) both;
+}
+
+@keyframes itemIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+.item:hover {
+  background: oklch(97.4% 0.012 290);
+}
+
+.item[data-done] {
+  background: oklch(97.2% 0.022 70);
+}
+
+.check {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.check:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 0;
+}
+
+.check[aria-busy='true'] {
+  cursor: progress;
+}
+
+.checkMark {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: transparent;
+  background: var(--card);
+  box-shadow: inset 0 0 0 2px oklch(78% 0.05 288);
+  transition:
+    background var(--t-pop) var(--ease),
+    box-shadow var(--t-pop) var(--ease),
+    color 120ms var(--ease),
+    transform var(--t-press) var(--ease);
+}
+
+.check:hover .checkMark {
+  box-shadow: inset 0 0 0 2px var(--violet);
+  color: oklch(78% 0.05 288);
+  transform: scale(1.06);
+}
+
+.check:active .checkMark {
+  transform: scale(0.88);
+}
+
+.check[aria-pressed='true'] .checkMark {
+  color: var(--ink);
+  background: var(--tile-hu);
+  box-shadow:
+    inset 0 1px 0 oklch(95% 0.05 70 / 0.85),
+    0 3px 8px -2px oklch(60% 0.14 50 / 0.55);
+}
+
+.check[data-fresh] .checkMark {
+  animation: stamp 440ms var(--spring);
+}
+
+@keyframes stamp {
+  0% {
+    transform: scale(0.62) rotate(-8deg);
+  }
+  60% {
+    transform: scale(1.14) rotate(2deg);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.itemBody {
+  min-width: 0;
+  padding-top: 9px;
+}
+
+.itemText {
+  font-size: 17.5px;
+  line-height: 1.45;
+  color: var(--ink);
+  transition: color var(--t-pop) var(--ease);
+}
+
+.item[data-done] .itemText {
+  color: var(--ink-2);
+}
+
+.itemMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  margin-top: 8px;
+}
+
+.kindTag {
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: var(--r-chip);
+  font-size: 13.5px;
+  font-weight: 650;
+  color: var(--ink-2);
+  background: var(--sunk);
+}
+
+.kindTag[data-kind='rep'] {
+  color: var(--violet-deep);
+  background: var(--violet-soft);
+}
+
+.kindTag[data-kind='skill'] {
+  color: var(--apricot-deep);
+  background: var(--speed-field);
+}
+
+.itemLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--violet);
+  text-decoration: underline;
+  text-decoration-color: oklch(46% 0.205 283 / 0.3);
+  text-underline-offset: 3px;
+  transition: color var(--t-hover) var(--ease);
+}
+
+.itemLink:hover {
+  color: var(--violet-deep);
+  text-decoration-color: currentColor;
+}
+
+.itemError {
+  margin-top: 6px;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--error);
+}
+
+.weekDone {
+  margin-top: 16px;
+  padding: 14px 18px;
+  border-radius: 16px;
+  font-weight: 600;
+  line-height: 1.45;
+  background: oklch(95% 0.04 70);
+  animation: itemIn 420ms var(--spring) both;
+}
+
+.back {
+  margin-top: 14px;
+  min-height: 44px;
+  padding: 0 4px;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--violet);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+/* ---------- the twelve weeks ---------- */
+
+.overview {
+  display: grid;
+  gap: 20px;
+  padding: 24px 20px 20px;
+  border-radius: var(--r-panel);
+  background: oklch(95.2% 0.022 290);
+  box-shadow: inset 0 0 0 1px oklch(91% 0.025 290);
+}
+
+.overviewHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  padding-left: 8px;
+}
+
+.month {
+  display: grid;
+  gap: 6px;
+}
+
+.monthHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 8px;
+  padding-left: 8px;
+  font-size: 15px;
+}
+
+.monthN {
+  color: var(--ink-2);
+}
+
+.weekRows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.weekRow {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 10px 7px 7px;
+  border: 0;
+  border-radius: 14px;
+  font: inherit;
+  text-align: left;
+  color: var(--ink);
+  background: transparent;
+  cursor: pointer;
+  transition:
+    background var(--t-hover) var(--ease),
+    box-shadow var(--t-hover) var(--ease),
+    transform var(--t-hover) var(--ease);
+}
+
+.weekRow:hover:not(:disabled) {
+  background: var(--card);
+  box-shadow: var(--shadow-rest);
+  transform: translateY(-1px);
+}
+
+.weekRow:active:not(:disabled) {
+  transform: scale(0.985);
+}
+
+.weekRow:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 1px;
+}
+
+.weekRow[data-selected] {
+  background: var(--card);
+  box-shadow:
+    inset 0 0 0 1.5px var(--violet),
+    var(--shadow-rest);
+}
+
+.weekRow:disabled {
+  cursor: default;
+  color: var(--ink-2);
+}
+
+.weekTile {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: 11px;
+  font-size: 15px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  background: var(--card);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.weekTile::before {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  z-index: -1;
+  height: calc(var(--fill, 0) * 100%);
+  background: var(--tile-hu);
+  transition: height 480ms var(--ease-out);
+}
+
+.weekRow[data-now] .weekTile {
+  box-shadow: inset 0 0 0 2px var(--violet);
+}
+
+.weekRow[data-complete] .weekTile {
+  box-shadow:
+    inset 0 1px 0 oklch(95% 0.05 70 / 0.8),
+    0 2px 0 var(--tile-hu-face);
+}
+
+.weekRow[data-locked] .weekTile {
+  color: var(--ink-2);
+  background: var(--hatch-sparse), var(--machine-field);
+}
+
+.weekRowText {
+  min-width: 0;
+  display: grid;
+  gap: 1px;
+}
+
+.weekRowName {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.nowTag {
+  font-style: normal;
+  font-size: 12.5px;
+  font-weight: 650;
+  line-height: 1;
+  padding: 4px 8px;
+  border-radius: 999px;
+  color: var(--violet-deep);
+  background: var(--violet-soft);
+}
+
+.weekRowFocus {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 14.5px;
+  line-height: 1.35;
+  color: var(--ink-2);
+}
+
+.weekRowCount {
+  font-size: 13.5px;
+  color: var(--ink-2);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.proWays {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ---------- waiting and problems ---------- */
+
+.sheet[data-pending] {
+  animation: none;
+}
+
+.genTitle {
+  font-size: var(--fs-28);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+}
+
+.genLead {
+  max-width: 52ch;
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.genLines {
+  display: grid;
+  gap: 18px;
+  margin-top: 30px;
+}
+
+.genLine {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  align-items: center;
+  gap: 18px;
+  padding-left: 8px;
+}
+
+.genDot {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 2px oklch(86% 0.03 290);
+}
+
+.genQuarter {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.genQuarter i {
+  aspect-ratio: 1.6;
+  border-radius: 12px;
+  background: var(--hatch-sparse), var(--machine-field);
+  animation: breathe 2.4s var(--ease) calc(var(--i) * 120ms) infinite;
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.problem {
+  display: grid;
+  justify-items: start;
+  gap: 12px;
+  max-width: 640px;
+  padding: 28px 30px;
+  border-radius: var(--r-panel);
+  font-size: 16.5px;
+  line-height: 1.5;
+  background: var(--card);
+  box-shadow:
+    var(--hl),
+    inset 0 0 0 1px oklch(90% 0.025 290),
+    var(--shadow-rest);
+}
+
+.problemTitle {
+  font-size: var(--fs-20);
+  font-weight: 700;
+}
+
+/* ---------- the plan in one card (Home, Progress) ---------- */
+
+.mini {
+  display: grid;
+  gap: 6px;
+  padding: 20px 22px;
+  border-radius: var(--r-card);
+  color: var(--ink);
+  text-decoration: none;
+  background: var(--card);
+  box-shadow:
+    var(--hl),
+    inset 0 0 0 1px oklch(90% 0.025 290),
+    var(--shadow-rest);
+  transition:
+    transform var(--t-hover) var(--ease),
+    box-shadow var(--t-hover) var(--ease);
+}
+
+a.mini:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    var(--hl),
+    inset 0 0 0 1px oklch(86% 0.04 290),
+    var(--shadow-raised);
+}
+
+a.mini:active {
+  transform: scale(0.985);
+}
+
+a.mini:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.miniTitle {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.miniWeek {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.miniRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  font-size: 14.5px;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.miniNext {
+  margin-top: 4px;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.miniLead {
+  font-size: 15.5px;
+  line-height: 1.45;
+}
+
+.miniAction {
+  margin-top: 6px;
+  font-size: 15px;
+  font-weight: 650;
+  color: var(--violet);
+}
+
+/* ---------- printing ---------- */
+
+.printRoot {
+  display: none;
+}
+
+@media print {
+  .printRoot {
+    display: block;
+  }
+}
+
+/* ---------- narrow and calm ---------- */
+
+@media (max-width: 640px) {
+  .sheet {
+    padding: 22px 16px 20px;
+    border-radius: 24px;
+  }
+
+  .item {
+    gap: 6px;
+    padding: 8px 8px 10px 2px;
+  }
+
+  .itemText {
+    font-size: 16.5px;
+  }
+
+  .overview {
+    padding: 20px 10px 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet,
+  .item,
+  .weekDone,
+  .check[data-fresh] .checkMark,
+  .sheet[data-celebrate] .sheetProgress .tiles i,
+  .genQuarter i {
+    animation: none !important;
+  }
+
+  .tiles i,
+  .weekTile::before,
+  .weekRow {
+    transition: none !important;
+  }
+}

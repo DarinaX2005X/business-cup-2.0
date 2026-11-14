@@ -170,6 +170,21 @@ describe('reps are written live', () => {
   });
 });
 
+describe('POST /api/reps with taskId ("Practise this")', () => {
+  it("uses a task of the person's week, and ignores an id that is not in it", async () => {
+    const p = await nurse();
+    const week = p.shares!.map((s) => s.taskId);
+    const wanted = week[week.length - 1];
+    const a = (await createRep(await ctx(p.id, '2026-11-14T15:00:00Z'), { type: 'slip', kind: 'extra', taskId: wanted })) as { rep: RepView };
+    expect(a.rep.taskId).toBe(wanted);
+    const devTask = (await loadBundle(DEV))!.tasks[0].id; // a real task, but of another job
+    for (const taskId of [devTask, 'nope', '']) {
+      const r = (await createRep(await ctx(p.id, '2026-11-14T15:01:00Z'), { type: 'slip', kind: 'extra', taskId })) as { rep: RepView };
+      expect(week).toContain(r.rep.taskId);
+    }
+  });
+});
+
 describe('no prepared content: an honest error and a same-id retry', () => {
   for (const code of ['budget_exceeded', 'provider_error', 'invalid_output'] as const) {
     it(`on ${code} the daily fails honestly, keeps its id, and "Try again" rewrites it live`, async () => {
@@ -230,32 +245,85 @@ describe('no prepared content: an honest error and a same-id retry', () => {
 });
 
 describe('a new map for another job', () => {
-  it('a rep made for the earlier job is not today\'s rep any more; new reps and the open trial use the new job', async () => {
+  const remap = async (id: string, code: string, title: string) => {
+    const b = (await loadBundle(code))!;
+    await createXray({ profile: (await getProfile(id))!, occupationCode: code, shares: typicalWeek(b).shares, jobTitle: title, inputSource: 'resume' });
+    return b;
+  };
+
+  it('reps of the earlier job are not shown as today\'s, but still count: no second daily, new reps use the new job', async () => {
     const p = await nurse();
     const first = (await createRep(await ctx(p.id, '2026-11-14T15:00:00Z'), { type: 'slip', kind: 'daily' })) as { rep: RepView };
     expect(first.rep.occupationCode).toBe(NURSE);
-    // the same person maps their week as a software developer the same day
-    const dev = (await loadBundle(DEV))!;
-    await createXray({ profile: (await getProfile(p.id))!, occupationCode: DEV, shares: typicalWeek(dev).shares, jobTitle: 'Software Engineer', inputSource: 'resume' });
+    const dev = await remap(p.id, DEV, 'Software Engineer');
     const today = await getToday(await ctx(p.id, '2026-11-14T16:00:00Z'));
-    expect(today.daily).toBeNull();
-    expect(today.nextKind).toBe('daily');
+    expect(today.daily).toBeNull(); // the nurse daily is hidden…
+    expect(today.nextKind).toBe('extra'); // …but today's daily is used
+    await expectHttp(createRep(await ctx(p.id, '2026-11-14T16:01:00Z'), { type: 'edge', kind: 'daily' }), 409, 'daily_exists');
     const devTasks = new Set(dev.tasks.map((t) => t.id));
     for (const c of Object.values(today.choiceTasks)) expect(devTasks.has(c.taskId)).toBe(true);
-    const edge = (await createRep(await ctx(p.id, '2026-11-14T16:01:00Z'), { type: 'edge', kind: 'daily' })) as { rep: RepView };
+    const edge = (await createRep(await ctx(p.id, '2026-11-14T16:02:00Z'), { type: 'edge', kind: 'extra' })) as { rep: RepView };
     expect(edge.rep.occupationCode).toBe(DEV);
     expect(devTasks.has(edge.rep.taskId)).toBe(true);
   });
 
-  it('an open trial written for the earlier job is rewritten for the new one under the same id', async () => {
+  it('switching jobs does not reset the extra cap or the daily points', async () => {
+    const p = await nurse();
+    const daily = (await createRep(await ctx(p.id, '2026-11-14T15:00:00Z'), { type: 'slip', kind: 'daily' })) as { rep: RepView };
+    const paid = await answerRep(await ctx(p.id, '2026-11-14T15:01:00Z'), daily.rep.id, { ranges: exactRanges(daily.rep) });
+    expect(paid.pointsAwarded.some((a) => a.labelKey === POINT_RULES.find((r) => r.id === 'rep_daily')!.labelKey)).toBe(true);
+    for (let i = 0; i < MAX_EXTRAS_PER_DAY - 1; i++) await createRep(await ctx(p.id, '2026-11-14T15:02:00Z'), { type: 'slip', kind: 'extra' });
+    await remap(p.id, DEV, 'Software Engineer');
+    // one extra left in total, not a fresh set for the new job
+    expect((await getToday(await ctx(p.id, '2026-11-14T15:03:00Z'))).extrasLeft).toBe(1);
+    await createRep(await ctx(p.id, '2026-11-14T15:04:00Z'), { type: 'slip', kind: 'extra' });
+    await expectHttp(createRep(await ctx(p.id, '2026-11-14T15:05:00Z'), { type: 'slip', kind: 'extra' }), 429, 'extra_limit');
+    await remap(p.id, NURSE, 'RN');
+    await expectHttp(createRep(await ctx(p.id, '2026-11-14T15:06:00Z'), { type: 'slip', kind: 'daily' }), 409, 'daily_exists');
+  });
+
+  it('rep_daily points are paid once per local day', async () => {
+    const { award } = await import('@/domain/points');
+    const p = await nurse();
+    const daily = (await createRep(await ctx(p.id, '2026-11-14T15:00:00Z'), { type: 'slip', kind: 'daily' })) as { rep: RepView };
+    await answerRep(await ctx(p.id, '2026-11-14T15:01:00Z'), daily.rep.id, { ranges: exactRanges(daily.rep) });
+    // a second daily-kind completion the same day (e.g. after a job switch) earns no rep_daily
+    const fresh = (await getProfile(p.id))!;
+    fresh.repLog.push({ id: 'second-daily', taskId: fresh.repLog[0].taskId, type: 'slip', kind: 'daily', day: '2026-11-14', score: 1 });
+    const res = award(fresh, { type: 'rep_completed', ref: 'second-daily', data: { score: 1, type: 'slip', kind: 'daily' }, at: '2026-11-14T15:30:00.000Z' });
+    expect(res.awards.map((a) => a.labelKey)).not.toContain(POINT_RULES.find((r) => r.id === 'rep_daily')!.labelKey);
+  });
+
+  it('a delivered, unanswered trial is rewritten for a new job once; after that the trial is used', async () => {
     process.env.DEV_FORCE_PRO = '0';
     try {
       const p = await nurse();
       const t = (await startTrial(await ctx(p.id, '2026-11-14T15:00:00Z'))) as { rep: RepView };
-      const dev = (await loadBundle(DEV))!;
-      await createXray({ profile: (await getProfile(p.id))!, occupationCode: DEV, shares: typicalWeek(dev).shares, jobTitle: 'Software Engineer', inputSource: 'resume' });
+      await remap(p.id, DEV, 'Software Engineer');
       const again = (await startTrial(await ctx(p.id, '2026-11-14T15:30:00Z'))) as { rep: RepView };
       expect(again.rep).toMatchObject({ id: t.rep.id, occupationCode: DEV });
+      expect((await getProfile(p.id))!.trial).toMatchObject({ status: 'in_progress', rewrites: 1 });
+      // the same job again returns the same rep, no new rewrite
+      expect(((await startTrial(await ctx(p.id, '2026-11-14T15:31:00Z'))) as { rep: RepView }).rep.id).toBe(t.rep.id);
+      await remap(p.id, '13-2011.00', 'Staff Accountant');
+      const calls = gen.calls.length;
+      await expectHttp(startTrial(await ctx(p.id, '2026-11-14T16:00:00Z')), 409, 'trial_used');
+      expect(gen.calls.length).toBe(calls); // nothing was written
+      // the delivered trial can still be answered
+      expect((await getRep(await ctx(p.id, '2026-11-14T16:01:00Z'), t.rep.id)) as { rep: RepView }).toMatchObject({ rep: { occupationCode: DEV } });
+    } finally {
+      process.env.DEV_FORCE_PRO = '1';
+    }
+  });
+
+  it('an answered trial is used for good, whatever the job', async () => {
+    process.env.DEV_FORCE_PRO = '0';
+    try {
+      const p = await nurse();
+      const t = (await startTrial(await ctx(p.id, '2026-11-14T15:00:00Z'))) as { rep: RepView };
+      await answerRep(await ctx(p.id, '2026-11-14T15:01:00Z'), t.rep.id, { ranges: exactRanges(t.rep) });
+      await remap(p.id, DEV, 'Software Engineer');
+      await expectHttp(startTrial(await ctx(p.id, '2026-11-14T15:30:00Z')), 409, 'trial_used');
     } finally {
       process.env.DEV_FORCE_PRO = '1';
     }

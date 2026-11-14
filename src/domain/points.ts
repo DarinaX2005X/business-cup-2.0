@@ -188,6 +188,10 @@ function grantsFor(p: Profile, t: PointsTrigger): Grant[] {
         const extraIds = new Set(p.repLog.filter((r) => r.kind === 'extra').map((r) => r.id));
         const paidToday = ofType(p, 'rep_completed').filter((e) => extraIds.has(e.ref) && eventDay(e, p.tz) === day).length;
         if (paidToday >= REP_POINTS.extraPerDay) break;
+      } else {
+        // rep_daily pays once per local day, whatever the occupation (a new map must not reopen the daily reward)
+        const dailyIds = new Set(p.repLog.filter((r) => r.kind === 'daily' || r.kind === 'trial').map((r) => r.id));
+        if (ofType(p, 'rep_completed').some((e) => dailyIds.has(e.ref) && eventDay(e, p.tz) === day)) break;
       }
       out.push(g('rep_completed', t.ref, repPoints(kind, score), ruleById(kind === 'extra' ? 'rep_extra' : 'rep_daily').labelKey));
       if (score >= 1) once('rep_perfect', t.ref, REP_POINTS.perfect, ruleById('rep_perfect').labelKey);

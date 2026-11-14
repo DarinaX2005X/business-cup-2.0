@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import type { RepRecord, RepsProfile } from '@/domain/reps';
+import { localDay, type RepRecord, type RepsProfile } from '@/domain/reps';
 import type { Locale, Profile, RepType } from '@/domain/types';
 import { getT } from '@/i18n/messages';
 import { callModel } from '@/server/ai/client';
@@ -211,9 +211,11 @@ export async function buildReviewKit(profile: Profile, locale: Locale, actor: Ac
 
   const now = new Date();
   const title = t('progress.kit.docTitle', { job: input.occupation });
+  // the person's own calendar day, not the server's
+  const today = date(localDay(now, profile.tz));
   const subtitle = input.firstDay
-    ? t('progress.kit.docSubtitle', { count: input.repCount, since: date(input.firstDay), today: t.f.date(now, 'medium') })
-    : t('progress.kit.docSubtitleToday', { today: t.f.date(now, 'medium') });
+    ? t('progress.kit.docSubtitle', { count: input.repCount, since: date(input.firstDay), today })
+    : t('progress.kit.docSubtitleToday', { today });
   const markdown = [`# ${title}`, '', subtitle, '', ...sections.flatMap((s) => [`## ${s.title}`, '', ...s.items.map((i) => `- ${i}`), ''])].join('\n').trim() + '\n';
 
   const ref = createHash('sha256').update(user).digest('hex').slice(0, 16);

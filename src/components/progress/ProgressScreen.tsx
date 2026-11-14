@@ -2,16 +2,16 @@
 
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, type ReactNode } from 'react';
 import { Button } from '@/components/kit/Button';
 import { Skeleton } from '@/components/kit/Skeleton';
 import btn from '@/components/kit/controls.module.css';
 import { useT } from '@/i18n/client';
 import { ApiError } from '@/lib/client/api';
 import { useProfile } from '@/lib/client/profile';
-import type { PlanResponse, ProgressResponse } from '@/server/progress/types';
-import { loadPlan, loadProgress } from './api';
-import { NinetyDayPlan, PlanThisWeek } from './Plan';
+import type { ProgressResponse } from '@/server/progress/types';
+import { loadLevel, loadProgress, type LevelView } from './api';
+import { LevelCard } from './LevelCard';
 import { ProofLog } from './ProofLog';
 import { ReviewKitCard } from './ReviewKitCard';
 import { ScoreLine, ScoreLineEmpty } from './ScoreLine';
@@ -22,40 +22,48 @@ import st from './progress.module.css';
 type State = { s: 'loading' } | { s: 'noMap' } | { s: 'error'; code: string } | { s: 'ready'; data: ProgressResponse };
 
 /**
- * Progress: the score line on the violet field with the practice calendar beside it, then the proof log
- * with the Review kit and this week of the plan beside it, then the whole 90-day plan (Pro).
+ * Progress: the score line on the violet field with the practice calendar and the level beside it, then
+ * the proof log with the Review kit and the plan's progress beside it. `planSlot` is where the 90-day
+ * plan package mounts its own block (`<PlanProgress />`, growth agent).
  */
-export function ProgressScreen() {
+export function ProgressScreen({ planSlot }: { planSlot?: ReactNode }) {
   const { t, locale } = useT();
   const { status, error: profileError } = useProfile();
   const search = useSearchParams();
   // Development only: see the Free screen while DEV_FORCE_PRO is on (as on the week map).
   const forceFree = process.env.NODE_ENV !== 'production' && search.get('plan') === 'free';
-  const [state, setState] = useState<State>({ s: 'loading' });
-  const [plan, setPlan] = useState<PlanResponse | null>(null);
+  const [loaded, setState] = useState<State>({ s: 'loading' });
+  const [level, setLevel] = useState<LevelView | null>(null);
 
-  const load = useCallback(async () => {
-    try {
-      const data = await loadProgress(locale);
-      if (!data.hasMap && data.proof.length === 0) return setState({ s: 'noMap' });
-      setState({ s: 'ready', data });
-      if (data.isPro && data.hasMap && !forceFree) {
-        loadPlan(locale)
-          .then(setPlan)
-          .catch(() => setPlan(null));
-      }
-    } catch (err) {
-      setState({ s: 'error', code: err instanceof ApiError ? err.code : 'network' });
-    }
-  }, [locale, forceFree]);
+  /** Progress and level from the server; the level is a quiet extra the page never waits for or fails with. */
+  const load = useCallback(
+    () =>
+      Promise.all([
+        loadLevel()
+          .then((l) => setLevel(l))
+          .catch(() => setLevel(null)),
+        loadProgress(locale)
+          .then((data) => setState(!data.hasMap && data.proof.length === 0 ? { s: 'noMap' } : { s: 'ready', data }))
+          .catch((err) => setState({ s: 'error', code: err instanceof ApiError ? err.code : 'network' })),
+      ]),
+    [locale],
+  );
 
   useEffect(() => {
-    if (status === 'loading') return;
-    if (status === 'anonymous') return setState({ s: 'noMap' });
-    if (status === 'orphaned') return setState({ s: 'error', code: 'unauthorized' });
-    if (status === 'error') return setState({ s: 'error', code: profileError ?? 'network' });
-    void load();
-  }, [status, profileError, load]);
+    if (status === 'ready') void load();
+  }, [status, load]);
+
+  // Without a usable profile the screen follows the profile's state; with one, what /api/progress said.
+  const state: State =
+    status === 'loading'
+      ? { s: 'loading' }
+      : status === 'anonymous'
+        ? { s: 'noMap' }
+        : status === 'orphaned'
+          ? { s: 'error', code: 'unauthorized' }
+          : status === 'error'
+            ? { s: 'error', code: profileError ?? 'network' }
+            : loaded;
 
   const onPublic = useCallback((id: string, value: boolean, slug: string | null) => {
     setState((cur) => {
@@ -112,7 +120,10 @@ export function ProgressScreen() {
             </ul>
           ) : null}
         </section>
-        <StreakCalendar calendar={d.streak.calendar} today={d.streak.today} current={d.streak.current} best={d.streak.best} />
+        <div className={st.topSide}>
+          <StreakCalendar calendar={d.streak.calendar} today={d.streak.today} current={d.streak.current} best={d.streak.best} />
+          {level ? <LevelCard level={level} /> : null}
+        </div>
       </div>
 
       <div className={st.lower}>
@@ -130,11 +141,9 @@ export function ProgressScreen() {
         </section>
         <aside className={st.side}>
           <ReviewKitCard isPro={isPro} reps={d.counts.reps} />
-          {isPro && plan ? <PlanThisWeek plan={plan} /> : null}
+          {planSlot}
         </aside>
       </div>
-
-      {isPro && plan ? <NinetyDayPlan plan={plan} /> : null}
     </div>
   );
 }

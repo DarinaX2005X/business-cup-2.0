@@ -1,0 +1,121 @@
+{
+  "meta": {
+    "title": "Coach"
+  },
+  "title": "Your coach",
+  "lead": "Ask about your work, your numbers or your next step. Your coach reads your week map, reps and progress before every answer.",
+  "loading": "Opening your coach",
+  "newChat": "New chat",
+  "newChatAsk": {
+    "title": "Start a new chat?",
+    "body": "This conversation will be cleared. Your week map, reps and plan stay as they are.",
+    "confirm": "Start a new chat"
+  },
+  "empty": {
+    "title": "What would you like to work on?",
+    "lead": "These questions come from your own week. Pick one or ask your own, by text or voice."
+  },
+  "composer": {
+    "label": "Message your coach",
+    "placeholder": "Ask about your week, your plan or your next job",
+    "keys": "Enter sends, Shift and Enter starts a new line.",
+    "send": "Send",
+    "stop": "Stop the answer",
+    "mic": "Hold to talk",
+    "micHint": "Hold the mic while you talk, then let go to send.",
+    "recording": "Recording",
+    "release": "Let go to send. Slide away or press Esc to cancel.",
+    "cancelling": "Let go to cancel",
+    "processing": "Preparing your voice message",
+    "limit": "Up to a minute",
+    "left_one": "{count} message left today",
+    "left_other": "{count} messages left today"
+  },
+  "voice": {
+    "label": "Voice message, {time}",
+    "transcribing": "Writing down what you said",
+    "denied": "Your browser blocked the microphone. Allow it in the address bar, or type your question.",
+    "unsupported": "This browser can't record audio. Type your question instead.",
+    "too_short": "That was too short to hear. Hold the mic while you talk.",
+    "failed": "We couldn't read that recording. Try again, or type your question."
+  },
+  "msg": {
+    "you": "You",
+    "coach": "Coach",
+    "answering": "Your coach is answering",
+    "ready": "Your coach answered.",
+    "copy": "Copy answer",
+    "copied": "Copied",
+    "stopped": "You stopped this answer here.",
+    "cutOff": "The answer broke off here.",
+    "jump": "Jump to the latest"
+  },
+  "errors": {
+    "coach_failed": "The coach didn't answer.",
+    "stopped": "You stopped this before the coach answered.",
+    "sendAgain": "Send again",
+    "no_speech": "We didn't catch any words. Try again a little closer to the mic.",
+    "transcribe_failed": "We couldn't write down your voice message.",
+    "budget": "The coach can't answer right now. Your message is kept, so try again later.",
+    "rate_limited": "Too many messages from this network right now. Wait a minute, then send again.",
+    "coach_cap": "You've sent {cap} messages today. Your coach is back tomorrow.",
+    "coach_busy": "Your coach is still answering your last message.",
+    "network": "No connection to the server. Your message is kept, so send it again.",
+    "voice_too_long": "Voice messages can be up to a minute long.",
+    "voice_invalid": "We couldn't read that recording. Try again, or type your question.",
+    "coach_required": "Your personal coach comes with Max.",
+    "load": "We couldn't open your coach. Nothing is lost.",
+    "retry": "Try again"
+  },
+  "cat": {
+    "ai_does": "AI does it",
+    "ai_speeds": "AI speeds it up",
+    "human_edge": "Your human edge",
+    "no_data": "No data yet"
+  },
+  "sees": {
+    "title": "What your coach knows",
+    "score": "Score",
+    "of100": "of 100",
+    "atStake": "{amount} a year at stake",
+    "fromMedian": "Based on the US median pay for the job",
+    "fromSalary": "Based on the salary you entered",
+    "week": "Your 40-hour week",
+    "hours": "{hours} h",
+    "tasks": "Busiest tasks",
+    "streak": "Streak",
+    "days_one": "{count} day",
+    "days_other": "{count} days",
+    "reps": "Reps finished",
+    "points": "Points",
+    "plan": "90-day plan",
+    "planDone": "{done} of {total} done",
+    "planNone": "Not made yet",
+    "skills": "Skills",
+    "skillsCount_one": "{count} confirmed",
+    "skillsCount_other": "{count} confirmed",
+    "skillsNone": "Add your resume",
+    "next": "Next job",
+    "open": "Open my week map",
+    "toggle": "What your coach knows about your week"
+  },
+  "locked": {
+    "tag": "Preview",
+    "tagLong": "A real answer from your coach, written from your week map",
+    "loading": "Your coach is answering a first question from your week",
+    "failed": "The preview didn't load.",
+    "more": "You could also ask",
+    "title": "Your personal coach comes with Max",
+    "body": "Ask anything about your work by text or voice. Your coach reads your week map, reps, skills and 90-day plan before every answer and points you to the next step.",
+    "price": "{month} a month, or {yearMonthly} a month billed yearly",
+    "cta": "Upgrade to Max"
+  },
+  "noMap": {
+    "title": "Your coach starts from your week map",
+    "body": "The coach answers from the tasks of your own week. Mapping it takes about two minutes, from a job title or your resume.",
+    "cta": "Map my week"
+  },
+  "launcher": {
+    "label": "Ask your coach"
+  }
+}

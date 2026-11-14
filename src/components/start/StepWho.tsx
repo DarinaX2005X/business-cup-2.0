@@ -29,6 +29,13 @@ export interface StepWhoProps {
 }
 
 /** Local index search while typing; the model translation only after a pause, for 4+ letters. */
+const SAMPLE_LABEL: Record<SampleName, string> = {
+  nurse: 'start.who.sampleNurse',
+  software: 'start.who.sampleSoftware',
+  accountant: 'start.who.sampleAccountant',
+  electrician: 'start.who.sampleElectrician',
+};
+
 const SEARCH_DEBOUNCE = 250;
 const TRANSLATE_PAUSE = 700;
 const TRANSLATE_MIN_LETTERS = 4;
@@ -302,7 +309,7 @@ export function StepWho(props: StepWhoProps) {
       <div className={st.altRow}>
         <p className={st.samples}>
           <span className={st.samplesLead}>{t('start.who.samplesLead')}</span>
-          {(['nurse', 'electrician'] as const).map((name) => (
+          {(['nurse', 'software', 'accountant', 'electrician'] as const).map((name) => (
             <button
               key={name}
               type="button"
@@ -312,7 +319,7 @@ export function StepWho(props: StepWhoProps) {
               disabled={!!sampleLoading}
             >
               <FileText size={17} strokeWidth={1.75} aria-hidden="true" />
-              {name === 'nurse' ? t('start.who.sampleNurse') : t('start.who.sampleElectrician')}
+              {t(SAMPLE_LABEL[name])}
             </button>
           ))}
         </p>

@@ -35,20 +35,25 @@ export function InvitePanel({ className }: { className?: string }) {
   const [failed, setFailed] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const load = useCallback(async () => {
-    setFailed(false);
-    try {
-      const res = await apiFetch<InviteInfo>('/api/invite');
-      rememberOwnInvite(res.code);
-      setInfo(res);
-      applyAwards(res.pointsAwarded);
-    } catch {
-      setFailed(true);
-    }
-  }, [applyAwards]);
+  // Results arrive through callbacks, so a slow answer never sets state on a panel that has gone.
+  const load = useCallback(
+    () =>
+      apiFetch<InviteInfo>('/api/invite').then(
+        (res) => {
+          rememberOwnInvite(res.code);
+          setInfo(res);
+          setFailed(false);
+          applyAwards(res.pointsAwarded);
+        },
+        () => setFailed(true),
+      ),
+    [applyAwards],
+  );
 
   useEffect(() => {
-    if (ready && !info) void load();
+    if (!ready || info) return;
+    const timer = window.setTimeout(() => void load(), 0);
+    return () => window.clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready]);
 
@@ -81,7 +86,10 @@ export function InvitePanel({ className }: { className?: string }) {
         {failed ? (
           <p className={st.inviteError} role="alert">
             {t('pivot.invite.error')}{' '}
-            <button type="button" className={st.textBtn} onClick={() => void load()}>
+            <button type="button" className={st.textBtn} onClick={() => {
+                setFailed(false);
+                void load();
+              }}>
               {t('pivot.invite.retry')}
             </button>
           </p>

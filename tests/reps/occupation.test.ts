@@ -109,29 +109,3 @@ describe('Software Developers get only Software Developers reps', () => {
   });
 });
 
-describe('jury one-click: re-opening a persona', () => {
-  it('makes that persona\'s map the active week, so reps follow the map the person lands on', async () => {
-    const { openJuryAccount } = await import('@/server/demo/jury');
-    const { updateProfile } = await import('@/server/profile');
-    const { profile } = await createProfile({ locale: 'en', tz: 'America/Chicago' });
-    const dev = (await loadBundle(DEV))!;
-    const nurse = (await loadBundle('29-1141.00'))!;
-    const { xray: devMap } = await createXray({ profile, occupationCode: DEV, shares: typicalWeek(dev).shares, jobTitle: 'Software Engineer', inputSource: 'resume' });
-    const { xray: nurseMap } = await createXray({ profile: (await getProfile(profile.id))!, occupationCode: '29-1141.00', shares: typicalWeek(nurse).shares, jobTitle: 'Registered Nurse', inputSource: 'resume' });
-    await updateProfile(profile.id, (p) => {
-      p.demo = true;
-      p.demoXrays = { software: devMap.id, nurse: nurseMap.id };
-    });
-    expect((await getProfile(profile.id))!.occupationCode).toBe('29-1141.00'); // the nurse persona was opened last
-
-    const res = await openJuryAccount((await getProfile(profile.id))!, 'software', { profileId: profile.id });
-    expect(res).toMatchObject({ xrayId: devMap.id, created: false });
-    const after = (await getProfile(profile.id))!;
-    expect(after).toMatchObject({ occupationCode: DEV, jobTitle: 'Software Engineer', lastXrayId: devMap.id });
-
-    await createRep({ profile: after, headerTz: 'America/Chicago', now: new Date('2026-11-15T15:00:00Z') }, { type: 'edge', kind: 'daily' }).catch(() => undefined);
-    const edge = captured.inputs.find((c) => c.type === 'edge')!.input as GenerateInput;
-    expect(edge.occupationCode).toBe(DEV);
-    expect(dev.tasks.some((t) => t.id === edge.taskId)).toBe(true);
-  });
-});

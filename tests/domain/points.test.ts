@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  XRAY_AWARDS_MAX,
   applyFreeze,
   availableRewards,
   award,
@@ -103,6 +104,13 @@ describe('earning rules', () => {
     expect(award(first.profile, ev('xray_completed', 'A', '2026-11-14T15:00:00Z')).awards).toHaveLength(1);
     const twice = run(first.profile, [ev('xray_completed', 'A', '2026-11-14T15:00:00Z'), ev('xray_completed', 'A', '2026-11-15T15:00:00Z')]);
     expect(twice.total).toBe(100);
+  });
+
+  it('map awards stop after XRAY_AWARDS_MAX occupations, so mapping many jobs cannot mint points', () => {
+    const codes = ['11-1011.00', '13-2011.00', '15-1252.00', '29-1141.00', '47-2111.00'];
+    const r = run(profile(), codes.map((c) => ev('xray_completed', c, '2026-11-14T15:00:00Z')));
+    expect(r.awards.filter((a) => a.type === 'xray_completed')).toHaveLength(XRAY_AWARDS_MAX);
+    expect(r.total).toBe(100 * XRAY_AWARDS_MAX);
   });
 
   it('daily limits: extras 3 a day, AI or me once a day, work log 3 a day; a new day starts over', () => {

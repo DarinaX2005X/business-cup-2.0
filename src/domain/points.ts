@@ -36,7 +36,7 @@ export const STREAK_MARKS = [
 
 export type PointsLimit =
   | { kind: 'once' }
-  | { kind: 'per_occupation' }
+  | { kind: 'per_occupation'; count?: number }
   | { kind: 'per_iso_week' }
   | { kind: 'per_rep' }
   | { kind: 'per_streak_mark' }
@@ -65,8 +65,11 @@ const rule = (id: string, type: EarnType, min: number, max: number, limit: Point
   ...extra,
 });
 
+/** Map awards: one per occupation, at most three in a lifetime (a pivot explorer maps a few jobs, not hundreds). */
+export const XRAY_AWARDS_MAX = 3;
+
 export const POINT_RULES: readonly PointsRule[] = [
-  rule('xray_completed', 'xray_completed', 100, 100, { kind: 'per_occupation' }),
+  rule('xray_completed', 'xray_completed', 100, 100, { kind: 'per_occupation', count: XRAY_AWARDS_MAX }),
   rule('week_confirmed', 'week_confirmed', 20, 20, { kind: 'per_iso_week' }),
   rule('first_rep', 'first_rep', REP_POINTS.first, REP_POINTS.first, { kind: 'once' }),
   rule('rep_daily', 'rep_completed', REP_POINTS.daily.base, REP_POINTS.daily.base + REP_POINTS.daily.perScore, { kind: 'per_rep' }),
@@ -161,7 +164,10 @@ function grantsFor(p: Profile, t: PointsTrigger): Grant[] {
 
   switch (t.type) {
     case 'xray_completed': {
-      once('xray_completed', t.ref, ruleById('xray_completed').max, ruleById('xray_completed').labelKey);
+      // one award per occupation, at most XRAY_AWARDS_MAX in total, so mapping hundreds of jobs cannot mint points
+      if (ofType(p, 'xray_completed').length < XRAY_AWARDS_MAX) {
+        once('xray_completed', t.ref, ruleById('xray_completed').max, ruleById('xray_completed').labelKey);
+      }
       // the invited colleague's welcome bonus comes with their first map
       if (p.invitedBy && ofType(p, 'invited_bonus').length === 0) out.push(g('invited_bonus', p.invitedBy, 100, ruleById('invited_bonus').labelKey));
       break;

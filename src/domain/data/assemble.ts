@@ -467,6 +467,7 @@ export function assemble(input: AssembleInput): BuildOutput {
       },
     },
     rankBasis,
+    aeiReleaseMaxShare: Math.max(0, ...allTasks.map((t) => t.evidence.aeiShare ?? 0)),
     sources: src.files,
     attribution: ATTRIBUTION,
   };
@@ -482,6 +483,8 @@ export interface BuildMeta {
   counts: Record<string, unknown>;
   coverage: Record<string, unknown>;
   rankBasis: 'bls_employment' | 'title_count';
+  /** Largest aeiShare of any task (scale maximum for the EvidenceMeter). */
+  aeiReleaseMaxShare: number;
   sources: RawSources['files'];
   attribution: typeof ATTRIBUTION;
 }

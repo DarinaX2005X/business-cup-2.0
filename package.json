@@ -18,7 +18,8 @@
     "ai:ping": "tsx scripts/ai/ping.ts",
     "reps:bank": "tsx scripts/reps/bank.ts",
     "stripe:setup": "tsx scripts/stripe/setup.ts",
-    "store:check": "tsx scripts/ai/store-roundtrip.ts"
+    "store:check": "tsx scripts/ai/store-roundtrip.ts",
+    "data:short-labels": "tsx scripts/data/short-labels.ts"
   },
   "dependencies": {
     "@upstash/redis": "^1.41.0",

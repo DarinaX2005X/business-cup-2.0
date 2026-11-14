@@ -24,7 +24,7 @@
     "4.A.1.a.2.e.7",
     "4.A.3.b.6.k.4"
    ],
-   "short": "Observe patients",
+   "short": "Condition charting",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -55,7 +55,7 @@
     "4.A.1.b.2.i.5",
     "4.A.3.b.6.k.4"
    ],
-   "short": "Measure vital signs",
+   "short": "Vital signs recording",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -86,7 +86,7 @@
     "4.A.3.b.6.k.4",
     "4.A.4.a.5.c.8"
    ],
-   "short": "Administer prescribed medications",
+   "short": "Medication administration",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E0",
@@ -117,7 +117,7 @@
     "4.A.4.a.5.c.11",
     "4.A.4.a.5.c.2"
    ],
-   "short": "Provide basic patient care",
+   "short": "Basic nursing care",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E0",
@@ -148,7 +148,7 @@
     "4.A.4.a.3.c.11",
     "4.A.4.a.3.c.9"
    ],
-   "short": "Answer calls",
+   "short": "Call light response",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E2",
@@ -179,7 +179,7 @@
     "4.A.4.a.5.i.2",
     "4.A.4.b.3.f.5"
    ],
-   "short": "Provide personal care",
+   "short": "Home care nursing",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E0",
@@ -209,7 +209,7 @@
    "dwaIds": [
     "4.A.4.b.4.a.14"
    ],
-   "short": "Supervise aides",
+   "short": "Aide supervision",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E0",
@@ -239,7 +239,7 @@
    "dwaIds": [
     "4.A.3.a.1.i.1"
    ],
-   "short": "Sterilize supplies",
+   "short": "Equipment sterilization",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E0",
@@ -270,7 +270,7 @@
     "4.A.2.a.4.f.6",
     "4.A.4.a.2.d.5"
    ],
-   "short": "Evaluate nursing intervention outcomes",
+   "short": "Care plan evaluation",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -300,7 +300,7 @@
    "dwaIds": [
     "4.A.4.a.2.d.5"
    ],
-   "short": "Work as part",
+   "short": "Care team collaboration",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E0",
@@ -330,7 +330,7 @@
    "dwaIds": [
     "4.A.3.b.6.k.4"
    ],
-   "short": "Record food",
+   "short": "Intake and output",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E1",
@@ -374,7 +374,7 @@
     "4.A.3.a.2.k.1",
     "4.A.3.a.3.d.3"
    ],
-   "short": "Assemble equipment",
+   "short": "Medical equipment setup",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E0",
@@ -406,7 +406,7 @@
     "4.A.3.b.6.k.2",
     "4.A.4.c.1.a.6"
    ],
-   "short": "Make appointments",
+   "short": "Clinic clerical duties",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E1",
@@ -437,7 +437,7 @@
     "4.A.1.b.2.a.8",
     "4.A.3.a.2.al.1"
    ],
-   "short": "Collect samples",
+   "short": "Specimen collection",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E0",
@@ -467,7 +467,7 @@
    "dwaIds": [
     "4.A.4.b.4.j.35"
    ],
-   "short": "Prepare food trays",
+   "short": "Diet check",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -497,7 +497,7 @@
    "dwaIds": [
     "4.A.4.a.5.i.2"
    ],
-   "short": "Help patients",
+   "short": "Activities of daily living",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E0",
@@ -528,7 +528,7 @@
     "4.A.4.a.1.e.5",
     "4.A.4.a.5.k.7"
    ],
-   "short": "Prepare patients",
+   "short": "Patient exam prep",
    "evidence": {
     "theoryLabel": "E1",
     "gpt4Label": "E2",
@@ -558,7 +558,7 @@
    "dwaIds": [
     "4.A.3.a.2.k.1"
    ],
-   "short": "Set medical treatment rooms",
+   "short": "Treatment room preparation",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E0",
@@ -588,7 +588,7 @@
    "dwaIds": [
     "4.A.4.a.5.b.5"
    ],
-   "short": "Apply compresses",
+   "short": "Temperature therapy",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E0",
@@ -618,7 +618,7 @@
    "dwaIds": [
     "4.A.4.a.5.i.2"
    ],
-   "short": "Wash bodies",
+   "short": "Postmortem care",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E0",
@@ -648,7 +648,7 @@
    "dwaIds": [
     "4.A.3.a.1.i.3"
    ],
-   "short": "Clean rooms",
+   "short": "Room housekeeping",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E0",
@@ -679,7 +679,7 @@
     "4.A.4.c.3.a.2",
     "4.A.4.c.3.e.7"
    ],
-   "short": "Inventory supplies",
+   "short": "Supply inventory",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E2",

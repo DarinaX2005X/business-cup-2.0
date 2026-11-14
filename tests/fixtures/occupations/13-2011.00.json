@@ -25,7 +25,7 @@
     "4.A.2.a.3.c.3",
     "4.A.2.a.4.k.4"
    ],
-   "short": "Financial statement analysis",
+   "short": "Financial statement prep",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -138,7 +138,7 @@
     "4.A.2.a.4.k.2",
     "4.A.3.b.6.a.1"
    ],
-   "short": "Posting journal entries",
+   "short": "Journal entry adjustments",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E1",
@@ -169,7 +169,7 @@
     "4.A.1.b.3.c.3",
     "4.A.3.b.6.a.2"
    ],
-   "short": "Tax preparation",
+   "short": "Tax filing",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -199,7 +199,7 @@
    "dwaIds": [
     "4.A.2.a.3.c.2"
    ],
-   "short": "General ledger review",
+   "short": "Accounting systems review",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -281,7 +281,7 @@
     "4.A.2.a.2.a.5",
     "4.A.3.b.6.a.2"
    ],
-   "short": "Annual report preparation",
+   "short": "Annual reporting",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -312,7 +312,7 @@
     "4.A.1.a.1.c.1",
     "4.A.1.a.1.c.4"
    ],
-   "short": "Fraud detection analysis",
+   "short": "Internal controls audit",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -355,7 +355,7 @@
    "dwaIds": [
     "4.A.2.a.3.c.2"
    ],
-   "short": "Balance sheet review",
+   "short": "Asset and liability review",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -385,7 +385,7 @@
    "dwaIds": [
     "4.A.4.a.2.c.10"
    ],
-   "short": "Financial management reporting",
+   "short": "Executive financial briefings",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -415,7 +415,7 @@
    "dwaIds": [
     "4.A.4.b.4.j.8"
    ],
-   "short": "Audit supervision",
+   "short": "Audit engagement supervision",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E2",
@@ -445,7 +445,7 @@
    "dwaIds": [
     "4.A.3.b.2.f.4"
    ],
-   "short": "Accounting system implementation",
+   "short": "Accounting system design",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -492,7 +492,7 @@
    "dwaIds": [
     "4.A.2.a.1.i.2"
    ],
-   "short": "Tax liability assessment",
+   "short": "Tax liability valuation",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -522,7 +522,7 @@
    "dwaIds": [
     "4.A.4.a.2.e.5"
    ],
-   "short": "Confer with company officials",
+   "short": "Regulatory consultations",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -633,7 +633,7 @@
    "dwaIds": [
     "4.A.2.a.2.a.1"
    ],
-   "short": "Cash asset verification",
+   "short": "Cash and security audits",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E2",
@@ -664,7 +664,7 @@
     "4.A.2.a.3.c.3",
     "4.A.4.b.6.k.3"
    ],
-   "short": "Internal controls evaluation",
+   "short": "IT controls evaluation",
    "evidence": {
     "theoryLabel": "E1",
     "gpt4Label": "E2",
@@ -711,7 +711,7 @@
    "dwaIds": [
     "4.A.2.a.3.c.3"
    ],
-   "short": "Compliance record inspection",
+   "short": "Compliance interviews",
    "evidence": {
     "theoryLabel": "E1",
     "gpt4Label": "E2",
@@ -741,7 +741,7 @@
    "dwaIds": [
     "4.A.2.a.4.k.4"
    ],
-   "short": "Forecasting and budgeting",
+   "short": "Financial forecasting",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -825,7 +825,7 @@
     "4.A.4.a.7.b.6",
     "4.A.4.b.6.h.1"
    ],
-   "short": "Tax authority representation",
+   "short": "Tax dispute representation",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -855,7 +855,7 @@
    "dwaIds": [
     "4.A.4.b.1.g.1"
    ],
-   "short": "Managing accounting staff",
+   "short": "Records team oversight",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -885,7 +885,7 @@
    "dwaIds": [
     "4.A.2.a.3.c.2"
    ],
-   "short": "Payroll auditing",
+   "short": "Payroll tax auditing",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -915,7 +915,7 @@
    "dwaIds": [
     "4.A.2.a.1.b.4"
    ],
-   "short": "Organizational goal review",
+   "short": "Operational goal evaluation",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -945,7 +945,7 @@
    "dwaIds": [
     "4.A.2.a.3.c.3"
    ],
-   "short": "Pre-implementation auditing",
+   "short": "Pre-implementation audits",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",

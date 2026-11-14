@@ -54,7 +54,7 @@
     "importanceRated": 0.9778,
     "gptsLabel": 0.9947,
     "theoryHumanGpt4Mean": 0.3441,
-    "shortFromModel": 0.0687,
+    "shortFromModel": 0.1752,
     "theoryEstimatedDwa": 0.0053,
     "theoryJoin": {
       "id": 18677,
@@ -113,6 +113,7 @@
     }
   },
   "rankBasis": "bls_employment",
+  "aeiReleaseMaxShare": 0.0495,
   "sources": [
     {
       "id": "onet",

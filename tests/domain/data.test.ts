@@ -119,8 +119,19 @@ describe('task evidence on real occupations', () => {
     expect(dist('13-2011.00')).toEqual({ ai_does: 10, ai_speeds: 18, human_edge: 2 });
     expect(dist('47-2111.00')).toEqual({ ai_does: 1, ai_speeds: 8, human_edge: 12 });
     expect(dist('43-3031.00')).toEqual({ ai_does: 13, ai_speeds: 11, human_edge: 4 });
-    expect(xrayOf('43-3031.00').baseScore).toBeLessThanOrEqual(xrayOf('13-2011.00').baseScore);
-    expect(xrayOf('29-1141.00').baseScore).not.toBe(xrayOf('29-1141.03').baseScore);
+    // Base scores use the category weights of pay at stake (ai_does 1, ai_speeds 0.5). The clerk's O*NET week
+    // keeps hands-on office work (10-key calculators, copiers, banking cash), so it lands above the accountant's.
+    expect(Object.fromEntries(rows.map((r) => [r.c, r.base]))).toEqual({
+      '29-1141.00': 59,
+      '29-1141.03': 66,
+      '13-2011.00': 35,
+      '43-3031.00': 45,
+      '47-2111.00': 84,
+    });
+    const base = (c: string) => xrayOf(c).baseScore;
+    expect(base('15-1252.00')).toBeLessThan(base('29-1141.00'));
+    expect(base('29-1141.00')).toBeLessThan(base('47-2111.00'));
+    expect(base('43-4051.00')).toBeLessThan(base('23-1011.00'));
   });
 
   it('every task has a short label of at most 4 words', () => {

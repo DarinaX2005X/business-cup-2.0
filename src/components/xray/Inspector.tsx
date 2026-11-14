@@ -107,8 +107,9 @@ function TaskPanel({
   const params: Record<string, string> = { ...ex.params };
   if (params.source) params.source = t(`category.source.${params.source}`);
   const obs = observedScore(e.observed, e.aeiAutomation);
-  const pts = share * e.exposure;
-  const totalPts = result.weekExposure * 100;
+  const weight = row?.weight ?? 0;
+  const pts = row?.scorePoints ?? 0;
+  const totalPts = 100 - result.baseScore;
   const n2 = (x: number) => f.number(x, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const n1 = (x: number) => f.number(x, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
   const inHand = result.handToAi.includes(task.id);
@@ -143,11 +144,11 @@ function TaskPanel({
           >
             {f.number(THEORY_WEIGHT)} × <Num>{n2(e.theory)}</Num> + {f.number(1 - THEORY_WEIGHT)} × <Num>{n2(obs)}</Num> = <Num strong>{n2(e.exposure)}</Num>
           </Eq>
-          <Eq label={t('xray.inspector.eq.points')} note={t('xray.inspector.eq.pointsNote', { total: n1(totalPts) })}>
-            <Num>{f.number(share)}</Num> × <Num>{n2(e.exposure)}</Num> = <Num strong>{n1(pts)}</Num>
+          <Eq label={t('xray.inspector.eq.points')} note={t('xray.inspector.eq.pointsNote', { total: f.number(totalPts) })}>
+            <Num>{f.number(share)}</Num> × {f.number(weight)} = <Num strong>{n1(pts)}</Num>
           </Eq>
           <Eq label={t('xray.inspector.eq.score')}>
-            100 − <Num>{n1(totalPts)}</Num> = <Num strong>{f.number(result.baseScore)}</Num>
+            100 − <Num>{f.number(totalPts)}</Num> = <Num strong>{f.number(result.baseScore)}</Num>
             {result.score !== result.baseScore ? (
               <>
                 {' '}
@@ -271,17 +272,17 @@ function MetricPanel({
 
   if (id === 'score') {
     const sf = breakdown.scoreFormula;
-    const totalPts = result.weekExposure * 100;
+    const totalPts = 100 - sf.base;
     big = f.number(result.score);
-    const top = [...breakdown.perTask].sort((a, b) => b.contribution - a.contribution).slice(0, 5);
+    const top = [...breakdown.perTask].filter((p) => p.scorePoints > 0).sort((a, b) => b.scorePoints - a.scorePoints).slice(0, 5);
     body = (
       <>
         <dl className={st.eqs}>
           <Eq label={t('xray.metric.score.exposure')} note={t('xray.metric.score.exposureNote')}>
-            Σ {t('xray.metric.score.sum')} = <Num strong>{n1(totalPts)}</Num>
+            Σ {t('xray.metric.score.sum')} = <Num strong>{f.number(totalPts)}</Num>
           </Eq>
           <Eq label={t('xray.metric.score.base')}>
-            100 − <Num>{n1(totalPts)}</Num> = <Num strong>{f.number(sf.base)}</Num>
+            100 − <Num>{f.number(totalPts)}</Num> = <Num strong>{f.number(sf.base)}</Num>
           </Eq>
           <Eq label={t('xray.metric.score.practice')} note={t('xray.metric.score.practiceNote', { n: sf.n, avg: f.percent(sf.avg) })}>
             F = (1 − e<sup>−{sf.n}/{PRACTICE_SCALE}</sup>) × <Num>{n2(sf.avg)}</Num> = <Num strong>{n2(sf.F)}</Num>
@@ -293,7 +294,7 @@ function MetricPanel({
         <h4 className={st.h4}>{t('xray.metric.score.top')}</h4>
         <ul className={st.tLinks}>
           {top.map((p) => (
-            <TaskLink key={p.taskId} id={p.taskId} label={label(p.taskId)} category={cat(p.taskId)} value={n1(p.contribution * 100)} onFocus={onFocus} />
+            <TaskLink key={p.taskId} id={p.taskId} label={label(p.taskId)} category={cat(p.taskId)} value={n1(p.scorePoints)} onFocus={onFocus} />
           ))}
         </ul>
       </>

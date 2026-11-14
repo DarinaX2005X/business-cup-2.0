@@ -118,7 +118,7 @@ export interface XrayResult {
   salary: { annual: number | null; source: 'bls_median' | 'user' | 'none' };
   payAtStake: number | null; // annual × (percent.ai_does × 1 + percent.ai_speeds × 0.5) / 100
   weekExposure: number; // Σ share × exposure / 100
-  baseScore: number; // round(100 × (1 − weekExposure))
+  baseScore: number; // round(100 × (1 − (percent.ai_does × 1 + percent.ai_speeds × 0.5) / 100)), same weights as payAtStake
   score: number; // round(baseScore + (100 − baseScore) × 0.45 × F), F = (1 − e^(−n/20)) × avgScore
   practice: { n: number; avgScore: number }; // avgScore 0..1
   handToAi: string[];
@@ -136,7 +136,11 @@ export type XrayComputed = Omit<
 >;
 
 export interface XrayBreakdown {
-  perTask: { taskId: string; share: number; hours: number; exposure: number; contribution: number }[];
+  /**
+   * contribution = share × exposure / 100 (adds up to weekExposure);
+   * weight = category weight (1 / 0.5 / 0); scorePoints = share × weight (adds up to 100 − baseScore).
+   */
+  perTask: { taskId: string; share: number; hours: number; exposure: number; contribution: number; weight: number; scorePoints: number }[];
   scoreFormula: { base: number; n: number; avg: number; F: number; score: number };
   pay: {
     annual: number | null;

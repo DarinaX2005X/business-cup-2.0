@@ -24,7 +24,7 @@
     "4.A.3.b.6.n.3",
     "4.A.3.b.6.n.9"
    ],
-   "short": "Prepare affidavits",
+   "short": "Legal filing",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E1",
@@ -67,7 +67,7 @@
    "dwaIds": [
     "4.A.3.b.6.n.9"
    ],
-   "short": "Prepare legal documents",
+   "short": "Document preparation",
    "evidence": {
     "theoryLabel": null,
     "gpt4Label": null,
@@ -97,7 +97,7 @@
    "dwaIds": [
     "4.A.1.a.1.e.2"
    ],
-   "short": "Investigate facts",
+   "short": "Case investigation",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -128,7 +128,7 @@
     "4.A.2.a.4.h.1",
     "4.A.3.b.6.n.6"
    ],
-   "short": "Prepare for trial",
+   "short": "Trial preparation",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -159,7 +159,7 @@
     "4.A.4.a.2.i.1",
     "4.A.4.a.2.i.2"
    ],
-   "short": "Meet with clients",
+   "short": "Client meetings",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E0",
@@ -190,7 +190,7 @@
     "4.A.1.a.1.e.1",
     "4.A.1.a.1.e.2"
    ],
-   "short": "Gather research data",
+   "short": "Legal research",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -242,7 +242,7 @@
     "4.A.4.c.1.a.10",
     "4.A.4.c.1.b.2"
    ],
-   "short": "File pleadings",
+   "short": "Court filing",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -272,7 +272,7 @@
    "dwaIds": [
     "4.A.4.b.4.l.3"
    ],
-   "short": "Direct law office activity",
+   "short": "Office coordination",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -302,7 +302,7 @@
    "dwaIds": [
     "4.A.4.a.3.a.2"
    ],
-   "short": "Call upon witnesses",
+   "short": "Witness coordination",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E0",
@@ -333,7 +333,7 @@
     "4.A.1.a.1.e.1",
     "4.A.4.a.7.a.2"
    ],
-   "short": "Arbitrate disputes",
+   "short": "Closing assistance",
    "evidence": {
     "theoryLabel": "E1",
     "gpt4Label": "E2",
@@ -365,7 +365,7 @@
     "4.A.2.a.1.i.3",
     "4.A.4.c.3.g.2"
    ],
-   "short": "Appraise personal property",
+   "short": "Estate inventorying",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -395,7 +395,7 @@
    "dwaIds": [
     "4.A.3.b.6.n.3"
    ],
-   "short": "Keep legal volumes",
+   "short": "Library maintenance",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",

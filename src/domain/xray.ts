@@ -48,7 +48,16 @@ export function computeXray(
     if (e.evidenceLevel === 'observed') observed += s.share;
     const contribution = (s.share * e.exposure) / 100;
     weekExposure += contribution;
-    perTask.push({ taskId: s.taskId, share: s.share, hours: hoursOf(s.share), exposure: e.exposure, contribution: round(contribution, 4) });
+    const weight = AT_STAKE_WEIGHTS[e.category];
+    perTask.push({
+      taskId: s.taskId,
+      share: s.share,
+      hours: hoursOf(s.share),
+      exposure: e.exposure,
+      contribution: round(contribution, 4),
+      weight,
+      scorePoints: round(s.share * weight, 2),
+    });
   }
   const hours = emptyByCategory();
   for (const c of Object.keys(percent) as Category[]) hours[c] = hoursOf(percent[c]);
@@ -60,7 +69,9 @@ export function computeXray(
   const payAtStake = annual != null ? Math.round(annual * shareAtStake) : null;
 
   weekExposure = round(weekExposure, 4);
-  const baseScore = Math.round(100 * (1 - weekExposure));
+  // The score uses the same category weights as pay at stake and hours freed, so a week where a third
+  // of the hours are sped up by AI cannot read as almost untouched. weekExposure stays as context.
+  const baseScore = Math.round(100 * (1 - shareAtStake));
   const practice = options.practice ?? { n: 0, avgScore: 0 };
   const ps = practiceScore(baseScore, practice);
 

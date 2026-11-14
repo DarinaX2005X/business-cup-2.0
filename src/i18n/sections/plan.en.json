@@ -27,7 +27,9 @@
     "playbook": "Open my playbook",
     "secondLook": "Open Second look",
     "review": "Open my Review kit",
-    "skills": "See my skills"
+    "skills": "See my skills",
+    "startRep": "Start this rep",
+    "starting": "Starting"
   },
   "check": "Mark as done",
   "uncheck": "Mark as not done",

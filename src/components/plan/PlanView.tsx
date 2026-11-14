@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Check, Download, Lock } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
@@ -13,6 +14,7 @@ import btn from '@/components/kit/controls.module.css';
 import { useT } from '@/i18n/client';
 import { ApiError, apiFetch } from '@/lib/client/api';
 import { useOptionalProfile } from '@/lib/client/profile';
+import type { RepType } from '@/domain/types';
 import type { PlanCheckResponse, PlanItem, PlanPending, PlanResponse, PlanWeek } from '@/server/growth/types';
 import { linkFor, PlanText, WeekTiles } from './parts';
 import { PlanPrintSection } from './PlanPrintSection';
@@ -389,7 +391,9 @@ function WeekSheet({
                   <span className={st.kindTag} data-kind={item.kind}>
                     {label}
                   </span>
-                  {link ? (
+                  {item.kind === 'rep' && item.repType && item.taskId ? (
+                    <StartRep type={item.repType} taskId={item.taskId} />
+                  ) : link ? (
                     <Link href={link.href} className={st.itemLink}>
                       {t(link.key)}
                     </Link>
@@ -412,6 +416,38 @@ function WeekSheet({
         </button>
       ) : null}
     </section>
+  );
+}
+
+/**
+ * Starts the rep a step names, on its own task (POST /api/reps with the task; today's daily rep if it is
+ * still free, else an extra), and opens it on Today. When the rep cannot start here, Today opens as usual.
+ */
+function StartRep({ type, taskId }: { type: RepType; taskId: string }) {
+  const { t } = useT();
+  const router = useRouter();
+  const [busy, setBusy] = useState(false);
+  const start = async () => {
+    setBusy(true);
+    type Started = { rep: { id: string } } | { repId: string };
+    const post = (kind: 'daily' | 'extra') => apiFetch<Started>('/api/reps', { method: 'POST', body: { type, kind, taskId } });
+    try {
+      let res: Started;
+      try {
+        res = await post('daily');
+      } catch (err) {
+        if (!(err instanceof ApiError && err.code === 'daily_exists')) throw err;
+        res = await post('extra');
+      }
+      router.push(`/today?rep=${encodeURIComponent('rep' in res ? res.rep.id : res.repId)}`);
+    } catch {
+      router.push('/today');
+    }
+  };
+  return (
+    <button type="button" className={st.itemLink} data-button="" disabled={busy} aria-busy={busy || undefined} onClick={start}>
+      {busy ? t('plan.go.starting') : t('plan.go.startRep')}
+    </button>
   );
 }
 

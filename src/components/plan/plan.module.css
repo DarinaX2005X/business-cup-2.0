@@ -342,6 +342,27 @@
   transition: color var(--t-hover) var(--ease);
 }
 
+.itemLink[data-button] {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 14.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.itemLink[data-button]:disabled {
+  cursor: progress;
+  color: var(--ink-2);
+}
+
+.itemLink:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 .itemLink:hover {
   color: var(--violet-deep);
   text-decoration-color: currentColor;

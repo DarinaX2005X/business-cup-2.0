@@ -8,8 +8,9 @@ import st from './start.module.css';
  * A small Week Bar for occupation cards: the typical week of a job in the same tile materials,
  * no labels. It shows that the product reads a job as tasks before the person sees any numbers.
  */
-export function WeekStrip({ tasks, label, active }: { tasks: WeekTask[]; label: string; active?: boolean }) {
-  const groups = groupWeek(tasks);
+export function WeekStrip({ tasks, label, active, neutral }: { tasks: WeekTask[]; label: string; active?: boolean; neutral?: boolean }) {
+  // Neutral: unpainted tiles in the order given (largest first), the way the week editor shows it.
+  const groups = neutral ? [{ category: 'neutral', tasks, share: 100 }] : groupWeek(tasks);
   return (
     <div className={st.strip} role="img" aria-label={label} data-active={active || undefined}>
       {groups.map((g) => (
@@ -18,7 +19,7 @@ export function WeekStrip({ tasks, label, active }: { tasks: WeekTask[]; label: 
             <span
               key={task.id}
               className={st.stripTile}
-              data-cat={g.category}
+              data-cat={neutral ? 'neutral' : g.category}
               style={{ '--w': task.share, '--i': i } as CSSProperties}
             />
           ))}

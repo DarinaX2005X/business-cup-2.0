@@ -12,11 +12,20 @@ import type { Bundle, ResumeAnalysis, SampleName, SearchResponse, TaskTexts, Wee
 
 const searchCache = new Map<string, SearchResponse>();
 
-export async function searchOccupations(q: string, locale: Locale, signal?: AbortSignal): Promise<SearchResponse> {
-  const key = `${locale}:${q.trim().toLowerCase()}`;
+/**
+ * Occupation search (contract of 01.1): `translate: false` searches the local index only and answers
+ * `translatable: true` when a Cyrillic title might be found through translation; `translate: true`
+ * may call the model (cached on the server for everyone).
+ */
+export async function searchOccupations(q: string, locale: Locale, opts: { signal?: AbortSignal; translate?: boolean } = {}): Promise<SearchResponse> {
+  const translate = opts.translate ?? true;
+  const key = `${locale}:${translate ? 1 : 0}:${q.trim().toLowerCase()}`;
   const hit = searchCache.get(key);
   if (hit) return hit;
-  const res = await apiFetch<SearchResponse>(`/api/occupations/search?q=${encodeURIComponent(q.trim())}&locale=${locale}`, { signal, profile: null });
+  const res = await apiFetch<SearchResponse>(`/api/occupations/search?q=${encodeURIComponent(q.trim())}&locale=${locale}&translate=${translate ? 1 : 0}`, {
+    signal: opts.signal,
+    profile: null,
+  });
   if (!res.hint) searchCache.set(key, res);
   return res;
 }

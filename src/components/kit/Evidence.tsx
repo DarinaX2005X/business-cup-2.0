@@ -4,6 +4,7 @@ import type { CSSProperties } from 'react';
 import { numberLocale, useKit } from './strings';
 import type { Category, EvidenceLevel, Surface, TaskEvidence } from './types';
 import st from './evidence.module.css';
+import buildMeta from '../../../data/build/meta.json';
 
 /* ---------- category swatch and chip: pattern and word, never colour alone ---------- */
 
@@ -50,18 +51,18 @@ export function EvidenceBadge({ level, surface = 'paper', size = 'md' }: { level
 /* ---------- evidence meter ---------- */
 
 /**
- * The busiest task in the Anthropic Economic Index release of 26 June 2026 takes 4.95 % of
- * work conversations (measured over public/data/occ at build time). The meter is linear
- * against it, so a bar is as long as the share really is compared with the busiest task.
+ * The busiest task of the Anthropic Economic Index release, from the data build
+ * (`data/build/meta.json` → `aeiReleaseMaxShare`, 4.95 % of work conversations for 26 June 2026).
+ * The meter is linear against it, so a bar is as long as the share really is compared with the busiest task.
  */
-export const AEI_RELEASE_MAX_SHARE = 0.0495;
+export const AEI_RELEASE_MAX_SHARE: number = (buildMeta as { aeiReleaseMaxShare?: number }).aeiReleaseMaxShare || 0.0495;
 
 export function formatShare(v: number, locale: string) {
   const f = (x: number) => new Intl.NumberFormat(locale, { style: 'percent', maximumSignificantDigits: 2 }).format(x);
   return v > 0 && v < 1e-5 ? `< ${f(1e-5)}` : v === 0 ? `< ${f(1e-5)}` : f(v);
 }
 
-type MeterEvidence = Pick<TaskEvidence, 'observed' | 'aeiShare' | 'aeiAutomation' | 'theoryLabel' | 'evidenceLevel'>;
+type MeterEvidence = Pick<TaskEvidence, 'observed' | 'aeiShare' | 'aeiAutomation' | 'theoryLabel' | 'evidenceLevel' | 'seenRarely'>;
 
 export interface EvidenceMeterProps {
   evidence: MeterEvidence;
@@ -85,11 +86,18 @@ export function EvidenceMeter({ evidence, surface = 'paper', compact, scaleMax =
     const step = evidence.theoryLabel === 'E2' ? 2 : evidence.theoryLabel === 'E1' ? 1 : evidence.theoryLabel === 'E0' ? 0 : -1;
     return (
       <div className={st.meter} data-surface={surface} data-compact={compact || undefined}>
-        <div className={st.mNoneRow}>
+        <div className={st.mNoneRow} data-rare={evidence.seenRarely || undefined}>
           <svg viewBox="0 0 16 16" aria-hidden="true">
-            <circle cx="8" cy="8" r="6.2" stroke="currentColor" strokeWidth="1.6" strokeDasharray="1.6 2.4" fill="none" strokeLinecap="round" />
+            {evidence.seenRarely ? (
+              <>
+                <circle cx="8" cy="8" r="6.2" stroke="currentColor" strokeWidth="1.6" fill="none" />
+                <circle cx="8" cy="8" r="2" fill="currentColor" />
+              </>
+            ) : (
+              <circle cx="8" cy="8" r="6.2" stroke="currentColor" strokeWidth="1.6" strokeDasharray="1.6 2.4" fill="none" strokeLinecap="round" />
+            )}
           </svg>
-          <span className={st.mNone}>{s.notSeen}</span>
+          <span className={st.mNone}>{evidence.seenRarely ? s.seenRarely : s.notSeen}</span>
         </div>
         {!compact ? <div className={st.sTrack} data-empty="" aria-hidden="true" /> : null}
         <div className={st.research}>

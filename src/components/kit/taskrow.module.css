@@ -22,8 +22,39 @@
 }
 
 .row .edit,
-.row .meterRow {
+.row .meterRow,
+.row .details,
+.row .actions {
   pointer-events: auto;
+}
+
+/* without the category swatch: text, hours, actions */
+.row[data-plain] {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.row[data-plain][data-actions] {
+  grid-template-columns: minmax(0, 1fr) auto auto;
+}
+
+.row:not([data-plain])[data-actions] {
+  grid-template-columns: 44px minmax(0, 1fr) auto auto;
+}
+
+.row[data-plain] .edit,
+.row[data-plain] .meterRow {
+  grid-column: 1 / -1;
+}
+
+.details {
+  min-width: 0;
+}
+
+.actions {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  margin: -8px -8px 0 0;
 }
 
 .hit {

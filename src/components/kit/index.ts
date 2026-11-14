@@ -12,6 +12,7 @@ export { Field, type FieldProps } from './Field';
 export { Combobox, Highlight, type ComboItem, type ComboboxProps } from './Combobox';
 export { Slider, type SliderProps } from './Slider';
 export { Segmented } from './Segmented';
+export { LanguageSwitch, type LanguageSwitchProps } from './LanguageSwitch';
 export { Dialog, Sheet } from './Overlay';
 export { Toast, type ToastProps } from './Toast';
 export { Dropzone, type DropState } from './Dropzone';

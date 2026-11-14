@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react';
+import { useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type ReactNode } from 'react';
 import { RollingNumber } from './RollingNumber';
 import { useKit } from './strings';
 import type { Category, Surface, WeekTask } from './types';
@@ -30,6 +30,14 @@ export interface WeekBarProps {
   emptyLabel?: string;
   ariaLabel?: string;
   className?: string;
+  /**
+   * `neutral`: the week before it is painted. Tiles keep the order of `tasks` (no grouping by
+   * category), stay unpainted paper, carry no category in their names and show no totals.
+   * The /start editor uses it so people set hours without seeing the result; the scan then paints.
+   */
+  tone?: 'painted' | 'neutral';
+  /** Makes each category total a button (the map opens the hours breakdown from it). */
+  onTotal?: (category: Category) => void;
 }
 
 const tileClass: Record<Category, string> = {
@@ -54,9 +62,16 @@ export function WeekBar({
   emptyLabel,
   ariaLabel,
   className,
+  tone = 'painted',
+  onTotal,
 }: WeekBarProps) {
   const { s, hours, num, locale } = useKit();
-  const groups = useMemo(() => groupWeek(tasks, totalHours), [tasks, totalHours]);
+  const neutral = tone === 'neutral';
+  const groups = useMemo(
+    () => (neutral ? [{ category: 'no_data' as Category, tasks, share: 100, hours: totalHours }] : groupWeek(tasks, totalHours)),
+    [tasks, totalHours, neutral],
+  );
+  const showTotals = totals && !neutral;
 
   // Where each tile sits along the bar (0..1), so the beam can hand it its material on time.
   const positions = useMemo(() => {
@@ -131,13 +146,17 @@ export function WeekBar({
         data-dragging={dragging || undefined}
         data-selecting={selectedId ? true : undefined}
         data-grown={hasGrowth || undefined}
-        data-totals={totals || undefined}
+        data-totals={showTotals || undefined}
+        data-tone={neutral ? 'neutral' : undefined}
       >
         <ul className={st.bar} role="list" aria-label={ariaLabel}>
           {groups.map((g) => (
-            <li key={g.category} className={st.grp} data-cat={g.category} style={{ '--w': g.share } as CSSProperties}>
-              {totals ? (
-                <div className={st.head}>
+            <li key={g.category} className={st.grp} data-cat={neutral ? 'neutral' : g.category} style={{ '--w': g.share } as CSSProperties}>
+              {showTotals ? (
+                <Total
+                  onClick={onTotal ? () => onTotal(g.category) : undefined}
+                  label={`${s.category[g.category]}: ${s.perWeek(hours(g.hours))}, ${num(g.share)}%`}
+                >
                   {g.category !== 'no_data' ? (
                     <div className={st.hv}>
                       <RollingNumber value={g.hours} digits={1} from={scanning ? 0 : undefined} delay={scanning ? 1750 : 0} duration={900} />
@@ -148,14 +167,14 @@ export function WeekBar({
                     <span>{s.category[g.category]}</span>
                     {g.category !== 'no_data' ? <em>{num(g.share)}%</em> : null}
                   </div>
-                </div>
+                </Total>
               ) : null}
               <ul className={st.segs} role="list">
                 {g.tasks.map((t) => {
                   const h = hoursOf(t.share, totalHours);
                   const selected = t.id === selectedId;
                   const grow = g.category === 'human_edge' ? (growth?.[t.id] ?? 0) : 0;
-                  const label = `${t.label}, ${s.perWeek(hours(h))}, ${s.category[t.category]}`;
+                  const label = neutral ? `${t.label}, ${s.perWeek(hours(h))}` : `${t.label}, ${s.perWeek(hours(h))}, ${s.category[t.category]}`;
                   return (
                     <li
                       key={t.id}
@@ -183,12 +202,12 @@ export function WeekBar({
                             onSelect(t.id);
                           }}
                         >
-                          <span className={`${st.fill} ${tileClass[t.category]}`} aria-hidden="true" />
+                          <span className={`${st.fill} ${neutral ? st.tNeutral : tileClass[t.category]}`} aria-hidden="true" />
                           {grow > 0 ? <span className={st.layers} aria-hidden="true" /> : null}
                         </button>
                       ) : (
                         <span className={st.tile} role="img" aria-label={label}>
-                          <span className={`${st.fill} ${tileClass[t.category]}`} aria-hidden="true" />
+                          <span className={`${st.fill} ${neutral ? st.tNeutral : tileClass[t.category]}`} aria-hidden="true" />
                           {grow > 0 ? <span className={st.layers} aria-hidden="true" /> : null}
                         </span>
                       )}
@@ -209,5 +228,15 @@ export function WeekBar({
         {scanning ? <span className={st.beam} aria-hidden="true" /> : null}
       </div>
     </div>
+  );
+}
+
+/** A category total over its part of the bar; a button when the screen can explain it. */
+function Total({ onClick, label, children }: { onClick?: () => void; label: string; children: ReactNode }) {
+  if (!onClick) return <div className={st.head}>{children}</div>;
+  return (
+    <button type="button" className={`${st.head} ${st.headBtn}`} onClick={onClick} aria-label={label}>
+      {children}
+    </button>
   );
 }

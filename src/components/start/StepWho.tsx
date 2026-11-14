@@ -1,11 +1,12 @@
 'use client';
 
-import { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
+import { forwardRef, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import { ClipboardPaste, FileText, PenLine, X } from 'lucide-react';
 import { Button, Combobox, Dropzone, KitProvider, type ComboItem } from '@/components/kit';
 import { kitStringsFor } from '@/components/kit/locales';
 import { useT } from '@/i18n/client';
 import { loadSample, searchOccupations } from './data';
+import { ExampleWeek } from './ExampleWeek';
 import { readResumeFile, ReadFileError } from './readFile';
 import type { SampleName, SearchItem, SearchResponse, TextOrigin, WhoProblem } from './types';
 import st from './start.module.css';
@@ -27,13 +28,24 @@ export interface StepWhoProps {
   onClearProblem: () => void;
 }
 
-const SEARCH_DEBOUNCE = 150;
+/** Local index search while typing; the model translation only after a pause, for 4+ letters. */
+const SEARCH_DEBOUNCE = 250;
+const TRANSLATE_PAUSE = 700;
+const TRANSLATE_MIN_LETTERS = 4;
 
 export function StepWho(props: StepWhoProps) {
   const { query, onQuery, onPick, onAnalyze, panel, onPanel, problem, onClearProblem } = props;
   const { t, locale } = useT();
   const search = useSearch(query, locale);
+  const narrow = useNarrow();
+  const [emptyEnter, setEmptyEnter] = useState(false);
   const comboRef = useRef<HTMLDivElement>(null);
+
+  // Arriving with the title already typed (the landing sends /start?q=): show its suggestions at once.
+  const arrivedWith = useRef(query.trim());
+  useEffect(() => {
+    if (arrivedWith.current.length >= 2) comboRef.current?.querySelector('input')?.focus();
+  }, []);
   const describeRef = useRef<HTMLTextAreaElement>(null);
   const pasteRef = useRef<HTMLTextAreaElement>(null);
 
@@ -74,7 +86,8 @@ export function StepWho(props: StepWhoProps) {
     return r.suggestions.map((s) => ({ value: s.code, label: s.title, hint: t('start.who.closestHint') }));
   }, [search.response, t]);
 
-  const noMatch = !!search.response && search.response.results.length === 0 && search.forQuery === query.trim() && query.trim().length >= 2;
+  const noMatch =
+    !!search.response && !search.translating && search.response.results.length === 0 && search.forQuery === query.trim() && query.trim().length >= 2;
 
   const pick = (item: ComboItem) => {
     const r = search.response;
@@ -128,8 +141,9 @@ export function StepWho(props: StepWhoProps) {
     [locale, t, file.page, file.total],
   );
 
-  const comboHelp =
-    search.response?.hint === 'try_english'
+  const comboHelp = search.translating
+    ? t('start.who.translating')
+    : search.response?.hint === 'try_english'
       ? t('start.who.tryEnglish')
       : search.response?.translated && search.forQuery === query.trim()
         ? t('start.who.searchedAs', { term: search.response.translated })
@@ -140,23 +154,26 @@ export function StepWho(props: StepWhoProps) {
 
   return (
     <section className={st.who} aria-labelledby="who-title">
+      <div className={st.whoMain}>
       <h1 id="who-title" className={st.h1}>
         {t('start.who.title')}
       </h1>
+      <p className={st.whoLead}>{t('start.who.lead')}</p>
 
       <div
         ref={comboRef}
         className={st.titleField}
         data-alert={titleProblem ? true : undefined}
         onKeyDownCapture={(e) => {
-          // Enter with the list open and nothing highlighted takes the first suggestion.
-          const input = e.target as HTMLInputElement;
-          if (e.key !== 'Enter' || input.getAttribute('role') !== 'combobox' || input.getAttribute('aria-activedescendant')) return;
-          const first = query.trim().length >= 2 ? items[0] : undefined;
-          if (!first || input.getAttribute('aria-expanded') !== 'true') return;
-          e.preventDefault();
-          e.stopPropagation();
-          pick(first);
+          if (e.key !== 'Enter' || (e.target as HTMLElement).getAttribute('role') !== 'combobox') return;
+          // Enter on an empty field says what to type instead of doing nothing.
+          if (!query.trim()) {
+            e.preventDefault();
+            setEmptyEnter(true);
+            return;
+          }
+          // Enter on a Cyrillic title nothing matched yet: ask for the translation now.
+          if (search.translatable) search.translateNow();
         }}
       >
         <Combobox
@@ -166,16 +183,22 @@ export function StepWho(props: StepWhoProps) {
           query={query}
           onQueryChange={(q) => {
             onQuery(q);
+            setEmptyEnter(false);
             if (problem && ['ai_down', 'rate_limited', 'no_match'].includes(problem.kind)) return;
             onClearProblem();
           }}
           items={query.trim().length >= 2 ? items : []}
           onPick={pick}
           loading={search.loading}
-          emptyText={query.trim().length < 2 ? t('start.who.keepTyping') : t('start.who.noResults')}
-          placeholder={t('start.who.placeholder')}
+          emptyText={query.trim().length < 2 ? t('start.who.keepTyping') : search.translating ? t('start.who.translating') : t('start.who.noResults')}
+          placeholder={narrow ? t('start.who.placeholderShort') : t('start.who.placeholder')}
           help={comboHelp}
         />
+        {emptyEnter ? (
+          <p className={st.notice} role="status">
+            {t('start.who.emptyEnter')}
+          </p>
+        ) : null}
         {titleProblem ? (
           <p className={st.notice} role="status">
             {titleProblem}
@@ -261,15 +284,22 @@ export function StepWho(props: StepWhoProps) {
       </div>
 
       <div className={st.altRow}>
-        <div className={st.samples}>
-          <button type="button" className={st.textLink} onClick={() => runSample('nurse')} aria-busy={sampleLoading === 'nurse' || undefined}>
-            <FileText size={18} strokeWidth={1.75} aria-hidden="true" />
-            {t('start.who.sampleNurse')}
-          </button>
-          <button type="button" className={st.textLinkQuiet} onClick={() => runSample('electrician')} aria-busy={sampleLoading === 'electrician' || undefined}>
-            {t('start.who.sampleElectrician')}
-          </button>
-        </div>
+        <p className={st.samples}>
+          <span className={st.samplesLead}>{t('start.who.samplesLead')}</span>
+          {(['nurse', 'electrician'] as const).map((name) => (
+            <button
+              key={name}
+              type="button"
+              className={st.sampleLink}
+              onClick={() => runSample(name)}
+              aria-busy={sampleLoading === name || undefined}
+              disabled={!!sampleLoading}
+            >
+              <FileText size={17} strokeWidth={1.75} aria-hidden="true" />
+              {name === 'nurse' ? t('start.who.sampleNurse') : t('start.who.sampleElectrician')}
+            </button>
+          ))}
+        </p>
         {panel !== 'paste' ? (
           <Button variant="quiet" size="sm" icon={<ClipboardPaste />} onClick={() => onPanel('paste')}>
             {t('start.who.pasteInstead')}
@@ -281,6 +311,8 @@ export function StepWho(props: StepWhoProps) {
           {t('common.errors.network')}
         </p>
       ) : null}
+      </div>
+      <ExampleWeek />
     </section>
   );
 }
@@ -360,14 +392,23 @@ const TextPanel = forwardRef<
 /* ---------- search ---------- */
 
 function useSearch(query: string, locale: string) {
-  const [state, setState] = useState<{ response: SearchResponse | null; forQuery: string; failedFor: string }>({ response: null, forQuery: '', failedFor: '' });
+  const [state, setState] = useState<{ response: SearchResponse | null; forQuery: string; translated: boolean; failedFor: string }>({
+    response: null,
+    forQuery: '',
+    translated: false,
+    failedFor: '',
+  });
+  const [force, setForce] = useState('');
   const q = query.trim();
+  const letters = (q.match(/\p{L}/gu) ?? []).length;
+
+  // While typing: the local index only (translate=0), never a model call per keystroke.
   useEffect(() => {
     if (q.length < 2) return;
     const ctrl = new AbortController();
     const timer = window.setTimeout(() => {
-      searchOccupations(q, locale as 'en', ctrl.signal)
-        .then((response) => setState({ response, forQuery: q, failedFor: '' }))
+      searchOccupations(q, locale as 'en', { signal: ctrl.signal, translate: false })
+        .then((response) => setState({ response, forQuery: q, translated: false, failedFor: '' }))
         .catch((err) => {
           if ((err as Error).name !== 'AbortError') setState((s) => ({ ...s, failedFor: q }));
         });
@@ -377,9 +418,53 @@ function useSearch(query: string, locale: string) {
       ctrl.abort();
     };
   }, [q, locale]);
-  if (q.length < 2) return { response: null, forQuery: '', loading: false };
-  // The previous answer stays on screen while the next one loads, so the list never blinks.
-  return { response: state.response, forQuery: state.forQuery, loading: state.forQuery !== q && state.failedFor !== q };
+
+  // A Cyrillic title nothing matched yet: once typing pauses (or on Enter), ask for its translation.
+  const translatable = state.forQuery === q && !state.translated && !!state.response?.translatable && !state.response.results.length;
+  const wantTranslation = translatable && letters >= TRANSLATE_MIN_LETTERS;
+  useEffect(() => {
+    if (!wantTranslation) return;
+    const ctrl = new AbortController();
+    const timer = window.setTimeout(
+      () => {
+        searchOccupations(q, locale as 'en', { signal: ctrl.signal, translate: true })
+          .then((response) => setState({ response, forQuery: q, translated: true, failedFor: '' }))
+          .catch((err) => {
+            if ((err as Error).name !== 'AbortError') setState((s) => ({ ...s, translated: true, failedFor: q }));
+          });
+      },
+      force === q ? 0 : TRANSLATE_PAUSE - SEARCH_DEBOUNCE,
+    );
+    return () => {
+      window.clearTimeout(timer);
+      ctrl.abort();
+    };
+  }, [wantTranslation, q, locale, force]);
+
+  if (q.length < 2) return { response: null, forQuery: '', loading: false, translating: false, translatable: false, translateNow: () => undefined };
+  return {
+    // The previous answer stays on screen while the next one loads, so the list never blinks.
+    response: state.response,
+    forQuery: state.forQuery,
+    loading: state.forQuery !== q && state.failedFor !== q,
+    translating: wantTranslation,
+    translatable: wantTranslation,
+    translateNow: () => setForce(q),
+  };
+}
+
+const NARROW = '(max-width: 480px)';
+/** Narrow phones get the short placeholder, so it is never cut off. */
+function useNarrow() {
+  return useSyncExternalStore(
+    (cb) => {
+      const m = window.matchMedia(NARROW);
+      m.addEventListener('change', cb);
+      return () => m.removeEventListener('change', cb);
+    },
+    () => window.matchMedia(NARROW).matches,
+    () => false,
+  );
 }
 
 const fold = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();

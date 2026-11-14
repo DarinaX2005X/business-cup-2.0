@@ -15,6 +15,8 @@ export interface KitStrings {
   estimate: string;
   noEvidence: string;
   notSeen: string;
+  /** Work use published for the task, but under 0.01 % of conversations. */
+  seenRarely: string;
   research: { E0: string; E1: string; E2: string; none: string };
   conversations: string;
   automation: string;
@@ -76,6 +78,7 @@ export const enStrings: KitStrings = {
   estimate: 'Research estimate',
   noEvidence: 'No evidence yet',
   notSeen: 'Not yet seen in published AI usage',
+  seenRarely: 'Seen in AI usage, but rarely',
   research: {
     E0: 'Researchers rated this task as one AI barely helps with',
     E1: 'Researchers rated this task as one a language model can speed up by half',

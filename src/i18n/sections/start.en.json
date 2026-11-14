@@ -24,8 +24,8 @@
     "readingPage": "Reading page {page} of {total}",
     "fileReady": "{file} is read",
     "chooseAnother": "Choose another file",
-    "sampleNurse": "Try with a sample résumé",
-    "sampleElectrician": "or a sample electrician",
+    "sampleNurse": "Nurse's résumé",
+    "sampleElectrician": "Electrician's résumé",
     "pasteInstead": "Paste text instead",
     "pasteLabel": "Your résumé text",
     "pastePlaceholder": "Paste the text of your résumé here",
@@ -52,7 +52,16 @@
       "ai_down": "We can't read résumés right now. We can still map your week by title.",
       "rate_limited": "Reading résumés is paused for today. We can still map your week by title.",
       "network": "No connection to the server. Your text is still here, so try again."
-    }
+    },
+    "lead": "Type your job title or add your résumé. You get your week laid out task by task, with what AI already does, what it speeds up and what stays yours.",
+    "placeholderShort": "e.g. Nurse, accountant, electrician",
+    "emptyEnter": "Type your job title first, for example “nurse” or “accountant”.",
+    "translating": "Looking up translations…",
+    "samplesLead": "No résumé at hand? Try a sample:",
+    "exampleTag": "Example",
+    "exampleTitle": "A registered nurse's week",
+    "exampleSub": "A typical 40-hour week from O*NET, task by task",
+    "exampleNote": "Your map is built from your own tasks and hours, and every number links to its source."
   },
   "occupation": {
     "title": "We think you're a…",
@@ -69,11 +78,12 @@
     "pickFirst": "Pick the occupation closest to your job",
     "another": "Search for another title",
     "alsoClose": "Also close",
-    "preview": "A typical week of {title}: {ai} h AI already does it, {speeds} h AI speeds it up, {human} h your human edge",
     "error": "We couldn't read your text because the connection dropped. It is still here.",
     "truncated": "Your résumé is long, so we read its first 20,000 characters.",
     "duties_one": "{count} duty found in your text",
-    "duties_other": "{count} duties found in your text"
+    "duties_other": "{count} duties found in your text",
+    "previewNeutral_one": "A typical week of {title}: {count} task, the largest takes {hours} h",
+    "previewNeutral_other": "A typical week of {title}: {count} tasks, the largest takes {hours} h"
   },
   "week": {
     "title": "Your week",
@@ -107,7 +117,10 @@
     "attachLabel": "Attach “{duty}” to a task",
     "attached": "Attached to “{label}”",
     "submit": "Map my week",
-    "loadError": "We couldn't load the tasks of this job. Check the connection and try again."
+    "loadError": "We couldn't load the tasks of this job. Check the connection and try again.",
+    "sourceDescription": "Based on your description",
+    "fromDescription": "From your description:",
+    "unmatchedLeadDescription": "These parts of your description aren't among the tasks we know for this job. Attach each one to the closest task, or leave it out."
   },
   "scan": {
     "status": "Mapping your week",

@@ -130,8 +130,10 @@ export function StartFlow({ initial }: { initial: StartInitial }) {
   );
 
   const runAnalysis = useCallback(
-    async (text: string, origin: TextOrigin) => {
+    async (text: string, origin: TextOrigin, replace = false) => {
       lastText.current = { text, origin };
+      // Keep the text before the request, so a reload while it is read starts the read again.
+      writeDraft({ ...(readDraft<Draft>() ?? { query: '', analysis: null, selected: null, chosen: null, week: null, from: null }), step: 'occupation', pending: { text, origin } });
       const my = ++seq.current;
       setAnalysis(null);
       setPendingOrigin(origin);
@@ -141,7 +143,7 @@ export function StartFlow({ initial }: { initial: StartInitial }) {
       setProblem(null);
       if (origin.mode === 'description') setDescribeText(text);
       else if (!origin.sample && !origin.fileName) setPasteText(text);
-      go('occupation');
+      go('occupation', replace);
       try {
         const res = await analyzeText(text, origin.mode, locale);
         if (my !== seq.current) return;
@@ -157,6 +159,7 @@ export function StartFlow({ initial }: { initial: StartInitial }) {
         }
         setProblem(p);
         setPendingOrigin(null);
+        setPendingText(null);
         if (['not_resume', 'not_work', 'too_short', 'unclear'].includes(p.kind)) setPanel('describe');
         go('who', true);
       }
@@ -255,6 +258,12 @@ export function StartFlow({ initial }: { initial: StartInitial }) {
         setChosen(draft.chosen);
         setWeek(draft.week);
         setFrom(draft.from);
+        if (initial.step === 'occupation' && !draft.analysis && draft.pending?.text) {
+          // The page was reloaded while the text was being read: read it again.
+          setReady(true);
+          void runAnalysis(draft.pending.text, draft.pending.origin, true);
+          return;
+        }
         let s: Step = initial.step === 'scan' ? 'week' : initial.step;
         if (s === 'week' && (!draft.chosen || !draft.week)) s = draft.analysis ? 'occupation' : 'who';
         if (s === 'occupation' && !draft.analysis) s = 'who';
@@ -274,9 +283,10 @@ export function StartFlow({ initial }: { initial: StartInitial }) {
 
   useEffect(() => {
     if (!ready) return;
-    const draft: Draft = { step, query, analysis, selected, chosen, week, from };
+    const pending = !analysis && pendingText && pendingOrigin ? { text: pendingText, origin: pendingOrigin } : null;
+    const draft: Draft = { step, query, analysis, selected, chosen, week, from, pending };
     writeDraft(draft);
-  }, [ready, step, query, analysis, selected, chosen, week, from]);
+  }, [ready, step, query, analysis, selected, chosen, week, from, pendingText, pendingOrigin]);
 
   /* ---------- render ---------- */
 
@@ -306,7 +316,7 @@ export function StartFlow({ initial }: { initial: StartInitial }) {
             pendingOrigin={pendingOrigin}
             pendingText={pendingText}
             failed={analysisFailed}
-            onRetry={() => lastText.current && void runAnalysis(lastText.current.text, lastText.current.origin)}
+            onRetry={() => lastText.current && void runAnalysis(lastText.current.text, lastText.current.origin, true)}
             selected={selected}
             onSelect={setSelected}
             onConfirm={onConfirm}
@@ -380,13 +390,36 @@ export function singular(title: string): string {
 
 const cap = (s: string) => (s ? s[0].toLocaleUpperCase() + s.slice(1) : s);
 
-/** The words the map will call the person's job: their own term when they typed one. */
+const fold = (s: string) =>
+  s
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, ' ')
+    .trim();
+
+/** Every word the person typed is a whole word of the matched title (not half a word still being typed). */
+function wholeWords(typed: string, matched: string) {
+  const have = new Set(fold(matched).split(' '));
+  const words = fold(typed).split(' ').filter(Boolean);
+  return words.length > 0 && words.every((w) => have.has(w));
+}
+
+/**
+ * The words the map calls the person's job. Never a title they did not say: picking «Apprentice
+ * electrician» after typing «electrician» keeps «Electrician».
+ * - an alias or alternate title they reached by typing: what they typed, tidied and capitalised;
+ * - the canonical O*NET title: that title in the singular («Registered Nurse»).
+ * (Résumé input keeps the résumé's own title, see onConfirm.)
+ */
 function jobTitleFrom(item: SearchItem, typed: string): string {
-  const t = typed.trim();
-  if (hasCyrillic(t) && t.length >= 3) return cap(t).slice(0, 120);
-  if (item.kind !== 'primary') {
-    const m = matchedTerm(item.matched);
-    if (m.length >= 2 && !hasCyrillic(m)) return (/^[A-Z0-9 ]+$/.test(m) ? m : cap(m)).slice(0, 120);
-  }
+  const t = typed.replace(/\s+/g, ' ').trim().replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}).]+$/gu, '');
+  if (item.kind === 'primary' || t.length < 2) return singular(item.title).slice(0, 120);
+  const m = matchedTerm(item.matched);
+  // an abbreviation typed in lower case keeps its catalogue spelling: «rn» → «RN»
+  if (t.length <= 5 && fold(m) === fold(t)) return m.slice(0, 120);
+  // a Cyrillic query answered through translation has an English match: the person's words stand
+  const translated = hasCyrillic(t) && !hasCyrillic(m);
+  if (translated ? t.length >= 3 : wholeWords(t, m)) return cap(t).slice(0, 120);
   return singular(item.title).slice(0, 120);
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import type { ReactNode } from 'react';
 import { CategoryChip, CategorySwatch, EvidenceBadge, EvidenceMeter } from './Evidence';
 import { Slider } from './Slider';
 import { useKit } from './strings';
@@ -29,6 +30,19 @@ export interface TaskRowProps {
   onDragChange?: (dragging: boolean) => void;
   surface?: Surface;
   totalHours?: number;
+  /**
+   * Hide the category swatch, chip and evidence badge (the week editor in /start: people set their
+   * hours before they see which part of the week AI touches).
+   */
+  hideCategory?: boolean;
+  /** Extra lines under the text, for example the full task and a quote from the résumé. */
+  details?: ReactNode;
+  /** Controls after the hours, for example «Remove». */
+  actions?: ReactNode;
+  /** Top of the share slider (default 80). */
+  sliderMax?: number;
+  /** The slider got or lost focus (keyboard or pointer): lets the screen fix the week a gesture starts from. */
+  onEditFocus?: (id: string, focused: boolean) => void;
 }
 
 export function TaskRow({
@@ -50,6 +64,11 @@ export function TaskRow({
   onDragChange,
   surface = 'paper',
   totalHours = 40,
+  hideCategory,
+  details,
+  actions,
+  sliderMax = 80,
+  onEditFocus,
 }: TaskRowProps) {
   const { s, hours, num } = useKit();
   const h = hoursOf(share, totalHours);
@@ -61,31 +80,41 @@ export function TaskRow({
       data-editing={editing || undefined}
       data-disabled={disabled || undefined}
       data-surface={surface}
+      data-plain={hideCategory || undefined}
+      data-actions={actions ? true : undefined}
     >
       {onSelect && !disabled ? (
         <button type="button" className={st.hit} aria-pressed={!!selected} aria-label={text} onClick={() => onSelect(id)} />
       ) : null}
-      <CategorySwatch category={category} />
+      {hideCategory ? null : <CategorySwatch category={category} />}
       <div className={st.main}>
         <p className={st.text} title={useShort ? text : undefined}>
           {title}
         </p>
-        <div className={st.meta}>
-          <CategoryChip category={category} surface={surface} />
-          <EvidenceBadge level={evidence.evidenceLevel} surface={surface} size="sm" />
-        </div>
+        {hideCategory ? null : (
+          <div className={st.meta}>
+            <CategoryChip category={category} surface={surface} />
+            <EvidenceBadge level={evidence.evidenceLevel} surface={surface} size="sm" />
+          </div>
+        )}
+        {details ? <div className={st.details}>{details}</div> : null}
       </div>
       <div className={st.amount}>
         <b>{s.hoursShort(hours(h))}</b>
         <span>{num(share)}%</span>
       </div>
+      {actions ? <div className={st.actions}>{actions}</div> : null}
       {editing ? (
-        <div className={st.edit}>
+        <div
+          className={st.edit}
+          onFocusCapture={onEditFocus ? () => onEditFocus(id, true) : undefined}
+          onBlurCapture={onEditFocus ? () => onEditFocus(id, false) : undefined}
+        >
           <Slider
             label={`${s.share}: ${title}`}
             value={share}
             min={1}
-            max={80}
+            max={sliderMax}
             disabled={disabled}
             format={(v) => `${num(v)}% · ${s.hoursShort(hours(hoursOf(v, totalHours)))}`}
             onChange={(v) => onShareChange?.(id, v)}

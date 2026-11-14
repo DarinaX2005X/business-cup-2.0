@@ -83,6 +83,8 @@ export function Combobox({
     else if (el.offsetTop + el.offsetHeight > list.scrollTop + list.clientHeight) list.scrollTop = el.offsetTop + el.offsetHeight - list.clientHeight + 6;
   }, [active]);
 
+  // New items (an async search answering) can leave the highlight past the end of the list.
+  const current = active < items.length ? active : -1;
   const showList = open && query.trim().length > 0;
   const pick = (item: ComboItem) => {
     onPick(item);
@@ -103,7 +105,7 @@ export function Combobox({
             aria-expanded={showList}
             aria-controls={listId}
             aria-autocomplete="list"
-            aria-activedescendant={showList && items[active] ? `${id}-o${active}` : undefined}
+            aria-activedescendant={showList && items[current] ? `${id}-o${current}` : undefined}
             aria-invalid={error ? true : undefined}
             autoComplete="off"
             value={query}
@@ -119,13 +121,14 @@ export function Combobox({
               if (e.key === 'ArrowDown') {
                 e.preventDefault();
                 setOpen(true);
-                setActive((a) => (a < 0 ? 0 : Math.min(items.length - 1, a + 1)));
+                setActive((a) => (a < 0 || a >= items.length ? 0 : Math.min(items.length - 1, a + 1)));
               } else if (e.key === 'ArrowUp') {
                 e.preventDefault();
-                setActive((a) => (a < 0 ? items.length - 1 : Math.max(0, a - 1)));
-              } else if (e.key === 'Enter' && showList && items[active]) {
+                setActive((a) => (a < 0 || a >= items.length ? items.length - 1 : Math.max(0, a - 1)));
+              } else if (e.key === 'Enter' && showList && items.length) {
+                // Enter with nothing highlighted takes the first option, as people expect from a search field.
                 e.preventDefault();
-                pick(items[active]);
+                pick(items[current >= 0 ? current : 0]);
               } else if (e.key === 'Escape') {
                 if (showList) {
                   e.preventDefault();
@@ -147,7 +150,7 @@ export function Combobox({
                     id={`${id}-o${i}`}
                     data-index={i}
                     role="option"
-                    aria-selected={i === active}
+                    aria-selected={i === current}
                     className={st.opt}
                     onMouseDown={(e) => e.preventDefault()}
                     onMouseEnter={() => setActive(i)}

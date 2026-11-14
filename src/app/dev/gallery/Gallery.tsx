@@ -13,6 +13,7 @@ import {
   Field,
   FieldArches,
   KeystoneMark,
+  LanguageSwitch,
   KitProvider,
   LockedPanel,
   PointsCounter,
@@ -334,6 +335,7 @@ function useWeek(prof: Prof, lang: Locale) {
 }
 
 function WeekSection({ w, lang }: { w: GalleryWidth; lang: Locale }) {
+  const [total, setTotal] = useState<string | null>(null);
   const [prof, setProf] = useState<Prof>('nurse');
   const [surface, setSurface] = useState<Surface>('paper');
   const [orient, setOrient] = useState<Orient>('auto');
@@ -420,6 +422,17 @@ function WeekSection({ w, lang }: { w: GalleryWidth; lang: Locale }) {
           </State>
         </Frame>
         <Frame w={w} field={field}>
+          <State name="Neutral: unpainted, in the given order (the /start week editor)">
+            <WeekBar tasks={edited} tone="neutral" variant={surface} orientation="horizontal" editable dragging={dragging} selectedId={editTask?.id} onSelect={() => undefined} />
+          </State>
+        </Frame>
+        <Frame w={w} field={field}>
+          <State name="Totals as buttons (onTotal)">
+            <WeekBar tasks={ready} variant={surface} orientation={orient} onTotal={(c) => setTotal(c)} />
+            {total ? <p className={g.small}>Opened the breakdown of: {total}</p> : null}
+          </State>
+        </Frame>
+        <Frame w={w} field={field}>
           <State name="Grown after practice">
             <WeekBar tasks={ready} variant={surface} orientation={orient} growth={growth} />
           </State>
@@ -473,6 +486,23 @@ function RowsSection({ w }: { w: GalleryWidth }) {
           <State name="No data yet">{row('rn-08', { share: 4 })}</State>
           <State name="Longest O*NET text, clamped to three lines">{row('el-05', { share: 17 })}</State>
           <State name="Short label instead of the full text">{row('el-05', { share: 17, useShort: true })}</State>
+          <State name="Without categories, with details and an action (the /start week editor)">
+            {row('rn-03', {
+              share,
+              editing: true,
+              hideCategory: true,
+              useShort: true,
+              showMeter: false,
+              sliderMax: 60,
+              onShareChange: (_id, v) => setShare(v),
+              details: <p className={g.small}>From your résumé: “Chart assessments in Epic in real time.”</p>,
+              actions: (
+                <Button variant="quiet" size="sm">
+                  Remove
+                </Button>
+              ),
+            })}
+          </State>
           <State name="Disabled with a reason">
             {row('el-04', { share: 24, editing: true, disabled: true, disabledReason: 'Confirm your week first, then adjust the hours.' })}
           </State>
@@ -501,6 +531,9 @@ function MeterSection({ w }: { w: GalleryWidth }) {
           </State>
           <State name="Large share, almost all AI">
             <EvidenceMeter evidence={{ ...base, aeiShare: 0.0185, aeiAutomation: 0.97 }} />
+          </State>
+          <State name="Seen in AI usage, but rarely">
+            <EvidenceMeter evidence={{ ...nurse.tasks[2].evidence, observed: false, seenRarely: true, aeiShare: 0.00004 }} />
           </State>
           <State name="No research rating">
             <EvidenceMeter evidence={{ ...base, observed: false, aeiShare: null, theoryLabel: null, evidenceLevel: 'none' }} />
@@ -858,6 +891,7 @@ function searchTitles(q: string): ComboItem[] {
 }
 
 function FieldsSection({ w }: { w: GalleryWidth }) {
+  const [langPick, setLangPick] = useState<Locale>('en');
   const [q, setQ] = useState('nurs');
   const [q2, setQ2] = useState('rn');
   const [picked, setPicked] = useState('');
@@ -873,6 +907,7 @@ function FieldsSection({ w }: { w: GalleryWidth }) {
             <Field label="Job title" defaultValue="Registerd nurse" error="We could not find this title. Check the spelling or pick from the list." />
             <Slider label="Share of week" value={val} onChange={setVal} format={(v) => `${v}% · ${((v * 40) / 100).toFixed(1)} h`} />
             <Segmented label="Billing" value={seg} onChange={setSeg} options={[{ value: 'month', label: 'Monthly, $19' }, { value: 'year', label: 'Yearly, $119' }]} />
+            <LanguageSwitch label="Language" value={langPick} onChange={setLangPick} locales={['en', 'ru', 'kk']} />
           </div>
           <div className={g.comboBox}>
             <Combobox label="What do you do?" query={q} onQueryChange={setQ} items={filter(q)} onPick={(i) => { setPicked(i.label); setQ(i.label); }} defaultOpen placeholder="Registered nurse" />

@@ -1064,3 +1064,32 @@
     animation: none;
   }
 }
+
+/* ---------- language switch: a compact segmented group ---------- */
+
+.langSwitch {
+  display: inline-flex;
+}
+
+.langSwitch .seg {
+  padding: 3px;
+  border-radius: 12px;
+  flex-wrap: nowrap;
+}
+
+.langSwitch .segBtn {
+  min-height: 36px;
+  min-width: 40px;
+  padding: 4px 9px;
+  font-size: 14px;
+  border-radius: 9px;
+}
+
+.langSwitch .segPlate {
+  border-radius: 9px;
+}
+
+.langSwitch[data-disabled] {
+  opacity: 0.6;
+  pointer-events: none;
+}

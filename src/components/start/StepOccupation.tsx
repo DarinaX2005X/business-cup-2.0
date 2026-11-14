@@ -2,7 +2,7 @@
 
 import { useMemo, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react';
 import { RotateCcw, Search } from 'lucide-react';
-import { Button, Skeleton, weekTasksFrom, groupWeek } from '@/components/kit';
+import { Button, Skeleton, hoursOf, weekTasksFrom } from '@/components/kit';
 import { defaultShares } from '@/domain/shares';
 import { useT } from '@/i18n/client';
 import { useBundle } from './data';
@@ -173,15 +173,15 @@ function OccupationCard({
   const { bundle } = useBundle(ranked.code);
   const [more, setMore] = useState(false);
 
-  const tasks = useMemo(() => (bundle ? weekTasksFrom(bundle, defaultShares(bundle)) : null), [bundle]);
+  // The typical week as unpainted tiles, largest task first: the product reads the job as tasks,
+  // and categories wait for the scan, as in the week editor.
+  const tasks = useMemo(() => (bundle ? weekTasksFrom(bundle, defaultShares(bundle)).sort((a, b) => b.share - a.share) : null), [bundle]);
   const label = useMemo(() => {
-    if (!tasks) return '';
-    const h = Object.fromEntries(groupWeek(tasks).map((g) => [g.category, g.hours]));
-    return t('start.occupation.preview', {
+    if (!tasks?.length) return '';
+    return t('start.occupation.previewNeutral', {
       title: ranked.title,
-      ai: f.number(h.ai_does ?? 0, { maximumFractionDigits: 1 }),
-      speeds: f.number(h.ai_speeds ?? 0, { maximumFractionDigits: 1 }),
-      human: f.number(h.human_edge ?? 0, { maximumFractionDigits: 1 }),
+      count: tasks.length,
+      hours: f.number(hoursOf(tasks[0].share), { maximumFractionDigits: 1 }),
     });
   }, [tasks, ranked.title, t, f]);
 
@@ -227,7 +227,7 @@ function OccupationCard({
           </p>
         ) : null}
       </div>
-      <div className={st.cardWeek}>{tasks ? <WeekStrip tasks={tasks} label={label} active={selected} /> : <WeekStripSkeleton />}</div>
+      <div className={st.cardWeek}>{tasks ? <WeekStrip tasks={tasks} label={label} active={selected} neutral /> : <WeekStripSkeleton />}</div>
     </article>
   );
 }

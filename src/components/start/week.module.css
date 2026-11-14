@@ -131,182 +131,18 @@
   font-size: 15.5px;
 }
 
-/* ---------- neutral week: Week Bar tiles before they are painted ---------- */
-
-.nw {
-  container: nw / inline-size;
-  --tile-h: 128px;
-  --face: 10px;
-}
-
-.nwBar {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  gap: 6px;
-  align-items: flex-start;
-}
-
-.nwSeg {
-  position: relative;
-  flex: var(--w) 1 0;
-  min-width: 0;
-  container: nws / inline-size;
-  transition: flex-grow var(--t-layout) var(--ease);
-}
-
-.nw[data-dragging] .nwSeg {
-  transition-duration: 90ms;
-}
-
-.nwTile {
-  display: block;
-  height: var(--tile-h);
-  margin-bottom: var(--face);
-  border-radius: 10px 10px 4px 4px;
-  background:
-    var(--grain),
-    linear-gradient(165deg, var(--card), oklch(95% 0.017 290));
-  box-shadow:
-    inset 0 1.5px 0 #fff,
-    inset 0 0 0 1px var(--line),
-    0 var(--face) 0 oklch(89.5% 0.026 290),
-    0 24px 22px -14px oklch(26% 0.09 285 / 0.24);
-  transition:
-    transform var(--t-pop) var(--ease),
-    opacity var(--t-pop) var(--ease),
-    outline-color var(--t-hover);
-  outline: 2.5px solid transparent;
-  outline-offset: 3px;
-}
-
-.nw[data-active] .nwTile {
-  opacity: 0.62;
-}
-
-.nwSeg[data-active] .nwTile {
-  opacity: 1;
-  transform: translateY(-6px);
-  outline-color: var(--violet);
-}
-
-.nwLab {
-  display: block;
-  padding: 10px 4px 0 2px;
-  min-width: 0;
-}
-
-.nwLab b {
-  display: block;
-  font-size: 15px;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.nwLab span {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  margin-top: 2px;
-  font-size: 13px;
-  line-height: 1.3;
-  color: var(--ink-2);
-  overflow-wrap: break-word;
-  hyphens: auto;
-  transition: opacity 0.16s var(--ease);
-}
-
-.nwSeg[data-active] .nwLab span {
-  color: var(--ink);
-}
-
-.nw[data-dragging] .nwLab span {
-  opacity: 0;
-}
-
-@container nws (max-width: 74px) {
-  .nwLab span {
-    display: none;
-  }
-}
-
-@container nws (max-width: 40px) {
-  .nwLab b {
-    display: none;
-  }
-}
-
-@container nw (max-width: 560px) {
-  .nw {
-    --tile-h: 60px;
-    --face: 7px;
-  }
-  .nwBar {
-    gap: 4px;
-  }
-  .nwTile {
-    border-radius: 7px 7px 3px 3px;
-  }
-  .nwLab {
-    padding-top: 6px;
-  }
-  .nwLab b {
-    font-size: 12.5px;
-  }
-  .nwLab span {
-    display: none;
-  }
-}
-
-/* ---------- task rows ---------- */
+/* ---------- task rows (kit TaskRow without categories) ---------- */
 
 .rows {
   list-style: none;
-  margin: 18px -18px 0;
+  margin: 18px -20px 0;
   padding: 0;
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
-.row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(200px, 300px) 84px auto;
-  grid-template-areas:
-    'text slider amount remove'
-    'quote slider amount remove';
-  align-items: center;
-  gap: 8px 24px;
-  padding: 14px 18px;
-  border-radius: 18px;
-  transition:
-    background-color var(--t-hover),
-    box-shadow var(--t-hover);
-}
-
-.row:hover,
-.row[data-active] {
-  background: var(--card);
-  box-shadow:
-    inset 0 0 0 1px var(--line),
-    var(--shadow-rest);
-}
-
-.rowText {
-  grid-area: text;
-  min-width: 0;
-}
-
-.rowLabel {
-  font-weight: 600;
-  font-size: 17px;
-  line-height: 1.3;
-}
-
 .rowFull {
-  margin-top: 4px;
   font-size: 15px;
   line-height: 1.45;
   color: var(--ink-2);
@@ -332,15 +168,15 @@
 }
 
 .quote {
-  grid-area: quote;
+  margin-top: 2px;
+  font-size: 14.5px;
+  line-height: 1.45;
+  color: var(--ink-2);
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   max-width: 62ch;
-  font-size: 14.5px;
-  line-height: 1.45;
-  color: var(--ink-2);
 }
 
 .quote[data-open] {
@@ -352,32 +188,7 @@
   color: var(--ink);
 }
 
-.rowSlider {
-  grid-area: slider;
-  padding-top: 18px;
-}
-
-.rowAmount {
-  grid-area: amount;
-  text-align: right;
-  line-height: 1.15;
-}
-
-.rowAmount b {
-  display: block;
-  font-size: 20px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  white-space: nowrap;
-}
-
-.rowAmount span {
-  font-size: 14px;
-  color: var(--ink-2);
-}
-
 .rowRemove {
-  grid-area: remove;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -416,31 +227,9 @@
 
 @media (max-width: 760px) {
   .rows {
-    margin: 14px -10px 0;
-  }
-  .row {
-    grid-template-columns: minmax(0, 1fr) auto auto;
-    grid-template-areas:
-      'text amount remove'
-      'slider slider slider'
-      'quote quote quote';
-    gap: 4px 8px;
-    padding: 14px 10px 8px;
-  }
-  .rowText {
-    grid-area: text;
-  }
-  .rowAmount {
-    grid-area: amount;
-    align-self: start;
-  }
-  .rowAmount b {
-    font-size: 18px;
+    margin: 14px -12px 0;
   }
   .rowRemove {
-    grid-area: remove;
-    align-self: start;
-    margin: -6px -4px 0 0;
     padding: 0 10px;
   }
   .rowRemove span {
@@ -450,15 +239,6 @@
     overflow: hidden;
     clip: rect(0 0 0 0);
     white-space: nowrap;
-  }
-  .rowSlider {
-    padding-top: 22px;
-  }
-  .quote {
-    margin-top: 2px;
-  }
-  .rowSlider > div {
-    min-width: 0;
   }
 }
 
@@ -835,9 +615,5 @@
   .skelTile::after,
   .dot {
     animation: none;
-  }
-  .nwSeg,
-  .nwTile {
-    transition: none;
   }
 }

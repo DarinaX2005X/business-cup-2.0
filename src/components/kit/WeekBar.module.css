@@ -881,3 +881,99 @@ button.tile:focus-visible {
 .root[data-selecting] button.tile:hover {
   opacity: 1;
 }
+
+/* ---------- neutral: the week before the scan paints it ---------- */
+
+.tNeutral {
+  background:
+    var(--grain),
+    linear-gradient(165deg, var(--card), oklch(95% 0.017 290));
+  box-shadow:
+    inset 0 1.5px 0 #fff,
+    inset 0 0 0 1px var(--line),
+    0 var(--face) 0 oklch(89.5% 0.026 290),
+    0 24px 22px -14px oklch(26% 0.09 285 / 0.24);
+}
+
+.wrap[data-variant='violet'] .tNeutral {
+  background: oklch(100% 0 0 / 0.14);
+  box-shadow:
+    inset 0 1px 0 oklch(100% 0 0 / 0.35),
+    inset 0 0 0 1px oklch(100% 0 0 / 0.25),
+    0 var(--face) 0 oklch(100% 0 0 / 0.08);
+}
+
+.root[data-tone='neutral'] .grp[data-cat='neutral'] .lab {
+  text-align: left;
+}
+
+.root[data-tone='neutral'][data-dragging] .lh {
+  opacity: 1;
+}
+
+.root[data-tone='neutral'][data-dragging] .lab {
+  opacity: 1;
+}
+
+.root[data-tone='neutral'][data-dragging] .lt {
+  opacity: 0;
+}
+
+@container weekbar (max-width: 560px) {
+  .root[data-tone='neutral'][data-orient='horizontal'] {
+    --tile-h: 60px;
+    --face: 7px;
+    --gap: 4px;
+  }
+  .root[data-tone='neutral'][data-orient='horizontal'] .tile {
+    border-radius: 7px 7px 3px 3px;
+  }
+  .root[data-tone='neutral'][data-orient='horizontal'] .lab {
+    padding-top: 6px;
+  }
+  .root[data-tone='neutral'][data-orient='horizontal'] .lt {
+    display: none;
+  }
+  .root[data-tone='neutral'][data-orient='horizontal'] .lh {
+    font-size: 12.5px;
+  }
+}
+
+/* ---------- category totals as buttons ---------- */
+
+.headBtn {
+  width: 100%;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+  border-radius: 12px 12px 0 0;
+  transition:
+    background-color var(--t-hover),
+    transform var(--t-hover) var(--ease);
+}
+
+.headBtn:hover {
+  background: oklch(100% 0 0 / 0.5);
+}
+
+.wrap[data-variant='violet'] .headBtn:hover {
+  background: oklch(100% 0 0 / 0.08);
+}
+
+.headBtn:hover .hv {
+  transform: translateY(-2px);
+}
+
+.headBtn .hv {
+  transition: transform var(--t-hover) var(--ease);
+}
+
+.headBtn:active {
+  transform: scale(0.99);
+  transition-duration: var(--t-press);
+}
+
+.headBtn:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}

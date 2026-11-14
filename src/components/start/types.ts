@@ -22,6 +22,8 @@ export interface SearchResponse {
   suggestions: { code: string; title: string; localTitle: string | null }[];
   translated: string | null;
   hint: 'try_english' | null;
+  /** Cyrillic title with no confident local match, asked without translation: translate=1 may find it. */
+  translatable?: boolean;
 }
 
 export interface RankedOccupation {
@@ -90,6 +92,8 @@ export interface Draft {
   chosen: Chosen | null;
   week: WeekProposal | null;
   from: FromMap | null;
+  /** Text being read right now; kept so a reload during the read starts it again (this tab only). */
+  pending?: { text: string; origin: TextOrigin } | null;
 }
 
 export type Bundle = OccupationBundle;

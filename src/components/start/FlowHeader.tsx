@@ -2,21 +2,19 @@
 
 import Link from 'next/link';
 import { X } from 'lucide-react';
-import { KeystoneMark, Segmented } from '@/components/kit';
+import { KeystoneMark, LanguageSwitch } from '@/components/kit';
 import { useT } from '@/i18n/client';
-import { locales, type Locale } from '@/i18n/config';
+import { locales } from '@/i18n/config';
 import { useOptionalProfile } from '@/lib/client/profile';
 import { STEPS, type Step } from './types';
 import st from './start.module.css';
-
-const SHORT: Record<Locale, string> = { en: 'EN', ru: 'RU', kk: 'KK' };
 
 /**
  * The trimmed header of the flow: mark, the four steps drawn as small week tiles, language and Exit.
  * Nothing else competes with the one question on the screen.
  */
 export function FlowHeader({ step }: { step: Step }) {
-  const { t, locale, setLocale } = useT();
+  const { t, locale, setLocale, switching } = useT();
   const profile = useOptionalProfile();
   const at = STEPS.indexOf(step);
 
@@ -35,11 +33,11 @@ export function FlowHeader({ step }: { step: Step }) {
         </ol>
 
         <div className={st.headerEnd}>
-          <Segmented
+          <LanguageSwitch
             label={t('common.language')}
             value={locale}
-            className={st.lang}
-            options={locales.map((l) => ({ value: l, label: SHORT[l] }))}
+            locales={locales}
+            disabled={switching}
             onChange={async (next) => {
               await setLocale(next);
               if (profile?.status === 'ready' && profile.profile?.locale !== next) profile.update({ locale: next }).catch(() => undefined);

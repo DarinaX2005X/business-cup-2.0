@@ -1,14 +1,13 @@
 'use client';
 
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { BookOpenText, FileText, Link2, Plus, RotateCcw, Trash2 } from 'lucide-react';
-import { Button, Skeleton, Slider, useKit, hoursOf, type WeekTask } from '@/components/kit';
+import { Button, CATEGORY_ORDER, Skeleton, TaskRow, WeekBar, type WeekTask } from '@/components/kit';
 import { normalizeShares, redistributeShares } from '@/domain/shares';
 import { MAX_WEEK_TASKS } from '@/domain/constants';
 import type { WeekShare } from '@/domain/types';
 import { useT } from '@/i18n/client';
 import { useBundle, useTaskTexts } from './data';
-import { NeutralWeek } from './NeutralWeek';
 import { ScanStage } from './ScanStage';
 import { TaskPicker, type PickerTask } from './TaskPicker';
 import type { Bundle, Chosen, FromMap, WeekProposal } from './types';
@@ -103,6 +102,9 @@ export function StepWeek(props: StepWeekProps) {
 
 /* ---------- the editor ---------- */
 
+/** Throttle for keeping the draft current while a slider moves (a reload keeps the last step). */
+const DRAFT_THROTTLE_MS = 300;
+
 function WeekEditor({
   chosen,
   week,
@@ -119,24 +121,41 @@ function WeekEditor({
   const [shares, setShares] = useState<WeekShare[]>(week.shares);
   const [matches, setMatches] = useState(week.matches);
   const [unmapped, setUnmapped] = useState(week.unmappedDuties);
-  // Rows keep the order they had when the week appeared, so nothing jumps under the pointer.
-  const [order, setOrder] = useState<string[]>(() => [...week.shares].sort((a, b) => b.share - a.share).map((s) => s.taskId));
+  const byId = useMemo(() => new Map(bundle.tasks.map((x) => [x.id, x])), [bundle]);
+  // One order for the bar and the list: the order the scan will paint (category, then the largest task),
+  // fixed when the week appears so nothing jumps under the pointer. Added tasks go to the end.
+  const [order, setOrder] = useState<string[]>(() => {
+    const rank = (id: string) => CATEGORY_ORDER.indexOf(byId.get(id)?.evidence.category ?? 'no_data');
+    return [...week.shares].sort((a, b) => rank(a.taskId) - rank(b.taskId) || b.share - a.share).map((s) => s.taskId);
+  });
   const [active, setActive] = useState<string | null>(null);
-  const [dragging, setDragging] = useState<string | null>(null);
+  const [dragging, setDragging] = useState(false);
   const [notice, setNotice] = useState<{ text: string; undo?: { shares: WeekShare[]; order: string[] } } | null>(null);
   const [picker, setPicker] = useState<{ mode: 'add' } | { mode: 'attach'; duty: string } | null>(null);
+  const [open, setOpen] = useState<Record<string, boolean>>({});
   const sharesRef = useRef(shares);
   useEffect(() => {
     sharesRef.current = shares;
   }, [shares]);
 
-  // Hand every settled change to the flow, which keeps the draft for reloads and the Back button.
+  // Every slider gesture starts from the week as it was when the slider got focus, so the time
+  // freed or taken spreads over the other tasks in proportion, however many steps the gesture has.
+  const base = useRef<{ id: string; shares: WeekShare[] } | null>(null);
+
   const publish = useCallback(
     (next: Partial<WeekProposal>) => onWeek({ shares: sharesRef.current, matches, unmappedDuties: unmapped, source: week.source, ...next }),
     [onWeek, matches, unmapped, week.source],
   );
+  const draftTimer = useRef(0);
+  const publishSoon = useCallback(() => {
+    if (draftTimer.current) return;
+    draftTimer.current = window.setTimeout(() => {
+      draftTimer.current = 0;
+      publish({});
+    }, DRAFT_THROTTLE_MS);
+  }, [publish]);
+  useEffect(() => () => window.clearTimeout(draftTimer.current), []);
 
-  const byId = useMemo(() => new Map(bundle.tasks.map((x) => [x.id, x])), [bundle]);
   const textOf = useCallback((id: string) => texts?.[id]?.text ?? byId.get(id)?.text ?? '', [texts, byId]);
   const labelOf = useCallback(
     (id: string) => {
@@ -146,48 +165,54 @@ function WeekEditor({
     [texts, byId],
   );
 
+  const shareOf = useMemo(() => new Map(shares.map((s) => [s.taskId, s.share])), [shares]);
+  const rows = useMemo(() => order.filter((id) => shareOf.has(id)), [order, shareOf]);
+
   const weekTasks: WeekTask[] = useMemo(
     () =>
-      shares.flatMap((s) => {
-        const task = byId.get(s.taskId);
+      rows.flatMap((id) => {
+        const task = byId.get(id);
         if (!task) return [];
-        return [{ id: s.taskId, label: labelOf(s.taskId), text: textOf(s.taskId), share: s.share, category: task.evidence.category, evidenceLevel: task.evidence.evidenceLevel }];
+        return [{ id, label: labelOf(id), text: textOf(id), share: shareOf.get(id)!, category: task.evidence.category, evidenceLevel: task.evidence.evidenceLevel }];
       }),
-    [shares, byId, labelOf, textOf],
+    [rows, byId, labelOf, textOf, shareOf],
   );
 
-  const shareOf = useMemo(() => new Map(shares.map((s) => [s.taskId, s.share])), [shares]);
-  const rows = order.filter((id) => shareOf.has(id));
-
-  const onChange = useCallback((id: string, v: number) => {
-    setShares((prev) => redistributeShares(prev, id, v));
+  const onEditFocus = useCallback((id: string, focused: boolean) => {
+    if (focused) base.current = { id, shares: sharesRef.current };
+    else if (base.current?.id === id) base.current = null;
+    setActive(focused ? id : null);
   }, []);
-  const onCommit = useCallback(() => publish({}), [publish]);
-  const onDrag = useCallback((id: string | null) => {
-    setDragging(id);
-    setActive(id);
-  }, []);
-
-  const remove = useCallback(
-    (id: string) => {
-      const prev = sharesRef.current;
-      if (prev.length <= 2) return;
-      const next = normalizeShares(
-        prev.filter((s) => s.taskId !== id),
-        bundle,
-      );
-      setShares(next);
+  const onChange = useCallback(
+    (id: string, v: number) => {
+      if (base.current?.id !== id) base.current = { id, shares: sharesRef.current };
+      const next = redistributeShares(base.current.shares, id, v);
       sharesRef.current = next;
-      setNotice({ text: t('start.week.removed', { label: labelOf(id) }), undo: { shares: prev, order } });
-      setActive(null);
-      publish({ shares: next });
+      setShares(next);
+      publishSoon();
     },
-    [bundle, labelOf, order, publish, t],
+    [publishSoon],
   );
+
+  const remove = (id: string) => {
+    const prev = sharesRef.current;
+    if (prev.length <= 2) return;
+    base.current = null;
+    const next = normalizeShares(
+      prev.filter((s) => s.taskId !== id),
+      bundle,
+    );
+    setShares(next);
+    sharesRef.current = next;
+    setNotice({ text: t('start.week.removed', { label: labelOf(id) }), undo: { shares: prev, order } });
+    setActive(null);
+    publish({ shares: next });
+  };
 
   const addTask = (id: string) => {
     const prev = sharesRef.current;
     if (prev.some((s) => s.taskId === id) || prev.length >= MAX_WEEK_TASKS) return prev;
+    base.current = null;
     const next = normalizeShares([...prev, { taskId: id, share: ADD_SHARE }], bundle);
     setShares(next);
     sharesRef.current = next;
@@ -224,8 +249,28 @@ function WeekEditor({
     setPicker(null);
   };
 
+  // A tile on the bar takes the person to that task's slider.
+  const focusRow = (id: string) => {
+    setActive(id);
+    const slider = document.querySelector<HTMLElement>(`[data-row="${id}"] [role="slider"]`);
+    slider?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    slider?.focus({ preventScroll: true });
+  };
+
+  const described = chosen.inputSource === 'description';
+
   if (scanning) {
-    return <ScanStage chosen={chosen} bundle={bundle} shares={shares} tasks={weekTasks} shortLabels={Object.fromEntries(shares.map((s) => [s.taskId, labelOf(s.taskId)]))} from={from} onBack={() => onScan(false)} />;
+    return (
+      <ScanStage
+        chosen={chosen}
+        bundle={bundle}
+        shares={shares}
+        tasks={weekTasks}
+        shortLabels={Object.fromEntries(shares.map((s) => [s.taskId, labelOf(s.taskId)]))}
+        from={from}
+        onBack={() => onScan(false)}
+      />
+    );
   }
 
   return (
@@ -246,10 +291,19 @@ function WeekEditor({
       </div>
 
       <div className={st.barDock}>
-        <NeutralWeek tasks={weekTasks} activeId={active} dragging={!!dragging} label={t('start.week.barLabel')} onHover={dragging ? undefined : setActive} />
+        <WeekBar
+          tasks={weekTasks}
+          tone="neutral"
+          orientation="horizontal"
+          editable
+          dragging={dragging}
+          selectedId={active}
+          onSelect={focusRow}
+          ariaLabel={t('start.week.barLabel')}
+        />
         <p className={st.source}>
           {week.source === 'resume' ? <FileText size={16} strokeWidth={1.75} aria-hidden="true" /> : <BookOpenText size={16} strokeWidth={1.75} aria-hidden="true" />}
-          {week.source === 'resume' ? t('start.week.sourceResume') : t('start.week.sourceOnet')}
+          {week.source === 'resume' ? (described ? t('start.week.sourceDescription') : t('start.week.sourceResume')) : t('start.week.sourceOnet')}
         </p>
       </div>
 
@@ -260,23 +314,67 @@ function WeekEditor({
       ) : null}
 
       <ol className={st.rows}>
-        {rows.map((id) => (
-          <TaskEditRow
-            key={id}
-            id={id}
-            label={labelOf(id)}
-            text={textOf(id)}
-            share={shareOf.get(id)!}
-            count={shares.length}
-            quotes={matches[id]}
-            active={active === id}
-            onChange={onChange}
-            onCommit={onCommit}
-            onDrag={onDrag}
-            onHover={dragging ? undefined : setActive}
-            onRemove={remove}
-          />
-        ))}
+        {rows.map((id) => {
+          const task = byId.get(id)!;
+          const label = labelOf(id);
+          const text = textOf(id);
+          const quotes = matches[id];
+          const isOpen = !!open[id];
+          const canOpen = text.length > label.length + 12 || (quotes?.length ?? 0) > 1;
+          return (
+            <li key={id} data-row={id} onPointerEnter={() => !dragging && setActive(id)} onPointerLeave={() => !dragging && setActive(null)}>
+              <TaskRow
+                id={id}
+                text={text}
+                short={label}
+                useShort
+                hideCategory
+                showMeter={false}
+                editing
+                selected={active === id}
+                share={shareOf.get(id)!}
+                category={task.evidence.category}
+                evidence={task.evidence}
+                sliderMax={Math.min(60, 100 - (shares.length - 1))}
+                onShareChange={onChange}
+                onShareCommit={() => publishSoon()}
+                onDragChange={setDragging}
+                onEditFocus={onEditFocus}
+                details={
+                  canOpen || quotes?.length ? (
+                    <>
+                      {isOpen ? <p className={st.rowFull}>{text}</p> : null}
+                      {quotes?.length ? (
+                        <p className={st.quote} data-open={isOpen || undefined}>
+                          <span>{described ? t('start.week.fromDescription') : t('start.week.fromResume')}</span>{' '}
+                          {(isOpen ? quotes : quotes.slice(0, 1)).map((q) => `“${q}”`).join(' ')}
+                        </p>
+                      ) : null}
+                      {canOpen ? (
+                        <button type="button" className={st.rowToggle} aria-expanded={isOpen} onClick={() => setOpen((o) => ({ ...o, [id]: !o[id] }))}>
+                          {isOpen ? t('start.week.hideTask') : t('start.week.fullTask')}
+                        </button>
+                      ) : null}
+                    </>
+                  ) : null
+                }
+                actions={
+                  <button
+                    type="button"
+                    className={st.rowRemove}
+                    onClick={() => remove(id)}
+                    aria-label={t('start.week.removeTask', { label })}
+                    aria-disabled={shares.length <= 2 || undefined}
+                    title={shares.length <= 2 ? t('start.week.minTasks') : undefined}
+                  >
+                    <Trash2 size={18} strokeWidth={1.75} aria-hidden="true" />
+                    <span>{t('start.week.remove')}</span>
+                  </button>
+                }
+              />
+            </li>
+          );
+        })}
       </ol>
 
       <div className={st.listFoot}>
@@ -292,6 +390,7 @@ function WeekEditor({
                 className={st.linkBtn}
                 onClick={() => {
                   const u = notice.undo!;
+                  base.current = null;
                   setShares(u.shares);
                   sharesRef.current = u.shares;
                   setOrder(u.order);
@@ -311,7 +410,7 @@ function WeekEditor({
           <h2 id="unmatched-title" className={st.h3}>
             {t('start.week.unmatchedTitle')}
           </h2>
-          <p className={st.unmatchedLead}>{t('start.week.unmatchedLead')}</p>
+          <p className={st.unmatchedLead}>{described ? t('start.week.unmatchedLeadDescription') : t('start.week.unmatchedLead')}</p>
           <ul>
             {unmapped.map((d) => (
               <li key={d}>
@@ -330,6 +429,8 @@ function WeekEditor({
           size="lg"
           className={st.submit}
           onClick={() => {
+            window.clearTimeout(draftTimer.current);
+            draftTimer.current = 0;
             publish({});
             onScan(true);
           }}
@@ -348,86 +449,3 @@ function WeekEditor({
     </section>
   );
 }
-
-/* ---------- one task of the week ---------- */
-
-const TaskEditRow = memo(function TaskEditRow({
-  id,
-  label,
-  text,
-  share,
-  count,
-  quotes,
-  active,
-  onChange,
-  onCommit,
-  onDrag,
-  onHover,
-  onRemove,
-}: {
-  id: string;
-  label: string;
-  text: string;
-  share: number;
-  count: number;
-  quotes?: string[];
-  active: boolean;
-  onChange: (id: string, v: number) => void;
-  onCommit: () => void;
-  onDrag: (id: string | null) => void;
-  onHover?: (id: string | null) => void;
-  onRemove: (id: string) => void;
-}) {
-  const { t } = useT();
-  const { s, hours, num } = useKit();
-  const [open, setOpen] = useState(false);
-  const h = hoursOf(share);
-  const showFullToggle = text.length > label.length + 12 || (quotes?.length ?? 0) > 1;
-  return (
-    <li className={st.row} data-active={active || undefined} onPointerEnter={() => onHover?.(id)} onPointerLeave={() => onHover?.(null)}>
-      <div className={st.rowText}>
-        <p className={st.rowLabel}>{label}</p>
-        {showFullToggle ? (
-          <>
-            {open ? <p className={st.rowFull}>{text}</p> : null}
-            <button type="button" className={st.rowToggle} aria-expanded={open} onClick={() => setOpen((o) => !o)}>
-              {open ? t('start.week.hideTask') : t('start.week.fullTask')}
-            </button>
-          </>
-        ) : null}
-      </div>
-      {quotes?.length ? (
-        <p className={st.quote} data-open={open || undefined}>
-          <span>{t('start.week.fromResume')}</span> {(open ? quotes : quotes.slice(0, 1)).map((q) => `“${q}”`).join(' ')}
-        </p>
-      ) : null}
-      <div className={st.rowSlider}>
-        <Slider
-          label={`${t('start.week.share')}: ${label}`}
-          value={share}
-          min={1}
-          max={Math.min(60, 100 - (count - 1))}
-          format={(v) => `${num(v)}%, ${s.hoursShort(hours(hoursOf(v)))}`}
-          onChange={(v) => onChange(id, v)}
-          onCommit={onCommit}
-          onDragChange={(d) => onDrag(d ? id : null)}
-        />
-      </div>
-      <div className={st.rowAmount} aria-hidden="true">
-        <b>{s.hoursShort(hours(h))}</b>
-        <span>{num(share)}%</span>
-      </div>
-      <button
-        type="button"
-        className={st.rowRemove}
-        onClick={() => onRemove(id)}
-        aria-label={t('start.week.removeTask', { label })}
-        aria-disabled={count <= 2 || undefined}
-        title={count <= 2 ? t('start.week.minTasks') : undefined}
-      >
-        <Trash2 size={18} strokeWidth={1.75} aria-hidden="true" />
-        <span>{t('start.week.remove')}</span>
-      </button>
-    </li>
-  );
-});

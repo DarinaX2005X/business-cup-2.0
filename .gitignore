@@ -47,3 +47,8 @@ next-env.d.ts
 
 .vercel
 .env*
+
+# agent working files (kept outside the published repo)
+AGENTS.md
+CLAUDE.md
+REQUESTS.md

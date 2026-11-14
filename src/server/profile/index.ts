@@ -192,6 +192,8 @@ export async function deleteProfile(id: string): Promise<void> {
   const store = getStore();
   const owned = await profileOwnedKeys(profile);
   await store.del(profileKey(id));
+  // drop the profile from this week's leaderboard too (dynamic import avoids a cycle)
+  await (await import('@/server/leaderboard')).removeFromBoards(id).catch(() => undefined);
   await Promise.all(owned.map((k) => store.del(k)));
 }
 

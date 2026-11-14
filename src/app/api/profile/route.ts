@@ -3,6 +3,7 @@ import { dayKey, hashIp } from '@/server/ai/budget';
 import { getStore } from '@/server/store';
 import { createProfile, deleteProfile, toPublicProfile, updateProfile } from '@/server/profile';
 import { clientIp, clientTz, HttpError, readJson, requireProfile, withApi } from '@/server/profile/http';
+import { cleanNickname } from '@/domain/points';
 
 const localeSchema = z.enum(['en', 'ru', 'kk']);
 /**
@@ -30,6 +31,8 @@ const patchSchema = z
     tz: z.string().max(64).nullable().optional(),
     /** Added to the stored list (union), so two tabs marking different hints both keep theirs. */
     hintsSeen: z.array(z.string().min(1).max(64)).max(50).optional(),
+    /** Leaderboard handle; null clears it. Checked by cleanNickname. */
+    nickname: z.string().max(60).nullable().optional(),
   })
   .refine((p) => Object.keys(p).length > 0, 'nothing to change');
 
@@ -61,11 +64,20 @@ export const PATCH = withApi(async (req: Request) => {
   const auth = await requireProfile(req);
   const patch = await readJson(req, patchSchema);
   if (patch.tz && !validTz(patch.tz)) throw new HttpError(400, 'invalid_input', 'tz: unknown time zone');
+  let nickname: string | null | undefined;
+  if (patch.nickname === null) nickname = null;
+  else if (typeof patch.nickname === 'string') {
+    const res = cleanNickname(patch.nickname);
+    if (!res.ok) throw new HttpError(400, 'invalid_nickname', "Use 2-24 letters, numbers, spaces or . _ ' -, and keep it friendly.", { reason: res.reason });
+    nickname = res.value;
+  }
   const { profile } = await updateProfile(auth.id, (p) => {
     if (patch.locale !== undefined) p.locale = patch.locale;
     if (patch.salary !== undefined) p.salary = patch.salary;
     if (patch.sound !== undefined) p.sound = patch.sound;
     if (patch.tz !== undefined) p.tz = patch.tz;
+    if (nickname === null) delete p.nickname;
+    else if (nickname !== undefined) p.nickname = nickname;
     if (patch.hintsSeen) p.hintsSeen = [...new Set([...p.hintsSeen, ...patch.hintsSeen])].slice(-MAX_HINTS);
   }, { current: auth });
   return Response.json(toPublicProfile(profile));

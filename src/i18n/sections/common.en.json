@@ -19,7 +19,22 @@
     "rate_limited": "You've reached today's limit for this action. It resets tomorrow.",
     "storage_unavailable": "We couldn't save right now. Try again in a minute.",
     "ai_unavailable": "The AI part is unavailable right now. Everything else works, so try this again a bit later.",
-    "server_error": "Something went wrong on our side. Try again in a minute."
+    "server_error": "Something went wrong on our side. Try again in a minute.",
+    "pro_required": "Daily reps are part of Pro. Your free rep and AI or me are still here.",
+    "no_xray": "Make your week map first: reps are built from its tasks.",
+    "daily_exists": "Today's rep is already started. Reload the page to open it.",
+    "extra_limit": "You've done all three practice reps for today. New ones open tomorrow.",
+    "in_progress": "A rep is already being written. Give it a few seconds, then try again.",
+    "trial_used": "Your free rep is used. Pro gives you one every day.",
+    "generation_failed": "We couldn't write this rep. Nothing was saved or counted, so you can start it again.",
+    "already_done": "This rep is already checked. Its review is open.",
+    "already_run": "The AI already ran your instructions. Review what it wrote.",
+    "not_run": "Run your instructions first.",
+    "no_replies_left": "You've used all six replies. Finish to get your feedback.",
+    "nothing_to_grade": "Reply at least once before asking for feedback.",
+    "already_played": "You've already played today's round.",
+    "stale_round": "Today's round changed. Reload the page to get the new one.",
+    "work_log_limit": "You can log up to three entries a day. Log the rest tomorrow."
   },
   "profile": {
     "orphaned": "We couldn't find your saved profile on this device.",

@@ -4,7 +4,8 @@ import s1_common from '../sections/common.ru.json';
 import s2_method from '../sections/method.ru.json';
 import s3_shell from '../sections/shell.ru.json';
 import s4_start from '../sections/start.ru.json';
-import s5_xray from '../sections/xray.ru.json';
+import s5_today from '../sections/today.ru.json';
+import s6_xray from '../sections/xray.ru.json';
 
 const catalog: Record<string, unknown> = {
   "category": s0_category,
@@ -12,7 +13,8 @@ const catalog: Record<string, unknown> = {
   "method": s2_method,
   "shell": s3_shell,
   "start": s4_start,
-  "xray": s5_xray,
+  "today": s5_today,
+  "xray": s6_xray,
 };
 
 export default catalog;

@@ -34,7 +34,7 @@ export const NAV_SECTIONS: NavSection[] = [
     id: 'today',
     labelKey: 'shell.nav.today',
     icon: CalendarCheck,
-    enabled: false,
+    enabled: true,
     href: () => '/today',
     match: (p) => p.startsWith('/today'),
   },

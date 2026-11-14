@@ -5,7 +5,8 @@ import s2_jobs from '../sections/jobs.en.json';
 import s3_method from '../sections/method.en.json';
 import s4_shell from '../sections/shell.en.json';
 import s5_start from '../sections/start.en.json';
-import s6_xray from '../sections/xray.en.json';
+import s6_today from '../sections/today.en.json';
+import s7_xray from '../sections/xray.en.json';
 
 const catalog: Record<string, unknown> = {
   "category": s0_category,
@@ -14,7 +15,8 @@ const catalog: Record<string, unknown> = {
   "method": s3_method,
   "shell": s4_shell,
   "start": s5_start,
-  "xray": s6_xray,
+  "today": s6_today,
+  "xray": s7_xray,
 };
 
 export default catalog;

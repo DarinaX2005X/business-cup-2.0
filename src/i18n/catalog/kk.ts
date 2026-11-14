@@ -4,7 +4,8 @@ import s1_common from '../sections/common.kk.json';
 import s2_method from '../sections/method.kk.json';
 import s3_shell from '../sections/shell.kk.json';
 import s4_start from '../sections/start.kk.json';
-import s5_xray from '../sections/xray.kk.json';
+import s5_today from '../sections/today.kk.json';
+import s6_xray from '../sections/xray.kk.json';
 
 const catalog: Record<string, unknown> = {
   "category": s0_category,
@@ -12,7 +13,8 @@ const catalog: Record<string, unknown> = {
   "method": s2_method,
   "shell": s3_shell,
   "start": s4_start,
-  "xray": s5_xray,
+  "today": s5_today,
+  "xray": s6_xray,
 };
 
 export default catalog;

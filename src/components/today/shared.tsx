@@ -190,6 +190,24 @@ export function WorkLog({ rep }: { rep: RepView }) {
   );
 }
 
+/* ---------- the Pro paywall: the trial button and room for a second, quieter offer ---------- */
+
+/**
+ * Every Free paywall on Today goes through here: «Start your 7-day free trial» to /pricing, and a slot
+ * beside it for a second, quieter action (stage 04 puts its offer there). Empty until then.
+ */
+export function PaywallActions({ extra }: { extra?: ReactNode }) {
+  const { t } = useT();
+  return (
+    <div className={st.payActions}>
+      <Link href="/pricing" className={`${btn.btn} ${btn.b_primary}`}>
+        {t('today.free.trialCta')}
+      </Link>
+      {extra}
+    </div>
+  );
+}
+
 /* ---------- the result of a rep: score, streak, proof, next steps ---------- */
 
 export function proofText(t: ReturnType<typeof useT>['t'], rep: RepView): string {
@@ -209,6 +227,7 @@ export function Outcome({
   tally,
   isFree,
   onPractice,
+  layout = 'column',
 }: {
   rep: RepView;
   streak: Streak | null;
@@ -217,6 +236,8 @@ export function Outcome({
   tally: ReactNode;
   isFree: boolean;
   onPractice: () => void;
+  /** `band`: one wide strip above the document (Spot the slip), so the sheet keeps its margin. */
+  layout?: 'column' | 'band';
 }) {
   const { t } = useT();
   const r = rep.result;
@@ -234,50 +255,49 @@ export function Outcome({
   const streakNow = streak?.current ?? 0;
 
   return (
-    <div className={st.outcome}>
-      <div className={st.tallyWrap}>{tally}</div>
+    <div className={st.outcome} data-layout={layout}>
+      <div className={st.oTally}>{tally}</div>
 
-      {change && (change.before > 0 || change.after > 0) ? (
-        <div className={st.outRow}>
-          <ScoreDial variant="compact" value={settled ? change.after : change.before} delta={settled && change.after !== change.before ? change.after - change.before : undefined} label={t('today.result.score')} />
-        </div>
-      ) : null}
-
-      {counts && week ? (
-        <div className={st.outRow}>
-          <StreakWeek done={week.done} today={week.today} />
-          <p className={st.outNote}>{streakNow > 0 ? t('today.result.streakLine', { count: streakNow }) : t('today.result.streakStart')}</p>
-        </div>
-      ) : !counts ? (
-        <p className={st.outNote}>{t('today.result.extraNoStreak')}</p>
-      ) : null}
-
-      <div className={st.proof}>
-        <FileCheck2 size={20} strokeWidth={1.75} aria-hidden="true" />
-        <div>
-          <b>{t('today.result.proof')}</b>
-          <span>{proofText(t, rep)}</span>
-        </div>
-        {r && r.points > 0 ? <span className={st.pointsChip}>{t('today.result.points', { count: r.points })}</span> : null}
+      <div className={st.oProgress}>
+        {change && (change.before > 0 || change.after > 0) ? (
+          <div className={st.outRow}>
+            <ScoreDial variant="compact" value={settled ? change.after : change.before} delta={settled && change.after !== change.before ? change.after - change.before : undefined} label={t('today.result.score')} />
+          </div>
+        ) : null}
+        {counts && week ? (
+          <div className={st.outRow}>
+            <StreakWeek done={week.done} today={week.today} />
+            <p className={st.outNote}>{streakNow > 0 ? t('today.result.streakLine', { count: streakNow }) : t('today.result.streakStart')}</p>
+          </div>
+        ) : !counts ? (
+          <p className={st.outNote}>{t('today.result.extraNoStreak')}</p>
+        ) : null}
       </div>
 
-      {isFree ? (
-        <div className={st.upsell}>
-          <b>{t('today.result.trialDone')}</b>
-          <p>{t('today.result.trialBody')}</p>
-          <Link href="/pricing" className={`${btn.btn} ${btn.b_primary}`}>
-            {t('today.free.trialCta')}
-          </Link>
+      <div className={st.oNext}>
+        <div className={st.proof}>
+          <FileCheck2 size={20} strokeWidth={1.75} aria-hidden="true" />
+          <div>
+            <b>{t('today.result.proof')}</b>
+            <span>{proofText(t, rep)}</span>
+          </div>
+          {r && r.points > 0 ? <span className={st.pointsChip}>{t('today.result.points', { count: r.points })}</span> : null}
         </div>
-      ) : null}
-
-      <div className={st.outActions}>
-        {!isFree ? (
-          <Button variant="primary" onClick={onPractice}>
-            {t('today.result.practiseMore')}
-          </Button>
+        {isFree ? (
+          <div className={st.upsell}>
+            <b>{t('today.result.trialDone')}</b>
+            <p>{t('today.result.trialBody')}</p>
+            <PaywallActions />
+          </div>
         ) : null}
-        <WorkLog rep={rep} />
+        <div className={st.outActions}>
+          {!isFree ? (
+            <Button variant="primary" onClick={onPractice}>
+              {t('today.result.practiseMore')}
+            </Button>
+          ) : null}
+          <WorkLog rep={rep} />
+        </div>
       </div>
     </div>
   );

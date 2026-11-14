@@ -1,0 +1,512 @@
+/*
+ * Human edge: one sheet holds the situation, the person on the other side (an initial in a warm
+ * circle, never a face) and the conversation. Their lines sit on light warm paper on the left, yours
+ * on violet-soft on the right. After the grade the editor's notes stand in the margin beside the reply
+ * they quote, and the hidden reason unfolds under the talk.
+ */
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 860px);
+  gap: 36px;
+  align-items: start;
+}
+
+.grid[data-done] {
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 360px);
+}
+
+.main,
+.side {
+  min-width: 0;
+}
+
+.side {
+  position: sticky;
+  top: 88px;
+}
+
+.sheet {
+  border-radius: var(--r-card);
+  background: var(--card);
+  box-shadow:
+    var(--hl),
+    inset 0 0 0 1px oklch(89% 0.03 290),
+    var(--shadow-raised);
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px 28px;
+  margin: 0;
+  padding: 26px 30px 24px;
+  box-shadow: inset 0 -1px 0 var(--line);
+}
+
+.facts dt {
+  font-size: 14px;
+  font-weight: 650;
+  color: var(--ink-2);
+  margin-bottom: 4px;
+}
+
+.facts dd {
+  margin: 0;
+  font-size: 15.5px;
+  line-height: 1.5;
+}
+
+.who {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.initial,
+.avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font-weight: 700;
+  color: var(--ink);
+  background: linear-gradient(180deg, var(--apricot-hi), var(--apricot) 55%, var(--apricot-low));
+  box-shadow:
+    inset 0 1px 0 oklch(100% 0 0 / 0.6),
+    0 1px 0 var(--apricot-deep),
+    0 4px 8px -4px oklch(52% 0.13 45 / 0.5);
+}
+
+.initial {
+  width: 40px;
+  height: 40px;
+  font-size: 17px;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  font-size: 14px;
+  margin-top: 2px;
+}
+
+/* ---------- the conversation ---------- */
+
+.talk {
+  display: grid;
+  gap: 14px;
+  padding: 26px 30px;
+  scroll-margin-bottom: 180px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  animation: lineIn 0.3s var(--ease) both;
+}
+
+@keyframes lineIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+.row[data-role='user'] > .bubble {
+  grid-column: 2;
+  justify-self: end;
+}
+
+.bubble {
+  max-width: min(560px, 88%);
+  margin: 0;
+  padding: 12px 16px;
+  font-size: 16.5px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.bubble[data-role='persona'] {
+  justify-self: start;
+  border-radius: 4px 18px 18px 18px;
+  background: oklch(97.4% 0.014 70);
+  box-shadow:
+    inset 0 0 0 1px oklch(91% 0.025 62),
+    0 1px 0 oklch(100% 0 0 / 0.8);
+}
+
+.bubble[data-role='user'] {
+  border-radius: 18px 4px 18px 18px;
+  background: var(--violet-soft);
+  box-shadow: inset 0 0 0 1px oklch(86% 0.06 288 / 0.6);
+}
+
+.bubble[data-pending] {
+  opacity: 0.7;
+}
+
+.bubble[data-failed] {
+  box-shadow: inset 0 0 0 1.5px oklch(70% 0.12 25);
+}
+
+.bubble[data-typing] {
+  padding: 14px 18px;
+  color: var(--ink-2);
+}
+
+.bubble[data-typing] > span:last-child {
+  margin-left: 0;
+}
+
+.failed {
+  grid-column: 2;
+  justify-self: end;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  font-size: 14.5px;
+  color: oklch(42% 0.16 25);
+}
+
+.resend {
+  min-height: 36px;
+  padding: 0 10px;
+  border-radius: 10px;
+  font-weight: 650;
+  color: var(--violet);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.resend:hover {
+  background: var(--violet-soft);
+}
+
+/* quotes the grader found in your words */
+.q {
+  color: inherit;
+  padding: 0 0.1em;
+  background: linear-gradient(transparent 52%, oklch(86% 0.095 66 / 0.7) 52%);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.q[data-status='partly'] {
+  background: linear-gradient(transparent 70%, oklch(86% 0.095 66 / 0.6) 70%);
+}
+
+.qn {
+  margin-left: 2px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--apricot-deep);
+}
+
+/* ---------- graded: notes in the margin ---------- */
+
+.sheet[data-done] .row {
+  grid-template-columns: 32px minmax(0, 1fr) 270px;
+}
+
+.margin {
+  grid-column: 3;
+  display: grid;
+  gap: 10px;
+  padding-left: 16px;
+  box-shadow: inset 1px 0 0 var(--line);
+}
+
+.note {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 10px;
+  font-size: 14.5px;
+  line-height: 1.45;
+  color: var(--ink-2);
+  animation: noteIn 0.4s var(--ease) both;
+}
+
+@keyframes noteIn {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+}
+
+.note b {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.note[data-status='met'] b {
+  color: var(--apricot-deep);
+}
+
+.note[data-status='missed'] b {
+  color: var(--violet);
+}
+
+.noteCrit {
+  color: var(--ink);
+}
+
+.note b ~ p {
+  display: inline;
+}
+
+.note[data-status='missed'] b ~ p {
+  display: block;
+}
+
+.note p {
+  margin-top: 3px;
+}
+
+.after {
+  display: grid;
+  gap: 22px;
+  padding: 4px 30px 30px;
+}
+
+.loose {
+  display: grid;
+  gap: 12px;
+  padding: 18px 20px;
+  border-radius: 16px;
+  background: var(--paper);
+}
+
+.looseTitle {
+  font-size: 16px;
+  font-weight: 650;
+  letter-spacing: 0;
+}
+
+/* the hidden reason unfolds like a note handed over after the talk */
+.hidden {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 14px;
+  padding: 20px 22px;
+  border-radius: 18px;
+  background:
+    radial-gradient(120% 90% at 10% 0%, oklch(97% 0.03 70), transparent 70%),
+    var(--speed-field);
+  box-shadow:
+    inset 0 0 0 1px oklch(88% 0.05 60),
+    0 10px 24px -14px oklch(52% 0.13 45 / 0.45);
+  transform-origin: top center;
+  animation: unfold 0.6s var(--ease-out) 0.5s both;
+}
+
+@keyframes unfold {
+  from {
+    opacity: 0;
+    transform: perspective(700px) rotateX(-70deg);
+  }
+}
+
+.hiddenTitle {
+  font-size: 15px;
+  font-weight: 650;
+  letter-spacing: 0;
+  color: var(--apricot-deep);
+  margin-bottom: 4px;
+}
+
+.hidden p {
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+.summary {
+  font-size: 17px;
+  line-height: 1.55;
+  max-width: 68ch;
+}
+
+/* ---------- composer ---------- */
+
+.composer {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  display: grid;
+  gap: 10px;
+  padding: 16px 30px 18px;
+  border-radius: 0 0 var(--r-card) var(--r-card);
+  background: oklch(98.6% 0.009 290 / 0.97);
+  box-shadow: inset 0 1px 0 var(--line);
+}
+
+.inputRow {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.input {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 52px;
+  padding: 13px 16px;
+  border: 0;
+  outline: 0;
+  resize: none;
+  border-radius: var(--r-ctl);
+  font-size: 16.5px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--card);
+  box-shadow:
+    inset 0 0 0 1.5px var(--line),
+    inset 0 1.5px 3px oklch(26% 0.09 285 / 0.06);
+  transition: box-shadow var(--t-hover) var(--ease);
+}
+
+.input:hover {
+  box-shadow:
+    inset 0 0 0 1.5px oklch(80% 0.05 288),
+    inset 0 1.5px 3px oklch(26% 0.09 285 / 0.06);
+}
+
+.input:focus {
+  box-shadow:
+    inset 0 0 0 2px var(--violet),
+    0 0 0 4px oklch(54% 0.19 286 / 0.16);
+}
+
+.input:disabled {
+  background: var(--sunk);
+  cursor: not-allowed;
+}
+
+.send {
+  flex: none;
+}
+
+.composeFoot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+}
+
+.counter {
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.keys {
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.composeFoot > :last-child:not(.keys) {
+  margin-left: auto;
+}
+
+/* ---------- tally ---------- */
+
+.tally {
+  display: grid;
+  gap: 12px;
+}
+
+.tallyBig {
+  font-size: 34px;
+  font-weight: 750;
+  letter-spacing: -0.032em;
+  line-height: 1.05;
+}
+
+.tallyRings {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tallyRings > span {
+  width: 34px;
+  height: 34px;
+  font-size: 14px;
+}
+
+.flag {
+  font-size: 14.5px;
+  line-height: 1.45;
+  color: var(--ink-2);
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--paper);
+}
+
+@media (max-width: 1100px) {
+  .grid[data-done] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .grid[data-done] .side {
+    position: static;
+    order: -1;
+  }
+}
+
+@media (max-width: 860px) {
+  .facts {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 20px 18px;
+    gap: 16px;
+  }
+  .talk {
+    padding: 20px 14px;
+  }
+  .after {
+    padding: 4px 14px 20px;
+  }
+  .sheet[data-done] .row {
+    grid-template-columns: 32px minmax(0, 1fr);
+  }
+  .margin {
+    grid-column: 2;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: var(--paper);
+    box-shadow: none;
+  }
+  .bubble {
+    max-width: 92%;
+    font-size: 16px;
+  }
+  .composer {
+    padding: 12px 14px 14px;
+    border-radius: 0;
+    margin: 0 -1px;
+  }
+  :global([data-tabbar]) .composer:not([data-kb]) {
+    bottom: calc(72px + env(safe-area-inset-bottom));
+  }
+  .keys {
+    display: none;
+  }
+  .sendWord {
+    display: none;
+  }
+}
+
+@media (hover: none) {
+  .keys {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hidden {
+    animation: none;
+  }
+}

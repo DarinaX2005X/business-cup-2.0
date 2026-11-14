@@ -1,0 +1,1023 @@
+/*
+ * Today. The working object is the sheet (Rep card, case, conversation); everything else is quieter.
+ * The hub has three kinds of thing: choice cards with their own small scenes, the day's result on the
+ * violet field, and AI or me as a stack of cards. One light from the top left, the kit's shadows.
+ */
+
+.page,
+.repPage {
+  max-width: calc(var(--content) + 2 * var(--s-32));
+  margin: 0 auto;
+  padding: var(--s-32) var(--s-32) var(--s-120);
+}
+
+.h1 {
+  font-size: var(--fs-44);
+  font-weight: 750;
+  letter-spacing: -0.032em;
+  line-height: 1.04;
+}
+
+.h2 {
+  font-size: var(--fs-28);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+}
+
+.hubHead {
+  display: grid;
+  gap: 10px;
+  margin-bottom: var(--s-32);
+}
+
+.hubLead {
+  max-width: 60ch;
+  font-size: var(--fs-20);
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.textBtn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 4px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--violet);
+  text-decoration: underline;
+  text-decoration-color: oklch(46% 0.205 283 / 0.35);
+  text-underline-offset: 0.22em;
+  border-radius: 8px;
+  transition:
+    text-decoration-color var(--t-hover) var(--ease),
+    color var(--t-hover) var(--ease);
+}
+
+.textBtn:hover {
+  color: var(--violet-deep);
+  text-decoration-color: currentColor;
+}
+
+.inlineError {
+  margin: 4px 0 12px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 15px;
+  line-height: 1.45;
+  color: oklch(42% 0.16 25);
+  background: var(--error-soft);
+}
+
+/* three dots that wait, used for «writing» and «typing» */
+.dots {
+  display: inline-flex;
+  gap: 4px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.dots i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.35;
+  animation: dot 1.1s var(--ease) infinite;
+}
+
+.dots i:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.dots i:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes dot {
+  0%,
+  60%,
+  100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 0.9;
+    transform: translateY(-3px);
+  }
+}
+
+/* ---------- the header of a rep ---------- */
+
+.repHead {
+  display: grid;
+  justify-items: start;
+  gap: 12px;
+  margin-bottom: var(--s-32);
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 44px;
+  margin: -10px 0 0 -10px;
+  padding: 0 12px 0 6px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink-2);
+  transition:
+    background-color var(--t-hover) var(--ease),
+    color var(--t-hover) var(--ease);
+}
+
+.back svg {
+  transition: transform var(--t-hover) var(--ease);
+}
+
+.back:hover {
+  color: var(--violet);
+  background: var(--violet-soft);
+}
+
+.back:hover svg {
+  transform: translateX(-3px);
+}
+
+.repTitle {
+  font-size: 40px;
+  font-weight: 750;
+  letter-spacing: -0.032em;
+  line-height: 1.12;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 14px;
+}
+
+/* the person's own task, under the apricot marker they will use */
+.taskPlate {
+  padding: 0 0.16em;
+  font-weight: 700;
+  background: var(--marker-found);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.repAsk {
+  max-width: 62ch;
+  font-size: var(--fs-20);
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.notes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+}
+
+/* ---------- a tile from the Week Bar ---------- */
+
+.tile {
+  flex: none;
+  display: inline-block;
+  width: 14px;
+  height: 18px;
+  border-radius: 4px 4px 2px 2px;
+  background: var(--tile-sp);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    inset 0 0 0 1px var(--tile-sp-edge),
+    0 2px 0 var(--tile-sp-face);
+}
+
+.tile[data-human] {
+  background: var(--tile-hu);
+  box-shadow:
+    inset 0 1px 0 oklch(100% 0 0 / 0.6),
+    0 2px 0 var(--tile-hu-face);
+}
+
+/* ---------- rings: the margin-note circles, reused for counts ---------- */
+
+.ring {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--violet);
+  transition:
+    background-color 0.25s var(--ease),
+    box-shadow 0.25s var(--ease),
+    color 0.25s var(--ease);
+}
+
+.ring[data-state='empty'] {
+  box-shadow: inset 0 0 0 1.75px oklch(76% 0.05 288);
+  outline: 1.75px dashed transparent;
+}
+
+.ring[data-state='mark'] {
+  color: var(--ink);
+  background: var(--violet-soft);
+  box-shadow: inset 0 0 0 1px oklch(84% 0.06 288);
+}
+
+.ring[data-state='found'] {
+  color: var(--ink);
+  background: linear-gradient(180deg, var(--apricot-hi), var(--apricot));
+  box-shadow:
+    inset 0 1px 0 oklch(100% 0 0 / 0.6),
+    0 1px 0 var(--apricot-deep);
+  animation: stamp 0.42s var(--spring) both;
+  animation-delay: inherit;
+}
+
+.ring[data-state='partly'] {
+  color: var(--ink);
+  background: linear-gradient(90deg, var(--apricot-hi) 50%, transparent 50%);
+  box-shadow: inset 0 0 0 1.75px var(--apricot-low);
+  animation: stamp 0.42s var(--spring) both;
+}
+
+.ring[data-state='missed'] {
+  box-shadow: inset 0 0 0 1.75px var(--violet);
+  color: var(--violet);
+  animation: ringIn 0.4s var(--ease) both;
+}
+
+@keyframes stamp {
+  from {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+  60% {
+    opacity: 1;
+  }
+}
+
+@keyframes ringIn {
+  from {
+    box-shadow: inset 0 0 0 1.75px oklch(46% 0.205 283 / 0), 0 0 0 8px oklch(46% 0.205 283 / 0.12);
+  }
+}
+
+/* ---------- the outcome column ---------- */
+
+.outcome {
+  display: grid;
+  gap: 22px;
+  padding: 28px 26px 26px;
+  border-radius: var(--r-card);
+  background: var(--card);
+  box-shadow:
+    var(--hl),
+    inset 0 0 0 1px oklch(90% 0.03 290),
+    var(--shadow-raised);
+}
+
+.oTally {
+  padding-bottom: 20px;
+  box-shadow: 0 1px 0 var(--line);
+}
+
+.oProgress,
+.oNext {
+  display: grid;
+  gap: 22px;
+  align-content: start;
+  min-width: 0;
+}
+
+/* Spot the slip: the result runs as one strip above the sheet, so the sheet keeps a roomy margin */
+.outcome[data-layout='band'] {
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 0;
+  padding: 26px 0;
+}
+
+.outcome[data-layout='band'] > div {
+  padding: 0 28px;
+}
+
+.outcome[data-layout='band'] .oTally {
+  padding-bottom: 0;
+  box-shadow: none;
+}
+
+.outcome[data-layout='band'] .oProgress,
+.outcome[data-layout='band'] .oNext {
+  box-shadow: inset 1px 0 0 var(--line);
+}
+
+@media (max-width: 1100px) {
+  .outcome[data-layout='band'] {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    row-gap: 24px;
+  }
+  .outcome[data-layout='band'] .oTally {
+    grid-column: 1 / -1;
+    padding-bottom: 20px;
+    box-shadow: 0 1px 0 var(--line);
+    margin: 0 28px;
+    padding-inline: 0;
+  }
+  .outcome[data-layout='band'] .oProgress {
+    box-shadow: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .outcome[data-layout='band'] {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 22px 0 20px;
+  }
+  .outcome[data-layout='band'] > div {
+    padding: 0 18px;
+  }
+  .outcome[data-layout='band'] .oTally {
+    margin: 0 18px;
+  }
+  .outcome[data-layout='band'] .oNext {
+    box-shadow: none;
+  }
+}
+
+.outRow {
+  display: grid;
+  gap: 10px;
+  justify-items: start;
+}
+
+.outNote {
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.proof {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: start;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--paper);
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.proof svg {
+  margin-top: 2px;
+  color: var(--violet);
+}
+
+.proof b {
+  display: block;
+  color: var(--ink);
+  font-weight: 650;
+}
+
+.pointsChip {
+  align-self: center;
+  padding: 3px 10px;
+  border-radius: 9px;
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--apricot-hi);
+}
+
+.upsell {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+  padding: 18px;
+  border-radius: 16px;
+  background: var(--violet-soft);
+}
+
+.upsell b {
+  font-size: 18px;
+  letter-spacing: -0.01em;
+}
+
+.upsell p {
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--ink-2);
+  margin-bottom: 6px;
+}
+
+.payActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+}
+
+.outActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.outActions > * {
+  flex: 1 1 auto;
+}
+
+/* «I used this at work» opens in place */
+.workLog {
+  flex-basis: 100%;
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border-radius: 16px;
+  background: var(--paper);
+  box-shadow: inset 0 0 0 1px var(--line);
+  animation: open 0.28s var(--ease) both;
+}
+
+@keyframes open {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+.workTitle {
+  font-size: 17px;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
+.workRow {
+  display: grid;
+  gap: 8px;
+}
+
+.workLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.workBtns {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.workDone {
+  flex-basis: 100%;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 14px 16px;
+  border-radius: 14px;
+  font-size: 15px;
+  line-height: 1.45;
+  background: var(--speed-field);
+}
+
+.workDone svg {
+  flex: none;
+  margin-top: 2px;
+  color: var(--apricot-deep);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  min-height: 40px;
+  padding: 6px 14px;
+  border-radius: var(--r-chip);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--card);
+  box-shadow: inset 0 0 0 1.5px var(--line);
+  transition:
+    background-color var(--t-hover) var(--ease),
+    box-shadow var(--t-hover) var(--ease),
+    transform var(--t-press) var(--ease);
+}
+
+.chip:hover {
+  box-shadow: inset 0 0 0 1.5px oklch(80% 0.05 288);
+}
+
+.chip:active {
+  transform: scale(0.97);
+}
+
+.chip[aria-checked='true'] {
+  color: var(--violet-deep);
+  background: var(--violet-soft);
+  box-shadow: inset 0 0 0 2px var(--violet);
+}
+
+/* ---------- loading, waiting, empty ---------- */
+
+.skelSheet {
+  max-width: 760px;
+  border-radius: var(--r-card);
+  background: var(--card);
+  box-shadow:
+    inset 0 0 0 1px oklch(89% 0.03 290),
+    var(--shadow-raised);
+}
+
+.skelHead {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 32px;
+  padding: 32px 0 18px;
+  box-shadow: 0 1px 0 var(--line);
+}
+
+.skelLines {
+  display: grid;
+  gap: 14px;
+  padding: 24px 32px 36px;
+}
+
+.skelGap {
+  height: 4px;
+}
+
+.genStage {
+  display: grid;
+  gap: 16px;
+}
+
+.genStage .skelSheet {
+  width: 100%;
+}
+
+/* lines draw in one after another, like a sheet being written */
+.genStage .skelLines > span {
+  transform-origin: left center;
+  animation: write 0.7s var(--ease) both;
+}
+
+@keyframes write {
+  from {
+    transform: scaleX(0.04);
+    opacity: 0.4;
+  }
+}
+
+.genHint {
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+.empty {
+  display: grid;
+  grid-template-columns: minmax(0, 420px) minmax(0, 1fr);
+  gap: var(--s-48);
+  align-items: center;
+  padding: var(--s-48) 0;
+}
+
+.emptyArt svg {
+  width: 100%;
+  height: auto;
+}
+
+.emptyText {
+  display: grid;
+  gap: 16px;
+  justify-items: start;
+  max-width: 52ch;
+}
+
+.emptyText p {
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
+/* ---------- a rep left open ---------- */
+
+.cont {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 440px);
+  gap: var(--s-32);
+  padding: 32px 0 0 40px;
+  border-radius: var(--r-panel);
+  background: var(--violet-soft);
+  box-shadow: inset 0 0 0 1px oklch(86% 0.06 288 / 0.6);
+  overflow: hidden;
+}
+
+.contText {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: 14px;
+  padding-bottom: 36px;
+}
+
+.contTitle {
+  font-size: var(--fs-28);
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+}
+
+.contTask {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+/* the sheet itself peeks out of the card, cut by its lower edge */
+.peek {
+  position: relative;
+  align-self: end;
+  display: block;
+  padding: 0 32px 0 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+.peekSheet {
+  display: grid;
+  gap: 12px;
+  min-height: 170px;
+  padding: 26px 28px 30px;
+  border-radius: 18px 18px 0 0;
+  background: var(--card);
+  box-shadow:
+    var(--hl),
+    0 1px 2px oklch(26% 0.09 285 / 0.1),
+    0 18px 40px -16px oklch(26% 0.09 285 / 0.3);
+  transform: translateY(10px) rotate(-1.2deg);
+  transform-origin: 30% 100%;
+  transition: transform 0.35s var(--ease-out);
+}
+
+.cont:hover .peekSheet {
+  transform: translateY(0) rotate(-0.4deg);
+}
+
+.peekTitle {
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  padding-bottom: 12px;
+  box-shadow: 0 1px 0 var(--line);
+}
+
+.peekBar {
+  display: block;
+  height: 10px;
+  border-radius: 5px;
+  background: var(--sunk);
+}
+
+.peekTalk {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.peekInitial {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  font-weight: 700;
+  background: linear-gradient(180deg, var(--apricot-hi), var(--apricot));
+}
+
+.peekLine {
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--ink-2);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  padding: 10px 14px;
+  border-radius: 4px 16px 16px 16px;
+  background: var(--paper);
+}
+
+/* ---------- the day is done: the result on the violet field ---------- */
+
+.done {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--s-32) var(--s-48);
+  align-items: end;
+  padding: 44px 48px 44px;
+  border-radius: var(--r-panel);
+  overflow: hidden;
+}
+
+.doneArches {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.doneText {
+  display: grid;
+  gap: 14px;
+  justify-items: start;
+  min-width: 0;
+}
+
+.doneTitle {
+  font-size: var(--fs-44);
+  font-weight: 750;
+  letter-spacing: -0.032em;
+  line-height: 1.04;
+  color: #fff;
+}
+
+.doneLine {
+  max-width: 54ch;
+  font-size: var(--fs-20);
+  line-height: 1.45;
+  color: var(--on-violet);
+}
+
+.doneType {
+  font-weight: 700;
+}
+
+.doneActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  margin-top: 8px;
+}
+
+.doneNext {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--on-violet-2);
+}
+
+.doneStreak {
+  display: grid;
+  gap: 10px;
+  justify-items: end;
+}
+
+.doneStreakLine {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--on-violet-2);
+}
+
+.more {
+  margin-top: var(--s-48);
+  display: grid;
+  gap: var(--s-24);
+}
+
+.moreHead {
+  display: grid;
+  gap: 6px;
+}
+
+.moreLead {
+  font-size: 17px;
+  color: var(--ink-2);
+}
+
+.extras {
+  list-style: none;
+  display: grid;
+  gap: 2px;
+}
+
+.extra {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 56px;
+  padding: 6px 4px;
+}
+
+.extra + .extra {
+  box-shadow: 0 -1px 0 var(--line);
+}
+
+.extraText {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 16px;
+  color: var(--ink-2);
+}
+
+.extraText b {
+  color: var(--ink);
+}
+
+.aiOrMeSlot {
+  margin-top: var(--s-72);
+}
+
+/* ---------- Free ---------- */
+
+.freeGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: var(--s-32);
+  align-items: start;
+}
+
+.freeMain,
+.freeSide {
+  min-width: 0;
+}
+
+.trial {
+  display: grid;
+  grid-template-rows: auto auto;
+  gap: 8px;
+  padding: 44px 44px 0;
+  border-radius: var(--r-panel);
+  overflow: hidden;
+}
+
+.trialText {
+  display: grid;
+  gap: 16px;
+  justify-items: start;
+}
+
+.trialTitle {
+  font-size: var(--fs-44);
+  font-weight: 750;
+  letter-spacing: -0.032em;
+  line-height: 1.04;
+  color: #fff;
+}
+
+.trialBody {
+  max-width: 46ch;
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--on-violet);
+  margin-bottom: 6px;
+}
+
+.fieldError {
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 15px;
+  color: var(--ink);
+  background: oklch(95% 0.03 25);
+}
+
+.trialArt {
+  position: relative;
+  height: 230px;
+  margin-top: 12px;
+}
+
+.trialSvg {
+  position: absolute;
+  left: 50%;
+  bottom: -70px;
+  width: 520px;
+  max-width: none;
+  height: auto;
+  transform: translateX(-46%) rotate(-2deg);
+  transition: transform 0.5s var(--ease-out);
+}
+
+.trial:hover .trialSvg {
+  transform: translateX(-46%) rotate(-3.5deg) translateY(-8px);
+}
+
+.freeUsed {
+  display: grid;
+  gap: var(--s-24);
+}
+
+/* ---------- narrow ---------- */
+
+@media (max-width: 1080px) {
+  .freeGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .done {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .doneStreak {
+    justify-items: start;
+  }
+}
+
+@media (max-width: 768px) {
+  .page,
+  .repPage {
+    padding: var(--s-24) var(--s-16) var(--s-72);
+  }
+  .h1,
+  .doneTitle,
+  .trialTitle {
+    font-size: 32px;
+  }
+  .repTitle {
+    font-size: 30px;
+    gap: 2px 10px;
+  }
+  .repAsk,
+  .hubLead,
+  .doneLine {
+    font-size: 17px;
+  }
+  .hubHead {
+    margin-bottom: var(--s-24);
+  }
+  .empty {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-24);
+    padding: 0;
+  }
+  .emptyArt {
+    max-width: 300px;
+  }
+  .cont {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 24px 0 0 22px;
+    gap: 0;
+  }
+  .contText {
+    padding: 0 22px 24px 0;
+  }
+  .peek {
+    padding-right: 22px;
+  }
+  .peekSheet {
+    min-height: 120px;
+  }
+  .done,
+  .trial {
+    padding: 28px 22px;
+    border-radius: 24px;
+  }
+  .trial {
+    padding-bottom: 0;
+  }
+  .trialArt {
+    height: 170px;
+  }
+  .trialSvg {
+    width: 380px;
+    bottom: -60px;
+  }
+  .outcome {
+    padding: 22px 18px 20px;
+  }
+  .aiOrMeSlot {
+    margin-top: var(--s-48);
+  }
+  .skelHead {
+    margin: 0 20px;
+    padding-top: 24px;
+  }
+  .skelLines {
+    padding: 20px 20px 28px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .peekSheet,
+  .trialSvg {
+    transition: none;
+  }
+}

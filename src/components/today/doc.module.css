@@ -1,0 +1,100 @@
+/* Read-only documents inside a rep: the Delegate material and the person's own instructions. */
+
+.doc {
+  display: grid;
+  gap: 8px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.p,
+.li,
+.sub {
+  margin: 0;
+}
+
+.sub {
+  color: var(--ink-2);
+  font-size: 15px;
+}
+
+.h1 {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.h2 {
+  margin-top: 8px;
+  font-size: 16.5px;
+  font-weight: 700;
+}
+
+.li {
+  display: flex;
+  gap: 10px;
+}
+
+.bullet {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  margin-top: 0.75em;
+  border-radius: 2px;
+  background: var(--machine);
+}
+
+.tableWrap {
+  overflow-x: auto;
+}
+
+.table {
+  border-collapse: collapse;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.table th {
+  text-align: left;
+  font-weight: 500;
+  font-size: 13.5px;
+  color: var(--ink-2);
+  padding: 0 28px 2px 0;
+}
+
+.table td {
+  font-weight: 600;
+  padding: 0 28px 2px 0;
+  vertical-align: top;
+}
+
+.mark {
+  color: inherit;
+  padding: 1px 2px;
+  margin: 0 -1px;
+  border-radius: 3px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.mark[data-kind='caught'] {
+  background: var(--marker-found);
+}
+
+.mark[data-kind='missed'] {
+  background: none;
+  box-shadow: 0 0 0 1.75px var(--violet);
+}
+
+.mark[data-kind='quote'] {
+  background: linear-gradient(transparent 52%, oklch(86% 0.095 66 / 0.7) 52%);
+  padding: 0 0.1em;
+  margin: 0;
+}
+
+.n {
+  margin-left: 2px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-2);
+}

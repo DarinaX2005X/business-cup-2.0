@@ -1,0 +1,422 @@
+/*
+ * Spot the slip: the sheet leads, a tally plane sits beside it (rings for what to find, the person's
+ * highlights, time, the check). After checking the plane becomes the result slip and the corrections
+ * run under the sheet. On phones the tally becomes a panel at the bottom of the screen.
+ */
+
+.work {
+  display: grid;
+  grid-template-columns: minmax(0, 760px) minmax(300px, 1fr);
+  gap: 40px;
+  align-items: start;
+}
+
+.work[data-done] {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 32px;
+}
+
+.work[data-done] .side {
+  position: static;
+  order: -1;
+}
+
+.work[data-done] .docCol {
+  max-width: 1060px;
+}
+
+.docCol {
+  min-width: 0;
+}
+
+.side {
+  position: sticky;
+  top: 88px;
+  min-width: 0;
+  scroll-margin-top: 80px;
+}
+
+/* ---------- the tally plane (answering) ---------- */
+
+.tally {
+  display: grid;
+  gap: 22px;
+  padding: 24px 22px 22px;
+  border-radius: var(--r-card);
+  background: oklch(94.5% 0.022 290);
+  box-shadow: inset 0 0 0 1px oklch(90% 0.03 290);
+}
+
+.find {
+  display: grid;
+  gap: 12px;
+}
+
+.findTitle {
+  font-size: var(--fs-20);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+}
+
+.rings {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.rings[data-big] > span {
+  width: 36px;
+  height: 36px;
+  font-size: 15px;
+}
+
+.listWrap {
+  display: grid;
+  gap: 10px;
+}
+
+.listTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 650;
+  letter-spacing: 0;
+  color: var(--ink-2);
+}
+
+.count {
+  min-width: 24px;
+  height: 22px;
+  padding: 0 7px;
+  border-radius: 11px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 22px;
+  text-align: center;
+  color: var(--violet-deep);
+  background: var(--violet-soft);
+}
+
+.empty {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.marks {
+  list-style: none;
+  display: grid;
+  gap: 4px;
+  max-height: 44vh;
+  overflow-y: auto;
+  margin: 0 -6px;
+  padding: 0 6px;
+}
+
+.markRow {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) 40px;
+  gap: 10px;
+  align-items: center;
+  padding: 6px 0;
+  animation: rowIn 0.24s var(--ease) both;
+}
+
+@keyframes rowIn {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+}
+
+.quote {
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--ink);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.remove {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  color: var(--ink-2);
+  transition:
+    background-color var(--t-hover) var(--ease),
+    color var(--t-hover) var(--ease),
+    transform var(--t-press) var(--ease);
+}
+
+.remove:hover {
+  color: var(--violet-deep);
+  background: var(--violet-soft);
+}
+
+.remove:active {
+  transform: scale(0.92);
+}
+
+.over {
+  display: grid;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  font-size: 15px;
+  line-height: 1.45;
+  background: var(--warning-soft);
+}
+
+.overBtns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.foot {
+  display: grid;
+  gap: 12px;
+  padding-top: 18px;
+  box-shadow: 0 -1px 0 oklch(88% 0.035 290);
+}
+
+.timer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 32px;
+}
+
+.time {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 17px;
+  font-weight: 650;
+  color: var(--ink);
+}
+
+.time svg {
+  color: var(--ink-2);
+}
+
+.timerToggle {
+  margin-left: auto;
+  min-height: 36px;
+  padding: 0 8px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-2);
+  text-decoration: underline;
+  text-decoration-color: oklch(47% 0.06 286 / 0.35);
+  text-underline-offset: 0.2em;
+  transition: color var(--t-hover) var(--ease);
+}
+
+.timerToggle:hover {
+  color: var(--violet);
+}
+
+/* ---------- the result slip (checked) ---------- */
+
+.result {
+  display: grid;
+  gap: 14px;
+}
+
+.big {
+  margin: 0;
+}
+
+.bigN {
+  font-size: var(--fs-44);
+  font-weight: 750;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.verdict {
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.falseLine {
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+/* ---------- corrections under the sheet ---------- */
+
+.fixes {
+  margin-top: var(--s-48);
+}
+
+.fixesTitle {
+  font-size: var(--fs-28);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  margin-bottom: var(--s-16);
+}
+
+.fixList {
+  list-style: none;
+  display: grid;
+}
+
+.fix {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 16px;
+  padding: 18px 0;
+}
+
+.fix + .fix {
+  box-shadow: 0 -1px 0 var(--line);
+}
+
+.fixBody {
+  display: grid;
+  gap: 6px;
+  justify-items: start;
+}
+
+.fixType {
+  padding: 2px 8px;
+  border-radius: var(--r-tag);
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--ink-2);
+  background: var(--machine-field);
+}
+
+.fixFrom {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.fixFrom del {
+  text-decoration: line-through 1.5px oklch(46% 0.205 283 / 0.6);
+}
+
+.fixTo {
+  font-size: 17px;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+.fixTo ins {
+  text-decoration: none;
+  padding: 0 0.12em;
+  background: linear-gradient(transparent 58%, oklch(86% 0.095 66 / 0.55) 58%);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* ---------- the bottom panel on phones ---------- */
+
+.bar {
+  display: none;
+}
+
+@media (max-width: 1100px) {
+  .work {
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 28px;
+  }
+}
+
+@media (max-width: 900px) {
+  .work,
+  .work[data-done] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .work:not([data-done]) .side {
+    display: none;
+  }
+  .work:not([data-done]) {
+    padding-bottom: 88px;
+  }
+  .work[data-done] .side {
+    position: static;
+    order: -1;
+  }
+  .bar {
+    display: grid;
+    gap: 10px;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 45;
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+    background: oklch(98.5% 0.01 290 / 0.97);
+    backdrop-filter: saturate(1.4) blur(10px);
+    box-shadow:
+      inset 0 1px 0 var(--line),
+      0 -10px 28px -16px oklch(26% 0.09 285 / 0.3);
+  }
+  :global([data-tabbar]) .bar {
+    bottom: calc(72px + env(safe-area-inset-bottom));
+    padding-bottom: 10px;
+  }
+  .barList {
+    max-height: 40vh;
+    overflow-y: auto;
+  }
+  .barList .marks {
+    max-height: none;
+  }
+  .barRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .barCount {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    padding: 0 4px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: left;
+    color: var(--ink);
+  }
+  .barCount:disabled {
+    cursor: default;
+    color: var(--ink-2);
+  }
+  .barN {
+    min-width: 0;
+  }
+  .chev {
+    flex: none;
+    transition: transform var(--t-hover) var(--ease);
+  }
+  .bar[data-open] .chev {
+    transform: rotate(180deg);
+  }
+  .barTime {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink-2);
+  }
+  .bigN {
+    font-size: 36px;
+  }
+}

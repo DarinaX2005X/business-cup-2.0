@@ -16,7 +16,9 @@ import {
   LEVELS,
   PLANS,
   shortJob,
+  tierName,
   tierOf,
+  tierOfLookupKey,
   xpOf,
   YEARLY_SAVE_UP_TO,
   type PointsTrigger,
@@ -305,7 +307,8 @@ describe('round 3: plans, tiers and names', () => {
   it('PLANS: Free, Pro (most popular) and Coach with the yearly price per month', () => {
     expect(PLANS.map((p) => p.id)).toEqual(['free', 'pro', 'coach']);
     expect(PLANS[1]).toMatchObject({ badge: 'Most popular', price: { month: 19, year: 119, yearPerMonth: 9.92, savePercent: 48 }, includes: 'free' });
-    expect(PLANS[2]).toMatchObject({ price: { month: 39, year: 239, yearPerMonth: 19.92, savePercent: 49 }, includes: 'pro' });
+    expect(PLANS[2]).toMatchObject({ name: 'Max', price: { month: 79, year: 479, yearPerMonth: 39.92, savePercent: 49 }, includes: 'pro' });
+    expect(PLANS[2].features[0].text).toBe('Personal AI coach: chat and voice, knows your week, plan and skills');
     expect(YEARLY_SAVE_UP_TO).toBe(49);
     expect(PLANS[0].price).toBeNull();
   });
@@ -314,6 +317,8 @@ describe('round 3: plans, tiers and names', () => {
     expect(tierOf({})).toBe('pro');
     expect(tierOf({ tier: 'coach' })).toBe('coach');
     expect(tierOf({ source: 'cup' })).toBe('coach');
+    expect([tierOfLookupKey('max_yearly'), tierOfLookupKey('coach_monthly'), tierOfLookupKey('pro_monthly'), tierOfLookupKey('other')]).toEqual(['coach', 'coach', 'pro', null]);
+    expect([tierName('pro'), tierName('coach')]).toEqual(['Pro', 'Max']);
   });
 
   it('free months are not for a Coach subscription', () => {

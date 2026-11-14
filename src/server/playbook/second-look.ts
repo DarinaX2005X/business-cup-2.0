@@ -86,6 +86,10 @@ export function verifyMarks(document: string, raw: SecondLookAnswer['marks'], ma
       if (loose && !overlaps(loose[0], loose[1])) range = loose;
     }
     if (!range) continue;
+    // a quote copied with its list dash, heading mark or table bar starts at the visible words
+    while (range[0] < range[1] && /[\s\-*#|>]/.test(document[range[0]])) range[0]++;
+    while (range[1] > range[0] && /\s/.test(document[range[1] - 1])) range[1]--;
+    if (range[1] - range[0] < 4) continue;
     const len = range[1] - range[0];
     if (len > 400 || len > document.length * 0.5) continue;
     const why = clean(m.why ?? '', 260);

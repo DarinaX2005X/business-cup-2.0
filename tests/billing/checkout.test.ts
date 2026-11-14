@@ -1,4 +1,5 @@
 import Stripe from 'stripe';
+import { POST as checkoutPOST } from '@/app/api/billing/checkout/route';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import type { Profile } from '@/domain/types';
 import { confirmCheckout, createCheckout, createPortal, ensureFreshPlan, handleWebhook, isCoach, redeem, setStripeForTests } from '@/server/billing';
@@ -116,7 +117,7 @@ describe('Coach tier', () => {
     const p = await fresh();
     await createCheckout(p, { tier: 'coach', interval: 'month' }, ORIGIN);
     expect(sessionParams()).toMatchObject({
-      line_items: [{ price: 'price_coach_monthly', quantity: 1 }],
+      line_items: [{ price: 'price_max_monthly', quantity: 1 }],
       metadata: { tier: 'coach', interval: 'month' },
       subscription_data: { trial_period_days: 7, metadata: { tier: 'coach' } },
       payment_method_collection: 'always',
@@ -128,6 +129,19 @@ describe('Coach tier', () => {
     const saved = (await getProfile(p.id))!;
     expect(isCoach(saved, new Date(), noForce)).toBe(true);
     expect(isPro(saved, new Date(), noForce)).toBe(true);
+  });
+
+  it("POST /api/billing/checkout takes tier 'max' (the display name) as the top tier", async () => {
+    const { profile, secret } = await createProfile({ locale: 'en' });
+    const res = await checkoutPOST(
+      new Request('http://localhost/api/billing/checkout', {
+        method: 'POST',
+        headers: { 'x-profile-id': profile.id, 'x-profile-secret': secret, 'content-type': 'application/json' },
+        body: JSON.stringify({ tier: 'max', interval: 'year' }),
+      }),
+    );
+    expect(res.status).toBe(200);
+    expect(sessionParams()).toMatchObject({ line_items: [{ price: 'price_max_yearly' }], metadata: { tier: 'coach', interval: 'year' } });
   });
 
   it('free Pro months stay Pro: not attached to a Coach checkout, not redeemable on a Coach subscription', async () => {

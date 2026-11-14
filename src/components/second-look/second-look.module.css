@@ -1,0 +1,493 @@
+/*
+ * Second look: the pasted draft is a sheet of paper on the desk, the task picker and the action sit
+ * beside it. While it is read a slow band passes over the same sheet; then «Check this» notes land on
+ * its margin in a quiet grey violet: hints, not verdicts.
+ */
+
+.page {
+  max-width: calc(var(--content) + 2 * var(--s-32));
+  margin: 0 auto;
+  padding: var(--s-32) var(--s-32) var(--s-120);
+}
+
+.head {
+  display: grid;
+  gap: 12px;
+  margin-bottom: var(--s-32);
+  max-width: 760px;
+}
+
+.h1 {
+  font-size: var(--fs-44);
+  font-weight: 750;
+  letter-spacing: -0.032em;
+  line-height: 1.04;
+}
+
+.lead {
+  max-width: 62ch;
+  font-size: var(--fs-20);
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 40px;
+  align-items: start;
+}
+
+/* ---------- the sheet with the paste field ---------- */
+
+.sheetWrap {
+  position: relative;
+  isolation: isolate;
+}
+
+.sheetWrap::before,
+.sheetWrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: var(--r-card);
+  background: var(--card);
+  box-shadow: inset 0 0 0 1px var(--line), var(--shadow-rest);
+}
+
+.sheetWrap::before {
+  transform: rotate(-1.2deg) translate(-6px, 8px);
+}
+
+.sheetWrap::after {
+  transform: rotate(0.8deg) translate(6px, 4px);
+  background: oklch(97.5% 0.012 290);
+}
+
+.sheet {
+  border-radius: var(--r-card);
+  background: var(--card);
+  box-shadow:
+    var(--hl),
+    inset 0 0 0 1px oklch(89% 0.03 290),
+    var(--shadow-raised);
+  transition: box-shadow var(--t-hover) var(--ease);
+}
+
+.sheet:focus-within {
+  box-shadow:
+    var(--hl),
+    inset 0 0 0 2px var(--violet),
+    0 0 0 4px oklch(54% 0.19 286 / 0.14),
+    var(--shadow-raised);
+}
+
+.sheetHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  margin: 0 32px;
+  padding: 26px 0 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.fieldLabel {
+  font-size: var(--fs-20);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+}
+
+.aiTag {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 28px;
+  padding: 2px 10px 2px 6px;
+  border-radius: var(--r-tag);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-2);
+  background: var(--machine-field);
+}
+
+.aiTag i {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  background: var(--hatch-dense), var(--card);
+  box-shadow: inset 0 0 0 1px oklch(84% 0.03 290);
+}
+
+.area {
+  display: block;
+  width: 100%;
+  min-height: 360px;
+  padding: 20px 32px;
+  border: 0;
+  outline: none;
+  resize: vertical;
+  font: inherit;
+  font-size: 17px;
+  line-height: 1.8;
+  color: var(--ink);
+  background: transparent;
+}
+
+.area::placeholder {
+  color: oklch(66% 0.04 288);
+}
+
+.sheetFoot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding: 16px 32px 20px;
+  border-radius: 0 0 var(--r-card) var(--r-card);
+  background: oklch(97.5% 0.014 290);
+  box-shadow: inset 0 1px 0 var(--line);
+}
+
+.privacy {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  line-height: 1.35;
+  color: var(--ink);
+}
+
+.privacy svg {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  color: var(--violet);
+}
+
+.privacy b {
+  font-weight: 650;
+}
+
+.count {
+  font-size: 14px;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.count[data-over] {
+  color: var(--error);
+  font-weight: 600;
+}
+
+.fieldError {
+  margin: 0 32px 20px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 15px;
+  line-height: 1.45;
+  color: oklch(42% 0.16 25);
+  background: var(--error-soft);
+}
+
+/* ---------- the side: task, action, what happens to the text ---------- */
+
+.side {
+  position: sticky;
+  top: 88px;
+  display: grid;
+  gap: 16px;
+}
+
+.picker {
+  display: grid;
+  gap: 10px;
+}
+
+.pickerLabel {
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  min-height: 40px;
+  padding: 7px 14px;
+  border-radius: var(--r-chip);
+  font-size: 15px;
+  font-weight: 550;
+  line-height: 1.25;
+  text-align: left;
+  color: var(--ink);
+  background: var(--card);
+  box-shadow: inset 0 0 0 1px var(--line), var(--shadow-rest);
+  transition:
+    transform var(--t-hover) var(--ease),
+    box-shadow var(--t-hover) var(--ease),
+    background-color var(--t-hover) var(--ease);
+}
+
+.chip:hover {
+  transform: translateY(-1px);
+  box-shadow: inset 0 0 0 1px oklch(80% 0.05 288), var(--shadow-raised);
+}
+
+.chip:active {
+  transform: scale(0.97);
+  transition-duration: var(--t-press);
+}
+
+.chip[data-on] {
+  color: var(--violet-deep);
+  font-weight: 650;
+  background: var(--violet-soft);
+  box-shadow: inset 0 0 0 1.75px var(--violet);
+}
+
+.pickerHint,
+.kept,
+.lookFor,
+.free {
+  font-size: 14.5px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.free {
+  color: var(--apricot-deep);
+  font-weight: 600;
+}
+
+.failure {
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-size: 15px;
+  line-height: 1.45;
+  color: oklch(42% 0.16 25);
+  background: var(--error-soft);
+}
+
+/* ---------- reading ---------- */
+
+.result {
+  display: grid;
+  gap: 20px;
+  max-width: 1080px;
+}
+
+.readingLine {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.dotSpin {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--violet-tint);
+  border-top-color: var(--violet);
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.reading {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-card);
+}
+
+.beam {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 120px;
+  pointer-events: none;
+  background: linear-gradient(180deg, oklch(92.5% 0.04 288 / 0), oklch(86% 0.07 288 / 0.45) 60%, oklch(72% 0.12 286 / 0.5) 62%, oklch(92.5% 0.04 288 / 0) 64%);
+  animation: beam 2.6s var(--ease) infinite;
+}
+
+@keyframes beam {
+  from {
+    transform: translateY(-120px);
+  }
+  to {
+    transform: translateY(1400px);
+  }
+}
+
+/* ---------- result ---------- */
+
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+}
+
+.summaryText {
+  display: grid;
+  gap: 4px;
+}
+
+.summaryTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--fs-28);
+  font-weight: 720;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  outline: none;
+}
+
+.summaryTitle svg {
+  width: 28px;
+  height: 28px;
+  color: var(--apricot-deep);
+}
+
+.summaryBody {
+  font-size: 17px;
+  color: var(--ink-2);
+}
+
+.summaryActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/*
+ * «Check this» marks: the kit's outlined mark and margin note, recoloured to the quiet grey violet.
+ * Attribute selectors reach the kit's elements (REQUESTS.md «05.3» asks for a `check` kind in the kit).
+ */
+.checked [data-mark] {
+  background: oklch(95% 0.02 288 / 0.8);
+  box-shadow: 0 0 0 1.5px var(--muted-violet);
+}
+
+.checked [data-mark][data-hot] {
+  background: var(--violet-soft);
+  box-shadow: 0 0 0 2.25px var(--violet);
+}
+
+.checked aside[data-kind='missed'] b {
+  color: oklch(38% 0.1 286);
+}
+
+.checked span[data-kind='missed'] {
+  color: oklch(42% 0.08 286);
+  box-shadow: inset 0 0 0 1.5px var(--muted-violet);
+}
+
+.honest {
+  font-size: 15.5px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.toPlaybook {
+  font-size: 15.5px;
+  color: var(--ink-2);
+}
+
+.link {
+  font-weight: 600;
+  color: var(--violet);
+  text-decoration: underline;
+  text-decoration-color: oklch(46% 0.205 283 / 0.35);
+  text-underline-offset: 0.22em;
+}
+
+.link:hover {
+  color: var(--violet-deep);
+  text-decoration-color: currentColor;
+}
+
+/* ---------- locked and loading ---------- */
+
+.lockedWrap {
+  max-width: 980px;
+}
+
+.proWays {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.sheetSkel {
+  display: grid;
+  gap: 16px;
+  padding: 28px 32px;
+  border-radius: var(--r-card);
+  background: var(--card);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+/* ---------- narrow ---------- */
+
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .side {
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: var(--s-24) var(--s-16) var(--s-120);
+  }
+  .h1 {
+    font-size: 34px;
+  }
+  .lead {
+    font-size: 17px;
+  }
+  .sheetHead {
+    margin: 0 20px;
+    padding-top: 20px;
+  }
+  .area {
+    min-height: 280px;
+    padding: 16px 20px;
+  }
+  .sheetFoot {
+    padding: 14px 20px 16px;
+  }
+  .fieldError {
+    margin: 0 20px 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beam {
+    animation: none;
+    transform: none;
+    height: 100%;
+    background: oklch(92.5% 0.04 288 / 0.25);
+  }
+}

@@ -174,3 +174,10 @@ describe('practiceByTask', () => {
     expect(res.checks).toEqual([expect.objectContaining({ origin: 'slip', slipType: 'calculation', text: 'The 24-hour intake total does not add up.' })]);
   });
 });
+
+describe('verifyMarks on list lines', () => {
+  it('starts a mark at the words, not at the list dash the quote was copied with', () => {
+    const marks = verifyMarks(LETTER, [{ quote: '- Check your blood pressure every morning', type: 'omission', why: 'No target is given.', check: 'Add the number to call about.' }]);
+    expect(LETTER.slice(marks[0].start, marks[0].end)).toBe('Check your blood pressure every morning');
+  });
+});

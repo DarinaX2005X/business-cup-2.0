@@ -1273,5 +1273,45 @@
   "alias": "librarian",
   "code": "25-4022.00",
   "note": ""
+ },
+ {
+  "alias": "surgeon",
+  "code": "29-1242.00",
+  "note": "O*NET lists Surgeon and General Surgeon under Orthopedic Surgeons, Except Pediatric; Surgeons, All Other has no task list"
+ },
+ {
+  "alias": "general surgeon",
+  "code": "29-1242.00",
+  "note": ""
+ },
+ {
+  "alias": "blogger",
+  "code": "27-3043.00",
+  "note": "O*NET lists Content Creator under Writers and Authors"
+ },
+ {
+  "alias": "content creator",
+  "code": "27-3043.00",
+  "note": ""
+ },
+ {
+  "alias": "vlogger",
+  "code": "27-4032.00",
+  "note": "Video content creator; O*NET lists Content Creator under Film and Video Editors"
+ },
+ {
+  "alias": "youtuber",
+  "code": "27-4032.00",
+  "note": ""
+ },
+ {
+  "alias": "sommelier",
+  "code": "35-3031.00",
+  "note": "O*NET lists Wine Steward under Waiters and Waitresses"
+ },
+ {
+  "alias": "wine steward",
+  "code": "35-3031.00",
+  "note": ""
  }
 ]

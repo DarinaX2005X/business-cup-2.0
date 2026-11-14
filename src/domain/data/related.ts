@@ -43,15 +43,22 @@ export function cosine(a: Float64Array, b: Float64Array): number {
   return s;
 }
 
-export type RelatedTier = 'Primary-Short' | 'Primary-Long';
+export type RelatedTier = 'Primary-Short' | 'Primary-Long' | 'Supplemental';
+
+const TIER_BONUS: Record<RelatedTier, number> = {
+  'Primary-Short': RELATED.bonusPrimaryShort,
+  'Primary-Long': RELATED.bonusPrimaryLong,
+  Supplemental: RELATED.bonusSupplemental,
+};
 
 /**
- * Neighbours of every occupation (01.1.4, reworked after the stage-01 review):
- * - candidates: same Job Zone or one step up, skill+knowledge cosine >= 0.86 (>= 0.75 for O*NET Related
- *   Occupations), a larger typical human share than the source (gain > 0);
- * - rank = (similarity + 0.08 Primary-Short / 0.05 Primary-Long + 0.04 same SOC major group)
- *          × (1 + 0.1 × min(1, gain / 0.5)) — the gain only breaks near-ties;
- * - when fewer than 3 have a positive gain, candidates about as safe (gain >= −0.05) fill up to 3; top 8.
+ * Neighbours of every occupation (data repair round). Candidates are O*NET's own Related Occupations (any tier,
+ * skill+knowledge cosine >= 0.7) plus occupations with a very close skill profile (>= 0.86 in the same SOC major
+ * group, >= 0.92 elsewhere). Hard limits: same Job Zone or one step up, at most two education levels more, and
+ * not clearly less safe (typical human share at most 5 points lower).
+ * Rank = similarity + O*NET tier bonus (0.15 / 0.1 / 0.05) + 0.02 same major group + up to 0.1 for a larger
+ * human share + up to 0.05 for higher pay. Moves that pay clearly less (more than 5% below the source median)
+ * are used only when nothing else qualifies. Top 8.
  * `relatedPairs` maps code → O*NET related code → tier.
  */
 export function computeRelated(
@@ -73,31 +80,32 @@ export function computeRelated(
     }
     const zoneOk = (t: RelatedInput) =>
       src.jobZone === null || t.jobZone === null || (t.jobZone >= src.jobZone && t.jobZone - src.jobZone <= RELATED.jobZoneSpan);
-    const rel = relatedPairs.get(src.code) ?? new Map<string, RelatedTier>();
     // A neighbour needs at most two more education levels (bachelor's → master's is a move; → MD is not).
     const eduOk = (t: RelatedInput) => src.education === null || t.education === null || t.education - src.education <= RELATED.maxEducationStep;
+    const rel = relatedPairs.get(src.code) ?? new Map<string, RelatedTier>();
     const scored = occs
       .filter((t) => t.code !== src.code && vecs.has(t.code) && zoneOk(t) && eduOk(t))
       .map((t) => {
         const sim = cosine(sv, vecs.get(t.code)!);
         const tier = rel.get(t.code);
-        const gain = t.typicalHumanShare - src.typicalHumanShare;
-        const bonus =
-          (tier === 'Primary-Short' ? RELATED.bonusPrimaryShort : tier === 'Primary-Long' ? RELATED.bonusPrimaryLong : 0) +
-          (t.code.slice(0, 2) === src.code.slice(0, 2) ? RELATED.bonusSameMajor : 0);
-        const rank = (sim + bonus) * (1 + RELATED.gainTieBreak * Math.min(1, Math.max(0, gain) / 0.5));
         const sameMajor = t.code.slice(0, 2) === src.code.slice(0, 2);
-        // O*NET-related at a lower bar; same SOC major group at the normal bar; other fields only when very close.
         const minSim = tier ? RELATED.minSimilarityRelated : sameMajor ? RELATED.minSimilarity : RELATED.minSimilarityOtherGroup;
-        return { t, sim, gain, rank, minSim };
+        const gain = t.typicalHumanShare - src.typicalHumanShare;
+        const payRatio = t.medianAnnual !== null && src.medianAnnual ? t.medianAnnual / src.medianAnnual - 1 : null;
+        const rank =
+          sim +
+          (tier ? TIER_BONUS[tier] : 0) +
+          (sameMajor ? RELATED.bonusSameMajor : 0) +
+          RELATED.gainTieBreak * Math.min(1, Math.max(0, gain) / 0.5) +
+          RELATED.payBonus * Math.min(1, Math.max(0, payRatio ?? 0) / 0.3);
+        return { t, sim, gain, payRatio, rank, minSim };
       })
-      .filter((x) => x.sim >= x.minSim)
+      .filter((x) => x.sim >= x.minSim && x.gain >= -RELATED.equalGainTolerance)
       .sort((a, b) => b.rank - a.rank || cmp(a.t.code, b.t.code));
-    let chosen = scored.filter((x) => x.gain > 0).slice(0, RELATED.keep);
-    if (chosen.length < RELATED.minNeighbours) {
-      const equal = scored.filter((x) => x.gain <= 0 && x.gain >= -RELATED.equalGainTolerance).slice(0, RELATED.minNeighbours - chosen.length);
-      chosen = [...chosen, ...equal].sort((a, b) => b.rank - a.rank || cmp(a.t.code, b.t.code));
-    }
+    const paysLess = (x: (typeof scored)[number]) => x.payRatio !== null && x.payRatio < -RELATED.maxPayDrop;
+    let chosen = scored.filter((x) => !paysLess(x)).slice(0, RELATED.keep);
+    // Only when nothing pays at least about the same do lower-paid moves appear at all.
+    if (chosen.length === 0) chosen = scored.filter(paysLess).slice(0, RELATED.minNeighbours);
     out.set(
       src.code,
       chosen.map(({ t, sim }) => ({
@@ -114,15 +122,20 @@ export function computeRelated(
   return out;
 }
 
-/** Skills and knowledge the target needs at least 0.75 more (importance), largest gap first, up to 5. */
+/**
+ * Skills and knowledge that matter in the target (importance >= 3) and that the source rates at least 0.75
+ * lower, largest gap first, up to 5. Elements the source does not rate are not guessed.
+ */
 export function missingSkills(src: RelatedInput, target: RelatedInput): string[] {
   const gaps: { name: string; gap: number }[] = [];
   for (const [id, imp] of target.importance) {
-    const gap = imp - (src.importance.get(id) ?? 1);
+    if (imp < RELATED.missingSkillMinImportance || !src.importance.has(id)) continue;
+    const gap = imp - src.importance.get(id)!;
     if (gap >= RELATED.missingSkillGap) gaps.push({ name: target.names.get(id) ?? id, gap });
   }
   gaps.sort((a, b) => b.gap - a.gap || cmp(a.name, b.name));
-  return gaps.slice(0, RELATED.missingSkillsMax).map((g) => g.name);
+  // Skill and knowledge lists share a few names (Mathematics): list each name once.
+  return [...new Set(gaps.map((g) => g.name))].slice(0, RELATED.missingSkillsMax);
 }
 
 function cmp(a: string, b: string): number {

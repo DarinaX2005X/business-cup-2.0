@@ -23,7 +23,7 @@
    "dwaIds": [
     "4.A.3.a.2.af.1"
    ],
-   "short": "Classroom preparation",
+   "short": "Classroom prep",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E0",
@@ -51,8 +51,17 @@
      }
     ],
     "physical": true,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": false,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -68,7 +77,7 @@
     "4.A.1.a.2.f.7",
     "4.A.2.a.1.c.4"
    ],
-   "short": "Student evaluation",
+   "short": "Student observation",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -83,6 +92,15 @@
     "penetration": 0.9429,
     "history": null,
     "physical": false,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": false,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.25,
     "category": "ai_speeds",
     "evidenceLevel": "estimate"
@@ -98,13 +116,13 @@
    "dwaIds": [
     "4.A.4.b.3.b.6"
    ],
-   "short": "Subject instruction",
+   "short": "Classroom instruction",
    "evidence": {
     "theoryLabel": "E1",
     "gpt4Label": "E2",
     "theorySource": "human+gpt4",
     "theory": 0.75,
-    "observed": true,
+    "observed": false,
     "everObserved": true,
     "aeiShare": 0,
     "aeiSource": "1p_api",
@@ -126,9 +144,18 @@
      }
     ],
     "physical": true,
-    "exposure": 0.825,
-    "category": "ai_does",
-    "evidenceLevel": "observed"
+    "aeiClaudeShare": null,
+    "aeiApiShare": 0,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": 0.8,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": 0.7619,
+    "peopleWork": true,
+    "seenRarely": true,
+    "automationBasis": null,
+    "exposure": 0.375,
+    "category": "human_edge",
+    "evidenceLevel": "estimate"
    }
   },
   {
@@ -143,7 +170,7 @@
     "4.A.2.a.1.c.3",
     "4.A.2.a.1.c.4"
    ],
-   "short": "Test grading",
+   "short": "Testing and grading",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -179,6 +206,15 @@
      }
     ],
     "physical": true,
+    "aeiClaudeShare": 0.0001,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": 0.5012,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": 0.1498,
+    "aeiApiWorkShare": null,
+    "peopleWork": false,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.25,
     "category": "ai_speeds",
     "evidenceLevel": "estimate"
@@ -194,7 +230,7 @@
    "dwaIds": [
     "4.A.2.b.2.e.3"
    ],
-   "short": "Classroom behavior enforcement",
+   "short": "Classroom behavior management",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E0",
@@ -209,6 +245,15 @@
     "penetration": 0,
     "history": null,
     "physical": false,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": false,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0,
     "category": "human_edge",
     "evidenceLevel": "estimate"
@@ -239,6 +284,15 @@
     "penetration": 0,
     "history": null,
     "physical": false,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": false,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.375,
     "category": "ai_speeds",
     "evidenceLevel": "estimate"
@@ -270,8 +324,17 @@
     "penetration": 0,
     "history": null,
     "physical": false,
+    "aeiClaudeShare": 0,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": 0.6111,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": 0.1667,
+    "aeiApiWorkShare": null,
+    "peopleWork": true,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.125,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -286,7 +349,7 @@
     "4.A.4.a.2.c.5",
     "4.A.4.b.6.g.8"
    ],
-   "short": "Problem-resolution conferences",
+   "short": "Problem resolution conferences",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E0",
@@ -301,6 +364,15 @@
     "penetration": 0,
     "history": null,
     "physical": false,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": true,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0,
     "category": "human_edge",
     "evidenceLevel": "estimate"
@@ -352,8 +424,17 @@
      }
     ],
     "physical": false,
+    "aeiClaudeShare": 0.0001,
+    "aeiApiShare": 0,
+    "aeiClaudeAutomation": 0.2153,
+    "aeiApiAutomation": 0.5,
+    "aeiClaudeWorkShare": 0.038,
+    "aeiApiWorkShare": 0.0811,
+    "peopleWork": true,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.125,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -373,7 +454,7 @@
     "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
-    "observed": true,
+    "observed": false,
     "everObserved": true,
     "aeiShare": 0.0001,
     "aeiSource": "claude_ai",
@@ -403,9 +484,18 @@
      }
     ],
     "physical": false,
-    "exposure": 0.628,
+    "aeiClaudeShare": 0.0001,
+    "aeiApiShare": 0,
+    "aeiClaudeAutomation": 0.3825,
+    "aeiApiAutomation": 0.7703,
+    "aeiClaudeWorkShare": 0.4874,
+    "aeiApiWorkShare": 0.7403,
+    "peopleWork": false,
+    "seenRarely": true,
+    "automationBasis": null,
+    "exposure": 0.25,
     "category": "ai_speeds",
-    "evidenceLevel": "observed"
+    "evidenceLevel": "estimate"
    }
   },
   {
@@ -418,7 +508,7 @@
    "dwaIds": [
     "4.A.3.b.6.h.12"
    ],
-   "short": "Student recordkeeping",
+   "short": "Student record maintenance",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -433,6 +523,15 @@
     "penetration": 0,
     "history": null,
     "physical": false,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": false,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.25,
     "category": "ai_speeds",
     "evidenceLevel": "estimate"
@@ -448,7 +547,7 @@
    "dwaIds": [
     "4.A.3.b.6.l.4"
    ],
-   "short": "Instructional method adaptation",
+   "short": "Instructional adaptation",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E2",
@@ -476,8 +575,17 @@
      }
     ],
     "physical": false,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": false,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.125,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -506,6 +614,15 @@
     "penetration": 0,
     "history": null,
     "physical": false,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": false,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0,
     "category": "human_edge",
     "evidenceLevel": "estimate"
@@ -521,7 +638,7 @@
    "dwaIds": [
     "4.A.4.b.2.a.3"
    ],
-   "short": "Grade-transition preparation",
+   "short": "Academic preparation guidance",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E2",
@@ -536,8 +653,17 @@
     "penetration": 0,
     "history": null,
     "physical": false,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": true,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.125,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -551,13 +677,13 @@
    "dwaIds": [
     "4.A.3.b.6.l.3"
    ],
-   "short": "Audiovisual teaching aids",
+   "short": "Presentation media operation",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
-    "observed": true,
+    "observed": false,
     "everObserved": true,
     "aeiShare": 0,
     "aeiSource": "claude_ai",
@@ -583,9 +709,18 @@
      }
     ],
     "physical": true,
-    "exposure": 0.6094,
+    "aeiClaudeShare": 0,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": 0.4375,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": 0.625,
+    "aeiApiWorkShare": null,
+    "peopleWork": false,
+    "seenRarely": true,
+    "automationBasis": null,
+    "exposure": 0.25,
     "category": "ai_speeds",
-    "evidenceLevel": "observed"
+    "evidenceLevel": "estimate"
    }
   },
   {
@@ -598,7 +733,7 @@
    "dwaIds": [
     "4.A.4.a.2.f.3"
    ],
-   "short": "Program curriculum collaboration",
+   "short": "Curriculum program review",
    "evidence": {
     "theoryLabel": "E1",
     "gpt4Label": "E2",
@@ -613,6 +748,15 @@
     "penetration": 0.7239,
     "history": null,
     "physical": false,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": false,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.375,
     "category": "ai_speeds",
     "evidenceLevel": "estimate"
@@ -643,6 +787,15 @@
     "penetration": null,
     "history": null,
     "physical": true,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": true,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0,
     "category": "human_edge",
     "evidenceLevel": "estimate"
@@ -694,8 +847,17 @@
      }
     ],
     "physical": false,
+    "aeiClaudeShare": 0.0001,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": 0.2519,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": 0.0215,
+    "aeiApiWorkShare": null,
+    "peopleWork": true,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -709,7 +871,7 @@
    "dwaIds": [
     "4.A.4.b.6.g.8"
    ],
-   "short": "Parent progress meetings",
+   "short": "Parent communication",
    "evidence": {
     "theoryLabel": "E1",
     "gpt4Label": "E0",
@@ -724,8 +886,17 @@
     "penetration": 0,
     "history": null,
     "physical": false,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": true,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -755,6 +926,15 @@
     "penetration": 0,
     "history": null,
     "physical": false,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": true,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0,
     "category": "human_edge",
     "evidenceLevel": "estimate"
@@ -785,8 +965,17 @@
     "penetration": 0,
     "history": null,
     "physical": false,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": false,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -807,7 +996,7 @@
     "gpt4Label": "E2",
     "theorySource": "human+gpt4",
     "theory": 0.75,
-    "observed": true,
+    "observed": false,
     "everObserved": true,
     "aeiShare": 0,
     "aeiSource": "claude_ai",
@@ -816,9 +1005,18 @@
     "penetration": 0,
     "history": null,
     "physical": false,
-    "exposure": 0.7259,
+    "aeiClaudeShare": 0,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": 0.4035,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": 0.5263,
+    "aeiApiWorkShare": null,
+    "peopleWork": false,
+    "seenRarely": true,
+    "automationBasis": null,
+    "exposure": 0.375,
     "category": "ai_speeds",
-    "evidenceLevel": "observed"
+    "evidenceLevel": "estimate"
    }
   },
   {
@@ -837,7 +1035,7 @@
     "gpt4Label": "E1",
     "theorySource": "human",
     "theory": 1,
-    "observed": true,
+    "observed": false,
     "everObserved": true,
     "aeiShare": 0,
     "aeiSource": "claude_ai",
@@ -867,9 +1065,18 @@
      }
     ],
     "physical": false,
-    "exposure": 0.9152,
-    "category": "ai_does",
-    "evidenceLevel": "observed"
+    "aeiClaudeShare": 0,
+    "aeiApiShare": 0,
+    "aeiClaudeAutomation": 0.4359,
+    "aeiApiAutomation": 0.8857,
+    "aeiClaudeWorkShare": 0.7115,
+    "aeiApiWorkShare": 0.9714,
+    "peopleWork": false,
+    "seenRarely": true,
+    "automationBasis": null,
+    "exposure": 0.5,
+    "category": "ai_speeds",
+    "evidenceLevel": "estimate"
    }
   },
   {
@@ -882,7 +1089,7 @@
    "dwaIds": [
     "4.A.2.b.2.l.3"
    ],
-   "short": "Course outline preparation",
+   "short": "Course outline design",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -918,6 +1125,15 @@
      }
     ],
     "physical": false,
+    "aeiClaudeShare": 0,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": 0.5263,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": 0.2105,
+    "aeiApiWorkShare": null,
+    "peopleWork": false,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.25,
     "category": "ai_speeds",
     "evidenceLevel": "estimate"
@@ -933,7 +1149,7 @@
    "dwaIds": [
     "4.A.4.b.4.b.1"
    ],
-   "short": "Staff meeting attendance",
+   "short": "Staff committee participation",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E0",
@@ -948,6 +1164,15 @@
     "penetration": 0,
     "history": null,
     "physical": false,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": true,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0,
     "category": "human_edge",
     "evidenceLevel": "estimate"
@@ -963,7 +1188,7 @@
    "dwaIds": [
     "4.A.2.b.2.l.4"
    ],
-   "short": "Field trip supervision",
+   "short": "Experiential project supervision",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E2",
@@ -978,8 +1203,17 @@
     "penetration": 0,
     "history": null,
     "physical": false,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": false,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.125,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -1021,6 +1255,15 @@
      }
     ],
     "physical": false,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": false,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.375,
     "category": "ai_speeds",
     "evidenceLevel": "estimate"
@@ -1051,8 +1294,17 @@
     "penetration": 0,
     "history": null,
     "physical": false,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": false,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.125,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -1066,7 +1318,7 @@
    "dwaIds": [
     "4.A.2.b.2.l.6"
    ],
-   "short": "Recreational game supervision",
+   "short": "Recess activity supervision",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E0",
@@ -1081,8 +1333,17 @@
     "penetration": 0,
     "history": null,
     "physical": true,
+    "aeiClaudeShare": 0,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": 0.4231,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": 0.4444,
+    "aeiApiWorkShare": null,
+    "peopleWork": false,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.125,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -1111,6 +1372,15 @@
     "penetration": 0,
     "history": null,
     "physical": true,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": false,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0,
     "category": "human_edge",
     "evidenceLevel": "estimate"
@@ -1154,8 +1424,17 @@
      }
     ],
     "physical": false,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": true,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -1169,7 +1448,7 @@
    "dwaIds": [
     "4.A.3.a.2.af.3"
    ],
-   "short": "Work display setup",
+   "short": "Student work curation",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E2",
@@ -1197,8 +1476,17 @@
      }
     ],
     "physical": true,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": false,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.125,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -1214,7 +1502,7 @@
     "4.A.4.c.3.c.1",
     "4.A.4.c.3.e.2"
    ],
-   "short": "Supply inventory management",
+   "short": "Classroom supply inventory",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E2",
@@ -1229,6 +1517,15 @@
     "penetration": 0,
     "history": null,
     "physical": true,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": false,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.125,
     "category": "human_edge",
     "evidenceLevel": "estimate"
@@ -1259,8 +1556,17 @@
     "penetration": 0,
     "history": null,
     "physical": true,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": false,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.25,
-    "category": "human_edge",
+    "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
   },
@@ -1275,7 +1581,7 @@
     "4.A.2.a.1.d.1",
     "4.A.4.b.4.a.18"
    ],
-   "short": "Aide and volunteer supervision",
+   "short": "Teaching assistant supervision",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E1",
@@ -1290,8 +1596,17 @@
     "penetration": 0,
     "history": null,
     "physical": false,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": true,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.375,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   }
@@ -1400,104 +1715,16 @@
    "importance": 3.07
   }
  ],
- "typicalHumanShare": 0.2,
+ "typicalHumanShare": 0.61,
  "related": [
   {
    "code": "25-2012.00",
    "slug": "kindergarten-teachers-except-special-education",
    "title": "Kindergarten Teachers, Except Special Education",
    "similarity": 0.951,
-   "typicalHumanShare": 0.46,
+   "typicalHumanShare": 0.82,
    "wageDelta": -1690,
-   "missingSkills": [
-    "Therapy and Counseling"
-   ]
-  },
-  {
-   "code": "25-2031.00",
-   "slug": "secondary-school-teachers-except-special-and-career-technical-education",
-   "title": "Secondary School Teachers, Except Special and Career/Technical Education",
-   "similarity": 0.958,
-   "typicalHumanShare": 0.22,
-   "wageDelta": 7670,
-   "missingSkills": [
-    "Customer and Personal Service",
-    "Foreign Language"
-   ]
-  },
-  {
-   "code": "25-2055.00",
-   "slug": "special-education-teachers-kindergarten",
-   "title": "Special Education Teachers, Kindergarten",
-   "similarity": 0.931,
-   "typicalHumanShare": 0.52,
-   "wageDelta": 2800,
    "missingSkills": []
-  },
-  {
-   "code": "25-2058.00",
-   "slug": "special-education-teachers-secondary-school",
-   "title": "Special Education Teachers, Secondary School",
-   "similarity": 0.927,
-   "typicalHumanShare": 0.54,
-   "wageDelta": 9890,
-   "missingSkills": [
-    "Therapy and Counseling",
-    "Psychology",
-    "Administration and Management",
-    "Customer and Personal Service",
-    "Foreign Language"
-   ]
-  },
-  {
-   "code": "25-2057.00",
-   "slug": "special-education-teachers-middle-school",
-   "title": "Special Education Teachers, Middle School",
-   "similarity": 0.943,
-   "typicalHumanShare": 0.32,
-   "wageDelta": 2440,
-   "missingSkills": [
-    "Foreign Language",
-    "Telecommunications",
-    "Service Orientation"
-   ]
-  },
-  {
-   "code": "25-2056.00",
-   "slug": "special-education-teachers-elementary-school",
-   "title": "Special Education Teachers, Elementary School",
-   "similarity": 0.904,
-   "typicalHumanShare": 0.36,
-   "wageDelta": 2800,
-   "missingSkills": [
-    "Administration and Management",
-    "Customer and Personal Service",
-    "Therapy and Counseling"
-   ]
-  },
-  {
-   "code": "25-3031.00",
-   "slug": "substitute-teachers-short-term",
-   "title": "Substitute Teachers, Short-Term",
-   "similarity": 0.935,
-   "typicalHumanShare": 0.48,
-   "wageDelta": -22700,
-   "missingSkills": []
-  },
-  {
-   "code": "25-2023.00",
-   "slug": "career-technical-education-teachers-middle-school",
-   "title": "Career/Technical Education Teachers, Middle School",
-   "similarity": 0.88,
-   "typicalHumanShare": 0.22,
-   "wageDelta": 660,
-   "missingSkills": [
-    "Design",
-    "Operations Analysis",
-    "Engineering and Technology",
-    "Production and Processing",
-    "Economics and Accounting"
-   ]
   }
  ],
  "dataVersion": {
@@ -1506,5 +1733,6 @@
   "gpts": "GPTs-are-GPTs full_labelset.tsv (2024)",
   "ms": "Working with AI v1.1",
   "bls": "May 2025"
- }
+ },
+ "relatedCount": 8
 }

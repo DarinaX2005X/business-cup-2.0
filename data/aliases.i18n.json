@@ -532,5 +532,65 @@
   "code": "39-5012.00",
   "lang": "kk",
   "note": "Curated; overrides model translations in data/build/titles.<lang>.json for the same code or title"
+ },
+ {
+  "alias": "хирург",
+  "code": "29-1242.00",
+  "lang": "ru",
+  "note": "Curated; overrides model translations in data/build/titles.<lang>.json for the same code or title"
+ },
+ {
+  "alias": "хирург",
+  "code": "29-1242.00",
+  "lang": "kk",
+  "note": "Curated; overrides model translations in data/build/titles.<lang>.json for the same code or title"
+ },
+ {
+  "alias": "блогер",
+  "code": "27-3043.00",
+  "lang": "ru",
+  "note": "Curated; overrides model translations in data/build/titles.<lang>.json for the same code or title"
+ },
+ {
+  "alias": "блогер",
+  "code": "27-3043.00",
+  "lang": "kk",
+  "note": "Curated; overrides model translations in data/build/titles.<lang>.json for the same code or title"
+ },
+ {
+  "alias": "влогер",
+  "code": "27-4032.00",
+  "lang": "ru",
+  "note": "Curated; overrides model translations in data/build/titles.<lang>.json for the same code or title"
+ },
+ {
+  "alias": "видеоблогер",
+  "code": "27-4032.00",
+  "lang": "ru",
+  "note": "Curated; overrides model translations in data/build/titles.<lang>.json for the same code or title"
+ },
+ {
+  "alias": "ютубер",
+  "code": "27-4032.00",
+  "lang": "ru",
+  "note": "Curated; overrides model translations in data/build/titles.<lang>.json for the same code or title"
+ },
+ {
+  "alias": "видеоблогер",
+  "code": "27-4032.00",
+  "lang": "kk",
+  "note": "Curated; overrides model translations in data/build/titles.<lang>.json for the same code or title"
+ },
+ {
+  "alias": "сомелье",
+  "code": "35-3031.00",
+  "lang": "ru",
+  "note": "Curated; overrides model translations in data/build/titles.<lang>.json for the same code or title"
+ },
+ {
+  "alias": "сомелье",
+  "code": "35-3031.00",
+  "lang": "kk",
+  "note": "Curated; overrides model translations in data/build/titles.<lang>.json for the same code or title"
  }
 ]

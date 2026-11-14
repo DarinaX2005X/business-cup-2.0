@@ -23,13 +23,13 @@
    "dwaIds": [
     "4.A.2.b.5.b.7"
    ],
-   "short": "Schedule workers",
+   "short": "Crew and equipment dispatch",
    "evidence": {
     "theoryLabel": "E1",
     "gpt4Label": "E2",
     "theorySource": "human+gpt4",
     "theory": 0.75,
-    "observed": true,
+    "observed": false,
     "everObserved": true,
     "aeiShare": 0,
     "aeiSource": "1p_api",
@@ -38,9 +38,18 @@
     "penetration": 1,
     "history": null,
     "physical": false,
-    "exposure": 0.8553,
-    "category": "ai_does",
-    "evidenceLevel": "observed"
+    "aeiClaudeShare": null,
+    "aeiApiShare": 0,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": 0.9211,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": 0.962,
+    "peopleWork": false,
+    "seenRarely": true,
+    "automationBasis": null,
+    "exposure": 0.375,
+    "category": "ai_speeds",
+    "evidenceLevel": "estimate"
    }
   },
   {
@@ -53,7 +62,7 @@
    "dwaIds": [
     "4.A.4.b.1.f.4"
    ],
-   "short": "Prepare daily work",
+   "short": "Daily schedule creation",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -68,8 +77,17 @@
     "penetration": 0,
     "history": null,
     "physical": false,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": true,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -83,7 +101,7 @@
    "dwaIds": [
     "4.A.4.a.8.c.1"
    ],
-   "short": "Confer with customers",
+   "short": "Customer coordination",
    "evidence": {
     "theoryLabel": "E1",
     "gpt4Label": "E2",
@@ -98,6 +116,15 @@
     "penetration": 0,
     "history": null,
     "physical": false,
+    "aeiClaudeShare": 0.0001,
+    "aeiApiShare": 0.0001,
+    "aeiClaudeAutomation": 0.9267,
+    "aeiApiAutomation": 0.9777,
+    "aeiClaudeWorkShare": 0.274,
+    "aeiApiWorkShare": 0.9008,
+    "peopleWork": true,
+    "seenRarely": false,
+    "automationBasis": "1p_api",
     "exposure": 0.8631,
     "category": "ai_does",
     "evidenceLevel": "observed"
@@ -113,13 +140,13 @@
    "dwaIds": [
     "4.A.4.a.2.c.11"
    ],
-   "short": "Relay work orders",
+   "short": "Message relay",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E1",
     "theorySource": "human+gpt4",
     "theory": 0.75,
-    "observed": true,
+    "observed": false,
     "everObserved": true,
     "aeiShare": 0,
     "aeiSource": "1p_api",
@@ -128,9 +155,18 @@
     "penetration": 0,
     "history": null,
     "physical": false,
-    "exposure": 0.875,
-    "category": "ai_does",
-    "evidenceLevel": "observed"
+    "aeiClaudeShare": null,
+    "aeiApiShare": 0,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": 1,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": 0.9459,
+    "peopleWork": false,
+    "seenRarely": true,
+    "automationBasis": null,
+    "exposure": 0.375,
+    "category": "ai_speeds",
+    "evidenceLevel": "estimate"
    }
   },
   {
@@ -158,6 +194,15 @@
     "penetration": 0,
     "history": null,
     "physical": false,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": false,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.375,
     "category": "ai_speeds",
     "evidenceLevel": "estimate"
@@ -173,7 +218,7 @@
    "dwaIds": [
     "4.A.3.b.6.m.5"
    ],
-   "short": "Receive work orders",
+   "short": "Work order processing",
    "evidence": {
     "theoryLabel": "E1",
     "gpt4Label": "E1",
@@ -188,6 +233,15 @@
     "penetration": 0,
     "history": null,
     "physical": false,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": false,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.5,
     "category": "ai_speeds",
     "evidenceLevel": "estimate"
@@ -203,13 +257,13 @@
    "dwaIds": [
     "4.A.3.b.6.h.5"
    ],
-   "short": "Record files",
+   "short": "Dispatch recordkeeping",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E1",
     "theorySource": "human+gpt4",
     "theory": 0.75,
-    "observed": true,
+    "observed": false,
     "everObserved": true,
     "aeiShare": 0,
     "aeiSource": "claude_ai",
@@ -218,9 +272,18 @@
     "penetration": 0,
     "history": null,
     "physical": false,
-    "exposure": 0.8342,
-    "category": "ai_does",
-    "evidenceLevel": "observed"
+    "aeiClaudeShare": 0,
+    "aeiApiShare": 0,
+    "aeiClaudeAutomation": 0.7059,
+    "aeiApiAutomation": 0.9677,
+    "aeiClaudeWorkShare": 0.9412,
+    "aeiApiWorkShare": 0.9688,
+    "peopleWork": false,
+    "seenRarely": true,
+    "automationBasis": null,
+    "exposure": 0.375,
+    "category": "ai_speeds",
+    "evidenceLevel": "estimate"
    }
   },
   {
@@ -233,7 +296,7 @@
    "dwaIds": [
     "4.A.4.b.4.j.37"
    ],
-   "short": "Arrange for repairs",
+   "short": "Service repair scheduling",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -248,8 +311,17 @@
     "penetration": 0,
     "history": null,
     "physical": false,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": true,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -263,7 +335,7 @@
    "dwaIds": [
     "4.A.1.a.2.b.10"
    ],
-   "short": "Monitor personnel",
+   "short": "Asset tracking",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -278,6 +350,15 @@
     "penetration": 0,
     "history": null,
     "physical": false,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": false,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.25,
     "category": "ai_speeds",
     "evidenceLevel": "estimate"
@@ -293,13 +374,13 @@
    "dwaIds": [
     "4.A.2.b.1.j.11"
    ],
-   "short": "Determine types",
+   "short": "Resource allocation",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E1",
     "theorySource": "human+gpt4",
     "theory": 0.75,
-    "observed": true,
+    "observed": false,
     "everObserved": true,
     "aeiShare": 0,
     "aeiSource": "1p_api",
@@ -308,9 +389,18 @@
     "penetration": 0,
     "history": null,
     "physical": false,
-    "exposure": 0.875,
-    "category": "ai_does",
-    "evidenceLevel": "observed"
+    "aeiClaudeShare": null,
+    "aeiApiShare": 0,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": 1,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": 0.8511,
+    "peopleWork": false,
+    "seenRarely": true,
+    "automationBasis": null,
+    "exposure": 0.375,
+    "category": "ai_speeds",
+    "evidenceLevel": "estimate"
    }
   },
   {
@@ -323,7 +413,7 @@
    "dwaIds": [
     "4.A.4.a.2.c.2"
    ],
-   "short": "Advise personnel",
+   "short": "Traffic and hazard alerts",
    "evidence": {
     "theoryLabel": "E2",
     "gpt4Label": "E2",
@@ -351,6 +441,15 @@
      }
     ],
     "physical": false,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": false,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.25,
     "category": "ai_speeds",
     "evidenceLevel": "estimate"
@@ -367,7 +466,7 @@
     "4.A.4.c.3.c.3",
     "4.A.4.c.3.e.1"
    ],
-   "short": "Order supplies",
+   "short": "Equipment supply issue",
    "evidence": {
     "theoryLabel": "E0",
     "gpt4Label": "E2",
@@ -382,6 +481,15 @@
     "penetration": 0,
     "history": null,
     "physical": true,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": false,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.125,
     "category": "human_edge",
     "evidenceLevel": "estimate"
@@ -492,116 +600,21 @@
    "importance": 2.52
   }
  ],
- "typicalHumanShare": 0,
+ "typicalHumanShare": 0.19,
  "related": [
   {
    "code": "53-1044.00",
    "slug": "first-line-supervisors-of-passenger-attendants",
    "title": "First-Line Supervisors of Passenger Attendants",
    "similarity": 0.913,
-   "typicalHumanShare": 0.3,
+   "typicalHumanShare": 0.82,
    "wageDelta": 12550,
    "missingSkills": [
-    "Telecommunications",
     "Psychology",
     "Transportation",
-    "Therapy and Counseling",
-    "Management of Personnel Resources"
-   ]
-  },
-  {
-   "code": "53-1041.00",
-   "slug": "aircraft-cargo-handling-supervisors",
-   "title": "Aircraft Cargo Handling Supervisors",
-   "similarity": 0.877,
-   "typicalHumanShare": 0.58,
-   "wageDelta": 7830,
-   "missingSkills": [
-    "Operation and Control",
     "Management of Personnel Resources",
-    "Telecommunications",
-    "Production and Processing",
-    "Mathematics"
-   ]
-  },
-  {
-   "code": "53-1043.00",
-   "slug": "first-line-supervisors-of-material-moving-machine-and-vehicle-operators",
-   "title": "First-Line Supervisors of Material-Moving Machine and Vehicle Operators",
-   "similarity": 0.854,
-   "typicalHumanShare": 0.24,
-   "wageDelta": 12550,
-   "missingSkills": [
-    "Production and Processing",
-    "Mathematics",
-    "Management of Personnel Resources",
-    "Chemistry",
-    "Therapy and Counseling"
-   ]
-  },
-  {
-   "code": "43-5051.00",
-   "slug": "postal-service-clerks",
-   "title": "Postal Service Clerks",
-   "similarity": 0.89,
-   "typicalHumanShare": 0.67,
-   "wageDelta": 11790,
-   "missingSkills": [
-    "Sales and Marketing",
-    "Mathematics",
-    "Production and Processing"
-   ]
-  },
-  {
-   "code": "43-2011.00",
-   "slug": "switchboard-operators-including-answering-service",
-   "title": "Switchboard Operators, Including Answering Service",
-   "similarity": 0.845,
-   "typicalHumanShare": 0.18,
-   "wageDelta": -11710,
-   "missingSkills": [
-    "Telecommunications"
-   ]
-  },
-  {
-   "code": "53-4031.00",
-   "slug": "railroad-conductors-and-yardmasters",
-   "title": "Railroad Conductors and Yardmasters",
-   "similarity": 0.799,
-   "typicalHumanShare": 0.24,
-   "wageDelta": 27660,
-   "missingSkills": [
-    "Operation and Control",
-    "Operations Monitoring",
-    "Chemistry",
-    "Mechanical",
-    "Quality Control Analysis"
-   ]
-  },
-  {
-   "code": "43-5071.00",
-   "slug": "shipping-receiving-and-inventory-clerks",
-   "title": "Shipping, Receiving, and Inventory Clerks",
-   "similarity": 0.868,
-   "typicalHumanShare": 0.47,
-   "wageDelta": -5080,
-   "missingSkills": [
-    "Production and Processing",
-    "Mechanical",
-    "Operation and Control"
-   ]
-  },
-  {
-   "code": "43-4081.00",
-   "slug": "hotel-motel-and-resort-desk-clerks",
-   "title": "Hotel, Motel, and Resort Desk Clerks",
-   "similarity": 0.878,
-   "typicalHumanShare": 0.35,
-   "wageDelta": -15270,
-   "missingSkills": [
-    "Sales and Marketing",
-    "Food Production",
-    "Economics and Accounting"
+    "Education and Training",
+    "Negotiation"
    ]
   }
  ],
@@ -611,5 +624,6 @@
   "gpts": "GPTs-are-GPTs full_labelset.tsv (2024)",
   "ms": "Working with AI v1.1",
   "bls": "May 2025"
- }
+ },
+ "relatedCount": 8
 }

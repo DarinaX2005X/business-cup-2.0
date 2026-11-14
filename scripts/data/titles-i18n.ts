@@ -59,7 +59,8 @@ function writeOut(lang: 'ru' | 'kk', file: OutFile) {
       seen.add(k);
       return true;
     })
-    .sort((a, b) => (a.code < b.code ? -1 : a.code > b.code ? 1 : a.title < b.title ? -1 : 1));
+    // Stable by code: within a code the first title is the one the UI shows (the build puts reviewed ones first).
+    .sort((a, b) => (a.code < b.code ? -1 : a.code > b.code ? 1 : 0));
   writeFileSync(join(BUILD, `titles.${lang}.json`), JSON.stringify({ model: file.model, items }, null, 1));
 }
 

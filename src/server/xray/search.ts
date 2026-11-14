@@ -41,6 +41,16 @@ export interface SearchResponse {
   translated: string | null;
   /** 'try_english': translation was unavailable (budget, limits, provider) — the UI asks for the English title. */
   hint: 'try_english' | null;
+  /**
+   * true when the query is Cyrillic, has no confident local match and translation was not requested
+   * (translate=0 while typing): asking again with translate=1 may find it. Absent otherwise.
+   */
+  translatable?: boolean;
+}
+
+export interface SearchOptions {
+  /** Allow the model translation of a Cyrillic query (default true). The client sends false while typing. */
+  translate?: boolean;
 }
 
 export function clampQuery(query: string): string {
@@ -53,7 +63,7 @@ export function clampQuery(query: string): string {
 
 type DomainSearch = ReturnType<typeof searchOccupations> & { confident?: boolean };
 
-export async function searchTitles(rawQuery: string, locale: Locale, actor?: Actor): Promise<SearchResponse> {
+export async function searchTitles(rawQuery: string, locale: Locale, actor?: Actor, options: SearchOptions = {}): Promise<SearchResponse> {
   const query = clampQuery(rawQuery);
   const idx = await getSearchIndex();
   const local = await getLocalTitles(locale);
@@ -90,6 +100,8 @@ export async function searchTitles(rawQuery: string, locale: Locale, actor?: Act
   if (original.length && first.confident !== false && coversQuery(query, original[0].matched)) {
     return { results: original, suggestions: [], translated: null, hint: null };
   }
+
+  if (options.translate === false) return { ...none(null, query), translatable: normQuery(query).length >= 3 };
 
   let english: string | null;
   try {

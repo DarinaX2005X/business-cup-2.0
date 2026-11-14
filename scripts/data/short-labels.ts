@@ -1,4 +1,4 @@
-// npm run data:short-labels [-- --max-usd=0.8] [-- --top=150] [-- --batch=2]
+// npm run data:short-labels [-- --max-usd=0.8] [-- --top=150] [-- --batch=2] [-- --concurrency=1]
 // Plain-English 2–4 word labels for the tasks of the most employed occupations ("Charting", "Bedside
 // assessment", "Wiring installation"), written by the model through src/server/ai/client.ts (budget, cache,
 // strict schema). Output: data/build/short-labels.en.json { taskId: label }. Run `npm run data:build` afterwards:
@@ -43,6 +43,7 @@ async function main() {
   const maxUsd = arg('max-usd', 0.8);
   const top = arg('top', 150);
   const batch = arg('batch', 2);
+  const concurrency = arg('concurrency', 1);
   const { callModel, getModelId, isAiError } = await import('@/server/ai/client');
   const index = JSON.parse(readFileSync(join(ROOT, 'data', 'build', 'index.json'), 'utf8')) as OccupationIndexEntry[];
   const labels: Record<string, string> = existsSync(OUT) ? JSON.parse(readFileSync(OUT, 'utf8')) : {};
@@ -60,37 +61,49 @@ async function main() {
   };
   let spent = 0;
   let calls = 0;
-  for (let i = 0; i < occs.length; i += batch) {
-    if (spent >= maxUsd) {
-      console.warn(`[short-labels] stopped: spent $${spent.toFixed(4)} of $${maxUsd}; run again to continue`);
-      break;
-    }
-    const group = occs.slice(i, i + batch);
-    const user = JSON.stringify(group.map((b) => ({ occupation: b.title, tasks: b.tasks.map((t) => ({ id: t.id, text: t.text })) })));
-    try {
-      const res = await callModel({ op: 'task.short', schema, system: SYSTEM, user, locale: 'en', cacheKey: user, maxTokens: 6000, temperature: 0.2 });
-      calls++;
-      spent += res.cached ? 0 : res.usage.costUsd;
-      const asked = new Set(group.flatMap((b) => b.tasks.map((t) => t.id)));
-      let ok = 0;
-      for (const { id, label } of res.data.labels) {
-        const v = validLabel(label);
-        if (asked.has(id) && v) {
-          labels[id] = v;
-          ok++;
-        }
-      }
-      save();
-      console.log(`[short-labels] ${Math.min(i + batch, occs.length)}/${occs.length}: ${ok}/${asked.size} labels, $${spent.toFixed(4)}${res.cached ? ' (cached)' : ''}`);
-    } catch (err) {
-      if (isAiError(err)) {
-        console.error(`[short-labels] stopped on ${err.code}: ${err.message}. Partial results are saved.`);
-        process.exitCode = 1;
+  const groups: OccupationBundle[][] = [];
+  for (let i = 0; i < occs.length; i += batch) groups.push(occs.slice(i, i + batch));
+  let next = 0;
+  let done = 0;
+  let stop = false;
+  // A few workers share the queue; every finished batch is saved, so an interrupted run resumes.
+  const worker = async () => {
+    while (!stop && next < groups.length) {
+      if (spent >= maxUsd) {
+        console.warn(`[short-labels] stopped: spent $${spent.toFixed(4)} of $${maxUsd}; run again to continue`);
+        stop = true;
         break;
       }
-      throw err;
+      const group = groups[next++];
+      const user = JSON.stringify(group.map((b) => ({ occupation: b.title, tasks: b.tasks.map((t) => ({ id: t.id, text: t.text })) })));
+      try {
+        const res = await callModel({ op: 'task.short', schema, system: SYSTEM, user, locale: 'en', cacheKey: user, maxTokens: 6000, temperature: 0.2 });
+        calls++;
+        spent += res.cached ? 0 : res.usage.costUsd;
+        const asked = new Set(group.flatMap((b) => b.tasks.map((t) => t.id)));
+        let ok = 0;
+        for (const { id, label } of res.data.labels) {
+          const v = validLabel(label);
+          if (asked.has(id) && v) {
+            labels[id] = v;
+            ok++;
+          }
+        }
+        save();
+        done += group.length;
+        console.log(`[short-labels] ${done}/${occs.length}: ${ok}/${asked.size} labels, $${spent.toFixed(4)}${res.cached ? ' (cached)' : ''}`);
+      } catch (err) {
+        if (isAiError(err)) {
+          console.error(`[short-labels] stopped on ${err.code}: ${err.message}. Partial results are saved.`);
+          process.exitCode = 1;
+          stop = true;
+          break;
+        }
+        throw err;
+      }
     }
-  }
+  };
+  await Promise.all(Array.from({ length: concurrency }, worker));
   console.log(`[short-labels] ${Object.keys(labels).length} labels in file, ${calls} calls, $${spent.toFixed(4)}. Run \`npm run data:build\` next.`);
 }
 

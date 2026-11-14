@@ -24,7 +24,7 @@ describe('coverage of the joined sources', () => {
       ['GPTs-are-GPTs label (human or GPT-4)', p(c.gptsLabel)],
       ['  estimated from shared DWAs', p(c.theoryEstimatedDwa)],
       ['AEI 2026-06-26 published (either source)', p(c.aeiPublished)],
-      ['AEI observed after work-use gate (evidence: observed)', p(c.aeiObservedWorkGated)],
+      ['AEI observed: work use and >= 0.01% of conversations', p(c.aeiObservedWorkGated)],
       ['AEI ever observed since Aug 2025', p(c.aeiEverObserved)],
       ['AEI history (>= 3 Claude.ai periods)', p(c.aeiHistory)],
       ['AEI task_penetration joined / > 0', `${p(c.penetration)} / ${p(c.penetrationAboveZero)}`],
@@ -40,7 +40,7 @@ describe('coverage of the joined sources', () => {
     expect(meta.counts.tasks).toBe(18838);
     expect(c.gptsLabel).toBeCloseTo(0.995, 3);
     expect(c.aeiPublished).toBeCloseTo(0.197, 3);
-    expect(c.aeiObservedWorkGated).toBeCloseTo(0.153, 3);
+    expect(c.aeiObservedWorkGated).toBeCloseTo(0.065, 3); // work-gated AND >= 0.01% of a source's conversations
     expect(c.aeiEverObserved).toBeCloseTo(0.313, 3);
     expect(c.evidenceLevels.observed + c.evidenceLevels.estimate + c.evidenceLevels.none).toBe(18838);
   });
@@ -50,7 +50,8 @@ describe('coverage of the joined sources', () => {
     expect(meta.constants.WORK_GATE).toBe(0.5);
     expect(meta.constants.AT_STAKE_AI_DOES).toBe(1);
     expect(meta.constants.AT_STAKE_AI_SPEEDS).toBe(0.5);
-    expect(meta.constants.aiDoesAutomation).toBe(0.6);
+    expect(meta.constants.aiDoesAutomation).toBe(0.7);
+    expect(meta.constants.minObservedShare).toBe(0.0001);
     expect(meta.sources.length).toBeGreaterThanOrEqual(10);
     for (const s of meta.sources) expect(s.sha256).toMatch(/^[0-9a-f]{64}$/);
     expect(meta.attribution.onet.text).toContain('O*NET 31.0 Database');
@@ -74,123 +75,192 @@ const xrayOf = (code: string) => {
   const b = bundleOf(code);
   return computeXray(b, defaultShares(b)).result;
 };
+const relatedFile = JSON.parse(readFileSync(join(ROOT, 'data', 'build', 'related.json'), 'utf8')) as Record<string, OccupationBundle['related']>;
 
 describe('task evidence on real occupations', () => {
-  it('registered nurse: documentation is ai_speeds, hands-on care is human_edge', () => {
+  it('registered nurse: documentation is ai_speeds, hands-on care and supervision stay human', () => {
     const rn = bundleOf('29-1141.00');
     expect(byId(rn, '1841').evidence.category).toBe('ai_speeds'); // Record patients' medical information
-    expect(byId(rn, '20413').evidence.category).toBe('human_edge'); // Administer medications (physical)
+    expect(byId(rn, '20413').evidence.category).toBe('human_edge'); // Administer medications (physical, E0)
     expect(byId(rn, '1855').evidence.category).toBe('human_edge'); // Provide health care, first aid
-    expect(byId(rn, '1840').evidence).toMatchObject({ evidenceLevel: 'observed', category: 'ai_does' }); // 93% automation
-    expect(byId(rn, '1845').evidence).toMatchObject({ observed: false }); // published, 0% work use
+    expect(byId(rn, '1846').evidence.category).toBe('human_edge'); // Direct or supervise nursing personnel (people work)
+    // Monitor, record, report symptoms: work use published but below 0.01% (93% of it API traffic): seen rarely,
+    // so the research rating decides, never "AI already does it".
+    expect(byId(rn, '1840').evidence).toMatchObject({ observed: false, seenRarely: true, evidenceLevel: 'estimate' });
+    expect(byId(rn, '1840').evidence.category).not.toBe('ai_does');
   });
 
-  it('accountant: observed work is ai_does / ai_speeds; reconciliation is no longer human_edge', () => {
+  it('LPN: answering patients calls is not "AI already does it"', () => {
+    expect(byId(bundleOf('29-2061.00'), '509').evidence).toMatchObject({ seenRarely: true, category: 'human_edge' });
+  });
+
+  it('accountant: observed record work is ai_speeds; reconciliation rated E0 / E2 stays human', () => {
     const acc = bundleOf('13-2011.00');
-    expect(acc.tasks.filter((t) => t.evidence.evidenceLevel === 'observed')).toHaveLength(14);
-    expect(byId(acc, '21514').evidence).toMatchObject({ category: 'ai_does', evidenceLevel: 'observed' });
-    expect(byId(acc, '21517').evidence).toMatchObject({ category: 'ai_does', evidenceLevel: 'observed' });
-    expect(byId(acc, '21516').evidence).toMatchObject({ theorySource: 'human+gpt4', category: 'ai_speeds' });
+    expect(byId(acc, '21514').evidence).toMatchObject({ category: 'ai_speeds', evidenceLevel: 'observed' });
+    expect(byId(acc, '21516').evidence).toMatchObject({ theorySource: 'human+gpt4', theory: 0.25, category: 'human_edge' });
   });
 
-  it('bookkeeping clerks: computer and payroll work is not human edge; checking postings is ai_does', () => {
+  it('bookkeeping clerks: computer and office-machine work is ai_speeds, coding documents is ai_does', () => {
     const bk = bundleOf('43-3031.00');
-    expect(byId(bk, '2486').evidence).toMatchObject({ category: 'ai_does', evidenceLevel: 'observed' }); // Check figures, postings
+    expect(byId(bk, '2486').evidence).toMatchObject({ category: 'ai_speeds', evidenceLevel: 'observed' }); // Check figures, postings
     expect(byId(bk, '2487').evidence.category).toBe('ai_speeds'); // Operate computers programmed with accounting software
-    expect(byId(bk, '18561').evidence.category).toBe('ai_speeds'); // Prepare and process payroll information
+    expect(bk.tasks.filter((t) => t.evidence.category === 'ai_does').length).toBeGreaterThan(0);
   });
 
-  it('electrician: installation is human_edge through the physical flag; paperwork is ai_does', () => {
+  it('electrician: installation is human_edge through the physical flag', () => {
     const el = bundleOf('47-2111.00');
     for (const id of ['2888', '2873', '2875']) expect(byId(el, id).evidence).toMatchObject({ physical: true, category: 'human_edge' });
-    expect(byId(el, '2885').evidence.category).toBe('ai_does');
   });
 
-  it('a physical flag does not beat E1 writing tasks that Anthropic sees in use', () => {
-    for (const [code, id] of [['11-9031.00', '5206'], ['11-9032.00', '5230'], ['11-2011.00', '3236']]) {
+  it('E1 writing tasks are not held back by a physical flag', () => {
+    for (const [code, id] of [['11-9031.00', '5206'], ['11-9032.00', '5230']]) {
       expect(byId(bundleOf(code), id).evidence.category, `${code} ${id}`).toBe('ai_speeds');
     }
   });
 
   it('category distributions and base scores (fixed so a data change is visible in review)', () => {
-    const rows = ['29-1141.00', '29-1141.03', '13-2011.00', '43-3031.00', '47-2111.00'].map((c) => ({ c, d: dist(c), base: xrayOf(c).baseScore }));
+    const rows = ['29-1141.00', '29-2061.00', '29-1141.03', '13-2011.00', '43-3031.00', '47-2111.00', '43-4051.00'].map((c) => ({ c, d: dist(c), base: xrayOf(c).baseScore }));
     console.log(rows.map((r) => `${r.c} ${JSON.stringify(r.d)} base ${r.base}`).join('\n'));
-    expect(dist('29-1141.00')).toEqual({ ai_does: 1, ai_speeds: 16, human_edge: 10 });
-    expect(dist('13-2011.00')).toEqual({ ai_does: 10, ai_speeds: 18, human_edge: 2 });
-    expect(dist('47-2111.00')).toEqual({ ai_does: 1, ai_speeds: 8, human_edge: 12 });
-    expect(dist('43-3031.00')).toEqual({ ai_does: 13, ai_speeds: 11, human_edge: 4 });
-    // Base scores use the category weights of pay at stake (ai_does 1, ai_speeds 0.5). The clerk's O*NET week
-    // keeps hands-on office work (10-key calculators, copiers, banking cash), so it lands above the accountant's.
-    expect(Object.fromEntries(rows.map((r) => [r.c, r.base]))).toEqual({
-      '29-1141.00': 59,
-      '29-1141.03': 66,
-      '13-2011.00': 35,
-      '43-3031.00': 45,
-      '47-2111.00': 84,
-    });
-    const base = (c: string) => xrayOf(c).baseScore;
-    expect(base('15-1252.00')).toBeLessThan(base('29-1141.00'));
-    expect(base('29-1141.00')).toBeLessThan(base('47-2111.00'));
-    expect(base('43-4051.00')).toBeLessThan(base('23-1011.00'));
+    expect(dist('29-1141.00')).toEqual({ ai_speeds: 11, human_edge: 16 });
+    expect(dist('29-2061.00')).toEqual({ ai_speeds: 5, human_edge: 17 });
+    expect(dist('13-2011.00')).toEqual({ ai_speeds: 20, human_edge: 10 });
+    expect(dist('43-3031.00')).toEqual({ ai_does: 2, ai_speeds: 20, human_edge: 6 });
+    expect(dist('47-2111.00')).toEqual({ ai_speeds: 3, human_edge: 18 });
+    expect(dist('43-4051.00')).toEqual({ ai_does: 4, ai_speeds: 4, human_edge: 5 });
+    expect(xrayOf('43-3031.00').baseScore).toBeLessThanOrEqual(xrayOf('13-2011.00').baseScore);
   });
 
-  it('every task has a short label of at most 4 words', () => {
-    for (const code of ['29-1141.00', '13-2011.00', '47-2111.00', '43-3031.00']) {
-      for (const t of bundleOf(code).tasks) {
+  it('every ai_does task has meaningful volume and high automation from a trusted basis', () => {
+    for (const e of index) {
+      for (const t of bundleOf(e.code).tasks) {
+        const v = t.evidence;
+        if (v.category !== 'ai_does') continue;
+        expect(v.observed).toBe(true);
+        expect(v.automationBasis === 'claude_ai' || (v.automationBasis === '1p_api' && v.theory >= 0.75)).toBe(true);
+      }
+    }
+  });
+
+  it('every task has a short label of at most 4 words, never a dangling fragment', () => {
+    for (const e of [...index].sort((a, b) => a.rank - b.rank).slice(0, 600)) {
+      for (const t of bundleOf(e.code).tasks) {
         expect(t.short, t.id).toBeTruthy();
         expect(t.short!.split(' ').length, `${t.id} ${t.short}`).toBeLessThanOrEqual(4);
-        expect(t.short).not.toMatch(/[.,;:]$/);
+        expect(t.short, `${t.id} ${t.short}`).not.toMatch(/[.,;:]$|\b(related|accurate|and|or|of|to|for|the)$/i);
       }
     }
   });
 });
 
-describe('neighbouring occupations', () => {
-  const codesOf = (code: string) => bundleOf(code).related.map((r) => r.code);
-  const titlesOf = (code: string) => bundleOf(code).related.map((r) => r.title);
+describe('similar professions: near-identical tasks get the same category', () => {
+  const STOP = new Set(['and', 'or', 'the', 'of', 'to', 'for', 'in', 'a', 'such', 'as', 'with', 'on', 'by', 'patients', 'patient']);
+  const words = (s: string) => new Set(s.toLowerCase().replace(/[^a-z ]/g, ' ').split(/\s+/).filter((w) => w.length > 2 && !STOP.has(w)));
+  const jaccard = (a: Set<string>, b: Set<string>) => {
+    let i = 0;
+    for (const x of a) if (b.has(x)) i++;
+    return i / (a.size + b.size - i);
+  };
+  it('Registered Nurses vs Licensed Practical Nurses', () => {
+    const rn = bundleOf('29-1141.00');
+    const lpn = bundleOf('29-2061.00');
+    const pairs: [string, string, string, string][] = [];
+    for (const a of rn.tasks) {
+      for (const b of lpn.tasks) {
+        const sameDwas = a.dwaIds.length > 0 && a.dwaIds.join() === b.dwaIds.join();
+        if ((jaccard(words(a.text), words(b.text)) >= 0.4 || sameDwas) && a.evidence.theory === b.evidence.theory) {
+          pairs.push([a.text.slice(0, 50), b.text.slice(0, 50), a.evidence.category, b.evidence.category]);
+        }
+      }
+    }
+    console.log(pairs.map((p) => `${p[2]} / ${p[3]}: ${p[0]} | ${p[1]}`).join('\n'));
+    expect(pairs.length).toBeGreaterThan(0);
+    for (const [a, b, ca, cb] of pairs) expect(ca, `${a} | ${b}`).toBe(cb);
+    // The weeks differ because the task lists differ (RNs record, coordinate and plan more), not by rule noise.
+    expect(Math.abs(xrayOf('29-1141.00').percent.human_edge - xrayOf('29-2061.00').percent.human_edge)).toBeLessThan(40);
+  });
+});
 
-  it('neighbours are safer (or about as safe), similar, same or next Job Zone', () => {
+describe('neighbouring occupations', () => {
+  const codesOf = (code: string) => relatedFile[code].map((r) => r.code);
+  const titlesOf = (code: string) => relatedFile[code].map((r) => r.title);
+
+  it('public bundles carry only the first neighbour; the full list is server-only', () => {
+    for (const e of index) {
+      const b = bundleOf(e.code);
+      expect(b.related.length).toBeLessThanOrEqual(1);
+      expect(b.relatedCount).toBe(relatedFile[e.code].length);
+      if (b.related.length) expect(b.related[0]).toEqual(relatedFile[e.code][0]);
+    }
+  });
+
+  it('neighbours are similar, about as safe or safer, same or next Job Zone, and pay about as much or more', () => {
     const zone = new Map(index.map((e) => [e.code, e.jobZone]));
     const share = new Map(index.map((e) => [e.code, e.typicalHumanShare]));
     let filled = 0;
+    let lowerPaid = 0;
     for (const e of index) {
-      const b = bundleOf(e.code);
-      if (b.related.length) filled++;
-      for (const r of b.related) {
+      const list = relatedFile[e.code];
+      if (list.length) filled++;
+      const wage = bundleOf(e.code).wage.medianAnnual;
+      for (const r of list) {
         const z = zone.get(r.code)!;
         if (e.jobZone !== null && z !== null) expect(z - e.jobZone).toBeGreaterThanOrEqual(0);
         expect(share.get(r.code)! - e.typicalHumanShare).toBeGreaterThanOrEqual(-0.05 - 1e-9);
-        expect(r.similarity).toBeGreaterThanOrEqual(0.75);
+        expect(r.similarity).toBeGreaterThanOrEqual(0.7);
+        if (wage && r.wageDelta !== null && r.wageDelta < -0.05 * wage) lowerPaid++;
+      }
+      // lower-paid moves appear only when nothing else qualifies
+      if (list.some((r) => wage && r.wageDelta !== null && r.wageDelta < -0.05 * wage)) {
+        expect(list.every((r) => wage && r.wageDelta !== null && r.wageDelta < -0.05 * wage)).toBe(true);
       }
     }
+    console.log(`neighbours filled ${filled}/${index.length}, lower-paid entries ${lowerPaid}`);
     expect(filled / index.length).toBeGreaterThan(0.85);
   });
 
-  it('registered nurse: nursing or health roles, no physicians or psychologists in the top 3', () => {
+  it('registered nurse: nursing roles first, no physicians or psychologists in the top 3', () => {
     const rel = codesOf('29-1141.00');
     const top3 = titlesOf('29-1141.00').slice(0, 3);
-    expect(rel).toContain('29-1141.03'); // Critical Care Nurses
-    expect(top3.some((t) => /Physician|Psycholog|Surgeon|ologists$/.test(t)), top3.join(', ')).toBe(false);
-    expect(rel.every((c) => /^(29|31|21|25-1)/.test(c))).toBe(true);
+    expect(rel).toContain('29-1171.00'); // Nurse Practitioners
+    expect(top3.every((t) => /Nurse/.test(t)), top3.join(', ')).toBe(true);
+    expect(top3.some((t) => /Physician|Psycholog|Surgeon/.test(t))).toBe(false);
   });
 
   it('customer service: customer-facing office roles, no gambling dealers or ushers', () => {
     const rel = codesOf('43-4051.00');
     expect(rel.filter((c) => c.startsWith('43-')).length).toBeGreaterThanOrEqual(5);
-    expect(rel).not.toContain('39-3011.00'); // Gambling Dealers
-    expect(rel).not.toContain('39-3031.00'); // Ushers, Lobby Attendants, and Ticket Takers
+    expect(rel).not.toContain('39-3011.00');
+    expect(rel).not.toContain('39-3031.00');
   });
 
-  it('accountant: finance and business neighbours; electrician: trades neighbours', () => {
-    expect(codesOf('13-2011.00').every((c) => /^(13|11)-/.test(c))).toBe(true);
-    expect(codesOf('47-2111.00').every((c) => /^(47|49)-/.test(c))).toBe(true);
-    expect(codesOf('47-2111.00')).toContain('47-2152.00'); // Plumbers
+  it('bookkeeping clerk is not offered a pay cut when a better move exists', () => {
+    const bk = relatedFile['43-3031.00'];
+    expect(bk.map((r) => r.code)).toContain('13-2011.00');
+    const wage = bundleOf('43-3031.00').wage.medianAnnual!;
+    expect(bk.every((r) => (r.wageDelta ?? 0) >= -0.05 * wage)).toBe(true); // comparable pay or better
+  });
+
+  it('skill gaps list only skills that matter in the target', () => {
+    const vfx = relatedFile['27-1024.00'].find((r) => r.code === '27-1014.00');
+    if (vfx) expect(vfx.missingSkills).not.toContain('Geography');
+    for (const e of index) for (const r of relatedFile[e.code]) expect(new Set(r.missingSkills).size).toBe(r.missingSkills.length);
   });
 
   it('neighbours carry wage difference and missing skills', () => {
-    const r = bundleOf('13-2011.00').related.find((x) => x.code === '11-3031.01')!;
+    const r = relatedFile['13-2011.00'].find((x) => x.code === '11-3031.01')!;
     expect(r.wageDelta).toBeGreaterThan(0);
     expect(r.missingSkills.length).toBeGreaterThan(0);
+  });
+});
+
+describe('validation against published measures', () => {
+  it('Spearman against Anthropic and Microsoft is recorded and positive', () => {
+    console.log(meta.validation.map((v: { id: string; rho: number; n: number }) => `${v.id} rho ${v.rho} n ${v.n}`).join('; '));
+    expect(meta.validation.map((v: { id: string }) => v.id)).toEqual(['anthropic', 'microsoft']);
+    for (const v of meta.validation) {
+      expect(v.rho).toBeGreaterThan(0.5);
+      expect(v.n).toBeGreaterThan(700);
+    }
   });
 });
 

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { exposureOf, explainCategory, observedScore, theoryFromLabels } from '@/domain/evidence';
+import { categoryReason, exposureOf, explainCategory, observedScore, theoryFromLabels } from '@/domain/evidence';
 import { evidence } from './helpers';
 
 describe('exposure indicator (data-sources.md §7)', () => {
@@ -27,59 +27,101 @@ describe('theory from GPTs-are-GPTs labels', () => {
   });
 });
 
+/** Work use published in both sources with per-source facts, as the build writes them. */
+const seen = (o: { claude?: [number, number]; api?: [number, number]; theory?: number; work?: number }) =>
+  evidence({
+    theoryLabel: 'E2',
+    theory: o.theory ?? 0.5,
+    observed: true,
+    aeiShare: o.claude?.[0] ?? o.api?.[0] ?? null,
+    aeiSource: o.claude ? 'claude_ai' : '1p_api',
+    aeiAutomation: o.claude?.[1] ?? o.api?.[1] ?? null,
+    aeiWorkShare: o.work ?? 0.9,
+    aeiClaudeShare: o.claude?.[0] ?? null,
+    aeiClaudeAutomation: o.claude?.[1] ?? null,
+    aeiClaudeWorkShare: o.claude ? o.work ?? 0.9 : null,
+    aeiApiShare: o.api?.[0] ?? null,
+    aeiApiAutomation: o.api?.[1] ?? null,
+    aeiApiWorkShare: o.api ? o.work ?? 0.9 : null,
+  });
+
+describe('volume floor: tiny observations do not decide the category', () => {
+  it('a share that rounds to 0.00% in both sources is seen rarely, not observed', () => {
+    const e = seen({ claude: [0, 0.95], api: [0, 0.99] });
+    expect(e).toMatchObject({ observed: false, seenRarely: true, evidenceLevel: 'estimate', category: 'ai_speeds' });
+    expect(explainCategory(e)).toEqual({ key: 'category.explain.seen_rarely', params: { label: 'E2' } });
+  });
+  it('0.01% of conversations is enough', () => {
+    expect(seen({ claude: [0.0001, 0.4] })).toMatchObject({ observed: true, seenRarely: false, evidenceLevel: 'observed' });
+  });
+  it('a source with mostly personal use does not supply the volume', () => {
+    expect(seen({ claude: [0.002, 0.9], work: 0.3 }).observed).toBe(false);
+  });
+});
+
 describe('categorize: every branch', () => {
   it('no_data without label and observations', () => {
     expect(evidence({ theoryLabel: null, theorySource: null, theory: null }).category).toBe('no_data');
   });
-  it('observed use wins over the label: automation >= 0.6 → ai_does, even with E0', () => {
-    const e = evidence({ theoryLabel: 'E0', theory: 0, observed: true, aeiAutomation: 0.86, aeiShare: 0.001, aeiWorkShare: 0.8 });
-    expect(e).toMatchObject({ category: 'ai_does', evidenceLevel: 'observed' });
+  it('observed with Claude.ai automation >= 0.7 → ai_does, even with a low research rating', () => {
+    const e = seen({ claude: [0.001, 0.75], theory: 0 });
+    expect(e).toMatchObject({ category: 'ai_does', automationBasis: 'claude_ai' });
+    expect(categoryReason(e)).toBe('observed_does');
   });
-  it('observed with automation below 0.6 → ai_speeds, even with E1', () => {
-    const e = evidence({ theoryLabel: 'E1', theory: 1, observed: true, aeiAutomation: 0.59, aeiShare: 0.001, aeiWorkShare: 0.8 });
-    expect(e.category).toBe('ai_speeds');
+  it('observed with Claude.ai automation below 0.7 → ai_speeds', () => {
+    expect(seen({ claude: [0.001, 0.69], theory: 1 }).category).toBe('ai_speeds');
   });
-  it('physical flag decides only without other usage signals and with theory <= 0.5', () => {
-    expect(evidence({ theoryLabel: 'E2', theory: 0.5, physical: true }).category).toBe('human_edge');
-    expect(evidence({ theoryLabel: 'E1', theory: 1, physical: true }).category).toBe('ai_speeds'); // E1 overrides the flag
-    expect(evidence({ theoryLabel: 'E0', theory: 0, physical: true, penetration: 0.78 }).category).toBe('ai_speeds');
-    expect(evidence({ theoryLabel: 'E0', theory: 0, physical: true, everObserved: true }).category).toBe('ai_speeds');
+  it('API-only automation decides only when researchers rate the task E1-level (theory >= 0.75)', () => {
+    expect(seen({ api: [0.001, 0.98], theory: 0.5 })).toMatchObject({ category: 'ai_speeds', automationBasis: null });
+    const e = seen({ api: [0.001, 0.98], theory: 0.75 });
+    expect(e).toMatchObject({ category: 'ai_does', automationBasis: '1p_api' });
+    expect(explainCategory(e).key).toBe('category.explain.observed_api');
   });
-  it('not observed: theory >= 0.25, ever observed or penetration > 0 → ai_speeds; otherwise human_edge', () => {
+  it('hands-on work stays human when researchers see little LLM help (theory <= 0.25); E2 or E1 hands-on work is ai_speeds', () => {
+    expect(evidence({ theoryLabel: 'E0', theory: 0, physical: true }).category).toBe('human_edge');
+    expect(evidence({ theoryLabel: 'E0', gpt4Label: 'E2', theorySource: 'human+gpt4', theory: 0.25, physical: true }).category).toBe('human_edge');
+    expect(evidence({ theoryLabel: 'E2', theory: 0.5, physical: true }).category).toBe('ai_speeds');
+    expect(evidence({ theoryLabel: 'E1', theory: 1, physical: true }).category).toBe('ai_speeds');
+  });
+  it('work with people stays human unless both raters say E1', () => {
+    expect(evidence({ theoryLabel: 'E2', theory: 0.5, peopleWork: true }).category).toBe('human_edge');
+    expect(evidence({ theoryLabel: 'E1', gpt4Label: 'E2', theorySource: 'human+gpt4', theory: 0.75, peopleWork: true }).category).toBe('human_edge');
+    expect(evidence({ theoryLabel: 'E1', theory: 1, peopleWork: true }).category).toBe('ai_speeds');
+    expect(categoryReason(evidence({ theoryLabel: 'E2', theory: 0.5, peopleWork: true }))).toBe('people');
+  });
+  it('not observed: theory >= 0.5 → ai_speeds, below → human_edge; usage history and penetration are no triggers', () => {
     expect(evidence({ theoryLabel: 'E2', theory: 0.5 }).category).toBe('ai_speeds');
-    expect(evidence({ theoryLabel: 'E0', gpt4Label: 'E2', theorySource: 'human+gpt4', theory: 0.25 }).category).toBe('ai_speeds');
-    expect(evidence({ theoryLabel: 'E0', theory: 0, everObserved: true }).category).toBe('ai_speeds');
-    expect(evidence({ theoryLabel: 'E0', theory: 0, penetration: 0.1 }).category).toBe('ai_speeds');
-    expect(evidence({ theoryLabel: 'E0', theory: 0, penetration: 0 }).category).toBe('human_edge');
+    expect(evidence({ theoryLabel: 'E0', gpt4Label: 'E2', theorySource: 'human+gpt4', theory: 0.25 }).category).toBe('human_edge');
+    expect(evidence({ theoryLabel: 'E0', theory: 0, everObserved: true }).category).toBe('human_edge');
+    expect(evidence({ theoryLabel: 'E0', theory: 0, penetration: 0.9 }).category).toBe('human_edge');
   });
   it('a DWA estimate counts as research evidence, not as no_data', () => {
-    const e = evidence({ theoryLabel: null, theorySource: 'estimated', theory: 0.6 });
-    expect(e).toMatchObject({ category: 'ai_speeds', evidenceLevel: 'estimate' });
+    expect(evidence({ theoryLabel: null, theorySource: 'estimated', theory: 0.6 })).toMatchObject({ category: 'ai_speeds', evidenceLevel: 'estimate' });
   });
 });
 
-describe('explainCategory follows the reason of the category', () => {
+describe('explainCategory: one honest sentence per reason', () => {
   it('observed automation and collaboration', () => {
-    const auto = evidence({ theoryLabel: 'E1', theory: 1, observed: true, aeiShare: 0.0042, aeiSource: 'claude_ai', aeiAutomation: 0.71, aeiWorkShare: 0.9 });
+    const auto = seen({ claude: [0.0042, 0.71] });
     expect(explainCategory(auto)).toEqual({ key: 'category.explain.observed_auto', params: { share: '0.42%', auto: '71%', source: 'claude_ai' } });
-    const collab = evidence({ theoryLabel: 'E2', theory: 0.5, observed: true, aeiShare: 0.00001, aeiSource: '1p_api', aeiAutomation: 0.3, aeiWorkShare: 0.9 });
-    expect(explainCategory(collab)).toEqual({ key: 'category.explain.observed_collab', params: { share: '<0.01%', collab: '70%', auto: '30%', source: '1p_api' } });
+    const collab = seen({ claude: [0.0003, 0.3] });
+    expect(explainCategory(collab)).toEqual({ key: 'category.explain.observed_collab', params: { share: '0.03%', collab: '70%', auto: '30%', source: 'claude_ai' } });
   });
-  it('personal use, earlier releases and penetration', () => {
-    expect(explainCategory(evidence({ theoryLabel: 'E1', theory: 1, aeiShare: 0.0001, aeiSource: 'claude_ai', aeiAutomation: 0.86, aeiWorkShare: 0 })).key).toBe('category.explain.personal_use');
-    expect(explainCategory(evidence({ theoryLabel: 'E0', theory: 0, everObserved: true })).key).toBe('category.explain.earlier_use');
-    expect(explainCategory(evidence({ theoryLabel: 'E0', theory: 0, penetration: 0.4 }))).toEqual({ key: 'category.explain.penetration', params: { penetration: '40%' } });
+  it('personal use', () => {
+    const e = evidence({ theoryLabel: 'E1', theory: 1, aeiShare: 0.0001, aeiSource: 'claude_ai', aeiAutomation: 0.86, aeiWorkShare: 0 });
+    expect(explainCategory(e).key).toBe('category.explain.personal_use');
   });
-  it('estimates, mixed labels, physical and no data', () => {
+  it('estimates, mixed labels, people, physical and no data', () => {
     expect(explainCategory(evidence({ theoryLabel: 'E1', theory: 1 })).key).toBe('category.explain.estimate_e1');
     expect(explainCategory(evidence({ theoryLabel: 'E2', theory: 0.5 })).key).toBe('category.explain.estimate_e2');
     expect(explainCategory(evidence({ theoryLabel: 'E0', theory: 0 })).key).toBe('category.explain.estimate_e0');
-    expect(explainCategory(evidence({ theoryLabel: 'E0', gpt4Label: 'E2', theorySource: 'human+gpt4', theory: 0.25 }))).toEqual({
-      key: 'category.explain.estimate_mixed',
-      params: { human: 'E0', gpt4: 'E2', theory: '25%' },
-    });
+    const mixedHigh = evidence({ theoryLabel: 'E1', gpt4Label: 'E2', theorySource: 'human+gpt4', theory: 0.75 });
+    expect(explainCategory(mixedHigh)).toEqual({ key: 'category.explain.estimate_mixed', params: { human: 'E1', gpt4: 'E2', theory: '75%' } });
+    const mixedLow = evidence({ theoryLabel: 'E0', gpt4Label: 'E2', theorySource: 'human+gpt4', theory: 0.25 });
+    expect(explainCategory(mixedLow)).toEqual({ key: 'category.explain.estimate_low', params: { human: 'E0', gpt4: 'E2', theory: '25%' } });
     expect(explainCategory(evidence({ theoryLabel: null, theorySource: 'estimated', theory: 0.5 })).key).toBe('category.explain.estimate_dwa');
     expect(explainCategory(evidence({ theoryLabel: 'E0', theory: 0, physical: true })).key).toBe('category.explain.physical');
+    expect(explainCategory(evidence({ theoryLabel: 'E2', theory: 0.5, peopleWork: true })).key).toBe('category.explain.people');
     expect(explainCategory(evidence({ theoryLabel: null, theorySource: null, theory: null })).key).toBe('category.explain.no_data');
   });
 });

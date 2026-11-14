@@ -117,3 +117,15 @@ export const getTitlePhrases = once(async (): Promise<TitlePhrases> => {
   }
   return { multi, single };
 });
+
+// ---------------------------------------------------------------------------------------------
+// Neighbouring occupations (Pro): the full list lives only on the server. Public bundles carry the first
+// neighbour (what Free shows) and `relatedCount`. Added by 01.1 in the data repair round.
+
+const getRelatedFile = once(async () => readJsonFile<Record<string, OccupationBundle['related']>>(path.join(BUILD_DIR, 'related.json')));
+
+/** Full neighbour list for an occupation (Pro), or [] when unknown. */
+export async function getRelated(code: string): Promise<OccupationBundle['related']> {
+  if (!isOccupationCode(code)) return [];
+  return (await getRelatedFile())[code] ?? [];
+}

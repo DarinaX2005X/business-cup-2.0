@@ -42,6 +42,10 @@ export interface RawSources {
   skills: [string, string, string, number][];
   knowledge: [string, string, string, number][];
   taskDwas: [string, string][]; // [taskId, dwaId]
+  /** GWAs to IWAs to DWAs: [dwaId, gwaId]. */
+  dwaGwa?: [string, string][];
+  /** DWA titles: [dwaId, name]. */
+  dwaNames?: [string, string][];
   related: { code: string; related: string; tier: string; index: number }[];
   jobZones: [string, number][];
   /** Education.txt, Required Level of Education (RL): [code, category 1..12, percent of respondents]. */
@@ -49,6 +53,9 @@ export interface RawSources {
   gpts: { taskId: string; text: string; human: 'E0' | 'E1' | 'E2' | null; gpt4: 'E0' | 'E1' | 'E2' | null }[];
   physical: [string, boolean][];
   penetration: [string, number][]; // [task text, penetration]
+  /** Validation: Anthropic job_exposure.csv [soc6, observed_exposure] and Microsoft [soc6, ai_applicability_score]. */
+  jobExposure?: [string, number][];
+  msApplicability?: [string, number][];
   aei: { claude_ai: RawAeiTask[]; '1p_api': RawAeiTask[] };
   /** Older text-keyed releases: release label → { normalised-or-raw text: pct }. */
   aeiOld: { release: string; source: 'claude_ai' | '1p_api'; period: string; rows: [string, number][] }[];

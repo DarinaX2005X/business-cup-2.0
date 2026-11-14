@@ -8,6 +8,7 @@ import {
   DEFAULT_WEEK_TASKS,
   FREQ_PER_YEAR,
   HISTORY_MIN_PERIODS,
+  PEOPLE_GWAS,
   RELATED,
   THEORY_WEIGHT,
   WORK_GATE,
@@ -15,19 +16,21 @@ import {
 import { buildEvidence, theoryFromLabels } from '../evidence';
 import { buildSearchIndex, type SearchIndexFile } from '../search';
 import { defaultShares } from '../shares';
-import { normTaskText, shortLabel, slugify } from '../text';
+import { normTaskText, shortFromTask, slugify } from '../text';
 import type {
   Category,
   DataVersion,
   OccTask,
   OccupationBundle,
   OccupationIndexEntry,
+  RelatedOccupation,
   TaskEvidence,
   TitleIndexEntry,
 } from '../types';
 import type { RawAeiTask, RawSources } from './raw';
-import { computeRelated, type RelatedInput } from './related';
+import { computeRelated, type RelatedInput, type RelatedTier } from './related';
 import { mapWages } from './wages';
+import { validateAgainst, type ValidationRow } from './validation';
 
 export interface AliasEntry {
   alias: string;
@@ -47,6 +50,10 @@ export interface AssembleInput {
   aliasesI18n: AliasEntry[];
   /** Model translations from data/build/titles.<lang>.json, when the script has been run. */
   translations: { ru: TranslatedTitle[]; kk: TranslatedTitle[] };
+  /** Reviewed main Russian and Kazakh title per occupation (data/titles-primary.json). */
+  titlesPrimary?: Record<string, { ru: string; kk: string }>;
+  /** Model name recorded in titles.<lang>.json. */
+  translationsModel?: string;
   /** Model-written short task labels from data/build/short-labels.en.json (taskId → label), when present. */
   shortLabels?: Record<string, string>;
 }
@@ -57,7 +64,15 @@ export interface BuildOutput {
   index: OccupationIndexEntry[];
   searchIndex: SearchIndexFile;
   meta: BuildMeta;
+  /** data/build/titles.<lang>.json: the first title per code is the one the UI shows. */
+  localTitles: { ru: TranslatedTitle[]; kk: TranslatedTitle[] };
+  translationsModel: string;
+  /** code → full neighbour list (server-only, data/build/related.json). */
+  related: Record<string, RelatedOccupation[]>;
 }
+
+/** Neighbours the public bundle carries: what a Free user sees. */
+export const PUBLIC_RELATED = 1;
 
 export const DATA_VERSION: DataVersion = {
   onet: '31.0',
@@ -204,6 +219,8 @@ export function assemble(input: AssembleInput): BuildOutput {
     penByNorm.set(n, Math.max(penByNorm.get(n) ?? -Infinity, v));
   }
   const physicalById = new Map(src.physical);
+  const gwaOfDwa = new Map(src.dwaGwa ?? []);
+  const dwaName = new Map(src.dwaNames ?? []);
 
   // ---- evidence per task
   const evidenceOf = (taskId: string): TaskEvidence => {
@@ -235,6 +252,12 @@ export function assemble(input: AssembleInput): BuildOutput {
         ? [...periods.entries()].sort((a, b) => (a[0] < b[0] ? -1 : 1)).map(([release, s]) => ({ release, share: round(s, 6) }))
         : null;
 
+    const autoOf = (r: typeof ca) => {
+      if (!r || r.automation === null || r.augmentation === null || !(r.automation + r.augmentation > 0)) return null;
+      return round(r.automation / (r.automation + r.augmentation), 4);
+    };
+    const dwas = dwasOf.get(taskId) ?? [];
+    const people = dwas.filter((d) => PEOPLE_GWAS[gwaOfDwa.get(d) ?? ''] !== undefined).length;
     return buildEvidence({
       theoryLabel: th ? th.human ?? th.gpt4 : null,
       gpt4Label: th?.gpt4 ?? null,
@@ -249,6 +272,13 @@ export function assemble(input: AssembleInput): BuildOutput {
       penetration: penByNorm.has(n) ? round(penByNorm.get(n)!, 4) : null,
       history,
       physical: physicalById.has(taskId) ? physicalById.get(taskId)! : null,
+      aeiClaudeShare: ca?.pct != null ? round(ca.pct / 100, 6) : null,
+      aeiApiShare: api?.pct != null ? round(api.pct / 100, 6) : null,
+      aeiClaudeAutomation: autoOf(ca),
+      aeiApiAutomation: autoOf(api),
+      aeiClaudeWorkShare: ca?.work != null ? round(ca.work / 100, 4) : null,
+      aeiApiWorkShare: api?.work != null ? round(api.work / 100, 4) : null,
+      peopleWork: dwas.length > 0 && people / dwas.length >= CATEGORY_THRESHOLDS.peopleWorkShare,
     });
   };
 
@@ -280,7 +310,8 @@ export function assemble(input: AssembleInput): BuildOutput {
     slugOf.set(code, s);
   }
 
-  // ---- bundles without related
+  // ---- bundles without related; atStake = typical week share AI does or speeds up (validation)
+  const atStake = new Map<string, number>();
   const bundles: OccupationBundle[] = codes.map((code) => {
     const occ = titleOf.get(code)!;
     const tasks: OccTask[] = tasksByCode
@@ -296,7 +327,7 @@ export function assemble(input: AssembleInput): BuildOutput {
           frequency: f && f.w > 0 ? round(f.cw / f.w, 2) : null,
           core: t.type === 'Core',
           dwaIds: [...(dwasOf.get(t.id) ?? [])].sort(),
-          short: input.shortLabels?.[t.id] ?? shortLabel(t.text),
+          short: input.shortLabels?.[t.id] ?? shortFromTask(t.text, (dwasOf.get(t.id) ?? []).map((d) => dwaName.get(d) ?? '').filter(Boolean)),
           evidence: evidenceOf(t.id),
         };
       })
@@ -304,6 +335,7 @@ export function assemble(input: AssembleInput): BuildOutput {
     const shares = defaultShares({ tasks });
     const byId = new Map(tasks.map((t) => [t.id, t]));
     const human = shares.filter((s) => byId.get(s.taskId)!.evidence.category === 'human_edge').reduce((a, s) => a + s.share, 0);
+    atStake.set(code, shares.reduce((a, s) => a + s.share * AT_STAKE_WEIGHTS[byId.get(s.taskId)!.evidence.category], 0) / 100);
     return {
       code,
       slug: slugOf.get(code)!,
@@ -321,11 +353,11 @@ export function assemble(input: AssembleInput): BuildOutput {
   });
 
   // ---- neighbours
-  const relatedPairs = new Map<string, Map<string, 'Primary-Short' | 'Primary-Long'>>();
+  const relatedPairs = new Map<string, Map<string, RelatedTier>>();
   for (const r of src.related) {
-    if (r.tier !== 'Primary-Short' && r.tier !== 'Primary-Long') continue;
+    if (r.tier !== 'Primary-Short' && r.tier !== 'Primary-Long' && r.tier !== 'Supplemental') continue;
     if (!relatedPairs.has(r.code)) relatedPairs.set(r.code, new Map());
-    relatedPairs.get(r.code)!.set(r.related, r.tier as 'Primary-Short' | 'Primary-Long');
+    relatedPairs.get(r.code)!.set(r.related, r.tier);
   }
   const relInputs: RelatedInput[] = bundles.map((b) => {
     const importance = new Map<string, number>();
@@ -337,7 +369,15 @@ export function assemble(input: AssembleInput): BuildOutput {
     return { code: b.code, slug: b.slug, title: b.title, jobZone: b.jobZone, education: eduBest.get(b.code)?.[0] ?? null, typicalHumanShare: b.typicalHumanShare, medianAnnual: b.wage.medianAnnual, importance, names };
   });
   const related = computeRelated(relInputs, relatedPairs);
-  for (const b of bundles) b.related = related.get(b.code) ?? [];
+  // The full list is a Pro feature: the public bundle carries only what Free shows (the first neighbour) and
+  // the count; the rest goes to data/build/related.json, which only the server reads.
+  const relatedFull: Record<string, RelatedOccupation[]> = {};
+  for (const b of bundles) {
+    const list = related.get(b.code) ?? [];
+    relatedFull[b.code] = list;
+    b.related = list.slice(0, PUBLIC_RELATED);
+    b.relatedCount = list.length;
+  }
 
   // ---- popularity ranking: BLS employment; a shared OEWS row counts in full for the base .00 occupation
   // and is split evenly among its specialties (.01, .02 …); without BLS, the number of O*NET titles.
@@ -390,6 +430,26 @@ export function assemble(input: AssembleInput): BuildOutput {
       raw.push({ t: title, c: tr.code, k: 'alt', l: lang });
     }
   }
+  const primaryLocal = input.titlesPrimary ?? {};
+  for (const lang of ['ru', 'kk'] as const) {
+    for (const code of Object.keys(primaryLocal).sort()) if (codeSet.has(code) && primaryLocal[code][lang]) raw.push({ t: primaryLocal[code][lang], c: code, k: 'alias', l: lang });
+  }
+  // Local names the UI shows (first title per code): reviewed primary, then curated aliases, then model titles.
+  const localTitles = { ru: orderLocal('ru'), kk: orderLocal('kk') };
+  function orderLocal(lang: 'ru' | 'kk'): TranslatedTitle[] {
+    const byCode = new Map<string, string[]>();
+    const add = (code: string, title: string) => {
+      const t = title.trim();
+      if (!t || !codeSet.has(code)) return;
+      const list = byCode.get(code) ?? [];
+      if (!list.some((x) => x.toLowerCase() === t.toLowerCase())) list.push(t);
+      byCode.set(code, list);
+    };
+    for (const code of Object.keys(primaryLocal)) add(code, primaryLocal[code][lang]);
+    for (const a of input.aliasesI18n) if (a.lang === lang) add(a.code, a.alias);
+    for (const tr of input.translations[lang]) add(tr.code, tr.title);
+    return [...byCode.keys()].sort().flatMap((code) => byCode.get(code)!.map((title) => ({ code, title })));
+  }
   const titles = dedupeTitles(raw);
   const primaryTitles: Record<string, string> = {};
   for (const code of codes) primaryTitles[code] = titleOf.get(code)!.title;
@@ -437,7 +497,7 @@ export function assemble(input: AssembleInput): BuildOutput {
       titles: titles.length,
       aliases: input.aliases.length,
       aliasesI18n: input.aliasesI18n.length,
-      translations: { ru: input.translations.ru.length, kk: input.translations.kk.length },
+      translations: { ru: localTitles.ru.length, kk: localTitles.kk.length },
     },
     coverage: {
       importanceRated: share((t) => t.importance !== null),
@@ -467,12 +527,16 @@ export function assemble(input: AssembleInput): BuildOutput {
       },
     },
     rankBasis,
+    validation: [
+      validateAgainst(atStake, src.jobExposure ?? [], 'anthropic', 'Anthropic observed_exposure (labor market impacts, 2026)'),
+      validateAgainst(atStake, src.msApplicability ?? [], 'microsoft', 'Microsoft ai_applicability_score (Working with AI)'),
+    ].filter((v) => v.n > 0),
     aeiReleaseMaxShare: Math.max(0, ...allTasks.map((t) => t.evidence.aeiShare ?? 0)),
     sources: src.files,
     attribution: ATTRIBUTION,
   };
 
-  return { bundles, titles, index, searchIndex, meta };
+  return { bundles, titles, index, searchIndex, meta, related: relatedFull, localTitles, translationsModel: input.translationsModel ?? '' };
 }
 
 export interface BuildMeta {
@@ -483,6 +547,8 @@ export interface BuildMeta {
   counts: Record<string, unknown>;
   coverage: Record<string, unknown>;
   rankBasis: 'bls_employment' | 'title_count';
+  /** Spearman ρ of the typical-week at-stake share against published occupation-level measures. */
+  validation: ValidationRow[];
   /** Largest aeiShare of any task (scale maximum for the EvidenceMeter). */
   aeiReleaseMaxShare: number;
   sources: RawSources['files'];

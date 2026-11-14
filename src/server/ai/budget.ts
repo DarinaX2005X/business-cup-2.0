@@ -22,7 +22,12 @@ export interface Actor {
   ip?: string | null;
 }
 
-export const RATE_LIMITS = { profilePerDay: 25, ipPerDay: 60 } as const;
+/**
+ * Default per-day model-call limits. Judges and visitors often share one network (one IP), so the IP limit is
+ * set for a room of about 30 people (30 x 20 calls); the global and daily dollar caps still protect the money.
+ * Override with AI_PROFILE_PER_DAY / AI_IP_PER_DAY. Title translation has its own bucket (src/server/xray/search.ts).
+ */
+export const RATE_LIMITS = { profilePerDay: 25, ipPerDay: 600 } as const;
 const RATE_TTL_SEC = 2 * 24 * 3600;
 const DAY_TTL_SEC = 3 * 24 * 3600;
 
@@ -94,18 +99,27 @@ async function takeSlot(key: string, limit: number): Promise<boolean> {
   return false;
 }
 
+/** Limits in force: RATE_LIMITS unless the environment overrides them (AI_PROFILE_PER_DAY, AI_IP_PER_DAY). */
+export function rateLimits(env: NodeJS.ProcessEnv = process.env) {
+  return {
+    profilePerDay: envNumber(env.AI_PROFILE_PER_DAY, RATE_LIMITS.profilePerDay),
+    ipPerDay: envNumber(env.AI_IP_PER_DAY, RATE_LIMITS.ipPerDay),
+  };
+}
+
 /**
- * Counts one model call against the profile (25/day) and the IP (60/day).
+ * Counts one model call against the profile (25/day) and the IP (600/day), see rateLimits().
  * Cached answers do not reach this point and are free. Returns a denial or null.
  */
 export async function consumeRateLimit(actor: Actor | undefined): Promise<Denial | null> {
   if (!actor) return null;
   const day = dayKey();
-  if (actor.profileId && !(await takeSlot(budgetKeys.profile(actor.profileId, day), RATE_LIMITS.profilePerDay))) {
-    return { code: 'rate_limited', reason: `profile reached ${RATE_LIMITS.profilePerDay} model calls today` };
+  const limits = rateLimits();
+  if (actor.profileId && !(await takeSlot(budgetKeys.profile(actor.profileId, day), limits.profilePerDay))) {
+    return { code: 'rate_limited', reason: `profile reached ${limits.profilePerDay} model calls today` };
   }
-  if (actor.ip && !(await takeSlot(budgetKeys.ip(hashIp(actor.ip), day), RATE_LIMITS.ipPerDay))) {
-    return { code: 'rate_limited', reason: `IP reached ${RATE_LIMITS.ipPerDay} model calls today` };
+  if (actor.ip && !(await takeSlot(budgetKeys.ip(hashIp(actor.ip), day), limits.ipPerDay))) {
+    return { code: 'rate_limited', reason: `IP reached ${limits.ipPerDay} model calls today` };
   }
   return null;
 }

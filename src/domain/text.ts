@@ -131,3 +131,66 @@ export function shortLabel(text: string): string {
   const object = phrase.filter((w) => w && !/['’]$/.test(w)).slice(-3);
   return [verb, ...object].join(' ').trim();
 }
+
+/** Last words that leave a label hanging ("Perform duties related", "Maintain accurate", "Determine size"). */
+const BAD_END = new Set([
+  'related', 'accurate', 'detailed', 'necessary', 'appropriate', 'various', 'other', 'such', 'general', 'specific', 'overall',
+  'daily', 'new', 'existing', 'proper', 'required', 'relevant', 'current', 'additional', 'special', 'all', 'size', 'duties',
+  'functions', 'activities', 'aspects', 'matters', 'things', 'items', 'issues', 'tasks', 'work', 'variety', 'types', 'needs',
+  'ensure', 'determine', 'assist', 'help', 'make', 'use', 'perform', 'provide',
+]);
+const PARTICIPLE_ING = new Set(['detailing', 'including', 'involving', 'concerning', 'regarding', 'using', 'following', 'according', 'pertaining', 'relating', 'describing', 'indicating', 'showing', 'containing']);
+const LABEL_TAIL_DROP = new Set([...LABEL_STOP, ...LABEL_SKIP, 'the', 'a', 'an']);
+
+/** A label reads as a phrase: 2–4 words and no dangling last word. */
+export function isCleanLabel(label: string): boolean {
+  const words = label.trim().split(/\s+/).filter(Boolean);
+  if (words.length < 2 || words.length > 4) return false;
+  return !dangling(words[words.length - 1]);
+}
+
+/** A word a label must not end with: stop words, vague words and participles ("caused", "detailing"). */
+function dangling(word: string): boolean {
+  const w = word.toLowerCase();
+  const participle = (/[a-z]{3,}ed$/.test(w) && !/eed$/.test(w)) || PARTICIPLE_ING.has(w);
+  return participle || BAD_END.has(w) || LABEL_TAIL_DROP.has(w);
+}
+
+/** Cut an O*NET phrase to at most 4 words at a clean boundary (before a preposition, never after an adjective). */
+export function cutPhrase(phrase: string): string {
+  const words = phrase.replace(/\.$/, '').replace(/,/g, ' ,').split(/\s+/).filter(Boolean);
+  const out: string[] = [];
+  for (const w of words) {
+    if (w === ',' || (out.length >= 1 && LABEL_STOP.has(w.toLowerCase()))) break;
+    out.push(w);
+    if (out.length === 4) break;
+  }
+  while (out.length > 1 && dangling(out[out.length - 1])) out.pop();
+  return out.join(' ');
+}
+
+/**
+ * Short label without a model: the task's O*NET detailed work activity when it is short (DWAs are curated
+ * phrases such as "Record patient medical histories"), else shortLabel(text) when it reads as a phrase, else the
+ * best DWA cut at a clean boundary. Never a fragment such as "Perform duties related".
+ */
+export function shortFromTask(text: string, dwaTitles: readonly string[] = []): string {
+  const taskWords = new Set(normTitle(text).main.split(' '));
+  const overlap = (d: string) => normTitle(d).main.split(' ').filter((w) => taskWords.has(w)).length;
+  const dwas = [...dwaTitles].map((d) => d.replace(/\.$/, '').trim()).filter(Boolean);
+  const ranked = dwas.map((d, i) => ({ d, i, o: overlap(d) })).sort((a, b) => b.o - a.o || a.i - b.i);
+  const shortDwa = ranked.find((x) => isCleanLabel(x.d));
+  if (shortDwa) return shortDwa.d;
+  const h = shortLabel(text);
+  if (isCleanLabel(h)) return h;
+  for (const x of ranked) {
+    const c = cutPhrase(x.d);
+    if (isCleanLabel(c)) return c;
+  }
+  const c = cutPhrase(text);
+  if (isCleanLabel(c)) return c;
+  // Last resort: the heuristic without dangling words at the end ("Discuss with client the" → "Discuss with client").
+  const words = h.split(' ').filter(Boolean);
+  while (words.length > 1 && dangling(words[words.length - 1])) words.pop();
+  return words.join(' ') || c;
+}

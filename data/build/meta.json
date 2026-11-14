@@ -11,9 +11,14 @@
     "THEORY_WEIGHT": 0.5,
     "WORK_GATE": 0.5,
     "AEI_PCT_FLOOR": 0.005,
-    "aiDoesAutomation": 0.6,
+    "aiDoesAutomation": 0.7,
+    "minObservedShare": 0.0001,
+    "aiDoesApiTheory": 0.75,
+    "unobservedSpeedsTheory": 0.5,
+    "peopleMaxTheory": 0.75,
+    "peopleWorkShare": 0.5,
     "aiSpeedsTheory": 0.25,
-    "physicalMaxTheory": 0.5,
+    "physicalMaxTheory": 0.25,
     "aiDoesExposure": 0.75,
     "aiSpeedsExposure": 0.25,
     "HISTORY_MIN_PERIODS": 3,
@@ -30,7 +35,7 @@
     "FREQ_PER_YEAR_6": 750,
     "FREQ_PER_YEAR_7": 2000,
     "RELATED_MIN_SIMILARITY": 0.86,
-    "RELATED_MIN_SIMILARITY_ONET": 0.75
+    "RELATED_MIN_SIMILARITY_ONET": 0.7
   },
   "formula": {
     "theory": "E1 = 1, E2 = 0.5, E0 = 0 (human label, else GPT-4, else mean over tasks sharing a DWA)",
@@ -42,19 +47,19 @@
     "occupations": 1016,
     "occupationsWithTasks": 923,
     "tasks": 18838,
-    "titles": 53145,
-    "aliases": 255,
-    "aliasesI18n": 89,
+    "titles": 53188,
+    "aliases": 263,
+    "aliasesI18n": 99,
     "translations": {
-      "ru": 975,
-      "kk": 884
+      "ru": 1003,
+      "kk": 909
     }
   },
   "coverage": {
     "importanceRated": 0.9778,
     "gptsLabel": 0.9947,
     "theoryHumanGpt4Mean": 0.3441,
-    "shortFromModel": 0.1752,
+    "shortFromModel": 0.5107,
     "theoryEstimatedDwa": 0.0053,
     "theoryJoin": {
       "id": 18677,
@@ -63,7 +68,7 @@
       "text": 3
     },
     "aeiPublished": 0.1973,
-    "aeiObservedWorkGated": 0.153,
+    "aeiObservedWorkGated": 0.0649,
     "aeiEverObserved": 0.3127,
     "aeiHistory": 0.1512,
     "aeiOlderReleases": {
@@ -99,20 +104,34 @@
       "45-3031.00"
     ],
     "wageShared": 0.2308,
-    "related": 0.896,
+    "related": 0.9372,
     "categories": {
-      "ai_does": 1895,
-      "ai_speeds": 9007,
-      "human_edge": 7936,
+      "ai_does": 370,
+      "ai_speeds": 6774,
+      "human_edge": 11694,
       "no_data": 0
     },
     "evidenceLevels": {
-      "observed": 2882,
-      "estimate": 15956,
+      "observed": 1222,
+      "estimate": 17616,
       "none": 0
     }
   },
   "rankBasis": "bls_employment",
+  "validation": [
+    {
+      "id": "anthropic",
+      "label": "Anthropic observed_exposure (labor market impacts, 2026)",
+      "rho": 0.655,
+      "n": 756
+    },
+    {
+      "id": "microsoft",
+      "label": "Microsoft ai_applicability_score (Working with AI)",
+      "rho": 0.684,
+      "n": 773
+    }
+  ],
   "aeiReleaseMaxShare": 0.0495,
   "sources": [
     {
@@ -184,6 +203,20 @@
       "url": "https://raw.githubusercontent.com/microsoft/working-with-ai/main/physical_tasks.csv",
       "bytes": 209435,
       "sha256": "d731c6f7794d87f927359696ae317e69bf642cb19aa227448b114f778408a7d5"
+    },
+    {
+      "id": "aei_job_exposure",
+      "file": "aei_labor_market_impacts/job_exposure.csv",
+      "url": "https://huggingface.co/datasets/Anthropic/EconomicIndex/resolve/main/labor_market_impacts/job_exposure.csv",
+      "bytes": 37176,
+      "sha256": "4f0a3adf5feeb2ec5f5d02ab18cc5e851a2a4b8470bde84c0c9335017be12d68"
+    },
+    {
+      "id": "ms_ai_applicability",
+      "file": "ms_working_with_ai/ai_applicability_scores.csv",
+      "url": "https://raw.githubusercontent.com/microsoft/working-with-ai/main/ai_applicability_scores.csv",
+      "bytes": 50018,
+      "sha256": "204c7e6a5ec704156212f88a6282dba7508c8b90e5df7c0d590088b2b44aa7d2"
     },
     {
       "id": "bls_oews_may2025_nat",

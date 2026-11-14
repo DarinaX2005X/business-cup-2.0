@@ -7,7 +7,7 @@ import { download, readTsv, sha256, sha256File, streamCsv, unzip } from './io';
 export const ROOT = join(__dirname, '..', '..');
 export const RAW = join(ROOT, 'data', 'raw');
 const CACHE = join(RAW, '.cache', 'sources.json');
-const LOADER_VERSION = 4;
+const LOADER_VERSION = 7;
 
 const HF = 'https://huggingface.co/datasets/Anthropic/EconomicIndex/resolve/main';
 
@@ -28,6 +28,9 @@ export const SOURCES: SourceSpec[] = [
   { id: 'aei_task_penetration', file: 'aei_labor_market_impacts/task_penetration.csv', url: `${HF}/labor_market_impacts/task_penetration.csv` },
   { id: 'gpts_full_labelset', file: 'gpts_are_gpts/full_labelset.tsv', url: 'https://raw.githubusercontent.com/openai/GPTs-are-GPTs/main/data/full_labelset.tsv' },
   { id: 'ms_physical_tasks', file: 'ms_working_with_ai/physical_tasks.csv', url: 'https://raw.githubusercontent.com/microsoft/working-with-ai/main/physical_tasks.csv' },
+  // Validation only (meta.validation): occupation-level measures we compare our indicator with.
+  { id: 'aei_job_exposure', file: 'aei_labor_market_impacts/job_exposure.csv', url: `${HF}/labor_market_impacts/job_exposure.csv` },
+  { id: 'ms_ai_applicability', file: 'ms_working_with_ai/ai_applicability_scores.csv', url: 'https://raw.githubusercontent.com/microsoft/working-with-ai/main/ai_applicability_scores.csv' },
 ];
 
 /** BLS blocks scripted downloads; the national file is placed by hand (CSV of the xlsx's first sheet). */
@@ -114,6 +117,9 @@ async function parseSources(bls: string | null, log: (s: string) => void): Promi
       .map((r) => [r['O*NET-SOC Code'], r['Element ID'], r['Element Name'], num(r['Data Value'])] as [string, string, string, number]);
   const skills = [...importance('Essential Skills'), ...importance('Transferable Skills')];
   const knowledge = importance('Knowledge');
+  const gwaTable = onetTable('GWAs to IWAs to DWAs');
+  const dwaGwa = gwaTable.map((r) => [r['DWA Element ID'], r['GWA Element ID']] as [string, string]);
+  const dwaNames = gwaTable.map((r) => [r['DWA Element ID'], r['DWA Element Name']] as [string, string]);
   const taskDwas = onetTable('Tasks to DWAs').map((r) => [r['Task ID'], r['DWA Element ID']] as [string, string]);
   const related = onetTable('Related Occupations').map((r) => ({
     code: r['O*NET-SOC Code'],
@@ -142,6 +148,10 @@ async function parseSources(bls: string | null, log: (s: string) => void): Promi
   }
   const physical: [string, boolean][] = [];
   await streamCsv(path('ms_physical_tasks'), (r) => physical.push([r[0], r[1] === 'True']));
+  const jobExposure: [string, number][] = [];
+  await streamCsv(path('aei_job_exposure'), (r) => jobExposure.push([r[0], Number(r[2])]));
+  const msApplicability: [string, number][] = [];
+  await streamCsv(path('ms_ai_applicability'), (r) => msApplicability.push([r[0], Number(r[2])]));
   const penetration: [string, number][] = [];
   await streamCsv(path('aei_task_penetration'), (r) => penetration.push([r[0], Number(r[1])]));
 
@@ -215,7 +225,7 @@ async function parseSources(bls: string | null, log: (s: string) => void): Promi
   }
   if (bls) files.push({ id: 'bls_oews_may2025_nat', file: relative(RAW, bls).replace(/\\/g, '/'), url: 'https://www.bls.gov/oes/special-requests/oesm25nat.zip', bytes: statSync(bls).size, sha256: await sha256File(bls) });
 
-  return { onetRelease, occupations, tasks, ratings, jobTitles, reportedTitles, skills, knowledge, taskDwas, related, jobZones, education, gpts, physical, penetration, aei, aeiOld, oews, files };
+  return { onetRelease, occupations, tasks, ratings, jobTitles, reportedTitles, skills, knowledge, taskDwas, dwaGwa, dwaNames, related, jobZones, education, gpts, physical, penetration, jobExposure, msApplicability, aei, aeiOld, oews, files };
 }
 
 const AEI_METRICS: Record<string, 'pct' | 'automation' | 'augmentation' | 'work'> = {

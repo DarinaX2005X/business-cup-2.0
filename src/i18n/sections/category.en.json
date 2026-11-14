@@ -11,7 +11,11 @@
     "estimate_mixed": "Not seen in published AI work use yet. Researchers rated it {human} and GPT-4 rated it {gpt4}, so we take the middle: {theory} on the research scale.",
     "estimate_dwa": "No direct rating for this task, so we estimated it from the rated work activities it belongs to: {theory} on the research scale.",
     "physical": "A physical task done in person, and not seen in published AI work use.",
-    "no_data": "No research rating and no published AI usage for this task yet."
+    "no_data": "No research rating and no published AI usage for this task yet.",
+    "observed_api": "Seen in real AI work use, mostly through the API: {share} of that traffic, and in {auto} of it AI does the whole task. Researchers also rate it as a task a language model can do on its own.",
+    "seen_rarely": "Shows up in AI work use, but rarely: below 0.01% of conversations, too little to decide. The research rating ({label}) decides instead.",
+    "people": "Work with people, such as care, teaching, supervising or negotiating, and not meaningfully seen in AI work use. Researchers did not both rate it as something a language model can do alone.",
+    "estimate_low": "Not meaningfully seen in AI work use. Researchers rated it {human} and GPT-4 rated it {gpt4}: {theory} on the research scale, too low to count as sped up by AI."
   },
   "source": {
     "claude_ai": "Claude conversations",

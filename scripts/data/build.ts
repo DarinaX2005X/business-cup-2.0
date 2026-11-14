@@ -18,9 +18,11 @@ export function readDictionaries(): Omit<AssembleInput, 'sources'> {
   const read = <T>(p: string, fallback: T): T => (existsSync(p) ? (JSON.parse(readFileSync(p, 'utf8')) as T) : fallback);
   const aliases = read<AliasEntry[]>(join(ROOT, 'data', 'aliases.json'), []);
   const aliasesI18n = read<AliasEntry[]>(join(ROOT, 'data', 'aliases.i18n.json'), []);
-  const tr = (lang: 'ru' | 'kk') => read<{ items: TranslatedTitle[] }>(join(OUT_BUILD, `titles.${lang}.json`), { items: [] }).items;
+  const trFile = (lang: 'ru' | 'kk') => read<{ model?: string; items: TranslatedTitle[] }>(join(OUT_BUILD, `titles.${lang}.json`), { items: [] });
+  const tr = (lang: 'ru' | 'kk') => trFile(lang).items;
+  const titlesPrimary = read<Record<string, { ru: string; kk: string }>>(join(ROOT, 'data', 'titles-primary.json'), {});
   const shortLabels = read<Record<string, string>>(join(OUT_BUILD, 'short-labels.en.json'), {});
-  return { aliases, aliasesI18n, translations: { ru: tr('ru'), kk: tr('kk') }, shortLabels };
+  return { aliases, aliasesI18n, translations: { ru: tr('ru'), kk: tr('kk') }, shortLabels, titlesPrimary, translationsModel: trFile('ru').model ?? '' };
 }
 
 /** Serialise every output file deterministically: path → content. */
@@ -30,6 +32,8 @@ export function serialize(out: BuildOutput): Map<string, string> {
   files.set('data/build/titles.json', JSON.stringify(out.titles));
   files.set('data/build/search-index.json', JSON.stringify(out.searchIndex));
   files.set('data/build/index.json', JSON.stringify(out.index));
+  files.set('data/build/related.json', JSON.stringify(out.related));
+  for (const lang of ['ru', 'kk'] as const) files.set(`data/build/titles.${lang}.json`, JSON.stringify({ model: out.translationsModel, items: out.localTitles[lang] }, null, 1));
   files.set('data/build/meta.json', JSON.stringify(out.meta, null, 2));
   return files;
 }

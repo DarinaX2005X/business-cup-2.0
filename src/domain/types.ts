@@ -13,7 +13,7 @@ export interface TaskEvidence {
   gpt4Label?: 'E0' | 'E1' | 'E2' | null; // GPT-4 label (always written by the build; optional for older fixtures), shown when it disagrees with the human one
   theorySource: 'human' | 'gpt4' | 'human+gpt4' | 'estimated' | null; // human+gpt4: labels disagree, theory is their mean
   theory: number; // 1 (E1), 0.5 (E2), 0 (E0); mean of human and GPT-4 when they disagree; DWA mean when estimated; 0 when unknown
-  observed: boolean; // in AEI 2026-06-26 after the work-use gate
+  observed: boolean; // meaningful work use in AEI 2026-06-26: work-gated and a share >= 0.01% (see seenRarely)
   everObserved: boolean; // published in any AEI release since August 2025
   aeiShare: number | null; // 0..1 share of conversations (source in aeiSource)
   aeiSource: 'claude_ai' | '1p_api' | null; // which AEI file aeiShare comes from
@@ -22,6 +22,20 @@ export interface TaskEvidence {
   penetration: number | null; // AEI labor_market_impacts task_penetration 0..1
   history: { release: string; share: number }[] | null; // Claude.ai share by period, only with >= 3 periods
   physical: boolean | null; // Microsoft Working with AI physical flag
+  // ---- Added in the data repair round. Always written by the build; optional so older fixtures compile.
+  /** Work use is published in AEI 2026-06-26, but the share rounds below 0.01% in both sources: shown, not counted. */
+  seenRarely?: boolean;
+  /** Raw per-source facts behind aeiShare / aeiAutomation (0..1). */
+  aeiClaudeShare?: number | null;
+  aeiApiShare?: number | null;
+  aeiClaudeAutomation?: number | null;
+  aeiApiAutomation?: number | null;
+  aeiClaudeWorkShare?: number | null;
+  aeiApiWorkShare?: number | null;
+  /** Which automation decided the category: Claude.ai, API (only with theory >= 0.75), or none. */
+  automationBasis?: 'claude_ai' | '1p_api' | null;
+  /** Most of the task's O*NET activities are work with people (relationships, care, teaching, supervising …). */
+  peopleWork?: boolean;
   exposure: number; // 0..1
   category: Category;
   evidenceLevel: EvidenceLevel;
@@ -68,7 +82,10 @@ export interface OccupationBundle {
   skills: { id: string; name: string; importance: number }[];
   knowledge: { id: string; name: string; importance: number }[];
   typicalHumanShare: number; // 0..1 share of human_edge in the default week (defaultShares)
+  /** Public bundles carry only the first neighbour (what Free shows); the full list is server-only (data/build/related.json). */
   related: RelatedOccupation[];
+  /** Number of neighbours in the full list. */
+  relatedCount?: number;
   dataVersion: DataVersion;
 }
 

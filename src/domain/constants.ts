@@ -14,21 +14,60 @@ export const AEI_PCT_FLOOR = 0.005;
 export const THEORY_BY_LABEL = { E0: 0, E1: 1, E2: 0.5 } as const;
 
 /**
- * Category rules (stage-01 review): observed real use wins over the research label.
- * - observed (work-gated): automation share >= aiDoesAutomation → ai_does, otherwise ai_speeds;
- * - not observed, physical (Microsoft) and no other usage signal and theory <= physicalMaxTheory → human_edge;
- * - not observed: theory >= aiSpeedsTheory, or ever observed since Aug 2025, or task_penetration > 0 → ai_speeds;
- * - otherwise human_edge; no label and no observation → no_data.
+ * Category rules (data repair round, see evidence.ts categorize for the full reasoning):
+ * - observed = AEI 2026-06-26 work use (>= WORK_GATE) with a share of at least minObservedShare in Claude.ai or
+ *   the API; work use below that floor is `seenRarely` and is categorised like an unobserved task;
+ * - observed: Claude.ai automation >= aiDoesAutomation → ai_does; API-only automation counts only when the
+ *   research rating also says an LLM alone can do it (theory >= aiDoesApiTheory); otherwise ai_speeds;
+ * - not observed: physical (Microsoft) with theory <= physicalMaxTheory, or people work (O*NET interpersonal
+ *   activities) with theory <= peopleMaxTheory → human_edge; theory >= unobservedSpeedsTheory → ai_speeds;
+ *   otherwise human_edge;
+ * - no label and no observation → no_data. task_penetration and everObserved are shown, never used as triggers.
  */
 export const CATEGORY_THRESHOLDS = {
-  aiDoesAutomation: 0.6,
+  aiDoesAutomation: 0.7,
+  /**
+   * AEI publishes pct with 2 decimals; 0.01% of a source's conversations is the smallest non-zero value. A task
+   * whose share rounds to 0.00% in both sources (59% of work-gated tasks) is "seen rarely", not observed.
+   */
+  minObservedShare: 0.0001,
+  /** API traffic is mostly programmatic (median automation 0.98 vs 0.66 on Claude.ai): API-only ai_does needs this theory. */
+  aiDoesApiTheory: 0.75,
+  /** Unobserved tasks need this research theory (E2 agreed by both raters, or better) to count as ai_speeds. */
+  unobservedSpeedsTheory: 0.5,
+  /** People work stays with the person when unobserved and theory is at most this (one rater E1, the other E2). */
+  peopleMaxTheory: 0.75,
+  /** A task is people work when at least this share of its DWAs belong to the interpersonal GWAs below. */
+  peopleWorkShare: 0.5,
+  /** @deprecated replaced by unobservedSpeedsTheory; kept for existing imports */
   aiSpeedsTheory: 0.25,
-  physicalMaxTheory: 0.5,
+  /** Hands-on work stays human only when researchers see little LLM help (E0, or E0 by one rater and E2 by the other). */
+  physicalMaxTheory: 0.25,
   /** @deprecated categories no longer use exposure thresholds; kept for existing imports */
   aiDoesExposure: 0.75,
   /** @deprecated categories no longer use exposure thresholds; kept for existing imports */
   aiSpeedsExposure: 0.25,
 } as const;
+
+/**
+ * O*NET 31.0 Generalized Work Activities that are work with people: relationships, caring, influencing,
+ * negotiating, working with the public, coordinating, team building, teaching, supervising, coaching,
+ * consulting and staffing. Used for `peopleWork` (Task → DWA → GWA).
+ */
+export const PEOPLE_GWAS: Record<string, string> = {
+  '4.A.4.a.4': 'Establishing and Maintaining Interpersonal Relationships',
+  '4.A.4.a.5': 'Assisting and Caring for Others',
+  '4.A.4.a.6': 'Selling or Influencing Others',
+  '4.A.4.a.7': 'Resolving Conflicts and Negotiating with Others',
+  '4.A.4.a.8': 'Performing for or Working Directly with the Public',
+  '4.A.4.b.1': 'Coordinating the Work and Activities of Others',
+  '4.A.4.b.2': 'Developing and Building Teams',
+  '4.A.4.b.3': 'Training and Teaching Others',
+  '4.A.4.b.4': 'Guiding, Directing, and Motivating Subordinates',
+  '4.A.4.b.5': 'Coaching and Developing Others',
+  '4.A.4.b.6': 'Providing Consultation and Advice to Others',
+  '4.A.4.c.2': 'Staffing Organizational Units',
+};
 
 /** @deprecated pay at stake now uses category weights (PAY_WEIGHTS); kept for existing imports */
 export const HIGH_EXPOSURE = 0.5;
@@ -69,12 +108,16 @@ export const MAX_WEEK_TASKS = 14;
  */
 export const RELATED = {
   minSimilarity: 0.86, // calibrated on the build: below it pairs stop looking like the same kind of work
-  minSimilarityRelated: 0.75, // O*NET Related Occupations (Primary-Short / Primary-Long) may be a bit further
+  minSimilarityRelated: 0.7, // O*NET Related Occupations (any tier) may be a bit further
   minSimilarityOtherGroup: 0.92, // another SOC major group and not O*NET-related: only near-identical skill profiles
   maxEducationStep: 2, // O*NET Required Level of Education categories above the source
   bonusPrimaryShort: 0.15,
   bonusPrimaryLong: 0.1,
-  bonusSameMajor: 0.04,
+  bonusSameMajor: 0.02,
+  bonusSupplemental: 0.05,
+  payBonus: 0.05, // up to +0.05 for a target paying 30% or more above the source
+  maxPayDrop: 0.05, // a target paying more than 5% less is used only when fewer than minNeighbours others exist
+  missingSkillMinImportance: 3.5, // listed only when the target rates it between important (3) and very important (4) or more
   gainTieBreak: 0.1, // at most +10% for a gain of 0.5 or more
   minNeighbours: 3, // when fewer have a positive gain, neighbours about as safe fill up to this number
   equalGainTolerance: 0.05, // 'about as safe': typical human share at most 5 points lower

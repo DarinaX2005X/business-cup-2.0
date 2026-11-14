@@ -59,8 +59,17 @@
      }
     ],
     "physical": false,
+    "aeiClaudeShare": 0.0006,
+    "aeiApiShare": 0.0002,
+    "aeiClaudeAutomation": 0.2859,
+    "aeiApiAutomation": 0.9232,
+    "aeiClaudeWorkShare": 0.0501,
+    "aeiApiWorkShare": 0.721,
+    "peopleWork": false,
+    "seenRarely": false,
+    "automationBasis": "1p_api",
     "exposure": 0.7363,
-    "category": "ai_speeds",
+    "category": "ai_does",
     "evidenceLevel": "observed"
    }
   },
@@ -102,6 +111,15 @@
      }
     ],
     "physical": false,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": false,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.25,
     "category": "ai_speeds",
     "evidenceLevel": "estimate"
@@ -123,7 +141,7 @@
     "gpt4Label": "E2",
     "theorySource": "human+gpt4",
     "theory": 0.75,
-    "observed": true,
+    "observed": false,
     "everObserved": true,
     "aeiShare": 0,
     "aeiSource": "1p_api",
@@ -132,9 +150,18 @@
     "penetration": 0,
     "history": null,
     "physical": false,
-    "exposure": 0.8538,
-    "category": "ai_does",
-    "evidenceLevel": "observed"
+    "aeiClaudeShare": null,
+    "aeiApiShare": 0,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": 0.9153,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": 0.8833,
+    "peopleWork": true,
+    "seenRarely": true,
+    "automationBasis": null,
+    "exposure": 0.375,
+    "category": "human_edge",
+    "evidenceLevel": "estimate"
    }
   },
   {
@@ -179,6 +206,15 @@
      }
     ],
     "physical": false,
+    "aeiClaudeShare": 0.0001,
+    "aeiApiShare": 0.0003,
+    "aeiClaudeAutomation": 0.9163,
+    "aeiApiAutomation": 0.9847,
+    "aeiClaudeWorkShare": 0.5139,
+    "aeiApiWorkShare": 0.7356,
+    "peopleWork": false,
+    "seenRarely": false,
+    "automationBasis": "claude_ai",
     "exposure": 0.7419,
     "category": "ai_does",
     "evidenceLevel": "observed"
@@ -201,7 +237,7 @@
     "gpt4Label": "E2",
     "theorySource": "human+gpt4",
     "theory": 0.75,
-    "observed": true,
+    "observed": false,
     "everObserved": true,
     "aeiShare": 0,
     "aeiSource": "claude_ai",
@@ -231,9 +267,18 @@
      }
     ],
     "physical": true,
-    "exposure": 0.8322,
-    "category": "ai_does",
-    "evidenceLevel": "observed"
+    "aeiClaudeShare": 0,
+    "aeiApiShare": 0,
+    "aeiClaudeAutomation": 0.6957,
+    "aeiApiAutomation": 0.962,
+    "aeiClaudeWorkShare": 0.8261,
+    "aeiApiWorkShare": 0.7975,
+    "peopleWork": true,
+    "seenRarely": true,
+    "automationBasis": null,
+    "exposure": 0.375,
+    "category": "human_edge",
+    "evidenceLevel": "estimate"
    }
   },
   {
@@ -262,8 +307,17 @@
     "penetration": 0,
     "history": null,
     "physical": true,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": false,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.25,
-    "category": "human_edge",
+    "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
   },
@@ -292,6 +346,15 @@
     "penetration": 0,
     "history": null,
     "physical": false,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": false,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.5,
     "category": "ai_speeds",
     "evidenceLevel": "estimate"
@@ -322,6 +385,15 @@
     "penetration": 1,
     "history": null,
     "physical": false,
+    "aeiClaudeShare": null,
+    "aeiApiShare": 0.0001,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": 0.9828,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": 0.7739,
+    "peopleWork": true,
+    "seenRarely": false,
+    "automationBasis": "1p_api",
     "exposure": 0.8707,
     "category": "ai_does",
     "evidenceLevel": "observed"
@@ -365,8 +437,17 @@
      }
     ],
     "physical": false,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": false,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.125,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -408,6 +489,15 @@
      }
     ],
     "physical": false,
+    "aeiClaudeShare": 0,
+    "aeiApiShare": 0.0001,
+    "aeiClaudeAutomation": 0.4286,
+    "aeiApiAutomation": 0.9615,
+    "aeiClaudeWorkShare": 0.9545,
+    "aeiApiWorkShare": 0.9126,
+    "peopleWork": true,
+    "seenRarely": false,
+    "automationBasis": "1p_api",
     "exposure": 0.821,
     "category": "ai_does",
     "evidenceLevel": "observed"
@@ -439,8 +529,17 @@
     "penetration": 0,
     "history": null,
     "physical": true,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": false,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.25,
-    "category": "human_edge",
+    "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
   },
@@ -460,7 +559,7 @@
     "gpt4Label": "E2",
     "theorySource": "human+gpt4",
     "theory": 0.75,
-    "observed": true,
+    "observed": false,
     "everObserved": true,
     "aeiShare": 0,
     "aeiSource": "1p_api",
@@ -469,9 +568,18 @@
     "penetration": 0,
     "history": null,
     "physical": false,
-    "exposure": 0.8631,
-    "category": "ai_does",
-    "evidenceLevel": "observed"
+    "aeiClaudeShare": null,
+    "aeiApiShare": 0,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": 0.9524,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": 0.9683,
+    "peopleWork": true,
+    "seenRarely": true,
+    "automationBasis": null,
+    "exposure": 0.375,
+    "category": "human_edge",
+    "evidenceLevel": "estimate"
    }
   },
   {
@@ -499,8 +607,17 @@
     "penetration": 0,
     "history": null,
     "physical": false,
+    "aeiClaudeShare": null,
+    "aeiApiShare": null,
+    "aeiClaudeAutomation": null,
+    "aeiApiAutomation": null,
+    "aeiClaudeWorkShare": null,
+    "aeiApiWorkShare": null,
+    "peopleWork": true,
+    "seenRarely": false,
+    "automationBasis": null,
     "exposure": 0.375,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   }
@@ -609,106 +726,18 @@
    "importance": 2.55
   }
  ],
- "typicalHumanShare": 0.09,
+ "typicalHumanShare": 0.24,
  "related": [
   {
    "code": "43-4141.00",
    "slug": "new-accounts-clerks",
    "title": "New Accounts Clerks",
    "similarity": 0.938,
-   "typicalHumanShare": 0.33,
+   "typicalHumanShare": 0.48,
    "wageDelta": 2900,
    "missingSkills": [
     "Sales and Marketing",
-    "Law and Government",
     "Administrative"
-   ]
-  },
-  {
-   "code": "43-4171.00",
-   "slug": "receptionists-and-information-clerks",
-   "title": "Receptionists and Information Clerks",
-   "similarity": 0.912,
-   "typicalHumanShare": 0.22,
-   "wageDelta": -6760,
-   "missingSkills": [
-    "Quality Control Analysis"
-   ]
-  },
-  {
-   "code": "43-3071.00",
-   "slug": "tellers",
-   "title": "Tellers",
-   "similarity": 0.929,
-   "typicalHumanShare": 0.6,
-   "wageDelta": -1740,
-   "missingSkills": [
-    "Operation and Control",
-    "Quality Control Analysis",
-    "Mathematics"
-   ]
-  },
-  {
-   "code": "43-5051.00",
-   "slug": "postal-service-clerks",
-   "title": "Postal Service Clerks",
-   "similarity": 0.913,
-   "typicalHumanShare": 0.67,
-   "wageDelta": 17360,
-   "missingSkills": [
-    "Quality Control Analysis",
-    "Troubleshooting",
-    "Transportation",
-    "Mechanical",
-    "Production and Processing"
-   ]
-  },
-  {
-   "code": "43-4081.00",
-   "slug": "hotel-motel-and-resort-desk-clerks",
-   "title": "Hotel, Motel, and Resort Desk Clerks",
-   "similarity": 0.941,
-   "typicalHumanShare": 0.35,
-   "wageDelta": -9700,
-   "missingSkills": [
-    "Quality Control Analysis",
-    "Public Safety and Security",
-    "Social Perceptiveness"
-   ]
-  },
-  {
-   "code": "43-3041.00",
-   "slug": "gambling-cage-workers",
-   "title": "Gambling Cage Workers",
-   "similarity": 0.887,
-   "typicalHumanShare": 0.58,
-   "wageDelta": -7190,
-   "missingSkills": [
-    "Mathematics",
-    "Operation and Control",
-    "Quality Control Analysis"
-   ]
-  },
-  {
-   "code": "41-2011.00",
-   "slug": "cashiers",
-   "title": "Cashiers",
-   "similarity": 0.932,
-   "typicalHumanShare": 0.35,
-   "wageDelta": -11890,
-   "missingSkills": []
-  },
-  {
-   "code": "43-6014.00",
-   "slug": "secretaries-and-administrative-assistants-except-legal-medical-and-executive",
-   "title": "Secretaries and Administrative Assistants, Except Legal, Medical, and Executive",
-   "similarity": 0.905,
-   "typicalHumanShare": 0.22,
-   "wageDelta": 2770,
-   "missingSkills": [
-    "Administrative",
-    "Quality Control Analysis",
-    "Writing"
    ]
   }
  ],
@@ -718,5 +747,6 @@
   "gpts": "GPTs-are-GPTs full_labelset.tsv (2024)",
   "ms": "Working with AI v1.1",
   "bls": "May 2025"
- }
+ },
+ "relatedCount": 8
 }

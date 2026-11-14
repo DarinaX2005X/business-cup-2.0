@@ -4,6 +4,7 @@ import * as K from '@/domain/constants';
 
 import { defaultShares, occurrencesPerYear, taskWeight } from '@/domain/shares';
 import { computeXray, practiceScore } from '@/domain/xray';
+import { categoryReason } from '@/domain/evidence';
 import type { Category, OccTask, OccupationBundle, TaskEvidence } from '@/domain/types';
 import { getBundle, getMeta, getOccupations } from './data';
 import { taskShort } from './text';
@@ -22,7 +23,11 @@ export function constants() {
     THEORY_WEIGHT: pick('THEORY_WEIGHT', K.THEORY_WEIGHT),
     WORK_GATE: pick('WORK_GATE', K.WORK_GATE),
     aiDoesAutomation: pick('aiDoesAutomation', th.aiDoesAutomation),
-    aiSpeedsTheory: pick('aiSpeedsTheory', th.aiSpeedsTheory ?? 0.25),
+    // The threshold an unobserved task needs to count as ai_speeds (was aiSpeedsTheory 0.25 before the data repair round).
+    aiSpeedsTheory: pick('unobservedSpeedsTheory', th.unobservedSpeedsTheory ?? 0.5),
+    minObservedShare: pick('minObservedShare', th.minObservedShare ?? 0.0001),
+    peopleMaxTheory: pick('peopleMaxTheory', th.peopleMaxTheory ?? 0.75),
+    aiDoesApiTheory: pick('aiDoesApiTheory', th.aiDoesApiTheory ?? 0.75),
     physicalMaxTheory: pick('physicalMaxTheory', th.physicalMaxTheory ?? 0.5),
     PRACTICE_GAIN: pick('PRACTICE_GAIN', K.PRACTICE_GAIN),
     PRACTICE_SCALE: pick('PRACTICE_SCALE', K.PRACTICE_SCALE),
@@ -48,18 +53,16 @@ export const PATH_CATEGORY: Record<PathStep, Category> = {
   no_data: 'no_data',
 };
 
-type PathInput = Pick<TaskEvidence, 'theorySource' | 'theory' | 'observed' | 'everObserved' | 'penetration' | 'aeiAutomation' | 'physical'>;
+type PathInput = TaskEvidence;
 
-/** Mirrors src/domain/evidence.ts categorize(), but says which rule fired. */
+/**
+ * Which rule of src/domain/evidence.ts categorize() fired, from the domain itself (categoryReason), so the page
+ * cannot drift from the code. Question 2 covers both hands-on work and work with people; usage_speeds is no
+ * longer reachable (older releases and task_penetration are shown as facts, not used as triggers).
+ */
 export function categoryPath(e: PathInput): PathStep {
-  const c = constants();
-  const usage = e.everObserved || (e.penetration ?? 0) > 0;
-  if (e.theorySource === null && !e.observed) return 'no_data';
-  if (e.observed) return (e.aeiAutomation ?? 0.5) >= c.aiDoesAutomation ? 'observed_does' : 'observed_speeds';
-  if (e.physical === true && !usage && e.theory <= c.physicalMaxTheory) return 'physical';
-  if (e.theory >= c.aiSpeedsTheory) return 'rated_speeds';
-  if (usage) return 'usage_speeds';
-  return 'low_human';
+  const reason = categoryReason(e);
+  return reason === 'people' ? 'physical' : reason;
 }
 
 let countsPromise: Promise<Record<PathStep, number> & { total: number }> | null = null;

@@ -2,6 +2,7 @@ import { z } from 'zod';
 import type { Locale, PointsAward, Profile } from '@/domain/types';
 import { getStore, isConflictError, ConflictError } from '@/server/store';
 import { runWithEventContext, type EmitResult } from '@/server/events';
+import { planActive } from '@/server/billing/plan';
 import { hashSecret, isProfileId, isSecret, newProfileId, newSecret, verifySecret } from './ids';
 
 export { isProfileId, isSecret } from './ids';
@@ -192,14 +193,10 @@ export async function deleteProfile(id: string): Promise<void> {
 }
 
 /**
- * Pro access: an active `pro`/`trialing` plan whose period has not ended, or DEV_FORCE_PRO=1 outside
- * production (stage 04 keeps `plan` in sync with Stripe).
+ * Pro access: an active `pro`/`trialing` plan whose period has not ended (Stripe or the Business Cup
+ * offer, see `planActive` in src/server/billing/plan.ts), or DEV_FORCE_PRO=1 outside production.
  */
 export function isPro(profile: Pick<Profile, 'plan'>, now: Date = new Date(), env: NodeJS.ProcessEnv = process.env): boolean {
   if (env.DEV_FORCE_PRO === '1' && env.NODE_ENV !== 'production' && env.VERCEL_ENV !== 'production') return true;
-  const { status, periodEnd } = profile.plan;
-  if (status !== 'pro' && status !== 'trialing') return false;
-  if (!periodEnd) return false;
-  const end = Date.parse(periodEnd);
-  return Number.isFinite(end) && end > now.getTime();
+  return planActive(profile.plan, now);
 }

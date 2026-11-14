@@ -15,7 +15,9 @@ export async function getProfileFromCookies(): Promise<PublicProfile | null> {
   if (dot < 0) return null;
   try {
     const profile = await authenticate(raw.slice(0, dot), raw.slice(dot + 1));
-    return profile ? toPublicProfile(profile) : null;
+    if (!profile) return null;
+    const { ensureFreshPlan } = await import('@/server/billing/sync');
+    return toPublicProfile(await ensureFreshPlan(profile));
   } catch (err) {
     console.error('[profile] cookie lookup failed', err);
     return null;

@@ -3,7 +3,7 @@ import { StartFlow } from '@/components/start/StartFlow';
 
 export const metadata: Metadata = {
   title: 'Map your week · Irreplaceable',
-  description: 'Type your job title or upload your résumé and see your week task by task: what AI already does, what it speeds up and what stays yours.',
+  description: 'Type your job title or upload your resume and see your week task by task: what AI already does, what it speeds up and what stays yours.',
 };
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;

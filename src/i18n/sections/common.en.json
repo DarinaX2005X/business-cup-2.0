@@ -34,7 +34,20 @@
     "nothing_to_grade": "Reply at least once before asking for feedback.",
     "already_played": "You've already played today's round.",
     "stale_round": "Today's round changed. Reload the page to get the new one.",
-    "work_log_limit": "You can log up to three entries a day. Log the rest tomorrow."
+    "work_log_limit": "You can log up to three entries a day. Log the rest tomorrow.",
+    "not_enough_points": "You need {need} more points for this reward.",
+    "discount_pending": "You already have a discount waiting for your next payment. Use it first.",
+    "freeze_limit": "You can keep up to two streak freezes at a time.",
+    "email_required": "Add the email where we should send your code.",
+    "unknown_reward": "This reward is no longer in the shop.",
+    "not_available": "This reward isn't available right now.",
+    "payment_provider_error": "The payment service didn't answer. Nothing was charged and no points were spent.",
+    "billing_unavailable": "Payments are unavailable right now. Try again in a minute.",
+    "already_subscribed": "You already have Pro.",
+    "checkout_open": "Your payment is still being confirmed. Give it a few seconds.",
+    "no_subscription": "There is no subscription to manage yet.",
+    "already_pro": "Pro is already on for you.",
+    "offer_ended": "The Business Cup 2.0 offer has ended."
   },
   "profile": {
     "orphaned": "We couldn't find your saved profile on this device.",

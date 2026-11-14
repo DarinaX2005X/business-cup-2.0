@@ -1,7 +1,8 @@
 import type { Subscriber } from './events';
+import { pointsSubscriber } from './points';
 
 /**
  * Subscribers of product events, run in this order by `emit`.
- * Empty for now; stage 04 adds points (and streak) subscribers here.
+ * Stage 04: points for every useful action (rules in src/domain/points.ts).
  */
-export const subscribers: Subscriber[] = [];
+export const subscribers: Subscriber[] = [pointsSubscriber];

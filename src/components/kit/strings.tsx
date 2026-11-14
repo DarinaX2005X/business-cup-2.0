@@ -107,7 +107,7 @@ export const enStrings: KitStrings = {
   undo: 'Undo',
   close: 'Close',
   dismiss: 'Dismiss',
-  dropTitle: 'Drop your résumé here',
+  dropTitle: 'Drop your resume here',
   dropHint: 'PDF or plain text, up to 5 MB',
   dropActive: 'Let go to read it',
   dropReading: (f) => `Reading ${f}`,

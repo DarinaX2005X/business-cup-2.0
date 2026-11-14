@@ -316,6 +316,8 @@ export interface PointsEvent {
   points: number;
   ref: string;
   at: string;
+  /** Local day (YYYY-MM-DD) the action counts for: daily limits (04.1.1). */
+  day?: string;
 }
 
 export interface PointsAward {
@@ -342,6 +344,11 @@ export interface Redemption {
   code?: string;
   email?: string;
   at: string;
+  /** Stripe promotion code id behind `code` (pro_* rewards). */
+  promotionCodeId?: string;
+  /** Where an applied code went: the next Checkout or the running subscription. */
+  appliedTo?: 'checkout' | 'subscription';
+  appliedAt?: string;
 }
 
 export interface ProofEntry {
@@ -377,7 +384,19 @@ export interface Profile {
   streak: { current: number; best: number; lastDay: string | null; days: string[]; freezes: number };
   points: { balance: number; events: PointsEvent[] };
   redemptions: Redemption[];
-  plan: { status: 'free' | 'trialing' | 'pro'; periodEnd?: string; stripeCustomerId?: string; subscriptionId?: string };
+  plan: {
+    status: 'free' | 'trialing' | 'pro';
+    periodEnd?: string;
+    stripeCustomerId?: string;
+    subscriptionId?: string;
+    /** What gives Pro: a Stripe subscription or the Business Cup 2.0 offer (04.1.4). */
+    source?: 'stripe' | 'cup';
+    interval?: 'month' | 'year';
+    /** Stripe subscription set to end at `periodEnd` (canceled in the Billing Portal). */
+    cancelAtPeriodEnd?: boolean;
+    /** Last time the plan was read from Stripe. */
+    syncedAt?: string;
+  };
   proof: ProofEntry[];
   publicSlug?: string;
   invitedBy?: string;

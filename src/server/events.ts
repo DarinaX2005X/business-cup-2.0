@@ -21,7 +21,8 @@ export type ProductEventType =
   | 'proof_shared'
   | 'review_kit'
   | 'invite_completed'
-  | 'pivot_explored';
+  | 'pivot_explored'
+  | 'cup_unlocked';
 
 export interface ProductEvent {
   type: ProductEventType;

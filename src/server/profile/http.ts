@@ -47,7 +47,9 @@ export async function readJson<S extends z.ZodType>(req: Request, schema: S): Pr
 export async function requireProfile(req: Request): Promise<Profile> {
   const profile = await authenticate(req.headers.get('x-profile-id'), req.headers.get('x-profile-secret'));
   if (!profile) throw new HttpError(401, 'unauthorized', 'Missing or invalid profile credentials.');
-  return profile;
+  // A Stripe plan whose period ended is re-read from Stripe (at most every 10 min); dynamic import avoids a cycle.
+  const { ensureFreshPlan } = await import('@/server/billing/sync');
+  return ensureFreshPlan(profile);
 }
 
 /** Same as requireProfile but returns null when no credentials were sent (wrong credentials still 401). */

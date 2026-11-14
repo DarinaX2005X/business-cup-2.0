@@ -113,8 +113,8 @@
     "exposureE2": "exposure = {tw} × theory + {ow} × observed"
   },
   "week": {
-    "p1": "A week map starts from {hours} hours. If you upload a résumé or describe your work, a language model matches your duties to the tasks of your occupation and estimates how much of the week each one takes. You can then move every slider yourself.",
-    "p2": "Without a résumé we use a typical week. Each task gets a weight from its O*NET ratings, the {n, integer} heaviest tasks are kept, and their weights become whole percent that add up to 100, each between {min}% and {max}%.",
+    "p1": "A week map starts from {hours} hours. If you upload a resume or describe your work, a language model matches your duties to the tasks of your occupation and estimates how much of the week each one takes. You can then move every slider yourself.",
+    "p2": "Without a resume we use a typical week. Each task gets a weight from its O*NET ratings, the {n, integer} heaviest tasks are kept, and their weights become whole percent that add up to 100, each between {min}% and {max}%.",
     "formula": "weight = importance × relevance ÷ 100 × √(times a year)",
     "freq": "O*NET rates frequency on a scale from 1 (once a year or less) to 7 (hourly or more). We read it as times a year: {scale}. The square root keeps hourly chores from swallowing the week.",
     "example": "The four heaviest tasks of a typical registered nurse",
@@ -177,13 +177,13 @@
     "titlesValue": "{titles, integer} plus {aliases, integer} hand-written aliases"
   },
   "privacy": {
-    "p1": "When you upload a résumé, the file is read in your browser. Only its text leaves your device, and only to turn it into a list of duties.",
-    "p2": "That text is sent to a language model through OpenRouter, which returns the duties and your likely occupation. We do not store the résumé or its text. The model's answer is cached under a fingerprint of the text, so the same résumé is not processed twice.",
+    "p1": "When you upload a resume, the file is read in your browser. Only its text leaves your device, and only to turn it into a list of duties.",
+    "p2": "That text is sent to a language model through OpenRouter, which returns the duties and your likely occupation. We do not store the resume or its text. The model's answer is cached under a fingerprint of the text, so the same resume is not processed twice.",
     "p3": "Your week map keeps the occupation, the tasks and the hours you confirmed. Delete your profile and they are gone."
   },
   "cta": {
     "title": "See these numbers for your own week",
-    "body": "Type your job title or upload a résumé. The map takes about two minutes and every number on it links back here.",
+    "body": "Type your job title or upload a resume. The map takes about two minutes and every number on it links back here.",
     "button": "Map my week",
     "jobs": "Browse job pages"
   },

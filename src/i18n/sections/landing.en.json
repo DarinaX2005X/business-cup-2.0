@@ -81,9 +81,20 @@
   },
   "data": {
     "title": "Built on real data",
-    "onet": "Your tasks come from O*NET, the US database of what each job involves.",
-    "aei": "What AI already does comes from the Anthropic Economic Index, built from real AI use at work.",
-    "bls": "Pay comes from the US Bureau of Labor Statistics.",
+    "lead": "Your week map is not a guess. It is put together from three public sources.",
+    "onet": {
+      "name": "O*NET",
+      "body": "The tasks your job is made of."
+    },
+    "aei": {
+      "name": "Anthropic Economic Index",
+      "body": "What people already use AI for at work."
+    },
+    "bls": {
+      "name": "Bureau of Labor Statistics",
+      "body": "What the job pays."
+    },
+    "week": "Your week map",
     "link": "See how we measure"
   },
   "closing": {

@@ -1,47 +1,47 @@
 {
   "meta": {
-    "title": "Business Cup 2.0: Coach is on us",
-    "description": "For Business Cup 2.0, Irreplaceable Coach, the top plan, is free for 30 days: everything in Pro plus your personal AI career coach. Until November 30, 2026."
+    "title": "Business Cup 2.0: Max is on us",
+    "description": "For Business Cup 2.0, Irreplaceable Max, the top plan, is free for 30 days: everything in Pro plus your personal AI coach. Until November 30, 2026."
   },
   "nav": {
     "home": "Irreplaceable home",
     "label": "Main",
     "pricing": "See plans and prices"
   },
-  "title": "Business Cup 2.0: Coach is on us",
+  "title": "Business Cup 2.0: Max is on us",
   "titleA": "Business Cup 2.0:",
-  "titleB": "Coach is on us",
-  "lead": "You get everything in Pro, plus a personal AI career coach who knows your week, your plan and your progress.",
+  "titleB": "Max is on us",
+  "lead": "Max is the top plan: everything in Pro, plus a personal AI coach who knows your week, your plan and your progress.",
   "until": "Until {date}",
-  "scope": "Coach turns on in this browser for 30 days.",
-  "unlock": "Unlock Coach",
-  "unlocking": "Unlocking Coach",
-  "on": "Coach is on. It runs until {date}",
+  "scope": "Max turns on in this browser for 30 days.",
+  "unlock": "Unlock Max",
+  "unlocking": "Unlocking Max",
+  "on": "Max is on. It runs until {date}",
   "startRep": "Start today's rep",
   "mapFirst": "Map my week first",
   "alreadyTitle": "You already have Pro",
   "alreadyTrial": "Your free trial runs until {date}, so there is nothing to unlock here.",
   "alreadyPro": "Your subscription is active until {date}, so there is nothing to unlock here.",
-  "action": "Business Cup 2.0: unlock Coach free",
+  "action": "Business Cup 2.0: unlock Max free",
   "stay": "Stay on this page",
   "footA": "The regular checkout works too, in Stripe test mode.",
   "footLink": "See plans and prices",
   "pass": {
-    "brand": "Irreplaceable Coach",
+    "brand": "Irreplaceable Max",
     "days": "30 days",
-    "ofPro": "of Coach",
+    "ofPro": "of Max",
     "event": "Business Cup 2.0",
-    "stamp": "Coach is on",
+    "stamp": "Max is on",
     "stampUntil": "until {date}"
   },
   "errors": {
     "already_pro": "You already have Pro through a subscription, so there is nothing to unlock.",
     "offer_ended": "The Business Cup 2.0 offer ended on {date}. Plans and prices are on the pricing page.",
-    "failed": "Coach didn't turn on. Try again in a moment.",
-    "failedShort": "Coach didn't turn on."
+    "failed": "Max didn't turn on. Try again in a moment.",
+    "failedShort": "Max didn't turn on."
   },
   "band": {
-    "title": "Business Cup 2.0: Coach is free until {date}",
+    "title": "Business Cup 2.0: Max is free until {date}",
     "body": "Here for the Business Cup? Turn on the top plan without paying."
   },
   "jury": {
@@ -53,6 +53,6 @@
     "building": "Building your demo week… about 20 seconds",
     "failed": "The demo account did not open. Nothing was changed. Try the same button again.",
     "retry": "Try again: {who}",
-    "note": "One click builds a real week from a sample resume and opens it with Coach on. It is marked as a demo account."
+    "note": "One click builds a real week from a sample resume and opens it with Max on. It is marked as a demo account."
   }
 }

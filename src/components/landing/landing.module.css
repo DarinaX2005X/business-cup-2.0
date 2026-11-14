@@ -1174,48 +1174,171 @@
   border-radius: clamp(28px, 4vw, 56px) clamp(28px, 4vw, 56px) 0 0;
 }
 
-/* ---------- built on real data ---------- */
+/* ---------- built on real data: three sources flowing into the week ---------- */
 
 .data {
-  margin-top: 0;
-  padding: clamp(40px, 5vw, 64px) 0;
+  padding: var(--sec) 0;
+  background: var(--paper);
+}
+
+.sources {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(14px, 2vw, 28px);
+}
+
+.source {
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+  align-content: start;
+  padding: 0 clamp(18px, 2vw, 28px) clamp(22px, 2.4vw, 30px);
+  border-radius: var(--r-panel);
+  background: var(--card);
+  box-shadow: inset 0 0 0 1px var(--line);
+  text-align: center;
+  overflow: hidden;
+  transition:
+    translate var(--t-pop) var(--ease-out),
+    box-shadow var(--t-pop) var(--ease-out);
+}
+
+.sourceArt {
+  width: calc(100% + 2 * clamp(18px, 2vw, 28px));
+  height: clamp(150px, 14vw, 190px);
+  margin-bottom: 14px;
+  padding: 18px 24px 10px;
   background: var(--sunk);
 }
 
-.dataIn {
+.source:nth-child(2) .sourceArt {
+  background: var(--speed-field);
+}
+
+.source:nth-child(3) .sourceArt {
+  background: var(--violet-soft);
+}
+
+.sourceName {
+  font-size: clamp(20px, 1.8vw, 24px);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.sourceBody {
+  max-width: 22em;
+  font-size: 17px;
+  color: var(--ink-2);
+}
+
+.flow {
+  display: block;
+  width: 100%;
+  height: clamp(56px, 7vw, 100px);
+  overflow: visible;
+}
+
+.flow path {
+  fill: none;
+  stroke: var(--machine);
+  stroke-width: 2;
+  stroke-dasharray: 5 7;
+  vector-effect: non-scaling-stroke;
+  animation: flow 1.6s linear infinite;
+}
+
+@keyframes flow {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+.dataWeek {
   display: grid;
-  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
-  gap: 16px clamp(24px, 4vw, 64px);
-  align-items: start;
+  gap: 10px;
+  justify-items: center;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: clamp(20px, 2.4vw, 32px);
+  border-radius: var(--r-panel);
+  background: var(--field);
+  color: var(--on-violet);
+  text-align: center;
+  box-shadow: var(--shadow-raised);
 }
 
-.dataTitle {
-  grid-row: span 2;
-  font-size: clamp(26px, 3vw, 40px);
-  letter-spacing: -0.03em;
-  line-height: 1.05;
+.dataWeek .mwBar {
+  width: 100%;
+  height: clamp(60px, 7vw, 88px);
 }
 
-.dataList {
-  list-style: none;
-  display: grid;
-  gap: 6px;
-  max-width: 44em;
+.dataWeekName {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
 }
 
-.dataIn > a {
-  justify-self: start;
+.dataWeek .paperLink {
+  color: var(--on-violet);
+  text-decoration-color: color-mix(in oklch, var(--on-violet) 45%, transparent);
+}
+
+.dataWeek .paperLink:hover {
+  text-decoration-color: var(--on-violet);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .source:hover {
+    translate: 0 -5px;
+    box-shadow:
+      inset 0 0 0 1px var(--line),
+      var(--shadow-raised);
+  }
+  .source:hover .art [data-part='front'] {
+    translate: 0 -6px;
+    rotate: 3deg;
+  }
+  .source:hover .art [data-part='back'] {
+    rotate: -3deg;
+    scale: 1.03;
+  }
 }
 
 @media (max-width: 760px) {
-  .dataIn {
+  .sources {
     grid-template-columns: minmax(0, 1fr);
   }
-  .dataTitle {
-    grid-row: auto;
+  .source {
+    grid-template-columns: 112px minmax(0, 1fr);
+    column-gap: 16px;
+    padding: 16px;
+    justify-items: start;
+    align-items: center;
+    text-align: left;
+  }
+  .sourceArt {
+    grid-row: 1 / span 2;
+    width: 112px;
+    height: 100px;
+    margin: 0;
+    padding: 8px;
+    border-radius: var(--r-card);
+  }
+  .sourceName {
+    align-self: end;
+  }
+  .sourceBody {
+    align-self: start;
+    font-size: 16px;
+  }
+  .flow {
+    height: 44px;
+  }
+  .flow path:not(:nth-child(2)) {
+    display: none;
   }
 }
-
 
 /* ---------- footer ---------- */
 
@@ -1304,6 +1427,8 @@
     .card,
     .step,
     .banner,
+    .source,
+    .dataWeek,
     .closingIn {
       animation: rise linear both;
       animation-timeline: view();

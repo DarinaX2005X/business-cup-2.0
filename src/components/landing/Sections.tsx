@@ -11,6 +11,7 @@ import btn from '@/components/kit/controls.module.css';
 import { Plans } from '@/components/pricing/Plans';
 import { useT } from '@/i18n/client';
 import { ArtEdge, ArtJob, ArtSlip, ArtTimer } from './Art';
+import { ArtPay, ArtTasks, ArtUsage } from './ArtData';
 import { ArtDelegate, ArtGame, ArtProof, ArtShop, ArtStreak, ArtWeek } from './ArtMore';
 import type { WeekView } from './data';
 import st from './landing.module.css';
@@ -199,23 +200,52 @@ export function Pay() {
   );
 }
 
-/** «Built on real data»: where the numbers come from, in three lines, and the way to the method page. */
-export function DataNote() {
+/**
+ * «Built on real data»: the three sources as objects, each with one plain line, and the lines that
+ * run from them into the week bar (the same example week as above).
+ */
+export function DataNote({ view }: { view: WeekView }) {
   const { t } = useT();
+  const tiles = groupWeek(view.tasks).flatMap((g) => g.tasks);
+  const sources = [
+    { k: 'onet', art: <ArtTasks /> },
+    { k: 'aei', art: <ArtUsage /> },
+    { k: 'bls', art: <ArtPay /> },
+  ];
   return (
     <section className={st.data} aria-labelledby="data-title">
-      <div className={`${st.wrap} ${st.dataIn}`}>
-        <h2 id="data-title" className={st.dataTitle}>
-          {t('landing.data.title')}
-        </h2>
-        <ul className={st.dataList}>
-          <li>{t('landing.data.onet')}</li>
-          <li>{t('landing.data.aei')}</li>
-          <li>{t('landing.data.bls')}</li>
+      <div className={st.wrap}>
+        <div className={st.headC}>
+          <h2 id="data-title" className={st.h2}>
+            {t('landing.data.title')}
+          </h2>
+          <p className={st.lead}>{t('landing.data.lead')}</p>
+        </div>
+        <ul className={st.sources}>
+          {sources.map((src) => (
+            <li key={src.k} className={st.source}>
+              <div className={st.sourceArt}>{src.art}</div>
+              <h3 className={st.sourceName}>{t(`landing.data.${src.k}.name`)}</h3>
+              <p className={st.sourceBody}>{t(`landing.data.${src.k}.body`)}</p>
+            </li>
+          ))}
         </ul>
-        <Link href="/method" className={st.paperLink}>
-          {t('landing.data.link')}
-        </Link>
+        <svg className={st.flow} viewBox="0 0 1200 110" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <path d="M200 0C200 70 600 40 600 110" />
+          <path d="M600 0V110" />
+          <path d="M1000 0C1000 70 600 40 600 110" />
+        </svg>
+        <div className={st.dataWeek}>
+          <div className={st.mwBar} role="img" aria-label={t('landing.features.map.caption')}>
+            {tiles.map((task, i) => (
+              <span key={task.id} data-cat={task.category} style={{ flexGrow: task.share, '--i': i } as CSSProperties} />
+            ))}
+          </div>
+          <p className={st.dataWeekName}>{t('landing.data.week')}</p>
+          <Link href="/method" className={st.paperLink}>
+            {t('landing.data.link')}
+          </Link>
+        </div>
       </div>
     </section>
   );

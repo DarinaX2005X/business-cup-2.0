@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { TFunction } from '@/i18n/core';
+import { LandingAccount } from '@/components/public/Returning';
 import { LANDING_LINKS } from './config';
 import { HeroBackdrop } from './HeroBackdrop';
 import { JobForm } from './JobForm';
@@ -55,6 +56,7 @@ export function LandingHeader({ t }: { t: TFunction }) {
             </Link>
           ) : null}
         </nav>
+        <LandingAccount />
       </div>
     </header>
   );

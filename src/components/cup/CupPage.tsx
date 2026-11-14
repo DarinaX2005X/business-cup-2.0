@@ -4,8 +4,8 @@ import { CalendarClock } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/kit/Button';
 import { FieldArches } from '@/components/kit/Illustration';
-import { Wordmark } from '@/components/kit/Mark';
 import btn from '@/components/kit/controls.module.css';
+import { MarketingHeader } from '@/components/public/MarketingHeader';
 import { useT } from '@/i18n/client';
 import { CupNext, CupPass } from './CupOffer';
 import { JuryAccounts } from './JuryAccounts';
@@ -28,16 +28,8 @@ export function CupPage({ initialPlan, hasMap }: { initialPlan: ProfilePlan | nu
   return (
     <div className={`${st.page} field`} data-surface="field">
       <FieldArches className={st.arches} />
-      <header className={st.head}>
-        <Link href="/" aria-label={t('cup.nav.home')}>
-          <Wordmark size={34} tone="violet" />
-        </Link>
-        <nav className={st.headLinks} aria-label={t('cup.nav.label')}>
-          <Link href="/pricing" className={st.headLink} data-wide="">
-            {t('cup.nav.pricing')}
-          </Link>
-        </nav>
-      </header>
+      {/* the shared marketing header (R3 shell), on the field */}
+      <MarketingHeader current="cup" surface="field" />
 
       <main className={st.main}>
         <div className={st.text}>

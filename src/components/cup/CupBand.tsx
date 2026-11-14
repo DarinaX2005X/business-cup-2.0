@@ -13,7 +13,7 @@ const noop = () => () => {};
 
 /**
  * The Business Cup 2.0 card under the plans, on the landing and on /pricing: the trophy, the honest
- * date, «Unlock Coach» (opens /cup) and the jury's one-click accounts. Not drawn once the offer ended.
+ * date, «Unlock Max» (opens /cup) and the jury's one-click accounts. Not drawn once the offer ended.
  */
 export function CupBand({ className }: { className?: string }) {
   const { t, f } = useT();

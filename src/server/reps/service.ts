@@ -108,8 +108,6 @@ export interface Plan {
   locale: Profile['locale'];
   avoidTaskIds: string[];
   actor: Actor;
-  /** Trial: a bank rep in the user's language first, live only without one. */
-  bankFirst: boolean;
 }
 
 /** Deterministic task for the next rep of this kind and type on `day` (what Today shows is what POST makes). */
@@ -137,7 +135,6 @@ function makePlan(ctx: RepCtx, week: Week, type: RepType, kind: RepRecord['kind'
     locale: profile.locale,
     avoidTaskIds: recent,
     actor: actorOf(ctx),
-    bankFirst: kind === 'trial',
   };
 }
 
@@ -169,20 +166,20 @@ function recordFrom(plan: Plan, entry: BankEntry, source: RepRecord['source'], s
   return { ...base, edge: { ...edge, turns: [{ role: 'persona', text: opening }] } };
 }
 
+/** A prepared rep always says so (`prepared_maintenance`), plus why it differs (type, language, job). */
 const fromBank = (plan: Plan, pick: { item: BankItem; notes: RepNote[] }, extra: RepNote[] = []) =>
-  recordFrom(plan, pick.item, 'bank', `bank:${pick.item.file}`, [...extra, ...pick.notes]);
+  recordFrom(plan, pick.item, 'bank', `bank:${pick.item.file}`, ['prepared_maintenance', ...extra, ...pick.notes]);
 
 /**
- * Live generation with every fallback: same-type bank rep of this occupation (delegate/edge), then a
- * bank slip (same occupation → same group → any), the type swap noted. Throws only when nothing is left.
+ * Every rep, the trial included, is written live. The prepared bank is used only when live writing cannot
+ * run: the model call failed after its retries (budget_exceeded, rate_limited, timeout, provider_error) or
+ * every attempt failed the checks and the verifier (invalid_output). Then: a same-type bank rep of this
+ * occupation (delegate/edge), else a bank slip (same occupation → same group → any). Bank reps are labelled.
+ * Throws only when nothing is left.
  */
 export async function produce(plan: Plan): Promise<RepRecord> {
   const { bundle } = plan.week;
   const query = { code: bundle.code, locale: plan.locale, weekTaskIds: plan.week.shares.map((s) => s.taskId), avoidTaskIds: plan.avoidTaskIds, seed: plan.seed };
-  if (plan.bankFirst) {
-    const own = await findBankSame(plan.type, { ...query }, { english: false });
-    if (own) return fromBank(plan, own);
-  }
   const task = bundle.tasks.find((t) => t.id === plan.taskId) ?? bundle.tasks[0];
   const caption = await taskCaption(bundle.code, task.id, 'en');
   const input: GenerateInput = {

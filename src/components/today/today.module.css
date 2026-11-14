@@ -179,6 +179,19 @@
   gap: 4px 20px;
 }
 
+/* a prepared rep says so plainly, above the document */
+.prepared {
+  margin: 0;
+  max-width: 760px;
+  padding: 12px var(--s-16);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--violet);
+  border-radius: var(--r-card);
+  background: var(--violet-soft);
+  color: var(--ink);
+  line-height: 1.45;
+}
+
 /* ---------- a tile from the Week Bar ---------- */
 
 .tile {

@@ -30,6 +30,7 @@ export const SLIP_ERROR_TYPES: readonly SlipErrorType[] = ['fact', 'logic', 'com
 
 /** Why a rep differs from what was asked for; the screen shows a caption, never an error. */
 export type RepNote =
+  | 'prepared_maintenance' // from the prepared bank: live writing could not run (shown as a notice)
   | 'type_swapped' // "Today's rep is a Spot the slip: our writing service is busy"
   | 'english_only' // "Available in English today"
   | 'related_job'; // "From a related job"

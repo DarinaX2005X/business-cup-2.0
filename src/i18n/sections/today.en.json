@@ -49,6 +49,7 @@
     "cta": "Map my week"
   },
   "notes": {
+    "prepared_maintenance": "Live writing is paused for maintenance, so this rep comes from our prepared set. It is checked the same way.",
     "type_swapped": "Today's rep is a Spot the slip: our writing service is busy.",
     "english_only": "Available in English today.",
     "related_job": "From a related job."

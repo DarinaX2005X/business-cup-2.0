@@ -75,7 +75,7 @@ describe('reps without budget (bank fallback)', () => {
     const made = await createRep(await ctx(p.id, '2026-11-14T15:00:00Z'), { type: 'slip', kind: 'daily' });
     expect('rep' in made).toBe(true);
     const rep = (made as { rep: RepView }).rep;
-    expect(rep).toMatchObject({ source: 'bank', status: 'open', slip: { errorCount: 3 } });
+    expect(rep).toMatchObject({ source: 'bank', status: 'open', notes: ['prepared_maintenance'], slip: { errorCount: 3 } });
     expect(rep).not.toHaveProperty('reveal');
 
     await expectHttp(createRep(await ctx(p.id, '2026-11-14T16:00:00Z'), { type: 'slip', kind: 'daily' }), 409, 'daily_exists');
@@ -117,7 +117,7 @@ describe('reps without budget (bank fallback)', () => {
   it('delegate without a bank delegate becomes a slip with a caption; edge comes from the bank', async () => {
     const p = await nurse();
     const d = (await createRep(await ctx(p.id, '2026-11-14T15:00:00Z'), { type: 'delegate', kind: 'daily' })) as { rep: RepView };
-    expect(d.rep).toMatchObject({ type: 'slip', source: 'bank', notes: ['type_swapped'] });
+    expect(d.rep).toMatchObject({ type: 'slip', source: 'bank', notes: ['prepared_maintenance', 'type_swapped'] });
     const e = (await createRep(await ctx(p.id, '2026-11-14T15:10:00Z'), { type: 'edge', kind: 'extra' })) as { rep: RepView };
     expect(e.rep.type).toBe('edge');
     expect(e.rep.edge).toMatchObject({ repliesLeft: 6, turns: [{ role: 'persona' }] });
@@ -195,7 +195,7 @@ describe('trial', () => {
       const a = (await startTrial(await ctx(p.id, '2026-11-14T15:00:00Z'))) as { rep: RepView };
       const b = (await startTrial(await ctx(p.id, '2026-11-14T15:05:00Z'))) as { rep: RepView };
       expect(b.rep.id).toBe(a.rep.id);
-      expect(a.rep).toMatchObject({ kind: 'trial', source: 'bank', type: 'slip' });
+      expect(a.rep).toMatchObject({ kind: 'trial', source: 'bank', type: 'slip', notes: ['prepared_maintenance'] });
       expect((await getProfile(p.id))!.trial).toEqual({ status: 'in_progress', repId: a.rep.id });
       const done = await answerRep(await ctx(p.id, '2026-11-14T15:10:00Z'), a.rep.id, { ranges: exactRanges(a.rep) });
       expect(done.streak.current).toBe(1);

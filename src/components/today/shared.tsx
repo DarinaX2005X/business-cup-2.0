@@ -39,11 +39,18 @@ export function RepHeader({ rep, ask, onBack }: { rep: Pick<RepView, 'type' | 't
         ) : null}
       </h1>
       <p className={st.repAsk}>{ask}</p>
-      {rep.notes.length ? (
+      {rep.notes.includes('prepared_maintenance') ? (
+        <p className={st.prepared} role="note">
+          {t('today.notes.prepared_maintenance')}
+        </p>
+      ) : null}
+      {rep.notes.some((n) => n !== 'prepared_maintenance') ? (
         <div className={st.notes}>
-          {rep.notes.map((n) => (
-            <SourceNote key={n}>{t(`today.notes.${n}`)}</SourceNote>
-          ))}
+          {rep.notes
+            .filter((n) => n !== 'prepared_maintenance')
+            .map((n) => (
+              <SourceNote key={n}>{t(`today.notes.${n}`)}</SourceNote>
+            ))}
         </div>
       ) : null}
     </header>

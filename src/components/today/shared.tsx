@@ -2,7 +2,8 @@
 
 import { BriefcaseBusiness, ChevronLeft, FileCheck2 } from 'lucide-react';
 import Link from 'next/link';
-import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useMemo, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
+import { CupOffer } from '@/components/cup/CupOffer';
 import { Button } from '@/components/kit/Button';
 import { ScoreDial } from '@/components/kit/ScoreDial';
 import { Segmented } from '@/components/kit/Segmented';
@@ -194,18 +195,25 @@ export function WorkLog({ rep }: { rep: RepView }) {
 
 /* ---------- the Pro paywall: the trial button and room for a second, quieter offer ---------- */
 
+/** Reloads today's state from /api/reps/today; TodayScreen provides it so Pro opens in place. */
+export const TodayReload = createContext<(() => void) | undefined>(undefined);
+
 /**
- * Every Free paywall on Today goes through here: «Start your 7-day free trial» to /pricing, and a slot
- * beside it for a second, quieter action (stage 04 puts its offer there). Empty until then.
+ * Every Free paywall on Today goes through here: «Start your 7-day free trial» (to the person's first
+ * week on /pricing when they have a map) and, beside it, the quieter Business Cup offer, which unlocks
+ * Pro without leaving the page and then reloads Today.
  */
-export function PaywallActions({ extra }: { extra?: ReactNode }) {
+export function PaywallActions({ extra, onUnlocked }: { extra?: ReactNode; onUnlocked?: () => void }) {
   const { t } = useT();
+  const { profile } = useProfile();
+  const reload = useContext(TodayReload);
+  const map = profile?.lastXrayId;
   return (
     <div className={st.payActions}>
-      <Link href="/pricing" className={`${btn.btn} ${btn.b_primary}`}>
+      <Link href={map ? `/pricing?from=${encodeURIComponent(map)}` : '/pricing'} className={`${btn.btn} ${btn.b_primary}`}>
         {t('today.free.trialCta')}
       </Link>
-      {extra}
+      {extra ?? <CupOffer onUnlocked={onUnlocked ?? reload} />}
     </div>
   );
 }

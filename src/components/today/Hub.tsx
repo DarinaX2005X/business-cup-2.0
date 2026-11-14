@@ -314,6 +314,7 @@ export function FreeHub({
   onOpen,
   weekHref,
   onPlayed,
+  onUnlocked,
 }: {
   data: TodayFree;
   starting: boolean;
@@ -322,6 +323,8 @@ export function FreeHub({
   onOpen: (rep: RepView) => void;
   weekHref: string | null;
   onPlayed: (c: NonNullable<AiOrMeRoundFull['completed']>) => void;
+  /** Reloads Today after the Business Cup unlock, so it opens as Pro in place. */
+  onUnlocked?: () => void;
 }) {
   const { t } = useT();
   const trial = data.trial;
@@ -345,7 +348,7 @@ export function FreeHub({
       <LockedPanel
         title={data.tomorrow ? t('today.free.lockedTitle', { type: typeName(t, data.tomorrow.type) }) : t('today.free.lockedTitleGeneric')}
         reason={data.tomorrow?.taskShort ? `${t('today.free.lockedTask', { task: data.tomorrow.taskShort })} ${t('today.free.lockedReason')}` : t('today.free.lockedReason')}
-        action={<PaywallActions />}
+        action={<PaywallActions onUnlocked={onUnlocked} />}
         shape="list"
       />
     </div>

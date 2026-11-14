@@ -11,6 +11,9 @@ import { DelegateRep } from './DelegateRep';
 import { EdgeRep } from './EdgeRep';
 import { ErrorView, FreeHub, Generating, LoadingView, NoMap, ProHub } from './Hub';
 import { SlipRep } from './SlipRep';
+import { TodayReload } from './shared';
+import { FirstWeekBlock } from '@/components/pricing/FirstWeekBlock';
+import st from './today.module.css';
 
 export type View =
   | { v: 'loading' }
@@ -223,6 +226,7 @@ export function TodayScreen({ fixture }: { fixture?: TodayFixture }) {
   }, [refresh]);
 
   const weekHref = profile?.lastXrayId ? `/x/${profile.lastXrayId}` : null;
+  const reloadNow = useCallback(() => void reloadHub(), [reloadHub]);
   const job = profile?.jobTitle?.trim() || null;
 
   /* ---------- render ---------- */
@@ -249,9 +253,26 @@ export function TodayScreen({ fixture }: { fixture?: TodayFixture }) {
       onBack: goHub,
       onPractice: goHub,
     };
-    if (rep.type === 'delegate' && rep.delegate) return <DelegateRep key={rep.id} {...props} />;
-    if (rep.type === 'edge' && rep.edge) return <EdgeRep key={rep.id} {...props} />;
-    return <SlipRep key={rep.id} {...props} />;
+    const screen =
+      rep.type === 'delegate' && rep.delegate ? (
+        <DelegateRep key={rep.id} {...props} />
+      ) : rep.type === 'edge' && rep.edge ? (
+        <EdgeRep key={rep.id} {...props} />
+      ) : (
+        <SlipRep key={rep.id} {...props} />
+      );
+    // after the free rep: the person's first week of reps, with the trial and the Business Cup offer
+    const firstWeek = props.isFree && rep.status === 'done' && profile?.lastXrayId ? profile.lastXrayId : null;
+    return (
+      <TodayReload.Provider value={reloadNow}>
+        {screen}
+        {firstWeek ? (
+          <div className={st.firstWeek}>
+            <FirstWeekBlock xrayId={firstWeek} />
+          </div>
+        ) : null}
+      </TodayReload.Provider>
+    );
   }
 
   if (!hub) return <LoadingView />;
@@ -279,6 +300,7 @@ export function TodayScreen({ fixture }: { fixture?: TodayFixture }) {
       onOpen={openRep}
       weekHref={weekHref}
       onPlayed={onPlayed}
+      onUnlocked={reloadNow}
     />
   );
 }

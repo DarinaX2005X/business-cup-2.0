@@ -5,8 +5,16 @@ import { createProfile, deleteProfile, toPublicProfile, updateProfile } from '@/
 import { clientIp, clientTz, HttpError, readJson, requireProfile, withApi } from '@/server/profile/http';
 
 const localeSchema = z.enum(['en', 'ru', 'kk']);
-/** New anonymous profiles per network per day: high, so a room of judges on one Wi-Fi never hits it. */
-const createPerIpPerDay = () => Number(process.env.PROFILE_CREATE_PER_DAY) || 2000;
+/**
+ * New anonymous profiles per network per day: 300, so a room of judges on one Wi-Fi never hits it while one client
+ * cannot mint thousands of profiles. Model spend is capped separately by the global and daily dollar budgets.
+ */
+const createPerIpPerDay = () => {
+  const raw = process.env.PROFILE_CREATE_PER_DAY;
+  if (raw === undefined || raw.trim() === '') return 300;
+  const n = Number(raw);
+  return Number.isInteger(n) && n >= 0 ? n : 300; // an invalid value keeps the default, it never lifts the cap
+};
 const MAX_HINTS = 200;
 
 const createSchema = z.object({

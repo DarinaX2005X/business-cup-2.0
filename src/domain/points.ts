@@ -315,7 +315,7 @@ export function pendingProCode(profile: Pick<Profile, 'redemptions'>) {
 
 export type RedeemBlock = 'not_enough_points' | 'discount_pending' | 'freeze_limit' | 'not_available' | 'pro_only';
 
-/** A running paid Stripe subscription on the Coach tier (free Pro months cannot go onto it). */
+/** A running paid Stripe subscription on the Max tier (free Pro months cannot go onto it). */
 function coachSubscribed(plan: Profile['plan'], now: Date): boolean {
   if (plan.source === 'cup' || !plan.subscriptionId || (plan.status !== 'pro' && plan.status !== 'trialing')) return false;
   return tierOf(plan) === 'coach' && Boolean(plan.periodEnd) && Date.parse(plan.periodEnd!) > now.getTime();
@@ -430,23 +430,30 @@ export function levelOf(xp: number): LevelInfo {
 }
 
 // ---------------------------------------------------------------------------------------------
-// Plans and tiers (round 3): Free, Pro, Coach
+// Plans and tiers (round 3): Free, Pro, Max
 
+/**
+ * Paid tiers. The top tier is shown as «Max» (the AI career coach is its main feature); its internal id
+ * stays 'coach' in `plan.tier`, Stripe metadata and the checkout API.
+ */
 export type Tier = 'pro' | 'coach';
 export type BillingInterval = 'month' | 'year';
 
-export const TIER_PRICES: Record<Tier, Record<BillingInterval, { usd: number; lookupKey: string }>> = {
-  pro: PRO_PRICES,
-  coach: { month: { usd: 39, lookupKey: 'coach_monthly' }, year: { usd: 239, lookupKey: 'coach_yearly' } },
+export const TIER_PRICES: Record<Tier, { name: string } & Record<BillingInterval, { usd: number; lookupKey: string }>> = {
+  pro: { name: 'Pro', ...PRO_PRICES },
+  coach: { name: 'Max', month: { usd: 79, lookupKey: 'max_monthly' }, year: { usd: 479, lookupKey: 'max_yearly' } },
 };
 
-/** The paid tier of a plan: the Cup offer is Coach, older plans without a tier are Pro. */
+/** Display name of a tier: 'Pro' or 'Max'. */
+export const tierName = (tier: Tier): string => TIER_PRICES[tier].name;
+
+/** The paid tier of a plan: the Cup offer is Max ('coach'), older plans without a tier are Pro. */
 export const tierOf = (plan: Pick<Profile['plan'], 'tier' | 'source'>): Tier => (plan.source === 'cup' ? 'coach' : (plan.tier ?? 'pro'));
 
-/** Tier of a Stripe price by its lookup_key (`pro_monthly`, `coach_yearly` …), or null for an unknown price. */
+/** Tier of a Stripe price by its lookup_key (`pro_monthly`, `max_yearly`, archived `coach_*` …), or null for an unknown price. */
 export function tierOfLookupKey(key: string | null | undefined): Tier | null {
   if (!key) return null;
-  if (key.startsWith('coach_')) return 'coach';
+  if (key.startsWith('max_') || key.startsWith('coach_')) return 'coach';
   if (key.startsWith('pro_')) return 'pro';
   return null;
 }
@@ -492,7 +499,7 @@ export const PLANS: readonly PlanOffer[] = [
   },
   {
     id: 'pro',
-    name: 'Pro',
+    name: TIER_PRICES.pro.name,
     tagline: 'Practice on your own work every day.',
     badge: 'Most popular',
     price: priceOf('pro'),
@@ -510,14 +517,13 @@ export const PLANS: readonly PlanOffer[] = [
   },
   {
     id: 'coach',
-    name: 'Coach',
-    tagline: 'A career coach who knows your work.',
+    name: TIER_PRICES.coach.name,
+    tagline: 'A personal AI coach for your career.',
     badge: null,
     price: priceOf('coach'),
     includes: 'pro',
     features: [
-      { id: 'coach_chat', text: 'Your own AI career coach that knows your week, plan, skills and progress' },
-      { id: 'coach_voice', text: 'Talk to your coach with voice messages' },
+      { id: 'coach_chat', text: 'Personal AI coach: chat and voice, knows your week, plan and skills' },
       { id: 'coach_checkins', text: 'Coach check-ins on your plan' },
     ],
   },
@@ -532,16 +538,19 @@ export const YEARLY_SAVE_UP_TO = Math.max(...PLANS.map((p) => p.price?.savePerce
 export const NICKNAME_LENGTH = { min: 2, max: 24 } as const;
 
 /** Words a nickname may not contain (checked without spaces, with common look-alike digits read as letters). */
-const BLOCKED_WORDS = ['admin', 'moderator', 'official', 'irreplaceable', 'support', 'fuck', 'shit', 'bitch', 'cunt', 'nigger', 'nigga', 'faggot', 'retard', 'whore', 'slut', 'nazi', 'hitler', 'rapist', 'porn'];
+const BLOCKED_WORDS = ['admin', 'moderator', 'official', 'irreplaceable', 'support', 'staff', 'team', 'zimran', 'aiesec', 'jury', 'judge', 'fuck', 'shit', 'bitch', 'cunt', 'nigger', 'nigga', 'faggot', 'retard', 'whore', 'slut', 'nazi', 'hitler', 'rapist', 'porn'];
 const LOOKALIKE: Record<string, string> = { '0': 'o', '1': 'i', '3': 'e', '4': 'a', '5': 's', '7': 't', '@': 'a', $: 's' };
 
 export type NicknameCheck = { ok: true; value: string } | { ok: false; reason: 'length' | 'characters' | 'not_allowed' };
 
 /** Trims and checks a nickname: 2–24 letters, digits, spaces and . _ ' -, starting with a letter or digit; no links, no blocked words. */
 export function cleanNickname(raw: string): NicknameCheck {
-  const value = raw.normalize('NFKC').replace(/\s+/g, ' ').trim();
+  // Zero-width and other format characters are dropped first; then only basic Latin is allowed. The product is
+  // English-only for the US, and a single script rules out look-alike letters (Cyrillic «а» for Latin «a») that
+  // would slip past the blocked-word check or impersonate staff handles.
+  const value = raw.normalize('NFKC').replace(/\p{Cf}/gu, '').replace(/\s+/g, ' ').trim();
   if (value.length < NICKNAME_LENGTH.min || value.length > NICKNAME_LENGTH.max) return { ok: false, reason: 'length' };
-  if (!/^[\p{L}\p{N}][\p{L}\p{N} ._'-]*$/u.test(value)) return { ok: false, reason: 'characters' };
+  if (!/^[A-Za-z0-9][A-Za-z0-9 ._'-]*$/.test(value)) return { ok: false, reason: 'characters' };
   const flat = value
     .toLowerCase()
     .replace(/[0-9@$]/g, (c) => LOOKALIKE[c] ?? c)

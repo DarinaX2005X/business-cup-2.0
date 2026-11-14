@@ -86,6 +86,8 @@ export const PATCH = withApi(async (req: Request) => {
 /** Deletes the profile and everything it owns. Idempotent from the client's point of view. */
 export const DELETE = withApi(async (req: Request) => {
   const profile = await requireProfile(req);
+  // A shared jury demo account must never be deleted for everyone by one visitor: they log out instead.
+  if (profile.demo) throw new HttpError(409, 'demo_account', "Demo accounts are shared, so they can't be deleted. Log out instead.");
   await deleteProfile(profile.id);
   return Response.json({ ok: true });
 });

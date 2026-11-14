@@ -20,9 +20,6 @@ import { proposeWeek } from '@/server/xray/week';
 export const JURY_PERSONAS = ['nurse', 'software', 'accountant'] as const;
 export type JuryPersona = (typeof JURY_PERSONAS)[number];
 
-/** Time zone of each sample résumé's city, so "today" matches the persona. */
-export const PERSONA_TZ: Record<JuryPersona, string> = { nurse: 'America/Chicago', software: 'America/Chicago', accountant: 'America/New_York' };
-
 /** Max through the Cup offer when possible; a paid plan or an ended offer keeps the plan as it is. */
 async function cupIfPossible(profile: Profile, now: Date): Promise<Profile['plan']> {
   try {

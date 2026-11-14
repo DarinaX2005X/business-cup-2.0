@@ -4,7 +4,7 @@ import { DEMO_EMAIL_DOMAIN, issueDeviceSecret, profileByEmail } from '@/server/a
 import { createProfile, deleteProfile, emailIndexKey, updateProfile } from '@/server/profile';
 import { HttpError } from '@/server/profile/http';
 import { getStore, isConflictError } from '@/server/store';
-import { buildDemoMap, PERSONA_TZ, type JuryPersona } from './jury';
+import { buildDemoMap, type JuryPersona } from './jury';
 
 /**
  * Shared demo accounts (Business Cup 2.0 jury): one per persona and environment, signed in by email
@@ -14,6 +14,9 @@ import { buildDemoMap, PERSONA_TZ, type JuryPersona } from './jury';
  */
 
 export const demoEmail = (persona: JuryPersona) => `demo-${persona}@${DEMO_EMAIL_DOMAIN}`;
+
+/** Time zone of each sample résumé's city, so "today" matches the persona. */
+export const PERSONA_TZ: Record<JuryPersona, string> = { nurse: 'America/Chicago', software: 'America/Chicago', accountant: 'America/New_York' };
 /** A password hash value that never matches (not in the scrypt format). */
 const NO_PASSWORD = 'none';
 

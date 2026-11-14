@@ -49,6 +49,6 @@ describe('Delegate and Edge generation reliability (live)', () => {
       const ok = rows.filter((r) => r.ok).length;
       console.info(`[live] ${type}: ${ok}/${rows.length} ok, attempts ${rows.map((r) => r.attempts ?? 'x').join(',')}, cost $${rows.reduce((n, r) => n + Number(r.cost ?? 0), 0).toFixed(4)}`);
       expect(ok).toBe(rows.length);
-    });
+    }, 900_000);
   }
 });

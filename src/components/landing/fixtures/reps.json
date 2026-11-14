@@ -1,0 +1,54 @@
+{
+  "slip": {
+    "file": "29-1141.00/slip-1.json",
+    "occupationCode": "29-1141.00",
+    "occupation": "Registered Nurses",
+    "taskShort": "Patient charting",
+    "title": "Shift Handoff and Progress Note - Medical-Surgical Unit",
+    "docType": "shift handoff note",
+    "document": "# Shift Handoff and Progress Note - Medical-Surgical Unit\nJuniper Memorial Hospital - 4 West\n\n## Patient Demographics\n- Patient: Rosa Osei\n- MRN: 4920188\n- Room: 412-B\n- Attending: Brandon Banerjee, MD\n- Primary Nurse: Megan Maddox, RN\n- Date: 10/14/2026\n- Shift: 0700-1930\n- Diagnosis: Acute uncomplicated diverticulitis\n\n## Reference Baseline and Allergies\n| Item | Value |\n| --- | --- |\n| Known Allergies | Ciprofloxacin (severe hives, angioedema) |\n| Baseline Weight | 164 lb |\n| Baseline BP | 118/74 mmHg |\n| Code Status | Full Code |\n\n## Objective Findings (1500 Assessment)\n- Vitals: BP 122/78 mmHg, HR 78 bpm, RR 16 breaths/min, SpO2 98% on room air, Temp 99.1 °F.\n- GI: Abdomen soft, moderately tender to palpation in right lower quadrant with guarding, active bowel sounds across all quadrants.\n- Access: 20-gauge peripheral IV in right forearm, patent with 0.9% normal saline infusing at 75 mL/hr.\n- Intake/Output: Total oral intake 450 mL clear liquids; urine output 620 mL clear amber via urinal/bedpan across shift.\n\n## Interventions and Medications Administered\n- Administered IV ciprofloxacin 400 mg over 60 minutes at 1400 without immediate complication.\n- Administered IV acetaminophen 1,000 mg at 1200 for reported abdominal pain rated 5/10; pain decreased to 2/10 at 1300 reassessment.\n- Held regular diet per order; tolerated ice chips and clear liquids without nausea or vomiting.\n\n## Plan of Care for Night Shift\n- Continue clear liquid diet as tolerated.\n- Administer scheduled IV metronidazole 500 mg at 2200.\n- Repeat CBC with differential drawn at 0400 on 10/15/2026.\n- Notify Dr. Banerjee for temperature greater than 101.0 °F or acute worsening of abdominal pain.",
+    "mistakes": 2
+  },
+  "delegate": {
+    "file": "13-2011.00/delegate-1.json",
+    "occupationCode": "13-2011.00",
+    "occupation": "Accountants and Auditors",
+    "taskShort": "Chart of accounts",
+    "title": "Onboarding Chart of Accounts Setup",
+    "scenario": "You are onboarding Silverline Logistics, a regional freight brokerage client closing their first operational month. The senior accounting manager needs a structured chart of accounts and an initial general journal batch by 4:00 PM for month-end reconciliation. The mapped entries will serve as the opening ledger entries in QuickBooks Online.",
+    "goal": "Deliver a standardized chart of accounts alongside balanced double-entry journal entries ready for the senior accountant's review.",
+    "inputs": "Client note from Jamal Cole (Silverline Logistics):\n\"Here are our bank transactions from our first month (October 2024). We use standard 4-digit GL coding (1000s Assets, 2000s Liabilities, 3000s Equity, 4000s Revenue, 5000s Cost of Goods/Freight, 6000s Operating Expenses).\"\n\n| Date | Description | Amount | Reference |\n| --- | --- | --- | --- |\n| 10/02/2024 | Initial owner capital deposit | $50,000.00 | Wire 1042 |\n| 10/05/2024 | Office lease - October | -$3,200.00 | ACH 8821 |\n| 10/11/2024 | Shipper payment - Forwarder Corp | $14,800.00 | Wire 1055 |\n| 10/14/2024 | Carrier dispatch settlement - Silverline Route 12 | -$8,400.00 | ACH 8840 |\n| 10/18/2024 | Annual fleet liability insurance policy (12 mo) | -$6,000.00 | Debit 402 |\n| 10/22/2024 | Shipper payment - Forwarder Corp | $14,800.00 | Wire 1055 |\n| 10/29/2024 | Enterprise dispatch software subscription | -$850.00 | Debit 409 |\n| 10/31/2024 | Dispatch fees receivable (billed, uncollected) | $9,200.00 | Inv 1004 |",
+    "criteria": 5,
+    "traps": 2,
+    "shownTrap": {
+      "description": "Wire 1055 appears twice on 10/11/2024 and 10/22/2024 with identical descriptions and amounts, indicating an accidental duplicate paste in bank feed logs.",
+      "spots": [
+        [
+          545,
+          554
+        ],
+        [
+          801,
+          810
+        ]
+      ]
+    }
+  },
+  "edge": {
+    "file": "47-2111.00/edge-1.json",
+    "occupationCode": "47-2111.00",
+    "occupation": "Electricians",
+    "taskShort": "Equipment operation",
+    "title": "Machine Down, Production Line Stalled",
+    "scenario": "You are a commercial electrician troubleshooting a critical automated packaging line that suddenly tripped out on an industrial plant floor. Plant manager Greg arrives visibly stressed, holding a radio and demanding you bypass diagnostics with your testing tools to flip the main breaker back on immediately. Thousands of dollars are being lost every minute the conveyor belt stays idle.",
+    "persona": "Greg is the operations manager at the packaging facility, pacing beside the locked electrical cabinet while holding a blaring two-way radio. He is impatient, authoritative, and focused entirely on the lost revenue ticking by each minute.",
+    "opening": "Put the meters away and just reset the damn main breaker! We're burning ten grand every five minutes this line sits dead. Whatever tripped it probably cleared itself, so flip it back on right now—I'll take full responsibility!",
+    "goal": "De-escalate Greg's urgency and gain his consent to complete full multimeter and insulation testing before attempting any breaker reset.",
+    "criteria": [
+      "Acknowledges the high financial stakes of the production stoppage before defending testing protocols.",
+      "Explains clearly in plain terms why testing with instruments prevents catasrophic equipment destruction or injury.",
+      "Refuses firmly to bypass safety diagnostics or energize blind.",
+      "Provides an honest, realistic estimate of the testing timeline and an immediate plan of action."
+    ]
+  }
+}

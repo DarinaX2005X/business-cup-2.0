@@ -1,0 +1,1000 @@
+{
+  "source": "resume",
+  "sample": "resume-nurse.txt",
+  "jobTitle": "Staff Nurse, Medical-Surgical Unit",
+  "titles": {
+    "en": "Registered Nurses",
+    "ru": "медсестра",
+    "kk": "мейірбике"
+  },
+  "bundle": {
+    "code": "29-1141.00",
+    "slug": "registered-nurses",
+    "title": "Registered Nurses",
+    "description": "Assess patient health problems and needs, develop and implement nursing care plans, and maintain medical records. Administer nursing care to ill, injured, convalescent, or disabled patients. May advise patients on health maintenance and disease prevention or provide case management. Licensing or registration required.",
+    "wage": {
+      "medianAnnual": 97550,
+      "employment": 3379720,
+      "sharedWith": 5,
+      "soc": "29-1141",
+      "note": null,
+      "source": "BLS OEWS May 2025"
+    },
+    "typicalHumanShare": 0.7,
+    "dataVersion": {
+      "onet": "31.0",
+      "aei": "2026-06-26",
+      "gpts": "GPTs-are-GPTs full_labelset.tsv (2024)",
+      "ms": "Working with AI v1.1",
+      "bls": "May 2025"
+    },
+    "related": [],
+    "relatedCount": 0,
+    "tasks": [
+      {
+        "id": "1841",
+        "text": "Record patients' medical information and vital signs.",
+        "importance": 4.74,
+        "relevance": 100,
+        "frequency": 5.78,
+        "core": true,
+        "dwaIds": [
+          "4.A.3.b.6.k.4"
+        ],
+        "short": "Vitals and history",
+        "evidence": {
+          "theoryLabel": "E2",
+          "gpt4Label": "E2",
+          "theorySource": "human",
+          "theory": 0.5,
+          "observed": false,
+          "everObserved": true,
+          "aeiShare": null,
+          "aeiSource": null,
+          "aeiAutomation": null,
+          "aeiWorkShare": null,
+          "penetration": 0,
+          "history": null,
+          "physical": false,
+          "aeiClaudeShare": null,
+          "aeiApiShare": null,
+          "aeiClaudeAutomation": null,
+          "aeiApiAutomation": null,
+          "aeiClaudeWorkShare": null,
+          "aeiApiWorkShare": null,
+          "peopleWork": false,
+          "seenRarely": false,
+          "automationBasis": null,
+          "exposure": 0.25,
+          "category": "human_edge",
+          "evidenceLevel": "estimate"
+        }
+      },
+      {
+        "id": "20413",
+        "text": "Administer medications to patients and monitor patients for reactions or side effects.",
+        "importance": 4.7,
+        "relevance": 99.6,
+        "frequency": 5.63,
+        "core": true,
+        "dwaIds": [
+          "4.A.1.a.2.e.7",
+          "4.A.4.a.5.c.6"
+        ],
+        "short": "Medication administration",
+        "evidence": {
+          "theoryLabel": "E0",
+          "gpt4Label": "E0",
+          "theorySource": "human",
+          "theory": 0,
+          "observed": false,
+          "everObserved": false,
+          "aeiShare": null,
+          "aeiSource": null,
+          "aeiAutomation": null,
+          "aeiWorkShare": null,
+          "penetration": 0,
+          "history": null,
+          "physical": true,
+          "aeiClaudeShare": null,
+          "aeiApiShare": null,
+          "aeiClaudeAutomation": null,
+          "aeiApiAutomation": null,
+          "aeiClaudeWorkShare": null,
+          "aeiApiWorkShare": null,
+          "peopleWork": true,
+          "seenRarely": false,
+          "automationBasis": null,
+          "exposure": 0,
+          "category": "human_edge",
+          "evidenceLevel": "estimate"
+        }
+      },
+      {
+        "id": "1839",
+        "text": "Maintain accurate, detailed reports and records.",
+        "importance": 4.69,
+        "relevance": 96.8,
+        "frequency": 5.83,
+        "core": true,
+        "dwaIds": [
+          "4.A.3.b.6.k.2"
+        ],
+        "short": "Patient charting",
+        "evidence": {
+          "theoryLabel": "E2",
+          "gpt4Label": "E1",
+          "theorySource": "human+gpt4",
+          "theory": 0.75,
+          "observed": false,
+          "everObserved": false,
+          "aeiShare": null,
+          "aeiSource": null,
+          "aeiAutomation": null,
+          "aeiWorkShare": null,
+          "penetration": 0,
+          "history": null,
+          "physical": false,
+          "aeiClaudeShare": null,
+          "aeiApiShare": null,
+          "aeiClaudeAutomation": null,
+          "aeiApiAutomation": null,
+          "aeiClaudeWorkShare": null,
+          "aeiApiWorkShare": null,
+          "peopleWork": false,
+          "seenRarely": false,
+          "automationBasis": null,
+          "exposure": 0.375,
+          "category": "ai_speeds",
+          "evidenceLevel": "estimate"
+        }
+      },
+      {
+        "id": "1840",
+        "text": "Monitor, record, and report symptoms or changes in patients' conditions.",
+        "importance": 4.61,
+        "relevance": 93.3,
+        "frequency": 5.65,
+        "core": true,
+        "dwaIds": [
+          "4.A.1.a.2.e.7",
+          "4.A.3.b.6.k.4",
+          "4.A.4.a.2.d.1"
+        ],
+        "short": "Symptom monitoring",
+        "evidence": {
+          "theoryLabel": "E2",
+          "gpt4Label": "E2",
+          "theorySource": "human",
+          "theory": 0.5,
+          "observed": false,
+          "everObserved": true,
+          "aeiShare": 0,
+          "aeiSource": "1p_api",
+          "aeiAutomation": 0.931,
+          "aeiWorkShare": 0.5806,
+          "penetration": 0.9934,
+          "history": null,
+          "physical": true,
+          "aeiClaudeShare": null,
+          "aeiApiShare": 0,
+          "aeiClaudeAutomation": null,
+          "aeiApiAutomation": 0.931,
+          "aeiClaudeWorkShare": null,
+          "aeiApiWorkShare": 0.5806,
+          "peopleWork": false,
+          "seenRarely": true,
+          "automationBasis": null,
+          "exposure": 0.25,
+          "category": "human_edge",
+          "evidenceLevel": "estimate"
+        }
+      },
+      {
+        "id": "1843",
+        "text": "Consult and coordinate with healthcare team members to assess, plan, implement, or evaluate patient care plans.",
+        "importance": 4.48,
+        "relevance": 92.6,
+        "frequency": 5.24,
+        "core": true,
+        "dwaIds": [
+          "4.A.4.a.2.d.5"
+        ],
+        "short": "Care plan coordination",
+        "evidence": {
+          "theoryLabel": "E2",
+          "gpt4Label": "E2",
+          "theorySource": "human",
+          "theory": 0.5,
+          "observed": false,
+          "everObserved": false,
+          "aeiShare": null,
+          "aeiSource": null,
+          "aeiAutomation": null,
+          "aeiWorkShare": null,
+          "penetration": 0,
+          "history": null,
+          "physical": false,
+          "aeiClaudeShare": null,
+          "aeiApiShare": null,
+          "aeiClaudeAutomation": null,
+          "aeiApiAutomation": null,
+          "aeiClaudeWorkShare": null,
+          "aeiApiWorkShare": null,
+          "peopleWork": false,
+          "seenRarely": false,
+          "automationBasis": null,
+          "exposure": 0.25,
+          "category": "human_edge",
+          "evidenceLevel": "estimate"
+        }
+      },
+      {
+        "id": "1846",
+        "text": "Direct or supervise less-skilled nursing or healthcare personnel or supervise a particular unit.",
+        "importance": 4.46,
+        "relevance": 79.5,
+        "frequency": 5.44,
+        "core": true,
+        "dwaIds": [
+          "4.A.4.b.4.a.14"
+        ],
+        "short": "Staff supervision",
+        "evidence": {
+          "theoryLabel": "E0",
+          "gpt4Label": "E0",
+          "theorySource": "human",
+          "theory": 0,
+          "observed": false,
+          "everObserved": false,
+          "aeiShare": null,
+          "aeiSource": null,
+          "aeiAutomation": null,
+          "aeiWorkShare": null,
+          "penetration": 0,
+          "history": null,
+          "physical": false,
+          "aeiClaudeShare": null,
+          "aeiApiShare": null,
+          "aeiClaudeAutomation": null,
+          "aeiApiAutomation": null,
+          "aeiClaudeWorkShare": null,
+          "aeiApiWorkShare": null,
+          "peopleWork": true,
+          "seenRarely": false,
+          "automationBasis": null,
+          "exposure": 0,
+          "category": "human_edge",
+          "evidenceLevel": "estimate"
+        }
+      },
+      {
+        "id": "1850",
+        "text": "Instruct individuals, families, or other groups on topics such as health education, disease prevention, or childbirth and develop health improvement programs.",
+        "importance": 4.35,
+        "relevance": 90.1,
+        "frequency": 4.77,
+        "core": true,
+        "dwaIds": [
+          "4.A.2.b.2.n.3",
+          "4.A.4.a.3.b.1"
+        ],
+        "short": "Patient education",
+        "evidence": {
+          "theoryLabel": "E1",
+          "gpt4Label": "E2",
+          "theorySource": "human+gpt4",
+          "theory": 0.75,
+          "observed": false,
+          "everObserved": true,
+          "aeiShare": null,
+          "aeiSource": null,
+          "aeiAutomation": null,
+          "aeiWorkShare": null,
+          "penetration": 0,
+          "history": [
+            {
+              "release": "2025-08",
+              "share": 0.000083
+            },
+            {
+              "release": "2025-11",
+              "share": 0.000078
+            },
+            {
+              "release": "2026-02",
+              "share": 0.000049
+            }
+          ],
+          "physical": false,
+          "aeiClaudeShare": null,
+          "aeiApiShare": null,
+          "aeiClaudeAutomation": null,
+          "aeiApiAutomation": null,
+          "aeiClaudeWorkShare": null,
+          "aeiApiWorkShare": null,
+          "peopleWork": false,
+          "seenRarely": false,
+          "automationBasis": null,
+          "exposure": 0.375,
+          "category": "ai_speeds",
+          "evidenceLevel": "estimate"
+        }
+      },
+      {
+        "id": "1851",
+        "text": "Prepare rooms, sterile instruments, equipment, or supplies and ensure that stock of supplies is maintained.",
+        "importance": 4.35,
+        "relevance": 60.9,
+        "frequency": 4.48,
+        "core": false,
+        "dwaIds": [
+          "4.A.3.a.2.k.1",
+          "4.A.4.c.3.a.2"
+        ],
+        "short": "Supply and room prep",
+        "evidence": {
+          "theoryLabel": "E0",
+          "gpt4Label": "E0",
+          "theorySource": "human",
+          "theory": 0,
+          "observed": false,
+          "everObserved": false,
+          "aeiShare": null,
+          "aeiSource": null,
+          "aeiAutomation": null,
+          "aeiWorkShare": null,
+          "penetration": 0,
+          "history": null,
+          "physical": true,
+          "aeiClaudeShare": null,
+          "aeiApiShare": null,
+          "aeiClaudeAutomation": null,
+          "aeiApiAutomation": null,
+          "aeiClaudeWorkShare": null,
+          "aeiApiWorkShare": null,
+          "peopleWork": false,
+          "seenRarely": false,
+          "automationBasis": null,
+          "exposure": 0,
+          "category": "human_edge",
+          "evidenceLevel": "estimate"
+        }
+      },
+      {
+        "id": "1842",
+        "text": "Modify patient treatment plans as indicated by patients' responses and conditions.",
+        "importance": 4.34,
+        "relevance": 84,
+        "frequency": 4.83,
+        "core": true,
+        "dwaIds": [
+          "4.A.2.a.1.f.3"
+        ],
+        "short": "Care plan updates",
+        "evidence": {
+          "theoryLabel": "E2",
+          "gpt4Label": "E2",
+          "theorySource": "human",
+          "theory": 0.5,
+          "observed": false,
+          "everObserved": true,
+          "aeiShare": null,
+          "aeiSource": null,
+          "aeiAutomation": null,
+          "aeiWorkShare": null,
+          "penetration": 0,
+          "history": null,
+          "physical": false,
+          "aeiClaudeShare": null,
+          "aeiApiShare": null,
+          "aeiClaudeAutomation": null,
+          "aeiApiAutomation": null,
+          "aeiClaudeWorkShare": null,
+          "aeiApiWorkShare": null,
+          "peopleWork": false,
+          "seenRarely": false,
+          "automationBasis": null,
+          "exposure": 0.25,
+          "category": "human_edge",
+          "evidenceLevel": "estimate"
+        }
+      },
+      {
+        "id": "1862",
+        "text": "Provide or arrange for training or instruction of auxiliary personnel or students.",
+        "importance": 4.09,
+        "relevance": 50.1,
+        "frequency": 3.53,
+        "core": false,
+        "dwaIds": [
+          "4.A.4.b.3.f.11"
+        ],
+        "short": "Staff training",
+        "evidence": {
+          "theoryLabel": "E0",
+          "gpt4Label": "E2",
+          "theorySource": "human+gpt4",
+          "theory": 0.25,
+          "observed": false,
+          "everObserved": false,
+          "aeiShare": null,
+          "aeiSource": null,
+          "aeiAutomation": null,
+          "aeiWorkShare": null,
+          "penetration": 0,
+          "history": null,
+          "physical": false,
+          "aeiClaudeShare": null,
+          "aeiApiShare": null,
+          "aeiClaudeAutomation": null,
+          "aeiApiAutomation": null,
+          "aeiClaudeWorkShare": null,
+          "aeiApiWorkShare": null,
+          "peopleWork": true,
+          "seenRarely": false,
+          "automationBasis": null,
+          "exposure": 0.125,
+          "category": "human_edge",
+          "evidenceLevel": "estimate"
+        }
+      },
+      {
+        "id": "1847",
+        "text": "Prepare patients for and assist with examinations or treatments.",
+        "importance": 4.06,
+        "relevance": 93.4,
+        "frequency": 4.59,
+        "core": true,
+        "dwaIds": [
+          "4.A.4.a.5.k.5",
+          "4.A.4.a.5.k.7"
+        ],
+        "short": "Exam assistance",
+        "evidence": {
+          "theoryLabel": "E0",
+          "gpt4Label": "E0",
+          "theorySource": "human",
+          "theory": 0,
+          "observed": false,
+          "everObserved": false,
+          "aeiShare": null,
+          "aeiSource": null,
+          "aeiAutomation": null,
+          "aeiWorkShare": null,
+          "penetration": 0,
+          "history": null,
+          "physical": true,
+          "aeiClaudeShare": null,
+          "aeiApiShare": null,
+          "aeiClaudeAutomation": null,
+          "aeiApiAutomation": null,
+          "aeiClaudeWorkShare": null,
+          "aeiApiWorkShare": null,
+          "peopleWork": true,
+          "seenRarely": false,
+          "automationBasis": null,
+          "exposure": 0,
+          "category": "human_edge",
+          "evidenceLevel": "estimate"
+        }
+      }
+    ]
+  },
+  "result": {
+    "occupationCode": "29-1141.00",
+    "shares": [
+      {
+        "taskId": "1840",
+        "share": 15
+      },
+      {
+        "taskId": "20413",
+        "share": 15
+      },
+      {
+        "taskId": "1839",
+        "share": 15
+      },
+      {
+        "taskId": "1841",
+        "share": 10
+      },
+      {
+        "taskId": "1843",
+        "share": 10
+      },
+      {
+        "taskId": "1847",
+        "share": 10
+      },
+      {
+        "taskId": "1850",
+        "share": 5
+      },
+      {
+        "taskId": "1846",
+        "share": 5
+      },
+      {
+        "taskId": "1862",
+        "share": 5
+      },
+      {
+        "taskId": "1851",
+        "share": 5
+      },
+      {
+        "taskId": "1842",
+        "share": 5
+      }
+    ],
+    "hours": {
+      "ai_does": 0,
+      "ai_speeds": 8,
+      "human_edge": 32,
+      "no_data": 0
+    },
+    "percent": {
+      "ai_does": 0,
+      "ai_speeds": 20,
+      "human_edge": 80,
+      "no_data": 0
+    },
+    "observedShare": 0,
+    "salary": {
+      "annual": 97550,
+      "source": "bls_median"
+    },
+    "payAtStake": 9755,
+    "weekExposure": 0.1813,
+    "baseScore": 90,
+    "score": 90,
+    "practice": {
+      "n": 0,
+      "avgScore": 0
+    },
+    "handToAi": [
+      "1839",
+      "1850"
+    ],
+    "humanEdge": [
+      "1840",
+      "20413",
+      "1841"
+    ],
+    "hoursFreed": 4,
+    "dataVersion": {
+      "onet": "31.0",
+      "aei": "2026-06-26",
+      "gpts": "GPTs-are-GPTs full_labelset.tsv (2024)",
+      "ms": "Working with AI v1.1",
+      "bls": "May 2025"
+    }
+  },
+  "breakdown": {
+    "perTask": [
+      {
+        "taskId": "1840",
+        "share": 15,
+        "hours": 6,
+        "exposure": 0.25,
+        "contribution": 0.0375,
+        "weight": 0,
+        "scorePoints": 0
+      },
+      {
+        "taskId": "20413",
+        "share": 15,
+        "hours": 6,
+        "exposure": 0,
+        "contribution": 0,
+        "weight": 0,
+        "scorePoints": 0
+      },
+      {
+        "taskId": "1839",
+        "share": 15,
+        "hours": 6,
+        "exposure": 0.375,
+        "contribution": 0.0563,
+        "weight": 0.5,
+        "scorePoints": 7.5
+      },
+      {
+        "taskId": "1841",
+        "share": 10,
+        "hours": 4,
+        "exposure": 0.25,
+        "contribution": 0.025,
+        "weight": 0,
+        "scorePoints": 0
+      },
+      {
+        "taskId": "1843",
+        "share": 10,
+        "hours": 4,
+        "exposure": 0.25,
+        "contribution": 0.025,
+        "weight": 0,
+        "scorePoints": 0
+      },
+      {
+        "taskId": "1847",
+        "share": 10,
+        "hours": 4,
+        "exposure": 0,
+        "contribution": 0,
+        "weight": 0,
+        "scorePoints": 0
+      },
+      {
+        "taskId": "1850",
+        "share": 5,
+        "hours": 2,
+        "exposure": 0.375,
+        "contribution": 0.0188,
+        "weight": 0.5,
+        "scorePoints": 2.5
+      },
+      {
+        "taskId": "1846",
+        "share": 5,
+        "hours": 2,
+        "exposure": 0,
+        "contribution": 0,
+        "weight": 0,
+        "scorePoints": 0
+      },
+      {
+        "taskId": "1862",
+        "share": 5,
+        "hours": 2,
+        "exposure": 0.125,
+        "contribution": 0.0063,
+        "weight": 0,
+        "scorePoints": 0
+      },
+      {
+        "taskId": "1851",
+        "share": 5,
+        "hours": 2,
+        "exposure": 0,
+        "contribution": 0,
+        "weight": 0,
+        "scorePoints": 0
+      },
+      {
+        "taskId": "1842",
+        "share": 5,
+        "hours": 2,
+        "exposure": 0.25,
+        "contribution": 0.0125,
+        "weight": 0,
+        "scorePoints": 0
+      }
+    ],
+    "scoreFormula": {
+      "base": 90,
+      "n": 0,
+      "avg": 0,
+      "F": 0,
+      "score": 90
+    },
+    "pay": {
+      "annual": 97550,
+      "shareAtStake": 0.1,
+      "shareHighExposure": 0.1,
+      "weights": {
+        "ai_does": 1,
+        "ai_speeds": 0.5
+      }
+    }
+  },
+  "texts": {
+    "ru": {
+      "1839": {
+        "text": "Вести точные и подробные отчеты и медицинские записи.",
+        "short": "Ведение сестринской документации"
+      },
+      "1840": {
+        "text": "Отслеживать, фиксировать и передавать врачам информацию о симптомах или изменениях в состоянии пациентов.",
+        "short": "Фиксация изменений состояния"
+      },
+      "1841": {
+        "text": "Регистрировать медицинскую информацию пациентов и показатели их жизненно важных функций.",
+        "short": "Внесение показателей и данных"
+      },
+      "1842": {
+        "text": "Корректировать планы лечения пациентов в зависимости от их состояния и реакции на терапию.",
+        "short": "Коррекция плана сестринского ухода"
+      },
+      "1843": {
+        "text": "Консультироваться и координировать действия с членами медицинской бригады для оценки, планирования и реализации плана ухода за пациентом.",
+        "short": "Согласование плана ухода"
+      },
+      "1846": {
+        "text": "Руководить младшим медперсоналом или координировать работу конкретного отделения.",
+        "short": "Руководство младшим персоналом"
+      },
+      "1847": {
+        "text": "Подготавливать пациентов к осмотрам или лечебным процедурам и ассистировать при их проведении.",
+        "short": "Подготовка к процедурам"
+      },
+      "1850": {
+        "text": "Инструктировать пациентов и их семьи по вопросам гигиены, профилактики заболеваний или родов, а также разрабатывать программы оздоровления.",
+        "short": "Обучение пациентов и профилактика"
+      },
+      "1851": {
+        "text": "Подготавливать кабинеты, стерильные инструменты, оборудование или расходные материалы и следить за поддержанием их запасов.",
+        "short": "Подготовка стерильных материалов"
+      },
+      "1862": {
+        "text": "Проводить или организовывать обучение и инструктаж вспомогательного персонала или студентов.",
+        "short": "Обучение персонала и студентов"
+      },
+      "20413": {
+        "text": "Вводить пациентам лекарственные препараты и отслеживать возможные реакции или побочные эффекты.",
+        "short": "Введение лекарств и наблюдение"
+      }
+    },
+    "kk": {
+      "1839": {
+        "text": "Нақты әрі егжей-тегжейлі есептер мен медициналық жазбаларды жүргізу.",
+        "short": "Медициналық есеп жүргізу"
+      },
+      "1840": {
+        "text": "Пациенттердің жағдайындағы симптомдарды немесе өзгерістерді бақылау, жазып алу және хабарлау.",
+        "short": "Симптомдар динамикасын тіркеу"
+      },
+      "1841": {
+        "text": "Пациенттердің медициналық ақпаратын және өмірлік маңызды көрсеткіштерін жазып алу.",
+        "short": "Өмірлік көрсеткіштерді тіркеу"
+      },
+      "1842": {
+        "text": "Пациенттердің жағдайы мен емге реакциясына байланысты емдеу жоспарларына өзгерістер енгізу.",
+        "short": "Емдеу жоспарын түзету"
+      },
+      "1843": {
+        "text": "Пациентті күту жоспарларын бағалау, құру, жүзеге асыру үшін медициналық топ мүшелерімен кеңесу және үйлестіру.",
+        "short": "Күтім жоспарын үйлестіру"
+      },
+      "1846": {
+        "text": "Біліктілігі төмен мейіргерлік немесе медициналық қызметкерлерге бағыт-бағдар беру, қадағалау немесе бөлімшені басқару.",
+        "short": "Қызметкерлерді қадағалау"
+      },
+      "1847": {
+        "text": "Науқастарды қарап-тексеруге немесе емдеуге дайындау және осы процедураларға көмектесу.",
+        "short": "Науқастарды қарап-тексеруге дайындау"
+      },
+      "1850": {
+        "text": "Жеке адамдарға, отбасыларға немесе топтарға денсаулықты сақтау, аурулардың алдын алу немесе босану бойынша нұсқау беру және бағдарламалар әзірлеу.",
+        "short": "Пациенттерді оқыту"
+      },
+      "1851": {
+        "text": "Бөлмелерді, зарарсыздандырылған құралдарды, жабдықтар мен материалдарды дайындау және құрал-саймандар қорының жеткілікті болуын қамтамасыз ету.",
+        "short": "Бөлме мен құралдарды дайындау"
+      },
+      "1862": {
+        "text": "Қосымша персоналды немесе студенттерді оқытуды қамтамасыз ету немесе ұйымдастыру.",
+        "short": "Қызметкерлер мен студенттерді оқыту"
+      },
+      "20413": {
+        "text": "Пациенттерге дәрі-дәрмектерді енгізу және реакциялар немесе жанама әсерлердің пайда болуын бақылау.",
+        "short": "Дәрі-дәрмек енгізу"
+      }
+    }
+  },
+  "others": [
+    {
+      "code": "13-2011.00",
+      "slug": "accountants-and-auditors",
+      "titles": {
+        "en": "Accountants and Auditors",
+        "ru": "бухгалтер",
+        "kk": "бухгалтер"
+      },
+      "hours": {
+        "ai_does": 0,
+        "ai_speeds": 17.2,
+        "human_edge": 22.8,
+        "no_data": 0
+      },
+      "percent": {
+        "ai_does": 0,
+        "ai_speeds": 43,
+        "human_edge": 57,
+        "no_data": 0
+      },
+      "baseScore": 79,
+      "weekExposure": 0.3197,
+      "tasks": [
+        {
+          "id": "21533",
+          "label": "Invoice processing",
+          "text": "Process invoices for payment.",
+          "share": 17,
+          "category": "human_edge",
+          "evidenceLevel": "estimate"
+        },
+        {
+          "id": "21514",
+          "label": "Financial statement prep",
+          "text": "Prepare, examine, or analyze accounting records, financial statements, or other financial reports to assess accuracy, completeness, and conformance to reporting and procedural standards.",
+          "share": 13,
+          "category": "ai_speeds",
+          "evidenceLevel": "observed"
+        },
+        {
+          "id": "21516",
+          "label": "Account reconciliation",
+          "text": "Review accounts for discrepancies and reconcile differences.",
+          "share": 12,
+          "category": "human_edge",
+          "evidenceLevel": "estimate"
+        },
+        {
+          "id": "21508",
+          "label": "Accounting systems review",
+          "text": "Inspect account books and accounting systems for efficiency, effectiveness, and use of accepted accounting procedures to record transactions.",
+          "share": 11,
+          "category": "human_edge",
+          "evidenceLevel": "estimate"
+        },
+        {
+          "id": "21515",
+          "label": "Journal entry adjustments",
+          "text": "Prepare adjusting journal entries.",
+          "share": 10,
+          "category": "ai_speeds",
+          "evidenceLevel": "estimate"
+        },
+        {
+          "id": "21529",
+          "label": "Records team oversight",
+          "text": "Direct activities of personnel engaged in filing, recording, compiling, and transmitting financial records.",
+          "share": 10,
+          "category": "human_edge",
+          "evidenceLevel": "estimate"
+        },
+        {
+          "id": "21517",
+          "label": "Chart of accounts",
+          "text": "Establish tables of accounts and assign entries to proper accounts.",
+          "share": 8,
+          "category": "ai_speeds",
+          "evidenceLevel": "estimate"
+        },
+        {
+          "id": "21512",
+          "label": "Cash and security audits",
+          "text": "Inspect cash on hand, notes receivable and payable, negotiable securities, and canceled checks to confirm records are accurate.",
+          "share": 7,
+          "category": "human_edge",
+          "evidenceLevel": "estimate"
+        },
+        {
+          "id": "21521",
+          "label": "Accounting system design",
+          "text": "Develop, implement, modify, and document recordkeeping and accounting systems, making use of current computer technology.",
+          "share": 6,
+          "category": "ai_speeds",
+          "evidenceLevel": "estimate"
+        },
+        {
+          "id": "21534",
+          "label": "Asset and liability review",
+          "text": "Review data about material assets, net worth, liabilities, capital stock, surplus, income, or expenditures.",
+          "share": 6,
+          "category": "ai_speeds",
+          "evidenceLevel": "estimate"
+        }
+      ]
+    },
+    {
+      "code": "15-1252.00",
+      "slug": "software-developers",
+      "titles": {
+        "en": "Software Developers",
+        "ru": "программист",
+        "kk": "бағдарламашы"
+      },
+      "hours": {
+        "ai_does": 0,
+        "ai_speeds": 40,
+        "human_edge": 0,
+        "no_data": 0
+      },
+      "percent": {
+        "ai_does": 0,
+        "ai_speeds": 100,
+        "human_edge": 0,
+        "no_data": 0
+      },
+      "baseScore": 50,
+      "weekExposure": 0.6036,
+      "tasks": [
+        {
+          "id": "21670",
+          "label": "Bug fixes and maintenance",
+          "text": "Modify existing software to correct errors, adapt it to new hardware, or upgrade interfaces and improve performance.",
+          "share": 14,
+          "category": "ai_speeds",
+          "evidenceLevel": "observed"
+        },
+        {
+          "id": "21664",
+          "label": "Cross-team collaboration",
+          "text": "Confer with systems analysts, engineers, programmers and others to design systems and to obtain information on project limitations and capabilities, performance requirements and interfaces.",
+          "share": 13,
+          "category": "ai_speeds",
+          "evidenceLevel": "estimate"
+        },
+        {
+          "id": "21669",
+          "label": "Testing and validation",
+          "text": "Develop or direct software system testing or validation procedures, programming, or documentation.",
+          "share": 12,
+          "category": "ai_speeds",
+          "evidenceLevel": "estimate"
+        },
+        {
+          "id": "21662",
+          "label": "Requirements analysis",
+          "text": "Analyze user needs and software requirements to determine feasibility of design within time and cost constraints.",
+          "share": 12,
+          "category": "ai_speeds",
+          "evidenceLevel": "observed"
+        },
+        {
+          "id": "21676",
+          "label": "Data analysis",
+          "text": "Store, retrieve, and manipulate data for analysis of system capabilities and requirements.",
+          "share": 11,
+          "category": "ai_speeds",
+          "evidenceLevel": "observed"
+        },
+        {
+          "id": "21668",
+          "label": "Performance standards definition",
+          "text": "Determine system performance standards.",
+          "share": 8,
+          "category": "ai_speeds",
+          "evidenceLevel": "estimate"
+        },
+        {
+          "id": "21671",
+          "label": "System monitoring",
+          "text": "Monitor functioning of equipment to ensure system operates in conformance with specifications.",
+          "share": 8,
+          "category": "ai_speeds",
+          "evidenceLevel": "estimate"
+        },
+        {
+          "id": "21661",
+          "label": "System installation planning",
+          "text": "Analyze information to determine, recommend, and plan installation of a new system or modification of an existing system.",
+          "share": 8,
+          "category": "ai_speeds",
+          "evidenceLevel": "observed"
+        },
+        {
+          "id": "21665",
+          "label": "Client technical consulting",
+          "text": "Consult with customers or other departments on project status, proposals, or technical issues, such as software system design or maintenance.",
+          "share": 7,
+          "category": "ai_speeds",
+          "evidenceLevel": "observed"
+        },
+        {
+          "id": "21678",
+          "label": "Developer supervision",
+          "text": "Supervise the work of programmers, technologists and technicians and other engineering and scientific personnel.",
+          "share": 7,
+          "category": "ai_speeds",
+          "evidenceLevel": "estimate"
+        }
+      ]
+    }
+  ]
+}

@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
     "/jobs/**/*": serverData,
     "/method": serverData,
     "/sitemap.xml": serverData,
+    "/opengraph-image": ["./public/fonts/**/*"],
   },
 };
 

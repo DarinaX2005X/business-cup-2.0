@@ -1,0 +1,110 @@
+{
+  "meta": {
+    "title": "Irreplaceable · Train the part of your job AI gets wrong",
+    "description": "Your job, task by task: what AI already does, what stays yours, and ten-minute daily reps built from your own work.",
+    "ogAlt": "AI makes mistakes in your line of work. Can you spot them? The week of a registered nurse, task by task."
+  },
+  "nav": {
+    "label": "Site",
+    "home": "Irreplaceable home page",
+    "method": "How we measure",
+    "jobs": "Job pages",
+    "pricing": "Pricing"
+  },
+  "hero": {
+    "title": "AI makes mistakes in your line of work. Can you spot them?",
+    "titleA": "{ai} makes mistakes in your line of work",
+    "titleB": "Can you {spot} them{q}",
+    "ai": "AI",
+    "spot": "spot",
+    "lead": "See which tasks of your week AI already handles, from real usage data. Then train ten minutes a day on what it gets wrong and what it cannot do.",
+    "upload": "or upload your resume",
+    "sample": "Try with a sample resume"
+  },
+  "form": {
+    "label": "What do you do?",
+    "placeholder": "Nurse, accountant, electrician",
+    "submit": "Map my week"
+  },
+  "steps": {
+    "title": "How it works",
+    "one": {
+      "title": "Tell us your job",
+      "body": "Type your job title or drop your resume. No sign-up."
+    },
+    "two": {
+      "title": "See your week",
+      "body": "In about two minutes you get a map of your week: what AI already touches and what stays yours."
+    },
+    "three": {
+      "title": "Train ten minutes a day",
+      "body": "Short reps made from your own tasks keep you the one who checks AI."
+    }
+  },
+  "features": {
+    "title": "What you get",
+    "map": {
+      "title": "Your week map",
+      "body": "Every task of your week, sorted into what AI already does, what it speeds up and what stays yours.",
+      "caption": "A nurse's week, mapped from a sample resume",
+      "stake": "It also shows how much of your pay sits in the tasks AI touches."
+    },
+    "reps": {
+      "title": "Daily reps from your own work",
+      "body": "Ten minutes a day. Each rep is written from one of your tasks and checked right away.",
+      "slip": "Spot the slip",
+      "slipBody": "Find the mistakes AI left in a document from your job.",
+      "delegate": "Delegate",
+      "delegateBody": "Brief AI on a real task and catch the traps in the inputs.",
+      "trap": "A trap: the same payment is listed twice",
+      "edge": "Human edge",
+      "edgeBody": "Handle the part AI can't: a person who needs an answer now."
+    },
+    "game": {
+      "title": "AI or me?",
+      "body": "A free daily game. Guess which of your tasks AI is already used for.",
+      "ask": "Who does this today?"
+    },
+    "shop": {
+      "title": "Points you can spend",
+      "body": "Everything you do earns points. Trade them for Pro discounts, free months, or a month of Claude Pro or ChatGPT Plus as a pilot reward."
+    },
+    "proof": {
+      "title": "Proof for your next review",
+      "body": "Every finished rep is saved. The Review kit turns them into one page for your manager.",
+      "sheet": "Review brief",
+      "hand": "I hand to AI",
+      "keep": "Stays with me"
+    },
+    "streak": {
+      "title": "Your streak",
+      "body": "Practice a little every day and watch the week fill up."
+    }
+  },
+  "pay": {
+    "title": "What you pay for",
+    "more": "See the full plans",
+    "cup": "For Business Cup 2.0, Pro is free until {date}.",
+    "cupLink": "See the offer"
+  },
+  "data": {
+    "title": "Built on real data",
+    "onet": "Your tasks come from O*NET, the US database of what each job involves.",
+    "aei": "What AI already does comes from the Anthropic Economic Index, built from real AI use at work.",
+    "bls": "Pay comes from the US Bureau of Labor Statistics.",
+    "link": "See how we measure"
+  },
+  "closing": {
+    "title": "Find out what makes you irreplaceable",
+    "lead": "Type your job title. Your week map takes about two minutes."
+  },
+  "footer": {
+    "slogan": "Train the part of your job AI gets wrong.",
+    "links": "Pages",
+    "method": "How we measure",
+    "privacy": "Privacy",
+    "jobs": "Job pages",
+    "github": "Source on GitHub",
+    "sources": "Data sources"
+  }
+}

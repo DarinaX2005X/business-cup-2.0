@@ -564,6 +564,12 @@ export function shortJob(title: string | null | undefined): string {
 
 /** The leaderboard handle: the chosen nickname, else «{short job} · {4 digits from the profile id}». */
 export function boardHandle(profile: Pick<Profile, 'id' | 'jobTitle' | 'nickname'>): string {
-  if (profile.nickname) return profile.nickname;
-  return `${shortJob(profile.jobTitle)} · ${String(hash32(`handle:${profile.id}`) % 10_000).padStart(4, '0')}`;
+  const digits = String(hash32(`handle:${profile.id}`) % 10_000).padStart(4, '0');
+  // Both parts are free text from the person, so both pass the same public filter before they show on the board.
+  if (profile.nickname) {
+    const nick = cleanNickname(profile.nickname);
+    if (nick.ok) return nick.value;
+  }
+  const job = cleanNickname(shortJob(profile.jobTitle));
+  return `${job.ok ? job.value : 'Member'} · ${digits}`;
 }

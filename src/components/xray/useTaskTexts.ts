@@ -42,7 +42,11 @@ export function useTaskTexts(code: string, locale: Locale, initial: { texts: Tas
     };
   }, [code, locale, needFetch]);
 
-  return current?.texts ?? fetched?.texts ?? initial.texts;
+  return {
+    texts: current?.texts ?? fetched?.texts ?? initial.texts,
+    /** Labels come from the generated record (not the first words of the task), in this language. */
+    ready: !!current?.ready,
+  };
 }
 
 export type TipsState = { status: 'pending' } | { status: 'ready'; tips: Record<string, TaskTip> } | { status: 'hidden' };

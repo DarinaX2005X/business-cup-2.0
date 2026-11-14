@@ -1,13 +1,14 @@
 'use client';
 
 import { useState, type ReactNode } from 'react';
-import { CategoryChip, CategorySwatch, EvidenceBadge, EvidenceMeter } from '@/components/kit/Evidence';
+import { CategoryChip, CategorySwatch, EvidenceBadge } from '@/components/kit/Evidence';
 import { SourceNote } from '@/components/kit/Shop';
 import { Skeleton } from '@/components/kit/Skeleton';
 import { useKit } from '@/components/kit/strings';
-import { PRACTICE_GAIN, PRACTICE_SCALE, THEORY_WEIGHT, WEEK_HOURS } from '@/domain/constants';
-import { explainCategory, observedScore } from '@/domain/evidence';
-import type { Category, OccTask, XrayBreakdown, XrayComputed } from '@/domain/types';
+import { PRACTICE_GAIN, PRACTICE_SCALE, WEEK_HOURS } from '@/domain/constants';
+import { METHOD_ANCHORS } from '@/components/public/anchors';
+import { automationBasis, explainCategory, formatShare } from '@/domain/evidence';
+import type { Category, OccTask, TaskEvidence, XrayBreakdown, XrayComputed } from '@/domain/types';
 import { useT } from '@/i18n/client';
 import type { TFunction } from '@/i18n/core';
 import { freedFactor } from './lib';
@@ -99,6 +100,7 @@ function TaskPanel({
   onFocus: (f: Focus) => void;
 }) {
   const { t, f } = useT();
+  const { s } = useKit();
   const e = task.evidence;
   const row = breakdown.perTask.find((p) => p.taskId === task.id);
   const share = row?.share ?? 0;
@@ -106,15 +108,19 @@ function TaskPanel({
   const ex = explainCategory(e);
   const params: Record<string, string> = { ...ex.params };
   if (params.source) params.source = t(`category.source.${params.source}`);
-  const obs = observedScore(e.observed, e.aeiAutomation);
   const weight = row?.weight ?? 0;
   const pts = row?.scorePoints ?? 0;
   const totalPts = 100 - result.baseScore;
-  const n2 = (x: number) => f.number(x, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const n1 = (x: number) => f.number(x, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
   const inHand = result.handToAi.includes(task.id);
   const factor = freedFactor(e.category);
   const tipsReady = tips.status === 'ready' ? tips.tips[task.id] : null;
+  const usage = usageFacts(e);
+
+  // The raters: the researchers' label and GPT-4's label; when they disagree the category uses the midpoint.
+  const humanLabel = e.theorySource === 'human' || e.theorySource === 'human+gpt4' ? e.theoryLabel : null;
+  const gptLabel = e.gpt4Label ?? (e.theorySource === 'gpt4' ? e.theoryLabel : null);
+  const disagree = e.theorySource === 'human+gpt4';
 
   return (
     <article className={st.insp} aria-labelledby="insp-title">
@@ -127,8 +133,40 @@ function TaskPanel({
           {label}
         </h3>
         <p className={st.iText}>{text}</p>
-        <p className={st.iExplain}>{t(ex.key, params)}</p>
       </header>
+
+      <section className={st.iSec} aria-labelledby="insp-why">
+        <h4 id="insp-why" className={st.h4}>
+          {t('xray.inspector.why', { category: s.category[e.category] })}
+        </h4>
+        <p className={st.iWhy}>{t(ex.key, params)}</p>
+        <dl className={st.facts}>
+          <Fact k={t('xray.inspector.seen')}>
+            {usage.kind === 'observed'
+              ? t('xray.inspector.seenYes', { share: usage.share, source: t(`category.source.${usage.source}`) })
+              : usage.kind === 'rare'
+                ? t('xray.inspector.seenRare')
+                : t('xray.inspector.seenNo')}
+          </Fact>
+          {usage.kind === 'observed' && usage.auto != null ? <Fact k={t('xray.inspector.automation')}>{f.percent(usage.auto)}</Fact> : null}
+          {usage.kind !== 'none' && e.aeiWorkShare != null ? <Fact k={t('xray.inspector.workUse')}>{f.percent(e.aeiWorkShare)}</Fact> : null}
+          {e.theorySource === 'estimated' ? (
+            <Fact k={t('xray.inspector.research')}>{t('xray.inspector.estimated', { theory: f.number(e.theory, { maximumFractionDigits: 2 }) })}</Fact>
+          ) : (
+            <>
+              {humanLabel ? <Fact k={t('xray.inspector.researchers')}>{t(`xray.inspector.labelMeaning.${humanLabel}`)}</Fact> : null}
+              {gptLabel ? <Fact k={t('xray.inspector.gpt4')}>{t(`xray.inspector.labelMeaning.${gptLabel}`)}</Fact> : null}
+              {disagree ? <Fact k={t('xray.inspector.midpoint')}>{f.number(e.theory, { maximumFractionDigits: 2 })}</Fact> : null}
+              {!humanLabel && !gptLabel ? <Fact k={t('xray.inspector.research')}>{t('xray.inspector.none')}</Fact> : null}
+            </>
+          )}
+          {!e.observed && e.physical === true ? <Fact k={t('xray.inspector.kind')}>{t('xray.inspector.kindPhysical')}</Fact> : null}
+          {!e.observed && e.peopleWork === true ? <Fact k={t('xray.inspector.kind')}>{t('xray.inspector.kindPeople')}</Fact> : null}
+        </dl>
+        <a className={st.textLink} href={`/method#${METHOD_ANCHORS.category}`}>
+          {t('xray.inspector.howCategory')}
+        </a>
+      </section>
 
       <section className={st.iSec} aria-labelledby="insp-how">
         <h4 id="insp-how" className={st.h4}>
@@ -138,11 +176,8 @@ function TaskPanel({
           <Eq label={t('xray.inspector.eq.time')}>
             <Num>{f.number(share)}</Num>% × {WEEK_HOURS} {t('xray.unit.h')} = <Num strong>{n1(hours)}</Num> {t('xray.unit.h')}
           </Eq>
-          <Eq
-            label={t('xray.inspector.eq.exposure')}
-            note={t('xray.inspector.eq.exposureNote', { w: THEORY_WEIGHT })}
-          >
-            {f.number(THEORY_WEIGHT)} × <Num>{n2(e.theory)}</Num> + {f.number(1 - THEORY_WEIGHT)} × <Num>{n2(obs)}</Num> = <Num strong>{n2(e.exposure)}</Num>
+          <Eq label={t('xray.inspector.eq.weight')} note={t('xray.inspector.eq.weightNote')}>
+            {s.category[e.category]} → <Num strong>{f.number(weight)}</Num>
           </Eq>
           <Eq label={t('xray.inspector.eq.points')} note={t('xray.inspector.eq.pointsNote', { total: f.number(totalPts) })}>
             <Num>{f.number(share)}</Num> × {f.number(weight)} = <Num strong>{n1(pts)}</Num>
@@ -162,9 +197,14 @@ function TaskPanel({
             </Eq>
           ) : null}
         </dl>
-        <button type="button" className={st.textBtn} onClick={() => onFocus({ kind: 'metric', id: 'score' })}>
-          {t('xray.inspector.wholeScore')}
-        </button>
+        <div className={st.iLinks}>
+          <button type="button" className={st.textBtn} onClick={() => onFocus({ kind: 'metric', id: 'score' })}>
+            {t('xray.inspector.wholeScore')}
+          </button>
+          <a className={st.textLink} href={`/method#${METHOD_ANCHORS.score}`}>
+            {t('xray.inspector.howScore')}
+          </a>
+        </div>
       </section>
 
       {tips.status === 'pending' ? (
@@ -186,34 +226,30 @@ function TaskPanel({
         </section>
       ) : null}
 
-      <section className={st.iSec} aria-labelledby="insp-data">
-        <h4 id="insp-data" className={st.h4}>
-          {t('xray.inspector.data')}
-        </h4>
-        <EvidenceMeter evidence={e} />
-        <dl className={st.facts}>
-          <Fact k={t('xray.inspector.research')}>
-            {e.theorySource === 'human+gpt4' && e.gpt4Label
-              ? t('xray.inspector.mixed', { human: e.theoryLabel ?? '', gpt4: e.gpt4Label })
-              : e.theoryLabel
-                ? `${e.theoryLabel}, ${t(`xray.inspector.researchSource.${e.theorySource ?? 'human'}`)}`
-                : e.theorySource === 'estimated'
-                  ? t('xray.inspector.researchSource.estimated')
-                  : t('xray.inspector.none')}
-          </Fact>
-          <Fact k={t('xray.inspector.seen')}>
-            {e.observed ? t('xray.inspector.seenNow', { release: f.date(bundle.dataVersion.aei, 'long') }) : e.everObserved ? t('xray.inspector.seenEarlier') : t('xray.inspector.notSeen')}
-          </Fact>
-          {e.aeiWorkShare != null ? <Fact k={t('xray.inspector.workUse')}>{f.percent(e.aeiWorkShare)}</Fact> : null}
-          {e.penetration != null ? <Fact k={t('xray.inspector.penetration')}>{f.percent(e.penetration, 1)}</Fact> : null}
-          <Fact k={t('xray.inspector.physical')}>{e.physical === true ? t('xray.inspector.yes') : e.physical === false ? t('xray.inspector.no') : t('xray.inspector.none')}</Fact>
-        </dl>
-        <SourceNote href={`/method#${e.observed ? 'observed' : 'estimates'}`}>
+      <div className={st.iSource}>
+        <SourceNote href={`/method#${METHOD_ANCHORS.sources}`}>
           {t('xray.inspector.source', { onet: bundle.dataVersion.onet, aei: f.date(bundle.dataVersion.aei, 'long') })}
         </SourceNote>
-      </section>
+      </div>
     </article>
   );
+}
+
+/**
+ * What the usage data says, in the same terms the category used: meaningful work use (with the source and
+ * automation that decided it), work use too rare to count, or none.
+ */
+function usageFacts(
+  e: TaskEvidence,
+): { kind: 'observed'; share: string; source: 'claude_ai' | '1p_api'; auto: number | null } | { kind: 'rare' } | { kind: 'none' } {
+  if (e.observed) {
+    const { automation, basis } = automationBasis(e);
+    const source = basis ?? e.aeiSource ?? 'claude_ai';
+    const shareOf = source === '1p_api' ? (e.aeiApiShare ?? e.aeiShare) : (e.aeiClaudeShare ?? e.aeiShare);
+    return { kind: 'observed', share: formatShare(shareOf ?? null), source, auto: automation ?? e.aeiAutomation };
+  }
+  if (e.seenRarely) return { kind: 'rare' };
+  return { kind: 'none' };
 }
 
 function Fact({ k, children }: { k: string; children: ReactNode }) {
@@ -268,7 +304,7 @@ function MetricPanel({
 
   let body: ReactNode = null;
   let big: string;
-  let anchor = 'score';
+  let anchor: string = METHOD_ANCHORS.score;
 
   if (id === 'score') {
     const sf = breakdown.scoreFormula;
@@ -300,7 +336,7 @@ function MetricPanel({
       </>
     );
   } else if (id === 'pay') {
-    anchor = 'pay';
+    anchor = METHOD_ANCHORS.score;
     const annual = result.salary.annual;
     big = result.payAtStake != null ? f.currency(result.payAtStake) : '—';
     // Same weights as the score and hours freed: tasks AI does count in full, tasks it speeds up at half.
@@ -344,7 +380,7 @@ function MetricPanel({
         </>
       );
   } else if (id === 'hours') {
-    anchor = 'categories';
+    anchor = METHOD_ANCHORS.week;
     big = `${f.number(40)} ${t('xray.unit.h')}`;
     const cats: Category[] = ['ai_does', 'ai_speeds', 'human_edge', 'no_data'];
     body = (
@@ -375,7 +411,7 @@ function MetricPanel({
       </div>
     );
   } else {
-    anchor = 'observed';
+    anchor = METHOD_ANCHORS.evidence;
     big = f.percent(result.observedShare);
     const seen = rows.filter((p) => byId.get(p.taskId)?.evidence.evidenceLevel === 'observed');
     body = (

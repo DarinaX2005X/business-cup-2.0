@@ -5,7 +5,7 @@ import type { ClientBundle } from '@/components/xray/types';
 import { getRequestLocale, getT } from '@/i18n/server';
 import { isPro } from '@/server/profile';
 import { getProfileFromCookies } from '@/server/profile/ssr';
-import { getLocalTitles, loadBundle } from '@/server/xray/data';
+import { getLocalTitles, getRelated, loadBundle } from '@/server/xray/data';
 import { readXray, viewXray } from '@/server/xray/records';
 import { getTaskTexts } from '@/server/xray/tips';
 
@@ -48,8 +48,8 @@ export default async function XrayPage({ params, searchParams }: Props) {
     tasks: bundle.tasks,
     typicalHumanShare: bundle.typicalHumanShare,
     dataVersion: bundle.dataVersion,
-    related: pro ? bundle.related : bundle.related.slice(0, 1),
-    relatedCount: bundle.related.length,
+    related: pro ? await getRelated(bundle.code) : bundle.related.slice(0, 1),
+    relatedCount: bundle.relatedCount ?? bundle.related.length,
   };
 
   const focus = typeof sp.focus === 'string' ? sp.focus : null;

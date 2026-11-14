@@ -360,6 +360,19 @@
   cursor: pointer;
 }
 
+/*
+ * Display-size numbers use proportional figures: tabular figures pad the «1» to a full digit width,
+ * which at 64 px reads as «1 1.6 h». Small numbers in rows and formulas stay tabular so columns align.
+ */
+.barWrap li[data-cat] > div:first-child span,
+.dialBtn,
+.dialBtn span,
+.iBig,
+.iBig .num,
+.payBtn b {
+  font-variant-numeric: proportional-nums !important;
+}
+
 .barWrap li[data-cat] > div:first-child > div {
   transition: color var(--t-hover) var(--ease);
 }
@@ -428,7 +441,6 @@
 
 .payBtn b {
   font-weight: 700;
-  font-variant-numeric: tabular-nums;
 }
 
 .payNum {
@@ -683,9 +695,36 @@
 .iBig {
   font-size: 48px;
   font-weight: 700;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.03em;
   line-height: 1;
-  font-variant-numeric: tabular-nums;
+}
+
+.iWhy {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.iLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 16px;
+}
+
+.iSource {
+  margin-top: 24px;
+}
+
+/* untranslated task labels after a Russian or Kazakh sentence: their own line, never spliced in */
+.plates {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.3;
 }
 
 .iBig .num {

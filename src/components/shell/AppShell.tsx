@@ -54,7 +54,7 @@ export function AppShell({ initial, children }: { initial: ShellInitial; childre
   );
 
   return (
-    <div className={st.shell}>
+    <div className={st.shell} data-tabbar={sections.length >= 2 || undefined}>
       <a href="#main" className={st.skip}>
         {t('shell.skip')}
       </a>
@@ -119,6 +119,8 @@ export function AppShell({ initial, children }: { initial: ShellInitial; childre
       <main id="main" className={st.main}>
         {children}
       </main>
+      {/* The bottom bar on phones appears once there are at least two sections to switch between. */}
+      {sections.length >= 2 ? (
       <nav className={st.tabbar} aria-label={t('shell.nav.label')}>
         <ul>
           {sections.map((s) => {
@@ -135,6 +137,7 @@ export function AppShell({ initial, children }: { initial: ShellInitial; childre
           })}
         </ul>
       </nav>
+      ) : null}
     </div>
   );
 }

@@ -53,3 +53,6 @@ AGENTS.md
 CLAUDE.md
 REQUESTS.md
 !.env.example
+
+# local agent tooling
+/.claude/

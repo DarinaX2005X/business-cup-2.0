@@ -32,6 +32,8 @@ export function TaskList({
   onEdit,
   onDone,
   onShare,
+  onGestureStart,
+  onGestureEnd,
   onRemove,
   onReset,
   onRetry,
@@ -51,6 +53,9 @@ export function TaskList({
   onEdit: () => void;
   onDone: () => void;
   onShare: (id: string, v: number) => void;
+  /** A slider gesture begins (pointer down forces a fresh base; focus keeps the current one). */
+  onGestureStart: (id: string, force: boolean) => void;
+  onGestureEnd: () => void;
   onRemove: (id: string) => void;
   onReset: () => void;
   onRetry: () => void;
@@ -159,7 +164,14 @@ export function TaskList({
           if (!task) return null;
           const selected = x.id === selectedId;
           return (
-            <li key={x.id} className={st.rowItem} data-editing={editing || undefined}>
+            <li
+              key={x.id}
+              className={st.rowItem}
+              data-editing={editing || undefined}
+              onPointerDownCapture={editing ? (ev) => (ev.target as HTMLElement).closest('[role="slider"]') && onGestureStart(x.id, true) : undefined}
+              onKeyDownCapture={editing ? (ev) => (ev.target as HTMLElement).getAttribute('role') === 'slider' && onGestureStart(x.id, false) : undefined}
+              onBlurCapture={editing ? (ev) => (ev.target as HTMLElement).getAttribute('role') === 'slider' && onGestureEnd() : undefined}
+            >
               <TaskRow
                 id={x.id}
                 text={fullText(x.id)}
@@ -170,10 +182,13 @@ export function TaskList({
                 evidence={task.evidence}
                 selected={selected}
                 editing={editing}
-                showMeter={!editing}
+                showMeter={false}
                 onSelect={onSelect}
                 onShareChange={onShare}
-                onDragChange={onDrag}
+                onDragChange={(d) => {
+                  onDrag(d);
+                  if (!d) onGestureEnd();
+                }}
               />
               {editing ? (
                 <button

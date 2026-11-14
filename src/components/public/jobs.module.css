@@ -733,6 +733,10 @@
 .jobTitle {
   font-weight: 600;
   line-height: 1.35;
+  /* job titles wrap between words only (hyphens and spaces), never inside a word */
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: manual;
 }
 
 .jobLink:hover .jobTitle {
@@ -792,6 +796,13 @@
 
   .jobList {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* two narrow columns would push long titles («Telecommunications …») past their cell */
+@media (max-width: 520px) {
+  .jobList {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 

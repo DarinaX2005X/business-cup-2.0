@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useMemo, useRef, useState, useSyncExternalStore } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import { Sheet } from '@/components/kit/Overlay';
 import { Toast } from '@/components/kit/Toast';
 import type { WeekTask } from '@/components/kit/types';
@@ -10,7 +10,7 @@ import { computeXray } from '@/domain/xray';
 import { useT } from '@/i18n/client';
 import { useProfile } from '@/lib/client/profile';
 import { ActionCard } from './ActionCard';
-import { MIN_TASKS } from './lib';
+import { isForeignLabel, MIN_TASKS } from './lib';
 import { Conclusion } from './Conclusion';
 import { Further } from './Further';
 import { Inspector, inspectorTitle } from './Inspector';
@@ -19,6 +19,7 @@ import { focusParam, parseFocus, type Focus, type XrayData, type XrayPageProps }
 import { useTaskTexts, useTips } from './useTaskTexts';
 import { useWeekSave } from './useWeekSave';
 import { WeekSection } from './WeekSection';
+import { FIRST_FRAME_KEY } from './XraySkeleton';
 import st from './xray.module.css';
 
 const NARROW = '(max-width: 960px)';
@@ -74,8 +75,18 @@ export function XrayScreen(props: XrayPageProps) {
     setEditing(true);
   };
 
+  // The scan's first frame has served its purpose once the map itself is on screen.
+  useEffect(() => {
+    try {
+      const raw = window.sessionStorage.getItem(FIRST_FRAME_KEY);
+      if (raw && (JSON.parse(raw) as { id?: string }).id === initial.id) window.sessionStorage.removeItem(FIRST_FRAME_KEY);
+    } catch {
+      /* storage blocked or malformed: nothing to clean */
+    }
+  }, [initial.id]);
+
   /* ---------- texts, tips ---------- */
-  const texts = useTaskTexts(bundle.code, locale, { texts: props.texts, ready: props.textsReady, locale: props.textsLocale });
+  const { texts, ready: textsReady } = useTaskTexts(bundle.code, locale, { texts: props.texts, ready: props.textsReady, locale: props.textsLocale });
   const tips = useTips(bundle.code, locale);
   const byId = useMemo(() => new Map(bundle.tasks.map((x) => [x.id, x])), [bundle.tasks]);
   const label = useCallback((id: string) => texts[id]?.short ?? byId.get(id)?.text ?? id, [texts, byId]);
@@ -120,15 +131,36 @@ export function XrayScreen(props: XrayPageProps) {
   const selectedTask = shownFocus?.kind === 'task' ? shownFocus.id : null;
 
   /* ---------- editing operations ---------- */
-  const onShare = useCallback((id: string, v: number) => change(redistributeShares(shares, id, v)), [change, shares]);
+  // One slider gesture (a drag, or key presses while the slider has focus) reapportions from the shares
+  // captured when it started, so the points it frees spread over the other tasks in proportion instead of
+  // piling onto the largest one through repeated integer rounding.
+  const gesture = useRef<{ id: string; base: WeekShare[] } | null>(null);
+  const startGesture = useCallback(
+    (id: string, force: boolean) => {
+      if (force || gesture.current?.id !== id) gesture.current = { id, base: shares };
+    },
+    [shares],
+  );
+  const endGesture = useCallback(() => {
+    gesture.current = null;
+  }, []);
+  const onShare = useCallback(
+    (id: string, v: number) => {
+      const base = gesture.current?.id === id ? gesture.current.base : shares;
+      change(redistributeShares(base, id, v));
+    },
+    [change, shares],
+  );
   const onRemove = useCallback(
     (id: string) => {
       if (shares.length <= MIN_TASKS) return;
+      gesture.current = null;
       change(normalizeShares(shares.filter((s) => s.taskId !== id), bundle));
     },
     [change, shares, bundle],
   );
   const onReset = useCallback(() => {
+    gesture.current = null;
     if (baseline) change(baseline.shares);
   }, [baseline, change]);
   const dirty = !!baseline && JSON.stringify(baseline.shares) !== JSON.stringify(shares);
@@ -136,6 +168,10 @@ export function XrayScreen(props: XrayPageProps) {
 
 
   const hasProfile = profile.status === 'ready';
+  // The teaser names the task only with a generated label in this language, never a raw fragment of the
+  // O*NET sentence or an English label inside a Russian or Kazakh title.
+  const topTask = result.handToAi[0];
+  const teaserLabel = topTask && textsReady && !isForeignLabel(label(topTask), locale) ? label(topTask) : null;
   const repHref = '/today?trial=1';
 
   const inspector = (inSheet = false) =>
@@ -168,13 +204,15 @@ export function XrayScreen(props: XrayPageProps) {
         isOwner={isOwner}
         occupationTitle={props.occupationTitle}
         label={label}
+        byCategory={(id) => byId.get(id)?.evidence.category}
+        labelsReady={textsReady}
         onMetric={(id) => setFocus({ kind: 'metric', id }, { reveal: true })}
       />
       <ActionCard
         isOwner={isOwner}
         isPro={isPro}
         trialAvailable={trialAvailable || !hasProfile}
-        taskLabel={result.handToAi[0] ? label(result.handToAi[0]) : null}
+        taskLabel={teaserLabel}
         href={repHref}
       />
       <WeekSection
@@ -208,6 +246,8 @@ export function XrayScreen(props: XrayPageProps) {
             setDragging(false);
           }}
           onShare={onShare}
+          onGestureStart={startGesture}
+          onGestureEnd={endGesture}
           onRemove={onRemove}
           onReset={onReset}
           onRetry={save.retry}

@@ -48,7 +48,7 @@
     "seenRarely": false,
     "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -168,7 +168,7 @@
     "seenRarely": true,
     "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -247,7 +247,7 @@
     "seenRarely": false,
     "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -405,7 +405,7 @@
     "seenRarely": false,
     "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -617,7 +617,7 @@
     "seenRarely": false,
     "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -735,7 +735,7 @@
     "seenRarely": false,
     "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -931,7 +931,7 @@
     "seenRarely": false,
     "automationBasis": null,
     "exposure": 0.375,
-    "category": "human_edge",
+    "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
   },
@@ -1011,7 +1011,7 @@
     "seenRarely": false,
     "automationBasis": null,
     "exposure": 0.375,
-    "category": "human_edge",
+    "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
   },
@@ -1089,7 +1089,7 @@
     "seenRarely": false,
     "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   }
@@ -1198,14 +1198,14 @@
    "importance": 3.11
   }
  ],
- "typicalHumanShare": 0.29,
+ "typicalHumanShare": 0.7,
  "related": [
   {
    "code": "29-1141.01",
    "slug": "acute-care-nurses",
    "title": "Acute Care Nurses",
    "similarity": 0.957,
-   "typicalHumanShare": 0.78,
+   "typicalHumanShare": 0.86,
    "wageDelta": 0,
    "missingSkills": [
     "Education and Training"
@@ -1219,5 +1219,5 @@
   "ms": "Working with AI v1.1",
   "bls": "May 2025"
  },
- "relatedCount": 8
+ "relatedCount": 6
 }

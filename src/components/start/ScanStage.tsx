@@ -9,7 +9,7 @@ import type { PointsAward, WeekShare, XrayResult } from '@/domain/types';
 import { useT } from '@/i18n/client';
 import { ApiError, apiFetch } from '@/lib/client/api';
 import { ensureProfile, useOptionalProfile } from '@/lib/client/profile';
-import { saveFirstFrame, storageBlocked } from './data';
+import { readScan, saveFirstFrame, scanKeyOf, storageBlocked, writeScan } from './data';
 import type { Bundle, Chosen, FromMap } from './types';
 import st from './week.module.css';
 
@@ -64,7 +64,15 @@ export function ScanStage({
   const [state, setState] = useState<'saving' | 'saved' | 'error' | 'local'>(blocked ? 'local' : 'saving');
   const [saved, setSaved] = useState<Saved | null>(null);
   const [scoreShown, setScoreShown] = useState(0);
-  const requestId = useRef(newRequestId());
+  // The same week keeps the same request id across reloads, so the server returns the map it already saved.
+  const scanKey = scanKeyOf(chosen.code, chosen.jobTitle, shares);
+  const [requestId] = useState(() => {
+    const rec = typeof window !== 'undefined' ? readScan() : null;
+    if (rec && rec.key === scanKey) return rec.requestId;
+    const id = newRequestId();
+    if (typeof window !== 'undefined') writeScan({ key: scanKey, requestId: id, savedId: null });
+    return id;
+  });
   const stage = useRef<HTMLDivElement>(null);
 
   const practice = useMemo(() => {
@@ -124,20 +132,21 @@ export function ScanStage({
             shares,
             jobTitle: chosen.jobTitle.slice(0, 120),
             inputSource: chosen.inputSource,
-            requestId: requestId.current,
+            requestId,
           },
         });
       }
       const { pointsAwarded = [], ...rest } = xray;
+      writeScan({ key: scanKey, requestId, savedId: rest.id });
       setSaved({ id: rest.id, xray: rest as XrayResult, awards: pointsAwarded });
       setState('saved');
     } catch {
       setState('error');
     }
-  }, [chosen, shares, from, locale]);
+  }, [chosen, shares, from, locale, requestId, scanKey]);
 
   useEffect(() => {
-    if (!blocked) void save();
+    if (!blocked) queueMicrotask(() => void save());
   }, [save, blocked]);
 
   // Both the painting and the save are done: hand the finished frame to the map page.

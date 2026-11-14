@@ -79,6 +79,7 @@
     "who.chooseAnother",
     "who.close",
     "who.closestHint",
+    "who.describeHint",
     "who.describeInstead",
     "who.describeLabel",
     "who.describePlaceholder",
@@ -187,7 +188,8 @@
     "exampleTag": "Пример",
     "exampleTitle": "Неделя дипломированной медсестры",
     "exampleSub": "Типичная 40-часовая неделя по данным O*NET, задача за задачей",
-    "exampleNote": "Ваша карта строится на основе ваших задач и часов, а каждая цифра подкреплена ссылкой на источник."
+    "exampleNote": "Ваша карта строится на основе ваших задач и часов, а каждая цифра подкреплена ссылкой на источник.",
+    "describeHint": "Два-три предложения о том, чем вы занимаетесь"
   },
   "occupation": {
     "title": "Похоже, вы…",

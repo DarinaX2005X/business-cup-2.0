@@ -31,12 +31,15 @@ export function jobModel(bundle: OccupationBundle) {
   const h1 = who ? t('jobs.page.h1', { who }) : t('jobs.page.h1Plain', { title: bundle.title });
   const metaTitle = who ? t('jobs.page.metaTitle', { who }) : t('jobs.page.metaTitlePlain', { title: bundle.title });
   const summary = [
-    t('jobs.page.summaryAi', { ai }),
+    // Name only what is true, like the week map: no «already does» when AI does none of it on its own.
+    ai === 0
+      ? t('jobs.page.summaryAiNone')
+      : t(result.percent.ai_does === 0 ? 'jobs.page.summaryAiSpeeds' : result.percent.ai_speeds === 0 ? 'jobs.page.summaryAiDoes' : 'jobs.page.summaryAi', { ai }),
     human ? t('jobs.page.summaryHuman', { human }) : '',
   ]
     .filter(Boolean)
     .join(' ');
-  const description = t('jobs.page.metaDescription', { ai, title: bundle.title });
+  const description = t(result.percent.ai_does === 0 ? 'jobs.page.metaDescriptionSpeeds' : 'jobs.page.metaDescription', { ai, title: bundle.title });
 
   return { result, week, others, ai, h1, metaTitle, summary, description };
 }

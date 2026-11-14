@@ -6,7 +6,7 @@ import { hasCyrillic } from '@/domain/text';
 import type { XrayResult } from '@/domain/types';
 import { useT } from '@/i18n/client';
 import { ApiError, apiFetch } from '@/lib/client/api';
-import { analyzeText, loadBundle, loadSample, proposeWeek, readDraft, writeDraft } from './data';
+import { analyzeText, loadBundle, loadSample, proposeWeek, readDraft, readScan, writeDraft } from './data';
 import { FlowHeader } from './FlowHeader';
 import { CONFIDENT, StepOccupation } from './StepOccupation';
 import { StepWeek } from './StepWeek';
@@ -189,7 +189,7 @@ export function StartFlow({ initial }: { initial: StartInitial }) {
         {
           code: r.code,
           title: r.title,
-          jobTitle: own && own.length >= 2 ? own : singular(r.title),
+          jobTitle: own && own.length >= 2 ? own : r.title,
           inputSource: analysis.origin.mode === 'description' ? 'description' : 'resume',
         },
         analysis.facts.duties,
@@ -236,7 +236,7 @@ export function StartFlow({ initial }: { initial: StartInitial }) {
         try {
           const bundle = await loadBundle(initial.code);
           if (!live) return;
-          setChosen({ code: bundle.code, title: bundle.title, jobTitle: singular(bundle.title), inputSource: 'title' });
+          setChosen({ code: bundle.code, title: bundle.title, jobTitle: bundle.title, inputSource: 'title' });
           setWeek({ shares: defaultShares(bundle), matches: {}, unmappedDuties: [], source: 'onet' });
           go('week', true);
         } catch {
@@ -251,6 +251,14 @@ export function StartFlow({ initial }: { initial: StartInitial }) {
         return;
       }
       const draft = initial.step ? readDraft<Draft>() : null;
+      // A reload during the scan after the map was saved: the map exists, open it instead of saving again.
+      if (initial.step === 'scan' && draft?.chosen && draft.week) {
+        const rec = readScan();
+        if (rec?.savedId && rec.key.startsWith(`${draft.chosen.code}|${draft.chosen.jobTitle}|`)) {
+          window.location.replace(`/x/${rec.savedId}`);
+          return;
+        }
+      }
       if (draft && isStep(initial.step)) {
         setQuery(draft.query ?? '');
         setAnalysis(draft.analysis);
@@ -376,18 +384,6 @@ function problemFrom(err: unknown): WhoProblem | null {
   return null;
 }
 
-/** «Registered Nurses» → «Registered Nurse»; titles with lists stay as they are. */
-export function singular(title: string): string {
-  if (/,|\band\b|\bor\b/i.test(title)) return title;
-  return title.replace(/(\w+)$/, (w) => {
-    if (/ies$/i.test(w)) return w.replace(/ies$/i, 'y');
-    if (/(ss|us|is)$/i.test(w)) return w;
-    if (/(ches|shes|xes)$/i.test(w)) return w.replace(/es$/i, '');
-    if (/s$/i.test(w)) return w.replace(/s$/i, '');
-    return w;
-  });
-}
-
 const cap = (s: string) => (s ? s[0].toLocaleUpperCase() + s.slice(1) : s);
 
 const fold = (s: string) =>
@@ -406,20 +402,20 @@ function wholeWords(typed: string, matched: string) {
 }
 
 /**
- * The words the map calls the person's job. Never a title they did not say: picking «Apprentice
- * electrician» after typing «electrician» keeps «Electrician».
- * - an alias or alternate title they reached by typing: what they typed, tidied and capitalised;
- * - the canonical O*NET title: that title in the singular («Registered Nurse»).
+ * The words the map calls the person's job. Never a title they did not say, and never an altered one:
+ * - 3 or more letters typed as whole words of the picked title (or a Cyrillic title found through
+ *   translation): what they typed, tidied, first letter capitalised;
+ * - an abbreviation typed in lower case keeps its catalogue spelling: «rn» → «RN»;
+ * - otherwise the O*NET title exactly as published (no singular, no lower case).
  * (Résumé input keeps the résumé's own title, see onConfirm.)
  */
 function jobTitleFrom(item: SearchItem, typed: string): string {
   const t = typed.replace(/\s+/g, ' ').trim().replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}).]+$/gu, '');
-  if (item.kind === 'primary' || t.length < 2) return singular(item.title).slice(0, 120);
+  if (t.length < 3) return item.title.slice(0, 120);
   const m = matchedTerm(item.matched);
-  // an abbreviation typed in lower case keeps its catalogue spelling: «rn» → «RN»
   if (t.length <= 5 && fold(m) === fold(t)) return m.slice(0, 120);
-  // a Cyrillic query answered through translation has an English match: the person's words stand
   const translated = hasCyrillic(t) && !hasCyrillic(m);
-  if (translated ? t.length >= 3 : wholeWords(t, m)) return cap(t).slice(0, 120);
-  return singular(item.title).slice(0, 120);
+  if (translated || wholeWords(t, m) || wholeWords(t, item.title)) return cap(t).slice(0, 120);
+  return item.title.slice(0, 120);
 }
+

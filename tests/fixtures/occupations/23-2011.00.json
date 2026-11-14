@@ -140,7 +140,7 @@
     "seenRarely": false,
     "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -180,7 +180,7 @@
     "seenRarely": true,
     "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -321,7 +321,7 @@
     "seenRarely": false,
     "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -439,7 +439,7 @@
     "seenRarely": false,
     "automationBasis": null,
     "exposure": 0.375,
-    "category": "human_edge",
+    "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
   },
@@ -480,7 +480,7 @@
     "seenRarely": true,
     "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -519,7 +519,7 @@
     "seenRarely": false,
     "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   }
@@ -628,16 +628,21 @@
    "importance": 2.55
   }
  ],
- "typicalHumanShare": 0.17,
+ "typicalHumanShare": 0.39,
  "related": [
   {
-   "code": "13-1041.00",
-   "slug": "compliance-officers",
-   "title": "Compliance Officers",
-   "similarity": 0.879,
-   "typicalHumanShare": 0.31,
-   "wageDelta": 17840,
-   "missingSkills": []
+   "code": "13-1031.00",
+   "slug": "claims-adjusters-examiners-and-investigators",
+   "title": "Claims Adjusters, Examiners, and Investigators",
+   "similarity": 0.89,
+   "typicalHumanShare": 0.56,
+   "wageDelta": 15110,
+   "missingSkills": [
+    "Customer and Personal Service",
+    "Mathematics",
+    "Critical Thinking",
+    "Judgment and Decision Making"
+   ]
   }
  ],
  "dataVersion": {
@@ -647,5 +652,5 @@
   "ms": "Working with AI v1.1",
   "bls": "May 2025"
  },
- "relatedCount": 4
+ "relatedCount": 5
 }

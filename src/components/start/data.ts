@@ -168,3 +168,38 @@ export function storageBlocked(): boolean {
 export function sharesEqual(a: WeekShare[], b: WeekShare[]) {
   return a.length === b.length && a.every((s, i) => s.taskId === b[i].taskId && s.share === b[i].share);
 }
+
+/* ---------- the scan's save, kept across a reload ---------- */
+
+/**
+ * One saving attempt of the scan: the request id the server deduplicates on, the week it was for and,
+ * once saved, the map id. A reload during the scan reuses the id (no second map), and a reload after the
+ * save goes straight to the map. Kept apart from the draft, which the flow rewrites on every change.
+ */
+const SCAN_KEY = 'irr:start-scan';
+
+export interface ScanRecord {
+  key: string;
+  requestId: string;
+  savedId: string | null;
+}
+
+export const scanKeyOf = (code: string, jobTitle: string, shares: WeekShare[]) =>
+  `${code}|${jobTitle}|${shares.map((s) => `${s.taskId}:${s.share}`).join(',')}`;
+
+export function readScan(): ScanRecord | null {
+  try {
+    const raw = window.sessionStorage.getItem(SCAN_KEY);
+    return raw ? (JSON.parse(raw) as ScanRecord) : null;
+  } catch {
+    return null;
+  }
+}
+
+export function writeScan(rec: ScanRecord) {
+  try {
+    window.sessionStorage.setItem(SCAN_KEY, JSON.stringify(rec));
+  } catch {
+    /* storage blocked: the server still deduplicates within this page */
+  }
+}

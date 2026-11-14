@@ -8,6 +8,8 @@ import { WeekBar } from '@/components/kit/WeekBar';
 import type { XrayComputed } from '@/domain/types';
 import { useT } from '@/i18n/client';
 import { useProfile } from '@/lib/client/profile';
+import { METHOD_ANCHORS } from '@/components/public/anchors';
+import { rich } from './rich';
 import type { MetricId } from './types';
 import st from './xray.module.css';
 
@@ -132,20 +134,31 @@ function PayLine({
     }
   };
 
+  // «Pay at stake: $14,224 of $98,100». The amount counts tasks AI already does in full and tasks it speeds
+  // up at half; the rule and the arithmetic are one click away. Placeholders may come in any order.
   const key = !isOwner ? 'xray.week.payGuest' : 'xray.week.pay';
-  const [a, b] = t(key, { atStake: '\u0000', annual: '\u0001' }).split('\u0000');
-  const [b1, b2] = (b ?? '').split('\u0001');
+  const line = rich(t, key, {
+    atStake: <b className={st.payNum}>{f.currency(result.payAtStake)}</b>,
+    annual: <b>{f.currency(annual)}</b>,
+  });
   return (
     <div className={st.pay}>
-      <button type="button" className={st.payBtn} onClick={() => onMetric('pay')}>
-        {a}
-        <b className={st.payNum}>{f.currency(result.payAtStake)}</b>
-        {b1}
-        <b>{f.currency(annual)}</b>
-        {b2}
-      </button>
+      <p className={st.payLine}>
+        <button type="button" className={st.payBtn} onClick={() => onMetric('pay')}>
+          {line}
+        </button>{' '}
+        <button type="button" className={st.inlineBtn} onClick={() => onMetric('pay')}>
+          {t('xray.week.payHow')}
+        </button>
+      </p>
       <p className={st.paySrc}>
-        {salary != null ? t('xray.week.payUser') : t('xray.week.paySource')}
+        {salary != null ? (
+          t('xray.week.payUser')
+        ) : (
+          <a className={st.srcLink} href={`/method#${METHOD_ANCHORS.sources}`}>
+            {t('xray.week.paySource')}
+          </a>
+        )}
         {isOwner && !open ? (
           <>
             {' '}

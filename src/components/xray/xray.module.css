@@ -365,6 +365,8 @@
  * which at 64 px reads as «1 1.6 h». Small numbers in rows and formulas stay tabular so columns align.
  */
 .barWrap li[data-cat] > div:first-child span,
+.sentence,
+.jobTitle,
 .dialBtn,
 .dialBtn span,
 .iBig,
@@ -1416,4 +1418,28 @@
   .removeBtn {
     right: 10px;
   }
+}
+
+/* «Your week map» names the object under the person's own title; the title itself is never rewritten */
+.mapLabel {
+  display: block;
+  margin-bottom: 2px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.payLine {
+  margin: 0;
+}
+
+.srcLink {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: oklch(47% 0.06 286 / 0.4);
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color var(--t-hover) var(--ease);
+}
+
+.srcLink:hover {
+  text-decoration-color: currentColor;
 }

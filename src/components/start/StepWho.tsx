@@ -73,23 +73,39 @@ export function StepWho(props: StepWhoProps) {
     if (panel === 'describe') describeRef.current?.focus();
   }, [panel]);
 
+  // Weak results: the server says so (lowConfidence), or a word the person typed appears in none of them
+  // («chief happiness officer»). Then «No exact match» is said and each option is marked as only close.
+  const weak = !!search.response && search.forQuery === query.trim() && search.response.results.length > 0 && isWeak(search.response, query);
   const items: ComboItem[] = useMemo(() => {
     const r = search.response;
     if (!r) return [];
-    if (r.results.length) {
-      return r.results.map((it) => ({
-        value: it.code,
-        label: it.title,
-        matched: sameTitle(it.matched, it.title) ? undefined : matchedTerm(it.matched),
-      }));
-    }
-    return r.suggestions.map((s) => ({ value: s.code, label: s.title, hint: t('start.who.closestHint') }));
-  }, [search.response, t]);
+    // In Russian or Kazakh the local title leads and the English O*NET title sits small beneath it.
+    const local = (title: string, localTitle: string | null) => (locale !== 'en' && localTitle ? localTitle : title);
+    const under = (title: string, localTitle: string | null) => (locale !== 'en' && localTitle && !sameTitle(localTitle, title) ? title : undefined);
+    const list: ComboItem[] = r.results.length
+      ? r.results.map((it) => ({
+          value: it.code,
+          label: local(it.title, it.localTitle),
+          hint: under(it.title, it.localTitle) ?? (weak ? t('start.who.closestHint') : undefined),
+          matched: under(it.title, it.localTitle) || weak || sameTitle(it.matched, it.title) ? undefined : matchedTerm(it.matched),
+        }))
+      : r.suggestions.map((s) => ({ value: s.code, label: local(s.title, s.localTitle), hint: under(s.title, s.localTitle) ?? t('start.who.closestHint') }));
+    // The way out is always in the list, last.
+    return [...list, { value: DESCRIBE, label: t('start.who.describeInstead'), hint: t('start.who.describeHint') }];
+  }, [search.response, t, locale, weak]);
 
   const noMatch =
-    !!search.response && !search.translating && search.response.results.length === 0 && search.forQuery === query.trim() && query.trim().length >= 2;
+    !!search.response &&
+    !search.translating &&
+    search.forQuery === query.trim() &&
+    query.trim().length >= 2 &&
+    (search.response.results.length === 0 || weak);
 
   const pick = (item: ComboItem) => {
+    if (item.value === DESCRIBE) {
+      onPanel('describe');
+      return;
+    }
     const r = search.response;
     const hit = r?.results.find((x) => x.code === item.value);
     const sug = r?.suggestions.find((x) => x.code === item.value);
@@ -207,11 +223,11 @@ export function StepWho(props: StepWhoProps) {
         {noMatch ? (
           <div className={st.noMatch} role="status">
             <p>
-              {search.response!.suggestions.length
+              {weak || search.response!.suggestions.length
                 ? t('start.who.noMatch', { query: query.trim() })
                 : t('start.who.noMatchNoSuggestions', { query: query.trim() })}
             </p>
-            {search.response!.suggestions.length ? (
+            {!weak && search.response!.suggestions.length ? (
               <ul className={st.suggestions}>
                 {search.response!.suggestions.map((s) => (
                   <li key={s.code}>
@@ -220,7 +236,7 @@ export function StepWho(props: StepWhoProps) {
                       className={st.suggestion}
                       onClick={() => onPick({ code: s.code, title: s.title, matched: s.title, kind: 'primary', localTitle: s.localTitle }, query.trim())}
                     >
-                      {s.title}
+                      {locale !== 'en' && s.localTitle ? s.localTitle : s.title}
                     </button>
                   </li>
                 ))}
@@ -468,6 +484,22 @@ function useNarrow() {
 }
 
 const fold = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+
+const DESCRIBE = '__describe';
+
+/**
+ * Low confidence: the server flag when it sends one, else a word of 3+ letters the person typed that
+ * starts no word of any result (title, matched title or local title).
+ */
+function isWeak(r: SearchResponse & { lowConfidence?: boolean; confident?: boolean }, query: string) {
+  if (typeof r.lowConfidence === 'boolean') return r.lowConfidence;
+  // The search route sends `confident` (src/server/xray/search.ts): false means the top hit is weak.
+  if (typeof r.confident === 'boolean' && r.results.length) return !r.confident;
+  const words = fold(query).split(' ').filter((w) => w.length >= 3);
+  if (!words.length) return false;
+  const have = new Set(r.results.flatMap((it) => fold(`${it.title} ${it.matched} ${it.localTitle ?? ''}`).split(' ')));
+  return words.some((w) => ![...have].some((h) => h.startsWith(w)));
+}
 
 function sameTitle(a: string, b: string) {
   return fold(a) === fold(b);

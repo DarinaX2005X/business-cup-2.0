@@ -551,3 +551,22 @@
     font-size: 17px;
   }
 }
+
+/* days of this week before the profile existed: neutral, neither done nor missed (kit lacks a prop, see REQUESTS) */
+.streakSlot[data-since='1'] li:nth-child(-n + 1)[data-state='missed'] i,
+.sheetStreak[data-since='1'] li:nth-child(-n + 1)[data-state='missed'] i,
+.streakSlot[data-since='2'] li:nth-child(-n + 2)[data-state='missed'] i,
+.sheetStreak[data-since='2'] li:nth-child(-n + 2)[data-state='missed'] i,
+.streakSlot[data-since='3'] li:nth-child(-n + 3)[data-state='missed'] i,
+.sheetStreak[data-since='3'] li:nth-child(-n + 3)[data-state='missed'] i,
+.streakSlot[data-since='4'] li:nth-child(-n + 4)[data-state='missed'] i,
+.sheetStreak[data-since='4'] li:nth-child(-n + 4)[data-state='missed'] i,
+.streakSlot[data-since='5'] li:nth-child(-n + 5)[data-state='missed'] i,
+.sheetStreak[data-since='5'] li:nth-child(-n + 5)[data-state='missed'] i,
+.streakSlot[data-since='6'] li:nth-child(-n + 6)[data-state='missed'] i,
+.sheetStreak[data-since='6'] li:nth-child(-n + 6)[data-state='missed'] i
+{
+  background: var(--sunk);
+  box-shadow: none;
+  outline: none;
+}

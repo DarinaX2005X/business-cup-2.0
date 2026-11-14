@@ -13,6 +13,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
     hasProfile: !!profile,
     balance: profile?.points.balance ?? 0,
     streakDays: profile?.streak.days ?? [],
+    createdAt: profile?.createdAt ?? null,
     lastXrayId: profile?.lastXrayId ?? null,
   };
   return <AppShell initial={initial}>{children}</AppShell>;

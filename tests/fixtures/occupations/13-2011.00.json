@@ -110,7 +110,7 @@
     "seenRarely": false,
     "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -269,7 +269,7 @@
     "seenRarely": false,
     "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -422,7 +422,7 @@
     "seenRarely": false,
     "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -634,7 +634,7 @@
     "seenRarely": false,
     "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -673,7 +673,7 @@
     "seenRarely": false,
     "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -712,7 +712,7 @@
     "seenRarely": false,
     "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -868,7 +868,7 @@
     "seenRarely": true,
     "automationBasis": null,
     "exposure": 0.375,
-    "category": "human_edge",
+    "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
   },
@@ -1126,7 +1126,7 @@
     "seenRarely": false,
     "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -1165,7 +1165,7 @@
     "seenRarely": false,
     "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -1204,7 +1204,7 @@
     "seenRarely": false,
     "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -1323,7 +1323,7 @@
     "seenRarely": true,
     "automationBasis": null,
     "exposure": 0.375,
-    "category": "human_edge",
+    "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
   }
@@ -1432,20 +1432,19 @@
    "importance": 2.31
   }
  ],
- "typicalHumanShare": 0.29,
+ "typicalHumanShare": 0.57,
  "related": [
   {
-   "code": "11-3031.01",
-   "slug": "treasurers-and-controllers",
-   "title": "Treasurers and Controllers",
-   "similarity": 0.934,
-   "typicalHumanShare": 0.91,
+   "code": "11-3031.00",
+   "slug": "financial-managers",
+   "title": "Financial Managers",
+   "similarity": 0.952,
+   "typicalHumanShare": 0.73,
    "wageDelta": 82890,
    "missingSkills": [
-    "Management of Financial Resources",
-    "Systems Evaluation",
-    "Systems Analysis",
-    "Complex Problem Solving"
+    "Customer and Personal Service",
+    "Management of Personnel Resources",
+    "Administration and Management"
    ]
   }
  ],
@@ -1456,5 +1455,5 @@
   "ms": "Working with AI v1.1",
   "bls": "May 2025"
  },
- "relatedCount": 8
+ "relatedCount": 7
 }

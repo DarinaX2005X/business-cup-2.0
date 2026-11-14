@@ -11,7 +11,7 @@ import { automationBasis, explainCategory, formatShare } from '@/domain/evidence
 import type { Category, OccTask, TaskEvidence, XrayBreakdown, XrayComputed } from '@/domain/types';
 import { useT } from '@/i18n/client';
 import type { TFunction } from '@/i18n/core';
-import { freedFactor } from './lib';
+import { freedFactor, midSentence } from './lib';
 import type { ClientBundle, Focus } from './types';
 import type { TipsState } from './useTaskTexts';
 import st from './xray.module.css';
@@ -137,7 +137,7 @@ function TaskPanel({
 
       <section className={st.iSec} aria-labelledby="insp-why">
         <h4 id="insp-why" className={st.h4}>
-          {t('xray.inspector.why', { category: s.category[e.category] })}
+          {t('xray.inspector.why', { category: midSentence(s.category[e.category]) })}
         </h4>
         <p className={st.iWhy}>{t(ex.key, params)}</p>
         <dl className={st.facts}>
@@ -336,7 +336,7 @@ function MetricPanel({
       </>
     );
   } else if (id === 'pay') {
-    anchor = METHOD_ANCHORS.score;
+    anchor = METHOD_ANCHORS.sources;
     const annual = result.salary.annual;
     big = result.payAtStake != null ? f.currency(result.payAtStake) : '—';
     // Same weights as the score and hours freed: tasks AI does count in full, tasks it speeds up at half.
@@ -351,10 +351,10 @@ function MetricPanel({
           <dl className={st.eqs}>
             <Eq label={t('xray.metric.pay.formula')} note={t('xray.metric.pay.note')}>
               <Num>{f.number(result.percent.ai_does)}</Num>% × {f.number(w.ai_does)} + <Num>{f.number(result.percent.ai_speeds)}</Num>% × {f.number(w.ai_speeds)} ={' '}
-              <Num strong>{f.percent(pct)}</Num>
+              <Num strong>{f.percent(pct, 1)}</Num>
             </Eq>
             <Eq label={t('xray.metric.pay.formulaPay')}>
-              <Num>{f.currency(annual)}</Num> × <Num>{f.percent(pct)}</Num> = <Num strong>{f.currency(result.payAtStake ?? 0)}</Num>
+              <Num>{f.currency(annual)}</Num> × <Num>{f.percent(pct, 1)}</Num> = <Num strong>{f.currency(result.payAtStake ?? 0)}</Num>
             </Eq>
           </dl>
           <p className={st.iExplain}>

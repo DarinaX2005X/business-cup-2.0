@@ -8,6 +8,7 @@ import { MAX_WEEK_TASKS } from '@/domain/constants';
 import type { WeekShare } from '@/domain/types';
 import { useT } from '@/i18n/client';
 import { useBundle, useTaskTexts } from './data';
+import { quickLabel, taskLabel } from '@/components/xray/lib';
 import { ScanStage } from './ScanStage';
 import { TaskPicker, type PickerTask } from './TaskPicker';
 import type { Bundle, Chosen, FromMap, WeekProposal } from './types';
@@ -29,25 +30,7 @@ export interface StepWeekProps {
 
 const ADD_SHARE = 4;
 
-const DANGLING = new Set(['and', 'or', 'to', 'for', 'with', 'as', 'of', 'the', 'a', 'an', 'in', 'on', 'by', 'from', 'such', 'including', 'using', 'и', 'в', 'на', 'для', 'с', 'по', 'мен', 'және']);
-
-/** Short label without the model, until /texts answers: the task up to its first clause, never ending on «and». */
-export function quickLabel(text: string) {
-  const words = text.replace(/[.;:]+\s*$/, '').split(/\s+/).filter(Boolean);
-  const out: string[] = [];
-  for (const w of words) {
-    out.push(w);
-    if (out.length >= 5 || (/[,;:]$/.test(w) && out.length >= 3)) break;
-  }
-  return tidyLabel(out.join(' '));
-}
-
-/** Drops a trailing comma or function word, which the heuristic labels of the server can end on. */
-function tidyLabel(label: string) {
-  const words = label.replace(/[,;:]+$/, '').split(/\s+/);
-  while (words.length > 2 && DANGLING.has(words[words.length - 1].toLowerCase().replace(/[,;:]$/, ''))) words.pop();
-  return words.join(' ').replace(/[,;:]+$/, '');
-}
+export { quickLabel };
 
 export function StepWeek(props: StepWeekProps) {
   const { chosen, week, weekFailed, onRetry } = props;
@@ -159,8 +142,7 @@ function WeekEditor({
   const textOf = useCallback((id: string) => texts?.[id]?.text ?? byId.get(id)?.text ?? '', [texts, byId]);
   const labelOf = useCallback(
     (id: string) => {
-      const short = texts?.[id]?.short ?? byId.get(id)?.short;
-      return short ? tidyLabel(short) : quickLabel(byId.get(id)?.text ?? '');
+      return taskLabel(texts?.[id]?.short, byId.get(id));
     },
     [texts, byId],
   );

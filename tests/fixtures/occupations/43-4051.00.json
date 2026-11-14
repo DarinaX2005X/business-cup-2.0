@@ -121,7 +121,7 @@
     "seenRarely": false,
     "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -160,7 +160,7 @@
     "seenRarely": true,
     "automationBasis": null,
     "exposure": 0.375,
-    "category": "human_edge",
+    "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
   },
@@ -277,7 +277,7 @@
     "seenRarely": true,
     "automationBasis": null,
     "exposure": 0.375,
-    "category": "human_edge",
+    "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
   },
@@ -317,7 +317,7 @@
     "seenRarely": false,
     "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -539,7 +539,7 @@
     "seenRarely": false,
     "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -578,7 +578,7 @@
     "seenRarely": true,
     "automationBasis": null,
     "exposure": 0.375,
-    "category": "human_edge",
+    "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
   },
@@ -617,7 +617,7 @@
     "seenRarely": false,
     "automationBasis": null,
     "exposure": 0.375,
-    "category": "human_edge",
+    "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
   }
@@ -726,14 +726,14 @@
    "importance": 2.55
   }
  ],
- "typicalHumanShare": 0.24,
+ "typicalHumanShare": 0.25,
  "related": [
   {
    "code": "43-4141.00",
    "slug": "new-accounts-clerks",
    "title": "New Accounts Clerks",
    "similarity": 0.938,
-   "typicalHumanShare": 0.48,
+   "typicalHumanShare": 0.42,
    "wageDelta": 2900,
    "missingSkills": [
     "Sales and Marketing",

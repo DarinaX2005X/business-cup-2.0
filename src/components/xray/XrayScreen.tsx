@@ -10,7 +10,7 @@ import { computeXray } from '@/domain/xray';
 import { useT } from '@/i18n/client';
 import { useProfile } from '@/lib/client/profile';
 import { ActionCard } from './ActionCard';
-import { isForeignLabel, MIN_TASKS } from './lib';
+import { distinctLabels, isForeignLabel, MIN_TASKS, taskLabel } from './lib';
 import { Conclusion } from './Conclusion';
 import { Further } from './Further';
 import { Inspector, inspectorTitle } from './Inspector';
@@ -89,8 +89,16 @@ export function XrayScreen(props: XrayPageProps) {
   const { texts, ready: textsReady } = useTaskTexts(bundle.code, locale, { texts: props.texts, ready: props.textsReady, locale: props.textsLocale });
   const tips = useTips(bundle.code, locale);
   const byId = useMemo(() => new Map(bundle.tasks.map((x) => [x.id, x])), [bundle.tasks]);
-  const label = useCallback((id: string) => texts[id]?.short ?? byId.get(id)?.text ?? id, [texts, byId]);
   const fullText = useCallback((id: string) => texts[id]?.text ?? byId.get(id)?.text ?? '', [texts, byId]);
+  // Same label source as step 3 of /start: generated labels once ready, else the build's label, else the
+  // first clause. Two tasks of this week never show the same words.
+  const labels = useMemo(
+    () => distinctLabels(result.shares.map((x) => x.taskId), (id) => taskLabel(textsReady ? texts[id]?.short : null, byId.get(id)), fullText),
+    [result.shares, texts, textsReady, byId, fullText],
+  );
+  const label = useCallback((id: string) => labels.get(id) ?? taskLabel(textsReady ? texts[id]?.short : null, byId.get(id)), [labels, byId, texts, textsReady]);
+  /** The label was written as a label (generated, or by the data build), not cut from the task sentence. */
+  const written = useCallback((id: string) => !!((textsReady && texts[id]?.short) || byId.get(id)?.short), [textsReady, texts, byId]);
 
   const weekTasks: WeekTask[] = useMemo(
     () =>
@@ -171,7 +179,7 @@ export function XrayScreen(props: XrayPageProps) {
   // The teaser names the task only with a generated label in this language, never a raw fragment of the
   // O*NET sentence or an English label inside a Russian or Kazakh title.
   const topTask = result.handToAi[0];
-  const teaserLabel = topTask && textsReady && !isForeignLabel(label(topTask), locale) ? label(topTask) : null;
+  const teaserLabel = topTask && written(topTask) && !isForeignLabel(label(topTask), locale) ? label(topTask) : null;
   const repHref = '/today?trial=1';
 
   const inspector = (inSheet = false) =>
@@ -205,7 +213,7 @@ export function XrayScreen(props: XrayPageProps) {
         occupationTitle={props.occupationTitle}
         label={label}
         byCategory={(id) => byId.get(id)?.evidence.category}
-        labelsReady={textsReady}
+        labelsReady={result.humanEdge.every(written)}
         onMetric={(id) => setFocus({ kind: 'metric', id }, { reveal: true })}
       />
       <ActionCard

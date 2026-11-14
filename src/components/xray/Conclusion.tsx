@@ -7,7 +7,8 @@ import { FieldArches } from '@/components/kit/Illustration';
 import { ScoreDial } from '@/components/kit/ScoreDial';
 import type { Category, XrayComputed } from '@/domain/types';
 import { useT } from '@/i18n/client';
-import { isForeignLabel, joinLabels, machineBucket, roleOf, SMALL_EDGE } from './lib';
+import { isForeignLabel, joinLabels, SMALL_EDGE } from './lib';
+import { rich } from './rich';
 import type { TFunction } from '@/i18n/core';
 import type { MetricId, XrayData } from './types';
 import st from './xray.module.css';
@@ -44,23 +45,22 @@ export function Conclusion({
   const [shared, setShared] = useState(false);
   // A guest reads someone else's week: «this week» and «stays human» instead of «your week» and «yours».
   const g = isOwner ? '' : 'Guest';
-  const role = roleOf(xray.jobTitle, locale);
-  const lead = leadSentence(t, result, g);
+  const lead = leadSentence(t, f.percent, result, g);
   const edgePct = result.percent.human_edge;
   const human = edgePct > 0 ? result.humanEdge.filter((id) => byCategory(id) === 'human_edge').slice(0, 2).map(label) : [];
   // Untranslated labels never go inside a Russian or Kazakh sentence: they get their own line instead.
   const foreign = human.some((l) => isForeignLabel(l, locale));
   const parts = joinLabels(human, locale);
   // Until the short labels exist, the sentence counts the tasks instead of quoting raw fragments of them.
-  const humanSentence = human.length && !foreign && labelsReady ? t(`xray.conclusion.human${g}`, { count: human.length, tasks: '\u0000' }) : '';
-  const [before, after] = humanSentence.split('\u0000');
+  const plates = parts.map((p, i) => (i % 2 === 0 ? <mark key={i} className={st.plate}>{p}</mark> : <span key={i}>{p}</span>));
+  const humanSentence = human.length && !foreign && labelsReady ? rich(t, `xray.conclusion.human${g}`, { tasks: plates }, { count: human.length }) : null;
   const edgeKey = edgePct === 0 ? `xray.conclusion.edgeNone${g}` : edgePct < SMALL_EDGE ? `xray.conclusion.edgeSmall${g}` : null;
 
   const share = async () => {
     const url = window.location.origin + window.location.pathname;
     try {
       if (navigator.share && window.matchMedia('(pointer: coarse)').matches) {
-        await navigator.share({ title: t(`xray.conclusion.title${g}`, { role }), url });
+        await navigator.share({ title: `${xray.jobTitle}: ${t(`xray.conclusion.title${g}`)}`, url });
         return;
       }
       await navigator.clipboard.writeText(url);
@@ -77,9 +77,10 @@ export function Conclusion({
       <div className={st.cMain}>
         <div className={st.cHead}>
           <h1 id="xray-title" className={st.jobTitle}>
-            {t(`xray.conclusion.title${g}`, { role })}
+            {xray.jobTitle}
           </h1>
           <p className={st.occ}>
+            <span className={st.mapLabel}>{t(`xray.conclusion.title${g}`)}</span>{' '}
             {occupationTitle ? t('xray.conclusion.occupation', { title: occupationTitle }) : <span className={st.skOnField} style={{ display: 'inline-block', width: 220, height: 14 }} />}
             {isOwner ? (
               <>
@@ -96,9 +97,7 @@ export function Conclusion({
           {humanSentence ? (
             <>
               {' '}
-              {before}
-              {parts.map((p, i) => (i % 2 === 0 ? <mark key={i} className={st.plate}>{p}</mark> : <span key={i}>{p}</span>))}
-              {after}
+              {humanSentence}
             </>
           ) : human.length && !labelsReady ? (
             <> {t(`xray.conclusion.humanCount${g}`, { count: human.length })}</>
@@ -118,10 +117,17 @@ export function Conclusion({
         ) : null}
         <div className={st.cFoot}>
           <button type="button" className={st.observed} onClick={() => onMetric('observed')}>
-            <svg viewBox="0 0 16 16" aria-hidden="true">
-              <circle cx="8" cy="8" r="7" fill="currentColor" />
-              <path d="M4.8 8.2l2.1 2.1 4.3-4.4" stroke="var(--field)" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+            {result.observedShare > 0 ? (
+              <svg viewBox="0 0 16 16" aria-hidden="true">
+                <circle cx="8" cy="8" r="7" fill="currentColor" />
+                <path d="M4.8 8.2l2.1 2.1 4.3-4.4" stroke="var(--field)" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            ) : (
+              <svg viewBox="0 0 16 16" aria-hidden="true">
+                <circle cx="8" cy="8" r="6.6" stroke="currentColor" strokeWidth="1.6" fill="none" />
+                <path d="M8 7.2v4M8 4.6v.1" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+              </svg>
+            )}
             {result.observedShare > 0
               ? t(`xray.conclusion.observed${g}`, { share: f.percent(result.observedShare) })
               : t(`xray.conclusion.observedNone${g}`)}
@@ -145,14 +151,14 @@ export function Conclusion({
 }
 
 /**
- * The first sentence: how much of the week AI reaches, naming only what is true. With no task AI already
- * does, it says «speeds up»; with nothing AI reaches, it says so plainly.
+ * The first sentence: the share of the week AI reaches, said as the number itself (the same number the
+ * week bar shows), naming only what is true: «speeds up» when AI does none of it on its own.
  */
-function leadSentence(t: TFunction, result: XrayComputed, g: string): string {
+function leadSentence(t: TFunction, percent: (x: number) => string, result: XrayComputed, g: string): string {
   const does = result.percent.ai_does;
   const speeds = result.percent.ai_speeds;
   const machine = does + speeds;
   if (machine === 0) return t(`xray.conclusion.leadNone${g}`);
   const what = t(`xray.conclusion.what.${does === 0 ? 'speeds' : speeds === 0 ? 'does' : 'both'}`);
-  return t(`xray.conclusion.lead${g}.${machineBucket(machine)}`, { what });
+  return t(`xray.conclusion.leadShare${g}`, { share: percent(machine / 100), what });
 }

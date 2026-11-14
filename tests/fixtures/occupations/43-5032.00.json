@@ -360,7 +360,7 @@
     "seenRarely": false,
     "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -451,7 +451,7 @@
     "seenRarely": false,
     "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -600,14 +600,14 @@
    "importance": 2.52
   }
  ],
- "typicalHumanShare": 0.19,
+ "typicalHumanShare": 0.29,
  "related": [
   {
    "code": "53-1044.00",
    "slug": "first-line-supervisors-of-passenger-attendants",
    "title": "First-Line Supervisors of Passenger Attendants",
    "similarity": 0.913,
-   "typicalHumanShare": 0.82,
+   "typicalHumanShare": 0.8,
    "wageDelta": 12550,
    "missingSkills": [
     "Psychology",

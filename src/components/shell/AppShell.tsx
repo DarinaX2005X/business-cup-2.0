@@ -17,11 +17,13 @@ export interface ShellInitial {
   hasProfile: boolean;
   balance: number;
   streakDays: string[];
+  /** When the profile was created (ISO); days of this week before it are neither done nor missed. */
+  createdAt: string | null;
   lastXrayId: string | null;
 }
 
 /** Monday-first week of the visitor's local calendar: which days have practice, and today's index. */
-function weekOf(days: string[]): { done: boolean[]; today: number } {
+function weekOf(days: string[], createdAt: string | null): { done: boolean[]; today: number; since: number } {
   const now = new Date();
   const today = (now.getDay() + 6) % 7;
   const set = new Set(days);
@@ -31,7 +33,15 @@ function weekOf(days: string[]): { done: boolean[]; today: number } {
     const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
     return set.has(key);
   });
-  return { done, today };
+  // Index of the first day of this week the profile existed on (0 when it is older than this week).
+  let since = 0;
+  if (createdAt) {
+    const c = new Date(createdAt);
+    const monday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - today);
+    const created = new Date(c.getFullYear(), c.getMonth(), c.getDate());
+    since = Math.max(0, Math.min(today, Math.round((created.getTime() - monday.getTime()) / 86_400_000)));
+  }
+  return { done, today, since };
 }
 
 export function AppShell({ initial, children }: { initial: ShellInitial; children: ReactNode }) {
@@ -44,7 +54,8 @@ export function AppShell({ initial, children }: { initial: ShellInitial; childre
   const streakDays = status === 'ready' ? (profile?.streak.days ?? []) : initial.streakDays;
   const lastXrayId = (status === 'ready' ? profile?.lastXrayId : initial.lastXrayId) ?? null;
   const sections = enabledSections();
-  const week = weekOf(streakDays);
+  const createdAt = (status === 'ready' ? profile?.createdAt : initial.createdAt) ?? null;
+  const week = weekOf(streakDays, createdAt);
   const streakCount = week.done.filter(Boolean).length;
 
   const mapOwn = (
@@ -84,7 +95,7 @@ export function AppShell({ initial, children }: { initial: ShellInitial; childre
             {hasProfile ? (
               <>
                 <PointsCounter value={points} label={t('shell.pointsLabel')} />
-                <div className={st.streakSlot} title={t('shell.streak', { count: streakCount })}>
+                <div className={st.streakSlot} data-since={week.since || undefined} title={t('shell.streak', { count: streakCount })}>
                   <StreakWeek done={week.done} today={week.today} count={streakCount} />
                 </div>
               </>
@@ -104,7 +115,7 @@ export function AppShell({ initial, children }: { initial: ShellInitial; childre
                 hasProfile={hasProfile}
                 extra={
                   hasProfile ? (
-                    <div className={st.sheetStreak}>
+                    <div className={st.sheetStreak} data-since={week.since || undefined}>
                       <StreakWeek done={week.done} today={week.today} count={streakCount} />
                     </div>
                   ) : (

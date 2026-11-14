@@ -48,7 +48,7 @@
     "seenRarely": false,
     "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -972,14 +972,14 @@
    "importance": 2.5
   }
  ],
- "typicalHumanShare": 0.88,
+ "typicalHumanShare": 1,
  "related": [
   {
    "code": "47-2152.00",
    "slug": "plumbers-pipefitters-and-steamfitters",
    "title": "Plumbers, Pipefitters, and Steamfitters",
    "similarity": 0.816,
-   "typicalHumanShare": 0.92,
+   "typicalHumanShare": 1,
    "wageDelta": 610,
    "missingSkills": [
     "Mechanical"
@@ -993,5 +993,5 @@
   "ms": "Working with AI v1.1",
   "bls": "May 2025"
  },
- "relatedCount": 2
+ "relatedCount": 1
 }

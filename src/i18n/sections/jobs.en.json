@@ -17,6 +17,7 @@
     "metaTitle": "What AI already does in {who} week · Irreplaceable",
     "metaTitlePlain": "What AI does in a week of {title} · Irreplaceable",
     "metaDescription": "{ai}% of a typical week of {title} is work AI already does or speeds up. See every task, the evidence behind it and which parts stay human.",
+    "metaDescriptionSpeeds": "AI speeds up {ai}% of a typical week of {title}. See every task, the evidence behind it and which parts stay human.",
     "observed": "{share}% of this week is backed by observed AI usage data",
     "observedNone": "None of this week is observed in AI usage data yet, so every category here is a research estimate",
     "facts": "This job in the US",
@@ -33,6 +34,9 @@
     "weekCaption": "A typical week of {hours} hours, built from how important and how frequent O*NET rates each task. Yours will differ.",
     "weekLabel": "Typical week of {title}, by task",
     "summaryAi": "In a typical week, AI already does or speeds up {ai}% of the work.",
+    "summaryAiSpeeds": "In a typical week, AI speeds up {ai}% of the work and does none of it on its own.",
+    "summaryAiDoes": "In a typical week, AI already does {ai}% of the work.",
+    "summaryAiNone": "In a typical week, AI does not reach any of this work yet, by the data we have.",
     "and": "{a} and {b}",
     "taskCount": "Tasks O*NET lists",
     "summaryHuman": "What stays with people: {human}."

@@ -15,34 +15,10 @@
     "banner": "Someone shared this week map with you. The salary and practice behind it stay private."
   },
   "conclusion": {
-    "title": "Your week as {role}",
-    "titleGuest": "A week as {role}",
+    "title": "Your week map",
+    "titleGuest": "Shared week map",
     "occupation": "Closest O*NET occupation: {title}.",
     "change": "Not your occupation? Change",
-    "lead": {
-      "0": "Almost none of your week is work {what}.",
-      "10": "About a tenth of your week is work {what}.",
-      "20": "About a fifth of your week is work {what}.",
-      "30": "About a third of your week is work {what}.",
-      "40": "Close to half of your week is work {what}.",
-      "50": "About half of your week is work {what}.",
-      "60": "Nearly two thirds of your week is work {what}.",
-      "70": "About three quarters of your week is work {what}.",
-      "80": "Most of your week is work {what}.",
-      "90": "Almost all of your week is work {what}."
-    },
-    "leadGuest": {
-      "0": "Almost none of this week is work {what}.",
-      "10": "About a tenth of this week is work {what}.",
-      "20": "About a fifth of this week is work {what}.",
-      "30": "About a third of this week is work {what}.",
-      "40": "Close to half of this week is work {what}.",
-      "50": "About half of this week is work {what}.",
-      "60": "Nearly two thirds of this week is work {what}.",
-      "70": "About three quarters of this week is work {what}.",
-      "80": "Most of this week is work {what}.",
-      "90": "Almost all of this week is work {what}."
-    },
     "leadNone": "AI doesn't reach any task of your week yet, by the data we have.",
     "leadNoneGuest": "AI doesn't reach any task of this week yet, by the data we have.",
     "what": {
@@ -72,7 +48,9 @@
     "shareGuest": "Share this week map",
     "shared": "Link copied",
     "how": "How it's calculated",
-    "scoreHint": "out of 100, grows with practice"
+    "scoreHint": "out of 100, grows with practice",
+    "leadShare": "{share} of your week is work {what}.",
+    "leadShareGuest": "{share} of this week is work {what}."
   },
   "action": {
     "titleBefore": "AI made a mistake in a “",
@@ -93,8 +71,8 @@
     "hoursHow": "How these hours add up",
     "barLabel": "The week by task",
     "noData": "No data yet: {hours} h",
-    "pay": "{atStake} of your {annual} pay is tied to tasks AI does or speeds up",
-    "payGuest": "{atStake} of the {annual} median pay for this job is tied to tasks AI does or speeds up",
+    "pay": "Pay at stake: {atStake} of {annual}",
+    "payGuest": "Pay at stake: {atStake} of {annual}, the US median for this job",
     "payNone": "We don't have US pay data for this job, so the pay line is left out.",
     "paySource": "US median for this job, BLS May 2025.",
     "payUser": "Your salary, visible only to you.",
@@ -104,7 +82,8 @@
     "salarySave": "Use this salary",
     "salarySaving": "Saving",
     "salaryError": "Enter a yearly amount in US dollars, for example 72000.",
-    "salaryNotSaved": "We couldn't save your salary. Your number is still in the field, so try again."
+    "salaryNotSaved": "We couldn't save your salary. Your number is still in the field, so try again.",
+    "payHow": "How it's counted"
   },
   "tasks": {
     "title": "Tasks in your week",
@@ -131,8 +110,8 @@
     "how": "How we got this number",
     "eq": {
       "time": "Time in your week",
-      "points": "Points it takes off the score",
-      "pointsNote": "Share of the week times the weight of its group: 1 if AI already does it, 0.5 if AI speeds it up, 0 if it stays with you. All your tasks together take {total} points off 100.",
+      "points": "How much it takes off the score",
+      "pointsNote": "Share of the week times the weight of its group: 1 if AI already does it, 0.5 if AI speeds it up, 0 if it stays with you. All your tasks together take {total} off 100.",
       "score": "Base score",
       "withPractice": "with practice: {score}",
       "freed": "Time it could free",
@@ -177,14 +156,14 @@
     "score": {
       "title": "Irreplaceability score",
       "about": "How much of your week stays out of AI's reach, from 0 to 100. Practice closes up to 45% of the remaining gap.",
-      "exposure": "Points AI takes off",
+      "exposure": "What AI takes off the score",
       "exposureNote": "Each task's share of the week times the weight of its group: 1 if AI already does it, 0.5 if AI speeds it up, 0 otherwise. The same weights give pay at stake and hours freed.",
       "sum": "share × weight",
       "base": "Base score",
       "practice": "Practice factor",
       "practiceNote": "{n} reps with an average result of {avg}.",
       "final": "Score",
-      "top": "Tasks that take the most points",
+      "top": "Tasks that take the most off the score",
       "source": "Formula from How we measure, data from O*NET {onet} and the Anthropic Economic Index of {aei}"
     },
     "pay": {

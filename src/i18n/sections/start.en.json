@@ -16,6 +16,7 @@
     "noMatch": "No job title matches “{query}” exactly. Pick a close one from the list or describe your work in a few sentences.",
     "noMatchNoSuggestions": "No job title matches “{query}”. Check the spelling or describe your work in a few sentences.",
     "describeInstead": "Describe your work instead",
+    "describeHint": "Two or three sentences about what you do",
     "or": "or",
     "dropTitle": "Upload your résumé (PDF or text)",
     "dropHint": "Your file stays in your browser. Only the text is read.",

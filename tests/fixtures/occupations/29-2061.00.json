@@ -49,7 +49,7 @@
     "seenRarely": false,
     "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -89,7 +89,7 @@
     "seenRarely": false,
     "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -367,7 +367,7 @@
     "seenRarely": false,
     "automationBasis": null,
     "exposure": 0.25,
-    "category": "ai_speeds",
+    "category": "human_edge",
     "evidenceLevel": "estimate"
    }
   },
@@ -697,7 +697,7 @@
     "seenRarely": false,
     "automationBasis": null,
     "exposure": 0.375,
-    "category": "human_edge",
+    "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
   },
@@ -1002,21 +1002,16 @@
    "importance": 2.96
   }
  ],
- "typicalHumanShare": 0.62,
+ "typicalHumanShare": 0.94,
  "related": [
   {
-   "code": "29-1141.01",
-   "slug": "acute-care-nurses",
-   "title": "Acute Care Nurses",
-   "similarity": 0.959,
-   "typicalHumanShare": 0.78,
-   "wageDelta": 33150,
-   "missingSkills": [
-    "Medicine and Dentistry",
-    "Education and Training",
-    "Complex Problem Solving",
-    "Writing"
-   ]
+   "code": "29-9093.00",
+   "slug": "surgical-assistants",
+   "title": "Surgical Assistants",
+   "similarity": 0.819,
+   "typicalHumanShare": 1,
+   "wageDelta": 2400,
+   "missingSkills": []
   }
  ],
  "dataVersion": {
@@ -1026,5 +1021,5 @@
   "ms": "Working with AI v1.1",
   "bls": "May 2025"
  },
- "relatedCount": 5
+ "relatedCount": 1
 }

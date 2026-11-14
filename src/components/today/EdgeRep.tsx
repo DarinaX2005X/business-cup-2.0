@@ -6,7 +6,7 @@ import { Button } from '@/components/kit/Button';
 import { locateLoose, quoteIn, type RepView } from '@/domain/reps';
 import { useT } from '@/i18n/client';
 import { useProfile } from '@/lib/client/profile';
-import { answerRep, errorCode, errorKey, repFromConflict } from './api';
+import { answerRep, errorCode, errorKey, harmOf, repFromConflict } from './api';
 import { AutoText } from './DelegateRep';
 import { useKeyboardInset } from './hooks';
 import { Outcome, RepHeader, Ring } from './shared';
@@ -114,35 +114,49 @@ export function EdgeRep({ rep, streak, fresh, isFree, onAnswered, onBack, onPrac
       if (idx >= 0) byTurn.set(idx, [...(byTurn.get(idx) ?? []), c]);
       else loose.push(c);
     }
-    return { crit, byTurn, loose };
+    // a reply that could do harm is named plainly on the reply itself
+    const harms = harmOf(rep.result).map((h) => ({ ...h, turn: e.turns.findIndex((x) => x.role === 'user' && quoteIn(x.text, h.quote)) }));
+    return { crit, byTurn, loose, harms };
   }, [done, e, rep.result]);
 
   const statusWord = { met: t('today.edge.met'), partly: t('today.edge.partly'), missed: t('today.edge.missed') } as const;
   const initial = personaInitial(e.personaPublic);
 
   const bubbleText = (text: string, idx: number): ReactNode => {
-    const notes = graded?.byTurn.get(idx);
-    if (!notes?.length) return text;
-    const spans = notes
-      .map((c) => ({ c, at: c.grade?.quote ? locateLoose(text, c.grade.quote) : null }))
-      .filter((x): x is { c: (typeof notes)[number]; at: [number, number] } => !!x.at)
-      .sort((a, b) => a.at[0] - b.at[0]);
+    const notes = graded?.byTurn.get(idx) ?? [];
+    const harmHere = graded?.harms.filter((h) => h.turn === idx) ?? [];
+    if (!notes.length && !harmHere.length) return text;
+    type Span = { at: [number, number]; status: string; n?: number };
+    const spans: Span[] = [
+      // harm first, so it wins where it overlaps a quote
+      ...harmHere.map((h) => ({ at: locateLoose(text, h.quote), status: 'harm' })),
+      ...notes.map((c) => ({ at: c.grade?.quote ? locateLoose(text, c.grade.quote) : null, status: c.grade?.status ?? 'met', n: c.n })),
+    ].filter((x): x is Span => !!x.at);
+    const kept: Span[] = [];
+    for (const s of spans) if (!kept.some((k) => s.at[0] < k.at[1] && s.at[1] > k.at[0])) kept.push(s);
+    kept.sort((a, b) => a.at[0] - b.at[0]);
     const out: ReactNode[] = [];
     let pos = 0;
-    for (const { c, at } of spans) {
-      if (at[0] < pos) continue;
+    for (const { at, status, n } of kept) {
       out.push(text.slice(pos, at[0]));
       out.push(
-        <mark key={at[0]} className={se.q} data-status={c.grade?.status}>
+        <mark key={at[0]} className={se.q} data-status={status}>
           {text.slice(at[0], at[1])}
         </mark>,
       );
-      out.push(<sup key={`n${at[0]}`} className={se.qn} aria-hidden="true">{c.n}</sup>);
+      if (n) out.push(<sup key={`n${at[0]}`} className={se.qn} aria-hidden="true">{n}</sup>);
       pos = at[1];
     }
     out.push(text.slice(pos));
     return out;
   };
+
+  const harmNote = (h: { quote: string; why: string }, k: number) => (
+    <div key={`h${k}`} className={se.harm} role="note">
+      <b>{t('today.edge.harmTitle')}</b>
+      <p>{h.why}</p>
+    </div>
+  );
 
   const note = (c: NonNullable<typeof graded>['crit'][number], i: number) => {
     const s = c.grade?.status ?? 'missed';
@@ -211,7 +225,12 @@ export function EdgeRep({ rep, streak, fresh, isFree, onAnswered, onBack, onPrac
               <span className="sr-only">{turn.role === 'persona' ? t('today.edge.them') : t('today.edge.you')}: </span>
               {turn.role === 'user' ? bubbleText(turn.text, i) : turn.text}
             </p>
-            {graded?.byTurn.get(i)?.length ? <div className={se.margin}>{graded.byTurn.get(i)!.map((c, k) => note(c, k))}</div> : null}
+            {graded?.byTurn.get(i)?.length || graded?.harms.some((h) => h.turn === i) ? (
+              <div className={se.margin}>
+                {graded.harms.filter((h) => h.turn === i).map(harmNote)}
+                {(graded.byTurn.get(i) ?? []).map((c, k) => note(c, k))}
+              </div>
+            ) : null}
           </div>
         ))}
         {pending ? (
@@ -248,6 +267,12 @@ export function EdgeRep({ rep, streak, fresh, isFree, onAnswered, onBack, onPrac
 
       {done && graded ? (
         <div className={se.after}>
+          {graded.harms.filter((h) => h.turn < 0).map((h, k) => (
+            <div key={k} className={se.harmLoose}>
+              <q>{h.quote}</q>
+              {harmNote(h, k)}
+            </div>
+          ))}
           {graded.loose.length ? (
             <div className={se.loose}>
               <h3 className={se.looseTitle}>{t('today.edge.notInTalk')}</h3>

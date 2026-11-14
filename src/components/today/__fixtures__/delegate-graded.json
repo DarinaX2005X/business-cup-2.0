@@ -1,0 +1,146 @@
+{
+ "id": "Fx0delegate001",
+ "type": "delegate",
+ "kind": "daily",
+ "status": "done",
+ "source": "live",
+ "title": "Med-Surg Evening Shift Handoff",
+ "brief": "Draft an organized SBAR shift report for an incoming night nurse based on bedside charting notes.",
+ "taskId": "1839",
+ "taskText": "Maintain accurate, detailed reports and records.",
+ "taskShort": "Patient charting",
+ "occupationCode": "29-1141.00",
+ "locale": "en",
+ "notes": [],
+ "difficulty": 1,
+ "day": "2026-11-14",
+ "delegate": {
+  "scenario": "You are completing a 12-hour day shift on an acute med-surg floor and need to prepare a written handoff summary. The incoming night-shift RN will review this report at change of shift (19:00) to prioritize evening assessments and medication administration. Accurate synthesis is critical to maintain patient safety and continuity of care overnight.",
+  "inputs": "Patient: Eleanor Vance, 68F, Room 412B. Adm: 11/12/2026. Dx: Acute diverticulitis with localized peritonitis.\nAllergies: NKDA (per admission face sheet); chart note at 14:15 states developed mild hives to IV Ciprofloxacin.\nAccess: 20G left forearm placed 11/12.\nVitals (16:30): BP 118/72, HR 84, RR 18, SpO2 96% on RA, T 99.1 F.\nVitals (18:15): BP 116/70, HR 82, RR 16, SpO2 97% on RA, T 103.8 F.\nPain: 3/10 localized LLQ, non-radiating, managed with PRN Acetaminophen.\nGI: Bowel sounds hypoactive x4 quadrants. Abdomen soft, tender to light palpation in LLQ, no guarding.\nDiet: NPO except ice chips.\nLabs: WBC 14.2 (down from 16.8 yesterday). K+ 3.1 mEq/L.\nOrders:\n- IV fluids: D5 1/2 NS with 20 mEq KCl @ 100 mL/hr continuous.\n- Ciprofloxacin 400 mg IVPB Q12H (next due 20:00).\n- Metronidazole 500 mg IVPB Q8H (next due 22:00).\n- Strict I&O. Foley catheter draining clear amber urine, 350 mL over last 6 hrs.",
+  "goal": "Deliver a concise, error-free SBAR transfer summary that highlights current clinical status and prompts critical night-shift verifications.",
+  "criteria": [
+   {
+    "id": "c1",
+    "text": "Specifies that the output must follow a standard SBAR (Situation, Background, Assessment, Recommendation) format."
+   },
+   {
+    "id": "c2",
+    "text": "States the target audience is the incoming night-shift floor nurse taking over care at 19:00."
+   },
+   {
+    "id": "c3",
+    "text": "Directs the AI to reconcile all ordered medications against recorded patient allergy responses and flag conflicts."
+   },
+   {
+    "id": "c4",
+    "text": "Instructs the AI to verify vital sign trends and call attention to acute physiologic changes requiring immediate physician notification."
+   },
+   {
+    "id": "c5",
+    "text": "Limits the response length to under 300 words without omitting critical abnormal labs or scheduled treatments."
+   }
+  ],
+  "instruction": "Write the handoff summary for the night nurse please.",
+  "run": "Patient Eleanor Vance, a 68-year-old female in Room 412B, was admitted on 11/12/2026 for acute diverticulitis with localized peritonitis. She has a 20G IV in her left forearm placed on 11/12. Her allergy status lists NKDA per the admission sheet, though a 14:15 chart note indicates she developed mild hives to IV Ciprofloxacin. Most recent vitals at 18:15 showed BP 116/70, HR 82, RR 16, SpO2 97% on room air, and a temperature spike to 103.8 F (up from 99.1 F at 16:30). Her pain is 3/10 localized to the LLQ, managed with PRN Acetaminophen. Abdomen is soft, non-guarding, but tender to light palpation in the LLQ with hypoactive bowel sounds across all quadrants. She remains NPO except ice chips. Recent labs show WBC down to 14.2 from 16.8, and K+ is 3.1 mEq/L. Active orders include continuous D5 1/2 NS with 20 mEq KCl at 100 mL/hr, IVPB Ciprofloxacin 400 mg due at 20:00, and IVPB Metronidazole 500 mg due at 22:00. She is on strict I&O, with her Foley catheter draining 350 mL of clear amber urine over the last 6 hours."
+ },
+ "result": {
+  "score": 0.37,
+  "criteria": [
+   {
+    "id": "c1",
+    "status": "missed",
+    "note": "You did not specify that the handoff must follow the SBAR format."
+   },
+   {
+    "id": "c2",
+    "status": "partly",
+    "quote": "for the night nurse",
+    "note": "You identified the night nurse as the recipient, but did not mention the 19:00 shift change timing."
+   },
+   {
+    "id": "c3",
+    "status": "missed",
+    "note": "You omitted instructions to reconcile ordered medications against recorded allergies and flag conflicts."
+   },
+   {
+    "id": "c4",
+    "status": "missed",
+    "note": "You did not instruct the AI to check vital sign trends or highlight acute changes needing provider notification."
+   },
+   {
+    "id": "c5",
+    "status": "missed",
+    "note": "You did not specify a word count limit under 300 words."
+   }
+  ],
+  "trapsCaught": [
+   "t1",
+   "t2"
+  ],
+  "flags": [],
+  "summary": "Structure the handoff in SBAR format under 300 words for the 19:00 night-shift RN, reconciling ordered medications against allergy notes and highlighting acute vital sign changes for immediate provider notification.",
+  "fixFeedback": "Your fix effectively addresses the two critical patient safety issues regarding the medication allergy conflict and the high fever.",
+  "points": 0,
+  "scoreChange": {
+   "before": 85,
+   "after": 85
+  }
+ },
+ "reveal": {
+  "traps": [
+   {
+    "id": "t1",
+    "description": "The patient is scheduled to receive IV Ciprofloxacin at 20:00 despite charting indicating a newly developed allergic reaction to it earlier in the shift.",
+    "keywords": [
+     "mild hives",
+     "Ciprofloxacin 400 mg"
+    ]
+   },
+   {
+    "id": "t2",
+    "description": "The patient's temperature spiked abruptly to 103.8 F at 18:15 from 99.1 F earlier, representing an acute clinical change that contradicts an otherwise stable picture.",
+    "keywords": [
+     "103.8 F"
+    ]
+   }
+  ],
+  "trapSpots": [
+   {
+    "trapId": "t1",
+    "where": "inputs",
+    "start": 191,
+    "end": 201
+   },
+   {
+    "trapId": "t2",
+    "where": "inputs",
+    "start": 388,
+    "end": 395
+   },
+   {
+    "trapId": "t1",
+    "where": "inputs",
+    "start": 731,
+    "end": 751
+   },
+   {
+    "trapId": "t1",
+    "where": "run",
+    "start": 297,
+    "end": 307
+   },
+   {
+    "trapId": "t2",
+    "where": "run",
+    "start": 438,
+    "end": 445
+   },
+   {
+    "trapId": "t1",
+    "where": "run",
+    "start": 845,
+    "end": 865
+   }
+  ]
+ }
+}

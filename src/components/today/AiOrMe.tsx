@@ -18,6 +18,8 @@ const REVEAL_MS = 1400;
 const FLIP_MS = 300;
 const EXIT_MS = 360;
 const SWIPE_AT = 0.3;
+/** The fact stays on screen at least this long before a press may skip it (a double click must not). */
+const MIN_READ_MS = 700;
 
 function factLines(t: ReturnType<typeof useT>['t'], card: AiOrMeCard): string[] {
   const out: string[] = [];
@@ -69,6 +71,9 @@ function Game({ round, onDone }: { round: AiOrMeRoundFull; weekHref: string | nu
   const drag = useRef<{ id: number; x: number; w: number } | null>(null);
   // a mouse drag ends with a click on the same card; that click must not skip the reveal it started
   const dragged = useRef(false);
+  const answeredAt = useRef(0);
+  // an answer given while the previous card is still sliding away waits for the next card
+  const queued = useRef<Answer | null>(null);
   const timers = useRef<number[]>([]);
   // points fly from the game itself (the result line replaces the stack when the last card leaves)
   const resultRef = useRef<HTMLDivElement>(null);
@@ -101,6 +106,8 @@ function Game({ round, onDone }: { round: AiOrMeRoundFull; weekHref: string | nu
     timers.current.forEach((id) => window.clearTimeout(id));
     timers.current = [];
     const go = () => {
+      timers.current.forEach((id) => window.clearTimeout(id));
+      timers.current = [];
       setPhase('ask');
       setDx(0);
       setI((n) => n + 1);
@@ -113,11 +120,19 @@ function Game({ round, onDone }: { round: AiOrMeRoundFull; weekHref: string | nu
   const answer = useCallback(
     (a: Answer) => {
       if (finished) return;
-      if (phase === 'flipped') return next(); // a second press skips the wait
-      if (phase !== 'ask') return;
+      if (phase === 'flipped') {
+        // a later press skips the wait; a double click does not swallow the fact
+        if (performance.now() - answeredAt.current > MIN_READ_MS) next();
+        return;
+      }
+      if (phase === 'exit') {
+        queued.current = a;
+        return;
+      }
       const card = cards[i];
       const all = answers.map((x, k) => (k === i ? a : x));
       setAnswers(all);
+      answeredAt.current = performance.now();
       setPhase('flipped');
       setDx(0);
       sound.play(card.answer === a ? 'found' : 'tap');
@@ -126,6 +141,14 @@ function Game({ round, onDone }: { round: AiOrMeRoundFull; weekHref: string | nu
     },
     [finished, phase, cards, i, answers, next, save],
   );
+
+  // the next card is ready: play the answer that came in while the last one was leaving
+  useEffect(() => {
+    if (phase !== 'ask' || !queued.current) return;
+    const a = queued.current;
+    queued.current = null;
+    answer(a);
+  }, [phase, i, answer]);
 
   // ← AI, → human, for as long as the game is on the page
   useEffect(() => {
@@ -237,7 +260,7 @@ function Game({ round, onDone }: { round: AiOrMeRoundFull; weekHref: string | nu
                 isTop && phase === 'flipped'
                   ? () => {
                       if (dragged.current) dragged.current = false;
-                      else next();
+                      else if (performance.now() - answeredAt.current > MIN_READ_MS) next();
                     }
                   : undefined
               }
@@ -248,9 +271,11 @@ function Game({ round, onDone }: { round: AiOrMeRoundFull; weekHref: string | nu
                   {isTop ? (
                     <>
                       <span className={sa.lean} data-side="ai" style={{ opacity: dx < 0 ? lean : 0 }} aria-hidden="true">
+                        <i />
                         {t('today.aiOrMe.ai')}
                       </span>
                       <span className={sa.lean} data-side="human" style={{ opacity: dx > 0 ? lean : 0 }} aria-hidden="true">
+                        <i />
                         {t('today.aiOrMe.human')}
                       </span>
                     </>
@@ -260,6 +285,7 @@ function Game({ round, onDone }: { round: AiOrMeRoundFull; weekHref: string | nu
                 </div>
                 {isTop ? (
                   <div className={sa.back} data-answer={card.answer} data-counted={card.counted || undefined} aria-hidden={phase === 'ask' || undefined}>
+                    <span className={sa.band} aria-hidden="true" />
                     <p className={sa.verdict}>
                       {!card.counted ? t('today.aiOrMe.notScored') : own === card.answer ? t('today.aiOrMe.right') : t('today.aiOrMe.wrong')}
                     </p>
@@ -284,9 +310,11 @@ function Game({ round, onDone }: { round: AiOrMeRoundFull; weekHref: string | nu
       <div className={sa.buttons}>
         <button type="button" className={sa.choice} data-side="ai" onClick={() => answer('ai')} aria-keyshortcuts="ArrowLeft">
           <kbd aria-hidden="true">←</kbd>
+          <i className={sa.swatch} aria-hidden="true" />
           <span>{t('today.aiOrMe.ai')}</span>
         </button>
         <button type="button" className={sa.choice} data-side="human" onClick={() => answer('human')} aria-keyshortcuts="ArrowRight">
+          <i className={sa.swatch} aria-hidden="true" />
           <span>{t('today.aiOrMe.human')}</span>
           <kbd aria-hidden="true">→</kbd>
         </button>

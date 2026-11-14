@@ -1,5 +1,6 @@
 'use client';
 
+import { TodaySection } from './TodaySection';
 import { Volume2, VolumeX } from 'lucide-react';
 import { useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from 'react';
 import {
@@ -73,6 +74,7 @@ const SECTIONS = [
   ['toast', 'Toast'],
   ['drop', 'Dropzone'],
   ['skeleton', 'Skeleton'],
+  ['today', 'Today'],
 ] as const;
 
 export function Gallery({ initialLang, initialWidth, only }: { initialLang: Locale; initialWidth: GalleryWidth; only?: string[] }) {
@@ -142,6 +144,7 @@ export function Gallery({ initialLang, initialWidth, only }: { initialLang: Loca
           {show('toast') ? <ToastSection w={w} /> : null}
           {show('drop') ? <DropSection w={w} /> : null}
           {show('skeleton') ? <SkeletonSection w={w} /> : null}
+          {show('today') ? <TodaySection w={w} /> : null}
         </main>
       </div>
     </KitProvider>

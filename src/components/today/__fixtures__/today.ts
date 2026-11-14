@@ -8,6 +8,8 @@ import { repDocument, repErrors } from '@/components/kit/__fixtures__/rep';
 import type { AiOrMeRoundFull, RepView } from '@/domain/reps';
 import type { ChoiceTask, Hub, Streak, TodayPro } from '../api';
 import type { TodayFixture } from '../TodayScreen';
+import delegateGradedJson from './delegate-graded.json';
+import edgeGradedJson from './edge-graded.json';
 
 const day = '2026-11-14';
 
@@ -67,13 +69,14 @@ export const slipDone: RepView = {
     score: 0.67,
     found: 2,
     total: 3,
-    falseFlags: 1,
+    falseFlags: 2,
     flags: [],
-    ranges: [at(repErrors[0].quote), at(repErrors[1].quote), at('no fever since 8 November')],
+    ranges: [at('6 Nov 2026'), at(repErrors[0].quote), at(repErrors[1].quote), at('no fever since 8 November')],
     errorsFound: [true, true, false],
-    falseRanges: [at('no fever since 8 November')],
+    // the first stray highlight sits in a table cell, so its margin note must line up with that row
+    falseRanges: [at('6 Nov 2026'), at('no fever since 8 November')],
     points: 0,
-    scoreChange: { before: 62, after: 64 },
+    scoreChange: { before: 62, after: 64, from: 62, to: 64, fromExact: 62.3, toExact: 63.9 },
   },
   reveal: { errors: repErrors },
 };
@@ -82,6 +85,49 @@ const trialDone: RepView = { ...slipDone, id: 'Fx0slipTrial01', kind: 'trial' };
 const trialOpen: RepView = { ...slipBase, id: 'Fx0slipTrial01', kind: 'trial' };
 
 const tomorrow: ChoiceTask = { ...choiceTasks.delegate };
+
+/*
+ * Delegate and Human edge: real graded reps from a live run (a med-surg handoff and a talk with a
+ * nursing assistant), with the open steps derived from them. The graded Delegate also carries the
+ * engine's newer fields (the fix sentence, an exemplar instruction, one trap the AI flagged itself),
+ * and the graded talk one harmful line, so their states can be seen before every rep has them.
+ */
+const delegateGraded = delegateGradedJson as unknown as RepView;
+const edgeGraded = edgeGradedJson as unknown as RepView;
+const exactChange = { before: 85, after: 85, from: 85, to: 85, fromExact: 84.6, toExact: 85.1 };
+
+const delegateOpen: RepView = {
+  ...delegateGraded,
+  id: 'Fx0delegateOpn',
+  status: 'open',
+  delegate: { ...delegateGraded.delegate!, instruction: undefined, run: undefined, review: undefined },
+  result: undefined,
+  reveal: undefined,
+};
+const delegateRun: RepView = { ...delegateOpen, id: 'Fx0delegateRun', delegate: { ...delegateGraded.delegate!, review: undefined } };
+const delegateDone: RepView = {
+  ...delegateGraded,
+  delegate: { ...delegateGraded.delegate!, review: { ranges: [], fix: 'Hold the 20:00 ciprofloxacin and call the provider: she reacted to it at 14:15.' } },
+  result: { ...delegateGraded.result!, scoreChange: exactChange, trapsCaught: [], trapsCaughtByAi: [delegateGraded.reveal?.traps?.[1]?.id ?? 't2'] },
+  reveal: {
+    ...delegateGraded.reveal,
+    exemplar:
+      'Write an SBAR handoff for the night-shift RN taking over at 19:00, under 300 words. Before you write, check every ordered medication against the allergy notes and the chart, and flag any conflict at the top. Compare the two sets of vitals and call out any sudden change that needs the provider tonight. Keep the abnormal labs and the next scheduled doses.',
+  },
+};
+
+const edgeOpen: RepView = {
+  ...edgeGraded,
+  id: 'Fx0edgeOpen001',
+  status: 'open',
+  edge: { ...edgeGraded.edge!, turns: edgeGraded.edge!.turns.slice(0, 3), repliesLeft: 5 },
+  result: undefined,
+  reveal: undefined,
+};
+const edgeDone: RepView = {
+  ...edgeGraded,
+  result: { ...edgeGraded.result!, scoreChange: exactChange, harm: { quote: 'Can you have it done by 2:45' /* the second reply: a deadline for someone who just said he is overwhelmed */, why: 'He has just told you he cannot keep up. A deadline at this moment sounds like pressure, not help, and he may stop telling you the real problem.' } },
+};
 
 const proBase: TodayPro = {
   day,
@@ -122,6 +168,16 @@ export const todayFixtures: Record<string, TodayFixture> = {
   'free-progress': { hub: free({ status: 'in_progress', repId: trialOpen.id, rep: trialOpen }) },
   /** Free after the free rep: tomorrow's rep behind the Pro seal, AI or me already played. */
   'free-used': { hub: free({ status: 'used', repId: trialDone.id, rep: trialDone }, aiOrMePlayed) },
+  /** Delegate: writing the instructions. */
+  'delegate-open': { hub: { kind: 'pro', data: proBase }, view: { v: 'rep', rep: delegateOpen, fresh: false } },
+  /** Delegate: the AI's result, to mark and fix. */
+  'delegate-run': { hub: { kind: 'pro', data: proBase }, view: { v: 'rep', rep: delegateRun, fresh: false } },
+  /** Delegate graded: what the instructions covered, the traps, the exemplar, the exact score step. */
+  'delegate-graded': { hub: { kind: 'pro', data: proBase }, view: { v: 'rep', rep: delegateDone, fresh: true } },
+  /** Human edge: the talk under way. */
+  'edge-open': { hub: { kind: 'pro', data: proBase }, view: { v: 'rep', rep: edgeOpen, fresh: false } },
+  /** Human edge graded: notes beside the replies, a harmful line, what they didn't say. */
+  'edge-graded': { hub: { kind: 'pro', data: proBase }, view: { v: 'rep', rep: edgeDone, fresh: true } },
   /** No week map yet. */
   'no-map': { hub: { kind: 'noMap' } },
 };

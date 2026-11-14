@@ -9,7 +9,7 @@ import type { CharRange, ReviewMark } from '@/components/kit/types';
 import { locateLoose, type RepView } from '@/domain/reps';
 import { useT } from '@/i18n/client';
 import { useProfile } from '@/lib/client/profile';
-import { answerRep, errorCode, errorKey, repFromConflict } from './api';
+import { answerRep, caughtByAiOf, errorCode, errorKey, exemplarOf, repFromConflict, reviewOf } from './api';
 import { DocText, type Spot } from './DocText';
 import { Outcome, RepHeader, Ring } from './shared';
 import type { RepProps } from './SlipRep';
@@ -198,7 +198,6 @@ export function DelegateRep({ rep, streak, fresh, isFree, onAnswered, onBack, on
                     {t('today.delegate.count', { n: instruction.length, max: MAX })}
                   </span>
                 </div>
-                <CriteriaPeek criteria={d.criteria} />
                 {errorLine}
                 <Button ref={runRef} size="lg" block disabledReason={len < MIN ? t('today.delegate.min', { min: MIN }) : undefined} onClick={run}>
                   {d.instruction && !ran ? t('today.delegate.runAgain') : t('today.delegate.run')}
@@ -281,27 +280,6 @@ function Running() {
   );
 }
 
-/** The rubric, folded: help for people who want it, not a form to tick. */
-function CriteriaPeek({ criteria }: { criteria: { id: string; text: string }[] }) {
-  const { t } = useT();
-  const [open, setOpen] = useState(false);
-  return (
-    <div className={sd.peek}>
-      <button type="button" className={sd.peekBtn} aria-expanded={open} onClick={() => setOpen((o) => !o)}>
-        {t('today.delegate.peek', { count: criteria.length })}
-        <ChevronDown size={16} strokeWidth={2} className={sd.foldChev} aria-hidden="true" />
-      </button>
-      {open ? (
-        <ul className={sd.peekList}>
-          {criteria.map((c) => (
-            <li key={c.id}>{c.text}</li>
-          ))}
-        </ul>
-      ) : null}
-    </div>
-  );
-}
-
 function DelegateGrade({
   rep,
   streak,
@@ -318,7 +296,12 @@ function DelegateGrade({
   const instruction = d.instruction ?? '';
   const traps = rep.reveal?.traps ?? [];
   const caught = new Set(r.trapsCaught ?? []);
+  // a trap the AI flagged by itself was not the person's catch, and not a miss either
+  const byAi = caughtByAiOf(rep);
+  const trapState = (id: string): 'caught' | 'byAi' | 'missed' => (caught.has(id) ? 'caught' : byAi.has(id) ? 'byAi' : 'missed');
+  const trapWord = { caught: t('today.delegate.trapCaught'), byAi: t('today.delegate.trapByAi'), missed: t('today.delegate.trapMissed') } as const;
   const spots = rep.reveal?.trapSpots ?? [];
+  const fixSent = myFix || reviewOf(d)?.fix || '';
   const flags = r.flags ?? [];
   const criteria = d.criteria.map((c, i) => ({ ...c, n: i + 1, grade: r.criteria?.find((g) => g.id === c.id) }));
   const met = criteria.filter((c) => c.grade?.status === 'met').length;
@@ -339,16 +322,16 @@ function DelegateGrade({
   const trapN = new Map(traps.map((tr, i) => [tr.id, i + 1]));
   const inputSpots: Spot[] = spots
     .filter((s) => s.where === 'inputs')
-    .map((s) => ({ start: s.start, end: s.end, kind: caught.has(s.trapId) ? 'caught' : 'missed', n: trapN.get(s.trapId) }));
+    .map((s) => ({ start: s.start, end: s.end, kind: trapState(s.trapId), n: trapN.get(s.trapId) }));
   const runMarks: ReviewMark[] = spots
     .filter((s) => s.where === 'run')
     .map((s, i) => ({
       id: `t${i}`,
-      kind: caught.has(s.trapId) ? 'found' : 'missed',
+      kind: trapState(s.trapId) === 'caught' ? 'found' : trapState(s.trapId) === 'byAi' ? 'false' : 'missed',
       start: s.start,
       end: s.end,
       n: trapN.get(s.trapId),
-      title: caught.has(s.trapId) ? t('today.delegate.trapCaught') : t('today.delegate.trapMissed'),
+      title: trapWord[trapState(s.trapId)],
       body: traps.find((x) => x.id === s.trapId)?.description,
     }));
 
@@ -414,14 +397,17 @@ function DelegateGrade({
                 {t('today.delegate.trapsTitle')}
               </h2>
               <ol className={sd.traps}>
-                {traps.map((tr, i) => (
-                  <li key={tr.id} className={sd.trap}>
-                    <Ring n={i + 1} state={caught.has(tr.id) ? 'found' : 'missed'} />
-                    <p>
-                      <b>{caught.has(tr.id) ? t('today.delegate.trapCaught') : t('today.delegate.trapMissed')}</b> {tr.description}
-                    </p>
-                  </li>
-                ))}
+                {traps.map((tr, i) => {
+                  const s = trapState(tr.id);
+                  return (
+                    <li key={tr.id} className={sd.trap} data-state={s}>
+                      <Ring n={i + 1} state={s === 'caught' ? 'found' : s === 'byAi' ? 'empty' : 'missed'} />
+                      <p>
+                        <b>{trapWord[s]}</b> {tr.description}
+                      </p>
+                    </li>
+                  );
+                })}
               </ol>
               {caseSheet(inputSpots)}
             </section>
@@ -432,14 +418,14 @@ function DelegateGrade({
               <h2 id="run-title" className={sd.blockTitle}>
                 {t('today.delegate.step2')}
               </h2>
-              {r.fixFeedback ? (
+              {r.fixFeedback || fixSent ? (
                 <div className={sd.fixFb}>
-                  {myFix ? (
+                  {fixSent ? (
                     <p>
-                      <b>{t('today.delegate.yourFix')}</b> {myFix}
+                      <b>{t('today.delegate.yourFix')}</b> {fixSent}
                     </p>
                   ) : null}
-                  <p>{r.fixFeedback}</p>
+                  {r.fixFeedback ? <p>{r.fixFeedback}</p> : null}
                 </div>
               ) : null}
               <RepCard document={d.run} mode="review" ranges={[]} marks={runMarks} stack={false} ariaLabel={t('today.delegate.step2')} />
@@ -455,14 +441,17 @@ function DelegateGrade({
 }
 
 /**
- * «What a strong instruction looks like»: one short instruction put together from the case and today's
- * rubric by a template, with the line the grader says was missing. The traps stay out of it: a strong
- * instruction asks for the checks that catch them without knowing them in advance.
+ * «What a strong instruction looks like»: the engine's exemplar instruction for this case, with the
+ * points of today's rubric it covers. Before the exemplar exists, one instruction is put together from
+ * the case and the rubric by a template. Either way the traps stay out of it: a strong instruction asks
+ * for the checks that catch them without knowing them in advance.
  */
 function Strong({ rep }: { rep: RepView }) {
   const { t } = useT();
   const d = rep.delegate!;
   const r = rep.result!;
+  const ex = exemplarOf(rep.reveal);
+  const covers = ex?.covers ? d.criteria.filter((c) => ex.covers!.includes(c.id)) : d.criteria;
   return (
     <section aria-labelledby="strong-title" className={sd.block}>
       {r.summary ? (
@@ -479,14 +468,22 @@ function Strong({ rep }: { rep: RepView }) {
           <span className={sd.machineTag} aria-hidden="true" />
           {t('today.delegate.to')}
         </div>
-        <p>{rep.brief}</p>
-        <p>{t('today.delegate.strongGoal', { goal: d.goal })}</p>
-        <p>{t('today.delegate.strongCover')}</p>
-        <ol>
-          {d.criteria.map((c) => (
+        {ex ? (
+          <DocText src={ex.text} plain />
+        ) : (
+          <>
+            <p>{rep.brief}</p>
+            <p>{t('today.delegate.strongGoal', { goal: d.goal })}</p>
+          </>
+        )}
+      </div>
+      <div className={sd.covers}>
+        <h3 className={sd.coversTitle}>{t('today.delegate.covers')}</h3>
+        <ul>
+          {covers.map((c) => (
             <li key={c.id}>{c.text}</li>
           ))}
-        </ol>
+        </ul>
       </div>
     </section>
   );

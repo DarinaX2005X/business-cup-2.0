@@ -201,6 +201,41 @@
   background: linear-gradient(transparent 70%, oklch(86% 0.095 66 / 0.6) 70%);
 }
 
+.q[data-status='harm'] {
+  background: none;
+  text-decoration: underline wavy 1.5px var(--violet-deep);
+  text-underline-offset: 4px;
+}
+
+/* a reply that could hurt: said plainly, beside the reply, in the ink colour */
+.harm {
+  display: grid;
+  gap: 4px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-size: 14.5px;
+  line-height: 1.45;
+  color: var(--ink);
+  background: var(--card);
+  box-shadow: inset 0 0 0 1.75px var(--violet-deep);
+  animation: noteIn 0.4s var(--ease) both;
+}
+
+.harm b {
+  font-weight: 750;
+  color: var(--violet-deep);
+}
+
+.harmLoose {
+  display: grid;
+  gap: 8px;
+}
+
+.harmLoose q {
+  font-size: 15.5px;
+  color: var(--ink-2);
+}
+
 .qn {
   margin-left: 2px;
   font-size: 11px;

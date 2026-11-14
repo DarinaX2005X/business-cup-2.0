@@ -51,7 +51,7 @@ export function LoadingView() {
   );
 }
 
-export function Generating({ type, taskShort, occupation }: { type?: RepType; taskShort?: string; occupation: string }) {
+export function Generating({ type, taskShort, job }: { type?: RepType; taskShort?: string; job: string | null }) {
   const { t } = useT();
   const key = type ? `today.generating.${type}` : 'today.generating.any';
   return (
@@ -62,13 +62,14 @@ export function Generating({ type, taskShort, occupation }: { type?: RepType; ta
           {taskShort ? <span className={st.taskPlate}>{taskShort}</span> : null}
         </h1>
         <p className={st.repAsk} role="status">
-          {t(key, { occupation })}
+          {t(key)}
           <span className={st.dots} aria-hidden="true">
             <i />
             <i />
             <i />
           </span>
         </p>
+        {job ? <p className={st.jobLine}>{t('today.generating.job', { job })}</p> : null}
       </header>
       <div className={st.genStage}>
         <SheetSkeleton />
@@ -123,16 +124,23 @@ export function NoMap() {
 
 /* ---------- a rep waiting to be finished ---------- */
 
-function peekOf(rep: RepView): { title: string; lines: number[]; persona?: { initial: string; line: string } } {
+/** The real start of the waiting rep: the document's first lines, the case, or the last thing they said. */
+function peekOf(rep: RepView): { title: string; body: string; persona?: { initial: string; line: string } } {
   if (rep.type === 'slip') {
-    const first = rep.slip?.document.split('\n').find((l) => l.trim()) ?? rep.title;
-    return { title: first.replace(/^#\s*/, ''), lines: [92, 84, 96, 70] };
+    const lines = (rep.slip?.document ?? '').split('\n').map((l) => l.trim()).filter(Boolean);
+    const title = (lines.find((l) => l.startsWith('# ')) ?? rep.title).replace(/^#\s*/, '');
+    const body = lines
+      .filter((l) => !l.startsWith('#') && !l.startsWith('|'))
+      .slice(1, 4)
+      .map((l) => l.replace(/^[-*]\s+/, '').replace(/\*\*|__/g, ''))
+      .join(' ');
+    return { title, body };
   }
   if (rep.type === 'edge' && rep.edge) {
     const last = [...rep.edge.turns].reverse().find((x) => x.role === 'persona');
-    return { title: rep.title, lines: [], persona: { initial: personaInitial(rep.edge.personaPublic), line: last?.text ?? '' } };
+    return { title: rep.title, body: '', persona: { initial: personaInitial(rep.edge.personaPublic), line: last?.text ?? '' } };
   }
-  return { title: rep.title, lines: [88, 76, 92] };
+  return { title: rep.title, body: rep.delegate?.scenario ?? rep.brief };
 }
 
 export function ContinueCard({ rep, onOpen, title, cta }: { rep: RepView; onOpen: () => void; title?: string; cta?: string }) {
@@ -161,7 +169,7 @@ export function ContinueCard({ rep, onOpen, title, cta }: { rep: RepView; onOpen
               <span className={st.peekLine}>{peek.persona.line}</span>
             </span>
           ) : (
-            peek.lines.map((w, i) => <i key={i} className={st.peekBar} style={{ width: `${w}%` }} />)
+            <span className={st.peekBody}>{peek.body}</span>
           )}
         </span>
       </button>
@@ -183,7 +191,7 @@ function DoneBlock({ daily, streak, onOpen }: { daily: RepView; streak: TodayPro
           {t('today.done.title')}
         </h1>
         <p className={st.doneLine}>
-          <span className={st.doneType}>{typeName(t, daily.type)}</span> {proofText(t, daily)}
+          <span className={st.doneType}>{typeName(t, daily.type)}.</span> {proofText(t, daily)}
         </p>
         <div className={st.doneActions}>
           <Button variant="lavender" onClick={onOpen}>
@@ -240,7 +248,7 @@ export function ProHub({
           <p className={st.hubLead}>{t('today.hub.lead')}</p>
         </div>
         {errorLine}
-        <ChoiceCards tasks={data.choiceTasks} starting={starting} onStart={(type) => onStart(type, 'daily')} />
+        <ChoiceCards tasks={data.choiceTasks} day={data.day} starting={starting} onStart={(type) => onStart(type, 'daily')} />
       </>
     );
   } else if (daily.status === 'open') {
@@ -265,14 +273,14 @@ export function ProHub({
           </div>
           {openExtra ? <ContinueCard rep={openExtra} onOpen={() => onOpen(openExtra)} title={t('today.done.openExtra', { type: typeName(t, openExtra.type) })} /> : null}
           {errorLine}
-          {data.extrasLeft > 0 && !openExtra ? <ChoiceCards tasks={data.choiceTasks} starting={starting} onStart={(type) => onStart(type, 'extra')} headingLevel={3} /> : null}
+          {data.extrasLeft > 0 && !openExtra ? <ChoiceCards tasks={data.choiceTasks} day={data.day} starting={starting} onStart={(type) => onStart(type, 'extra')} headingLevel={3} /> : null}
           {doneExtras.length ? (
             <ul className={st.extras} aria-label={t('today.done.extrasDone')}>
               {doneExtras.map((e) => (
                 <li key={e.id} className={st.extra}>
                   <TaskTile human={e.type === 'edge'} />
                   <span className={st.extraText}>
-                    <b>{typeName(t, e.type)}</b> {proofText(t, e)}
+                    <b>{typeName(t, e.type)}.</b> {proofText(t, e)}
                   </span>
                   <button type="button" className={st.textBtn} onClick={() => onOpen(e)}>
                     {t('today.done.reviewShort')}
@@ -335,8 +343,8 @@ export function FreeHub({
         ) : null}
       </div>
       <LockedPanel
-        title={data.tomorrow ? t('today.free.lockedTitle', { type: typeName(t, data.tomorrow.type), task: data.tomorrow.taskShort }) : t('today.free.lockedTitleGeneric')}
-        reason={t('today.free.lockedReason')}
+        title={data.tomorrow ? t('today.free.lockedTitle', { type: typeName(t, data.tomorrow.type) }) : t('today.free.lockedTitleGeneric')}
+        reason={data.tomorrow?.taskShort ? `${t('today.free.lockedTask', { task: data.tomorrow.taskShort })} ${t('today.free.lockedReason')}` : t('today.free.lockedReason')}
         action={<PaywallActions />}
         shape="list"
       />

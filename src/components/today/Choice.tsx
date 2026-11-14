@@ -5,134 +5,183 @@ import { Button } from '@/components/kit/Button';
 import type { RepType } from '@/domain/types';
 import { useT } from '@/i18n/client';
 import type { ChoiceTask } from './api';
-import { TaskTile } from './shared';
 import sc from './choice.module.css';
 
-/* Three small scenes from the product's world: a drafted sheet under the marker, a note handed to the
-   machine, a conversation. Decorative; the card text says the same in words. */
+const TYPES: RepType[] = ['slip', 'delegate', 'edge'];
 
-function SlipArt() {
+/** Today's suggested type: the same date rotation the engine uses for tomorrow's rep. */
+export function suggestedType(day: string | undefined): RepType {
+  const t = day ? Date.parse(`${day}T00:00:00Z`) : Date.now();
+  const n = Math.floor((Number.isFinite(t) ? t : Date.now()) / 86_400_000);
+  return TYPES[((n % 3) + 3) % 3];
+}
+
+/*
+ * The three types are three different objects: a drafted sheet to mark, a note to the machine, a
+ * conversation. Each is drawn with the person's real task from their week. The suggested one leads at
+ * full size; the other two wait as quiet rows beside it.
+ */
+
+function SheetObject({ task }: { task: ChoiceTask }) {
+  const { t } = useT();
   return (
-    <div className={sc.art} data-type="slip" aria-hidden="true">
-      <div className={sc.sheetBack} />
+    <div className={sc.obj} data-type="slip" aria-hidden="true">
+      <div className={sc.sheetUnder} />
       <div className={sc.sheet}>
-        <i className={sc.aiTag} />
-        <i className={sc.sTitle} />
-        <i className={sc.line} style={{ width: '88%' }} />
-        <i className={sc.line} style={{ width: '74%' }} />
-        <span className={sc.markLine}>
-          <i className={sc.line} style={{ width: '82%' }} />
-          <b className={sc.marker} />
-        </span>
-        <i className={sc.line} style={{ width: '64%' }} />
-        <span className={sc.margin}>1</span>
+        <div className={sc.sheetHead}>
+          <span className={sc.sheetTitle}>{task.taskShort}</span>
+          <span className={sc.aiTag}>
+            <i />
+            {t('today.choice.drafted')}
+          </span>
+        </div>
+        <p className={sc.sheetText}>{task.taskText}</p>
+        <span className={sc.ring}>?</span>
       </div>
     </div>
   );
 }
 
-function DelegateArt() {
+function NoteObject({ task }: { task: ChoiceTask }) {
+  const { t } = useT();
   return (
-    <div className={sc.art} data-type="delegate" aria-hidden="true">
-      <div className={sc.machine}>
-        <i className={sc.line} style={{ width: '70%' }} />
-        <i className={sc.line} style={{ width: '86%' }} />
-        <i className={sc.line} data-grow style={{ width: '58%' }} />
-        <i className={sc.line} data-grow style={{ width: '76%' }} />
-      </div>
-      <div className={sc.slip}>
-        <i className={sc.slipTo} />
-        <i className={sc.line} style={{ width: '84%' }} />
-        <i className={sc.line} style={{ width: '62%' }} />
+    <div className={sc.obj} data-type="delegate" aria-hidden="true">
+      <div className={sc.note}>
+        <div className={sc.noteTo}>
+          <i />
+          {t('today.delegate.to')}
+        </div>
+        <p className={sc.noteTask}>{task.taskText}</p>
+        <p className={sc.noteCaret}>
+          {t('today.choice.yourWords')}
+          <b />
+        </p>
       </div>
     </div>
   );
 }
 
-function EdgeArt() {
+function TalkObject({ task }: { task: ChoiceTask }) {
+  const { t } = useT();
   return (
-    <div className={sc.art} data-type="edge" aria-hidden="true">
-      <div className={sc.bubble} data-side="them">
-        <span className={sc.initial}>D</span>
-        <span className={sc.bLines}>
-          <i className={sc.line} style={{ width: '92%' }} />
-          <i className={sc.line} style={{ width: '64%' }} />
-        </span>
-      </div>
-      <div className={sc.bubble} data-side="you">
-        <i className={sc.line} style={{ width: '88%' }} />
-        <i className={sc.line} style={{ width: '52%' }} />
-      </div>
-      <div className={sc.bubble} data-side="them" data-typing>
-        <span className={sc.initial}>D</span>
-        <span className={sc.typing}>
-          <i />
-          <i />
-          <i />
-        </span>
+    <div className={sc.obj} data-type="edge" aria-hidden="true">
+      <div className={sc.talk}>
+        <div className={sc.them}>
+          <span className={sc.initial} />
+          <p>{task.taskText}</p>
+        </div>
+        <div className={sc.you}>
+          {t('today.choice.yourReply')}
+          <b />
+        </div>
       </div>
     </div>
   );
 }
 
-const ART: Record<RepType, () => React.JSX.Element> = { slip: SlipArt, delegate: DelegateArt, edge: EdgeArt };
+const OBJECT = { slip: SheetObject, delegate: NoteObject, edge: TalkObject } as const;
+
+/** A small glyph of the same object for the quieter rows. */
+function Glyph({ type }: { type: RepType }) {
+  return (
+    <span className={sc.glyph} data-type={type} aria-hidden="true">
+      <i />
+      <i />
+    </span>
+  );
+}
 
 export function ChoiceCards({
   tasks,
+  day,
   starting,
   disabled,
   onStart,
   headingLevel = 2,
 }: {
   tasks: Record<RepType, ChoiceTask>;
+  /** Local day of the hub, for today's suggestion. */
+  day?: string;
   /** The type being started (its button shows the pending state). */
   starting: RepType | null;
-  /** Why no rep can be started now (for example all practice reps are used). */
-  disabled?: string;
+  disabled?: boolean;
   onStart: (type: RepType) => void;
   headingLevel?: 2 | 3;
 }) {
   const { t } = useT();
   const H = headingLevel === 2 ? 'h2' : 'h3';
+  const lead = suggestedType(day);
+  const others = TYPES.filter((x) => x !== lead);
+  const leadTask = tasks[lead];
+  const Obj = OBJECT[lead];
+  const busy = (type: RepType) => starting !== null && starting !== type;
+
   return (
-    <ul className={sc.cards}>
-      {(['slip', 'delegate', 'edge'] as const).map((type) => {
-        const task = tasks[type];
-        const Art = ART[type];
-        return (
-          <li key={type} className={sc.card} data-type={type}>
-            <Art />
-            <div className={sc.body}>
-              <H className={sc.name}>{t(`today.choice.${type}.name`)}</H>
-              <p className={sc.what}>{t(`today.choice.${type}.what`)}</p>
-              {task ? (
-                <p className={sc.task}>
-                  <TaskTile human={type === 'edge'} />
-                  <span className="sr-only">{t('today.choice.fromWeek')} </span>
-                  <span className={sc.taskName} title={task.taskText}>
-                    {task.taskShort || task.taskText}
-                  </span>
-                </p>
-              ) : null}
-              <div className={sc.foot}>
-                <span className={sc.minutes}>
-                  <Clock3 size={16} strokeWidth={1.75} aria-hidden="true" />
-                  {t('today.choice.minutes', { minutes: task?.minutes ?? 5 })}
-                </span>
+    <div className={sc.choice}>
+      <section className={sc.lead} data-type={lead} aria-labelledby={`choice-${lead}`}>
+        <div className={sc.leadText}>
+          <H id={`choice-${lead}`} className={sc.leadName}>
+            {t(`today.choice.${lead}.name`)}
+          </H>
+          <p className={sc.leadWhat}>{t(`today.choice.${lead}.what`)}</p>
+          {leadTask ? (
+            <p className={sc.task}>
+              <span className={sc.taskLabel}>{t('today.choice.fromWeek')}</span>
+              <span className={sc.taskName} title={leadTask.taskText}>
+                {leadTask.taskShort || leadTask.taskText}
+              </span>
+            </p>
+          ) : null}
+          <div className={sc.leadFoot}>
+            <Button size="lg" loading={starting === lead} loadingLabel={t('today.choice.starting')} disabled={disabled || busy(lead)} onClick={() => onStart(lead)} aria-label={`${t('today.choice.start')}: ${t(`today.choice.${lead}.name`)}`}>
+              {t('today.choice.start')}
+            </Button>
+            <span className={sc.minutes}>
+              <Clock3 size={16} strokeWidth={1.75} aria-hidden="true" />
+              {t('today.choice.minutes', { minutes: leadTask?.minutes ?? 5 })}
+            </span>
+          </div>
+        </div>
+        {leadTask ? <Obj task={leadTask} /> : null}
+      </section>
+
+      <section className={sc.alts} aria-labelledby="choice-others">
+        <h3 id="choice-others" className={sc.altsTitle}>
+          {t('today.choice.others')}
+        </h3>
+        <ul className={sc.altList}>
+          {others.map((type) => {
+            const task = tasks[type];
+            return (
+              <li key={type} className={sc.alt} data-type={type}>
+                <Glyph type={type} />
+                <div className={sc.altText}>
+                  <span className={sc.altName}>{t(`today.choice.${type}.name`)}</span>
+                  <span className={sc.altWhat}>{t(`today.choice.${type}.what`)}</span>
+                  {task ? (
+                    <span className={sc.altTask}>
+                      <span className="sr-only">{t('today.choice.fromWeek')} </span>
+                      {task.taskShort || task.taskText}
+                      <span className={sc.altMin}>{t('today.choice.minutes', { minutes: task.minutes })}</span>
+                    </span>
+                  ) : null}
+                </div>
                 <Button
+                  size="sm"
+                  variant="secondary"
                   loading={starting === type}
                   loadingLabel={t('today.choice.starting')}
-                  disabled={!!disabled || (starting !== null && starting !== type)}
+                  disabled={disabled || busy(type)}
                   onClick={() => onStart(type)}
                   aria-label={`${t('today.choice.start')}: ${t(`today.choice.${type}.name`)}`}
                 >
                   {t('today.choice.start')}
                 </Button>
-              </div>
-            </div>
-          </li>
-        );
-      })}
-    </ul>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+    </div>
   );
 }

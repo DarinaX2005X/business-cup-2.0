@@ -6,17 +6,17 @@ import { Button } from '@/components/kit/Button';
 import { RepCard } from '@/components/kit/RepCard';
 import { sound } from '@/components/kit/sound';
 import type { CharRange, ReviewMark } from '@/components/kit/types';
-import type { RepView } from '@/domain/reps';
+import { OVER_SELECTED, type RepView } from '@/domain/reps';
 import { useT } from '@/i18n/client';
 import { useProfile } from '@/lib/client/profile';
-import { answerRep, errorCode, errorKey, repFromConflict, type AnswerResult, type Streak } from './api';
+import { answerRep, errorCode, errorKey, repFromConflict, tooBroadOf, type AnswerResult, type Streak } from './api';
 import { clock, reducedMotion, useElapsed, useLocalFlag, useMounted } from './hooks';
 import { Outcome, RepHeader, Ring } from './shared';
-import { jobInSentence } from './text';
 import st from './today.module.css';
 import ss from './slip.module.css';
 
-const OVER = 0.6;
+/** More than this share highlighted scores zero (the engine's `over_selected`). */
+const OVER = OVER_SELECTED;
 const draftKey = (id: string) => `irr:slip:${id}`;
 
 function readDraft(id: string): CharRange[] {
@@ -49,8 +49,8 @@ export interface RepProps {
 }
 
 export function SlipRep({ rep, streak, fresh, isFree, onAnswered, onBack, onPractice }: RepProps) {
-  const { t, locale } = useT();
-  const { profile, applyAwards } = useProfile();
+  const { t } = useT();
+  const { applyAwards } = useProfile();
   const mounted = useMounted();
   const doc = rep.slip?.document ?? '';
   const total = rep.slip?.errorCount ?? 0;
@@ -81,8 +81,7 @@ export function SlipRep({ rep, streak, fresh, isFree, onAnswered, onBack, onPrac
   const [hideTimer, setHideTimer] = useLocalFlag('irr:today:hideTimer');
   const elapsed = useElapsed(!done);
 
-  const job = jobInSentence(profile?.jobTitle, locale) ?? t('today.slip.someone');
-  const ask = t('today.slip.ask', { count: total, doc: rep.docType ?? t('today.slip.docFallback'), occupation: job });
+  const ask = t('today.slip.ask', { count: total });
 
   const check = async (force = false) => {
     if (!ranges.length || busy) return;
@@ -125,7 +124,11 @@ export function SlipRep({ rep, streak, fresh, isFree, onAnswered, onBack, onPrac
       const type = t(`today.slip.type.${e.type}`);
       return { id: `e${i}`, kind: hit ? 'found' : 'missed', start: e.start, end: e.end, n: i + 1, title: t(hit ? 'today.slip.mark.found' : 'today.slip.mark.missed', { type }), body: e.explanation };
     });
-    (rep.result?.falseRanges ?? []).forEach(([a, b], i) => {
+    // a highlight that covers far more than the mistake is its own note
+    const broad = tooBroadOf(rep.result);
+    broad.forEach(([a, b], i) => out.push({ id: `b${i}`, kind: 'false', start: a, end: b, title: t('today.slip.mark.tooBroad'), body: t('today.slip.mark.tooBroadBody') }));
+    const overlapsBroad = ([a, b]: [number, number]) => broad.some(([c, d]) => a < d && b > c);
+    (rep.result?.falseRanges ?? []).filter((r) => !overlapsBroad(r)).forEach(([a, b], i) => {
       out.push(
         i === 0
           ? { id: `x${i}`, kind: 'first_false', start: a, end: b, title: t('today.slip.mark.free'), body: t('today.slip.mark.freeBody') }
@@ -246,12 +249,17 @@ export function SlipRep({ rep, streak, fresh, isFree, onAnswered, onBack, onPrac
       ) : null}
       <div className={ss.barRow}>
         <button type="button" className={ss.barCount} onClick={() => setListOpen((o) => !o)} aria-expanded={listOpen} disabled={!ranges.length}>
-          <span className={ss.barN}>
-            {t('today.slip.barCount', { marked: ranges.length, total })}
+          <span className={ss.barN} aria-label={t('today.slip.barCount', { marked: ranges.length, total })}>
+            {t('today.slip.barMarked', { count: ranges.length })}
           </span>
           {ranges.length ? <ChevronDown size={16} strokeWidth={2} className={ss.chev} aria-hidden="true" /> : null}
         </button>
         {mounted && !hideTimer ? <span className={ss.barTime}>{clock(elapsed)}</span> : null}
+        <span className={ss.barRings} aria-hidden="true">
+          {Array.from({ length: total }, (_, i) => (
+            <i key={i} data-on={i < ranges.length || undefined} />
+          ))}
+        </span>
         <Button ref={barCheckRef} size="sm" loading={busy} loadingLabel={t('today.slip.checking')} disabled={!ranges.length} onClick={() => check()}>
           {t('today.slip.check')}
         </Button>
@@ -321,7 +329,8 @@ function SlipTally({ rep, fresh }: { rep: RepView; fresh: boolean }) {
 
   let seen = 0;
   const flags = r.flags ?? [];
-  const falseN = r.falseFlags ?? 0;
+  const broadN = tooBroadOf(r).length;
+  const falseN = Math.max(0, (r.falseFlags ?? 0) - (r.falseRanges ?? []).filter(([a, b]) => tooBroadOf(r).some(([c, d]) => a < d && b > c)).length);
   const missed = total - foundTotal;
   return (
     <div className={ss.result}>
@@ -343,6 +352,7 @@ function SlipTally({ rep, fresh }: { rep: RepView; fresh: boolean }) {
               ? t('today.slip.noneCaught')
               : t('today.slip.someMissed', { count: missed })}
       </p>
+      {broadN > 0 && !flags.includes('over_selected') ? <p className={ss.falseLine}>{t('today.slip.tooBroadLine', { count: broadN })}</p> : null}
       {falseN > 0 && !flags.includes('over_selected') ? <p className={ss.falseLine}>{falseN === 1 ? t('today.slip.falseFree') : t('today.slip.falseMore', { count: falseN })}</p> : null}
     </div>
   );

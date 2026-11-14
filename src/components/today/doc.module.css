@@ -86,6 +86,12 @@
   box-shadow: 0 0 0 1.75px var(--violet);
 }
 
+.mark[data-kind='byAi'] {
+  background: none;
+  outline: 1.5px dashed oklch(70% 0.06 286);
+  outline-offset: 1px;
+}
+
 .mark[data-kind='quote'] {
   background: linear-gradient(transparent 52%, oklch(86% 0.095 66 / 0.7) 52%);
   padding: 0 0.1em;

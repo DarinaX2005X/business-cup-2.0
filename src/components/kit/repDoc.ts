@@ -42,7 +42,8 @@ export function parseDoc(src: string): DocBlock[] {
       blocks.push({ kind: 'table', head: rows[0] ?? [], rows: rows.slice(1) });
       continue;
     }
-    if (trimmed.startsWith('## ')) blocks.push({ kind: 'h2', part: { start: start + lead + 3, text: trimmed.slice(3) } });
+    const deep = /^(#{2,6}) /.exec(trimmed);
+    if (deep) blocks.push({ kind: 'h2', part: { start: start + lead + deep[0].length, text: trimmed.slice(deep[0].length) } });
     else if (trimmed.startsWith('# ')) {
       blocks.push({ kind: 'h1', part: { start: start + lead + 2, text: trimmed.slice(2) } });
       const next = lines[i + 1];
@@ -84,6 +85,17 @@ export function partsOf(blocks: DocBlock[]): TextPart[] {
 
 const WORD = /[\p{L}\p{N}]/u;
 const JOIN = /['’.,:/%\-]/u;
+const DIGIT = /\p{N}/u;
+const CURRENCY = /[$€£₸¥₽]/u;
+
+/**
+ * One highlightable word. Punctuation that belongs to a number stays with it: 8.4, 1:2, 88%, $40,
+ * and a leading decimal point (.5 mg, ,5 мг). Shared by the Rep card and keyboard movement.
+ */
+export const WORD_RE = /(?:[$€£₸¥₽]|(?<![\p{L}\p{N}])[.,](?=\p{N}))?[\p{L}\p{N}]+(?:['’.,:/%\-][\p{L}\p{N}]+)*%?/gu;
+
+/** Bold and italic markers a model may leave in a document; drawn as nothing, offsets unchanged. */
+export const cleanMarks = (s: string) => s.replace(/\*\*|__/g, '');
 
 const isWord = (src: string, i: number) => {
   const c = src[i];
@@ -93,6 +105,9 @@ const isWord = (src: string, i: number) => {
   const prev = WORD.test(src[i - 1] ?? '');
   const next = WORD.test(src[i + 1] ?? '');
   if (c === '%' && prev) return true;
+  // $40 and .5 belong to their number
+  if (CURRENCY.test(c) && DIGIT.test(src[i + 1] ?? '')) return true;
+  if ((c === '.' || c === ',') && !prev && DIGIT.test(src[i + 1] ?? '')) return true;
   return JOIN.test(c) && prev && next;
 };
 
@@ -138,7 +153,7 @@ export function mergeRanges(ranges: CharRange[]): CharRange[] {
 export function wordsOf(parts: TextPart[]): CharRange[] {
   const out: CharRange[] = [];
   for (const p of parts) {
-    const re = /[\p{L}\p{N}]+(?:['’.,:/%\-][\p{L}\p{N}]+)*%?/gu;
+    const re = new RegExp(WORD_RE.source, 'gu');
     let m: RegExpExecArray | null;
     while ((m = re.exec(p.text))) out.push([p.start + m.index, p.start + m.index + m[0].length]);
   }

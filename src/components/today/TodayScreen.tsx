@@ -11,7 +11,6 @@ import { DelegateRep } from './DelegateRep';
 import { EdgeRep } from './EdgeRep';
 import { ErrorView, FreeHub, Generating, LoadingView, NoMap, ProHub } from './Hub';
 import { SlipRep } from './SlipRep';
-import { jobInSentence, withArticle } from './text';
 
 export type View =
   | { v: 'loading' }
@@ -34,7 +33,7 @@ function setUrl(rep: string | null, replace = false) {
 }
 
 export function TodayScreen({ fixture }: { fixture?: TodayFixture }) {
-  const { t, locale } = useT();
+  const { t } = useT();
   const { status: pStatus, profile, error: profileError, refresh } = useProfile();
   const search = useSearchParams();
   const repParam = fixture ? null : search.get('rep');
@@ -224,12 +223,11 @@ export function TodayScreen({ fixture }: { fixture?: TodayFixture }) {
   }, [refresh]);
 
   const weekHref = profile?.lastXrayId ? `/x/${profile.lastXrayId}` : null;
-  const job = jobInSentence(profile?.jobTitle, locale);
-  const occupation = job ? withArticle(job, locale) : t('today.generating.you');
+  const job = profile?.jobTitle?.trim() || null;
 
   /* ---------- render ---------- */
   if (view.v === 'loading') return <LoadingView />;
-  if (view.v === 'generating') return <Generating type={view.type} taskShort={view.taskShort} occupation={occupation} />;
+  if (view.v === 'generating') return <Generating type={view.type} taskShort={view.taskShort} job={job} />;
   if (view.v === 'repError') {
     return (
       <ErrorView

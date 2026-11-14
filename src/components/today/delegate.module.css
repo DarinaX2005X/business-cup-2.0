@@ -118,7 +118,7 @@
   font-size: 14px;
   font-weight: 650;
   color: var(--ink-2);
-  background: var(--grain), var(--hatch-sparse), var(--machine-field);
+  background: var(--machine-field);
   box-shadow: inset 0 -1px 0 var(--tile-ai-edge);
 }
 
@@ -522,6 +522,31 @@
   display: grid;
   gap: 6px;
   padding-left: 22px;
+}
+
+.covers {
+  display: grid;
+  gap: 8px;
+  padding: 0 4px;
+}
+
+.coversTitle {
+  font-size: 15px;
+  font-weight: 650;
+  letter-spacing: 0;
+  color: var(--ink-2);
+}
+
+.covers ul {
+  display: grid;
+  gap: 6px;
+  padding-left: 20px;
+  font-size: 15.5px;
+  line-height: 1.5;
+}
+
+.trap[data-state='byAi'] b {
+  color: var(--ink-2);
 }
 
 .fixFb {

@@ -1,0 +1,110 @@
+{
+ "id": "Fx0edgeDemo001",
+ "type": "edge",
+ "kind": "extra",
+ "status": "done",
+ "source": "live",
+ "title": "Unfinished vitals, resistant nursing assistant",
+ "brief": "Address missed patient vitals and pushback from a certified nursing assistant mid-shift on a busy medical-surgical floor.",
+ "taskId": "1846",
+ "taskText": "Direct or supervise less-skilled nursing or healthcare personnel or supervise a particular unit.",
+ "taskShort": "Staff supervision",
+ "occupationCode": "29-1141.00",
+ "locale": "en",
+ "notes": [],
+ "difficulty": 1,
+ "day": "2026-11-14",
+ "edge": {
+  "scenario": "It is 2:00 PM on a 32-bed med-surg unit, and three post-op patients still lack their noon vitals and repositioning documentation. The charge nurse pulls the assigned nursing assistant into the clean utility room after noticing she has been sitting at the desk on her phone.",
+  "personaPublic": "Derrick is a certified nursing assistant with two years on the unit who is usually reliable but visibly curt, tense, and defensive today. He crosses his arms immediately and avoids direct eye contact.",
+  "goal": "Establish why the vitals were missed, reset immediate patient safety priorities for the remainder of the shift, and agree on a workable plan to balance the load.",
+  "criteria": [
+   {
+    "id": "c1",
+    "text": "Addresses the specific delayed tasks without opening with accusations or personal attacks."
+   },
+   {
+    "id": "c2",
+    "text": "Inquires about obstacles or physical barriers Derrick encountered during the shift."
+   },
+   {
+    "id": "c3",
+    "text": "Acknowledges the heavy workload while maintaining firm standards for patient care."
+   },
+   {
+    "id": "c4",
+    "text": "Collaborates on a specific division of labor or immediate support plan to complete the pending tasks."
+   }
+  ],
+  "turns": [
+   {
+    "role": "persona",
+    "text": "Look, if you are pulling me in here to lecture me about the noon vitals, save it. I have ten heavy patients down the hall while Marcus only has six, and nobody ever asks if I need a hand before telling me I am falling behind."
+   },
+   {
+    "role": "user",
+    "text": "Derrick, I am not here to lecture you. Ten heavy patients is a lot. What got in the way of the noon vitals today?"
+   },
+   {
+    "role": "persona",
+    "text": "It's just too much all at once. Every single one of mine needs a complete bed bath, turns every two hours, and help eating. I ran from room to room all morning without a break. Then an hour ago, trying to boost Mr. Henderson by myself... it just got to be too much physically. I had to stop for a minute."
+   },
+   {
+    "role": "user",
+    "text": "That makes sense. Here is the plan: I will take vitals on 412 and 414 right now, you do repositioning for all three, and I will ask Marcus to take two of your patients for the rest of the shift. Can you have it done by 2:45?"
+   },
+   {
+    "role": "persona",
+    "text": "I appreciate you taking the vitals and shifting those patients to Marcus, really. But... I can't do the repositioning alone right now. When I tried boosting Mr. Henderson earlier, my wrist gave out. It's shooting pain every time I grip or push, and I'm honestly scared I messed it up bad. I just need someone to help with the heavy lifting so I don't drop anyone."
+   },
+   {
+    "role": "user",
+    "text": "Stop, then: no lifting for you today. Let me see your wrist, and fill in an incident report with me after. I will get the lift team for Mr. Henderson, and you take the vitals with me instead."
+   },
+   {
+    "role": "persona",
+    "text": "Thank you. I was really worried you’d take me off the schedule completely if I said anything. I had bad tendonitis a few months ago, and I just can't afford to lose my shifts right now. It felt like it snapped when I turned him. I'll help you with the vitals, and I'll do the incident report. I just really need to ice this."
+   }
+  ],
+  "repliesLeft": 0
+ },
+ "result": {
+  "score": 0.88,
+  "criteria": [
+   {
+    "id": "c1",
+    "status": "met",
+    "quote": "Derrick, I am not here to lecture you. Ten heavy patients is a lot. What got in the way of the noon vitals today?",
+    "note": "You opened calmly without accusations, directly addressing the delayed vitals."
+   },
+   {
+    "id": "c2",
+    "status": "met",
+    "quote": "What got in the way of the noon vitals today?",
+    "note": "You clearly asked what obstacles prevented him from getting the noon vitals done."
+   },
+   {
+    "id": "c3",
+    "status": "partly",
+    "quote": "Ten heavy patients is a lot.",
+    "note": "You validated the heavy workload, but you did not explicitly reinforce firm patient care standards or safety expectations."
+   },
+   {
+    "id": "c4",
+    "status": "met",
+    "quote": "I will get the lift team for Mr. Henderson, and you take the vitals with me instead.",
+    "note": "You adapted quickly to his injury by restructuring the tasks and providing a clear, supportive division of labor."
+   }
+  ],
+  "flags": [],
+  "summary": "You handled Derrick's injury and stress with swift empathy and concrete operational adjustments. Next time, make sure to explicitly state the standard of patient safety and care expectations alongside your validation of his workload.",
+  "points": 0,
+  "scoreChange": {
+   "before": 85,
+   "after": 85
+  }
+ },
+ "reveal": {
+  "personaHidden": "Underneath, Derrick feels burnt out and disrespected because he was assigned ten heavy total-care patients without any warning while another aide got fewer. He is terrified of admitting that his wrist flared up with tendonitis while turning a bariatric patient an hour ago, fearing he will lose his hours."
+ }
+}

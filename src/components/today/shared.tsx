@@ -136,7 +136,9 @@ export function WorkLog({ rep }: { rep: RepView }) {
     return (
       <p className={st.workDone} role="status">
         <BriefcaseBusiness size={18} strokeWidth={1.75} aria-hidden="true" />
-        <span>{t('today.workLog.done', { minutes: done.minutes, task: done.task })}</span>
+        <span>
+          <b>{done.task}</b> {t('today.workLog.done', { minutes: done.minutes })}
+        </span>
       </p>
     );
   }
@@ -215,9 +217,9 @@ export function proofText(t: ReturnType<typeof useT>['t'], rep: RepView): string
   if (!r) return '';
   const met = (r.criteria ?? []).filter((c) => c.status === 'met').length;
   const criteria = r.criteria?.length ?? 0;
-  if (rep.type === 'slip') return t('today.result.proofSlip', { found: r.found ?? 0, total: r.total ?? 0, doc: rep.docType ?? rep.title });
+  if (rep.type === 'slip') return t('today.result.proofSlip', { found: r.found ?? 0, total: r.total ?? 0 });
   if (rep.type === 'delegate') return t('today.result.proofDelegate', { met, criteria, traps: r.trapsCaught?.length ?? 0, trapsTotal: rep.reveal?.traps?.length ?? 0 });
-  return t('today.result.proofEdge', { met, criteria, task: rep.taskShort });
+  return t('today.result.proofEdge', { met, criteria });
 }
 
 export function Outcome({
@@ -239,9 +241,14 @@ export function Outcome({
   /** `band`: one wide strip above the document (Spot the slip), so the sheet keeps its margin. */
   layout?: 'column' | 'band';
 }) {
-  const { t } = useT();
+  const { t, f } = useT();
   const r = rep.result;
   const change = r?.scoreChange;
+  // when practice moves the score by less than a point, the rounded dial stays put; say the exact change
+  const fromExact = change?.fromExact ?? change?.before ?? 0;
+  const toExact = change?.toExact ?? change?.after ?? 0;
+  const exact = !!change && toExact !== fromExact && Math.round(change.after) === Math.round(change.before);
+  const one = (v: number) => f.number(v, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
   const counts = rep.kind !== 'extra';
   // the score and today's tile start where they were and move a beat after the marks land
   const [settled, setSettled] = useState(!fresh);
@@ -261,7 +268,13 @@ export function Outcome({
       <div className={st.oProgress}>
         {change && (change.before > 0 || change.after > 0) ? (
           <div className={st.outRow}>
-            <ScoreDial variant="compact" value={settled ? change.after : change.before} delta={settled && change.after !== change.before ? change.after - change.before : undefined} label={t('today.result.score')} />
+            <ScoreDial
+              variant="compact"
+              value={Math.round(settled ? change.after : change.before)}
+              delta={settled && Math.round(change.after) !== Math.round(change.before) ? Math.round(change.after) - Math.round(change.before) : undefined}
+              label={t('today.result.score')}
+            />
+            {exact ? <p className={st.exact}>{t('today.result.exact', { before: one(fromExact), after: one(toExact) })}</p> : null}
           </div>
         ) : null}
         {counts && week ? (
@@ -280,6 +293,7 @@ export function Outcome({
           <div>
             <b>{t('today.result.proof')}</b>
             <span>{proofText(t, rep)}</span>
+            <span className={st.proofOf}>{rep.type === 'slip' && rep.docType ? rep.docType : rep.taskShort}</span>
           </div>
           {r && r.points > 0 ? <span className={st.pointsChip}>{t('today.result.points', { count: r.points })}</span> : null}
         </div>

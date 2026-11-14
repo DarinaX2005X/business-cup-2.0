@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent as RKeyboardEvent, type PointerEvent as RPointerEvent, type ReactNode } from 'react';
-import { mergeRanges, parseDoc, partsOf, wordsOf, type DocBlock, type TextPart } from './repDoc';
+import { cleanMarks, mergeRanges, parseDoc, partsOf, WORD_RE, wordsOf, type DocBlock, type TextPart } from './repDoc';
 import { sound } from './sound';
 import { useKit } from './strings';
 import type { CharRange, ReviewMark, ReviewMarkKind, Surface } from './types';
@@ -195,9 +195,11 @@ export function RepCard({ document: src, mode, ranges, onRangesChange, marks = [
   const layoutNotes = useCallback(() => {
     const body = bodyRef.current;
     if (!body || !review) return;
+    // measured against the text body itself: a mark inside a table cell has the cell as its offsetParent
+    const base = body.getBoundingClientRect().top;
     const want = sortedMarks.map((m) => {
       const el = body.querySelector<HTMLElement>(`[data-mark-start="${m.id}"]`);
-      return { id: m.id, top: el ? el.offsetTop - 2 : 0 };
+      return { id: m.id, top: el ? Math.round(el.getBoundingClientRect().top - base) - 2 : 0 };
     });
     want.sort((a, b) => a.top - b.top);
     const next: Record<string, number> = {};
@@ -237,7 +239,7 @@ export function RepCard({ document: src, mode, ranges, onRangesChange, marks = [
    */
   const renderAnswerPart = (p: TextPart) => {
     const end = p.start + p.text.length;
-    const re = /[\p{L}\p{N}]+(?:['’.,:/%\-][\p{L}\p{N}]+)*%?/gu;
+    const re = new RegExp(WORD_RE.source, 'gu');
     const toks: { a: number; b: number; word: boolean }[] = [];
     let last = 0;
     let m: RegExpExecArray | null;
@@ -263,7 +265,7 @@ export function RepCard({ document: src, mode, ranges, onRangesChange, marks = [
           data-first={edgeRange && a === Math.max(edgeRange[0], p.start) ? true : undefined}
           data-last={edgeRange && b === Math.min(edgeRange[1], end) ? true : undefined}
         >
-          {src.slice(a, b)}
+          {word ? src.slice(a, b) : cleanMarks(src.slice(a, b))}
         </span>
       );
     });
@@ -353,12 +355,12 @@ export function RepCard({ document: src, mode, ranges, onRangesChange, marks = [
   };
 
   const tokens = (text: string, base: number) => {
-    const re = /[\p{L}\p{N}]+(?:['’.,:/%\-][\p{L}\p{N}]+)*%?/gu;
+    const re = new RegExp(WORD_RE.source, 'gu');
     const out: ReactNode[] = [];
     let last = 0;
     let m: RegExpExecArray | null;
     while ((m = re.exec(text))) {
-      if (m.index > last) out.push(text.slice(last, m.index));
+      if (m.index > last) out.push(cleanMarks(text.slice(last, m.index)));
       out.push(
         <span key={m.index} className={st.w} data-s={base + m.index} data-e={base + m.index + m[0].length}>
           {m[0]}
@@ -366,7 +368,7 @@ export function RepCard({ document: src, mode, ranges, onRangesChange, marks = [
       );
       last = m.index + m[0].length;
     }
-    if (last < text.length) out.push(text.slice(last));
+    if (last < text.length) out.push(cleanMarks(text.slice(last)));
     return out;
   };
 

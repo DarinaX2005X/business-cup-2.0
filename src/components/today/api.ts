@@ -105,6 +105,59 @@ export const logWork = (taskId: string, minutes: number) =>
     body: { taskId, minutes },
   });
 
+/*
+ * Fields the engine is adding (REQUESTS «03.1 repair»). Read when present, so the screen works before and
+ * after they land. Shapes this screen expects are listed in REQUESTS «03.2».
+ */
+type Loose = Record<string, unknown> | undefined | null;
+const isRange = (x: unknown): x is [number, number] => Array.isArray(x) && x.length === 2 && x.every((n) => typeof n === 'number');
+
+/** Spot the slip: highlights graded as too broad (`result.tooBroad: [start, end][]`). */
+export function tooBroadOf(result: unknown): [number, number][] {
+  const r = result as Loose;
+  const direct = r?.tooBroad ?? r?.tooBroadRanges;
+  if (Array.isArray(direct)) return direct.filter(isRange);
+  const list = r?.highlights;
+  if (!Array.isArray(list)) return [];
+  return list
+    .filter((h: Loose) => h && (h.tooBroad === true || h.status === 'too_broad' || (Array.isArray(h.flags) && h.flags.includes('too_broad'))))
+    .map((h: Loose) => (isRange(h?.range) ? h.range : [Number(h?.start), Number(h?.end)]))
+    .filter(isRange);
+}
+
+/** Delegate: traps the AI flagged by itself (`reveal.traps[].caughtByAi` or `result.trapsCaughtByAi`). */
+export function caughtByAiOf(rep: { result?: unknown; reveal?: unknown }): Set<string> {
+  const out = new Set<string>();
+  const traps = (rep.reveal as Loose)?.traps;
+  if (Array.isArray(traps)) for (const tr of traps as Loose[]) if (tr?.caughtByAi === true && typeof tr.id === 'string') out.add(tr.id);
+  const ids = (rep.result as Loose)?.trapsCaughtByAi;
+  if (Array.isArray(ids)) for (const id of ids) if (typeof id === 'string') out.add(id);
+  return out;
+}
+
+/** Delegate: the model instruction (`reveal.exemplar`, a string or `{ text, covers? }`). */
+export function exemplarOf(reveal: unknown): { text: string; covers: string[] | null } | null {
+  const e = (reveal as Loose)?.exemplar as unknown;
+  if (typeof e === 'string' && e.trim()) return { text: e.trim(), covers: null };
+  const o = e as Loose;
+  if (o && typeof o.text === 'string' && o.text.trim()) return { text: o.text.trim(), covers: Array.isArray(o.covers) ? (o.covers as unknown[]).filter((x): x is string => typeof x === 'string') : null };
+  return null;
+}
+
+/** Delegate: what the person sent at the review step (`delegate.review`). */
+export function reviewOf(delegate: unknown): { ranges: [number, number][]; fix: string } | null {
+  const r = (delegate as Loose)?.review as Loose;
+  if (!r) return null;
+  return { ranges: Array.isArray(r.ranges) ? r.ranges.filter(isRange) : [], fix: typeof r.fix === 'string' ? r.fix : '' };
+}
+
+/** Human edge: a reply that could do harm (`result.harm`, one or a list of `{ quote, why }`). */
+export function harmOf(result: unknown): { quote: string; why: string }[] {
+  const h = (result as Loose)?.harm as unknown;
+  const list = Array.isArray(h) ? h : h ? [h] : [];
+  return (list as Loose[]).filter((x) => x && typeof x.quote === 'string' && typeof x.why === 'string').map((x) => ({ quote: String(x!.quote), why: String(x!.why) }));
+}
+
 /** A rep or a pending generation from a 409 body (daily_exists carries the existing rep's state). */
 export function repFromConflict(err: unknown): RepOrPending | null {
   if (!(err instanceof ApiError) || err.status !== 409) return null;

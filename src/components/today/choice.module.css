@@ -1,88 +1,106 @@
 /*
- * Three choice cards. They share a shell but each opens on its own scene and material:
- * a drafted sheet under the apricot marker on paper, a note handed to the hatched machine,
- * a conversation on warm paper. Hovering a card plays its scene's one small action.
+ * Choosing today's rep. The suggested type leads as a large panel with its own object drawn from the
+ * person's task: a drafted sheet, a note to the machine, a conversation. The other two wait as quiet
+ * rows on a tonal plane, each with a small glyph of its object. On a phone the panel loses most of its
+ * object and the rows stay compact.
  */
 
-.cards {
-  list-style: none;
+.choice {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1.6fr) minmax(300px, 1fr);
   gap: var(--s-24);
+  align-items: stretch;
 }
 
-.card {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  border-radius: var(--r-card);
-  background: var(--card);
-  box-shadow:
-    var(--hl),
-    inset 0 0 0 1px oklch(90% 0.03 290),
-    var(--shadow-rest);
+/* ---------- the leading choice ---------- */
+
+.lead {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 330px);
+  gap: var(--s-24);
+  min-height: 340px;
+  padding: 36px 0 0 40px;
+  border-radius: var(--r-panel);
   overflow: hidden;
-  transition:
-    transform var(--t-hover) var(--ease),
-    box-shadow var(--t-hover) var(--ease);
-}
-
-.card:hover {
-  transform: translateY(-3px);
   box-shadow:
     var(--hl),
-    inset 0 0 0 1px oklch(88% 0.035 290),
+    inset 0 0 0 1px oklch(89% 0.03 290),
     var(--shadow-raised);
 }
 
-.body {
-  flex: 1 1 auto;
+.lead[data-type='slip'] {
+  background:
+    radial-gradient(120% 90% at 85% 10%, oklch(99% 0.006 290), transparent 60%),
+    var(--card);
+}
+
+.lead[data-type='delegate'] {
+  background:
+    radial-gradient(120% 90% at 90% 0%, oklch(97.5% 0.012 290), transparent 60%),
+    var(--machine-field);
+}
+
+.lead[data-type='edge'] {
+  background:
+    radial-gradient(110% 80% at 90% 0%, oklch(97.5% 0.025 70), transparent 65%),
+    oklch(96% 0.03 62);
+}
+
+.leadText {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 22px 24px 22px;
+  align-items: flex-start;
+  gap: 12px;
+  padding-bottom: 36px;
+  min-width: 0;
 }
 
-.name {
-  font-size: 26px;
+.leadName {
+  font-size: var(--fs-44);
   font-weight: 750;
-  letter-spacing: -0.028em;
-  line-height: 1.1;
+  letter-spacing: -0.034em;
+  line-height: 1.02;
 }
 
-.what {
-  font-size: 16.5px;
+.leadWhat {
+  max-width: 34ch;
+  font-size: 18px;
   line-height: 1.45;
   color: var(--ink-2);
 }
 
 .task {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  display: grid;
+  gap: 2px;
   margin-top: 6px;
-  font-size: 17px;
-  font-weight: 650;
-  line-height: 1.3;
+}
+
+.taskLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-2);
 }
 
 .taskName {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.012em;
+  line-height: 1.25;
+  padding: 0 0.12em;
+  margin-left: -0.12em;
+  background: var(--marker-found);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
-.foot {
+.leadFoot {
   margin-top: auto;
-  padding-top: 14px;
+  padding-top: 16px;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
   flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
 }
 
 .minutes {
@@ -94,441 +112,476 @@
   color: var(--ink-2);
 }
 
-/* ---------- scenes ---------- */
+/* ---------- the objects ---------- */
 
-.art {
+.obj {
   position: relative;
-  height: 172px;
-  overflow: hidden;
-  isolation: isolate;
+  align-self: end;
+  min-width: 0;
+  height: 100%;
+  min-height: 280px;
 }
 
-.line {
-  display: block;
-  height: 8px;
-  border-radius: 4px;
-  background: oklch(88% 0.03 290);
-}
-
-/* slip: a drafted sheet on paper, one line under the marker */
-.art[data-type='slip'] {
-  background:
-    radial-gradient(120% 90% at 20% 0%, oklch(99% 0.006 290), transparent 70%),
-    var(--paper);
-  box-shadow: inset 0 -1px 0 var(--line);
-}
-
-.sheetBack,
+/* a sheet drafted from your task */
+.sheetUnder,
 .sheet {
   position: absolute;
-  left: 50%;
-  top: 30px;
-  width: 210px;
-  height: 172px;
-  border-radius: 12px;
-  background: var(--card);
+  left: 0;
+  right: -24px;
+  top: 6px;
+  bottom: -30px;
+  border-radius: 18px 0 0 0;
 }
 
-.sheetBack {
-  transform: translateX(-46%) rotate(4deg);
+.sheetUnder {
   background: oklch(96.5% 0.014 290);
-  box-shadow:
-    inset 0 0 0 1px var(--line),
-    var(--shadow-rest);
+  box-shadow: inset 0 0 0 1px var(--line);
+  transform: translate(14px, 10px) rotate(2deg);
 }
 
 .sheet {
-  display: grid;
-  align-content: start;
-  gap: 11px;
-  padding: 22px 20px;
-  transform: translateX(-54%) rotate(-2deg);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 22px 26px;
+  background: var(--card);
   box-shadow:
     var(--hl),
     inset 0 0 0 1px oklch(89% 0.03 290),
-    0 12px 26px -12px oklch(26% 0.09 285 / 0.35);
-  transition: transform 0.4s var(--ease-out);
-}
-
-.sTitle {
-  display: block;
-  width: 58%;
-  height: 12px;
-  border-radius: 5px;
-  background: oklch(70% 0.06 286);
-  margin-bottom: 4px;
-}
-
-.aiTag {
-  position: absolute;
-  right: 14px;
-  top: 16px;
-  width: 30px;
-  height: 18px;
-  border-radius: 5px;
-  background: var(--hatch-dense), var(--machine-field);
-  box-shadow: inset 0 0 0 1px oklch(84% 0.03 290);
-}
-
-.markLine {
-  position: relative;
-  display: block;
-}
-
-.marker {
-  position: absolute;
-  left: -4px;
-  top: -5px;
-  height: 18px;
-  width: 64%;
-  border-radius: 4px;
-  background: var(--marker-found);
-  transform-origin: left center;
-  transition: width 0.45s var(--ease-out);
-}
-
-.margin {
-  position: absolute;
-  right: -13px;
-  top: 76px;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--ink);
-  background: linear-gradient(180deg, var(--apricot-hi), var(--apricot));
-  box-shadow:
-    inset 0 1px 0 oklch(100% 0 0 / 0.6),
-    0 1px 0 var(--apricot-deep);
-  transform: scale(0.4);
-  opacity: 0;
-  transition:
-    transform 0.35s var(--spring),
-    opacity 0.2s var(--ease);
-}
-
-.card:hover .sheet {
-  transform: translateX(-54%) rotate(-3deg) translateY(-4px);
-}
-
-.card:hover .marker {
-  width: 104%;
-}
-
-.card:hover .margin {
-  transform: scale(1);
-  opacity: 1;
-  transition-delay: 0.25s;
-}
-
-/* delegate: a note handed over to the machine's hatched sheet */
-.art[data-type='delegate'] {
-  background:
-    radial-gradient(120% 90% at 20% 0%, oklch(97.5% 0.012 290), transparent 70%),
-    var(--machine-field);
-  box-shadow: inset 0 -1px 0 var(--line);
-}
-
-.machine {
-  position: absolute;
-  right: 26px;
-  top: 26px;
-  width: 172px;
-  height: 160px;
-  display: grid;
-  align-content: start;
-  gap: 11px;
-  padding: 22px 18px;
-  border-radius: 12px;
-  background: var(--hatch-dense), oklch(96% 0.014 290);
-  box-shadow:
-    inset 0 1px 0 #fff,
-    inset 0 0 0 1px var(--tile-ai-edge),
-    0 5px 0 var(--tile-ai-face),
-    0 14px 24px -12px oklch(26% 0.09 285 / 0.4);
-}
-
-.machine .line {
-  background: oklch(99% 0.006 290);
-  box-shadow: inset 0 0 0 1px oklch(86% 0.03 290);
-}
-
-.machine .line[data-grow] {
-  transform-origin: left center;
-  transform: scaleX(0.25);
-  opacity: 0.5;
-  transition:
-    transform 0.5s var(--ease-out),
-    opacity 0.3s var(--ease);
-}
-
-.slip {
-  position: absolute;
-  left: 26px;
-  top: 52px;
-  width: 150px;
-  display: grid;
-  gap: 9px;
-  padding: 14px 14px 16px;
-  border-radius: 10px;
-  background: var(--card);
-  box-shadow:
-    var(--hl),
-    inset 0 0 0 1px oklch(88% 0.035 290),
-    0 10px 20px -10px oklch(26% 0.09 285 / 0.4);
-  transform: rotate(-4deg);
+    0 16px 34px -14px oklch(26% 0.09 285 / 0.32);
+  transform: rotate(-1.5deg);
+  transform-origin: 20% 100%;
   transition: transform 0.45s var(--ease-out);
 }
 
-.slipTo {
-  display: block;
-  width: 44%;
-  height: 10px;
-  border-radius: 4px;
-  background: var(--violet-tint);
-}
-
-.card:hover .slip {
-  transform: translate(46px, -6px) rotate(-1deg);
-}
-
-.card:hover .machine .line[data-grow] {
-  transform: scaleX(1);
-  opacity: 1;
-  transition-delay: 0.22s;
-}
-
-/* edge: a conversation on warm paper */
-.art[data-type='edge'] {
-  display: grid;
-  align-content: center;
-  gap: 8px;
-  padding: 18px 26px;
-  background:
-    radial-gradient(110% 80% at 15% 0%, oklch(97% 0.03 70), transparent 65%),
-    oklch(95.5% 0.03 62);
-  box-shadow: inset 0 -1px 0 oklch(89% 0.04 60);
-}
-
-.bubble {
+.sheetHead {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
   gap: 8px;
-  align-items: flex-start;
-  max-width: 78%;
-  transition:
-    transform 0.35s var(--ease-out),
-    opacity 0.25s var(--ease);
+  padding-bottom: 12px;
+  box-shadow: 0 1px 0 var(--line);
 }
 
-.bubble[data-side='them'] {
-  justify-self: start;
+.sheetTitle {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
 }
 
-.bubble[data-side='you'] {
-  justify-self: end;
+.aiTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px 2px 4px;
+  border-radius: var(--r-tag);
+  font-size: 12px;
+  font-weight: 650;
+  color: var(--ink-2);
+  background: var(--machine-field);
+}
+
+.aiTag i {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  background: var(--hatch-dense), var(--card);
+  box-shadow: inset 0 0 0 1px oklch(84% 0.03 290);
+}
+
+.sheetText {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink);
+  background-image: linear-gradient(100deg, transparent, transparent);
+}
+
+.ring {
+  position: absolute;
+  left: -14px;
+  top: 84px;
+  width: 28px;
+  height: 28px;
   display: grid;
-  gap: 7px;
-  width: 60%;
+  place-items: center;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--violet);
+  background: var(--card);
+  box-shadow: inset 0 0 0 1.75px var(--violet);
+  transition: transform 0.35s var(--spring);
+}
+
+.lead:hover .sheet {
+  transform: rotate(-0.6deg) translateY(-6px);
+}
+
+.lead:hover .ring {
+  transform: scale(1.15);
+}
+
+/* a note handed to the machine */
+.note {
+  position: absolute;
+  left: 0;
+  right: -24px;
+  top: 10px;
+  bottom: -30px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 18px 0 0 0;
+  background: var(--card);
+  box-shadow:
+    var(--hl),
+    inset 0 0 0 1px oklch(89% 0.03 290),
+    0 16px 34px -14px oklch(26% 0.09 285 / 0.32);
+  overflow: hidden;
+  transform: rotate(-1.5deg);
+  transform-origin: 20% 100%;
+  transition: transform 0.45s var(--ease-out);
+}
+
+.noteTo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--ink-2);
+  background: var(--machine-field);
+  box-shadow: inset 0 -1px 0 var(--tile-ai-edge);
+}
+
+.noteTo i {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  background: var(--hatch-dense), var(--card);
+  box-shadow: inset 0 0 0 1px oklch(84% 0.03 290);
+}
+
+.noteTask {
+  padding: 18px 22px 8px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
+.noteCaret,
+.you {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--violet);
+}
+
+.noteCaret {
+  margin: 4px 22px;
   padding: 10px 12px;
-  border-radius: 14px 4px 14px 14px;
-  background: var(--violet-soft);
-  box-shadow: inset 0 0 0 1px oklch(86% 0.06 288 / 0.7);
+  border-radius: 12px;
+  box-shadow: inset 0 0 0 1.5px var(--line);
 }
 
-.bubble[data-side='you'] .line {
-  background: oklch(83% 0.07 288);
+.noteCaret b,
+.you b {
+  width: 2px;
+  height: 18px;
+  margin-left: 2px;
+  background: var(--violet);
+  animation: caret 1.1s steps(1) infinite;
 }
 
-.bLines {
+@keyframes caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+.lead:hover .note {
+  transform: rotate(-0.4deg) translate(-8px, -6px);
+}
+
+/* a conversation */
+.talk {
+  position: absolute;
+  inset: 18px 24px 26px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+}
+
+.them {
   display: grid;
-  gap: 7px;
-  width: 150px;
-  padding: 10px 12px;
-  border-radius: 4px 14px 14px 14px;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+}
+
+.them p {
+  padding: 12px 16px;
+  border-radius: 4px 18px 18px 18px;
+  font-size: 15px;
+  line-height: 1.5;
   background: var(--card);
   box-shadow:
     var(--hl),
     inset 0 0 0 1px oklch(90% 0.025 60),
-    0 6px 12px -8px oklch(40% 0.08 50 / 0.35);
+    0 10px 20px -12px oklch(40% 0.08 50 / 0.4);
+  transition: transform 0.4s var(--ease-out);
 }
 
 .initial {
-  flex: none;
-  width: 26px;
-  height: 26px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
-  display: grid;
-  place-items: center;
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--ink);
-  background: linear-gradient(180deg, var(--apricot-hi), var(--apricot));
+  background: linear-gradient(180deg, var(--apricot-hi), var(--apricot) 55%, var(--apricot-low));
   box-shadow:
     inset 0 1px 0 oklch(100% 0 0 / 0.6),
     0 1px 0 var(--apricot-deep);
 }
 
-.typing {
-  display: inline-flex;
-  gap: 4px;
-  padding: 10px 12px;
-  border-radius: 4px 14px 14px 14px;
+.you {
+  align-self: flex-end;
+  padding: 12px 16px;
+  border-radius: 18px 4px 18px 18px;
+  background: var(--violet-soft);
+  box-shadow: inset 0 0 0 1px oklch(86% 0.06 288 / 0.6);
+  transition: transform 0.4s var(--ease-out);
+}
+
+.lead:hover .them p {
+  transform: translateY(-3px);
+}
+
+.lead:hover .you {
+  transform: translateX(-6px);
+}
+
+/* ---------- the other two ---------- */
+
+.alts {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 22px 18px 14px;
+  border-radius: var(--r-panel);
+  background: oklch(94.5% 0.022 290);
+  box-shadow: inset 0 0 0 1px oklch(90% 0.03 290);
+}
+
+.altsTitle {
+  padding: 0 8px 4px;
+  font-size: 17px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  color: var(--ink-2);
+}
+
+.altList {
+  list-style: none;
+  display: grid;
+  gap: 6px;
+}
+
+.alt {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  padding: 14px 10px;
+  border-radius: 18px;
+  transition: background-color var(--t-hover) var(--ease);
+}
+
+.alt:hover {
+  background: oklch(97% 0.012 290);
+}
+
+.altText {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.altName {
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+}
+
+.altWhat {
+  font-size: 14.5px;
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+
+.altTask {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 10px;
+  margin-top: 2px;
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.altMin {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+/* glyphs: a sheet, a note with the machine strip, two bubbles */
+.glyph {
+  position: relative;
+  width: 48px;
+  height: 56px;
+}
+
+.glyph i {
+  position: absolute;
+  display: block;
+}
+
+.glyph[data-type='slip'] i:first-child {
+  inset: 4px 6px 2px 8px;
+  border-radius: 6px;
   background: var(--card);
-  box-shadow: inset 0 0 0 1px oklch(90% 0.025 60);
+  box-shadow:
+    inset 0 0 0 1px oklch(88% 0.03 290),
+    0 4px 8px -4px oklch(26% 0.09 285 / 0.35);
+  transform: rotate(-4deg);
 }
 
-.typing i {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--ink-2);
-  opacity: 0.4;
+.glyph[data-type='slip'] i:last-child {
+  left: 13px;
+  right: 12px;
+  top: 24px;
+  height: 8px;
+  border-radius: 3px;
+  background: var(--marker-found);
+  transform: rotate(-4deg);
 }
 
-.bubble[data-typing] {
-  opacity: 0;
-  transform: translateY(6px);
+.glyph[data-type='delegate'] i:first-child {
+  inset: 6px 4px 4px 4px;
+  border-radius: 6px;
+  background: var(--card);
+  box-shadow:
+    inset 0 0 0 1px oklch(88% 0.03 290),
+    0 4px 8px -4px oklch(26% 0.09 285 / 0.35);
 }
 
-.card:hover .bubble[data-typing] {
-  opacity: 1;
-  transform: none;
+.glyph[data-type='delegate'] i:last-child {
+  left: 4px;
+  right: 4px;
+  top: 6px;
+  height: 14px;
+  border-radius: 6px 6px 0 0;
+  background: var(--hatch-dense), var(--machine-field);
+  box-shadow: inset 0 -1px 0 var(--tile-ai-edge);
 }
 
-.card:hover .typing i {
-  animation: blink 1s var(--ease) infinite;
+.glyph[data-type='edge'] i:first-child {
+  left: 2px;
+  top: 8px;
+  width: 34px;
+  height: 22px;
+  border-radius: 3px 11px 11px 11px;
+  background: var(--card);
+  box-shadow:
+    inset 0 0 0 1px oklch(90% 0.025 60),
+    0 4px 8px -4px oklch(40% 0.08 50 / 0.4);
 }
 
-.typing i:nth-child(2) {
-  animation-delay: 0.15s !important;
-}
-
-.typing i:nth-child(3) {
-  animation-delay: 0.3s !important;
-}
-
-@keyframes blink {
-  50% {
-    opacity: 0.9;
-  }
+.glyph[data-type='edge'] i:last-child {
+  right: 2px;
+  bottom: 8px;
+  width: 30px;
+  height: 18px;
+  border-radius: 11px 3px 11px 11px;
+  background: var(--violet-soft);
+  box-shadow: inset 0 0 0 1px oklch(84% 0.06 288);
 }
 
 /* ---------- narrow ---------- */
 
-@media (max-width: 960px) {
-  .cards {
+@media (max-width: 1180px) {
+  .choice {
     grid-template-columns: minmax(0, 1fr);
-    gap: var(--s-16);
-  }
-  .card {
-    display: grid;
-    grid-template-columns: 148px minmax(0, 1fr);
-  }
-  .art {
-    height: auto;
-    min-height: 100%;
-  }
-  .sheet,
-  .sheetBack {
-    width: 120px;
-    height: 130px;
-    top: 22px;
-    padding: 16px 12px;
-    gap: 8px;
-  }
-  .sheetBack {
-    display: none;
-  }
-  .margin {
-    top: 58px;
-  }
-  .machine {
-    right: 10px;
-    top: 20px;
-    width: 96px;
-    height: 120px;
-    padding: 14px 10px;
-  }
-  .slip {
-    left: 10px;
-    top: 44px;
-    width: 92px;
-    padding: 10px;
-  }
-  .card:hover .slip {
-    transform: translate(18px, -4px) rotate(-1deg);
-  }
-  .art[data-type='edge'] {
-    padding: 14px 10px;
-  }
-  .bLines {
-    width: 84px;
-  }
-  .bubble[data-side='you'] {
-    width: 74%;
-  }
-  .body {
-    padding: 18px 18px 18px;
-  }
-  .name {
-    font-size: 22px;
-  }
-  .what {
-    font-size: 15.5px;
   }
 }
 
-@media (max-width: 480px) {
-  .card {
+@media (max-width: 720px) {
+  .lead {
     grid-template-columns: minmax(0, 1fr);
-  }
-  .art {
-    height: 118px;
     min-height: 0;
+    padding: 24px 20px 22px;
+    border-radius: 24px;
   }
-  .sheet,
-  .sheetBack {
-    width: 150px;
-    height: 120px;
-    top: 18px;
+  .leadText {
+    padding-bottom: 0;
+    gap: 10px;
   }
-  .machine {
-    right: 24px;
-    width: 130px;
-    top: 14px;
+  .leadName {
+    font-size: 32px;
   }
-  .slip {
-    left: 24px;
-    top: 30px;
-    width: 120px;
+  .leadWhat {
+    font-size: 16.5px;
   }
-  .card:hover .slip {
-    transform: translate(34px, -4px) rotate(-1deg);
+  .taskName {
+    font-size: 18px;
   }
-  .art[data-type='edge'] {
-    padding: 10px 24px;
+  .leadFoot {
+    width: 100%;
+    padding-top: 8px;
   }
-  .bubble[data-typing] {
+  .leadFoot > :first-child {
+    flex: 1 1 auto;
+  }
+  .obj {
     display: none;
   }
-}
-
-@media (hover: none) {
-  .card:hover {
-    transform: none;
+  .alts {
+    padding: 16px 10px 8px;
+    border-radius: 24px;
+  }
+  .alt {
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+    gap: 10px;
+    padding: 10px 6px;
+  }
+  .altWhat {
+    display: none;
+  }
+  .glyph {
+    width: 40px;
+    height: 46px;
+  }
+  .altName {
+    font-size: 17px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .card,
   .sheet,
-  .marker,
-  .slip,
-  .machine .line[data-grow],
-  .bubble {
+  .note,
+  .them p,
+  .you {
     transition: none;
+  }
+  .noteCaret b,
+  .you b {
+    animation: none;
   }
 }

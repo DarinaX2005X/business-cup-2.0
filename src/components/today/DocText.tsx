@@ -1,14 +1,14 @@
 'use client';
 
 import { useMemo, type ReactNode } from 'react';
-import { parseDoc, type DocBlock, type TextPart } from '@/components/kit/repDoc';
+import { cleanMarks, parseDoc, type DocBlock, type TextPart } from '@/components/kit/repDoc';
 import st from './doc.module.css';
 
 /** A marked stretch of the source text: a caught or missed trap, or a quote the grader found in your words. */
 export interface Spot {
   start: number;
   end: number;
-  kind: 'caught' | 'missed' | 'quote';
+  kind: 'caught' | 'missed' | 'byAi' | 'quote';
   /** Small number after the stretch, matching a list beside the document. */
   n?: number;
 }
@@ -39,23 +39,23 @@ export function DocText({ src, spots = [], className, plain = false }: { src: st
   const part = (p: TextPart): ReactNode => {
     const end = p.start + p.text.length;
     const inside = sorted.filter((s) => s.start < end && s.end > p.start);
-    if (!inside.length) return p.text;
+    if (!inside.length) return cleanMarks(p.text);
     const out: ReactNode[] = [];
     let at = p.start;
     for (const s of inside) {
       const a = Math.max(s.start, p.start);
       const b = Math.min(s.end, end);
       if (a < at) continue;
-      if (a > at) out.push(src.slice(at, a));
+      if (a > at) out.push(cleanMarks(src.slice(at, a)));
       out.push(
         <mark key={a} className={st.mark} data-kind={s.kind}>
-          {src.slice(a, b)}
+          {cleanMarks(src.slice(a, b))}
         </mark>,
       );
       if (s.n && b === s.end) out.push(<sup key={`n${a}`} className={st.n} aria-hidden="true">{s.n}</sup>);
       at = b;
     }
-    if (at < end) out.push(src.slice(at, end));
+    if (at < end) out.push(cleanMarks(src.slice(at, end)));
     return out;
   };
 

@@ -9,13 +9,13 @@
   "repError": "This rep didn't open",
   "hub": {
     "title": "Pick today's rep",
-    "lead": "Each one is built from a task in your own week and takes about ten minutes. One a day counts toward your streak.",
+    "lead": "Each one is built from a task in your own week. One a day counts toward your streak.",
     "waiting": "Today's rep is waiting for you"
   },
   "choice": {
     "slip": {
       "name": "Spot the slip",
-      "what": "Find the mistakes an AI made in a work document from your week."
+      "what": "Find the mistakes an AI made in a work document."
     },
     "delegate": {
       "name": "Delegate",
@@ -28,16 +28,20 @@
     "fromWeek": "From your week:",
     "minutes": "About {minutes} min",
     "start": "Start",
-    "starting": "Starting"
+    "starting": "Starting",
+    "others": "Or pick another",
+    "drafted": "Drafted by AI",
+    "yourWords": "Your instructions",
+    "yourReply": "Your reply"
   },
   "generating": {
-    "slip": "Writing today's document for {occupation}",
-    "delegate": "Writing today's case for {occupation}",
-    "edge": "Setting up today's conversation for {occupation}",
-    "any": "Writing today's rep for {occupation}",
+    "slip": "Writing today's document from your week",
+    "delegate": "Writing today's case from your week",
+    "edge": "Setting up today's conversation",
+    "any": "Writing today's rep from your week",
     "title": "Today's rep",
     "hint": "This usually takes under a minute. The document opens here by itself.",
-    "you": "you"
+    "job": "Your job: {job}"
   },
   "noMap": {
     "title": "Map your week first",
@@ -67,10 +71,8 @@
     "work_log_limit": "You can log up to three entries a day. Log the rest tomorrow."
   },
   "slip": {
-    "someone": "specialist",
-    "docFallback": "document",
-    "ask_one": "An AI drafted this {doc}. Find the {count} mistake a careful {occupation} would catch.",
-    "ask_other": "An AI drafted this {doc}. Find the {count} mistakes a careful {occupation} would catch.",
+    "ask_one": "An AI drafted the document below. Find the {count} mistake a careful specialist would catch.",
+    "ask_other": "An AI drafted the document below. Find the {count} mistakes a careful specialist would catch.",
     "toFind_one": "{count} mistake to find",
     "toFind_other": "{count} mistakes to find",
     "panel": "Your answer",
@@ -83,7 +85,7 @@
     "check": "Check my answer",
     "checking": "Checking",
     "needOne": "Highlight at least one place first",
-    "over": "You've highlighted most of the document. With more than 60% highlighted the rep scores zero, so keep only the places you would change.",
+    "over": "You've marked a big part of the document. If more than a third is marked, the rep scores zero. Keep only the places you would change.",
     "keepEditing": "Keep editing",
     "checkAnyway": "Check anyway",
     "barCount": "{marked} marked, {total} to find",
@@ -92,7 +94,7 @@
     "noneCaught": "These slipped past this time. Read the note beside each one: next time you'll know where this kind of mistake hides.",
     "someMissed_one": "{count} mistake slipped past. The note beside it shows what gave it away.",
     "someMissed_other": "{count} mistakes slipped past. The notes beside them show what gave each one away.",
-    "overSelected": "Most of the document was highlighted, so this rep scores zero. Next time, mark only the places you would change.",
+    "overSelected": "Too much of the document was marked, so this rep scores zero. Next time, mark only the places you would change.",
     "falseFree": "One highlight wasn't on our list. The first one is free.",
     "falseMore_one": "{count} highlight wasn't on our list. The first is free, and each one after it takes 15% off the score.",
     "falseMore_other": "{count} highlights weren't on our list. The first is free, and each one after it takes 15% off the score.",
@@ -102,7 +104,9 @@
       "free": "Not on our list",
       "freeBody": "This isn't one of the planted mistakes. The first stray highlight costs nothing.",
       "false": "Not a mistake",
-      "falseBody": "This part is fine as written. Each extra highlight after the first takes 15% off the score."
+      "falseBody": "This part is fine as written. Each extra highlight after the first takes 15% off the score.",
+      "tooBroad": "Narrow it down to the wrong part",
+      "tooBroadBody": "This highlight covers much more than the mistake. Mark only the words that are wrong."
     },
     "type": {
       "fact": "a wrong fact",
@@ -122,7 +126,11 @@
     },
     "fixesTitle": "How it should read",
     "fixFrom": "As drafted",
-    "fixTo": "Better"
+    "fixTo": "Better",
+    "tooBroadLine_one": "{count} highlight was too long to count. Narrow it down to the wrong part.",
+    "tooBroadLine_other": "{count} highlights were too long to count. Narrow each one down to the wrong part.",
+    "barMarked_one": "{count} marked",
+    "barMarked_other": "{count} marked"
   },
   "result": {
     "score": "Irreplaceability score",
@@ -131,15 +139,16 @@
     "streakStart": "Your streak starts with today.",
     "extraNoStreak": "Practice reps add to your proof and your score, not to your streak.",
     "proof": "Added to your proof",
-    "proofSlip": "{found} of {total} mistakes caught in a {doc}",
+    "proofSlip": "{found} of {total} mistakes caught",
     "proofDelegate": "{met} of {criteria} points covered, {traps} of {trapsTotal} traps caught",
-    "proofEdge": "{met} of {criteria} moves landed in a conversation about {task}",
+    "proofEdge": "{met} of {criteria} moves landed",
     "points_one": "+{count} point",
     "points_other": "+{count} points",
     "trialDone": "That was your free rep",
     "trialBody": "Pro gives you a rep like this every day, built from your own week, plus Delegate and Human edge.",
     "practiseMore": "Practise more",
-    "usedAtWork": "I used this at work"
+    "usedAtWork": "I used this at work",
+    "exact": "{before} → {after}"
   },
   "workLog": {
     "task": "Which task?",
@@ -148,7 +157,7 @@
     "hours": "{h} h",
     "save": "Log it",
     "saving": "Logging",
-    "done": "Logged {minutes} min on {task}. It goes into your proof for your next review."
+    "done": "Logged, {minutes} min. It goes into your proof for your next review."
   },
   "done": {
     "title": "Today's rep is done",
@@ -172,10 +181,11 @@
     "start": "Start my free rep",
     "continue": "Continue my free rep",
     "usedTitle": "Your free rep is done",
-    "lockedTitle": "Tomorrow: {type} on {task}",
+    "lockedTitle": "Tomorrow's rep: {type}",
     "lockedTitleGeneric": "Tomorrow's rep",
     "lockedReason": "Pro builds a rep like this from your week every day, adds Delegate and Human edge, and keeps everything you do in your proof.",
-    "trialCta": "Start your 7-day free trial"
+    "trialCta": "Start your 7-day free trial",
+    "lockedTask": "Task from your week: {task}."
   },
   "delegate": {
     "ask": "Write the instructions an AI needs to do this well, then check what it hands back.",
@@ -192,8 +202,6 @@
     "run": "Run my instructions",
     "runAgain": "Run again",
     "running": "The AI is following your instructions",
-    "peek_one": "What strong instructions cover ({count})",
-    "peek_other": "What strong instructions cover ({count})",
     "step1": "Your instructions",
     "step2": "What the AI wrote",
     "step3": "How your instructions did",
@@ -219,9 +227,10 @@
     "trapMissed": "Slipped past",
     "yourFix": "Your fix:",
     "missingLine": "The line your instructions needed",
-    "strongTitle": "What strong instructions look like",
+    "strongTitle": "What a strong instruction looks like",
     "strongGoal": "The goal: {goal}",
-    "strongCover": "Cover each of these:"
+    "covers": "What it covers",
+    "trapByAi": "The AI caught it on its own this time"
   },
   "edge": {
     "ask": "Talk it through. You have up to {max} replies and can ask for feedback after {after}.",
@@ -250,7 +259,8 @@
     "missed": "Missing",
     "tally": "{met} of {total} moves landed",
     "flagEnded": "The AI stopped answering partway, so we graded what you said.",
-    "flagKeywords": "Our grader was busy, so these marks come from key words in your replies."
+    "flagKeywords": "Our grader was busy, so these marks come from key words in your replies.",
+    "harmTitle": "This reply could hurt"
   },
   "aiOrMe": {
     "title": "AI or me?",
@@ -272,14 +282,14 @@
     "weekLink": "See these tasks in your week map",
     "tomorrow": "New round tomorrow",
     "fact": {
-      "observed": "People hand this task to AI in {automation}% of conversations about it.",
-      "used": "Seen in real AI use at work.",
-      "seen": "Seen in AI usage data, but rarely.",
-      "estimate": "Research rates it {exposure}% exposed to language models.",
-      "hands_on": "Hands-on work: it barely shows up in AI usage.",
-      "people": "Work with people: it barely shows up in AI usage.",
-      "human": "Judgment and people: it barely shows up in AI usage.",
-      "no_data": "No data yet on this task."
+      "observed": "When people ask AI about this task, AI does it for them {automation}% of the time.",
+      "used": "People already use AI for this at work.",
+      "seen": "A few people already use AI for this.",
+      "estimate": "Studies say AI can speed this task up.",
+      "hands_on": "Hands-on work. AI rarely helps with it.",
+      "people": "Work with people. AI rarely helps with it.",
+      "human": "It takes judgment and people skills. AI rarely helps with it.",
+      "no_data": "We have no data on this task yet."
     }
   }
 }

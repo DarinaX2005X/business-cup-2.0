@@ -1,0 +1,106 @@
+{
+  "chrome": {
+    "home": "Irreplaceable home",
+    "nav": "Public pages",
+    "method": "How we measure",
+    "jobs": "Jobs",
+    "start": "Map my week"
+  },
+  "footer": {
+    "title": "Data sources",
+    "note": "Your job, task by task: what AI already does, what stays yours, and daily practice built from your own work.",
+    "method": "Full attributions and formulas"
+  },
+  "page": {
+    "h1": "What AI already does in {who} week",
+    "h1Plain": "What AI already does in a week of {title}",
+    "metaTitle": "What AI already does in {who} week · Irreplaceable",
+    "metaTitlePlain": "What AI does in a week of {title} · Irreplaceable",
+    "metaDescription": "{ai}% of a typical week of {title} is work AI already does or speeds up. See every task, the evidence behind it and which parts stay human.",
+    "observed": "{share}% of this week is backed by observed AI usage data",
+    "observedNone": "None of this week is observed in AI usage data yet, so every category here is a research estimate",
+    "facts": "This job in the US",
+    "employment": "People employed",
+    "median": "Median pay",
+    "medianShared": "Shared with {n, integer} related occupations",
+    "medianNote_aggregate": "From the broader BLS group",
+    "medianNote_hourly_x2080": "Hourly median × 2,080 hours",
+    "medianNote_top_coded": "BLS publishes it as above its top code",
+    "noWage": "Not published",
+    "humanShare": "Human edge in a typical week",
+    "factsSource": "BLS OEWS May 2025, O*NET {onet}",
+    "cta": "Map your own week",
+    "ctaNote": "Free. Your tasks and hours, about two minutes.",
+    "weekCaption": "A typical week of 40 hours, built from how important and how frequent O*NET rates each task. Yours will differ.",
+    "weekLabel": "Typical week of {title}, by task",
+    "summaryAi": "In a typical week, AI already does or speeds up {ai}% of the work.",
+    "summaryHuman_one": "{human} stays with people.",
+    "summaryHuman_other": "{human} stay with people.",
+    "and": "{a} and {b}"
+  },
+  "tasks": {
+    "title": "Task by task",
+    "intro": "The {n, integer} tasks that fill a typical week, largest first. Open a task to see the evidence and the arithmetic behind its category.",
+    "why": "Why this category",
+    "rating": "Research rating {label}",
+    "ratingSource_human": "rated by researchers in 2023",
+    "ratingSource_gpt4": "rated by GPT-4 in 2023",
+    "ratingSource_estimated": "estimated from similar work activities",
+    "noRating": "No research rating",
+    "physical": "Physical task",
+    "exposure": "Exposure {tw} × {theory} + {ow} × {observed} = {value}",
+    "penetration": "Anthropic task penetration {value}",
+    "methodLink": "How categories work",
+    "more": "{n, integer} more tasks O*NET lists for this job",
+    "moreNote": "Rarer or less important, so the typical week leaves them out. Your own week can include them.",
+    "perWeek": "{h} h a week"
+  },
+  "explain": {
+    "observed_auto": "Seen in real AI use: {auto} of the conversations about this task in {source} hand the whole task to AI.",
+    "observed_collab": "Seen in real AI use: in {collab} of the conversations about this task in {source}, people work on it together with AI.",
+    "personal_use": "Published in AI usage data, but only {work} of that use is work, so it does not count as observed work use. The research rating was {label}.",
+    "estimate_e1": "Not seen in published AI work use yet. Researchers rated it E1: a language model alone can halve the time.",
+    "estimate_e2": "Not seen in published AI work use yet. Researchers rated it E2: AI can halve the time with extra tools built around it.",
+    "estimate_e0": "Not seen in published AI work use yet. Researchers rated it E0: a language model barely helps.",
+    "estimate_dwa": "No direct rating, so we use the average of tasks with the same detailed work activity ({theory}).",
+    "physical": "A physical task that people do not bring to AI. It stays with people whatever the rating.",
+    "no_data": "No research rating and no observed use yet.",
+    "src_claude_ai": "Claude conversations",
+    "src_1p_api": "API traffic"
+  },
+  "skills": {
+    "title": "Skills that keep this job human",
+    "intro": "The skills O*NET rates most important for this job. They carry the tasks that stay with people.",
+    "importance": "{value} of 5",
+    "knowledge": "Knowledge it draws on"
+  },
+  "related": {
+    "title": "Related jobs",
+    "intro": "Jobs that use the most similar skills. Your week map shows how each one compares with yours.",
+    "similarity": "{value}% similar skills"
+  },
+  "closing": {
+    "title": "Your week is not the typical week",
+    "body": "Type your job title or upload a résumé, move the hours until they match your work, and see which of your tasks AI already does and which are yours.",
+    "button": "Map your own week",
+    "method": "Read how we measure"
+  },
+  "index": {
+    "metaTitle": "What AI already does in {count, integer} jobs · Irreplaceable",
+    "metaDescription": "Task by task, for {count, integer} US occupations: what AI already does, what it speeds up and what stays human, with the evidence behind each task.",
+    "title": "Jobs, task by task",
+    "intro": "Every occupation O*NET describes with tasks, {count, integer} in all. Each page shows a typical week, what AI already does in it and what stays human.",
+    "filter": "Find a job",
+    "placeholder": "e.g. nurse, electrician, accountant",
+    "showing_one": "{count, integer} job",
+    "showing_other": "{count, integer} jobs",
+    "empty": "No job title matches “{q}”. Try a shorter word, or map your week and search by any title you use.",
+    "humanShare": "Human edge {value}%",
+    "letters": "Jump to letter"
+  },
+  "notFound": {
+    "title": "We don't have a page for this job",
+    "body": "The address may be mistyped, or the occupation has no task list in O*NET. Find it in the list or map your week by any job title.",
+    "list": "See all jobs"
+  }
+}

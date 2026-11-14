@@ -1,0 +1,170 @@
+{
+  "meta": {
+    "title": "How we measure · Irreplaceable",
+    "description": "How Irreplaceable turns O*NET tasks, the Anthropic Economic Index, GPTs are GPTs research ratings and BLS wages into a week map: formulas, thresholds, coverage and sources."
+  },
+  "chrome": {
+    "home": "Irreplaceable home",
+    "nav": "Public pages",
+    "method": "How we measure",
+    "jobs": "Jobs",
+    "start": "Map my week"
+  },
+  "footer": {
+    "title": "Data sources",
+    "note": "Your job, task by task: what AI already does, what stays yours, and daily practice built from your own work.",
+    "method": "Full attributions"
+  },
+  "title": "How we measure",
+  "lead": "We look at a job one task at a time. For each task we combine what researchers expected AI to manage with what people actually use AI for at work, and every number on a week map can be traced back to the sources on this page.",
+  "toc": "On this page",
+  "updated": "Data build: O*NET {onet}, Anthropic Economic Index {aei}, BLS {bls}",
+  "hero": {
+    "caption": "Two real tasks on the exposure scale. The pin shows where each one lands and why.",
+    "scale": "Exposure of a task, 0 to 1",
+    "zoneHuman": "Your human edge",
+    "zoneSpeeds": "AI speeds it up",
+    "zoneDoes": "AI already does it, if observed and mostly automated"
+  },
+  "sections": {
+    "what": "What we measure",
+    "sources": "Where the data comes from",
+    "evidence": "Observed or estimate",
+    "category": "How a task gets its category",
+    "week": "Your week",
+    "score": "The score",
+    "validation": "Validation",
+    "limits": "What this is not",
+    "coverage": "Coverage",
+    "privacy": "Privacy"
+  },
+  "what": {
+    "p1": "A job title says little about what AI changes. The O*NET database lists {count, integer} tasks for registered nurses, from charting to giving medication, and AI touches them very differently. So we measure tasks, not occupations.",
+    "p2": "O*NET {version} describes {occupations, integer} occupations. {withTasks, integer} of them have task lists, {tasks, integer} tasks in total. Each task gets an exposure number between 0 and 1 and one of three categories, and a week map adds the tasks of your week up by the hours you spend on them."
+  },
+  "sources": {
+    "intro": "Five public datasets, joined on the O*NET task ID. The version of each one is fixed in the build, and the page shows the build it was made from.",
+    "use": "What we take",
+    "cover": "Coverage",
+    "onet": "Occupations, their tasks, how important and how frequent each task is, job titles, skills and related occupations.",
+    "onetCover": "{rated} of tasks have importance ratings. Where O*NET publishes none, every task of the occupation gets the same weight.",
+    "aei": "What people ask Claude to do, mapped to O*NET tasks: the share of conversations about each task, how many of them hand the whole task to AI (automation) and how many work on it together (augmentation), and whether the conversation was about work. The release covers April and May 2026.",
+    "aeiCover": "{published} of tasks appear in this release. A task counts as observed only when at least {gate} of its conversations are work use, which leaves {gated} of tasks. Anthropic's own task_penetration measure is available for {pen} of tasks and is shown next to ours.",
+    "gpts": "In 2023 researchers and GPT-4 rated every O*NET task. E0 means a language model barely helps, E1 means it can halve the time on its own, E2 means it can do so with extra software built around it. We use the human rating where there is one and the GPT-4 rating otherwise.",
+    "gptsCover": "{labelled} of tasks have a rating. The other {estimated} get the average rating of tasks that share the same detailed work activity and are marked as estimated.",
+    "ms": "Microsoft's study of Bing Copilot conversations marks which tasks are physical. A physical task that nobody brings to AI stays a human task, whatever its rating.",
+    "msCover": "The physical flag is known for {physical} of tasks.",
+    "bls": "National employment and median annual pay by occupation. Pay is shown as the US median in US dollars.",
+    "blsCover": "{wage} of occupations have a wage. {shared} share their wage row with a sibling occupation, and the page says so when that happens.",
+    "attribution": "Attributions",
+    "attributionNote": "Quoted from the data build, as each licence asks."
+  },
+  "evidence": {
+    "intro": "Every task carries one of two badges, so you always know whether a number comes from real use or from a forecast.",
+    "observed": "The task appears in the Anthropic Economic Index, mostly as work use. People already bring it to AI.",
+    "estimate": "Only the 2023 research rating speaks about this task. It describes what AI could do, not what people are doing with it.",
+    "count": "{count, integer} tasks, {share}",
+    "missing": "A task missing from the index does not mean nobody uses AI for it. The index publishes a task only above a privacy threshold, so a missing task means we have no observation, and we never read that as zero exposure. Counting every release since August 2025, {ever} of tasks have been seen at least once.",
+    "split": "How all {tasks, integer} tasks split by category",
+    "splitAlt": "{does, integer} tasks AI already does, {speeds, integer} tasks AI speeds up, {human, integer} tasks that stay human"
+  },
+  "category": {
+    "intro": "Exposure has two halves of equal weight: the research rating and observed use.",
+    "theory": "theory = 1 for E1, 0.5 for E2, 0 for E0",
+    "observed": "observed = 0.5 + 0.5 × automation share, if the task is observed; otherwise 0",
+    "exposure": "exposure = {tw} × theory + {ow} × observed",
+    "rules": "Then one rule decides the category:",
+    "ruleDoes": "observed, automation share at least {auto} and exposure at least {does}",
+    "ruleHuman": "exposure below {speeds}, or a physical task nobody brings to AI",
+    "ruleSpeeds": "every other task with exposure of {speeds} or more",
+    "ruleNone": "no research rating and no observation; none of the current tasks falls here",
+    "choice": "The equal weights and the {gate} work-use gate are our own choices, not published values. They live as constants in the code, and this page reads them from the same build.",
+    "examples": "Two real tasks",
+    "rating": "Research rating {label}",
+    "theoryLine": "theory {value}",
+    "observedLine": "Observed in {source}: {auto} of conversations hand the task to AI",
+    "notObserved": "Not observed in work use",
+    "observedValue": "observed {value}",
+    "exposureLine": "exposure",
+    "src_claude_ai": "Claude conversations",
+    "src_1p_api": "API traffic",
+    "why_does": "Observed, mostly automated and above {does}, so AI already does it.",
+    "why_speeds_close": "Mostly automated in practice, but the 2023 rating was only {label}, so exposure stays below {does} and the task counts as AI speeds it up.",
+    "why_speeds": "Exposure between {speeds} and {does}, so AI speeds it up.",
+    "why_human": "Exposure below {speeds}, so it stays your human edge.",
+    "why_physical": "A physical task nobody brings to AI, so it stays your human edge."
+  },
+  "week": {
+    "p1": "A week map starts from 40 hours. If you upload a résumé or describe your work, a language model matches your duties to the tasks of your occupation and estimates how much of the week each one takes. You can then move every slider yourself.",
+    "p2": "Without a résumé we use a typical week. Each task is weighted by its O*NET importance times ln(1 + frequency), the {n, integer} heaviest tasks are kept, and their weights are rounded to whole percent that add up to 100.",
+    "formula": "weight = importance × ln(1 + frequency)",
+    "example": "The four heaviest tasks of a typical registered nurse",
+    "colTask": "Task",
+    "colImportance": "Importance",
+    "colFrequency": "Frequency",
+    "colWeight": "Weight",
+    "colShare": "Share of week",
+    "hours": "{h} h"
+  },
+  "score": {
+    "intro": "The irreplaceability score summarises a week in one number from 0 to 100. It starts from the part of the week AI does not reach yet and grows with verified practice.",
+    "f1": "week exposure = Σ share × exposure ÷ 100",
+    "f2": "base score = round(100 × (1 − week exposure))",
+    "f3": "F = (1 − e^(−n ÷ {scale})) × average rep score",
+    "f4": "score = base + (100 − base) × {gain} × F",
+    "explainF": "n is the number of completed practice reps and the average rep score runs from 0 to 1. Practice can close at most {gain} of the gap to 100, and the first reps count most.",
+    "example": "A typical registered nurse",
+    "exWeek": "Week exposure {value}",
+    "exBase": "Base score {value}",
+    "exPractice": "After {n, integer} reps with an average score of {avg}: F = {F}, score {score}",
+    "pay": "Pay at stake is annual pay times the share of the week spent on tasks with exposure of {high} or more. For the typical nurse week that is {currency} of {annual}, using the US median for the job. It is the part of pay tied to exposed tasks, not money anyone will lose.",
+    "notProbability": "The score is not a probability of anything. It reads as the share of your week that AI does not do well yet, plus credit for practice you have actually done."
+  },
+  "validation": {
+    "intro": "We compared our indicator, averaged to whole occupations, with two published measures. The figure is a rank correlation (Spearman) across the occupations both cover.",
+    "row": "{rho} across {n, integer} occupations",
+    "anthropic": "Anthropic, observed exposure from the labor market impacts study",
+    "microsoft": "Microsoft, AI applicability score from Working with AI",
+    "outro": "The match is close enough to show we measure the same thing and far enough from 1 to matter: our measure keeps the 2023 research rating next to observed use and works task by task, while both published measures describe whole occupations.",
+    "source": "Measured in our data probe on the same sources."
+  },
+  "limits": {
+    "layoffs": "It is not a forecast of layoffs. Exposure says how much of a task AI already does or helps with, not whether a job disappears. The Microsoft authors warn against reading their numbers that way, and so do we.",
+    "dated": "Research ratings date from 2023. Language models have changed since, so every task that has only a rating is marked as a research estimate.",
+    "oneVendor": "Observed use comes from one company's AI products. People who use other assistants are not in this data.",
+    "pay": "Pay figures are US medians. Pay at stake is the share of pay tied to exposed tasks, not a loss."
+  },
+  "coverage": {
+    "intro": "Read from the data build that serves this page.",
+    "colMeasure": "Measure",
+    "colValue": "Value",
+    "occupations": "Occupations with task lists",
+    "occupationsValue": "{n, integer} of {total, integer}",
+    "tasks": "Tasks",
+    "importance": "Tasks with O*NET importance ratings",
+    "gpts": "Tasks with a research rating",
+    "dwa": "Ratings estimated from similar activities",
+    "aei": "Tasks published in the Anthropic Economic Index {aei}",
+    "gated": "Tasks observed as work use",
+    "ever": "Tasks seen in any release since August 2025",
+    "penetration": "Tasks with Anthropic task_penetration",
+    "physical": "Tasks with the Microsoft physical flag",
+    "wage": "Occupations with a BLS wage",
+    "wageDetail": "{detailed, integer} matched directly, {aggregate, integer} through an aggregate code, {manual, integer} by hand, {unmatched, integer} without a wage",
+    "shared": "Occupations sharing a wage row with another",
+    "related": "Occupations with related occupations",
+    "titles": "Job titles in search",
+    "titlesValue": "{titles, integer} plus {aliases, integer} hand-written aliases"
+  },
+  "privacy": {
+    "p1": "When you upload a résumé, the file is read in your browser. Only its text leaves your device, and only to turn it into a list of duties.",
+    "p2": "That text is sent to a language model through OpenRouter, which returns the duties and your likely occupation. We do not store the résumé or its text. The model's answer is cached under a fingerprint of the text, so the same résumé is not processed twice.",
+    "p3": "Your week map keeps the occupation, the tasks and the hours you confirmed. Delete your profile and they are gone."
+  },
+  "cta": {
+    "title": "See these numbers for your own week",
+    "body": "Type your job title or upload a résumé. The map takes about two minutes and every number on it links back here.",
+    "button": "Map my week",
+    "jobs": "Browse job pages"
+  }
+}

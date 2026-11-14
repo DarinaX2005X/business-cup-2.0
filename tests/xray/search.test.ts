@@ -1,6 +1,6 @@
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { hasCyrillic } from '@/domain/text';
-import { searchTitles } from '@/server/xray/search';
+import { coversQuery, searchTitles } from '@/server/xray/search';
 import { getSearchIndex } from '@/server/xray/data';
 import { useTempStore } from '../platform/helpers';
 
@@ -107,11 +107,24 @@ describe('GET /api/occupations/search service', () => {
     expect(res.hint).toBeNull();
   });
 
-  it('budget exhausted during translation → empty result with the try_english hint', async () => {
+  it('budget exhausted during translation → the try_english hint (empty when the index found nothing)', async () => {
     vi.stubEnv('AI_BUDGET_USD', '0');
-    const res = await searchTitles('машинист башенного крана', 'ru');
+    const res = await searchTitles('крановщица портового крана', 'ru');
     expect(fetchMock).not.toHaveBeenCalled();
-    expect(res).toMatchObject({ results: [], hint: 'try_english' });
+    expect(res.hint).toBe('try_english');
+    const none = await searchTitles('ывапролджэ', 'ru');
+    expect(none).toMatchObject({ results: [], hint: 'try_english' });
+  });
+
+  it('a Cyrillic typo match does not count as found: "крановщик" is not "кладовщик"', async () => {
+    expect(coversQuery('крановщик', 'кладовщик')).toBe(false);
+    expect(coversQuery('медсестра', 'Медсестра')).toBe(true);
+    expect(coversQuery('дизайнер интерьера', 'Дизайнер интерьеров')).toBe(true);
+    expect(coversQuery('дизайнер интерьера', 'дизайнер')).toBe(false);
+    expect(coversQuery('дизайнер инт', 'дизайнер')).toBe(true); // still typing
+    fetchMock.mockResolvedValueOnce(modelAnswer({ isJobTitle: true, english: 'Crane Operator' }));
+    const res = await searchTitles('крановщик', 'ru');
+    expect(res.results[0].code).toBe('53-7021.00');
   });
 
   it('answers in under 50 ms on a warm index', async () => {

@@ -1,0 +1,914 @@
+/* How we measure: a reading page with one working object on top (the exposure scale with real tasks). */
+
+.page {
+  --gutter: 24px;
+}
+
+/* ---------- intro and the exposure scale ---------- */
+
+.intro {
+  max-width: var(--content);
+  margin: 0 auto;
+  padding: 72px var(--gutter) 0;
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 48px 56px;
+  align-items: end;
+}
+
+.introText {
+  display: grid;
+  gap: 24px;
+  padding-bottom: 8px;
+}
+
+.h1 {
+  font-size: clamp(48px, 6.6vw, 96px);
+  font-weight: 760;
+  letter-spacing: var(--track-hero);
+  line-height: 0.98;
+}
+
+.lead {
+  font-size: var(--fs-20);
+  line-height: 1.5;
+  max-width: 40ch;
+}
+
+.build {
+  font-size: var(--fs-15);
+  color: var(--ink-2);
+}
+
+.heroSheet {
+  position: relative;
+  background: var(--card);
+  border-radius: var(--r-panel);
+  padding: 36px 36px 28px;
+  box-shadow:
+    var(--hl),
+    0 0 0 1px oklch(88.5% 0.03 290 / 0.6),
+    var(--shadow-raised);
+}
+
+.heroCaption {
+  margin-top: 20px;
+  font-size: var(--fs-15);
+  color: var(--ink-2);
+  max-width: 62ch;
+}
+
+.ruler {
+  --pin-row: 64px;
+  position: relative;
+}
+
+.rulerPins {
+  position: relative;
+  height: calc(var(--pin-row) * 2 + 8px);
+}
+
+.pin {
+  position: absolute;
+  left: calc(var(--x) * 100%);
+  bottom: 0;
+  height: 100%;
+  width: 0;
+}
+
+.pin[data-side='b'] {
+  height: calc(100% - var(--pin-row));
+}
+
+.pinCard {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateX(calc(var(--x) * -100%));
+  display: grid;
+  gap: 2px;
+  width: max-content;
+  max-width: 300px;
+  padding: 8px 12px;
+  border-radius: var(--r-chip);
+  background: var(--paper);
+  box-shadow:
+    inset 0 0 0 1px var(--line),
+    var(--shadow-rest);
+  font-size: var(--fs-15);
+  line-height: 1.3;
+  transition:
+    transform var(--t-hover) var(--ease),
+    box-shadow var(--t-hover) var(--ease);
+}
+
+.pinCard b {
+  font-weight: 650;
+}
+
+.pinCard span {
+  color: var(--ink-2);
+  font-size: var(--fs-13);
+}
+
+.pin:hover .pinCard {
+  transform: translateX(calc(var(--x) * -100%)) translateY(-2px);
+  box-shadow:
+    inset 0 0 0 1px var(--violet-tint),
+    var(--shadow-raised);
+}
+
+.pinStem {
+  position: absolute;
+  left: -1px;
+  top: 50px;
+  bottom: -14px;
+  width: 2px;
+  background: var(--ink);
+  border-radius: 2px;
+}
+
+.pinStem::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  translate: -50% 0;
+  background: var(--card);
+  box-shadow: 0 0 0 2.5px var(--ink);
+}
+
+.pin[data-cat='ai_does'] .pinStem::after {
+  background: var(--ink);
+}
+
+.pin[data-cat='human_edge'] .pinStem::after {
+  background: var(--apricot);
+}
+
+.rulerBar {
+  position: relative;
+  display: flex;
+  height: 64px;
+  border-radius: var(--r-ctl);
+  overflow: hidden;
+  box-shadow:
+    inset 0 0 0 1px oklch(85% 0.035 288 / 0.7),
+    var(--shadow-rest);
+}
+
+.rulerBar > span {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  padding: 8px;
+  min-width: 0;
+}
+
+.rulerBar em {
+  font-style: normal;
+  font-size: var(--fs-13);
+  font-weight: 600;
+  line-height: 1.25;
+  padding: 3px 7px;
+  border-radius: var(--r-tag);
+  background: oklch(99% 0.008 290 / 0.92);
+  color: var(--ink);
+}
+
+.zHuman {
+  flex: 0 0 calc(var(--sp) * 100%);
+  background: linear-gradient(180deg, var(--apricot-hi), var(--apricot) 55%, var(--apricot-low));
+  box-shadow: inset 0 1px 0 oklch(100% 0 0 / 0.55);
+}
+
+.zSpeeds {
+  flex: 0 0 calc((var(--dz) - var(--sp)) * 100%);
+  background: var(--hatch-sparse), var(--speed-field);
+  border-left: 1px solid oklch(100% 0 0 / 0.7);
+}
+
+.zDoes {
+  flex: 1 1 auto;
+  background: var(--hatch-dense), var(--machine-field);
+  border-left: 1px solid oklch(100% 0 0 / 0.7);
+}
+
+.rulerTicks {
+  position: relative;
+  height: 28px;
+  margin-top: 6px;
+}
+
+.rulerTicks span {
+  position: absolute;
+  left: calc(var(--x) * 100%);
+  transform: translateX(calc(var(--x) * -100%));
+  font-size: var(--fs-13);
+  color: var(--ink-2);
+}
+
+.rulerTicks span[data-key] {
+  color: var(--ink);
+  font-weight: 650;
+}
+
+.rulerScale {
+  font-size: var(--fs-13);
+  color: var(--ink-2);
+  text-align: center;
+}
+
+/* ---------- table of contents and article ---------- */
+
+.layout {
+  max-width: var(--content);
+  margin: 0 auto;
+  padding: 88px var(--gutter) 120px;
+  display: grid;
+  grid-template-columns: 232px minmax(0, 1fr);
+  gap: 72px;
+  align-items: start;
+}
+
+.toc {
+  position: sticky;
+  top: 96px;
+}
+
+.tocTitle {
+  font-size: var(--fs-15);
+  font-weight: 650;
+  color: var(--ink);
+  padding: 0 12px 10px;
+}
+
+.tocList {
+  list-style: none;
+  display: grid;
+  gap: 2px;
+}
+
+.tocList a {
+  display: block;
+  padding: 7px 12px;
+  border-radius: var(--r-chip);
+  color: var(--ink-2);
+  font-size: var(--fs-15);
+  line-height: 1.35;
+  text-decoration: none;
+  transition:
+    background-color var(--t-hover) var(--ease),
+    color var(--t-hover) var(--ease),
+    transform var(--t-hover) var(--ease);
+}
+
+.tocList a:hover {
+  color: var(--ink);
+  background: var(--sunk);
+  transform: translateX(2px);
+}
+
+.tocList a[aria-current] {
+  color: var(--violet);
+  background: var(--violet-soft);
+  font-weight: 600;
+}
+
+.tocNarrow {
+  display: none;
+}
+
+.article {
+  max-width: 760px;
+  display: grid;
+  gap: 96px;
+}
+
+.section {
+  display: grid;
+  gap: 20px;
+  scroll-margin-top: 104px;
+}
+
+.section > h2 {
+  font-size: var(--fs-44);
+  margin-bottom: 8px;
+}
+
+.section p {
+  max-width: 68ch;
+}
+
+.h3 {
+  font-size: var(--fs-20);
+  letter-spacing: -0.015em;
+  margin-top: 16px;
+}
+
+.muted {
+  color: var(--ink-2);
+  font-size: var(--fs-15);
+}
+
+/* sources: rows, not cards */
+
+.sources {
+  list-style: none;
+  display: grid;
+  gap: 28px;
+  margin: 8px 0;
+}
+
+.source {
+  display: grid;
+  gap: 8px;
+}
+
+.sourceHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 14px;
+}
+
+.sourceHead h3 {
+  font-size: var(--fs-20);
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+}
+
+.sourceHead a {
+  color: var(--ink);
+  text-decoration-color: var(--violet-tint);
+  transition: color var(--t-hover) var(--ease);
+}
+
+.sourceHead a:hover {
+  color: var(--violet);
+  text-decoration-color: var(--violet);
+}
+
+.sourceVer {
+  font-size: var(--fs-15);
+  color: var(--ink-2);
+}
+
+.sourceCover {
+  font-size: var(--fs-15);
+  padding: 10px 14px;
+  border-radius: var(--r-ctl);
+  background: var(--violet-soft);
+  color: var(--ink);
+}
+
+.attributions {
+  display: grid;
+  gap: 10px;
+}
+
+.attributions blockquote {
+  margin: 0;
+  padding: 14px 18px;
+  border-radius: var(--r-ctl);
+  background: var(--sunk);
+  font-size: var(--fs-15);
+  line-height: 1.5;
+}
+
+/* evidence badges */
+
+.badges {
+  display: grid;
+  gap: 16px;
+  margin: 4px 0;
+}
+
+.badges > div {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+  padding: 18px 20px;
+  border-radius: var(--r-card);
+  background: var(--card);
+  box-shadow:
+    inset 0 0 0 1px oklch(88.5% 0.03 290 / 0.6),
+    var(--shadow-rest);
+}
+
+.badges dd {
+  margin: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.badges b {
+  font-weight: 650;
+}
+
+/* category split of all tasks */
+
+.split {
+  margin: 12px 0 0;
+  display: grid;
+  gap: 14px;
+}
+
+.split figcaption {
+  font-weight: 650;
+}
+
+.splitBar {
+  display: flex;
+  height: 48px;
+  gap: 3px;
+}
+
+.splitBar span {
+  border-radius: var(--r-chip);
+  min-width: 6px;
+  box-shadow: inset 0 0 0 1px oklch(85% 0.035 288 / 0.6);
+}
+
+.splitBar [data-cat='ai_does'] {
+  background: var(--hatch-dense), var(--machine-field);
+}
+
+.splitBar [data-cat='ai_speeds'] {
+  background: var(--hatch-sparse), var(--speed-field);
+}
+
+.splitBar [data-cat='human_edge'] {
+  background: linear-gradient(180deg, var(--apricot-hi), var(--apricot) 55%, var(--apricot-low));
+  box-shadow: inset 0 1px 0 oklch(100% 0 0 / 0.5);
+}
+
+.splitBar [data-cat='no_data'] {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--machine);
+}
+
+.splitKeys {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+}
+
+.splitKeys li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-grow: 0 !important;
+  font-size: var(--fs-15);
+}
+
+.splitKeys b {
+  font-weight: 650;
+}
+
+/* formulas: domain notation in the reading face, tabular figures */
+
+.formula {
+  display: grid;
+  gap: 8px;
+  padding: 20px 24px;
+  border-radius: var(--r-card);
+  background: var(--sunk);
+  box-shadow: inset 0 1px 2px oklch(26% 0.09 285 / 0.06);
+}
+
+.formula code {
+  font-family: inherit;
+  font-size: var(--fs-17);
+  font-weight: 500;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.formula .formulaMain {
+  font-size: var(--fs-20);
+  font-weight: 700;
+  color: var(--violet);
+}
+
+.rules {
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.rules li {
+  display: grid;
+  grid-template-columns: 236px minmax(0, 1fr);
+  gap: 16px;
+  align-items: baseline;
+}
+
+.rules li > span:first-child {
+  justify-self: start;
+}
+
+/* worked examples */
+
+.examples {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.example {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  padding: 24px;
+  border-radius: var(--r-card);
+  background: var(--card);
+  box-shadow:
+    var(--hl),
+    inset 0 0 0 1px oklch(88.5% 0.03 290 / 0.6),
+    var(--shadow-rest);
+  transition:
+    transform var(--t-hover) var(--ease),
+    box-shadow var(--t-hover) var(--ease);
+}
+
+.example:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    var(--hl),
+    inset 0 0 0 1px var(--violet-tint),
+    var(--shadow-raised);
+}
+
+.exOcc {
+  font-size: var(--fs-15);
+}
+
+.exTask {
+  font-size: var(--fs-17);
+  font-weight: 650;
+  line-height: 1.4;
+  letter-spacing: -0.005em;
+}
+
+.exLines {
+  display: grid;
+  gap: 8px;
+  font-size: var(--fs-15);
+}
+
+.exLines div {
+  display: grid;
+  gap: 2px;
+}
+
+.exLines dt {
+  color: var(--ink-2);
+}
+
+.exLines dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.exEq {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+  padding: 12px 14px;
+  border-radius: var(--r-ctl);
+  background: var(--sunk);
+  font-size: var(--fs-15);
+}
+
+.exEq b {
+  font-size: var(--fs-28);
+  font-weight: 750;
+  letter-spacing: -0.02em;
+  color: var(--violet);
+}
+
+.exVerdict {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.exWhy {
+  font-size: var(--fs-15);
+}
+
+/* tables */
+
+.tableWrap {
+  margin: 8px 0 0;
+  display: grid;
+  gap: 12px;
+}
+
+.tableWrap figcaption {
+  font-weight: 650;
+}
+
+.scrollX {
+  overflow-x: auto;
+  border-radius: var(--r-card);
+  background: var(--card);
+  box-shadow:
+    inset 0 0 0 1px oklch(88.5% 0.03 290 / 0.6),
+    var(--shadow-rest);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-15);
+}
+
+.table th,
+.table td {
+  padding: 12px 18px;
+  text-align: right;
+  vertical-align: baseline;
+}
+
+.table th:first-child {
+  text-align: left;
+  font-weight: 500;
+}
+
+.table thead th {
+  color: var(--ink-2);
+  font-weight: 600;
+  font-size: var(--fs-13);
+  padding-top: 14px;
+  padding-bottom: 10px;
+  white-space: nowrap;
+}
+
+.table tbody tr:nth-child(odd) {
+  background: oklch(96.5% 0.018 290 / 0.7);
+}
+
+.table td {
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.table[data-kind='coverage'] td {
+  white-space: normal;
+}
+
+.cellSub {
+  display: block;
+  color: var(--ink-2);
+  font-weight: 400;
+  font-size: var(--fs-13);
+}
+
+/* score */
+
+.scoreEx {
+  display: grid;
+  gap: 12px;
+  padding: 24px;
+  border-radius: var(--r-card);
+  background: var(--card);
+  box-shadow:
+    inset 0 0 0 1px oklch(88.5% 0.03 290 / 0.6),
+    var(--shadow-rest);
+}
+
+.scoreEx .h3 {
+  margin-top: 0;
+}
+
+.steps {
+  display: grid;
+  gap: 8px;
+  padding-left: 22px;
+}
+
+.steps li::marker {
+  color: var(--violet);
+  font-weight: 700;
+}
+
+/* validation */
+
+.validation {
+  list-style: none;
+  display: grid;
+  gap: 14px;
+}
+
+.validation li {
+  display: grid;
+  grid-template-columns: 140px minmax(0, 1fr);
+  gap: 20px;
+  align-items: center;
+  padding: 18px 22px;
+  border-radius: var(--r-card);
+  background: var(--card);
+  box-shadow:
+    inset 0 0 0 1px oklch(88.5% 0.03 290 / 0.6),
+    var(--shadow-rest);
+}
+
+.validation li > span {
+  display: grid;
+  gap: 4px;
+}
+
+.rho {
+  font-size: var(--fs-64);
+  font-weight: 750;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--violet);
+}
+
+.vName {
+  font-weight: 650;
+}
+
+/* limits */
+
+.limits {
+  display: grid;
+  gap: 14px;
+  padding-left: 22px;
+}
+
+.limits li {
+  max-width: 68ch;
+}
+
+.limits li::marker {
+  color: var(--violet);
+}
+
+/* ---------- closing action on the violet field ---------- */
+
+.cta {
+  overflow: hidden;
+}
+
+.ctaIn {
+  max-width: var(--content);
+  margin: 0 auto;
+  padding: 88px var(--gutter);
+  display: grid;
+  gap: 20px;
+  justify-items: start;
+}
+
+.ctaIn h2 {
+  font-size: clamp(36px, 4.6vw, 64px);
+  max-width: 18ch;
+  color: var(--on-violet);
+}
+
+.ctaIn p {
+  font-size: var(--fs-20);
+  color: var(--on-violet-2);
+  max-width: 52ch;
+}
+
+.ctaActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+/* ---------- narrower screens ---------- */
+
+@media (max-width: 1100px) {
+  .intro {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+}
+
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding-top: 56px;
+  }
+
+  .toc {
+    position: static;
+  }
+
+  .tocWide {
+    display: none;
+  }
+
+  .tocNarrow {
+    display: block;
+    border-radius: var(--r-card);
+    background: var(--card);
+    box-shadow:
+      inset 0 0 0 1px oklch(88.5% 0.03 290 / 0.6),
+      var(--shadow-rest);
+  }
+
+  .tocNarrow summary {
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    padding: 0 18px;
+    font-weight: 650;
+    cursor: pointer;
+  }
+
+  .tocNarrow .tocList {
+    padding: 0 8px 12px;
+  }
+
+  .article {
+    max-width: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .page {
+    --gutter: 16px;
+  }
+
+  .intro {
+    padding-top: 40px;
+    gap: 32px;
+  }
+
+  .lead {
+    font-size: var(--fs-17);
+  }
+
+  .heroSheet {
+    padding: 20px 16px 18px;
+    border-radius: var(--r-card);
+  }
+
+  .ruler {
+    --pin-row: 58px;
+  }
+
+  .pinCard {
+    max-width: 200px;
+    font-size: var(--fs-13);
+  }
+
+  .rulerBar {
+    height: 88px;
+  }
+
+  .rulerBar > span {
+    padding: 6px 4px;
+  }
+
+  .rulerBar em {
+    font-size: 12px;
+    padding: 2px 5px;
+  }
+
+  .article {
+    gap: 72px;
+  }
+
+  .section > h2 {
+    font-size: var(--fs-28);
+  }
+
+  .badges > div,
+  .rules li,
+  .validation li {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .examples {
+    grid-template-columns: 1fr;
+  }
+
+  .rho {
+    font-size: var(--fs-44);
+  }
+
+  .table th,
+  .table td {
+    padding: 10px 12px;
+  }
+
+  .ctaIn {
+    padding: 56px var(--gutter);
+  }
+}

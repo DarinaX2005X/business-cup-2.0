@@ -1,0 +1,212 @@
+/* Public pages chrome: header, footer, shared links. Built on the kit tokens (src/styles/tokens.css). */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: color-mix(in oklch, var(--paper) 88%, transparent);
+  backdrop-filter: blur(10px) saturate(1.2);
+  -webkit-backdrop-filter: blur(10px) saturate(1.2);
+  border-bottom: 1px solid color-mix(in oklch, var(--line) 70%, transparent);
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .header {
+    background: var(--paper);
+  }
+}
+
+.headerIn {
+  max-width: var(--content);
+  margin: 0 auto;
+  min-height: 72px;
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.brand {
+  display: inline-flex;
+  border-radius: var(--r-chip);
+  text-decoration: none;
+  transition: transform var(--t-hover) var(--ease);
+}
+
+.brand:hover {
+  transform: translateY(-1px);
+}
+
+.nav {
+  display: flex;
+  gap: 4px;
+}
+
+.navLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: var(--r-chip);
+  color: var(--ink-2);
+  font-weight: 500;
+  text-decoration: none;
+  transition:
+    background-color var(--t-hover) var(--ease),
+    color var(--t-hover) var(--ease);
+}
+
+.navLink:hover {
+  color: var(--ink);
+  background: var(--sunk);
+}
+
+.navLink[aria-current='page'] {
+  color: var(--violet);
+  background: var(--violet-soft);
+  font-weight: 600;
+}
+
+.headerEnd {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.locale {
+  appearance: none;
+  -webkit-appearance: none;
+  min-height: 44px;
+  padding: 0 34px 0 14px;
+  border: 0;
+  border-radius: var(--r-ctl);
+  background-color: var(--card);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%23211a4d' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  box-shadow:
+    inset 0 0 0 1px var(--line),
+    var(--shadow-rest);
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    box-shadow var(--t-hover) var(--ease),
+    transform var(--t-hover) var(--ease);
+}
+
+.locale:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 0 0 1px var(--violet-tint),
+    var(--shadow-raised);
+}
+
+.headerCta {
+  white-space: nowrap;
+}
+
+.textLink {
+  color: var(--violet);
+  font-weight: 600;
+  text-decoration-line: underline;
+  text-decoration-color: color-mix(in oklch, var(--violet) 35%, transparent);
+  transition: text-decoration-color var(--t-hover) var(--ease);
+}
+
+.textLink:hover {
+  text-decoration-color: var(--violet);
+}
+
+/* ---------- footer ---------- */
+
+.footer {
+  background: var(--sunk);
+  margin-top: 0;
+}
+
+.footerIn {
+  max-width: var(--content);
+  margin: 0 auto;
+  padding: 56px 24px 64px;
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 48px;
+}
+
+.footerBrand {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+  justify-items: start;
+}
+
+.footerBrand p {
+  color: var(--ink-2);
+  max-width: 40ch;
+  font-size: 15px;
+}
+
+.footerTitle {
+  font-size: var(--fs-20);
+  letter-spacing: -0.01em;
+  margin-bottom: 16px;
+}
+
+.footerSources {
+  list-style: none;
+  display: grid;
+  gap: 12px;
+  font-size: 15px;
+}
+
+.footerSources li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+}
+
+.footerSources span {
+  color: var(--ink-2);
+}
+
+@media (max-width: 860px) {
+  .headerIn {
+    flex-wrap: wrap;
+    row-gap: 0;
+    padding-bottom: 4px;
+  }
+
+  .nav {
+    order: 3;
+    flex-basis: 100%;
+    margin-left: -14px;
+  }
+
+  .navLink {
+    min-height: 40px;
+  }
+}
+
+@media (max-width: 560px) {
+  .headerIn {
+    gap: 12px;
+    padding-inline: 16px;
+  }
+
+  .headerEnd {
+    gap: 8px;
+  }
+
+  .locale {
+    padding: 0 28px 0 10px;
+    background-position: right 9px center;
+  }
+
+  .footerIn {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 40px 16px 48px;
+  }
+}

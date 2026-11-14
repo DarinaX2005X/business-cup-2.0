@@ -1,9 +1,13 @@
 import type { NextConfig } from "next";
 
+const serverData = ["./data/build/**/*", "./data/rep-bank/**/*", "./data/aliases.json", "./data/aliases.i18n.json", "./public/data/occ/**/*", "./src/content/samples/**/*"];
+
 const nextConfig: NextConfig = {
   cacheComponents: false,
   outputFileTracingIncludes: {
-    "/api/**/*": ["./data/build/**/*", "./data/rep-bank/**/*", "./data/aliases.json"],
+    "/api/**/*": serverData,
+    "/x/[id]": serverData,
+    "/jobs/[slug]": serverData,
   },
 };
 

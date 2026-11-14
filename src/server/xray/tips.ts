@@ -88,30 +88,44 @@ export async function ensureTips(bundle: OccupationBundle, locale: Locale, actor
   return { status: 'pending' };
 }
 
-/** One model call per occupation and language; `actor` puts it under the visitor's IP/profile daily limit. */
+/**
+ * Tasks per model call. The model writes about 85 tokens/s, so one call for a 27-task occupation took
+ * ~23 s (measured on Registered Nurses); parallel chunks keep the whole job near 10 s. RU/KK answers
+ * also carry the translation, so their chunks are smaller.
+ */
+const CHUNK = { en: 14, ru: 9, kk: 9 } as const;
+
+/**
+ * The prompt for the whole occupation, run as parallel chunks of tasks; all chunks must succeed.
+ * `actor` is counted once per generation (on the first chunk) against the visitor's daily limit.
+ */
 export async function generateTips(bundle: OccupationBundle, locale: Locale, actor?: Actor): Promise<TipsRecord> {
-  const { data } = await callModel({
-    op: 'xray.tips',
-    schema: xrayTipsSchema,
-    system: xrayTipsPrompt.system(locale),
-    user: xrayTipsPrompt.user({
-      occupation: bundle.title,
-      tasks: bundle.tasks.map((t) => ({
-        id: t.id,
-        text: t.text,
-        category: t.evidence.category,
-        observed: t.evidence.observed,
-        automation: t.evidence.aeiAutomation,
-        physical: t.evidence.physical,
-      })),
-    }),
-    locale,
-    maxTokens: locale === 'en' ? 6000 : 12000,
-    temperature: 0.3,
-    reasoning: 'off',
-    actor,
-  });
-  const record = applyTips(data, bundle, locale);
+  const all = bundle.tasks.map((t) => ({
+    id: t.id,
+    text: t.text,
+    category: t.evidence.category,
+    observed: t.evidence.observed,
+    automation: t.evidence.aeiAutomation,
+    physical: t.evidence.physical,
+  }));
+  const size = Math.ceil(all.length / Math.ceil(all.length / CHUNK[locale]));
+  const chunks: (typeof all)[] = [];
+  for (let i = 0; i < all.length; i += size) chunks.push(all.slice(i, i + size));
+  const answers = await Promise.all(
+    chunks.map((tasks, i) =>
+      callModel({
+        op: 'xray.tips',
+        schema: xrayTipsSchema,
+        system: xrayTipsPrompt.system(locale),
+        user: xrayTipsPrompt.user({ occupation: bundle.title, tasks }),
+        locale,
+        maxTokens: locale === 'en' ? 4000 : 6000,
+        temperature: 0.3,
+        actor: i === 0 ? actor : undefined,
+      }),
+    ),
+  );
+  const record = applyTips({ tasks: answers.flatMap((a) => a.data.tasks) }, bundle, locale);
   await cacheSet(tipsKey(bundle.code, locale), record, TIPS_TTL_SEC);
   return record;
 }
@@ -171,11 +185,11 @@ export function heuristicShort(text: string): string {
     const bare = w.toLowerCase().replace(/[^a-z']/g, '');
     if (out.length >= 2 && STOP_AT.has(bare)) break;
     const endsClause = /[,;:]$/.test(w);
-    out.push(w.replace(/[,;:]+$/, ''));
+    out.push(w);
     if (out.length >= 5) break;
     if (endsClause && out.length >= 3) break;
   }
-  return out.join(' ');
+  return out.join(' ').replace(/[,;:]+$/, '');
 }
 
 export interface TaskTexts {

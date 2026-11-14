@@ -1,0 +1,24 @@
+{
+  "language": "Language",
+  "actions": {
+    "retry": "Try again",
+    "cancel": "Cancel",
+    "close": "Close",
+    "undo": "Undo"
+  },
+  "points": {
+    "earned_one": "+{count} point",
+    "earned_other": "+{count} points"
+  },
+  "errors": {
+    "network": "No connection to the server. Check your internet and try again. Nothing you entered is lost.",
+    "unauthorized": "This browser no longer has access to your profile. Open your restore link to get it back.",
+    "invalid_input": "Some of the data was not accepted. Check the fields and try again.",
+    "not_found": "We couldn't find what you were looking for. It may have been deleted.",
+    "conflict": "Your profile changed in another tab at the same moment. We loaded the latest version, so repeat your last change if it's missing.",
+    "rate_limited": "You've reached today's limit for this action. It resets tomorrow.",
+    "storage_unavailable": "We couldn't save right now. Try again in a minute.",
+    "ai_unavailable": "The AI part is unavailable right now. Everything else works, so try this again a bit later.",
+    "server_error": "Something went wrong on our side. Try again in a minute."
+  }
+}

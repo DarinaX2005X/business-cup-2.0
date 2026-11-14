@@ -1,0 +1,179 @@
+/* A task as a scannable row: tile swatch, text, category and evidence, hours on the right. */
+
+.row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  column-gap: 18px;
+  row-gap: 14px;
+  align-items: start;
+  padding: 18px 20px;
+  border-radius: 18px;
+  transition:
+    background-color var(--t-hover) var(--ease),
+    box-shadow var(--t-hover) var(--ease),
+    transform var(--t-hover) var(--ease);
+}
+
+.row > :not(.hit) {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.row .edit,
+.row .meterRow {
+  pointer-events: auto;
+}
+
+.hit {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  cursor: pointer;
+}
+
+.hit:focus-visible {
+  outline-offset: -3px;
+}
+
+.row:has(.hit):hover {
+  background: var(--card);
+  box-shadow: var(--shadow-rest);
+}
+
+.row:has(.hit):hover > svg,
+.row:has(.hit):hover > span:first-of-type {
+  transform: translateY(-2px);
+}
+
+.row:has(.hit:active) {
+  transform: scale(0.99);
+  transition-duration: var(--t-press);
+}
+
+.row[data-selected] {
+  background: var(--card);
+  box-shadow:
+    inset 0 0 0 2px var(--violet),
+    var(--shadow-raised);
+}
+
+.row[data-selected]:has(.hit):hover {
+  box-shadow:
+    inset 0 0 0 2px var(--violet),
+    var(--shadow-raised);
+}
+
+.row[data-editing] {
+  background: var(--card);
+  box-shadow:
+    inset 0 0 0 1px var(--line),
+    var(--shadow-rest);
+}
+
+.row[data-disabled] {
+  opacity: 0.6;
+}
+
+.row[data-surface='violet'] {
+  color: #fff;
+}
+
+.row[data-surface='violet']:has(.hit):hover,
+.row[data-surface='violet'][data-editing] {
+  background: oklch(100% 0 0 / 0.08);
+  box-shadow: inset 0 0 0 1px oklch(100% 0 0 / 0.2);
+}
+
+.row[data-surface='violet'][data-selected] {
+  background: oklch(100% 0 0 / 0.1);
+  box-shadow: inset 0 0 0 2px #fff;
+}
+
+.main {
+  min-width: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.text {
+  font-size: 17px;
+  line-height: 1.4;
+  font-weight: 500;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+}
+
+.amount {
+  display: grid;
+  justify-items: end;
+  gap: 2px;
+  padding-top: 1px;
+  white-space: nowrap;
+}
+
+.amount b {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.amount span {
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.row[data-surface='violet'] .amount span {
+  color: var(--on-violet-2);
+}
+
+.edit,
+.meterRow {
+  grid-column: 2 / -1;
+}
+
+.edit {
+  padding: 8px 4px 2px;
+}
+
+.reason {
+  margin-top: 6px;
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.meterRow {
+  padding-top: 4px;
+  border-top: 1px dashed var(--line);
+  padding-top: 14px;
+}
+
+@container (max-width: 420px) {
+  .row {
+    grid-template-columns: 30px minmax(0, 1fr) auto;
+    column-gap: 12px;
+    padding: 14px 12px;
+  }
+  .row > span:first-of-type {
+    width: 30px;
+    height: 24px;
+  }
+  .text {
+    font-size: 16px;
+  }
+  .edit,
+  .meterRow {
+    grid-column: 1 / -1;
+  }
+}

@@ -1,0 +1,500 @@
+[
+ {
+  "alias": "медсестра",
+  "code": "29-1141.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "медбрат",
+  "code": "29-1141.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "старшая медсестра",
+  "code": "29-1141.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "фельдшер",
+  "code": "29-2043.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "врач",
+  "code": "29-1215.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "терапевт",
+  "code": "29-1215.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "бухгалтер",
+  "code": "13-2011.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "главный бухгалтер",
+  "code": "13-2011.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "аудитор",
+  "code": "13-2011.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "кассир",
+  "code": "41-2011.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "продавец",
+  "code": "41-2031.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "продавец-консультант",
+  "code": "41-2031.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "менеджер по продажам",
+  "code": "41-3091.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "программист",
+  "code": "15-1252.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "разработчик",
+  "code": "15-1252.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "тестировщик",
+  "code": "15-1253.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "аналитик данных",
+  "code": "15-2051.01",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "дизайнер",
+  "code": "27-1024.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "маркетолог",
+  "code": "13-1161.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "юрист",
+  "code": "23-1011.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "помощник юриста",
+  "code": "23-2011.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "учитель",
+  "code": "25-2021.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "учитель",
+  "code": "25-2031.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "преподаватель",
+  "code": "25-2031.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "воспитатель",
+  "code": "25-2011.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "электрик",
+  "code": "47-2111.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "электромонтажник",
+  "code": "47-2111.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "сантехник",
+  "code": "47-2152.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "сварщик",
+  "code": "51-4121.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "водитель",
+  "code": "53-3032.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "водитель такси",
+  "code": "53-3054.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "диспетчер",
+  "code": "43-5032.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "оператор колл-центра",
+  "code": "43-4051.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "секретарь",
+  "code": "43-6014.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "офис-менеджер",
+  "code": "43-1011.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "администратор",
+  "code": "43-4171.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "менеджер по персоналу",
+  "code": "13-1071.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "HR-менеджер",
+  "code": "13-1071.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "рекрутер",
+  "code": "13-1071.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "бариста",
+  "code": "35-3023.01",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "официант",
+  "code": "35-3031.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "повар",
+  "code": "35-2014.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "менеджер проектов",
+  "code": "13-1082.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "продакт-менеджер",
+  "code": "11-2021.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "механик",
+  "code": "49-3023.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "строитель",
+  "code": "47-2061.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "охранник",
+  "code": "33-9032.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "фармацевт",
+  "code": "29-1051.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "стоматолог",
+  "code": "29-1021.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "логист",
+  "code": "13-1081.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "финансовый аналитик",
+  "code": "13-2051.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "кладовщик",
+  "code": "43-5071.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "грузчик",
+  "code": "53-7062.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "уборщик",
+  "code": "37-2011.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "парикмахер",
+  "code": "39-5012.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "журналист",
+  "code": "27-3023.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "переводчик",
+  "code": "27-3091.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "социальный работник",
+  "code": "21-1021.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "полицейский",
+  "code": "33-3051.00",
+  "lang": "ru",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "мейірбике",
+  "code": "29-1141.00",
+  "lang": "kk",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "медбике",
+  "code": "29-1141.00",
+  "lang": "kk",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "бухгалтер",
+  "code": "13-2011.00",
+  "lang": "kk",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "есепші",
+  "code": "43-3031.00",
+  "lang": "kk",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "электрик",
+  "code": "47-2111.00",
+  "lang": "kk",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "мұғалім",
+  "code": "25-2021.00",
+  "lang": "kk",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "мұғалім",
+  "code": "25-2031.00",
+  "lang": "kk",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "тәрбиеші",
+  "code": "25-2011.00",
+  "lang": "kk",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "дәрігер",
+  "code": "29-1215.00",
+  "lang": "kk",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "бағдарламашы",
+  "code": "15-1252.00",
+  "lang": "kk",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "заңгер",
+  "code": "23-1011.00",
+  "lang": "kk",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "жүргізуші",
+  "code": "53-3032.00",
+  "lang": "kk",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "сатушы",
+  "code": "41-2031.00",
+  "lang": "kk",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "кассир",
+  "code": "41-2011.00",
+  "lang": "kk",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "аспаз",
+  "code": "35-2014.00",
+  "lang": "kk",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "диспетчер",
+  "code": "43-5032.00",
+  "lang": "kk",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "хатшы",
+  "code": "43-6014.00",
+  "lang": "kk",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "дәнекерлеуші",
+  "code": "51-4121.00",
+  "lang": "kk",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "құрылысшы",
+  "code": "47-2061.00",
+  "lang": "kk",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "фармацевт",
+  "code": "29-1051.00",
+  "lang": "kk",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "аудармашы",
+  "code": "27-3091.00",
+  "lang": "kk",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "журналист",
+  "code": "27-3023.00",
+  "lang": "kk",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "күзетші",
+  "code": "33-9032.00",
+  "lang": "kk",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ },
+ {
+  "alias": "шаштараз",
+  "code": "39-5012.00",
+  "lang": "kk",
+  "note": "Hand-written seed; the model translations in data/build/titles.<lang>.json extend it"
+ }
+]

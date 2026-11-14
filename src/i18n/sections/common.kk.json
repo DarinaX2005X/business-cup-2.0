@@ -1,0 +1,42 @@
+{
+  "language": "Тіл",
+  "_draft": [
+    "actions.cancel",
+    "actions.close",
+    "actions.retry",
+    "actions.undo",
+    "errors.ai_unavailable",
+    "errors.conflict",
+    "errors.invalid_input",
+    "errors.network",
+    "errors.not_found",
+    "errors.rate_limited",
+    "errors.server_error",
+    "errors.storage_unavailable",
+    "errors.unauthorized",
+    "language",
+    "points.earned_one",
+    "points.earned_other"
+  ],
+  "actions": {
+    "retry": "Қайталап көру",
+    "cancel": "Бас тарту",
+    "close": "Жабу",
+    "undo": "Қайтару"
+  },
+  "errors": {
+    "network": "Сервермен байланыс жоқ. Интернетті тексеріп, қайталап көріңіз. Енгізілген деректер сақталды.",
+    "unauthorized": "Бұл браузердің профиліңізге кіру рұқсаты жоқ. Оны қайтару үшін қалпына келтіру сілтемесін ашыңыз.",
+    "invalid_input": "Кейбір деректер қабылданбады. Өрістерді тексеріп, қайталап көріңіз.",
+    "not_found": "Іздегеніңіз табылмады. Ол жойылған болуы мүмкін.",
+    "conflict": "Профиліңіз дәл сол сәтте басқа қойындыда өзгертілді. Соңғы нұсқаны жүктедік, сондықтан соңғы өзгерісіңіз көрінбесе, оны қайталаңыз.",
+    "rate_limited": "Бұл әрекеттің бүгінгі лимитіне жеттіңіз. Ол ертең жаңарады.",
+    "storage_unavailable": "Қазір сақтау мүмкін болмады. Бір минуттан соң қайталап көріңіз.",
+    "ai_unavailable": "AI бөлігі қазір қолжетімсіз. Қалғанының бәрі жұмыс істеп тұр, сәлден соң қайталап көріңіз.",
+    "server_error": "Біздің тараптан қате кетті. Бір минуттан соң қайталап көріңіз."
+  },
+  "points": {
+    "earned_one": "+{count} ұпай",
+    "earned_other": "+{count} ұпай"
+  }
+}

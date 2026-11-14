@@ -1,0 +1,20 @@
+{
+  "_note": "Fixed product terms for draft translations. en → ru / kk. Add terms here, not in prompts.",
+  "terms": [
+    { "en": "Irreplaceable", "ru": "Irreplaceable", "kk": "Irreplaceable", "note": "product name, never translated" },
+    { "en": "Week map", "ru": "Карта недели", "kk": "Апта картасы" },
+    { "en": "Irreplaceability score", "ru": "Балл незаменимости", "kk": "Алмастырылмастық ұпайы" },
+    { "en": "rep", "ru": "упражнение", "kk": "жаттығу" },
+    { "en": "proof", "ru": "доказательства", "kk": "дәлелдер" },
+    { "en": "Spot the slip", "ru": "Найди ошибку", "kk": "Қатені тап" },
+    { "en": "points", "ru": "поинты", "kk": "ұпайлар" },
+    { "en": "streak", "ru": "серия", "kk": "серия" },
+    { "en": "AI already does it", "ru": "AI уже делает", "kk": "AI қазірдің өзінде істейді" },
+    { "en": "AI speeds it up", "ru": "AI ускоряет", "kk": "AI жылдамдатады" },
+    { "en": "Your human edge", "ru": "Ваше человеческое преимущество", "kk": "Сіздің адами артықшылығыңыз" },
+    { "en": "No data yet", "ru": "Пока нет данных", "kk": "Әзірге дерек жоқ" },
+    { "en": "Observed in real AI use", "ru": "Замечено в реальном использовании AI", "kk": "AI-ды нақты қолдануда байқалған" },
+    { "en": "Research estimate", "ru": "Оценка исследования", "kk": "Зерттеу бағасы" },
+    { "en": "Pro", "ru": "Pro", "kk": "Pro" }
+  ]
+}

@@ -1,0 +1,864 @@
+/*
+ * Week Bar: a week laid out as thick paper tiles. One light from the top left:
+ * bright top edge, a front face under each tile (its thickness), a tight contact shadow
+ * on the receiving plane and a broad soft one. Hatched tiles carry paper grain,
+ * human-edge tiles are solid apricot with real volume.
+ */
+
+.wrap {
+  container: weekbar / inline-size;
+  --tile-h: 156px;
+  --face: 12px;
+  --head-h: 124px;
+  --hv: 64px;
+  --gap: 6px;
+  --txt: var(--ink);
+  --txt-2: var(--ink-2);
+  --bracket: oklch(76% 0.05 288);
+  --bracket-hu: oklch(72% 0.1 58);
+  --hu-num: var(--apricot-deep);
+  --cast-ai: 0 26px 26px -12px oklch(26% 0.09 285 / 0.28);
+  --cast-sp: 0 26px 26px -12px oklch(40% 0.1 50 / 0.28);
+  --cast-hu: 0 28px 28px -12px oklch(52% 0.13 45 / 0.55);
+  --nd-line: oklch(76% 0.05 288);
+  --tip-bg: var(--ink);
+  --tip-fg: var(--on-violet);
+  color: var(--txt);
+}
+
+.wrap[data-variant='violet'] {
+  --txt: #fff;
+  --txt-2: var(--on-violet-2);
+  --bracket: oklch(100% 0 0 / 0.35);
+  --bracket-hu: oklch(84% 0.1 64 / 0.8);
+  --hu-num: var(--apricot-hi);
+  --cast-ai: 0 30px 30px -14px oklch(14% 0.14 283 / 0.55);
+  --cast-sp: 0 30px 30px -14px oklch(14% 0.14 283 / 0.55);
+  --cast-hu: 0 30px 30px -14px oklch(14% 0.14 283 / 0.6);
+  --nd-line: oklch(100% 0 0 / 0.45);
+  --tip-bg: var(--card);
+  --tip-fg: var(--ink);
+}
+
+.root {
+  position: relative;
+}
+
+.bar,
+.segs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.bar {
+  display: flex;
+  gap: var(--gap);
+  align-items: flex-start;
+}
+
+.grp {
+  flex: var(--w) 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  container: wbgrp / inline-size;
+  transition: flex-grow var(--t-layout) var(--ease);
+}
+
+/* ---------- category totals over their part of the bar ---------- */
+
+.head {
+  position: relative;
+  min-height: var(--head-h);
+  padding: 0 8px 20px 2px;
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  transition: opacity 0.3s var(--ease);
+}
+
+.head::after {
+  content: '';
+  position: absolute;
+  left: 1px;
+  right: 1px;
+  bottom: 0;
+  height: 9px;
+  border: 1.5px solid var(--bracket);
+  border-bottom: 0;
+  border-radius: 4px 4px 0 0;
+}
+
+.grp[data-cat='human_edge'] .head::after {
+  border-color: var(--bracket-hu);
+}
+
+.hv {
+  font-size: var(--hv);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.hv small {
+  font-size: 0.44em;
+  margin-left: 0.08em;
+  color: var(--txt-2);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.grp[data-cat='human_edge'] .hv,
+.grp[data-cat='human_edge'] .hv small {
+  color: var(--hu-num);
+}
+
+.hk {
+  margin-top: 10px;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.hk em {
+  font-style: normal;
+  font-weight: 400;
+  color: var(--txt-2);
+  margin-left: 6px;
+}
+
+.grp[data-cat='no_data'] .head {
+  padding-right: 0;
+  align-items: flex-end;
+}
+
+.grp[data-cat='no_data'] .hk {
+  white-space: nowrap;
+  color: var(--txt-2);
+  font-weight: 500;
+  font-size: 15px;
+}
+
+/* A narrow category keeps its number and gives its words to the tooltip and list. */
+@container wbgrp (max-width: 150px) {
+  .hk em {
+    display: none;
+  }
+  .hk span {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 14px;
+  }
+  .hv {
+    font-size: calc(var(--hv) * 0.62);
+  }
+}
+
+@container wbgrp (max-width: 70px) {
+  .hk {
+    display: none;
+  }
+  .hv {
+    font-size: calc(var(--hv) * 0.42);
+  }
+}
+
+/* ---------- tiles ---------- */
+
+.segs {
+  display: flex;
+  gap: var(--gap);
+  align-items: flex-start;
+}
+
+.seg {
+  position: relative;
+  flex: var(--w) 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  container: wbseg / inline-size;
+  transition: flex-grow var(--t-layout) var(--ease);
+}
+
+.tile {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: var(--tile-h);
+  margin-bottom: var(--face);
+  padding: 0;
+  border-radius: 10px 10px 4px 4px;
+  text-align: left;
+  transition:
+    transform var(--t-pop) var(--ease),
+    opacity var(--t-pop) var(--ease);
+}
+
+.fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.tAi {
+  background: var(--tile-ai);
+  box-shadow:
+    inset 0 1.5px 0 oklch(100% 0 0 / 0.9),
+    inset 0 0 0 1px var(--tile-ai-edge),
+    0 var(--face) 0 var(--tile-ai-face),
+    var(--cast-ai);
+}
+
+.tSp {
+  background: var(--tile-sp);
+  box-shadow:
+    inset 0 1.5px 0 oklch(100% 0 0 / 0.9),
+    inset 0 0 0 1px var(--tile-sp-edge),
+    0 var(--face) 0 var(--tile-sp-face),
+    var(--cast-sp);
+}
+
+.tHu {
+  background: var(--tile-hu);
+  box-shadow:
+    inset 0 2px 0 oklch(100% 0 0 / 0.6),
+    inset 0 -2px 0 oklch(60% 0.14 48 / 0.35),
+    0 var(--face) 0 var(--tile-hu-face),
+    var(--cast-hu);
+}
+
+.tNd {
+  background: transparent;
+  outline: 2px dashed var(--nd-line);
+  outline-offset: -2px;
+}
+
+/* Practice makes a human-edge tile taller; each level adds a bright paper layer on top. */
+.root[data-grown] .segs {
+  padding-top: 28px;
+  align-items: flex-end;
+}
+
+.root[data-grown] .seg {
+  justify-content: flex-end;
+}
+
+.root[data-grown] .tile {
+  height: calc(var(--tile-h) + var(--grow) * 28px);
+}
+
+.layers {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: calc(var(--grow) * 28px);
+  border-radius: 10px 10px 0 0;
+  background: repeating-linear-gradient(180deg, oklch(93% 0.06 72) 0 2px, transparent 2px 7px);
+  opacity: 0.9;
+  mix-blend-mode: screen;
+}
+
+.lab {
+  padding: 16px 6px 0 2px;
+  transition:
+    transform var(--t-pop) var(--ease),
+    opacity 0.16s var(--ease);
+}
+
+.lh {
+  font-weight: 700;
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+.lt {
+  font-size: 13.5px;
+  color: var(--txt-2);
+  line-height: 1.3;
+  margin-top: 2px;
+  transition: color var(--t-hover);
+  overflow-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.grp[data-cat='no_data'] .lab {
+  text-align: right;
+  padding-right: 0;
+}
+
+.grp[data-cat='no_data'] .lt {
+  display: none;
+}
+
+@container wbseg (max-width: 68px) {
+  .lt {
+    display: none;
+  }
+}
+
+@container wbseg (max-width: 38px) {
+  .lh {
+    display: none;
+  }
+}
+
+/* hover, press, focus */
+button.tile {
+  cursor: pointer;
+}
+
+button.tile:hover {
+  transform: translateY(-8px);
+}
+
+.seg:has(button.tile:hover) .lab {
+  transform: translateY(-4px);
+}
+
+.seg:has(button.tile:hover) .lt {
+  color: var(--txt);
+}
+
+button.tile:active {
+  transform: translateY(-4px) scale(0.98);
+  transition-duration: var(--t-press);
+}
+
+button.tile:focus-visible {
+  outline-offset: 4px;
+  border-radius: 12px;
+}
+
+/* tooltip with the full task text */
+.tip {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% - var(--head-h) + 10px);
+  z-index: 3;
+  width: max-content;
+  max-width: 260px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--tip-bg);
+  color: var(--tip-fg);
+  font-size: 14px;
+  line-height: 1.4;
+  box-shadow: var(--shadow-overlay);
+  opacity: 0;
+  transform: translate(-50%, 6px);
+  pointer-events: none;
+  transition:
+    opacity 0.16s var(--ease),
+    transform 0.16s var(--ease);
+}
+
+.root:not([data-totals]) .tip {
+  bottom: calc(100% + 10px);
+}
+
+.seg:has(.tile:hover) .tip,
+.seg:has(.tile:focus-visible) .tip {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  transition-delay: 0.35s;
+}
+
+.grp:first-child .seg:first-child .tip {
+  left: 0;
+  transform: translate(0, 6px);
+}
+
+.grp:first-child .seg:first-child:has(.tile:hover) .tip,
+.grp:first-child .seg:first-child:has(.tile:focus-visible) .tip {
+  transform: none;
+}
+
+.grp:last-child .seg:last-child .tip {
+  left: auto;
+  right: 0;
+  transform: translate(0, 6px);
+}
+
+.grp:last-child .seg:last-child:has(.tile:hover) .tip,
+.grp:last-child .seg:last-child:has(.tile:focus-visible) .tip {
+  transform: none;
+}
+
+/* ---------- selection ---------- */
+
+.root[data-selecting] .tile {
+  opacity: 0.7;
+}
+
+.seg[data-selected] .tile {
+  opacity: 1;
+  transform: translateY(-4px);
+}
+
+.seg[data-selected] .tile::after {
+  content: '';
+  position: absolute;
+  inset: -5px -5px calc(-5px - var(--face));
+  border-radius: 14px 14px 8px 8px;
+  box-shadow: 0 0 0 2.5px var(--violet);
+  pointer-events: none;
+}
+
+.wrap[data-variant='violet'] .seg[data-selected] .tile::after {
+  box-shadow: 0 0 0 2.5px #fff;
+}
+
+.seg[data-selected] .lh,
+.seg[data-selected] .lt {
+  color: var(--txt);
+}
+
+/* ---------- editing ---------- */
+
+.root[data-dragging] .lab,
+.root[data-dragging] .head {
+  opacity: 0;
+}
+
+.root[data-dragging] .tip {
+  display: none;
+}
+
+/* ---------- scanning ---------- */
+
+.root[data-scanning] .fill {
+  animation: land 0.62s var(--spring) both;
+  animation-delay: calc(var(--at) * 1.8s);
+}
+
+.root[data-scanning] .tile {
+  background: var(--card);
+  box-shadow:
+    inset 0 0 0 1px var(--line),
+    0 4px 0 var(--sunk);
+}
+
+.wrap[data-variant='violet'] .root[data-scanning] .tile {
+  background: oklch(100% 0 0 / 0.1);
+  box-shadow:
+    inset 0 0 0 1px oklch(100% 0 0 / 0.25),
+    0 4px 0 oklch(100% 0 0 / 0.08);
+}
+
+.root[data-scanning] .head {
+  animation: rise 0.5s var(--ease) both;
+  animation-delay: 1.75s;
+}
+
+.root[data-scanning] .lab {
+  animation: rise 0.45s var(--ease) both;
+  animation-delay: calc(var(--at) * 1.8s + 0.15s);
+}
+
+.beam {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  top: calc(var(--head-h) + 18px - 12px);
+  height: calc(var(--tile-h) + var(--face) + 24px);
+  width: 120px;
+  border-radius: 40px;
+  background: linear-gradient(90deg, transparent, oklch(100% 0 0 / 0.75) 45%, oklch(100% 0 0 / 0.9) 50%, oklch(100% 0 0 / 0.75) 55%, transparent);
+  filter: blur(6px);
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+  animation: sweep 1.8s cubic-bezier(0.45, 0, 0.35, 1) both;
+}
+
+.root:not([data-totals]) .beam {
+  top: -12px;
+}
+
+.wrap[data-variant='violet'] .beam {
+  mix-blend-mode: overlay;
+}
+
+@keyframes sweep {
+  from {
+    transform: translateX(-140px);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  to {
+    transform: translateX(calc(100cqw + 20px));
+    opacity: 0;
+  }
+}
+
+@keyframes land {
+  from {
+    opacity: 0;
+    transform: translateY(-14px) scale(1.03);
+  }
+  45% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- empty week ---------- */
+
+.empty {
+  position: relative;
+  padding-bottom: 30px;
+}
+
+.emptyTile {
+  height: var(--tile-h);
+  border-radius: 10px;
+  outline: 2px dashed var(--nd-line);
+  outline-offset: -2px;
+  display: grid;
+  place-items: center;
+  padding: 0 24px;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--txt-2);
+  background-image: repeating-linear-gradient(90deg, transparent 0 calc(25% - 1px), var(--nd-line) calc(25% - 1px) 25%);
+  background-size: 100% 10px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+}
+
+.ticks {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 20px;
+}
+
+.ticks span {
+  position: absolute;
+  top: 0;
+  font-size: 13px;
+  color: var(--txt-2);
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.ticks span:first-child {
+  transform: none;
+}
+
+.ticks span:last-child {
+  transform: translateX(-100%);
+}
+
+/* ---------- sizes ---------- */
+
+@container weekbar (max-width: 1000px) {
+  .wrap,
+  .root {
+    --tile-h: 128px;
+    --head-h: 100px;
+    --hv: 46px;
+  }
+  .hk {
+    font-size: 15px;
+  }
+}
+
+@container weekbar (max-width: 760px) {
+  .wrap,
+  .root {
+    --tile-h: 112px;
+    --face: 10px;
+    --head-h: 84px;
+    --hv: 36px;
+  }
+  .lh {
+    font-size: 14px;
+  }
+  .lt {
+    font-size: 12.5px;
+  }
+}
+
+/*
+ * Vertical: each category is a row block, tiles stack downwards with height by hours,
+ * labels sit to the right. Written twice: forced vertical, and auto under 560 px.
+ */
+.root[data-orient='vertical'] {
+  --face: 7px;
+}
+.root[data-orient='vertical'] .bar {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 28px;
+}
+.root[data-orient='vertical'] .grp {
+  flex: none;
+}
+.root[data-orient='vertical'] .head {
+  min-height: 0;
+  padding: 0 0 12px;
+  margin-bottom: 14px;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: 0 1.5px 0 var(--bracket);
+}
+.root[data-orient='vertical'] .head::after {
+  display: none;
+}
+.root[data-orient='vertical'] .grp[data-cat='human_edge'] .head {
+  box-shadow: 0 1.5px 0 var(--bracket-hu);
+}
+.root[data-orient='vertical'] .hv {
+  font-size: 40px;
+  order: 2;
+}
+.root[data-orient='vertical'] .hk {
+  margin: 0;
+  font-size: 16px;
+}
+.root[data-orient='vertical'] .grp[data-cat='no_data'] .head {
+  justify-content: flex-start;
+}
+.root[data-orient='vertical'] .segs {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  padding-top: 0;
+}
+.root[data-orient='vertical'] .seg {
+  flex: none;
+  flex-direction: row;
+  align-items: stretch;
+  container-type: normal;
+}
+.root[data-orient='vertical'] .tile {
+  flex: none;
+  width: calc(72px + var(--grow) * 20px);
+  height: max(40px, calc(var(--h) * 11px));
+  margin: 0 0 var(--face);
+  border-radius: 8px 8px 3px 3px;
+  transition:
+    height var(--t-layout) var(--ease),
+    transform var(--t-pop) var(--ease),
+    opacity var(--t-pop) var(--ease);
+}
+.root[data-orient='vertical'] .layers {
+  left: auto;
+  width: calc(var(--grow) * 20px);
+  height: auto;
+  bottom: 0;
+  border-radius: 0 8px 3px 0;
+  background: repeating-linear-gradient(90deg, oklch(93% 0.06 72) 0 2px, transparent 2px 7px);
+}
+.root[data-orient='vertical'] button.tile:hover {
+  transform: translateX(6px);
+}
+.root[data-orient='vertical'] .seg:has(button.tile:hover) .lab {
+  transform: translateX(4px);
+}
+.root[data-orient='vertical'] .seg[data-selected] .tile {
+  transform: translateX(4px);
+}
+.root[data-orient='vertical'] .lab {
+  padding: 2px 0 2px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.root[data-orient='vertical'] .lt {
+  display: -webkit-box;
+  font-size: 14.5px;
+}
+.root[data-orient='vertical'] .lh {
+  display: block;
+  font-size: 16px;
+}
+.root[data-orient='vertical'] .grp[data-cat='no_data'] .lab {
+  text-align: left;
+}
+.root[data-orient='vertical'] .grp[data-cat='no_data'] .lt {
+  display: -webkit-box;
+}
+.root[data-orient='vertical'] .tip {
+  display: none;
+}
+.root[data-orient='vertical'] .beam {
+  top: 0;
+  left: -12px;
+  width: calc(100% + 24px);
+  height: 90px;
+  background: linear-gradient(180deg, transparent, oklch(100% 0 0 / 0.75) 45%, oklch(100% 0 0 / 0.9) 50%, oklch(100% 0 0 / 0.75) 55%, transparent);
+  animation-name: sweepY;
+}
+@keyframes sweepY {
+  from {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  to {
+    transform: translateY(var(--sweep-h, 900px));
+    opacity: 0;
+  }
+}
+
+@container weekbar (max-width: 560px) {
+  .root[data-orient='auto'] {
+    --face: 7px;
+  }
+  .root[data-orient='auto'] .bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 28px;
+  }
+  .root[data-orient='auto'] .grp {
+    flex: none;
+  }
+  .root[data-orient='auto'] .head {
+    min-height: 0;
+    padding: 0 0 12px;
+    margin-bottom: 14px;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    box-shadow: 0 1.5px 0 var(--bracket);
+  }
+  .root[data-orient='auto'] .head::after {
+    display: none;
+  }
+  .root[data-orient='auto'] .grp[data-cat='human_edge'] .head {
+    box-shadow: 0 1.5px 0 var(--bracket-hu);
+  }
+  .root[data-orient='auto'] .hv {
+    font-size: 40px;
+    order: 2;
+  }
+  .root[data-orient='auto'] .hk {
+    margin: 0;
+    font-size: 16px;
+  }
+  .root[data-orient='auto'] .grp[data-cat='no_data'] .head {
+    justify-content: flex-start;
+  }
+  .root[data-orient='auto'] .segs {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding-top: 0;
+  }
+  .root[data-orient='auto'] .seg {
+    flex: none;
+    flex-direction: row;
+    align-items: stretch;
+    container-type: normal;
+  }
+  .root[data-orient='auto'] .tile {
+    flex: none;
+    width: calc(72px + var(--grow) * 20px);
+    height: max(40px, calc(var(--h) * 11px));
+    margin: 0 0 var(--face);
+    border-radius: 8px 8px 3px 3px;
+    transition:
+      height var(--t-layout) var(--ease),
+      transform var(--t-pop) var(--ease),
+      opacity var(--t-pop) var(--ease);
+  }
+  .root[data-orient='auto'] .layers {
+    left: auto;
+    width: calc(var(--grow) * 20px);
+    height: auto;
+    bottom: 0;
+    border-radius: 0 8px 3px 0;
+    background: repeating-linear-gradient(90deg, oklch(93% 0.06 72) 0 2px, transparent 2px 7px);
+  }
+  .root[data-orient='auto'] button.tile:hover {
+    transform: translateX(6px);
+  }
+  .root[data-orient='auto'] .seg:has(button.tile:hover) .lab {
+    transform: translateX(4px);
+  }
+  .root[data-orient='auto'] .seg[data-selected] .tile {
+    transform: translateX(4px);
+  }
+  .root[data-orient='auto'] .lab {
+    padding: 2px 0 2px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .root[data-orient='auto'] .lt {
+    display: -webkit-box;
+    font-size: 14.5px;
+  }
+  .root[data-orient='auto'] .lh {
+    display: block;
+    font-size: 16px;
+  }
+  .root[data-orient='auto'] .grp[data-cat='no_data'] .lab {
+    text-align: left;
+  }
+  .root[data-orient='auto'] .grp[data-cat='no_data'] .lt {
+    display: -webkit-box;
+  }
+  .root[data-orient='auto'] .tip {
+    display: none;
+  }
+  .root[data-orient='auto'] .beam {
+    top: 0;
+    left: -12px;
+    width: calc(100% + 24px);
+    height: 90px;
+    background: linear-gradient(180deg, transparent, oklch(100% 0 0 / 0.75) 45%, oklch(100% 0 0 / 0.9) 50%, oklch(100% 0 0 / 0.75) 55%, transparent);
+    animation-name: sweepY;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beam {
+    display: none;
+  }
+  .root[data-scanning] .fill,
+  .root[data-scanning] .head,
+  .root[data-scanning] .lab {
+    animation: none;
+  }
+}

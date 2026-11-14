@@ -1,0 +1,46 @@
+{
+  "language": "Язык",
+  "_draft": [
+    "actions.cancel",
+    "actions.close",
+    "actions.retry",
+    "actions.undo",
+    "errors.ai_unavailable",
+    "errors.conflict",
+    "errors.invalid_input",
+    "errors.network",
+    "errors.not_found",
+    "errors.rate_limited",
+    "errors.server_error",
+    "errors.storage_unavailable",
+    "errors.unauthorized",
+    "language",
+    "points.earned_few",
+    "points.earned_many",
+    "points.earned_one",
+    "points.earned_other"
+  ],
+  "actions": {
+    "retry": "Попробовать снова",
+    "cancel": "Отмена",
+    "close": "Закрыть",
+    "undo": "Отменить"
+  },
+  "errors": {
+    "network": "Нет связи с сервером. Проверьте интернет и повторите попытку. Введённые данные не потерялись.",
+    "unauthorized": "У этого браузера больше нет доступа к вашему профилю. Откройте ссылку для восстановления, чтобы вернуть его.",
+    "invalid_input": "Часть данных не принята. Проверьте поля и попробуйте снова.",
+    "not_found": "Не удалось найти то, что вы искали. Возможно, его удалили.",
+    "conflict": "Ваш профиль одновременно изменился в другой вкладке. Мы загрузили последнюю версию, поэтому повторите последнее изменение, если оно не появилось.",
+    "rate_limited": "На сегодня лимит для этого действия исчерпан. Он обновится завтра.",
+    "storage_unavailable": "Не удалось сохранить прямо сейчас. Попробуйте через минуту.",
+    "ai_unavailable": "Функции с AI сейчас недоступны. Всё остальное работает, попробуйте ещё раз чуть позже.",
+    "server_error": "У нас что-то сломалось. Попробуйте через минуту."
+  },
+  "points": {
+    "earned_few": "+{count} поинта",
+    "earned_many": "+{count} поинтов",
+    "earned_one": "+{count} поинт",
+    "earned_other": "+{count} поинтов"
+  }
+}

@@ -1,0 +1,1267 @@
+[
+ {
+  "alias": "RN",
+  "code": "29-1141.00",
+  "note": "Registered nurse abbreviation"
+ },
+ {
+  "alias": "staff nurse",
+  "code": "29-1141.00",
+  "note": "Hospital RN title"
+ },
+ {
+  "alias": "nurse",
+  "code": "29-1141.00",
+  "note": "Most common meaning in the US"
+ },
+ {
+  "alias": "LPN",
+  "code": "29-2061.00",
+  "note": "Licensed practical nurse"
+ },
+ {
+  "alias": "LVN",
+  "code": "29-2061.00",
+  "note": "Licensed vocational nurse (CA, TX)"
+ },
+ {
+  "alias": "CNA",
+  "code": "31-1131.00",
+  "note": "Certified nursing assistant"
+ },
+ {
+  "alias": "certified nursing assistant",
+  "code": "31-1131.00",
+  "note": ""
+ },
+ {
+  "alias": "STNA",
+  "code": "31-1131.00",
+  "note": "State tested nursing assistant (OH)"
+ },
+ {
+  "alias": "NP",
+  "code": "29-1171.00",
+  "note": "Nurse practitioner"
+ },
+ {
+  "alias": "FNP",
+  "code": "29-1171.00",
+  "note": "Family nurse practitioner"
+ },
+ {
+  "alias": "CRNA",
+  "code": "29-1151.00",
+  "note": "Nurse anesthetist"
+ },
+ {
+  "alias": "PA",
+  "code": "29-1071.00",
+  "note": "Physician assistant"
+ },
+ {
+  "alias": "PA-C",
+  "code": "29-1071.00",
+  "note": "Certified physician assistant"
+ },
+ {
+  "alias": "MA",
+  "code": "31-9092.00",
+  "note": "Medical assistant"
+ },
+ {
+  "alias": "CMA",
+  "code": "31-9092.00",
+  "note": "Certified medical assistant"
+ },
+ {
+  "alias": "EMT",
+  "code": "29-2042.00",
+  "note": "Emergency medical technician"
+ },
+ {
+  "alias": "paramedic",
+  "code": "29-2043.00",
+  "note": ""
+ },
+ {
+  "alias": "pharmacy tech",
+  "code": "29-2052.00",
+  "note": "Short form"
+ },
+ {
+  "alias": "CPhT",
+  "code": "29-2052.00",
+  "note": "Certified pharmacy technician"
+ },
+ {
+  "alias": "pharmacist",
+  "code": "29-1051.00",
+  "note": ""
+ },
+ {
+  "alias": "dental assistant",
+  "code": "31-9091.00",
+  "note": ""
+ },
+ {
+  "alias": "hygienist",
+  "code": "29-1292.00",
+  "note": "Dental hygienist"
+ },
+ {
+  "alias": "RDH",
+  "code": "29-1292.00",
+  "note": "Registered dental hygienist"
+ },
+ {
+  "alias": "PT",
+  "code": "29-1123.00",
+  "note": "Physical therapist"
+ },
+ {
+  "alias": "PTA",
+  "code": "31-2021.00",
+  "note": "Physical therapist assistant"
+ },
+ {
+  "alias": "OT",
+  "code": "29-1122.00",
+  "note": "Occupational therapist"
+ },
+ {
+  "alias": "COTA",
+  "code": "31-2011.00",
+  "note": "Occupational therapy assistant"
+ },
+ {
+  "alias": "RRT",
+  "code": "29-1126.00",
+  "note": "Registered respiratory therapist"
+ },
+ {
+  "alias": "rad tech",
+  "code": "29-2034.00",
+  "note": "Radiologic technologist"
+ },
+ {
+  "alias": "x-ray tech",
+  "code": "29-2034.00",
+  "note": ""
+ },
+ {
+  "alias": "sonographer",
+  "code": "29-2032.00",
+  "note": "Diagnostic medical sonographer"
+ },
+ {
+  "alias": "ultrasound tech",
+  "code": "29-2032.00",
+  "note": ""
+ },
+ {
+  "alias": "phlebotomist",
+  "code": "31-9097.00",
+  "note": ""
+ },
+ {
+  "alias": "medical coder",
+  "code": "29-2072.00",
+  "note": "Medical records specialist"
+ },
+ {
+  "alias": "medical biller",
+  "code": "43-3021.00",
+  "note": "Billing clerk in healthcare"
+ },
+ {
+  "alias": "HHA",
+  "code": "31-1121.00",
+  "note": "Home health aide"
+ },
+ {
+  "alias": "caregiver",
+  "code": "31-1122.00",
+  "note": "Personal care aide"
+ },
+ {
+  "alias": "doctor",
+  "code": "29-1215.00",
+  "note": "Primary care physician"
+ },
+ {
+  "alias": "GP",
+  "code": "29-1215.00",
+  "note": "General practitioner"
+ },
+ {
+  "alias": "vet tech",
+  "code": "29-2056.00",
+  "note": "Veterinary technician"
+ },
+ {
+  "alias": "lab tech",
+  "code": "29-2012.00",
+  "note": "Medical laboratory technician"
+ },
+ {
+  "alias": "LCSW",
+  "code": "21-1022.00",
+  "note": "Licensed clinical social worker"
+ },
+ {
+  "alias": "social worker",
+  "code": "21-1021.00",
+  "note": ""
+ },
+ {
+  "alias": "therapist",
+  "code": "21-1014.00",
+  "note": "Mental health counselor"
+ },
+ {
+  "alias": "AP clerk",
+  "code": "43-3031.00",
+  "note": "Accounts payable clerk"
+ },
+ {
+  "alias": "AP specialist",
+  "code": "43-3031.00",
+  "note": "Accounts payable specialist"
+ },
+ {
+  "alias": "accounts payable clerk",
+  "code": "43-3031.00",
+  "note": ""
+ },
+ {
+  "alias": "AR specialist",
+  "code": "43-3031.00",
+  "note": "Accounts receivable specialist"
+ },
+ {
+  "alias": "AR clerk",
+  "code": "43-3031.00",
+  "note": "Accounts receivable clerk"
+ },
+ {
+  "alias": "accounts receivable specialist",
+  "code": "43-3031.00",
+  "note": ""
+ },
+ {
+  "alias": "bookkeeper",
+  "code": "43-3031.00",
+  "note": ""
+ },
+ {
+  "alias": "full charge bookkeeper",
+  "code": "43-3031.00",
+  "note": ""
+ },
+ {
+  "alias": "CPA",
+  "code": "13-2011.00",
+  "note": "Certified public accountant"
+ },
+ {
+  "alias": "staff accountant",
+  "code": "13-2011.00",
+  "note": ""
+ },
+ {
+  "alias": "senior accountant",
+  "code": "13-2011.00",
+  "note": ""
+ },
+ {
+  "alias": "auditor",
+  "code": "13-2011.00",
+  "note": ""
+ },
+ {
+  "alias": "controller",
+  "code": "11-3031.01",
+  "note": "Treasurers and controllers"
+ },
+ {
+  "alias": "CFO",
+  "code": "11-3031.01",
+  "note": "Chief financial officer"
+ },
+ {
+  "alias": "payroll specialist",
+  "code": "43-3051.00",
+  "note": ""
+ },
+ {
+  "alias": "payroll clerk",
+  "code": "43-3051.00",
+  "note": ""
+ },
+ {
+  "alias": "financial analyst",
+  "code": "13-2051.00",
+  "note": ""
+ },
+ {
+  "alias": "financial advisor",
+  "code": "13-2052.00",
+  "note": "Personal financial advisor"
+ },
+ {
+  "alias": "financial planner",
+  "code": "13-2052.00",
+  "note": ""
+ },
+ {
+  "alias": "loan officer",
+  "code": "13-2072.00",
+  "note": ""
+ },
+ {
+  "alias": "mortgage loan officer",
+  "code": "13-2072.00",
+  "note": ""
+ },
+ {
+  "alias": "bank teller",
+  "code": "43-3071.00",
+  "note": ""
+ },
+ {
+  "alias": "teller",
+  "code": "43-3071.00",
+  "note": ""
+ },
+ {
+  "alias": "tax preparer",
+  "code": "13-2082.00",
+  "note": ""
+ },
+ {
+  "alias": "underwriter",
+  "code": "13-2053.00",
+  "note": "Insurance underwriter"
+ },
+ {
+  "alias": "claims adjuster",
+  "code": "13-1031.00",
+  "note": ""
+ },
+ {
+  "alias": "insurance agent",
+  "code": "41-3021.00",
+  "note": ""
+ },
+ {
+  "alias": "collections agent",
+  "code": "43-3011.00",
+  "note": "Bill and account collector"
+ },
+ {
+  "alias": "billing specialist",
+  "code": "43-3021.00",
+  "note": ""
+ },
+ {
+  "alias": "admin assistant",
+  "code": "43-6014.00",
+  "note": "Administrative assistant"
+ },
+ {
+  "alias": "administrative assistant",
+  "code": "43-6014.00",
+  "note": ""
+ },
+ {
+  "alias": "office assistant",
+  "code": "43-6014.00",
+  "note": ""
+ },
+ {
+  "alias": "EA",
+  "code": "43-6011.00",
+  "note": "Executive assistant"
+ },
+ {
+  "alias": "executive assistant",
+  "code": "43-6011.00",
+  "note": ""
+ },
+ {
+  "alias": "receptionist",
+  "code": "43-4171.00",
+  "note": ""
+ },
+ {
+  "alias": "front desk",
+  "code": "43-4171.00",
+  "note": ""
+ },
+ {
+  "alias": "office manager",
+  "code": "43-1011.00",
+  "note": "Supervisor of office workers"
+ },
+ {
+  "alias": "data entry clerk",
+  "code": "43-9021.00",
+  "note": ""
+ },
+ {
+  "alias": "CSR",
+  "code": "43-4051.00",
+  "note": "Customer service representative"
+ },
+ {
+  "alias": "customer service rep",
+  "code": "43-4051.00",
+  "note": ""
+ },
+ {
+  "alias": "call center agent",
+  "code": "43-4051.00",
+  "note": ""
+ },
+ {
+  "alias": "customer support specialist",
+  "code": "43-4051.00",
+  "note": ""
+ },
+ {
+  "alias": "dispatcher",
+  "code": "43-5032.00",
+  "note": "Non-emergency dispatcher"
+ },
+ {
+  "alias": "truck dispatcher",
+  "code": "43-5032.00",
+  "note": ""
+ },
+ {
+  "alias": "freight dispatcher",
+  "code": "43-5032.00",
+  "note": ""
+ },
+ {
+  "alias": "911 dispatcher",
+  "code": "43-5031.00",
+  "note": "Public safety telecommunicator"
+ },
+ {
+  "alias": "HR generalist",
+  "code": "13-1071.00",
+  "note": "Human resources specialist"
+ },
+ {
+  "alias": "HR specialist",
+  "code": "13-1071.00",
+  "note": ""
+ },
+ {
+  "alias": "HR coordinator",
+  "code": "13-1071.00",
+  "note": ""
+ },
+ {
+  "alias": "HRBP",
+  "code": "13-1071.00",
+  "note": "HR business partner"
+ },
+ {
+  "alias": "recruiter",
+  "code": "13-1071.00",
+  "note": ""
+ },
+ {
+  "alias": "talent acquisition specialist",
+  "code": "13-1071.00",
+  "note": ""
+ },
+ {
+  "alias": "HR manager",
+  "code": "11-3121.00",
+  "note": ""
+ },
+ {
+  "alias": "paralegal",
+  "code": "23-2011.00",
+  "note": ""
+ },
+ {
+  "alias": "legal assistant",
+  "code": "23-2011.00",
+  "note": ""
+ },
+ {
+  "alias": "legal secretary",
+  "code": "43-6012.00",
+  "note": ""
+ },
+ {
+  "alias": "attorney",
+  "code": "23-1011.00",
+  "note": "Lawyer"
+ },
+ {
+  "alias": "lawyer",
+  "code": "23-1011.00",
+  "note": ""
+ },
+ {
+  "alias": "compliance officer",
+  "code": "13-1041.00",
+  "note": ""
+ },
+ {
+  "alias": "PM",
+  "code": "13-1082.00",
+  "note": "Project manager"
+ },
+ {
+  "alias": "project manager",
+  "code": "13-1082.00",
+  "note": ""
+ },
+ {
+  "alias": "program manager",
+  "code": "13-1082.00",
+  "note": ""
+ },
+ {
+  "alias": "product manager",
+  "code": "11-2021.00",
+  "note": "O*NET lists Product Manager as a Marketing Managers title; its tasks cover product strategy and pricing"
+ },
+ {
+  "alias": "product owner",
+  "code": "11-2021.00",
+  "note": "Same mapping as product manager"
+ },
+ {
+  "alias": "scrum master",
+  "code": "15-1299.09",
+  "note": "IT project manager"
+ },
+ {
+  "alias": "IT project manager",
+  "code": "15-1299.09",
+  "note": ""
+ },
+ {
+  "alias": "business analyst",
+  "code": "13-1111.00",
+  "note": "Management analyst"
+ },
+ {
+  "alias": "BA",
+  "code": "13-1111.00",
+  "note": "Business analyst"
+ },
+ {
+  "alias": "management consultant",
+  "code": "13-1111.00",
+  "note": ""
+ },
+ {
+  "alias": "consultant",
+  "code": "13-1111.00",
+  "note": ""
+ },
+ {
+  "alias": "operations manager",
+  "code": "11-1021.00",
+  "note": ""
+ },
+ {
+  "alias": "GM",
+  "code": "11-1021.00",
+  "note": "General manager"
+ },
+ {
+  "alias": "general manager",
+  "code": "11-1021.00",
+  "note": ""
+ },
+ {
+  "alias": "CEO",
+  "code": "11-1011.00",
+  "note": ""
+ },
+ {
+  "alias": "event planner",
+  "code": "13-1121.00",
+  "note": ""
+ },
+ {
+  "alias": "buyer",
+  "code": "13-1023.00",
+  "note": "Purchasing agent"
+ },
+ {
+  "alias": "procurement specialist",
+  "code": "13-1023.00",
+  "note": ""
+ },
+ {
+  "alias": "logistics coordinator",
+  "code": "13-1081.00",
+  "note": "Logistician"
+ },
+ {
+  "alias": "supply chain analyst",
+  "code": "13-1081.00",
+  "note": ""
+ },
+ {
+  "alias": "warehouse associate",
+  "code": "53-7062.00",
+  "note": ""
+ },
+ {
+  "alias": "warehouse worker",
+  "code": "53-7062.00",
+  "note": ""
+ },
+ {
+  "alias": "forklift operator",
+  "code": "53-7051.00",
+  "note": ""
+ },
+ {
+  "alias": "inventory clerk",
+  "code": "43-5071.00",
+  "note": ""
+ },
+ {
+  "alias": "stock clerk",
+  "code": "43-5071.00",
+  "note": ""
+ },
+ {
+  "alias": "truck driver",
+  "code": "53-3032.00",
+  "note": "Heavy and tractor-trailer"
+ },
+ {
+  "alias": "CDL driver",
+  "code": "53-3032.00",
+  "note": ""
+ },
+ {
+  "alias": "OTR driver",
+  "code": "53-3032.00",
+  "note": "Over-the-road driver"
+ },
+ {
+  "alias": "delivery driver",
+  "code": "53-3033.00",
+  "note": "Light truck driver"
+ },
+ {
+  "alias": "amazon driver",
+  "code": "53-3033.00",
+  "note": "Delivery service partner driver"
+ },
+ {
+  "alias": "uber driver",
+  "code": "53-3054.00",
+  "note": "Rideshare drivers are classified with taxi drivers"
+ },
+ {
+  "alias": "lyft driver",
+  "code": "53-3054.00",
+  "note": ""
+ },
+ {
+  "alias": "rideshare driver",
+  "code": "53-3054.00",
+  "note": ""
+ },
+ {
+  "alias": "courier",
+  "code": "43-5021.00",
+  "note": ""
+ },
+ {
+  "alias": "mail carrier",
+  "code": "43-5052.00",
+  "note": ""
+ },
+ {
+  "alias": "BDR",
+  "code": "41-3091.00",
+  "note": "Business development representative"
+ },
+ {
+  "alias": "SDR",
+  "code": "41-3091.00",
+  "note": "Sales development representative"
+ },
+ {
+  "alias": "AE",
+  "code": "41-3091.00",
+  "note": "Account executive"
+ },
+ {
+  "alias": "account executive",
+  "code": "41-3091.00",
+  "note": ""
+ },
+ {
+  "alias": "account manager",
+  "code": "41-3091.00",
+  "note": ""
+ },
+ {
+  "alias": "sales rep",
+  "code": "41-4012.00",
+  "note": ""
+ },
+ {
+  "alias": "sales associate",
+  "code": "41-2031.00",
+  "note": "Retail salesperson"
+ },
+ {
+  "alias": "retail associate",
+  "code": "41-2031.00",
+  "note": ""
+ },
+ {
+  "alias": "cashier",
+  "code": "41-2011.00",
+  "note": ""
+ },
+ {
+  "alias": "store manager",
+  "code": "41-1011.00",
+  "note": "Supervisor of retail sales workers"
+ },
+ {
+  "alias": "realtor",
+  "code": "41-9022.00",
+  "note": "Real estate agent"
+ },
+ {
+  "alias": "real estate agent",
+  "code": "41-9022.00",
+  "note": ""
+ },
+ {
+  "alias": "marketing coordinator",
+  "code": "13-1161.00",
+  "note": ""
+ },
+ {
+  "alias": "marketing specialist",
+  "code": "13-1161.00",
+  "note": ""
+ },
+ {
+  "alias": "digital marketer",
+  "code": "13-1161.00",
+  "note": ""
+ },
+ {
+  "alias": "social media manager",
+  "code": "13-1161.00",
+  "note": ""
+ },
+ {
+  "alias": "SEO specialist",
+  "code": "13-1161.01",
+  "note": "Search marketing strategist"
+ },
+ {
+  "alias": "content writer",
+  "code": "27-3043.00",
+  "note": ""
+ },
+ {
+  "alias": "copywriter",
+  "code": "27-3043.00",
+  "note": ""
+ },
+ {
+  "alias": "brand manager",
+  "code": "11-2021.00",
+  "note": ""
+ },
+ {
+  "alias": "PR specialist",
+  "code": "27-3031.00",
+  "note": ""
+ },
+ {
+  "alias": "graphic designer",
+  "code": "27-1024.00",
+  "note": ""
+ },
+ {
+  "alias": "UX designer",
+  "code": "15-1255.00",
+  "note": "Web and digital interface designer"
+ },
+ {
+  "alias": "UI designer",
+  "code": "15-1255.00",
+  "note": ""
+ },
+ {
+  "alias": "product designer",
+  "code": "15-1255.00",
+  "note": "Digital product designer"
+ },
+ {
+  "alias": "SWE",
+  "code": "15-1252.00",
+  "note": "Software engineer"
+ },
+ {
+  "alias": "software engineer",
+  "code": "15-1252.00",
+  "note": ""
+ },
+ {
+  "alias": "developer",
+  "code": "15-1252.00",
+  "note": "Software developer"
+ },
+ {
+  "alias": "full stack developer",
+  "code": "15-1252.00",
+  "note": ""
+ },
+ {
+  "alias": "backend developer",
+  "code": "15-1252.00",
+  "note": ""
+ },
+ {
+  "alias": "frontend developer",
+  "code": "15-1254.00",
+  "note": "Web developer"
+ },
+ {
+  "alias": "programmer",
+  "code": "15-1251.00",
+  "note": "Computer programmer"
+ },
+ {
+  "alias": "QA engineer",
+  "code": "15-1253.00",
+  "note": ""
+ },
+ {
+  "alias": "QA tester",
+  "code": "15-1253.00",
+  "note": ""
+ },
+ {
+  "alias": "data analyst",
+  "code": "15-2051.01",
+  "note": "Business intelligence analyst"
+ },
+ {
+  "alias": "data engineer",
+  "code": "15-1243.00",
+  "note": "Database architect"
+ },
+ {
+  "alias": "ML engineer",
+  "code": "15-2051.00",
+  "note": "Data scientist"
+ },
+ {
+  "alias": "devops engineer",
+  "code": "15-1299.08",
+  "note": "Computer systems engineer/architect"
+ },
+ {
+  "alias": "SRE",
+  "code": "15-1299.08",
+  "note": "Site reliability engineer"
+ },
+ {
+  "alias": "sysadmin",
+  "code": "15-1244.00",
+  "note": ""
+ },
+ {
+  "alias": "IT support",
+  "code": "15-1232.00",
+  "note": ""
+ },
+ {
+  "alias": "help desk",
+  "code": "15-1232.00",
+  "note": ""
+ },
+ {
+  "alias": "tech support",
+  "code": "15-1232.00",
+  "note": ""
+ },
+ {
+  "alias": "network engineer",
+  "code": "15-1241.00",
+  "note": "Computer network architect"
+ },
+ {
+  "alias": "cybersecurity analyst",
+  "code": "15-1212.00",
+  "note": ""
+ },
+ {
+  "alias": "security analyst",
+  "code": "15-1212.00",
+  "note": ""
+ },
+ {
+  "alias": "prompt engineer",
+  "code": "15-1252.00",
+  "note": "No O*NET occupation yet; closest by tasks"
+ },
+ {
+  "alias": "CTO",
+  "code": "11-3021.00",
+  "note": ""
+ },
+ {
+  "alias": "IT manager",
+  "code": "11-3021.00",
+  "note": ""
+ },
+ {
+  "alias": "engineering manager",
+  "code": "11-3021.00",
+  "note": "Software engineering manager"
+ },
+ {
+  "alias": "teacher",
+  "code": "25-2021.00",
+  "note": "Elementary school teacher, the largest teacher group"
+ },
+ {
+  "alias": "teacher's aide",
+  "code": "25-9042.00",
+  "note": "Teaching assistant"
+ },
+ {
+  "alias": "teacher aide",
+  "code": "25-9042.00",
+  "note": ""
+ },
+ {
+  "alias": "paraprofessional",
+  "code": "25-9042.00",
+  "note": ""
+ },
+ {
+  "alias": "para",
+  "code": "25-9042.00",
+  "note": "Paraprofessional"
+ },
+ {
+  "alias": "substitute teacher",
+  "code": "25-3031.00",
+  "note": ""
+ },
+ {
+  "alias": "preschool teacher",
+  "code": "25-2011.00",
+  "note": ""
+ },
+ {
+  "alias": "tutor",
+  "code": "25-3041.00",
+  "note": ""
+ },
+ {
+  "alias": "principal",
+  "code": "11-9032.00",
+  "note": "School principal"
+ },
+ {
+  "alias": "school counselor",
+  "code": "21-1012.00",
+  "note": ""
+ },
+ {
+  "alias": "daycare worker",
+  "code": "39-9011.00",
+  "note": "Childcare worker"
+ },
+ {
+  "alias": "apprentice electrician",
+  "code": "47-2111.00",
+  "note": ""
+ },
+ {
+  "alias": "plumber",
+  "code": "47-2152.00",
+  "note": ""
+ },
+ {
+  "alias": "HVAC tech",
+  "code": "49-9021.00",
+  "note": ""
+ },
+ {
+  "alias": "HVAC technician",
+  "code": "49-9021.00",
+  "note": ""
+ },
+ {
+  "alias": "welder",
+  "code": "51-4121.00",
+  "note": ""
+ },
+ {
+  "alias": "mechanic",
+  "code": "49-3023.00",
+  "note": "Automotive service technician"
+ },
+ {
+  "alias": "auto mechanic",
+  "code": "49-3023.00",
+  "note": ""
+ },
+ {
+  "alias": "diesel mechanic",
+  "code": "49-3031.00",
+  "note": ""
+ },
+ {
+  "alias": "handyman",
+  "code": "49-9071.00",
+  "note": ""
+ },
+ {
+  "alias": "maintenance tech",
+  "code": "49-9071.00",
+  "note": ""
+ },
+ {
+  "alias": "construction worker",
+  "code": "47-2061.00",
+  "note": ""
+ },
+ {
+  "alias": "roofer",
+  "code": "47-2181.00",
+  "note": ""
+ },
+ {
+  "alias": "painter",
+  "code": "47-2141.00",
+  "note": "Construction painter"
+ },
+ {
+  "alias": "landscaper",
+  "code": "37-3011.00",
+  "note": ""
+ },
+ {
+  "alias": "janitor",
+  "code": "37-2011.00",
+  "note": ""
+ },
+ {
+  "alias": "custodian",
+  "code": "37-2011.00",
+  "note": ""
+ },
+ {
+  "alias": "housekeeper",
+  "code": "37-2012.00",
+  "note": ""
+ },
+ {
+  "alias": "machinist",
+  "code": "51-4041.00",
+  "note": ""
+ },
+ {
+  "alias": "CNC operator",
+  "code": "51-9161.00",
+  "note": ""
+ },
+ {
+  "alias": "foreman",
+  "code": "47-1011.00",
+  "note": "Construction supervisor"
+ },
+ {
+  "alias": "construction manager",
+  "code": "11-9021.00",
+  "note": ""
+ },
+ {
+  "alias": "barista",
+  "code": "35-3023.01",
+  "note": ""
+ },
+ {
+  "alias": "server",
+  "code": "35-3031.00",
+  "note": "Waiter or waitress"
+ },
+ {
+  "alias": "waitress",
+  "code": "35-3031.00",
+  "note": ""
+ },
+ {
+  "alias": "waiter",
+  "code": "35-3031.00",
+  "note": ""
+ },
+ {
+  "alias": "bartender",
+  "code": "35-3011.00",
+  "note": ""
+ },
+ {
+  "alias": "line cook",
+  "code": "35-2014.00",
+  "note": "Restaurant cook"
+ },
+ {
+  "alias": "chef",
+  "code": "35-1011.00",
+  "note": ""
+ },
+ {
+  "alias": "dishwasher",
+  "code": "35-9021.00",
+  "note": ""
+ },
+ {
+  "alias": "hostess",
+  "code": "35-9031.00",
+  "note": ""
+ },
+ {
+  "alias": "hotel front desk agent",
+  "code": "43-4081.00",
+  "note": ""
+ },
+ {
+  "alias": "restaurant manager",
+  "code": "11-9051.00",
+  "note": ""
+ },
+ {
+  "alias": "security guard",
+  "code": "33-9032.00",
+  "note": ""
+ },
+ {
+  "alias": "police officer",
+  "code": "33-3051.00",
+  "note": ""
+ },
+ {
+  "alias": "cop",
+  "code": "33-3051.00",
+  "note": ""
+ },
+ {
+  "alias": "firefighter",
+  "code": "33-2011.00",
+  "note": ""
+ },
+ {
+  "alias": "hairstylist",
+  "code": "39-5012.00",
+  "note": ""
+ },
+ {
+  "alias": "hairdresser",
+  "code": "39-5012.00",
+  "note": ""
+ },
+ {
+  "alias": "nail tech",
+  "code": "39-5092.00",
+  "note": ""
+ },
+ {
+  "alias": "personal trainer",
+  "code": "39-9031.00",
+  "note": ""
+ },
+ {
+  "alias": "flight attendant",
+  "code": "53-2031.00",
+  "note": ""
+ },
+ {
+  "alias": "pilot",
+  "code": "53-2011.00",
+  "note": "Airline pilot"
+ },
+ {
+  "alias": "property manager",
+  "code": "11-9141.00",
+  "note": ""
+ },
+ {
+  "alias": "architect",
+  "code": "17-1011.00",
+  "note": ""
+ },
+ {
+  "alias": "civil engineer",
+  "code": "17-2051.00",
+  "note": ""
+ },
+ {
+  "alias": "mechanical engineer",
+  "code": "17-2141.00",
+  "note": ""
+ },
+ {
+  "alias": "veterinarian",
+  "code": "29-1131.00",
+  "note": ""
+ },
+ {
+  "alias": "journalist",
+  "code": "27-3023.00",
+  "note": ""
+ },
+ {
+  "alias": "reporter",
+  "code": "27-3023.00",
+  "note": ""
+ },
+ {
+  "alias": "translator",
+  "code": "27-3091.00",
+  "note": ""
+ },
+ {
+  "alias": "interpreter",
+  "code": "27-3091.00",
+  "note": ""
+ },
+ {
+  "alias": "photographer",
+  "code": "27-4021.00",
+  "note": ""
+ },
+ {
+  "alias": "video editor",
+  "code": "27-4032.00",
+  "note": ""
+ },
+ {
+  "alias": "librarian",
+  "code": "25-4022.00",
+  "note": ""
+ }
+]

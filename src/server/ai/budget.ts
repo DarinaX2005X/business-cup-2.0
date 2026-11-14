@@ -1,0 +1,152 @@
+import { createHash } from 'node:crypto';
+import { getStore } from '@/server/store';
+
+/**
+ * Money and rate limits for model calls.
+ *
+ * The budget is never checked-then-spent: each call first *reserves* its worst-case cost with an
+ * atomic INCRBYFLOAT on `budget:total` and `budget:<day>`. If either counter goes over its limit the
+ * reservation is rolled back and the call is refused, so parallel calls cannot jointly overspend.
+ * After the call the reservation is settled to the real `usage.cost`.
+ */
+
+export interface Actor {
+  profileId?: string | null;
+  ip?: string | null;
+}
+
+export const RATE_LIMITS = { profilePerDay: 25, ipPerDay: 60 } as const;
+const RATE_TTL_SEC = 2 * 24 * 3600;
+const DAY_TTL_SEC = 3 * 24 * 3600;
+
+export interface BudgetStatus {
+  totalUsd: number;
+  dayUsd: number;
+  totalLimitUsd: number;
+  dayLimitUsd: number;
+  day: string;
+}
+
+export interface Denial {
+  code: 'budget_exceeded' | 'rate_limited';
+  reason: string;
+}
+
+export interface Reservation {
+  readonly amountUsd: number;
+  readonly day: string;
+  /** Replaces the reserved amount with the real cost; returns the counters after settling. */
+  settle(actualUsd: number): Promise<BudgetStatus>;
+  /** Returns the whole reservation (the call did not happen or was not billed). */
+  release(): Promise<void>;
+}
+
+function envNumber(value: string | undefined, fallback: number): number {
+  const n = value === undefined || value === '' ? NaN : Number(value);
+  return Number.isFinite(n) && n >= 0 ? n : fallback;
+}
+
+export function budgetLimits(env: NodeJS.ProcessEnv = process.env) {
+  return {
+    totalLimitUsd: envNumber(env.AI_BUDGET_USD, 6),
+    dayLimitUsd: envNumber(env.AI_DAILY_CAP_USD, 2),
+  };
+}
+
+/** UTC day, the unit of the daily cap and the rate-limit windows. */
+export function dayKey(date = new Date()): string {
+  return date.toISOString().slice(0, 10);
+}
+
+export function hashIp(ip: string): string {
+  return createHash('sha256')
+    .update(`${process.env.IP_HASH_SALT ?? 'irreplaceable'}:${ip.trim()}`)
+    .digest('hex')
+    .slice(0, 32);
+}
+
+export const budgetKeys = {
+  total: 'budget:total',
+  day: (day: string) => `budget:${day}`,
+  profile: (id: string, day: string) => `rl:profile:${id}:${day}`,
+  ip: (ipHash: string, day: string) => `rl:ip:${ipHash}:${day}`,
+};
+
+export async function getBudgetStatus(): Promise<BudgetStatus> {
+  const store = getStore();
+  const day = dayKey();
+  const [totalUsd, dayUsd] = await Promise.all([store.getNumber(budgetKeys.total), store.getNumber(budgetKeys.day(day))]);
+  return { totalUsd, dayUsd, day, ...budgetLimits() };
+}
+
+async function takeSlot(key: string, limit: number): Promise<boolean> {
+  const store = getStore();
+  const count = await store.incrFloat(key, 1, RATE_TTL_SEC);
+  if (count <= limit) return true;
+  await store.incrFloat(key, -1);
+  return false;
+}
+
+/**
+ * Counts one model call against the profile (25/day) and the IP (60/day).
+ * Cached answers do not reach this point and are free. Returns a denial or null.
+ */
+export async function consumeRateLimit(actor: Actor | undefined): Promise<Denial | null> {
+  if (!actor) return null;
+  const day = dayKey();
+  if (actor.profileId && !(await takeSlot(budgetKeys.profile(actor.profileId, day), RATE_LIMITS.profilePerDay))) {
+    return { code: 'rate_limited', reason: `profile reached ${RATE_LIMITS.profilePerDay} model calls today` };
+  }
+  if (actor.ip && !(await takeSlot(budgetKeys.ip(hashIp(actor.ip), day), RATE_LIMITS.ipPerDay))) {
+    return { code: 'rate_limited', reason: `IP reached ${RATE_LIMITS.ipPerDay} model calls today` };
+  }
+  return null;
+}
+
+export async function reserveBudget(
+  estimateUsd: number,
+): Promise<{ ok: true; reservation: Reservation } | { ok: false; denial: Denial }> {
+  const store = getStore();
+  const { totalLimitUsd, dayLimitUsd } = budgetLimits();
+  const day = dayKey();
+  const dayK = budgetKeys.day(day);
+  const amount = Math.max(0, estimateUsd);
+
+  const total = await store.incrFloat(budgetKeys.total, amount);
+  if (total > totalLimitUsd) {
+    await store.incrFloat(budgetKeys.total, -amount);
+    return {
+      ok: false,
+      denial: { code: 'budget_exceeded', reason: `total AI budget $${totalLimitUsd} would be exceeded (spent $${(total - amount).toFixed(4)})` },
+    };
+  }
+  const dayTotal = await store.incrFloat(dayK, amount, DAY_TTL_SEC);
+  if (dayTotal > dayLimitUsd) {
+    await Promise.all([store.incrFloat(dayK, -amount), store.incrFloat(budgetKeys.total, -amount)]);
+    return {
+      ok: false,
+      denial: { code: 'budget_exceeded', reason: `daily AI cap $${dayLimitUsd} would be exceeded (spent $${(dayTotal - amount).toFixed(4)} today)` },
+    };
+  }
+
+  let done = false;
+  return {
+    ok: true,
+    reservation: {
+      amountUsd: amount,
+      day,
+      async settle(actualUsd: number) {
+        if (done) throw new Error('reservation already settled');
+        done = true;
+        const delta = Math.max(0, actualUsd) - amount;
+        const [t, d] = await Promise.all([store.incrFloat(budgetKeys.total, delta), store.incrFloat(dayK, delta)]);
+        return { totalUsd: t, dayUsd: d, totalLimitUsd, dayLimitUsd, day };
+      },
+      async release() {
+        if (done) return;
+        done = true;
+        await Promise.all([store.incrFloat(budgetKeys.total, -amount), store.incrFloat(dayK, -amount)]);
+      },
+    },
+  };
+}

@@ -1,0 +1,339 @@
+/* Category swatches (tiny Week Bar tiles), chips, evidence badges and the evidence meter. */
+
+.sw {
+  flex: none;
+  display: inline-block;
+  width: 44px;
+  height: 32px;
+  border-radius: 7px 7px 3px 3px;
+  margin-bottom: 5px;
+}
+
+.sw[data-size='sm'] {
+  width: 18px;
+  height: 14px;
+  border-radius: 4px 4px 2px 2px;
+  margin-bottom: 2px;
+}
+
+.sw[data-size='lg'] {
+  width: 56px;
+  height: 42px;
+  margin-bottom: 6px;
+}
+
+.swAi {
+  background: var(--tile-ai);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    inset 0 0 0 1px var(--tile-ai-edge),
+    0 5px 0 var(--tile-ai-face);
+}
+
+.swSp {
+  background: var(--tile-sp);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    inset 0 0 0 1px var(--tile-sp-edge),
+    0 5px 0 var(--tile-sp-face);
+}
+
+.swHu {
+  background: var(--tile-hu);
+  box-shadow:
+    inset 0 1.5px 0 oklch(100% 0 0 / 0.6),
+    0 5px 0 var(--tile-hu-face);
+}
+
+.swNd {
+  outline: 1.5px dashed oklch(72% 0.06 288);
+  outline-offset: -1.5px;
+}
+
+.sw[data-size='sm'].swAi,
+.sw[data-size='sm'].swSp,
+.sw[data-size='sm'].swHu {
+  box-shadow:
+    inset 0 1px 0 oklch(100% 0 0 / 0.7),
+    inset 0 0 0 1px oklch(80% 0.04 288 / 0.6),
+    0 2px 0 var(--tile-ai-face);
+}
+
+.sw[data-size='sm'].swHu {
+  box-shadow:
+    inset 0 1px 0 oklch(100% 0 0 / 0.6),
+    0 2px 0 var(--tile-hu-face);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 30px;
+  padding: 3px 10px 3px 7px;
+  border-radius: var(--r-chip);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--ink);
+  background: var(--sunk);
+}
+
+.chip[data-cat='human_edge'] {
+  background: oklch(94% 0.04 66);
+  color: var(--apricot-deep);
+}
+
+.chip[data-cat='no_data'] {
+  color: var(--ink-2);
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.chip[data-surface='violet'] {
+  background: oklch(100% 0 0 / 0.14);
+  color: #fff;
+}
+
+/* badge */
+.badge {
+  --badge-tick: var(--violet-soft);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 30px;
+  padding: 3px 11px 3px 8px;
+  border-radius: var(--r-chip);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.badge svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+
+.badge[data-size='sm'] {
+  min-height: 26px;
+  font-size: 13px;
+  padding: 2px 9px 2px 6px;
+}
+
+.badge[data-level='observed'] {
+  color: var(--violet);
+  background: var(--violet-soft);
+}
+
+.badge[data-level='estimate'] {
+  color: var(--ink-2);
+  box-shadow: inset 0 0 0 1.5px var(--line);
+}
+
+.badge[data-level='none'] {
+  color: var(--ink-2);
+}
+
+.badge[data-surface='violet'][data-level='observed'] {
+  --badge-tick: var(--violet);
+  color: var(--violet);
+  background: oklch(94.5% 0.035 290);
+}
+
+.badge[data-surface='violet'][data-level='estimate'],
+.badge[data-surface='violet'][data-level='none'] {
+  color: var(--on-violet);
+  box-shadow: inset 0 0 0 1.5px oklch(100% 0 0 / 0.35);
+}
+
+/* meter */
+.meter {
+  --m-ink: var(--ink);
+  --m-ink-2: var(--ink-2);
+  --m-track: var(--sunk);
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+  color: var(--m-ink);
+}
+
+.meter[data-surface='violet'] {
+  --m-ink: #fff;
+  --m-ink-2: var(--on-violet-2);
+  --m-track: oklch(100% 0 0 / 0.16);
+}
+
+.meter[data-compact] {
+  gap: 8px;
+}
+
+.mHead {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.mVal {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1;
+}
+
+.meter[data-compact] .mVal {
+  font-size: 18px;
+}
+
+.mKey {
+  font-size: 14.5px;
+  color: var(--m-ink-2);
+}
+
+.mNone {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.scale {
+  --pos: 0.5;
+  position: relative;
+  padding-bottom: 20px;
+}
+
+.meter[data-compact] .scale {
+  padding-bottom: 0;
+}
+
+.sTrack {
+  position: relative;
+  height: 10px;
+  border-radius: 6px;
+  background: var(--m-track);
+  box-shadow: inset 0 1px 2px oklch(26% 0.09 285 / 0.12);
+}
+
+.sFill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: calc(var(--pos) * 100%);
+  border-radius: inherit;
+  background: var(--hatch-dense), linear-gradient(180deg, oklch(96% 0.015 290), oklch(90% 0.03 290));
+  box-shadow: inset 0 0 0 1px var(--tile-ai-edge);
+  transform-origin: 0 50%;
+  animation: grow 0.7s var(--ease) both;
+}
+
+.sPin {
+  position: absolute;
+  top: 50%;
+  left: calc(var(--pos) * 100%);
+  width: 4px;
+  height: 22px;
+  margin: -11px 0 0 -2px;
+  border-radius: 2px;
+  background: var(--violet);
+  box-shadow: 0 0 0 2px var(--card);
+}
+
+.meter[data-surface='violet'] .sPin {
+  background: #fff;
+  box-shadow: 0 0 0 2px var(--field);
+}
+
+.sTicks span {
+  position: absolute;
+  top: 18px;
+  font-size: 12px;
+  color: var(--m-ink-2);
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.sTicks span:first-child {
+  transform: none;
+}
+
+.sTicks span:last-child {
+  transform: translateX(-100%);
+}
+
+.split {
+  display: grid;
+  gap: 8px;
+}
+
+.splitBar {
+  display: flex;
+  gap: 3px;
+  height: 14px;
+}
+
+.splitBar span {
+  flex-basis: 0;
+  border-radius: 4px;
+  transition: flex-grow var(--t-layout) var(--ease);
+}
+
+.spAuto {
+  background: var(--tile-ai);
+  box-shadow: inset 0 0 0 1px var(--tile-ai-edge);
+}
+
+.spTog {
+  background: var(--tile-sp);
+  box-shadow: inset 0 0 0 1px var(--tile-sp-edge);
+}
+
+.splitKeys {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13.5px;
+  color: var(--m-ink-2);
+}
+
+.splitKeys b {
+  color: var(--m-ink);
+  font-weight: 700;
+}
+
+.research {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14.5px;
+  line-height: 1.4;
+  color: var(--m-ink-2);
+}
+
+.steps {
+  flex: none;
+  display: inline-flex;
+  gap: 3px;
+  margin-top: 3px;
+}
+
+.steps i {
+  width: 10px;
+  height: 14px;
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 1.5px var(--line);
+}
+
+.steps i[data-on] {
+  background: var(--hatch-dense), var(--machine-field);
+  box-shadow: inset 0 0 0 1px var(--tile-ai-edge);
+}
+
+.steps i:first-child[data-on] {
+  background: var(--sunk);
+}
+
+@keyframes grow {
+  from {
+    transform: scaleX(0);
+  }
+}

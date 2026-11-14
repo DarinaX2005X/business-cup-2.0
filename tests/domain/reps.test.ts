@@ -240,6 +240,14 @@ describe('traps', () => {
     expect(trapsCaught(traps, 'Write the handoff.', run, [], inputs)).toEqual([]);
   });
 
+  it('matches the value inside a longer keyword, also in the fix sentence, and a verified grader finding', () => {
+    const t = [{ id: 't1', description: 'Order vs MAR dose', keywords: ['Lasix 20 mg', '40 mg given'] }, { id: 't2', description: 'O2', keywords: ['3L NC'] }];
+    expect(trapsCaught(t, 'Flag any mismatch, for example 20 mg vs 40 mg furosemide.', 'x', [], inputs)).toEqual(['t1']);
+    expect(trapsCaught(t, 'Write the handoff.', 'x', [], inputs, 'Check the 20 mg order against the MAR.')).toEqual(['t1']);
+    expect(trapsCaught(t, 'Write the handoff.', 'x', [], inputs, '', ['t2'])).toEqual(['t2']);
+    expect(trapsCaught(t, 'Write the handoff, 120 mg max.', 'x', [], inputs)).toEqual([]);
+  });
+
   it('pasting the input material into the instruction does not count as naming the trap', () => {
     const pasted = `Write the handoff from this: ${inputs}`;
     expect(copiesInputs(pasted, inputs)).toBe(true);

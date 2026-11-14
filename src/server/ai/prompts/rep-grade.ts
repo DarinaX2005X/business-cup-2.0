@@ -22,6 +22,11 @@ export const repGradeSchema = z.object({
 });
 export type RepGradeOutput = z.infer<typeof repGradeSchema>;
 
+/** Delegate grading also judges the hidden traps; a trap counts only with a quote code finds in the person's text. */
+export const repGradeDelegateSchema = repGradeSchema.extend({
+  traps: z.array(z.object({ id: z.string(), named: z.boolean(), quote: z.string().nullable() })),
+});
+
 const COMMON = (locale: Locale) => [
   'Grading rules:',
   '- met: the text clearly does this. partly: it does it vaguely or only half. missed: it does not.',
@@ -40,6 +45,7 @@ export const repGradeDelegatePrompt = {
       ...COMMON(locale),
       `- summary: one instruction sentence in ${LANGUAGE_NAME[locale]}, written as the person could have written it, that would have improved the AI's result the most (the line their instruction was missing). If everything was met, the line that made the biggest difference.`,
       `- fixFeedback: one sentence in ${LANGUAGE_NAME[locale]} on their proposed fix: does it address a real problem in the AI's result? null if they wrote nothing.`,
+      '- traps: for each hidden trap in the material, named = true only if the INSTRUCTION or the FIX explicitly asks to check for that specific problem or names it (a general "be accurate" does not count); quote = the exact words (2–25) from the instruction or the fix that do it, else null.',
     ].join('\n'),
   user: (input: {
     occupation: string;
@@ -47,6 +53,7 @@ export const repGradeDelegatePrompt = {
     goal: string;
     inputs: string;
     criteria: { id: string; text: string }[];
+    traps: { id: string; description: string }[];
     instruction: string;
     run: string;
     highlighted: string[];
@@ -62,6 +69,8 @@ export const repGradeDelegatePrompt = {
       '"""',
       'Rubric:',
       ...input.criteria.map((c) => `${c.id}: ${c.text}`),
+      'Hidden traps in the material:',
+      ...input.traps.map((t) => `${t.id}: ${t.description}`),
       '',
       'INSTRUCTION (the person\'s text):',
       '"""',
@@ -72,7 +81,7 @@ export const repGradeDelegatePrompt = {
       input.run,
       '"""',
       `Parts of the AI result the person flagged: ${input.highlighted.length ? input.highlighted.map((h) => `"${h}"`).join('; ') : 'none'}`,
-      `Their fix: ${input.fix.trim() ? input.fix : '(none)'}`,
+      `FIX (the person's text): ${input.fix.trim() ? input.fix : '(none)'}`,
     ].join('\n'),
 };
 

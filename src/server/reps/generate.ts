@@ -1,5 +1,6 @@
 import {
   keywordCriteria,
+  quoteIn,
   keywordSpots,
   normalizeDocument,
   slipErrorCount,
@@ -15,7 +16,7 @@ import type { Actor } from '@/server/ai/budget';
 import { AiError, callModel, isAiError } from '@/server/ai/client';
 import { repDelegatePrompt, repDelegateRunPrompt, repDelegateRunSchema, repDelegateSchema, type RepDelegateOutput } from '@/server/ai/prompts/rep-delegate';
 import { repEdgePrompt, repEdgeReplyPrompt, repEdgeReplySchema, repEdgeSchema, type RepEdgeOutput, type RepEdgeReply } from '@/server/ai/prompts/rep-edge';
-import { repGradeDelegatePrompt, repGradeEdgePrompt, repGradeSchema } from '@/server/ai/prompts/rep-grade';
+import { repGradeDelegatePrompt, repGradeDelegateSchema, repGradeEdgePrompt, repGradeSchema } from '@/server/ai/prompts/rep-grade';
 import { repSlipPrompt, repSlipSchema, type RepSlipOutput } from '@/server/ai/prompts/rep-slip';
 import type { BankDelegate, BankEdge, BankEntry, BankSlip } from './bank';
 import { plannedTypes } from './error-types';
@@ -217,6 +218,8 @@ export interface RubricGrade {
   criteria: CriterionGrade[];
   summary?: string;
   fixFeedback?: string;
+  /** Delegate: traps the grader found named, with the quote verified in the instruction or fix. */
+  trapsNamed?: string[];
   /** true when the model was unavailable and keywords decided. */
   keywordGrade: boolean;
   costUsd: number;
@@ -230,6 +233,7 @@ export async function gradeDelegate(input: {
   goal: string;
   inputs: string;
   criteria: RubricItem[];
+  traps: Trap[];
   instruction: string;
   run: string;
   highlighted: string[];
@@ -239,9 +243,13 @@ export async function gradeDelegate(input: {
   try {
     const { data, usage } = await callModel({
       op: 'rep.grade',
-      schema: repGradeSchema,
+      schema: repGradeDelegateSchema,
       system: repGradeDelegatePrompt.system(input.locale),
-      user: repGradeDelegatePrompt.user({ ...input, criteria: input.criteria.map(({ id, text }) => ({ id, text })) }),
+      user: repGradeDelegatePrompt.user({
+        ...input,
+        criteria: input.criteria.map(({ id, text }) => ({ id, text })),
+        traps: input.traps.map(({ id, description }) => ({ id, description })),
+      }),
       locale: input.locale,
       maxTokens: 3000,
       temperature: 0.1,
@@ -252,6 +260,9 @@ export async function gradeDelegate(input: {
       criteria: verifyCriteria(input.criteria, data.criteria, input.instruction),
       summary: data.summary.trim() || undefined,
       fixFeedback: data.fixFeedback?.trim() || undefined,
+      trapsNamed: data.traps
+        .filter((t) => t.named && input.traps.some((x) => x.id === t.id) && (quoteIn(input.instruction, t.quote) || quoteIn(input.fix, t.quote)))
+        .map((t) => t.id),
       keywordGrade: false,
       costUsd: usage.costUsd,
     };

@@ -537,9 +537,26 @@ export function copiesInputs(instruction: string, inputs: string): boolean {
   return false;
 }
 
+const VALUE_RE = /\$?\d[\d.,/]*\s?(?:[a-zA-Zа-яА-ЯёЁ%°µ]+(?:\/[a-zA-Z]+)?)?/g;
+
 /**
- * A trap is caught when the instruction names one of its keywords (unless the instruction just pastes
- * the inputs), or a user highlight in the AI's result touches a place where a keyword occurs.
+ * Terms that mark a trap: its keywords plus the number-with-unit inside each ("Lasix 20 mg" → "20 mg"),
+ * because people write the conflicting value, not the model's exact phrase.
+ */
+export function trapTerms(trap: Pick<Trap, 'keywords'>): string[] {
+  const out = new Set<string>();
+  for (const k of trap.keywords) {
+    const t = k.replace(/\s+/g, ' ').trim();
+    if (t.length >= 2) out.add(t);
+    for (const m of t.match(VALUE_RE) ?? []) if (m.trim().length >= 2 && /\D/.test(m.trim())) out.add(m.trim());
+  }
+  return [...out];
+}
+
+/**
+ * A trap is caught when the instruction or the fix sentence names one of its terms (unless they just
+ * paste the inputs), when a user highlight in the AI's result touches a place where a term occurs, or
+ * when the grader found it named and its quote was verified in the person's text (`verified`).
  */
 export function trapsCaught(
   traps: readonly Trap[],
@@ -547,13 +564,17 @@ export function trapsCaught(
   run: string,
   reviewRanges: readonly Range[],
   inputs: string,
+  fix = '',
+  verified: readonly string[] = [],
 ): string[] {
-  const pasted = copiesInputs(instruction, inputs);
+  const own = [instruction, fix].filter((s) => s && !copiesInputs(s, inputs)).join('\n');
   const ranges = mergeRanges(reviewRanges, run.length, 40);
   return traps
     .filter((t) => {
-      if (!pasted && t.keywords.some((k) => containsWord(instruction, k))) return true;
-      const spots = t.keywords.flatMap((k) => keywordSpots(run, k));
+      if (verified.includes(t.id)) return true;
+      const terms = trapTerms(t);
+      if (terms.some((k) => containsWord(own, k))) return true;
+      const spots = terms.flatMap((k) => keywordSpots(run, k));
       return spots.some((s) => ranges.some((r) => overlap(r, s) > 0));
     })
     .map((t) => t.id);
@@ -562,12 +583,16 @@ export function trapsCaught(
 export function trapSpots(traps: readonly Trap[], inputs: string, run: string | undefined): TrapSpot[] {
   const out: TrapSpot[] = [];
   for (const t of traps) {
-    for (const k of t.keywords) {
+    for (const k of trapTerms(t)) {
       for (const [start, end] of keywordSpots(inputs, k)) out.push({ trapId: t.id, where: 'inputs', start, end });
       if (run) for (const [start, end] of keywordSpots(run, k)) out.push({ trapId: t.id, where: 'run', start, end });
     }
   }
-  return out.sort((a, b) => (a.where === b.where ? a.start - b.start : a.where === 'inputs' ? -1 : 1));
+  // a value inside a longer keyword ("20 mg" in "Lasix 20 mg") is one spot, not two
+  const kept = out.filter(
+    (s, i) => !out.some((o, j) => j !== i && o.trapId === s.trapId && o.where === s.where && o.start <= s.start && o.end >= s.end && (o.end - o.start > s.end - s.start || j < i)),
+  );
+  return kept.sort((a, b) => (a.where === b.where ? a.start - b.start : a.where === 'inputs' ? -1 : 1));
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -731,9 +756,10 @@ export function hoursOfShare(share: number): number {
  * Fact for a card, from the data only. Keys (03.2 renders them):
  * - today.aiOrMe.fact.observed  { automation }        "People hand this task to AI in {automation}% of conversations about it"
  * - today.aiOrMe.fact.used      { }                   "Seen in real AI use at work" (observed, no automation split)
- * - today.aiOrMe.fact.seen      { }                   "Showed up in AI usage data since 2025"
+ * - today.aiOrMe.fact.seen      { }                   "Seen in AI usage data, but rarely"
  * - today.aiOrMe.fact.estimate  { exposure }          "Research rates it {exposure}% exposed to language models"
  * - today.aiOrMe.fact.hands_on  { }                   "Hands-on task: barely appears in AI usage"
+ * - today.aiOrMe.fact.people    { }                   "Work with people: barely appears in AI usage"
  * - today.aiOrMe.fact.human     { }                   "Judgment and people: barely appears in AI usage"
  * - today.aiOrMe.fact.no_data   { }                   "No data yet on this task"
  * Every fact gets `hours` when the task is in the person's week ("You spend {hours} h a week on this").
@@ -749,19 +775,28 @@ export function aiOrMeFact(task: Pick<OccTask, 'evidence'>, share: number | unde
       key = 'observed';
       params.automation = Math.round(e.aeiAutomation * 100);
     } else if (e.observed) key = 'used';
-    else if (e.everObserved || (e.penetration ?? 0) > 0) key = 'seen';
+    else if (e.theory >= 0.75) {
+      key = 'estimate';
+      params.exposure = Math.round(e.exposure * 100);
+    } else if (e.seenRarely || e.everObserved) key = 'seen';
     else {
       key = 'estimate';
       params.exposure = Math.round(e.exposure * 100);
     }
-  } else key = e.physical ? 'hands_on' : 'human';
+  } else key = e.physical ? 'hands_on' : e.peopleWork ? 'people' : 'human';
   return { key: `today.aiOrMe.fact.${key}`, params };
 }
 
-/** How strong the "AI" evidence of a task is: observed 3, seen 2, research estimate 1. */
+/**
+ * How strong the "AI" evidence of a task is: observed real use 4, high research rating (theory >= 0.75) 3,
+ * rare published use 2, anything else in ai_speeds 1. Ties keep the person's week first.
+ */
 function aiStrength(t: Pick<OccTask, 'evidence'>): number {
   const e = t.evidence;
-  return e.observed ? 3 : e.everObserved || (e.penetration ?? 0) > 0 ? 2 : 1;
+  if (e.observed) return 4;
+  if (e.theory >= 0.75) return 3;
+  if (e.seenRarely || e.everObserved) return 2;
+  return 1;
 }
 
 /**

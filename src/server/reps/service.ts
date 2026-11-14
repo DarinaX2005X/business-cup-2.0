@@ -50,7 +50,14 @@ export const nowOf = (ctx: RepCtx) => ctx.now ?? new Date();
 /** The profile's zone wins over the header, so changing zones cannot open a second daily rep. */
 export const tzOf = (ctx: RepCtx) => ctx.profile.tz ?? ctx.headerTz;
 export const todayOf = (ctx: RepCtx) => localDay(nowOf(ctx), tzOf(ctx));
-export const actorOf = (ctx: RepCtx): Actor => ({ profileId: ctx.profile.id, ip: ctx.ip ?? null });
+/**
+ * Rate limits for reps. Generating a rep counts once against the profile in its own daily bucket
+ * (`<profileId>:reps`, 25/day like the shared one, so a day of practice never eats the map's quota);
+ * the calls inside a rep (Delegate run, Edge replies, grading) count only against the IP, because the
+ * engine already bounds them: at most 1 daily + 3 extras + 1 trial a day, 6 Edge replies, 1 Delegate run.
+ */
+export const actorOf = (ctx: RepCtx): Actor => ({ profileId: `${ctx.profile.id}:reps`, ip: ctx.ip ?? null });
+export const innerActorOf = (ctx: RepCtx): Actor => ({ ip: ctx.ip ?? null });
 
 export interface Week {
   bundle: OccupationBundle;

@@ -55,12 +55,13 @@ export const MAX_EDGE_REPLIES = 6;
 
 /** Task caption in the UI language: translated text and short label when the tips record has them. */
 export async function taskCaption(code: string, taskId: string, locale: Locale): Promise<{ text: string; short: string }> {
-  const texts = await getTaskTexts(code, locale).catch(() => null);
-  const t = texts?.tasks[taskId];
-  if (t) return { text: t.text, short: t.short || heuristicShort(t.text) };
-  const bundle = await loadBundle(code).catch(() => null);
+  const [texts, bundle] = await Promise.all([getTaskTexts(code, locale).catch(() => null), loadBundle(code).catch(() => null)]);
   const task = bundle?.tasks.find((x) => x.id === taskId);
-  return task ? { text: task.text, short: heuristicShort(task.text) } : { text: '', short: '' };
+  const t = texts?.tasks[taskId];
+  // the bundle's own short label (data build) is the English fallback; the tips record wins for ru/kk
+  const short = (locale === 'en' ? task?.short : undefined) || t?.short || task?.short || (task ? heuristicShort(task.text) : '');
+  if (t) return { text: t.text, short };
+  return task ? { text: task.text, short } : { text: '', short: '' };
 }
 
 /**

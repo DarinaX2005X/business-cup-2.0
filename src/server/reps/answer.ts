@@ -26,7 +26,7 @@ import { getStore, isConflictError } from '@/server/store';
 import { loadBundle, practiceOf, readXray } from '@/server/xray';
 import { edgeReply, gradeDelegate, gradeEdge, runDelegate } from './generate';
 import { MAX_EDGE_REPLIES, readRep, repKey, taskCaption, toView } from './records';
-import { actorOf, nowOf, tzOf, type RepCtx } from './service';
+import { innerActorOf, nowOf, tzOf, type RepCtx } from './service';
 
 /**
  * POST /api/reps/:id/answer by type. Grading is code (slip) or rubric + code checks (delegate, edge).
@@ -189,7 +189,7 @@ async function answerDelegate(ctx: RepCtx, rep: RepRecord, version: number, body
     if (d.run !== undefined) throw new HttpError(409, 'already_run', 'The AI already ran this instruction; review its result.');
     const instruction = body.instruction.trim();
     try {
-      const { output } = await runDelegate({ inputs: d.inputs, instruction, locale: rep.locale, actor: actorOf(ctx) });
+      const { output } = await runDelegate({ inputs: d.inputs, instruction, locale: rep.locale, actor: innerActorOf(ctx) });
       return progress(ctx, { ...rep, delegate: { ...d, instruction, run: output } }, version);
     } catch (err) {
       if (!isAiError(err)) throw err;
@@ -199,8 +199,8 @@ async function answerDelegate(ctx: RepCtx, rep: RepRecord, version: number, body
         throw err;
       }
       // No model today: grade the instruction itself (keywords), traps by the instruction only.
-      const graded = await gradeDelegate({ occupation: '', locale: rep.locale, scenario: d.scenario, goal: d.goal, inputs: d.inputs, criteria: d.criteria, instruction, run: '', highlighted: [], fix: '' });
-      const caught = trapsCaught(d.traps, instruction, '', [], d.inputs);
+      const graded = await gradeDelegate({ occupation: '', locale: rep.locale, scenario: d.scenario, goal: d.goal, inputs: d.inputs, criteria: d.criteria, traps: d.traps, instruction, run: '', highlighted: [], fix: '' });
+      const caught = trapsCaught(d.traps, instruction, '', [], d.inputs, '', graded.trapsNamed);
       const flags: RepFlag[] = ['ended_early', ...(graded.keywordGrade ? (['keyword_grade'] as const) : [])];
       return complete(
         ctx,
@@ -222,13 +222,14 @@ async function answerDelegate(ctx: RepCtx, rep: RepRecord, version: number, body
     goal: d.goal,
     inputs: d.inputs,
     criteria: d.criteria,
+    traps: d.traps,
     instruction: d.instruction,
     run: d.run,
     highlighted: ranges.map(([a, b]) => d.run!.slice(a, b)),
     fix,
-    actor: actorOf(ctx),
+    actor: innerActorOf(ctx),
   });
-  const caught = trapsCaught(d.traps, d.instruction, d.run, ranges, d.inputs);
+  const caught = trapsCaught(d.traps, d.instruction, d.run, ranges, d.inputs, fix, graded.trapsNamed);
   return complete(
     ctx,
     { ...rep, delegate: { ...d, review: { ranges, fix } } },
@@ -261,7 +262,7 @@ async function answerEdge(ctx: RepCtx, rep: RepRecord, version: number, body: An
       criteria: e.criteria,
       turns,
       endedEarly,
-      actor: actorOf(ctx),
+      actor: innerActorOf(ctx),
     });
     return { graded, extra };
   };
@@ -284,7 +285,7 @@ async function answerEdge(ctx: RepCtx, rep: RepRecord, version: number, body: An
   if (!('message' in body)) throw new HttpError(400, 'invalid_input', 'message or finish: required for Human edge');
   if (userTurns >= MAX_EDGE_REPLIES) throw new HttpError(409, 'no_replies_left', 'All six replies are used; finish to get feedback.');
   const turns = [...e.turns, { role: 'user' as const, text: body.message.trim() }];
-  const replyInput = { occupation, locale: rep.locale, scenario: e.scenario, personaPublic: e.personaPublic, personaHidden: e.personaHidden, turns, actor: actorOf(ctx) };
+  const replyInput = { occupation, locale: rep.locale, scenario: e.scenario, personaPublic: e.personaPublic, personaHidden: e.personaHidden, turns, actor: innerActorOf(ctx) };
 
   if (userTurns + 1 >= MAX_EDGE_REPLIES) {
     // last reply: the persona answers and the grade runs at the same time

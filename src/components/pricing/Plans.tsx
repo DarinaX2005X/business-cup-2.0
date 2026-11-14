@@ -2,104 +2,157 @@
 
 import { Check } from 'lucide-react';
 import Link from 'next/link';
-import type { ReactNode } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { CupBand } from '@/components/cup/CupBand';
+import { Button } from '@/components/kit/Button';
+import { Segmented } from '@/components/kit/Segmented';
 import btn from '@/components/kit/controls.module.css';
 import { useT } from '@/i18n/client';
-import { PRO_MONTHLY_USD, PRO_YEARLY_USD, YEARLY_SAVING_USD, type Interval } from './billing';
+import { apiFetch } from '@/lib/client/api';
+import { useProfile } from '@/lib/client/profile';
+import { PRO_MONTHLY_USD, PRO_YEARLY_USD, type Interval } from './billing';
 import st from './plans.module.css';
 
-const FREE_ITEMS = ['map', 'aiOrMe', 'rep', 'jobs'] as const;
-const PRO_ITEMS = ['all', 'reps', 'plan', 'jobs', 'proof', 'shop'] as const;
+export type Tier = 'pro' | 'coach';
 
 /**
- * The plans, the same on the landing and on /pricing: Pro on the left with its two ways to pay
- * (yearly shown per month with what it saves, or monthly), Free on the right, and the Business Cup
- * 2.0 card under both. Prices come from PRO_PRICES. `action` is what sits under the Pro price:
- * the trial box on /pricing, a link to it on the landing.
+ * The three plans (ROUND3, decision 5). Pro prices come from PRO_PRICES; Coach mirrors the decision
+ * until the billing package exports its PLANS constant, then this table reads from it.
  */
-export function Plans({
-  interval,
-  onInterval,
-  action,
-  freeHref,
-  freeLabel,
-  heading = 'h3',
-}: {
-  interval: Interval;
-  onInterval: (i: Interval) => void;
-  action: ReactNode;
-  freeHref: string;
-  freeLabel: string;
-  heading?: 'h3' | 'h2';
-}) {
+export const TIER_PRICES: Record<Tier, { month: number; year: number }> = {
+  pro: { month: PRO_MONTHLY_USD, year: PRO_YEARLY_USD },
+  coach: { month: 39, year: 239 },
+};
+
+const ITEMS = {
+  free: ['map', 'aiOrMe', 'rep', 'jobs', 'points'],
+  pro: ['reps', 'plan', 'skills', 'jobs', 'proof', 'playbook', 'pdf', 'shop'],
+  coach: ['all', 'chat', 'voice', 'checkins', 'priority'],
+} as const;
+
+const saving = (t: Tier) => 1 - TIER_PRICES[t].year / (TIER_PRICES[t].month * 12);
+/** «Save up to N%»: the best yearly saving among the paid plans. */
+export const MAX_SAVING = Math.max(saving('pro'), saving('coach'));
+
+/**
+ * The plans, one component for the landing and /pricing: the Monthly / Yearly toggle on top, then
+ * Free, Pro (raised, «Most popular») and Coach, and the Business Cup 2.0 card under them. Yearly
+ * shows the price per month after the discount and what is billed once a year. A paid button makes
+ * sure a profile exists and opens Stripe Checkout for that tier; if checkout cannot start, the
+ * landing sends the person to /pricing and /pricing says so next to the button.
+ */
+export function Plans({ freeHref = '/start', freeLabel, heading = 'h3' }: { freeHref?: string; freeLabel?: string; heading?: 'h2' | 'h3' }) {
   const { t, f } = useT();
+  const prof = useProfile();
+  const router = useRouter();
+  const onPricing = usePathname() === '/pricing';
+  const [interval, setBilling] = useState<Interval>('year');
+  const [busy, setBusy] = useState<Tier | null>(null);
+  const [failed, setFailed] = useState<Tier | null>(null);
   const H = heading;
-  const perMonthYearly = Math.round((PRO_YEARLY_USD / 12) * 100) / 100;
-  const options: { id: Interval; name: string; price: string; note: string; tag?: string }[] = [
-    {
-      id: 'year',
-      name: t('pricing.interval.year'),
-      price: f.currency(perMonthYearly, { cents: true }),
-      note: t('pricing.pro.billedYear', { price: f.currency(PRO_YEARLY_USD), amount: f.currency(YEARLY_SAVING_USD) }),
-      tag: t('pricing.pro.best'),
-    },
-    { id: 'month', name: t('pricing.interval.month'), price: f.currency(PRO_MONTHLY_USD), note: t('pricing.pro.billedMonth') },
-  ];
+
+  const checkout = async (tier: Tier) => {
+    if (busy) return;
+    setBusy(tier);
+    setFailed(null);
+    try {
+      await prof.ensure();
+      const { url } = await apiFetch<{ url: string }>('/api/billing/checkout', { method: 'POST', body: { tier, interval } });
+      window.location.assign(url);
+    } catch {
+      setBusy(null);
+      if (onPricing) setFailed(tier);
+      else router.push('/pricing');
+    }
+  };
+
+  const price = (tier: Tier) => {
+    const p = TIER_PRICES[tier];
+    return interval === 'year' ? f.currency(Math.round((p.year / 12) * 100) / 100, { cents: true }) : f.currency(p.month);
+  };
+
+  const paid = (tier: Tier) => (
+    <article className={st.plan} data-tier={tier} aria-labelledby={`plan-${tier}`}>
+      {tier === 'pro' ? <span className={st.tag}>{t('pricing.tiers.popular')}</span> : null}
+      <H id={`plan-${tier}`} className={st.name}>
+        {t(`pricing.tiers.${tier}.name`)}
+      </H>
+      <p className={st.price} aria-live="polite">
+        <b>{price(tier)}</b> <span>{t('pricing.pro.perMonth')}</span>
+      </p>
+      <p className={st.billed}>
+        {interval === 'year' ? t('pricing.tiers.billedYear', { price: f.currency(TIER_PRICES[tier].year) }) : t('pricing.tiers.billedMonth')}
+      </p>
+      <p className={st.lead}>{t(`pricing.tiers.${tier}.lead`)}</p>
+      <Button
+        variant={tier === 'pro' ? 'apricot' : 'primary'}
+        size="lg"
+        block
+        loading={busy === tier}
+        loadingLabel={t('pricing.opening')}
+        onClick={() => checkout(tier)}
+      >
+        {t(`pricing.tiers.${tier}.cta`)}
+      </Button>
+      {failed === tier ? (
+        <p className={st.error} role="alert">
+          {t('pricing.errors.checkout')}
+        </p>
+      ) : null}
+      <ul className={st.items}>
+        {ITEMS[tier].map((k) => (
+          <li key={k}>
+            <Check strokeWidth={2.4} aria-hidden="true" />
+            {t(`pricing.tiers.${tier}.items.${k}`)}
+          </li>
+        ))}
+      </ul>
+    </article>
+  );
 
   return (
-    <div className={st.plans}>
-      <article className={`${st.pro} field`} data-surface="field" aria-labelledby="plan-pro">
-        <span className={st.proTile} aria-hidden="true" />
-        <div className={st.proBuy}>
-          <H id="plan-pro" className={st.name}>
-            {t('pricing.pro.name')}
-          </H>
-          <div className={st.options} role="radiogroup" aria-label={t('pricing.interval.label')}>
-            {options.map((o) => (
-              <button key={o.id} type="button" role="radio" aria-checked={interval === o.id} className={st.option} onClick={() => onInterval(o.id)}>
-                <span className={st.dot} aria-hidden="true" />
-                <span className={st.optName}>
-                  {o.name}
-                  {o.tag ? <em>{o.tag}</em> : null}
-                </span>
-                <span className={st.optPrice}>
-                  <b>{o.price}</b> {t('pricing.pro.perMonth')}
-                </span>
-                <span className={st.optNote}>{o.note}</span>
-              </button>
-            ))}
-          </div>
-          <div className={st.action}>{action}</div>
-        </div>
-        <ul className={st.items}>
-          {PRO_ITEMS.map((k) => (
-            <li key={k}>
-              <Check strokeWidth={2.4} aria-hidden="true" />
-              {t(`pricing.pro.items.${k}`)}
-            </li>
-          ))}
-        </ul>
-      </article>
+    <div className={st.root}>
+      <div className={st.toggle}>
+        <Segmented
+          label={t('pricing.interval.label')}
+          value={interval}
+          onChange={setBilling}
+          options={[
+            { value: 'month', label: t('pricing.interval.month') },
+            { value: 'year', label: t('pricing.interval.year') },
+          ]}
+        />
+        <span className={st.save} data-on={interval === 'year' || undefined}>
+          {t('pricing.tiers.save', { percent: Math.round(MAX_SAVING * 100) })}
+        </span>
+      </div>
 
-      <article className={st.free} aria-labelledby="plan-free">
-        <H id="plan-free" className={st.name}>
-          {t('pricing.free.name')}
-        </H>
-        <p className={st.freePrice}>{f.currency(0)}</p>
-        <p className={st.freeLead}>{t('pricing.free.lead')}</p>
-        <ul className={st.items}>
-          {FREE_ITEMS.map((k) => (
-            <li key={k}>
-              <Check strokeWidth={2.4} aria-hidden="true" />
-              {t(`pricing.free.items.${k}`)}
-            </li>
-          ))}
-        </ul>
-        <Link href={freeHref} className={`${btn.btn} ${btn.b_secondary} ${st.freeCta}`}>
-          {freeLabel}
-        </Link>
-      </article>
+      <div className={st.plans}>
+        <article className={st.plan} data-tier="free" aria-labelledby="plan-free">
+          <H id="plan-free" className={st.name}>
+            {t('pricing.tiers.free.name')}
+          </H>
+          <p className={st.price}>
+            <b>{f.currency(0)}</b>
+          </p>
+          <p className={st.billed}>{t('pricing.tiers.free.billed')}</p>
+          <p className={st.lead}>{t('pricing.tiers.free.lead')}</p>
+          <Link href={freeHref} className={`${btn.btn} ${btn.b_secondary} ${btn.s_lg} ${btn.block}`}>
+            {freeLabel ?? t('pricing.free.cta')}
+          </Link>
+          <ul className={st.items}>
+            {ITEMS.free.map((k) => (
+              <li key={k}>
+                <Check strokeWidth={2.4} aria-hidden="true" />
+                {t(`pricing.tiers.free.items.${k}`)}
+              </li>
+            ))}
+          </ul>
+        </article>
+        {paid('pro')}
+        {paid('coach')}
+      </div>
 
       <CupBand className={st.band} />
     </div>

@@ -4,13 +4,11 @@ import { CalendarClock } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/kit/Button';
 import { FieldArches } from '@/components/kit/Illustration';
-import { LanguageSwitch } from '@/components/kit/LanguageSwitch';
 import { Wordmark } from '@/components/kit/Mark';
 import btn from '@/components/kit/controls.module.css';
 import { useT } from '@/i18n/client';
-import { locales, type Locale } from '@/i18n/config';
-import { useOptionalProfile } from '@/lib/client/profile';
 import { CupNext, CupPass } from './CupOffer';
+import { JuryAccounts } from './JuryAccounts';
 import { Trophy } from './Trophy';
 import type { ProfilePlan } from './plan';
 import { useCupUnlock } from './useCupUnlock';
@@ -21,18 +19,11 @@ import st from './cup.module.css';
  * turns into the next step once Pro is on. The pass on the right gets its stamp at the same moment.
  */
 export function CupPage({ initialPlan, hasMap }: { initialPlan: ProfilePlan | null; hasMap: boolean }) {
-  const { t, locale, setLocale } = useT();
-  const profile = useOptionalProfile();
+  const { t } = useT();
   const cup = useCupUnlock({ initialPlan, hasMapInitial: hasMap });
   const on = cup.phase === 'done' || (cup.plan.kind === 'cup' && cup.plan.active);
   const already = !on && cup.alreadyPro;
   const ended = !on && !already && !cup.offerOpen;
-
-  const switchLocale = async (next: Locale) => {
-    if (next === locale) return;
-    await setLocale(next);
-    if (profile?.status === 'ready' && profile.profile?.locale !== next) profile.update({ locale: next }).catch(() => undefined);
-  };
 
   return (
     <div className={`${st.page} field`} data-surface="field">
@@ -45,7 +36,6 @@ export function CupPage({ initialPlan, hasMap }: { initialPlan: ProfilePlan | nu
           <Link href="/pricing" className={st.headLink} data-wide="">
             {t('cup.nav.pricing')}
           </Link>
-          <LanguageSwitch value={locale} onChange={switchLocale} locales={locales} label={t('common.language')} surface="violet" />
         </nav>
       </header>
 
@@ -102,6 +92,8 @@ export function CupPage({ initialPlan, hasMap }: { initialPlan: ProfilePlan | nu
               </div>
             </>
           )}
+
+          {on || already ? null : <JuryAccounts surface="violet" />}
 
           <p className={st.foot}>
             {t('cup.footA')} <Link href="/pricing">{t('cup.footLink')}</Link>

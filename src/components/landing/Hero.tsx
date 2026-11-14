@@ -3,7 +3,6 @@ import type { TFunction } from '@/i18n/core';
 import { LANDING_LINKS } from './config';
 import { HeroBackdrop } from './HeroBackdrop';
 import { JobForm } from './JobForm';
-import { LandingLanguage } from './LandingLanguage';
 import { Logo } from './Logo';
 import { fill } from './rich';
 import st from './landing.module.css';
@@ -56,7 +55,6 @@ export function LandingHeader({ t }: { t: TFunction }) {
             </Link>
           ) : null}
         </nav>
-        <LandingLanguage surface="field" className={st.navLang} />
       </div>
     </header>
   );

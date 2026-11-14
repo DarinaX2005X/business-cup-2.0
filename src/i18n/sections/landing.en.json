@@ -39,7 +39,8 @@
     "three": {
       "title": "Train ten minutes a day",
       "body": "Short reps made from your own tasks. You stay the one who checks AI."
-    }
+    },
+    "lead": "From your job title to your first rep in a few minutes."
   },
   "features": {
     "title": "What you get",
@@ -62,24 +63,21 @@
     },
     "game": {
       "title": "AI or me?",
-      "body": "A free daily game. Guess which of your tasks AI is already used for.",
-      "ask": "Who does this today?"
+      "body": "A free daily game. Guess which of your tasks AI is already used for."
     },
     "shop": {
       "title": "Points you can spend",
-      "body": "Everything you do earns points. Trade them for Pro discounts, free months, or a month of Claude Pro or ChatGPT Plus as a pilot reward."
+      "body": "Everything you do earns points. Spend them on Pro discounts and free months."
     },
     "proof": {
       "title": "Proof for your next review",
-      "body": "Every finished rep is saved. The Review kit turns them into one page for your manager.",
-      "sheet": "Review brief",
-      "hand": "I hand to AI",
-      "keep": "Stays with me"
+      "body": "Every finished rep is saved as proof you can bring to your manager."
     },
     "streak": {
       "title": "Your streak",
       "body": "Practice a little every day and watch the week fill up."
-    }
+    },
+    "lead": "One place to see where you stand and to get a little sharper every day."
   },
   "data": {
     "title": "Built on real data",
@@ -102,6 +100,11 @@
     "sources": "Data sources"
   },
   "pay": {
-    "title": "What you pay for"
+    "title": "What you pay for",
+    "lead": "Your week map is free. Pay only when you want daily practice."
+  },
+  "banner": {
+    "title": "AI made a mistake in your top task. Find it",
+    "body": "That is your first rep. It is free and takes a few minutes."
   }
 }

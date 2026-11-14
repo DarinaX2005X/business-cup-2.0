@@ -117,5 +117,50 @@
     "errorTitle": "We couldn't confirm your checkout yet",
     "error": "Stripe hasn't confirmed this checkout yet. If you finished paying, nothing is lost: try again in a moment.",
     "backToPricing": "Back to pricing"
+  },
+  "tiers": {
+    "save": "Save up to {percent}%",
+    "popular": "Most popular",
+    "billedYear": "Billed {price} once a year",
+    "billedMonth": "Billed every month",
+    "free": {
+      "name": "Free",
+      "billed": "Free for as long as you like",
+      "lead": "See your week and try the practice.",
+      "items": {
+        "map": "Your week map",
+        "aiOrMe": "AI or me, every day",
+        "rep": "One live trial rep",
+        "jobs": "Public job pages",
+        "points": "Points and shop basics"
+      }
+    },
+    "pro": {
+      "name": "Pro",
+      "lead": "Daily practice, your plan and your proof.",
+      "cta": "Start your 7-day free trial",
+      "items": {
+        "reps": "Daily reps of all three types, plus extras",
+        "plan": "A detailed 90-day plan you can track",
+        "skills": "Skills from your resume",
+        "jobs": "All next jobs",
+        "proof": "Proof portfolio and Review kit",
+        "playbook": "Playbook and Second look",
+        "pdf": "PDF report of your week",
+        "shop": "Points for practice and the full shop"
+      }
+    },
+    "coach": {
+      "name": "Coach",
+      "lead": "Everything in Pro, plus a coach who knows your week.",
+      "cta": "Get Coach",
+      "items": {
+        "all": "Everything in Pro",
+        "chat": "A personal AI career coach that knows your week, plan, skills and progress",
+        "voice": "Voice messages to your coach",
+        "checkins": "Coach check-ins on your plan",
+        "priority": "Priority generation"
+      }
+    }
   }
 }

@@ -3,7 +3,6 @@ import { METHOD_ANCHORS } from '@/components/public/anchors';
 import { sourceList } from '@/components/public/data';
 import type { TFunction } from '@/i18n/core';
 import { LANDING_LINKS } from './config';
-import { LandingLanguage } from './LandingLanguage';
 import { Logo } from './Logo';
 import st from './landing.module.css';
 
@@ -16,7 +15,6 @@ export function LandingFooter({ t }: { t: TFunction }) {
         <div className={st.footerBrand}>
           <Logo size={32} />
           <p>{t('landing.footer.slogan')}</p>
-          <LandingLanguage surface="paper" />
         </div>
         <nav className={st.footerNav} aria-label={t('landing.footer.links')}>
           <Link href="/method" className={st.paperLink}>

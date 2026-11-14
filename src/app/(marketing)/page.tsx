@@ -2,7 +2,7 @@ import { Closing } from '@/components/landing/Closing';
 import { weekView } from '@/components/landing/data';
 import { LandingFooter } from '@/components/landing/Footer';
 import { Hero, LandingHeader } from '@/components/landing/Hero';
-import { DataNote, Features, Pay, Steps } from '@/components/landing/Sections';
+import { DataNote, Features, MistakeBanner, Pay, Steps } from '@/components/landing/Sections';
 import st from '@/components/landing/landing.module.css';
 import { getRequestT } from '@/i18n/server';
 
@@ -20,6 +20,7 @@ export default async function LandingPage() {
       <main>
         <Hero t={t} />
         <Steps />
+        <MistakeBanner />
         <Features view={view} />
         <Pay />
         <DataNote />

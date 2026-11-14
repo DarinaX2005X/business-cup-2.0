@@ -14,7 +14,7 @@
   "lead": "You get daily reps of all three kinds, the 90-day plan, every neighbouring job, your proof and Review kit, and the points shop.",
   "until": "Until {date}",
   "scope": "Pro turns on in this browser for 30 days.",
-  "unlock": "Unlock Pro",
+  "unlock": "Unlock Coach",
   "unlocking": "Unlocking Pro",
   "on": "Pro is on. It runs until {date}",
   "startRep": "Start today's rep",
@@ -41,7 +41,18 @@
     "failedShort": "Pro didn't turn on."
   },
   "band": {
-    "title": "Here for Business Cup 2.0? Pro is on us",
-    "body": "Turn Pro on for 30 days without paying. The offer runs until {date}."
+    "title": "Business Cup 2.0: Coach is free until {date}",
+    "body": "Here for the Business Cup? Turn on the top plan without paying."
+  },
+  "jury": {
+    "title": "Business Cup 2.0 jury: open a ready account",
+    "nurse": "As a nurse",
+    "software_engineer": "As a software engineer",
+    "accountant": "As an accountant",
+    "opening": "Opening",
+    "building": "Building your demo week… about 20 seconds",
+    "failed": "The demo account did not open. Nothing was changed. Try the same button again.",
+    "retry": "Try again: {who}",
+    "note": "One click builds a real week from a sample resume and opens it with Coach on. It is marked as a demo account."
   }
 }

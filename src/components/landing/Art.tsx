@@ -46,9 +46,9 @@ export function ArtJob() {
   return (
     <Frame id="aj" box="0 0 200 150">
       <ellipse cx="100" cy="138" rx="70" ry="7" fill="var(--violet-deep)" opacity="0.14" />
-      <g data-part="back" transform="rotate(-7 80 70)">
+      <g transform="rotate(-7 80 70)"><g data-part="back">
         {sheet(38, 14, 92, 112, [50, 68, 60, 68, 40, 62])}
-      </g>
+      </g></g>
       <g data-part="front">
         <rect x="88" y="60" width="92" height="66" rx="13" fill="var(--tile-hu-face)" />
         <rect x="88" y="55" width="92" height="66" rx="13" fill="url(#aja)" />
@@ -75,10 +75,10 @@ export function ArtWeek() {
   return (
     <Frame id="aw" box="0 0 200 150">
       <ellipse cx="100" cy="138" rx="84" ry="7" fill="var(--violet-deep)" opacity="0.14" />
-      <g data-part="back" transform="translate(42 -16) scale(1.8)">
+      <g transform="translate(42 -16) scale(1.8)"><g data-part="back">
         <path d={ARCH} fill="url(#awh)" stroke="var(--tile-ai-face)" strokeWidth="1" />
         <path d={KEY} fill="url(#awa)" />
-      </g>
+      </g></g>
       <g data-part="front">
         {tiles.map(([x, w, k], i) => (
           <g key={i}>
@@ -139,13 +139,13 @@ export function ArtDelegate() {
       <circle cx="30" cy="62" r="22" fill="var(--tile-hu-face)" />
       <circle cx="30" cy="58" r="22" fill="url(#ada)" />
       <path d="M17 52A14 14 0 0 1 30 43" fill="none" stroke="var(--card)" strokeOpacity="0.6" strokeWidth="3.5" strokeLinecap="round" />
-      <g data-part="front" transform="rotate(8 70 58)">
+      <g transform="rotate(8 70 58)"><g data-part="front">
         <rect x="50" y="40" width="42" height="46" rx="7" fill="var(--violet-deep)" opacity="0.16" transform="translate(2 4)" />
         <rect x="50" y="40" width="42" height="46" rx="7" fill="var(--card)" stroke="var(--line)" strokeWidth="1.5" />
         <rect x="58" y="50" width="26" height="4.5" rx="2.25" fill="var(--ink)" />
         <rect x="58" y="60" width="20" height="4.5" rx="2.25" fill="var(--line)" />
         <rect x="58" y="70" width="24" height="4.5" rx="2.25" fill="var(--line)" />
-      </g>
+      </g></g>
     </Frame>
   );
 }

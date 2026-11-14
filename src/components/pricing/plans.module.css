@@ -1,58 +1,116 @@
-/* Plan cards shared by the landing and /pricing: Pro on the violet field, Free on paper, the cup band under both. */
+/* Plan cards shared by the landing and /pricing: the billing toggle, Free, Pro (raised) and Coach, the cup band under them. */
+
+.root {
+  display: grid;
+  gap: clamp(24px, 3vw, 40px);
+}
+
+.toggle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px 14px;
+}
+
+.save {
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--speed-field);
+  color: var(--apricot-deep);
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: inset 0 0 0 1px var(--tile-sp-edge);
+  transition:
+    background-color var(--t-hover) var(--ease),
+    color var(--t-hover) var(--ease),
+    scale var(--t-pop) var(--spring);
+}
+
+.save[data-on] {
+  background: var(--apricot);
+  color: var(--ink);
+  scale: 1.06;
+}
 
 .plans {
   display: grid;
-  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-  gap: clamp(14px, 1.8vw, 24px);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(14px, 1.6vw, 22px);
   align-items: stretch;
+  padding-top: 18px;
 }
 
-.band {
-  grid-column: 1 / -1;
-  margin-top: 30px;
-}
-
-.pro,
-.free {
+.plan {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   min-width: 0;
-  padding: clamp(22px, 3vw, 40px);
+  padding: clamp(22px, 2.4vw, 32px);
   border-radius: var(--r-panel);
+  background: var(--card);
+  box-shadow: inset 0 0 0 1px var(--line);
+  transition:
+    translate var(--t-pop) var(--ease-out),
+    box-shadow var(--t-pop) var(--ease-out);
 }
 
-.pro {
-  display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-  gap: clamp(20px, 3vw, 40px);
-  align-items: start;
-  overflow: hidden;
+/* Pro: the violet field, lifted above its neighbours */
+.plan[data-tier='pro'] {
+  margin-top: -18px;
+  padding-top: calc(clamp(22px, 2.4vw, 32px) + 18px);
+  background-color: var(--field);
+  background-image: var(--hatch-field);
+  background-size: 10px 10px;
+  background-position: right bottom;
+  background-repeat: repeat;
+  -webkit-mask-image: none;
   color: var(--on-violet);
+  box-shadow: var(--shadow-overlay);
 }
 
-/* a hatched week tile cropped by the corner */
-.proTile {
+.plan[data-tier='pro']::before {
+  content: '';
   position: absolute;
-  right: -54px;
-  bottom: -62px;
-  width: 210px;
-  height: 210px;
-  border-radius: 44px;
-  background:
-    var(--hatch-field),
-    var(--field-shade);
-  rotate: 16deg;
-  z-index: -1;
-  transition: rotate 600ms var(--ease-out);
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(200deg, transparent 0 22%, var(--field) 46%);
+  pointer-events: none;
 }
 
-.pro:hover .proTile {
-  rotate: 8deg;
+.plan[data-tier='pro'] > * {
+  position: relative;
 }
 
-.proBuy {
-  display: grid;
-  gap: 16px;
-  min-width: 0;
+.plan[data-tier='coach'] {
+  background: var(--card);
+  box-shadow:
+    inset 0 0 0 1.5px var(--violet-tint),
+    var(--shadow-rest);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .plan:hover {
+    translate: 0 -5px;
+  }
+  .plan[data-tier='free']:hover,
+  .plan[data-tier='coach']:hover {
+    box-shadow:
+      inset 0 0 0 1.5px var(--violet-tint),
+      var(--shadow-raised);
+  }
+}
+
+.tag {
+  align-self: flex-start;
+  margin-bottom: 4px;
+  padding: 4px 10px;
+  border-radius: var(--r-tag);
+  background: var(--apricot);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 700;
 }
 
 .name {
@@ -61,106 +119,58 @@
   line-height: 1.2;
 }
 
-.options {
-  display: grid;
-  gap: 10px;
-}
-
-.option {
-  display: grid;
-  grid-template-columns: 22px minmax(0, 1fr) auto;
-  grid-template-areas:
-    'dot name price'
-    'dot note note';
-  gap: 2px 12px;
-  align-items: center;
-  padding: 14px 16px;
-  border-radius: var(--r-ctl);
-  text-align: left;
-  color: var(--on-violet);
-  background: color-mix(in oklch, var(--violet-deep) 45%, transparent);
-  box-shadow: inset 0 0 0 1.5px color-mix(in oklch, var(--on-violet) 22%, transparent);
-  transition:
-    background-color var(--t-hover) var(--ease),
-    box-shadow var(--t-hover) var(--ease),
-    transform var(--t-press) var(--ease);
-}
-
-.option:hover {
-  box-shadow: inset 0 0 0 1.5px color-mix(in oklch, var(--on-violet) 50%, transparent);
-}
-
-.option:active {
-  transform: scale(0.985);
-}
-
-.option[aria-checked='true'] {
-  background: var(--card);
-  color: var(--ink);
-  box-shadow:
-    inset 0 1px 0 var(--card),
-    var(--shadow-on-field);
-}
-
-.dot {
-  grid-area: dot;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  box-shadow: inset 0 0 0 2px color-mix(in oklch, var(--on-violet) 55%, transparent);
-  transition: box-shadow var(--t-pop) var(--spring);
-}
-
-.option[aria-checked='true'] .dot {
-  box-shadow: inset 0 0 0 7px var(--apricot-low);
-}
-
-.optName {
-  grid-area: name;
+.price {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 4px 10px;
-  font-weight: 600;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 4px;
 }
 
-.optName em {
-  padding: 2px 8px;
-  border-radius: var(--r-tag);
-  background: var(--apricot);
-  color: var(--ink);
-  font-size: 12.5px;
-  font-style: normal;
-  font-weight: 700;
-}
-
-.optPrice {
-  grid-area: price;
-  font-size: 14px;
-  white-space: nowrap;
-}
-
-.optPrice b {
-  font-size: 26px;
-  letter-spacing: -0.03em;
+.price b {
+  font-size: clamp(40px, 4vw, 54px);
+  letter-spacing: -0.045em;
+  line-height: 1;
   font-variant-numeric: proportional-nums;
 }
 
-.optNote {
-  grid-area: note;
-  font-size: 14px;
-  opacity: 0.8;
+.price span {
+  font-size: 16px;
+  font-weight: 500;
 }
 
-.action {
-  min-width: 0;
+.billed {
+  min-height: 1.5em;
+  font-size: 14.5px;
+  opacity: 0.78;
+}
+
+.lead {
+  min-height: 3em;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.plan:not([data-tier='pro']) .lead {
+  color: var(--ink-2);
+}
+
+.error {
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--error);
+}
+
+.plan[data-tier='pro'] .error {
+  color: var(--apricot-hi);
 }
 
 .items {
   list-style: none;
   display: grid;
   gap: 10px;
-  font-size: 16px;
+  margin-top: 18px;
+  font-size: 15.5px;
+  line-height: 1.45;
 }
 
 .items li {
@@ -173,58 +183,30 @@
 .items svg {
   width: 18px;
   height: 18px;
-  margin-top: 3px;
+  margin-top: 2px;
   color: var(--apricot-deep);
 }
 
-.pro .items {
-  padding-top: 44px;
-}
-
-.pro .items svg {
+.plan[data-tier='pro'] .items svg {
   color: var(--apricot-hi);
 }
 
-.free {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  background: var(--card);
-  box-shadow: inset 0 0 0 1px var(--line);
+.band {
+  margin-top: 28px;
 }
 
-.freePrice {
-  font-size: clamp(40px, 4.4vw, 56px);
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  line-height: 1;
-  font-variant-numeric: proportional-nums;
-}
-
-.freeLead {
-  color: var(--ink-2);
-}
-
-.freeCta {
-  align-self: flex-start;
-  margin-top: auto;
-}
-
-.free .items {
-  margin: 6px 0 20px;
-}
-
-@media (max-width: 1080px) {
-  .pro {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .pro .items {
-    padding-top: 0;
-  }
-}
-
-@media (max-width: 760px) {
+@media (max-width: 900px) {
   .plans {
     grid-template-columns: minmax(0, 1fr);
+    padding-top: 0;
+  }
+  .plan[data-tier='pro'] {
+    order: -1;
+    margin-top: 0;
+    padding-top: clamp(22px, 2.4vw, 32px);
+  }
+  .lead,
+  .billed {
+    min-height: 0;
   }
 }

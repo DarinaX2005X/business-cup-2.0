@@ -95,14 +95,8 @@ export function PricingPage({ canceled, portal, week, initial }: { canceled: boo
             )}
           </div>
 
-          <Plans
-            interval={interval}
-            onInterval={setBilling}
-            heading={week ? 'h3' : 'h2'}
-            freeHref={mapHref ?? '/start'}
-            freeLabel={mapHref ? t('pricing.free.ctaOwn') : t('pricing.free.cta')}
-            action={<TrialBox surface="violet" cup={false} interval={interval} plan={plan} hasMap={!!lastXrayId} priceLine={t('pricing.pro.trialLine', { price: priceText, per })} />}
-          />
+          {plan.active ? <TrialBox surface="paper" cup={false} interval={interval} plan={plan} hasMap={!!lastXrayId} priceLine="" /> : null}
+          <Plans heading={week ? 'h3' : 'h2'} freeHref={mapHref ?? '/start'} freeLabel={mapHref ? t('pricing.free.ctaOwn') : t('pricing.free.cta')} />
         </section>
       </main>
     </div>

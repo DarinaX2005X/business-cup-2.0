@@ -39,5 +39,9 @@
   "copied": "Сілтеме көшірілді",
   "sound": "Дыбыс",
   "streak_one": "Осы аптада {count} күн жаттықтыңыз",
-  "streak_other": "Осы аптада {count} күн жаттықтыңыз"
+  "streak_other": "Осы аптада {count} күн жаттықтыңыз",
+  "pointsLink": "Ұпайлар: {count}. Дүкенді ашу",
+  "streakLink_one": "Осы аптада {count} күн жаттығу. Жаттығуды ашу",
+  "streakLink_other": "Осы аптада {count} күн жаттығу. Жаттығуды ашу",
+  "openProfile": "Сіздің профиліңіз"
 }

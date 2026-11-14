@@ -19,5 +19,9 @@
   "restore": "Copy restore link",
   "restoreHint": "Opens your profile on another device. Keep it private.",
   "copied": "Link copied",
-  "sound": "Sound"
+  "sound": "Sound",
+  "pointsLink": "Points: {count}. Open the shop",
+  "streakLink_one": "{count} day of practice this week. Open your practice",
+  "streakLink_other": "{count} days of practice this week. Open your practice",
+  "openProfile": "Your profile"
 }

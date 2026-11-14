@@ -13,6 +13,9 @@ import { enabledSections } from './nav.config';
 import { AccountSheetButton, LocaleMenu, ProfileMenu } from './ShellMenus';
 import st from './shell.module.css';
 
+/** The streak opens the practice history: /today until the Progress page (05.1) exists, see REQUESTS. */
+const STREAK_HREF = '/today';
+
 /** What the server already knows about the visitor, so the first paint of the header is right. */
 export interface ShellInitial {
   hasProfile: boolean;
@@ -109,10 +112,19 @@ export function AppShell({ initial, children }: { initial: ShellInitial; childre
           <div className={st.right}>
             {hasProfile ? (
               <>
-                <PointsCounter value={points} label={t('shell.pointsLabel')} />
-                <div className={st.streakSlot} data-since={week.since || undefined} title={t('shell.streak', { count: streakCount })}>
+                {/* The balance opens the shop, where the rewards it buys are; the streak opens the practice. */}
+                <Link href="/shop" className={st.pointsLink} aria-label={t('shell.pointsLink', { count: points })}>
+                  <PointsCounter value={points} label={t('shell.pointsLabel')} />
+                </Link>
+                <Link
+                  href={STREAK_HREF}
+                  className={st.streakSlot}
+                  data-since={week.since || undefined}
+                  aria-label={t('shell.streakLink', { count: streakCount })}
+                  title={t('shell.streak', { count: streakCount })}
+                >
                   <StreakWeek done={week.done} today={week.today} count={streakCount} />
-                </div>
+                </Link>
               </>
             ) : (
               <span className={st.wideOnly}>{mapOwn}</span>
@@ -130,9 +142,9 @@ export function AppShell({ initial, children }: { initial: ShellInitial; childre
                 hasProfile={hasProfile}
                 extra={
                   hasProfile ? (
-                    <div className={st.sheetStreak} data-since={week.since || undefined}>
+                    <Link href={STREAK_HREF} className={st.sheetStreak} data-since={week.since || undefined} aria-label={t('shell.streakLink', { count: streakCount })}>
                       <StreakWeek done={week.done} today={week.today} count={streakCount} />
-                    </div>
+                    </Link>
                   ) : (
                     mapOwn
                   )

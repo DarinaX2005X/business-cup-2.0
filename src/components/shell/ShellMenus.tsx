@@ -1,6 +1,7 @@
 'use client';
 
-import { Check, ChevronDown, Copy, Languages, UserRound, Volume2, VolumeX } from 'lucide-react';
+import { Check, ChevronDown, CircleUserRound, Copy, Languages, UserRound, Volume2, VolumeX } from 'lucide-react';
+import Link from 'next/link';
 import { useCallback, useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import { Sheet } from '@/components/kit/Overlay';
 import { useT } from '@/i18n/client';
@@ -112,6 +113,9 @@ export function LocaleMenu() {
 
 /* ---------- profile: restore link and sound ---------- */
 
+/** Where «Your profile» leads (the settings page of 05.1). */
+export const PROFILE_HREF = '/profile';
+
 function ProfileItems({ onDone, inSheet }: { onDone?: () => void; inSheet?: boolean }) {
   const { t } = useT();
   const { profile, update, restoreLink } = useProfile();
@@ -120,6 +124,12 @@ function ProfileItems({ onDone, inSheet }: { onDone?: () => void; inSheet?: bool
   const role = inSheet ? undefined : 'menuitem';
   return (
     <>
+      <Link href={PROFILE_HREF} role={role} className={st.menuItem} onClick={() => onDone?.()}>
+        <span className={st.itemMain}>
+          <CircleUserRound size={18} strokeWidth={1.75} aria-hidden="true" />
+          <b>{t('shell.openProfile')}</b>
+        </span>
+      </Link>
       <button
         type="button"
         role={role}

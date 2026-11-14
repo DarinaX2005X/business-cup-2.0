@@ -692,3 +692,64 @@
     transform-origin: bottom center;
   }
 }
+
+/* ---------- the balance and the streak are links ---------- */
+
+.pointsLink {
+  display: inline-flex;
+  border-radius: 12px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform var(--t-hover) var(--ease);
+}
+
+.pointsLink > span {
+  transition: box-shadow var(--t-hover) var(--ease), background-color var(--t-hover) var(--ease);
+}
+
+.pointsLink:hover {
+  transform: translateY(-1px);
+}
+
+.pointsLink:hover > span {
+  background: var(--violet-soft);
+  box-shadow:
+    inset 0 0 0 1px oklch(86% 0.06 288),
+    var(--shadow-raised);
+}
+
+.pointsLink:active,
+a.streakSlot:active {
+  transform: scale(0.97);
+}
+
+a.streakSlot {
+  text-decoration: none;
+  color: inherit;
+  transition:
+    transform var(--t-hover) var(--ease),
+    background-color var(--t-hover) var(--ease),
+    box-shadow var(--t-hover) var(--ease);
+}
+
+a.streakSlot:hover {
+  transform: translateY(-1px);
+  background: var(--violet-soft);
+  box-shadow:
+    inset 0 0 0 1px oklch(86% 0.06 288),
+    var(--shadow-raised);
+}
+
+a.sheetStreak {
+  display: block;
+  border-radius: 14px;
+  padding: 8px;
+  margin: -4px -8px 0;
+  color: inherit;
+  text-decoration: none;
+  transition: background-color var(--t-hover) var(--ease);
+}
+
+a.sheetStreak:hover {
+  background: var(--sunk);
+}

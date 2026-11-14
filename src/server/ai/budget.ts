@@ -20,6 +20,8 @@ import { getGlobalStore, getStore } from '@/server/store';
 export interface Actor {
   profileId?: string | null;
   ip?: string | null;
+  /** Per-day cap for this profile bucket when it differs from the default (e.g. calls inside a practice rep). */
+  profilePerDay?: number;
 }
 
 /**
@@ -115,8 +117,9 @@ export async function consumeRateLimit(actor: Actor | undefined): Promise<Denial
   if (!actor) return null;
   const day = dayKey();
   const limits = rateLimits();
-  if (actor.profileId && !(await takeSlot(budgetKeys.profile(actor.profileId, day), limits.profilePerDay))) {
-    return { code: 'rate_limited', reason: `profile reached ${limits.profilePerDay} model calls today` };
+  const profileCap = actor.profilePerDay ?? limits.profilePerDay;
+  if (actor.profileId && !(await takeSlot(budgetKeys.profile(actor.profileId, day), profileCap))) {
+    return { code: 'rate_limited', reason: `profile reached ${profileCap} model calls today` };
   }
   if (actor.ip && !(await takeSlot(budgetKeys.ip(hashIp(actor.ip), day), limits.ipPerDay))) {
     return { code: 'rate_limited', reason: `IP reached ${limits.ipPerDay} model calls today` };

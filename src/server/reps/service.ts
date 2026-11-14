@@ -57,7 +57,17 @@ export const todayOf = (ctx: RepCtx) => localDay(nowOf(ctx), tzOf(ctx));
  * engine already bounds them: at most 1 daily + 3 extras + 1 trial a day, 6 Edge replies, 1 Delegate run.
  */
 export const actorOf = (ctx: RepCtx): Actor => ({ profileId: `${ctx.profile.id}:reps`, ip: ctx.ip ?? null });
-export const innerActorOf = (ctx: RepCtx): Actor => ({ ip: ctx.ip ?? null });
+/**
+ * Calls inside a rep (Delegate run, Edge replies, grading) get their own per-profile bucket, so a day of practice
+ * (1 daily + 3 extras + trial, up to 7 calls each) never touches the map's limit, while retries and abuse are still
+ * capped per profile and not only per IP.
+ */
+export const REP_INNER_CALLS_PER_DAY = 60;
+export const innerActorOf = (ctx: RepCtx): Actor => ({
+  profileId: `${ctx.profile.id}:reps-inner`,
+  profilePerDay: REP_INNER_CALLS_PER_DAY,
+  ip: ctx.ip ?? null,
+});
 
 export interface Week {
   bundle: OccupationBundle;

@@ -98,7 +98,7 @@ export function StepWeek(props: StepWeekProps) {
     );
   }
 
-  return <WeekEditor key={chosen.code} {...props} bundle={bundle} week={week} texts={texts?.tasks ?? null} />;
+  return <WeekEditor key={chosen.code} {...props} bundle={bundle} week={week} texts={texts?.ready ? texts.tasks : null} />;
 }
 
 /* ---------- the editor ---------- */
@@ -138,7 +138,13 @@ function WeekEditor({
 
   const byId = useMemo(() => new Map(bundle.tasks.map((x) => [x.id, x])), [bundle]);
   const textOf = useCallback((id: string) => texts?.[id]?.text ?? byId.get(id)?.text ?? '', [texts, byId]);
-  const labelOf = useCallback((id: string) => (texts?.[id]?.short ? tidyLabel(texts[id].short) : quickLabel(byId.get(id)?.text ?? '')), [texts, byId]);
+  const labelOf = useCallback(
+    (id: string) => {
+      const short = texts?.[id]?.short ?? byId.get(id)?.short;
+      return short ? tidyLabel(short) : quickLabel(byId.get(id)?.text ?? '');
+    },
+    [texts, byId],
+  );
 
   const weekTasks: WeekTask[] = useMemo(
     () =>

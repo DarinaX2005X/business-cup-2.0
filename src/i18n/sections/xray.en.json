@@ -50,6 +50,7 @@
     "observed": "{share} of your week is backed by observed AI usage data",
     "observedGuest": "{share} of this week is backed by observed AI usage data",
     "share": "Share my week map",
+    "shareGuest": "Share this week map",
     "shared": "Link copied",
     "how": "How it's calculated",
     "scoreHint": "out of 100, grows with practice"

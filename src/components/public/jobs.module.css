@@ -704,6 +704,7 @@
 }
 
 .jobList {
+  margin-inline: -14px;
   list-style: none;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -901,6 +902,14 @@
   .group {
     grid-template-columns: 1fr;
     gap: 8px;
+  }
+
+  .letters {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin-inline: -16px;
+    padding-inline: 12px;
+    scrollbar-width: none;
   }
 
   .jobList {

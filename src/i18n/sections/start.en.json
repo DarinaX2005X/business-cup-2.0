@@ -8,7 +8,6 @@
     "title": "What do you do?",
     "fieldLabel": "Your job title",
     "placeholder": "e.g. Registered nurse, Accountant, Electrician",
-    "matched": "matched: “{term}”",
     "closestHint": "close to one of your words",
     "keepTyping": "Type one more letter",
     "noResults": "No job titles match",

@@ -51,6 +51,7 @@
     "conclusion.occupation",
     "conclusion.scoreHint",
     "conclusion.share",
+    "conclusion.shareGuest",
     "conclusion.shared",
     "edge.hours",
     "edge.none",
@@ -239,7 +240,8 @@
     "humanGuest_few": "{tasks} остаются за человеком.",
     "humanGuest_many": "{tasks} остаются за человеком.",
     "humanGuest_one": "{tasks} остается за человеком.",
-    "humanGuest_other": "{tasks} остаются за человеком."
+    "humanGuest_other": "{tasks} остаются за человеком.",
+    "shareGuest": "Поделиться этой Картой недели"
   },
   "action": {
     "titleBefore": "AI ошибся в документе типа «",

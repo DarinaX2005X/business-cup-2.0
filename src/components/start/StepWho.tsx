@@ -68,7 +68,7 @@ export function StepWho(props: StepWhoProps) {
       return r.results.map((it) => ({
         value: it.code,
         label: it.title,
-        hint: sameTitle(it.matched, it.title) ? undefined : t('start.who.matched', { term: matchedTerm(it.matched) }),
+        matched: sameTitle(it.matched, it.title) ? undefined : matchedTerm(it.matched),
       }));
     }
     return r.suggestions.map((s) => ({ value: s.code, label: s.title, hint: t('start.who.closestHint') }));
@@ -222,7 +222,7 @@ export function StepWho(props: StepWhoProps) {
               state={file.state}
               fileName={file.name}
               error={file.error ?? undefined}
-              accept=".pdf,.txt,.md,.rtf,.doc,.docx,application/pdf,text/plain"
+              accept=".pdf,.txt,.md,.rtf,application/pdf,text/plain"
             />
           </KitProvider>
         ) : (

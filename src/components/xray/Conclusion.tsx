@@ -99,7 +99,7 @@ export function Conclusion({
           </button>
           <button type="button" className={st.shareBtn} onClick={share}>
             {shared ? <Check size={18} strokeWidth={2} aria-hidden="true" /> : <Share2 size={18} strokeWidth={1.75} aria-hidden="true" />}
-            <span aria-live="polite">{shared ? t('xray.conclusion.shared') : t('xray.conclusion.share')}</span>
+            <span aria-live="polite">{shared ? t('xray.conclusion.shared') : t(`xray.conclusion.share${g}`)}</span>
           </button>
         </div>
       </div>

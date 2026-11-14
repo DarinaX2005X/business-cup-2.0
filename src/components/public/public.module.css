@@ -67,11 +67,13 @@
   font-weight: 600;
 }
 
-.headerEnd {
+.nav + .locale,
+.nav + .headerCta {
   margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 12px;
+}
+
+.locale + .headerCta {
+  margin-left: -20px;
 }
 
 .locale {
@@ -178,10 +180,21 @@
     padding-bottom: 4px;
   }
 
+  .headerCta {
+    order: 2;
+    margin-left: auto !important;
+  }
+
   .nav {
     order: 3;
-    flex-basis: 100%;
+    flex: 1 1 auto;
     margin-left: -14px;
+  }
+
+  .locale {
+    order: 4;
+    margin-left: auto;
+    min-height: 40px;
   }
 
   .navLink {
@@ -190,13 +203,13 @@
 }
 
 @media (max-width: 560px) {
+  .header {
+    position: relative;
+  }
+
   .headerIn {
     gap: 12px;
     padding-inline: 16px;
-  }
-
-  .headerEnd {
-    gap: 8px;
   }
 
   .locale {

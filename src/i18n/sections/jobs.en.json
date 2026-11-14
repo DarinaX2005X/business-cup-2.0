@@ -95,9 +95,9 @@
     "title": "Jobs, task by task",
     "intro": "Every occupation O*NET describes with tasks, {count, integer} in all. Each page shows a typical week, what AI already does in it and what stays human.",
     "filter": "Find a job",
-    "placeholder": "e.g. nurse, electrician, accountant",
-    "showing_one": "{count, integer} job",
-    "showing_other": "{count, integer} jobs",
+    "placeholder": "e.g. nurse or electrician",
+    "showing_one": "{count} job",
+    "showing_other": "{count} jobs",
     "empty": "No job title matches “{q}”. Try a shorter word, or map your week and search by any title you use.",
     "humanShare": "Human edge {value}%",
     "letters": "Jump to letter"

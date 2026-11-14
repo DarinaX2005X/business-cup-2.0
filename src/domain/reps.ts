@@ -270,11 +270,12 @@ export function validateSlip(draft: SlipDraft, rules: SlipRules): SlipValidation
     if (found.length === 0) {
       // verifiable repairs: trailing punctuation, letter case
       const trimmed = quote.replace(/[.,;:!?]+$/, '');
-      if (trimmed !== quote && occurrences(document, trimmed).length > 0) {
+      if (trimmed !== quote && occurrences(document.toLowerCase(), trimmed.toLowerCase()).length > 0) {
         quote = trimmed;
         found = occurrences(document, quote);
         repairs.push(`${label}: dropped trailing punctuation`);
-      } else {
+      }
+      if (found.length === 0) {
         const lower = occurrences(document.toLowerCase(), quote.toLowerCase());
         if (lower.length === 1) {
           quote = document.slice(lower[0], lower[0] + quote.length);

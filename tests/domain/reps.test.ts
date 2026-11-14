@@ -100,7 +100,7 @@ describe('validateSlip', () => {
 
   it('rejects missing, repeated, multi-line, marked-up, too short and overlapping quotes with a reason', () => {
     const bad = (quote: string) => validateSlip({ ...draft, errors: [{ ...draft.errors[0], quote }, ...draft.errors.slice(1)] }, { ...RULES, types: [...RULES.types] });
-    const problems = (v: ReturnType<typeof bad>) => (v.ok ? [] : v.problems.join(' '));
+    const problems = (v: ReturnType<typeof bad>) => (v.ok ? '' : v.problems.join(' '));
     expect(problems(bad('Take ampicillin 500 mg by mouth'))).toMatch(/does not appear/);
     expect(problems(bad('by mouth'))).toMatch(/appears \d+ times/);
     expect(problems(bad('three times daily for 5 days.\n- Continue metoprolol'))).toMatch(/several lines|spans/);

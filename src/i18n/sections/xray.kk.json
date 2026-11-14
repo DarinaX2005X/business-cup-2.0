@@ -47,6 +47,7 @@
     "conclusion.occupation",
     "conclusion.scoreHint",
     "conclusion.share",
+    "conclusion.shareGuest",
     "conclusion.shared",
     "edge.hours",
     "edge.none",
@@ -231,7 +232,8 @@
     "humanNoneGuest": "Бұл аптада AI-дың шамасы жетпейтін тапсырма жоқ, сондықтан оның жұмысын тексеру адамның үлесінде қалады.",
     "observedGuest": "Осы аптаның {share} бөлігі AI-ды нақты қолдану деректеріне негізделген",
     "humanGuest_one": "{tasks} адамның жұмысы болып қалады.",
-    "humanGuest_other": "{tasks} адамның жұмысы болып қалады."
+    "humanGuest_other": "{tasks} адамның жұмысы болып қалады.",
+    "shareGuest": "Бұл Апта картасымен бөлісу"
   },
   "action": {
     "titleBefore": "AI «",

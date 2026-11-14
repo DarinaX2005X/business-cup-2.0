@@ -28,12 +28,10 @@ export function PublicHeader({ labels, current, locale = false }: { labels: Chro
             {labels.jobs}
           </Link>
         </nav>
-        <div className={st.headerEnd}>
-          {locale ? <LocaleSwitcher className={st.locale} id="public-locale" /> : null}
-          <Link href="/start" className={`${ctl.btn} ${ctl.b_primary} ${ctl.s_sm} ${st.headerCta}`}>
-            {labels.start}
-          </Link>
-        </div>
+        {locale ? <LocaleSwitcher className={st.locale} id="public-locale" /> : null}
+        <Link href="/start" className={`${ctl.btn} ${ctl.b_primary} ${ctl.s_sm} ${st.headerCta}`}>
+          {labels.start}
+        </Link>
       </div>
     </header>
   );

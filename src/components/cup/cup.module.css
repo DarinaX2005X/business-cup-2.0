@@ -1,0 +1,602 @@
+/*
+ * Business Cup 2.0 offer: the pass (a ticket from the shop's shelf), the paywall dialog body and the
+ * /cup page on the flat violet field. Values come from src/styles/tokens.css.
+ */
+
+/* ---------- the pass ---------- */
+
+.pass {
+  --p-r: var(--r-card);
+  --p-notch: var(--paper);
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 0 auto;
+  border-radius: var(--p-r);
+  background: var(--card);
+  color: var(--ink);
+  box-shadow:
+    inset 0 0 0 1px oklch(89% 0.03 290),
+    var(--hl),
+    var(--shadow-raised);
+  isolation: isolate;
+}
+
+.pass[data-layout='wide'] {
+  grid-template-rows: none;
+  grid-template-columns: minmax(0, 0.95fr) 0 minmax(0, 1fr);
+}
+
+.passTop {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 28px;
+  min-height: 210px;
+  padding: 22px 24px 24px;
+  border-radius: var(--p-r) var(--p-r) 0 0;
+  background-color: var(--violet);
+  color: var(--on-violet);
+  overflow: hidden;
+}
+
+/* the same faint grain as the violet field, so the top reads as a piece of it */
+.passTop::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--noise);
+  opacity: 0.04;
+  pointer-events: none;
+}
+
+.pass[data-layout='wide'] .passTop {
+  min-height: 0;
+  gap: 14px;
+  padding: 16px 18px;
+  border-radius: var(--p-r) 0 0 var(--p-r);
+}
+
+.passBrand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--on-violet-2);
+}
+
+.passBig {
+  font-size: 64px;
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 0.92;
+}
+
+.passBig small {
+  display: block;
+  margin-top: 8px;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--on-violet-2);
+}
+
+.pass[data-layout='wide'] .passBig {
+  font-size: 34px;
+}
+
+.pass[data-layout='wide'] .passBig small {
+  margin-top: 4px;
+  font-size: 15px;
+}
+
+/* the tear line with half-circle notches cut out of both edges */
+.passPerf {
+  position: relative;
+  margin: 0 18px;
+  border-top: 2px dashed var(--line);
+}
+
+.passPerf::before,
+.passPerf::after {
+  content: '';
+  position: absolute;
+  top: -11px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--p-notch);
+  box-shadow: inset 0 0 0 1px oklch(89% 0.03 290);
+}
+
+.passPerf::before {
+  left: -29px;
+  clip-path: inset(0 0 0 50%);
+}
+
+.passPerf::after {
+  right: -29px;
+  clip-path: inset(0 50% 0 0);
+}
+
+.pass[data-layout='wide'] .passPerf {
+  margin: 14px 0;
+  border-top: 0;
+  border-left: 2px dashed var(--line);
+}
+
+.pass[data-layout='wide'] .passPerf::before,
+.pass[data-layout='wide'] .passPerf::after {
+  top: auto;
+  left: -11px;
+  right: auto;
+}
+
+.pass[data-layout='wide'] .passPerf::before {
+  top: -25px;
+  clip-path: inset(50% 0 0 0);
+}
+
+.pass[data-layout='wide'] .passPerf::after {
+  bottom: -25px;
+  clip-path: inset(0 0 50% 0);
+}
+
+.passStub {
+  display: grid;
+  gap: 14px;
+  align-content: end;
+  padding: 20px 24px 22px;
+}
+
+.passStub b {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.pass[data-layout='wide'] .passStub {
+  padding: 16px 18px;
+  gap: 10px;
+}
+
+/* the stub's «barcode»: a strip of Week Bar tiles, machine hatching with one human tile */
+.passCode {
+  display: flex;
+  gap: 3px;
+  height: 26px;
+}
+
+.passCode i {
+  flex-basis: 0;
+  border-radius: 4px 4px 2px 2px;
+}
+
+.passCode i[data-k='ai'] {
+  background: var(--tile-ai);
+  box-shadow: inset 0 0 0 1px var(--tile-ai-edge);
+}
+
+.passCode i[data-k='sp'] {
+  background: var(--tile-sp);
+  box-shadow: inset 0 0 0 1px var(--tile-sp-edge);
+}
+
+.passCode i[data-k='hu'] {
+  background: var(--tile-hu);
+  box-shadow:
+    inset 0 1px 0 oklch(100% 0 0 / 0.55),
+    0 2px 0 var(--tile-hu-face);
+}
+
+.pass[data-layout='wide'] .passCode {
+  height: 20px;
+}
+
+/* the stamp lands across the tear line; ink on paper, slightly uneven */
+.stamp {
+  position: absolute;
+  z-index: 2;
+  right: 14px;
+  top: calc(210px - 58px);
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  min-width: 132px;
+  padding: 12px 16px 10px;
+  border-radius: 16px;
+  color: var(--apricot-deep);
+  background: oklch(95% 0.04 66 / 0.82);
+  box-shadow:
+    inset 0 0 0 2.5px currentColor,
+    inset 0 0 0 5px oklch(95% 0.04 66 / 0.82),
+    inset 0 0 0 6.5px oklch(52% 0.13 45 / 0.55);
+  transform: rotate(-9deg);
+  text-align: center;
+  animation: stampIn 0.5s var(--spring) both;
+  pointer-events: none;
+}
+
+.stamp b {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+.stamp small {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.pass[data-layout='wide'] .stamp {
+  top: auto;
+  bottom: 10px;
+  right: 10px;
+  min-width: 0;
+  padding: 8px 12px 7px;
+  border-radius: 12px;
+}
+
+.pass[data-layout='wide'] .stamp b {
+  font-size: 14px;
+}
+
+.pass[data-layout='wide'] .stamp small {
+  font-size: 12px;
+}
+
+.pass[data-on] {
+  animation: passPress 0.5s var(--ease) both;
+}
+
+.pass[data-instant],
+.pass[data-instant] .stamp {
+  animation: none;
+}
+
+@keyframes stampIn {
+  0% {
+    opacity: 0;
+    transform: rotate(-16deg) scale(1.7);
+  }
+  55% {
+    opacity: 1;
+  }
+}
+
+@keyframes passPress {
+  45% {
+    transform: translateY(3px) scale(0.99);
+  }
+}
+
+/* ---------- the offer in a paywall dialog ---------- */
+
+.offerBody {
+  display: grid;
+  gap: 16px;
+}
+
+.offerBody .pass {
+  --p-notch: var(--card);
+  margin-bottom: 4px;
+}
+
+.offerLead {
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.offerUntil {
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+.offerOn {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
+.offerError {
+  padding: 12px 14px;
+  border-radius: var(--r-ctl);
+  background: var(--error-soft);
+  color: oklch(42% 0.16 25);
+  font-size: 15px;
+}
+
+/* ---------- the offer laid out in place ---------- */
+
+.inline {
+  display: grid;
+  gap: 16px;
+  padding: 24px;
+  border-radius: var(--r-panel);
+  background: var(--card);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.inline .pass {
+  --p-notch: var(--card);
+}
+
+.inlineTitle {
+  font-size: var(--fs-28);
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+.inlineActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* ---------- /cup: the page on the violet field ---------- */
+
+.page {
+  position: relative;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.arches {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.head {
+  width: 100%;
+  max-width: calc(var(--content) + 2 * var(--s-32));
+  margin: 0 auto;
+  min-height: 72px;
+  padding: 14px var(--s-32);
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.head > a {
+  display: inline-flex;
+  border-radius: var(--r-chip);
+  text-decoration: none;
+  transition: transform var(--t-hover) var(--ease);
+}
+
+.head > a:hover {
+  transform: translateY(-1px);
+}
+
+.headLinks {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.headLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: var(--r-chip);
+  color: var(--on-violet);
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color var(--t-hover) var(--ease);
+}
+
+.headLink:hover {
+  background: oklch(100% 0 0 / 0.12);
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: calc(var(--content) + 2 * var(--s-32));
+  margin: 0 auto;
+  padding: var(--s-48) var(--s-32) var(--s-72);
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+  gap: var(--s-72);
+  align-items: center;
+}
+
+.text {
+  display: grid;
+  gap: 24px;
+  justify-items: start;
+  max-width: 720px;
+}
+
+.title {
+  font-size: clamp(44px, 5.4vw, 80px);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+  color: #fff;
+  text-wrap: balance;
+}
+
+.title span {
+  display: block;
+}
+
+.lead {
+  font-size: var(--fs-20);
+  line-height: 1.5;
+  color: var(--on-violet-2);
+  max-width: 46ch;
+}
+
+.until {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 16px 0 12px;
+  border-radius: var(--r-ctl);
+  background: oklch(100% 0 0 / 0.12);
+  box-shadow: inset 0 0 0 1px oklch(100% 0 0 / 0.2);
+  font-size: 17px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.until svg {
+  width: 20px;
+  height: 20px;
+  color: var(--apricot-hi);
+}
+
+.scope {
+  margin-top: -12px;
+  font-size: 15px;
+  color: var(--on-violet-2);
+}
+
+.cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin-top: 4px;
+}
+
+.onLine {
+  font-size: var(--fs-28);
+  font-weight: 750;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  color: #fff;
+  max-width: 22ch;
+}
+
+.error {
+  max-width: 46ch;
+  padding: 12px 16px;
+  border-radius: var(--r-ctl);
+  background: var(--error-soft);
+  color: oklch(42% 0.16 25);
+  font-size: 15px;
+}
+
+.foot {
+  font-size: 15px;
+  color: var(--on-violet-2);
+}
+
+.foot a {
+  color: #fff;
+  font-weight: 600;
+  text-underline-offset: 3px;
+  text-decoration-color: oklch(100% 0 0 / 0.45);
+}
+
+.foot a:hover {
+  text-decoration-color: currentColor;
+}
+
+/* the pass rests on the field with a field-tinted contact shadow and turns slightly toward the pointer */
+.stage {
+  position: relative;
+  justify-self: center;
+  width: min(380px, 100%);
+  perspective: 1200px;
+}
+
+.stage .pass {
+  --p-notch: var(--field);
+  box-shadow:
+    inset 0 0 0 1px oklch(89% 0.03 290),
+    var(--hl),
+    var(--shadow-on-field);
+  transform: rotate(4deg);
+  transition: transform 0.4s var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .stage:hover .pass {
+    transform: rotate(1.5deg) translateY(-6px);
+  }
+}
+
+.stage .pass[data-on] {
+  animation: passPressTilted 0.5s var(--ease) both;
+}
+
+@keyframes passPressTilted {
+  0%,
+  100% {
+    transform: rotate(4deg);
+  }
+  45% {
+    transform: rotate(3deg) translateY(4px) scale(0.99);
+  }
+}
+
+/* a second pass under the first, so the offer reads as one of a stack handed out at the event */
+.stage::before {
+  content: '';
+  position: absolute;
+  inset: 18px -14px -10px 16px;
+  z-index: -1;
+  border-radius: var(--r-card);
+  background: oklch(88% 0.05 288);
+  box-shadow: var(--shadow-on-field);
+  transform: rotate(-3deg);
+}
+
+@media (max-width: 900px) {
+  .main {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-48);
+    padding-top: var(--s-24);
+  }
+  .stage {
+    width: min(320px, 86%);
+  }
+}
+
+@media (max-width: 560px) {
+  .head {
+    padding: 10px var(--s-16);
+  }
+  .main {
+    padding: var(--s-16) var(--s-16) var(--s-48);
+  }
+  .text {
+    gap: 20px;
+  }
+  .lead {
+    font-size: 17px;
+  }
+  .onLine {
+    font-size: 24px;
+  }
+  .passBig {
+    font-size: 54px;
+  }
+  .headLink[data-wide] {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stamp,
+  .pass[data-on],
+  .stage .pass[data-on] {
+    animation: none;
+  }
+}

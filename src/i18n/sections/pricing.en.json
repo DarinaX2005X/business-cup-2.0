@@ -1,0 +1,118 @@
+{
+  "meta": {
+    "title": "Pricing",
+    "weekTitle": "Your first week of reps",
+    "description": "Irreplaceable is free for your week map, AI or me and one practice rep. Pro adds daily reps, the 90-day plan and the shop for $19 a month or $119 a year, with 7 days free."
+  },
+  "nav": {
+    "home": "Irreplaceable home",
+    "label": "Main",
+    "method": "How we measure",
+    "pricing": "Pricing",
+    "start": "Map my week",
+    "openMap": "Open my week map"
+  },
+  "canceled": "Checkout was canceled. Nothing was charged.",
+  "title": "What you pay for",
+  "interval": {
+    "label": "Billing period",
+    "year": "Yearly",
+    "month": "Monthly"
+  },
+  "week": {
+    "title": "Your first week of reps",
+    "lead": "Seven daily reps built from your week as {jobTitle}, picked the same way Today will pick them.",
+    "score": "Your score is {score} today.",
+    "move": "Each verified rep moves your score; the first ones move it most.",
+    "today": "Today",
+    "type": {
+      "slip": "Spot the slip",
+      "delegate": "Delegate",
+      "edge": "Human edge"
+    }
+  },
+  "free": {
+    "name": "Free",
+    "lead": "See your week task by task and try the practice once.",
+    "items": {
+      "map": "Your week map, task by task",
+      "aiOrMe": "AI or me, every day",
+      "rep": "One practice rep from your own week",
+      "jobs": "Public pages for every job"
+    },
+    "cta": "Map my week",
+    "ctaOwn": "Open my week map"
+  },
+  "pro": {
+    "name": "Pro",
+    "perYear": "a year",
+    "perMonth": "a month",
+    "saveYear": "Save {amount} a year compared with {total} on monthly billing.",
+    "orYear": "Or {price} a year on yearly billing.",
+    "trialLine": "Free for 7 days, then {price} {per}.",
+    "items": {
+      "all": "Everything in Free",
+      "reps": "A daily rep of any kind: Spot the slip, Delegate or Human edge",
+      "plan": "A 90-day plan built from your week",
+      "jobs": "Every neighbouring job and the skills it adds",
+      "proof": "Proof of your practice and the Review kit",
+      "shop": "Points for practice and the shop to spend them"
+    }
+  },
+  "trial": "Start your 7-day free trial",
+  "opening": "Opening Stripe checkout",
+  "testMode": "Payments run in Stripe test mode. Use card 4242 4242 4242 4242.",
+  "code": {
+    "percent": "Your {percent}% off will be applied at checkout",
+    "months_one": "Your {count} month of Pro will be applied at checkout",
+    "months_other": "Your {count} months of Pro will be applied at checkout"
+  },
+  "status": {
+    "trialing": "Your free trial runs until {date}.",
+    "pro": "Pro is active. The current period ends on {date}.",
+    "cup": "Pro is on through Business Cup 2.0 until {date}."
+  },
+  "startRep": "Start today's rep",
+  "mapFirst": "Map my week first",
+  "portal": "Manage subscription",
+  "portalOpening": "Opening billing",
+  "errors": {
+    "checkout": "Stripe checkout didn't open, and nothing was charged. Try again in a moment.",
+    "portal": "The billing page didn't open. Try again in a moment."
+  },
+  "success": {
+    "meta": "You're in",
+    "confirming": "Confirming your checkout with Stripe",
+    "titleTrial": "You're in. Your trial ends {date}",
+    "titlePro": "You're in. Pro runs until {date}",
+    "lead": "Everything in Pro is open now, starting with today's rep from your own week.",
+    "openTitle": "What's open now",
+    "open": {
+      "reps": {
+        "name": "Daily reps",
+        "what": "Spot the slip, Delegate and Human edge, built from your week every day."
+      },
+      "plan": {
+        "name": "The 90-day plan",
+        "what": "Your week turned into twelve weeks of practice, on your week map."
+      },
+      "jobs": {
+        "name": "Neighbouring jobs",
+        "what": "Every related job, with the human share and the skills it adds."
+      },
+      "proof": {
+        "name": "Proof and Review kit",
+        "what": "Every rep you finish becomes proof you can bring to your review."
+      },
+      "shop": {
+        "name": "Points and the shop",
+        "what": "Practice earns points you can spend on Pro months and more."
+      }
+    },
+    "missingTitle": "Nothing to confirm here",
+    "missing": "This page opens after Stripe checkout. Start from the pricing page.",
+    "errorTitle": "We couldn't confirm your checkout yet",
+    "error": "Stripe hasn't confirmed this checkout yet. If you finished paying, nothing is lost: try again in a moment.",
+    "backToPricing": "Back to pricing"
+  }
+}

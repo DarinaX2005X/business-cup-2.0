@@ -1,0 +1,202 @@
+{
+  "meta": {
+    "title": "Тарифы",
+    "weekTitle": "Ваша первая неделя упражнений",
+    "description": "Сервис Irreplaceable бесплатно составит Карту недели, откроет «AI или я» и одно тренировочное упражнение. В тарифе Pro доступны ежедневные упражнения, план на 90 дней и магазин за $19 в месяц или $119 в год с первыми 7 днями бесплатно."
+  },
+  "_draft": [
+    "canceled",
+    "code.months_few",
+    "code.months_many",
+    "code.months_one",
+    "code.months_other",
+    "code.percent",
+    "errors.checkout",
+    "errors.portal",
+    "free.cta",
+    "free.ctaOwn",
+    "free.items.aiOrMe",
+    "free.items.jobs",
+    "free.items.map",
+    "free.items.rep",
+    "free.lead",
+    "free.name",
+    "interval.label",
+    "interval.month",
+    "interval.year",
+    "mapFirst",
+    "meta.description",
+    "meta.title",
+    "meta.weekTitle",
+    "nav.home",
+    "nav.label",
+    "nav.method",
+    "nav.openMap",
+    "nav.pricing",
+    "nav.start",
+    "opening",
+    "portal",
+    "portalOpening",
+    "pro.items.all",
+    "pro.items.jobs",
+    "pro.items.plan",
+    "pro.items.proof",
+    "pro.items.reps",
+    "pro.items.shop",
+    "pro.name",
+    "pro.orYear",
+    "pro.perMonth",
+    "pro.perYear",
+    "pro.saveYear",
+    "pro.trialLine",
+    "startRep",
+    "status.cup",
+    "status.pro",
+    "status.trialing",
+    "success.backToPricing",
+    "success.confirming",
+    "success.error",
+    "success.errorTitle",
+    "success.lead",
+    "success.meta",
+    "success.missing",
+    "success.missingTitle",
+    "success.open.jobs.name",
+    "success.open.jobs.what",
+    "success.open.plan.name",
+    "success.open.plan.what",
+    "success.open.proof.name",
+    "success.open.proof.what",
+    "success.open.reps.name",
+    "success.open.reps.what",
+    "success.open.shop.name",
+    "success.open.shop.what",
+    "success.openTitle",
+    "success.titlePro",
+    "success.titleTrial",
+    "testMode",
+    "title",
+    "trial",
+    "week.lead",
+    "week.move",
+    "week.score",
+    "week.title",
+    "week.today",
+    "week.type.delegate",
+    "week.type.edge",
+    "week.type.slip"
+  ],
+  "nav": {
+    "home": "Главная Irreplaceable",
+    "label": "Главная",
+    "method": "Как мы оцениваем",
+    "pricing": "Тарифы",
+    "start": "Разобрать мою неделю",
+    "openMap": "Открыть Карту недели"
+  },
+  "canceled": "Оплата отменена. Списаний не было.",
+  "title": "За что вы платите",
+  "interval": {
+    "label": "Период оплаты",
+    "year": "За год",
+    "month": "За месяц"
+  },
+  "week": {
+    "title": "Ваша первая неделя упражнений",
+    "lead": "Семь ежедневных упражнений на основе вашей недели в роли {jobTitle}. Они подобраны так же, как их подбирает вкладка «Сегодня».",
+    "score": "Сегодня ваш Балл незаменимости — {score}.",
+    "move": "Каждое выполненное упражнение повышает ваш балл, причём первые дают наибольший прирост.",
+    "today": "Сегодня",
+    "type": {
+      "slip": "Найди ошибку",
+      "delegate": "Делегирование",
+      "edge": "Ваше человеческое преимущество"
+    }
+  },
+  "free": {
+    "name": "Бесплатно",
+    "lead": "Посмотрите на свою неделю задачу за задачей и попробуйте одно практическое упражнение.",
+    "items": {
+      "map": "Ваша Карта недели с разбором каждой задачи",
+      "aiOrMe": "«AI или я» каждый день",
+      "rep": "Одно пробное упражнение на основе ваших реальных задач",
+      "jobs": "Открытые страницы по каждой профессии"
+    },
+    "cta": "Разобрать мою неделю",
+    "ctaOwn": "Открыть Карту недели"
+  },
+  "pro": {
+    "name": "Pro",
+    "perYear": "в год",
+    "perMonth": "в месяц",
+    "saveYear": "Экономьте {amount} в год по сравнению с помесячной оплатой ({total}).",
+    "orYear": "Или {price} в год при годовой оплате.",
+    "trialLine": "Бесплатно первые 7 дней, затем {price} {per}.",
+    "items": {
+      "all": "Всё из бесплатного тарифа",
+      "reps": "Ежедневное упражнение любого типа: «Найди ошибку», «Делегирование» или «Ваше человеческое преимущество»",
+      "plan": "План на 90 дней на основе вашей рабочей недели",
+      "jobs": "Все смежные профессии и навыки, которые они дают",
+      "proof": "Доказательства вашей практики и набор для ревью",
+      "shop": "Поинты за практику и магазин, где их можно потратить"
+    }
+  },
+  "trial": "Попробуйте бесплатно 7 дней",
+  "opening": "Открываем оплату в Stripe",
+  "testMode": "Платежи работают в тестовом режиме Stripe. Используйте карту 4242 4242 4242 4242.",
+  "code": {
+    "percent": "Скидка {percent}% применится при оплате",
+    "months_few": "Ваши {count} месяца Pro будут активированы при оплате",
+    "months_many": "Ваши {count} месяцев Pro будут активированы при оплате",
+    "months_one": "Ваш {count} месяц Pro будет активирован при оплате",
+    "months_other": "Ваши {count} месяцев Pro будут активированы при оплате"
+  },
+  "status": {
+    "trialing": "Бесплатный пробный период действует до {date}.",
+    "pro": "Pro активен. Текущий период заканчивается {date}.",
+    "cup": "Pro действует в рамках Business Cup 2.0 до {date}."
+  },
+  "startRep": "Начать сегодняшнее упражнение",
+  "mapFirst": "Сначала составить карту недели",
+  "portal": "Управление подпиской",
+  "portalOpening": "Открываем управление подпиской",
+  "errors": {
+    "checkout": "Оплата через Stripe не открылась, деньги не списаны. Попробуйте еще раз через минуту.",
+    "portal": "Страница управления подпиской не открылась. Попробуйте еще раз через минуту."
+  },
+  "success": {
+    "meta": "Готово",
+    "confirming": "Подтверждаем оплату через Stripe",
+    "titleTrial": "Готово. Пробный период действует до {date}",
+    "titlePro": "Готово. Pro действует до {date}",
+    "lead": "Теперь вам доступно все в Pro, начиная с сегодняшнего упражнения по вашей рабочей неделе.",
+    "openTitle": "Что теперь открыто",
+    "open": {
+      "reps": {
+        "name": "Ежедневные упражнения",
+        "what": "«Найди ошибку», «Делегирование» и «Ваше человеческое преимущество» — на основе вашей недели, каждый день."
+      },
+      "plan": {
+        "name": "План на 90 дней",
+        "what": "Ваша неделя превращается в двенадцать недель практики на карте недели."
+      },
+      "jobs": {
+        "name": "Смежные профессии",
+        "what": "Все близкие профессии с долей человеческого участия и новыми навыками."
+      },
+      "proof": {
+        "name": "Доказательства и набор для ревью",
+        "what": "Каждое выполненное упражнение превращается в доказательства, которые можно показать на ревью."
+      },
+      "shop": {
+        "name": "Поинты и магазин",
+        "what": "За практику вы получаете поинты, которые можно потратить на месяцы Pro и не только."
+      }
+    },
+    "missingTitle": "Здесь нечего подтверждать",
+    "missing": "Эта страница открывается после оплаты через Stripe. Перейдите на страницу тарифов.",
+    "errorTitle": "Пока не удалось подтвердить оплату",
+    "error": "Stripe еще не подтвердил этот платеж. Если вы уже оплатили, ничего не пропало: повторите попытку через минуту.",
+    "backToPricing": "Вернуться к тарифам"
+  }
+}

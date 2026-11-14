@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "title": "Business Cup 2.0: Pro is on us",
+    "description": "For Business Cup 2.0, Irreplaceable Pro is free for 30 days: daily reps, the 90-day plan, every neighbouring job, proof and the shop. Until November 30, 2026."
+  },
+  "nav": {
+    "home": "Irreplaceable home",
+    "label": "Main",
+    "pricing": "See plans and prices"
+  },
+  "title": "Business Cup 2.0: Pro is on us",
+  "titleA": "Business Cup 2.0:",
+  "titleB": "Pro is on us",
+  "lead": "You get daily reps of all three kinds, the 90-day plan, every neighbouring job, your proof and Review kit, and the points shop.",
+  "until": "Until {date}",
+  "scope": "Pro turns on in this browser for 30 days.",
+  "unlock": "Unlock Pro",
+  "unlocking": "Unlocking Pro",
+  "on": "Pro is on. It runs until {date}",
+  "startRep": "Start today's rep",
+  "mapFirst": "Map my week first",
+  "alreadyTitle": "You already have Pro",
+  "alreadyTrial": "Your free trial runs until {date}, so there is nothing to unlock here.",
+  "alreadyPro": "Your subscription is active until {date}, so there is nothing to unlock here.",
+  "action": "Business Cup 2.0: unlock Pro free",
+  "stay": "Stay on this page",
+  "footA": "The regular checkout works too, in Stripe test mode.",
+  "footLink": "See plans and prices",
+  "pass": {
+    "brand": "Irreplaceable Pro",
+    "days": "30 days",
+    "ofPro": "of Pro",
+    "event": "Business Cup 2.0",
+    "stamp": "Pro is on",
+    "stampUntil": "until {date}"
+  },
+  "errors": {
+    "already_pro": "You already have Pro through a subscription, so there is nothing to unlock.",
+    "offer_ended": "The Business Cup 2.0 offer ended on {date}. Plans and prices are on the pricing page.",
+    "failed": "Pro didn't turn on. Try again in a moment.",
+    "failedShort": "Pro didn't turn on."
+  }
+}

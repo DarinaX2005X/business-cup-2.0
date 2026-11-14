@@ -1,0 +1,1425 @@
+/*
+ * The points shop. One material for every object on the shelf (a paper card, a violet top cut from the
+ * field, a dashed tear line with notches, one light from the top left), a different silhouette and scale
+ * per kind. Values from src/styles/tokens.css.
+ */
+
+.page {
+  --notch: var(--paper);
+  max-width: calc(var(--content) + 2 * var(--s-32));
+  margin: 0 auto;
+  padding: var(--s-32) var(--s-32) var(--s-120);
+  display: grid;
+  gap: var(--s-72);
+}
+
+.h2 {
+  font-size: var(--fs-28);
+  font-weight: 750;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+/* ---------- wallet ---------- */
+
+.wallet {
+  display: grid;
+  gap: 16px;
+  padding: 28px 32px 16px;
+  border-radius: var(--r-panel);
+  background: var(--card);
+  box-shadow:
+    inset 0 0 0 1px var(--line),
+    var(--hl),
+    var(--shadow-rest);
+}
+
+.walletTop {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 24px 64px;
+  align-items: center;
+}
+
+.balance {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  white-space: nowrap;
+}
+
+.coin,
+.coinBig {
+  display: inline-block;
+  flex: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--apricot-hi), var(--apricot) 55%, var(--apricot-low));
+  box-shadow:
+    inset 0 0 0 1.5px oklch(62% 0.14 48 / 0.5),
+    0 1px 2px oklch(40% 0.1 50 / 0.3);
+}
+
+.coinBig {
+  width: 38px;
+  height: 38px;
+  box-shadow:
+    inset 0 0 0 2.5px oklch(62% 0.14 48 / 0.45),
+    inset 0 -3px 0 oklch(62% 0.14 48 / 0.35),
+    0 2px 0 oklch(63% 0.14 48),
+    0 8px 14px -6px oklch(40% 0.1 50 / 0.45);
+}
+
+.balanceV {
+  font-size: var(--fs-44);
+  font-weight: 750;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.balanceK {
+  align-self: flex-end;
+  padding-bottom: 4px;
+  font-size: var(--fs-20);
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.goal {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.goalLine {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 16px;
+}
+
+.goalLine b {
+  font-size: var(--fs-20);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.goalLine span {
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+/* the ruler fills with the person's own points: apricot, like the human part of the week */
+.ruler {
+  position: relative;
+  display: block;
+  height: 14px;
+  border-radius: 6px;
+  outline: 1.5px dashed oklch(78% 0.05 288);
+  outline-offset: -1.5px;
+}
+
+.ruler i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 6px;
+  background: var(--tile-hu);
+  box-shadow:
+    inset 0 1.5px 0 oklch(100% 0 0 / 0.6),
+    0 3px 0 var(--tile-hu-face),
+    0 8px 12px -6px oklch(52% 0.13 45 / 0.5);
+  transition: width 0.9s var(--ease);
+}
+
+.ready {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  padding: 10px 10px 10px 16px;
+  border-radius: var(--r-ctl);
+  background: var(--violet-soft);
+  font-size: 16px;
+}
+
+.ready b {
+  font-weight: 700;
+}
+
+.steps {
+  display: grid;
+  gap: 10px;
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+.steps ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.step {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 12px 0 14px;
+  border-radius: var(--r-chip);
+  background: var(--card);
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow:
+    inset 0 0 0 1px var(--line),
+    var(--shadow-rest);
+  transition:
+    transform var(--t-hover) var(--ease),
+    box-shadow var(--t-hover) var(--ease);
+}
+
+.step b {
+  padding: 2px 8px;
+  border-radius: var(--r-tag);
+  font-size: 14px;
+  color: var(--apricot-deep);
+  background: oklch(94% 0.05 66);
+}
+
+.step:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 0 0 1px var(--line),
+    var(--shadow-raised);
+}
+
+.step:active {
+  transform: scale(0.97);
+}
+
+.earn {
+  margin: 0 -16px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+}
+
+.earnToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: var(--r-chip);
+  background: transparent;
+  color: var(--violet);
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background-color var(--t-hover) var(--ease);
+}
+
+.earnToggle:hover {
+  background: var(--violet-soft);
+}
+
+.earnToggle svg {
+  width: 18px;
+  height: 18px;
+  transition: transform var(--t-pop) var(--ease);
+}
+
+.earnToggle[aria-expanded='true'] svg {
+  transform: rotate(180deg);
+}
+
+.earnList {
+  list-style: none;
+  margin: 0;
+  padding: 4px 16px 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 6px 24px;
+  animation: earnIn 0.3s var(--ease-out) both;
+}
+
+@keyframes earnIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+.earnList li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 9px 0;
+  font-size: 16px;
+}
+
+.earnList b {
+  flex: none;
+  font-weight: 700;
+  white-space: nowrap;
+  color: var(--apricot-deep);
+}
+
+/* ---------- shelves ---------- */
+
+.shelf {
+  display: grid;
+  gap: 24px;
+  align-content: start;
+}
+
+.shelfHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 24px;
+}
+
+.shelfNote {
+  font-size: 16px;
+  color: var(--ink-2);
+}
+
+.coupons {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.months {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.yearSlot {
+  grid-column: span 2;
+}
+
+.slot {
+  display: grid;
+  min-width: 0;
+  scroll-margin: 96px;
+}
+
+.pair {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: var(--s-48);
+  align-items: start;
+}
+
+.gifts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+/* ---------- the object and its turn ---------- */
+
+.obj {
+  display: grid;
+  min-width: 0;
+  perspective: 1400px;
+  container-type: inline-size;
+}
+
+.turn {
+  position: relative;
+  display: grid;
+  transform-style: preserve-3d;
+  transition: transform 0.62s var(--spring);
+}
+
+.front,
+.backFace {
+  grid-area: 1 / 1;
+  min-width: 0;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: var(--r-card);
+  background: var(--card);
+  box-shadow:
+    inset 0 0 0 1px oklch(89% 0.03 290),
+    var(--shadow-rest);
+  transition:
+    box-shadow var(--t-pop) var(--ease),
+    transform var(--t-pop) var(--ease);
+}
+
+.front {
+  display: flex;
+  flex-direction: column;
+}
+
+.backFace {
+  transform: rotateY(180deg);
+}
+
+.obj[data-phase='flipped'] .turn {
+  transform: rotateY(180deg);
+}
+
+.obj[data-phase='idle']:hover .front {
+  box-shadow:
+    inset 0 0 0 1px oklch(89% 0.03 290),
+    var(--shadow-raised);
+}
+
+/* the violet top, a piece of the field with its faint grain */
+.top {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-color: var(--field);
+  color: var(--on-violet);
+  transition: transform 0.46s var(--ease);
+}
+
+.top::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: var(--noise);
+  opacity: 0.04;
+  pointer-events: none;
+}
+
+.perf {
+  position: relative;
+  flex: none;
+  height: 0;
+  margin: 0 18px;
+  border-top: 2px dashed var(--line);
+}
+
+.perf::before,
+.perf::after {
+  content: '';
+  position: absolute;
+  top: -11px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--notch);
+  box-shadow: inset 0 0 0 1px oklch(89% 0.03 290);
+}
+
+.perf::before {
+  left: -29px;
+  clip-path: inset(0 0 0 50%);
+}
+
+.perf::after {
+  right: -29px;
+  clip-path: inset(0 50% 0 0);
+}
+
+.stub {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  padding: 16px 20px 20px;
+  transition: transform 0.46s var(--ease);
+}
+
+.stub > :last-child {
+  margin-top: auto;
+}
+
+.cost {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+.cost b {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.what {
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+
+.need {
+  display: grid;
+  gap: 8px;
+}
+
+.needBar {
+  display: block;
+  height: 8px;
+  border-radius: 5px;
+  background: var(--sunk);
+  overflow: hidden;
+  box-shadow: inset 0 1px 2px oklch(26% 0.09 285 / 0.12);
+}
+
+.needBar i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(180deg, var(--apricot-hi), var(--apricot) 60%, var(--apricot-low));
+}
+
+.need span {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.redeemBtn {
+  align-self: flex-start;
+  min-width: 112px;
+}
+
+/* ---------- coupon: a discount, slim and horizontal ---------- */
+
+.obj[data-shape='coupon'] .front {
+  flex-direction: row;
+  min-height: 156px;
+}
+
+.couponTop {
+  flex: 0 0 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px;
+  border-radius: var(--r-card) 0 0 var(--r-card);
+}
+
+.couponBig {
+  font-size: min(48px, 14cqw);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 0.9;
+}
+
+.couponBig small {
+  display: block;
+  margin-top: 4px;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  color: var(--on-violet-2);
+}
+
+.firstTag {
+  align-self: flex-start;
+  padding: 4px 8px;
+  border-radius: var(--r-tag);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--ink);
+  background: var(--apricot);
+  box-shadow:
+    inset 0 1px 0 oklch(100% 0 0 / 0.55),
+    0 1px 0 var(--apricot-deep);
+}
+
+.obj[data-shape='coupon'] .perf {
+  width: 0;
+  height: auto;
+  margin: 16px 0;
+  border-top: 0;
+  border-left: 2px dashed var(--line);
+}
+
+.obj[data-shape='coupon'] .perf::before,
+.obj[data-shape='coupon'] .perf::after {
+  left: -11px;
+  right: auto;
+}
+
+.obj[data-shape='coupon'] .perf::before {
+  top: -27px;
+  clip-path: inset(50% 0 0 0);
+}
+
+.obj[data-shape='coupon'] .perf::after {
+  top: auto;
+  bottom: -27px;
+  clip-path: inset(0 0 50% 0);
+}
+
+.obj[data-shape='coupon'] .stub {
+  padding: 16px 18px 18px;
+}
+
+/* hover: the coupon tilts as if picked up by its stub */
+.obj[data-shape='coupon'][data-phase='idle']:hover .turn {
+  transform: translateY(-3px) rotate(-0.8deg);
+}
+
+.obj[data-shape='coupon'][data-phase='tear'] .stub {
+  transform: translateX(10px) rotate(2.5deg);
+}
+
+.obj[data-featured] .front {
+  box-shadow:
+    inset 0 0 0 1px oklch(89% 0.03 290),
+    0 0 0 3px oklch(86% 0.08 64),
+    var(--shadow-rest);
+}
+
+/* ---------- pass: months of Pro ---------- */
+
+.passTop {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 18px;
+  min-height: 160px;
+  padding: 18px 20px 20px;
+  border-radius: var(--r-card) var(--r-card) 0 0;
+  transform-origin: 0% 100%;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--on-violet-2);
+}
+
+.passBig {
+  font-size: min(44px, 17cqw);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 0.92;
+}
+
+.passBig small {
+  display: block;
+  margin-top: 6px;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  color: var(--on-violet-2);
+}
+
+.obj[data-shape='pass'][data-phase='idle']:hover .turn,
+.obj[data-shape='year'][data-phase='idle']:hover .turn {
+  transform: translateY(-4px);
+}
+
+.obj[data-shape='pass'][data-phase='idle']:hover .passTop,
+.obj[data-shape='year'][data-phase='idle']:hover .passTop {
+  transform: translateY(-2px) rotate(-1deg);
+}
+
+.obj[data-phase='tear'] .passTop {
+  transform: translateY(-14px) rotate(-5deg);
+}
+
+/* the year: the largest object, with the keystone big in its corner */
+.obj[data-shape='year'] .passTop {
+  min-height: 236px;
+  padding: 22px 26px 26px;
+}
+
+.obj[data-shape='year'] .passBig {
+  position: relative;
+  z-index: 1;
+  font-size: min(80px, 15cqw);
+}
+
+.obj[data-shape='year'] .passBig small {
+  font-size: 20px;
+}
+
+.emblem {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  transition: transform 0.5s var(--spring);
+  pointer-events: none;
+}
+
+.obj[data-shape='year'][data-phase='idle']:hover .emblem {
+  transform: translateY(-6px) rotate(-4deg);
+}
+
+.obj[data-shape='year'] .stub {
+  padding: 18px 26px 24px;
+}
+
+.obj[data-shape='year'] .cost b {
+  font-size: 26px;
+}
+
+/* ---------- gift card: an AI tool on a neutral plate ---------- */
+
+.plate {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 18px;
+  min-height: 156px;
+  margin: 10px 10px 0;
+  padding: 16px 18px 18px;
+  border-radius: 14px;
+  background: linear-gradient(160deg, oklch(96% 0.012 290), oklch(90.5% 0.02 290));
+  box-shadow:
+    inset 0 0 0 1px oklch(86% 0.025 290),
+    inset 0 1px 0 #fff;
+  transition: transform 0.46s var(--ease);
+}
+
+/* a light passes across the plate on hover, the way it would on a printed card */
+.plate::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 30%, oklch(100% 0 0 / 0.65) 46%, transparent 62%);
+  transform: translateX(-110%);
+  transition: transform 0.75s var(--ease);
+  pointer-events: none;
+}
+
+.obj[data-shape='gift'][data-phase='idle']:hover .plate::after {
+  transform: translateX(110%);
+}
+
+.obj[data-shape='gift'][data-phase='idle']:hover .turn {
+  transform: translateY(-3px);
+}
+
+.obj[data-shape='gift'][data-phase='tear'] .plate {
+  transform: translateY(-8px) scale(0.98);
+}
+
+.pilot {
+  align-self: flex-start;
+  padding: 3px 8px;
+  border-radius: var(--r-tag);
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--ink-2);
+  background: oklch(100% 0 0 / 0.6);
+  box-shadow: inset 0 0 0 1px oklch(82% 0.035 288);
+}
+
+.plateName {
+  font-size: min(30px, 11cqw);
+  font-weight: 750;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.plateName small {
+  display: block;
+  margin-top: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--ink-2);
+}
+
+/* ---------- streak freeze ---------- */
+
+.obj[data-shape='freeze'] .front {
+  flex-direction: row;
+  align-items: stretch;
+  gap: 20px;
+  padding: 20px;
+}
+
+.freezeArt {
+  flex: none;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 6px;
+  width: 136px;
+  padding: 20px 12px 22px;
+  border-radius: 16px;
+  background: var(--sunk);
+  box-shadow: inset 0 1px 2px oklch(26% 0.09 285 / 0.08);
+}
+
+.freezeArt i {
+  position: relative;
+  width: 30px;
+  height: 42px;
+  border-radius: 6px 6px 3px 3px;
+}
+
+.freezeArt i[data-k='done'] {
+  background: var(--tile-hu);
+  box-shadow:
+    inset 0 1.5px 0 oklch(100% 0 0 / 0.6),
+    0 4px 0 var(--tile-hu-face),
+    0 8px 10px -4px oklch(52% 0.13 45 / 0.45);
+}
+
+/* the missed day, hatched, with the freeze laid over it */
+.freezeArt i[data-k='cover'] {
+  background: var(--tile-ai);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    inset 0 0 0 1px var(--tile-ai-edge),
+    0 4px 0 var(--tile-ai-face);
+}
+
+.freezeArt i[data-k='cover'] svg {
+  position: absolute;
+  left: -7px;
+  top: -9px;
+  width: 44px;
+  height: 52px;
+  padding: 12px 9px;
+  border-radius: 10px;
+  color: var(--violet);
+  background: oklch(92.5% 0.04 288 / 0.88);
+  box-shadow:
+    inset 0 0 0 1.5px var(--violet-tint),
+    inset 0 1px 0 #fff,
+    0 6px 12px -6px oklch(30% 0.15 283 / 0.45);
+  transition: transform 0.4s var(--spring);
+}
+
+.obj[data-shape='freeze'][data-phase='idle']:hover .freezeArt i[data-k='cover'] svg {
+  transform: translateY(3px);
+}
+
+.obj[data-shape='freeze'][data-phase='idle']:hover .turn {
+  transform: translateY(-2px);
+}
+
+.freezeText {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.freezeText > :last-child {
+  margin-top: auto;
+}
+
+.objTitle {
+  font-size: var(--fs-20);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.held {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.heldDots {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.heldDots i {
+  width: 12px;
+  height: 15px;
+  border-radius: 3px;
+  outline: 1.5px dashed oklch(76% 0.05 288);
+  outline-offset: -1.5px;
+}
+
+.heldDots i[data-on] {
+  outline: 0;
+  background: var(--violet-soft);
+  box-shadow: inset 0 0 0 1.5px var(--violet-hi);
+}
+
+/* ---------- back face ---------- */
+
+.back {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+  padding: 18px 20px;
+}
+
+.backHead {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--violet);
+}
+
+.backHead svg {
+  width: 18px;
+  height: 18px;
+}
+
+.backName {
+  margin-top: -4px;
+  font-size: var(--fs-20);
+  font-weight: 750;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.codeK {
+  font-size: 13.5px;
+  color: var(--ink-2);
+}
+
+.codeRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.code {
+  flex: 1 1 140px;
+  min-width: 0;
+  padding: 9px 12px;
+  border-radius: 12px;
+  outline: 2px dashed oklch(78% 0.06 288);
+  outline-offset: -2px;
+  font-family: var(--font-sans);
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-align: center;
+  overflow-wrap: anywhere;
+  color: var(--violet);
+  background: var(--violet-soft);
+}
+
+.copy {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--card);
+  color: var(--violet);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 650;
+  cursor: pointer;
+  box-shadow:
+    inset 0 0 0 1px var(--line),
+    var(--shadow-rest);
+  transition:
+    transform var(--t-hover) var(--ease),
+    box-shadow var(--t-hover) var(--ease);
+}
+
+.copy:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 0 0 1px var(--line),
+    var(--shadow-raised);
+}
+
+.copy:active {
+  transform: scale(0.97);
+}
+
+.copy svg {
+  width: 16px;
+  height: 16px;
+}
+
+.backNote {
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.backLink {
+  color: var(--violet);
+  font-weight: 650;
+  text-underline-offset: 3px;
+}
+
+.turnBack {
+  margin-top: auto;
+  align-self: flex-start;
+  min-height: 40px;
+  padding: 0 12px;
+  margin-left: -12px;
+  border: 0;
+  border-radius: var(--r-chip);
+  background: transparent;
+  color: var(--violet);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background-color var(--t-hover) var(--ease);
+}
+
+.turnBack:hover {
+  background: var(--violet-soft);
+}
+
+/* ---------- partners ---------- */
+
+.partners {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: 24px 48px;
+  align-items: center;
+}
+
+.soonRow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.soon {
+  display: grid;
+  place-items: center;
+  height: 132px;
+  border-radius: var(--r-card);
+  border: 2px dashed oklch(80% 0.05 288);
+}
+
+.soon i {
+  position: relative;
+  display: block;
+  border-radius: 10px;
+  border: 2px dashed oklch(80% 0.05 288);
+}
+
+.soon[data-shape='coupon'] i {
+  width: 112px;
+  height: 56px;
+}
+
+.soon[data-shape='coupon'] i::after {
+  content: '';
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 42%;
+  border-left: 2px dashed oklch(80% 0.05 288);
+}
+
+.soon[data-shape='gift'] i {
+  width: 96px;
+  height: 62px;
+}
+
+.soon[data-shape='gift'] i::after {
+  content: '';
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  top: 8px;
+  height: 26px;
+  border-radius: 6px;
+  border: 2px dashed oklch(80% 0.05 288);
+}
+
+.soon[data-shape='pass'] i {
+  width: 58px;
+  height: 80px;
+}
+
+.soon[data-shape='pass'] i::after {
+  content: '';
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  top: 48%;
+  border-top: 2px dashed oklch(80% 0.05 288);
+}
+
+.soonText {
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  max-width: 40ch;
+}
+
+.soonText b {
+  display: block;
+  margin-bottom: 4px;
+  font-size: var(--fs-20);
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* ---------- your rewards ---------- */
+
+.history {
+  display: grid;
+  gap: 20px;
+}
+
+.rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, auto);
+  gap: 16px;
+  align-items: center;
+  padding: 14px 18px;
+  border-radius: 16px;
+  background: var(--card);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+/* a miniature of the object the row stands for */
+.rowMark {
+  width: 34px;
+  height: 24px;
+  border-radius: 5px;
+  background: linear-gradient(90deg, var(--field) 0 44%, var(--card) 44%);
+  box-shadow:
+    inset 0 0 0 1px oklch(85% 0.03 290),
+    0 1px 2px oklch(26% 0.09 285 / 0.1);
+}
+
+.row[data-kind='pro_months'] .rowMark {
+  width: 24px;
+  height: 32px;
+  margin-left: 5px;
+  background: linear-gradient(180deg, var(--field) 0 56%, var(--card) 56%);
+}
+
+.row[data-kind='partner_gift'] .rowMark {
+  background: linear-gradient(160deg, oklch(96% 0.012 290), oklch(88% 0.025 290));
+}
+
+.row[data-kind='streak_freeze'] .rowMark {
+  width: 22px;
+  height: 28px;
+  margin-left: 6px;
+  border-radius: 5px 5px 2px 2px;
+  background: var(--violet-soft);
+  box-shadow: inset 0 0 0 1.5px var(--violet-hi);
+}
+
+.rowName {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.rowName b {
+  font-size: 16px;
+  font-weight: 650;
+}
+
+.rowName span {
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.rowCode {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  max-width: 100%;
+  padding: 0 12px;
+  border: 0;
+  border-radius: var(--r-chip);
+  background: var(--violet-soft);
+  color: var(--violet);
+  font: inherit;
+  cursor: pointer;
+  transition: background-color var(--t-hover) var(--ease);
+}
+
+.rowCode:hover {
+  background: var(--violet-tint);
+}
+
+.rowCode:active {
+  transform: scale(0.97);
+}
+
+.rowCode code {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  overflow-wrap: anywhere;
+}
+
+.rowCode svg {
+  flex: none;
+  width: 16px;
+  height: 16px;
+}
+
+.rowStatus {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink-2);
+  text-align: right;
+}
+
+.rowStatus svg {
+  flex: none;
+  width: 17px;
+  height: 17px;
+}
+
+.rowStatus[data-status='issued'] {
+  color: var(--apricot-deep);
+}
+
+.rowStatus[data-status='applied'] {
+  color: var(--violet);
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 22px 24px;
+  border-radius: var(--r-card);
+  border: 2px dashed oklch(80% 0.05 288);
+  color: var(--ink-2);
+  font-size: 16px;
+}
+
+.emptyArt {
+  flex: none;
+  width: 64px;
+  height: 40px;
+  border-radius: 8px;
+  border: 2px dashed oklch(78% 0.05 288);
+  background: linear-gradient(90deg, transparent calc(42% - 1px), oklch(78% 0.05 288) calc(42% - 1px) calc(42% + 1px), transparent calc(42% + 1px));
+}
+
+/* ---------- dialog, errors ---------- */
+
+.dialogBody {
+  display: grid;
+  gap: 14px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.left {
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+.formError {
+  padding: 10px 14px;
+  border-radius: var(--r-ctl);
+  background: var(--error-soft);
+  color: oklch(42% 0.16 25);
+  font-size: 15px;
+}
+
+.failed {
+  display: grid;
+  gap: 14px;
+  justify-items: start;
+  padding: 40px;
+  border-radius: var(--r-panel);
+  background: var(--card);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.failed p {
+  color: var(--ink-2);
+  max-width: 52ch;
+}
+
+/* ---------- narrower screens ---------- */
+
+@media (max-width: 1120px) {
+  .months {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .yearSlot {
+    grid-column: 1 / -1;
+  }
+  .pair {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 860px) {
+  .coupons {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .partners {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .walletTop {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: var(--s-16) var(--s-16) var(--s-72);
+    gap: var(--s-48);
+  }
+  .wallet {
+    padding: 20px 18px 10px;
+  }
+  .earn {
+    margin: 0 -8px;
+  }
+  .earnList {
+    padding: 4px 8px 12px;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .months,
+  .gifts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  /* on a phone a month pass lies on its side like a coupon, so the shelf stays short */
+  .obj[data-shape='pass'] .front {
+    flex-direction: row;
+    min-height: 156px;
+  }
+  .obj[data-shape='pass'] .passTop {
+    flex: 0 0 46%;
+    min-height: 0;
+    padding: 16px;
+    border-radius: var(--r-card) 0 0 var(--r-card);
+  }
+  .obj[data-shape='pass'] .brand {
+    font-size: 0;
+  }
+  .obj[data-shape='pass'] .passBig {
+    font-size: 28px;
+    text-wrap: balance;
+  }
+  .obj[data-shape='pass'] .perf {
+    width: 0;
+    height: auto;
+    margin: 16px 0;
+    border-top: 0;
+    border-left: 2px dashed var(--line);
+  }
+  .obj[data-shape='pass'] .perf::before,
+  .obj[data-shape='pass'] .perf::after {
+    left: -11px;
+    right: auto;
+  }
+  .obj[data-shape='pass'] .perf::before {
+    top: -27px;
+    clip-path: inset(50% 0 0 0);
+  }
+  .obj[data-shape='pass'] .perf::after {
+    top: auto;
+    bottom: -27px;
+    clip-path: inset(0 0 50% 0);
+  }
+  .obj[data-shape='pass'] .stub {
+    padding: 14px 16px 16px;
+  }
+  .obj[data-shape='year'] .passTop {
+    min-height: 190px;
+  }
+  .obj[data-shape='freeze'] .front {
+    flex-direction: column;
+    padding: 16px;
+  }
+  .freezeArt {
+    width: 100%;
+  }
+  .soon {
+    height: 96px;
+  }
+  .soon[data-shape='coupon'] i {
+    width: 72px;
+    height: 40px;
+  }
+  .soon[data-shape='gift'] i {
+    width: 64px;
+    height: 44px;
+  }
+  .soon[data-shape='gift'] i::after {
+    height: 16px;
+  }
+  .soon[data-shape='pass'] i {
+    width: 40px;
+    height: 56px;
+  }
+  .row {
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 10px 14px;
+    padding: 14px;
+  }
+  .rowCode,
+  .rowCodeNone,
+  .rowStatus {
+    grid-column: 2;
+    justify-self: start;
+    text-align: left;
+  }
+  .rowCodeNone {
+    display: none;
+  }
+  .failed {
+    padding: 24px 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .turn,
+  .top,
+  .stub,
+  .plate,
+  .emblem {
+    transition: none;
+  }
+  .earnList {
+    animation: none;
+  }
+}

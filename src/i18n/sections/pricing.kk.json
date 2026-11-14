@@ -1,0 +1,198 @@
+{
+  "meta": {
+    "title": "Бағалар",
+    "weekTitle": "Жаттығулардың алғашқы аптасы",
+    "description": "Irreplaceable Апта картасын жасауға, «AI немесе мен» ойынын ойнауға және бір жаттығуды орындауға тегін мүмкіндік береді. Pro нұсқасы күнделікті жаттығуларды, 90 күндік жоспарды және дүкенді айына $19 немесе жылына $119 бағасына ұсынады, алғашқы 7 күн тегін."
+  },
+  "_draft": [
+    "canceled",
+    "code.months_one",
+    "code.months_other",
+    "code.percent",
+    "errors.checkout",
+    "errors.portal",
+    "free.cta",
+    "free.ctaOwn",
+    "free.items.aiOrMe",
+    "free.items.jobs",
+    "free.items.map",
+    "free.items.rep",
+    "free.lead",
+    "free.name",
+    "interval.label",
+    "interval.month",
+    "interval.year",
+    "mapFirst",
+    "meta.description",
+    "meta.title",
+    "meta.weekTitle",
+    "nav.home",
+    "nav.label",
+    "nav.method",
+    "nav.openMap",
+    "nav.pricing",
+    "nav.start",
+    "opening",
+    "portal",
+    "portalOpening",
+    "pro.items.all",
+    "pro.items.jobs",
+    "pro.items.plan",
+    "pro.items.proof",
+    "pro.items.reps",
+    "pro.items.shop",
+    "pro.name",
+    "pro.orYear",
+    "pro.perMonth",
+    "pro.perYear",
+    "pro.saveYear",
+    "pro.trialLine",
+    "startRep",
+    "status.cup",
+    "status.pro",
+    "status.trialing",
+    "success.backToPricing",
+    "success.confirming",
+    "success.error",
+    "success.errorTitle",
+    "success.lead",
+    "success.meta",
+    "success.missing",
+    "success.missingTitle",
+    "success.open.jobs.name",
+    "success.open.jobs.what",
+    "success.open.plan.name",
+    "success.open.plan.what",
+    "success.open.proof.name",
+    "success.open.proof.what",
+    "success.open.reps.name",
+    "success.open.reps.what",
+    "success.open.shop.name",
+    "success.open.shop.what",
+    "success.openTitle",
+    "success.titlePro",
+    "success.titleTrial",
+    "testMode",
+    "title",
+    "trial",
+    "week.lead",
+    "week.move",
+    "week.score",
+    "week.title",
+    "week.today",
+    "week.type.delegate",
+    "week.type.edge",
+    "week.type.slip"
+  ],
+  "nav": {
+    "home": "Irreplaceable басты беті",
+    "label": "Басты бет",
+    "method": "Біз қалай есептейміз",
+    "pricing": "Бағалар",
+    "start": "Аптамды талдау",
+    "openMap": "Апта картамды ашу"
+  },
+  "canceled": "Төлем тоқтатылды. Ешқандай қаражат алынған жоқ.",
+  "title": "Не үшін төлейсіз",
+  "interval": {
+    "label": "Төлем кезеңі",
+    "year": "Жыл сайын",
+    "month": "Ай сайын"
+  },
+  "week": {
+    "title": "Жаттығулардың алғашқы аптасы",
+    "lead": "{jobTitle} рөліндегі аптаңызға негізделген күнделікті жеті жаттығу. Олар дәл «Бүгін» бөліміндегідей таңдалған.",
+    "score": "Бүгінгі Алмастырылмастық ұпайыңыз: {score}.",
+    "move": "Әрбір орындалған жаттығу ұпайыңызды көтереді, ал алғашқылары оған ең көп әсер етеді.",
+    "today": "Бүгін",
+    "type": {
+      "slip": "Қатені тап",
+      "delegate": "Делегациялау",
+      "edge": "Сіздің адами артықшылығыңыз"
+    }
+  },
+  "free": {
+    "name": "Тегін",
+    "lead": "Әр тапсырма бойынша аптаңызды шолып шығып, бір практикалық жаттығуды орындап көріңіз.",
+    "items": {
+      "map": "Әр тапсырмаға арналған Апта картасы",
+      "aiOrMe": "Күн сайын «AI немесе мен»",
+      "rep": "Өз аптаңыздан алынған бір сынақ жаттығуы",
+      "jobs": "Әрбір мамандық бойынша ашық парақшалар"
+    },
+    "cta": "Аптамды талдау",
+    "ctaOwn": "Апта картамды ашу"
+  },
+  "pro": {
+    "name": "Pro",
+    "perYear": "жылына",
+    "perMonth": "айына",
+    "saveYear": "Ай сайын төлеумен ({total}) салыстырғанда жылына {amount} үнемдеңіз.",
+    "orYear": "Немесе жыл сайынғы төлеммен жылына {price}.",
+    "trialLine": "Алғашқы 7 күн тегін, содан кейін {per} {price}.",
+    "items": {
+      "all": "Тегін тарифтегінің барлығы",
+      "reps": "Кез келген күнделікті жаттығу: «Қатені тап», «Делегациялау» немесе «Сіздің адами артықшылығыңыз»",
+      "plan": "Аптаңызға негізделген 90 күндік жоспар",
+      "jobs": "Барлық сабақтас мамандықтар және олар беретін дағдылар",
+      "proof": "Тәжірибеңіздің дәлелдері және ревью жиынтығы",
+      "shop": "Тәжірибе үшін ұпайлар және оларды жұмсайтын дүкен"
+    }
+  },
+  "trial": "7 күндік тегін кезеңді бастаңыз",
+  "opening": "Stripe арқылы төлеу ашылуда",
+  "testMode": "Төлемдер Stripe тесттік режимінде өтеді. 4242 4242 4242 4242 картасын қолданыңыз.",
+  "code": {
+    "percent": "{percent}% жеңілдік төлем кезінде қолданылады",
+    "months_one": "Pro-ның {count} айы төлем кезінде қосылады",
+    "months_other": "Pro-ның {count} айы төлем кезінде қосылады"
+  },
+  "status": {
+    "trialing": "Тегін сынақ мерзімі {date} дейін жарамды.",
+    "pro": "Pro белсенді. Ағымдағы кезең {date} аяқталады.",
+    "cup": "Pro Business Cup 2.0 аясында {date} дейін қосылған."
+  },
+  "startRep": "Бүгінгі жаттығуды бастау",
+  "mapFirst": "Алдымен апта картасын толтыру",
+  "portal": "Жазылымды басқару",
+  "portalOpening": "Төлем бөлімі ашылуда",
+  "errors": {
+    "checkout": "Stripe төлем беті ашылмады, қаражат алынбады. Біраздан соң қайталап көріңіз.",
+    "portal": "Төлем беті ашылмады. Біраздан соң қайталап көріңіз."
+  },
+  "success": {
+    "meta": "Сіз қосылдыңыз",
+    "confirming": "Stripe арқылы төлеміңіз расталуда",
+    "titleTrial": "Сіз қосылдыңыз. Сынақ мерзімі {date} аяқталады",
+    "titlePro": "Сіз қосылдыңыз. Pro {date} дейін жарамды",
+    "lead": "Енді Pro нұсқасының барлық мүмкіндігі ашық, бастау үшін аптаңызға сай бүгінгі жаттығу дайын.",
+    "openTitle": "Енді не ашылды",
+    "open": {
+      "reps": {
+        "name": "Күнделікті жаттығулар",
+        "what": "Күн сайын аптаңыздың негізінде дайындалатын «Қатені тап», «Тапсыру» және «Сіздің адами артықшылығыңыз»."
+      },
+      "plan": {
+        "name": "90 күндік жоспар",
+        "what": "Аптаңыз апта картасында он екі апталық тәжірибеге айналады."
+      },
+      "jobs": {
+        "name": "Сабақтас мамандықтар",
+        "what": "Барлық байланысты мамандықтар: адами үлес көлемімен және үйрететін дағдыларымен."
+      },
+      "proof": {
+        "name": "Дәлелдер және ревью жиынтығы",
+        "what": "Әрбір орындалған жаттығу ревьюге алып баратын дәлелге айналады."
+      },
+      "shop": {
+        "name": "Ұпайлар және дүкен",
+        "what": "Тәжірибе үшін Pro айларын және басқа да мүмкіндіктерді сатып алуға болатын ұпайлар аласыз."
+      }
+    },
+    "missingTitle": "Мұнда растайтын ештеңе жоқ",
+    "missing": "Бұл бет Stripe арқылы төлегеннен кейін ашылады. Бағалар бетінен қайта бастаңыз.",
+    "errorTitle": "Төлеміңізді әлі растай алмадық",
+    "error": "Stripe бұл төлемді әлі растамады. Егер төлем жасаған болсаңыз, алаңдамаңыз: біраздан соң қайталап көріңіз.",
+    "backToPricing": "Бағаларға оралу"
+  }
+}

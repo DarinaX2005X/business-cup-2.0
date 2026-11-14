@@ -1,0 +1,163 @@
+{
+  "meta": {
+    "title": "Shop"
+  },
+  "points": "points",
+  "need": "Need {points} more",
+  "copy": "Copy",
+  "copied": "Copied",
+  "goal": {
+    "to": "{points} to {reward}",
+    "of": "{balance} of {cost} points",
+    "all": "Your points cover every reward on the shelf",
+    "ready": "Ready now:",
+    "firstSteps": "Ways to reach {reward}:"
+  },
+  "earn": {
+    "title": "How to earn",
+    "one": "+{points}",
+    "range": "+{from} to +{to}",
+    "xray_completed": "Map your week",
+    "week_confirmed": "Check and confirm your week",
+    "first_rep": "Finish your first rep",
+    "rep_daily": "Finish a daily rep",
+    "rep_extra": "Finish an extra rep",
+    "rep_perfect": "Catch every mistake in a rep",
+    "streak_bonus": "Keep a streak going",
+    "ai_or_me": "Play AI or me",
+    "used_at_work": "Use a rep at work and log it",
+    "proof_shared": "Share your proof",
+    "review_kit": "Build your Review kit",
+    "pivot_explored": "Look at a neighbouring job",
+    "invite_completed": "Invite a colleague",
+    "invited_bonus": "Join from a colleague's invite",
+    "streak_bonus_3": "3-day streak",
+    "streak_bonus_7": "7-day streak",
+    "streak_bonus_14": "14-day streak",
+    "streak_bonus_30": "30-day streak",
+    "streak_bonus_60": "60-day streak",
+    "streak_bonus_100": "100-day streak"
+  },
+  "shelf": {
+    "pro": "For your Pro plan",
+    "proNote": "One discount per payment. Months pay for Pro in full.",
+    "ai": "AI tools",
+    "streak": "Keep your streak",
+    "partners": "Partners"
+  },
+  "soon": {
+    "title": "More products coming soon",
+    "body": "We're adding partner rewards. Your points keep their value."
+  },
+  "coupon": {
+    "percent": "{percent}%",
+    "off": "off Pro",
+    "first": "Your first reward",
+    "note": "{amount} off the yearly plan"
+  },
+  "pass": {
+    "brand": "Irreplaceable Pro",
+    "months_one": "{count} month",
+    "months_other": "{count} months",
+    "ofPro": "of Pro",
+    "year": "A full year of Pro",
+    "what_one": "Pays for a month of Pro in full",
+    "what_other": "Pays for {count} months of Pro in full"
+  },
+  "gift": {
+    "pilot": "Pilot reward",
+    "month": "1 month",
+    "what": "We email you when your code is ready."
+  },
+  "freeze": {
+    "name": "Streak freeze",
+    "what": "Covers one missed day. It's used automatically when you miss one.",
+    "held": "You hold {count} of {max}"
+  },
+  "back": {
+    "done": "Redeemed",
+    "yourCode": "Your code",
+    "issued": "It applies by itself at checkout.",
+    "toCheckout": "Open pricing",
+    "applied": "Applied to your subscription.",
+    "requested": "Requested. We'll email you when your code is ready.",
+    "sent": "Sent to {email}.",
+    "freeze": "Your streak is covered for one missed day.",
+    "turn": "Turn it back",
+    "appliedCheckout": "Used at checkout."
+  },
+  "blocked": {
+    "oneCode": "Use your {name} code at checkout first. One Pro code at a time.",
+    "freezes": "You already hold {max}, the most you can keep."
+  },
+  "redeem": {
+    "button": "Redeem",
+    "title": "Redeem {cost} points for {what}?",
+    "confirm": "Redeem {cost} points",
+    "busy": "Redeeming",
+    "email": "Email for the code",
+    "emailError": "Enter an email we can send the code to.",
+    "left": "You'll have {points} points left.",
+    "what": {
+      "discountFirst": "{percent}% off your first payment",
+      "discountNext": "{percent}% off your next payment",
+      "months_one": "a month of Pro",
+      "months_other": "{count} months of Pro",
+      "gift": "a month of {name}",
+      "freeze": "a streak freeze"
+    },
+    "explain": {
+      "discount": "We make a one-time code for you. It applies by itself when you start checkout.",
+      "discountSub": "It goes straight onto your subscription and lowers your next payment.",
+      "months": "We make a one-time code for you. It applies by itself when you start checkout.",
+      "monthsSub_one": "It goes straight onto your subscription and covers your next month.",
+      "monthsSub_other": "It goes straight onto your subscription and covers your next {count} months.",
+      "gift": "This is a pilot reward. We email you when your code is ready.",
+      "freeze": "If you miss a day, it keeps your streak going."
+    }
+  },
+  "names": {
+    "discount": "{percent}% off Pro",
+    "months_one": "{count} month of Pro",
+    "months_other": "{count} months of Pro",
+    "gift": "{name}, 1 month",
+    "freeze": "Streak freeze",
+    "soon": "Partner reward"
+  },
+  "history": {
+    "title": "Your rewards",
+    "when": "{date}, {cost} points",
+    "copyCode": "Copy code {code}",
+    "empty": "Rewards you redeem appear here, with their codes.",
+    "status": {
+      "issued": "Waiting for checkout",
+      "applied": "Applied",
+      "requested": "Requested",
+      "sent": "Sent",
+      "sentTo": "Sent to {email}"
+    }
+  },
+  "errors": {
+    "not_enough_points": "You don't have enough points for this yet. Nothing was spent.",
+    "one_code": "You already have a Pro code waiting. Use it at checkout first, then redeem another.",
+    "network": "No connection to the server, so nothing was spent. Check your internet and try again.",
+    "failed": "The reward didn't go through, and your points are untouched. Try again in a moment.",
+    "loadTitle": "The shop didn't load",
+    "load": "Your points are safe. Try loading the shop again.",
+    "freeze_limit": "You already hold as many freezes as you can keep. Nothing was spent.",
+    "stripe": "Stripe didn't answer, so nothing was spent. Try again in a moment."
+  },
+  "reward": {
+    "pro_10": "10% off Pro",
+    "pro_25": "25% off Pro",
+    "pro_50": "50% off Pro",
+    "pro_1m": "1 month of Pro",
+    "pro_3m": "3 months of Pro",
+    "pro_6m": "6 months of Pro",
+    "pro_12m": "12 months of Pro",
+    "claude_pro_1m": "Claude Pro, 1 month",
+    "chatgpt_plus_1m": "ChatGPT Plus, 1 month",
+    "streak_freeze": "Streak freeze",
+    "coming_soon": "More products coming soon"
+  }
+}

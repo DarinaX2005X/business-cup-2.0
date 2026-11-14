@@ -1,0 +1,42 @@
+{
+  "skip": "Мазмұнға өту",
+  "_draft": [
+    "account",
+    "copied",
+    "home",
+    "language",
+    "mapOwn",
+    "nav.label",
+    "nav.progress",
+    "nav.shop",
+    "nav.today",
+    "nav.week",
+    "pointsLabel",
+    "profile",
+    "restore",
+    "restoreHint",
+    "skip",
+    "sound",
+    "streak_one",
+    "streak_other"
+  ],
+  "home": "Irreplaceable, сіздің апта картаңыз",
+  "nav": {
+    "label": "Бөлімдер",
+    "week": "Апта картасы",
+    "today": "Бүгін",
+    "progress": "Прогресс",
+    "shop": "Дүкен"
+  },
+  "mapOwn": "Өз апта картаңызды жасаңыз",
+  "pointsLabel": "ұпайлар",
+  "language": "Тіл",
+  "profile": "Сіздің профиліңіз",
+  "account": "Профиль және тіл",
+  "restore": "Қалпына келтіру сілтемесін көшіру",
+  "restoreHint": "Профиліңізді басқа құрылғыда ашады. Оны құпия сақтаңыз.",
+  "copied": "Сілтеме көшірілді",
+  "sound": "Дыбыс",
+  "streak_one": "Осы аптада {count} күн жаттықтыңыз",
+  "streak_other": "Осы аптада {count} күн жаттықтыңыз"
+}

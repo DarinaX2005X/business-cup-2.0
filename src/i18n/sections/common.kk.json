@@ -16,7 +16,18 @@
     "errors.unauthorized",
     "language",
     "points.earned_one",
-    "points.earned_other"
+    "points.earned_other",
+    "profile.orphaned",
+    "profile.orphanedFresh",
+    "profile.orphanedHint",
+    "profile.orphanedRetry",
+    "profile.restoreAsk",
+    "profile.restoreAskHint",
+    "profile.restoreInvalid",
+    "profile.restoreKeep",
+    "profile.restoreOpen",
+    "profile.restored",
+    "profile.switchBack"
   ],
   "actions": {
     "retry": "Қайталап көру",
@@ -38,5 +49,18 @@
   "points": {
     "earned_one": "+{count} ұпай",
     "earned_other": "+{count} ұпай"
+  },
+  "profile": {
+    "orphaned": "Осы құрылғыда сақталған профиліңізді таба алмадық.",
+    "orphanedHint": "Бұл уақытша ақау болуы мүмкін. Қайталап көріңіз немесе жаңа профиль бастаңыз; қалпына келтіру сілтемесін сақтасаңыз, ол жұмыс істей береді.",
+    "orphanedRetry": "Қайталап көру",
+    "orphanedFresh": "Жаңадан бастау",
+    "restoreAsk": "Осы сілтемедегі профильді ашасыз ба?",
+    "restoreAskHint": "Бұл браузерде прогресі бар профиль бар. Сілтемедегі профильді ашсаңыз, кейін қазіргі профильге қайта ауыса аласыз.",
+    "restoreOpen": "Сілтемедегі профильді ашу",
+    "restoreKeep": "Қазіргісін қалдыру",
+    "restoreInvalid": "Қалпына келтіру сілтемесі жұмыс істемейді. Профиль жойылған болуы немесе сілтеме толық көшірілмеген болуы мүмкін.",
+    "restored": "Профиліңіз осы құрылғыда ашылды.",
+    "switchBack": "Алдыңғы профильге қайту"
   }
 }

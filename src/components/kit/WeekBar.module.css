@@ -346,14 +346,15 @@ button.tile:focus-visible {
   border-radius: 12px;
 }
 
-/* tooltip with the full task text */
+/* tooltip with the full task text, kept inside the viewport by --dx */
 .tip {
+  --dx: 0px;
   position: absolute;
   left: 50%;
   bottom: calc(100% - var(--head-h) + 10px);
   z-index: 3;
   width: max-content;
-  max-width: 260px;
+  max-width: min(260px, 80vw);
   padding: 10px 12px;
   border-radius: 12px;
   background: var(--tip-bg);
@@ -362,7 +363,7 @@ button.tile:focus-visible {
   line-height: 1.4;
   box-shadow: var(--shadow-overlay);
   opacity: 0;
-  transform: translate(-50%, 6px);
+  transform: translate(calc(-50% + var(--dx)), 6px);
   pointer-events: none;
   transition:
     opacity 0.16s var(--ease),
@@ -376,29 +377,8 @@ button.tile:focus-visible {
 .seg:has(.tile:hover) .tip,
 .seg:has(.tile:focus-visible) .tip {
   opacity: 1;
-  transform: translate(-50%, 0);
+  transform: translate(calc(-50% + var(--dx)), 0);
   transition-delay: 0.35s;
-}
-
-.grp:first-child .seg:first-child .tip {
-  left: 0;
-  transform: translate(0, 6px);
-}
-
-.grp:first-child .seg:first-child:has(.tile:hover) .tip,
-.grp:first-child .seg:first-child:has(.tile:focus-visible) .tip {
-  transform: none;
-}
-
-.grp:last-child .seg:last-child .tip {
-  left: auto;
-  right: 0;
-  transform: translate(0, 6px);
-}
-
-.grp:last-child .seg:last-child:has(.tile:hover) .tip,
-.grp:last-child .seg:last-child:has(.tile:focus-visible) .tip {
-  transform: none;
 }
 
 /* ---------- selection ---------- */

@@ -2,13 +2,18 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import type { Locale, PointsAward, Profile } from '@/domain/types';
+import { useRouter } from 'next/navigation';
 import { useT } from '@/i18n/client';
 import { isLocale } from '@/i18n/config';
 import { ApiError, apiFetch } from './api';
 import {
   clearCredentials,
+  clearOrphanCredentials,
   isProfileStorageKey,
   loadCredentials,
+  loadOrphanCredentials,
+  loadPreviousCredentials,
+  orphanCredentials,
   notifyOtherTabs,
   parseCredentialString,
   profileChannel,
@@ -63,15 +68,59 @@ export function ensureProfile(locale?: Locale): Promise<Credentials> {
   return creating;
 }
 
-/** Link that opens this profile on another device or browser: `/?restore=<id>.<secret>`. */
+/**
+ * Link that opens this profile on another device or browser: `/#restore=<id>.<secret>`.
+ * The secret sits in the fragment, which browsers never send to servers, proxies or logs.
+ * (Old `/?restore=` links are still accepted and stripped from the address at once.)
+ */
 export function restoreLinkFor(creds: Credentials, origin = window.location.origin): string {
-  return `${origin}/?restore=${creds.id}.${creds.secret}`;
+  return `${origin}/#restore=${creds.id}.${creds.secret}`;
+}
+
+/** Whether a profile holds anything a person would be upset to lose. */
+export function hasProgress(p: PublicProfile): boolean {
+  return (
+    p.xrays.length > 0 ||
+    p.reps.length > 0 ||
+    p.repLog.length > 0 ||
+    p.points.balance > 0 ||
+    p.points.events.length > 0 ||
+    p.proof.length > 0 ||
+    p.redemptions.length > 0 ||
+    p.plan.status !== 'free' ||
+    Boolean(p.occupationCode)
+  );
+}
+
+/**
+ * Reads `restore=` from the query or the fragment and returns it with the address without it.
+ * The caller removes it from the address bar at once (see the mount effect).
+ */
+function readRestoreParam(): { raw: string; clean: string } | null {
+  const url = new URL(window.location.href);
+  const fromQuery = url.searchParams.get('restore');
+  const hashParams = new URLSearchParams(url.hash.slice(1));
+  const fromHash = hashParams.get('restore');
+  if (fromQuery === null && fromHash === null) return null;
+  url.searchParams.delete('restore');
+  hashParams.delete('restore');
+  const rest = hashParams.toString();
+  url.hash = rest ? `#${rest}` : '';
+  return { raw: (fromHash ?? fromQuery)!, clean: `${url.pathname}${url.search}${url.hash}` };
 }
 
 // ---------------------------------------------------------------------------------------------
 // Provider
 
-export type ProfileStatus = 'loading' | 'anonymous' | 'ready' | 'error';
+/**
+ * - `anonymous`: no profile in this browser yet (one is created on the first meaningful action);
+ * - `orphaned`: this browser had a profile, but the server no longer recognises it. The credentials are
+ *   kept; the UI says "We couldn't find your saved profile on this device" with `retryOrphan()` (Try again)
+ *   and `startFresh()` (Start fresh), texts `common.profile.orphaned*`;
+ * - `error`: the profile could not be loaded (network or storage), `error` holds the code.
+ */
+export type ProfileStatus = 'loading' | 'anonymous' | 'ready' | 'orphaned' | 'error';
+export type RestoreState = 'pending' | 'restored' | 'invalid' | 'cancelled' | null;
 
 interface ProfileContextValue {
   status: ProfileStatus;
@@ -82,8 +131,23 @@ interface ProfileContextValue {
   streak: Profile['streak'] | null;
   /** Score of the latest week map, null until one exists or while loading it. */
   lastScore: number | null;
-  /** Result of a `?restore=` link on this page load. */
-  restore: 'restored' | 'invalid' | null;
+  /**
+   * Result of a restore link on this page load. `pending`: the link opens another profile while this
+   * browser already has one with progress; show `pendingRestore` and ask (texts `common.profile.restoreAsk*`),
+   * then call `confirmRestore()` or `cancelRestore()`.
+   */
+  restore: RestoreState;
+  /** The profile the pending restore link would open. */
+  pendingRestore: PublicProfile | null;
+  confirmRestore(): Promise<void>;
+  cancelRestore(): void;
+  /** Switches back to the profile used before the last switch; false if there is none or it no longer exists. */
+  restorePrevious(): Promise<boolean>;
+  hasPrevious(): boolean;
+  /** For `orphaned`: tries the kept credentials again; true if the profile is back. */
+  retryOrphan(): Promise<boolean>;
+  /** For `orphaned`: forgets the unrecognised profile; a new one is created on the next action. */
+  startFresh(): void;
   refresh(): Promise<void>;
   /** Creates the profile if needed and returns it. */
   ensure(): Promise<PublicProfile>;
@@ -117,11 +181,14 @@ function browserTimeZone(): string | null {
 
 export function ProfileProvider({ children, presenters }: { children: ReactNode; presenters?: AwardPresenters }) {
   const { t, locale, setLocale } = useT();
+  const router = useRouter();
   const [status, setStatus] = useState<ProfileStatus>('loading');
   const [profile, setProfile] = useState<PublicProfile | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [restore, setRestore] = useState<'restored' | 'invalid' | null>(null);
+  const [restore, setRestore] = useState<RestoreState>(null);
+  const [pending, setPending] = useState<{ creds: Credentials; profile: PublicProfile } | null>(null);
   const loadedAt = useRef(0);
+  const restoreParam = useRef<{ raw: string; clean: string } | null | undefined>(undefined);
   const tzSyncing = useRef(false);
   const seq = useRef(0);
 
@@ -148,7 +215,7 @@ export function ProfileProvider({ children, presenters }: { children: ReactNode;
     const mySeq = ++seq.current;
     if (!creds) {
       setProfile(null);
-      setStatus('anonymous');
+      setStatus(loadOrphanCredentials() ? 'orphaned' : 'anonymous');
       return;
     }
     try {
@@ -158,10 +225,10 @@ export function ProfileProvider({ children, presenters }: { children: ReactNode;
     } catch (err) {
       if (mySeq !== seq.current) return;
       if (err instanceof ApiError && err.status === 401) {
-        // deleted elsewhere or the secret no longer matches: this browser has no profile now
-        if (loadCredentials()?.id === creds.id) clearCredentials();
+        // The server does not recognise these credentials. Keep them aside (never wipe silently) and let the person decide.
+        orphanCredentials(creds);
         setProfile(null);
-        setStatus('anonymous');
+        setStatus('orphaned');
         return;
       }
       setError(err instanceof ApiError ? err.code : 'network');
@@ -169,25 +236,50 @@ export function ProfileProvider({ children, presenters }: { children: ReactNode;
     }
   }, [accept]);
 
-  // First load, including a `?restore=<id>.<secret>` link.
+  // First load, including a restore link (`#restore=<id>.<secret>`, or the older `?restore=`).
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const url = new URL(window.location.href);
-      const raw = url.searchParams.get('restore') ?? new URLSearchParams(url.hash.slice(1)).get('restore');
+      // Read once per mount and keep it in a ref: in development React runs this effect twice, and the
+      // first run (cancelled) has already removed the parameter from the address.
+      if (restoreParam.current === undefined) restoreParam.current = readRestoreParam();
+      const param = restoreParam.current;
+      const raw = param?.raw ?? null;
+      if (param) {
+        // Drop the secret from the address bar now. The history entry is replaced both directly and through
+        // the router, because Next's router writes its own initial URL after this child effect has run.
+        window.history.replaceState(window.history.state, '', param.clean);
+        router.replace(param.clean, { scroll: false });
+      }
       if (raw !== null) {
-        url.searchParams.delete('restore');
-        if (url.hash.includes('restore=')) url.hash = '';
-        window.history.replaceState(window.history.state, '', url.toString());
         const creds = parseCredentialString(raw);
         try {
           if (!creds) throw new ApiError('unauthorized', 401, 'malformed restore link');
-          const p = await apiFetch<PublicProfile>('/api/profile', { profile: creds });
+          const target = await apiFetch<PublicProfile>('/api/profile', { profile: creds });
           if (cancelled) return;
-          saveCredentials(creds);
-          accept(p);
+          const current = loadCredentials();
+          if (current && current.id !== creds.id) {
+            // Another profile is active here. Replace it without asking only if it holds nothing worth keeping.
+            let currentProfile: PublicProfile | null = null;
+            let unknown = false;
+            try {
+              currentProfile = await apiFetch<PublicProfile>('/api/profile', { profile: current });
+            } catch (err) {
+              unknown = !(err instanceof ApiError && err.status === 401);
+            }
+            if (cancelled) return;
+            if (unknown || (currentProfile && hasProgress(currentProfile))) {
+              setPending({ creds, profile: target });
+              setRestore('pending');
+              if (currentProfile) accept(currentProfile);
+              else await refresh();
+              return;
+            }
+          }
+          saveCredentials(creds); // replaced credentials stay recoverable via restorePrevious()
+          accept(target);
           setRestore('restored');
-          if (p.locale !== locale) void setLocale(p.locale);
+          if (target.locale !== locale) void setLocale(target.locale);
           return;
         } catch (err) {
           if (cancelled) return;
@@ -203,6 +295,63 @@ export function ProfileProvider({ children, presenters }: { children: ReactNode;
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const switchTo = useCallback(
+    async (creds: Credentials, known?: PublicProfile): Promise<boolean> => {
+      try {
+        const p = known ?? (await apiFetch<PublicProfile>('/api/profile', { profile: creds }));
+        seq.current++;
+        saveCredentials(creds); // the profile being left moves to the "previous" slot
+        accept(p);
+        if (p.locale !== locale) void setLocale(p.locale);
+        return true;
+      } catch (err) {
+        if (err instanceof ApiError && err.status === 401) return false;
+        setError(err instanceof ApiError ? err.code : 'network');
+        return false;
+      }
+    },
+    [accept, locale, setLocale],
+  );
+
+  const confirmRestore = useCallback(async () => {
+    if (!pending) return;
+    const { creds, profile: target } = pending;
+    setPending(null);
+    await switchTo(creds, target);
+    setRestore('restored');
+  }, [pending, switchTo]);
+
+  const cancelRestore = useCallback(() => {
+    setPending(null);
+    setRestore('cancelled');
+  }, []);
+
+  const restorePrevious = useCallback(async () => {
+    const prev = loadPreviousCredentials();
+    return prev && prev.id !== loadCredentials()?.id ? switchTo(prev) : false;
+  }, [switchTo]);
+
+  const hasPrevious = useCallback(() => {
+    const prev = loadPreviousCredentials();
+    return Boolean(prev && prev.id !== loadCredentials()?.id);
+  }, []);
+
+  const retryOrphan = useCallback(async () => {
+    const orphan = loadOrphanCredentials();
+    if (!orphan) return false;
+    const ok = await switchTo(orphan);
+    if (ok) clearOrphanCredentials();
+    return ok;
+  }, [switchTo]);
+
+  const startFresh = useCallback(() => {
+    clearOrphanCredentials();
+    if (!loadCredentials()) {
+      setProfile(null);
+      setStatus('anonymous');
+    }
   }, []);
 
   // Other tabs: storage event (credentials changed) and broadcast (profile data changed); refetch on focus.
@@ -317,6 +466,13 @@ export function ProfileProvider({ children, presenters }: { children: ReactNode;
       streak: profile?.streak ?? null,
       lastScore,
       restore,
+      pendingRestore: pending?.profile ?? null,
+      confirmRestore,
+      cancelRestore,
+      restorePrevious,
+      hasPrevious,
+      retryOrphan,
+      startFresh,
       refresh,
       ensure,
       update,
@@ -325,7 +481,27 @@ export function ProfileProvider({ children, presenters }: { children: ReactNode;
       restoreLink,
       setLastScore,
     }),
-    [status, profile, error, lastScore, restore, refresh, ensure, update, applyAwards, remove, restoreLink, setLastScore],
+    [
+      status,
+      profile,
+      error,
+      lastScore,
+      restore,
+      pending,
+      confirmRestore,
+      cancelRestore,
+      restorePrevious,
+      hasPrevious,
+      retryOrphan,
+      startFresh,
+      refresh,
+      ensure,
+      update,
+      applyAwards,
+      remove,
+      restoreLink,
+      setLastScore,
+    ],
   );
 
   return <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>;

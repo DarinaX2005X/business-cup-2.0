@@ -24,8 +24,10 @@
     "4.A.1.a.2.e.7",
     "4.A.3.b.6.k.4"
    ],
+   "short": "Observe patients",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": false,
@@ -53,8 +55,10 @@
     "4.A.1.b.2.i.5",
     "4.A.3.b.6.k.4"
    ],
+   "short": "Measure vital signs",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": false,
@@ -82,10 +86,12 @@
     "4.A.3.b.6.k.4",
     "4.A.4.a.5.c.8"
    ],
+   "short": "Administer prescribed medications",
    "evidence": {
     "theoryLabel": "E2",
-    "theorySource": "human",
-    "theory": 0.5,
+    "gpt4Label": "E0",
+    "theorySource": "human+gpt4",
+    "theory": 0.25,
     "observed": false,
     "everObserved": false,
     "aeiShare": null,
@@ -95,7 +101,7 @@
     "penetration": 0,
     "history": null,
     "physical": true,
-    "exposure": 0.25,
+    "exposure": 0.125,
     "category": "human_edge",
     "evidenceLevel": "estimate"
    }
@@ -111,8 +117,10 @@
     "4.A.4.a.5.c.11",
     "4.A.4.a.5.c.2"
    ],
+   "short": "Provide basic patient care",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -140,10 +148,12 @@
     "4.A.4.a.3.c.11",
     "4.A.4.a.3.c.9"
    ],
+   "short": "Answer calls",
    "evidence": {
     "theoryLabel": "E0",
-    "theorySource": "human",
-    "theory": 0,
+    "gpt4Label": "E2",
+    "theorySource": "human+gpt4",
+    "theory": 0.25,
     "observed": true,
     "everObserved": true,
     "aeiShare": 0,
@@ -153,8 +163,8 @@
     "penetration": 0,
     "history": null,
     "physical": false,
-    "exposure": 0.4299,
-    "category": "ai_speeds",
+    "exposure": 0.5549,
+    "category": "ai_does",
     "evidenceLevel": "observed"
    }
   },
@@ -169,8 +179,10 @@
     "4.A.4.a.5.i.2",
     "4.A.4.b.3.f.5"
    ],
+   "short": "Provide personal care",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -197,8 +209,10 @@
    "dwaIds": [
     "4.A.4.b.4.a.14"
    ],
+   "short": "Supervise aides",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -225,8 +239,10 @@
    "dwaIds": [
     "4.A.3.a.1.i.1"
    ],
+   "short": "Sterilize supplies",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -254,8 +270,10 @@
     "4.A.2.a.4.f.6",
     "4.A.4.a.2.d.5"
    ],
+   "short": "Evaluate nursing intervention outcomes",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": false,
@@ -282,10 +300,12 @@
    "dwaIds": [
     "4.A.4.a.2.d.5"
    ],
+   "short": "Work as part",
    "evidence": {
     "theoryLabel": "E2",
-    "theorySource": "human",
-    "theory": 0.5,
+    "gpt4Label": "E0",
+    "theorySource": "human+gpt4",
+    "theory": 0.25,
     "observed": false,
     "everObserved": true,
     "aeiShare": null,
@@ -295,8 +315,8 @@
     "penetration": 0,
     "history": null,
     "physical": true,
-    "exposure": 0.25,
-    "category": "human_edge",
+    "exposure": 0.125,
+    "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
   },
@@ -310,10 +330,12 @@
    "dwaIds": [
     "4.A.3.b.6.k.4"
    ],
+   "short": "Record food",
    "evidence": {
     "theoryLabel": "E2",
-    "theorySource": "human",
-    "theory": 0.5,
+    "gpt4Label": "E1",
+    "theorySource": "human+gpt4",
+    "theory": 0.75,
     "observed": false,
     "everObserved": true,
     "aeiShare": null,
@@ -336,8 +358,8 @@
      }
     ],
     "physical": true,
-    "exposure": 0.25,
-    "category": "human_edge",
+    "exposure": 0.375,
+    "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
   },
@@ -352,8 +374,10 @@
     "4.A.3.a.2.k.1",
     "4.A.3.a.3.d.3"
    ],
+   "short": "Assemble equipment",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -382,10 +406,12 @@
     "4.A.3.b.6.k.2",
     "4.A.4.c.1.a.6"
    ],
+   "short": "Make appointments",
    "evidence": {
     "theoryLabel": "E2",
-    "theorySource": "human",
-    "theory": 0.5,
+    "gpt4Label": "E1",
+    "theorySource": "human+gpt4",
+    "theory": 0.75,
     "observed": true,
     "everObserved": true,
     "aeiShare": 0,
@@ -395,8 +421,8 @@
     "penetration": 0,
     "history": null,
     "physical": false,
-    "exposure": 0.7451,
-    "category": "ai_speeds",
+    "exposure": 0.8701,
+    "category": "ai_does",
     "evidenceLevel": "observed"
    }
   },
@@ -411,8 +437,10 @@
     "4.A.1.b.2.a.8",
     "4.A.3.a.2.al.1"
    ],
+   "short": "Collect samples",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -439,8 +467,10 @@
    "dwaIds": [
     "4.A.4.b.4.j.35"
    ],
+   "short": "Prepare food trays",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": false,
@@ -467,8 +497,10 @@
    "dwaIds": [
     "4.A.4.a.5.i.2"
    ],
+   "short": "Help patients",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -496,10 +528,12 @@
     "4.A.4.a.1.e.5",
     "4.A.4.a.5.k.7"
    ],
+   "short": "Prepare patients",
    "evidence": {
     "theoryLabel": "E1",
-    "theorySource": "human",
-    "theory": 1,
+    "gpt4Label": "E2",
+    "theorySource": "human+gpt4",
+    "theory": 0.75,
     "observed": false,
     "everObserved": false,
     "aeiShare": null,
@@ -509,8 +543,8 @@
     "penetration": 0,
     "history": null,
     "physical": true,
-    "exposure": 0.5,
-    "category": "human_edge",
+    "exposure": 0.375,
+    "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
   },
@@ -524,8 +558,10 @@
    "dwaIds": [
     "4.A.3.a.2.k.1"
    ],
+   "short": "Set medical treatment rooms",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -552,8 +588,10 @@
    "dwaIds": [
     "4.A.4.a.5.b.5"
    ],
+   "short": "Apply compresses",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -580,8 +618,10 @@
    "dwaIds": [
     "4.A.4.a.5.i.2"
    ],
+   "short": "Wash bodies",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -608,8 +648,10 @@
    "dwaIds": [
     "4.A.3.a.1.i.3"
    ],
+   "short": "Clean rooms",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -637,10 +679,12 @@
     "4.A.4.c.3.a.2",
     "4.A.4.c.3.e.7"
    ],
+   "short": "Inventory supplies",
    "evidence": {
     "theoryLabel": "E0",
-    "theorySource": "human",
-    "theory": 0,
+    "gpt4Label": "E2",
+    "theorySource": "human+gpt4",
+    "theory": 0.25,
     "observed": false,
     "everObserved": false,
     "aeiShare": null,
@@ -650,7 +694,7 @@
     "penetration": 0,
     "history": null,
     "physical": true,
-    "exposure": 0,
+    "exposure": 0.125,
     "category": "human_edge",
     "evidenceLevel": "estimate"
    }
@@ -760,85 +804,14 @@
    "importance": 2.96
   }
  ],
- "typicalHumanShare": 0.83,
+ "typicalHumanShare": 0.65,
  "related": [
-  {
-   "code": "29-1141.00",
-   "slug": "registered-nurses",
-   "title": "Registered Nurses",
-   "similarity": 0.96,
-   "typicalHumanShare": 0.25,
-   "wageDelta": 33150,
-   "missingSkills": [
-    "Quality Control Analysis",
-    "Psychology",
-    "Equipment Selection"
-   ]
-  },
-  {
-   "code": "29-1141.01",
-   "slug": "acute-care-nurses",
-   "title": "Acute Care Nurses",
-   "similarity": 0.959,
-   "typicalHumanShare": 0.4,
-   "wageDelta": 33150,
-   "missingSkills": [
-    "Medicine and Dentistry",
-    "Education and Training",
-    "Equipment Selection",
-    "Biology",
-    "Complex Problem Solving"
-   ]
-  },
-  {
-   "code": "29-1141.03",
-   "slug": "critical-care-nurses",
-   "title": "Critical Care Nurses",
-   "similarity": 0.925,
-   "typicalHumanShare": 0.66,
-   "wageDelta": 33150,
-   "missingSkills": [
-    "Biology",
-    "Medicine and Dentistry",
-    "Chemistry",
-    "Sociology and Anthropology",
-    "Mechanical"
-   ]
-  },
-  {
-   "code": "31-9092.00",
-   "slug": "medical-assistants",
-   "title": "Medical Assistants",
-   "similarity": 0.909,
-   "typicalHumanShare": 0.75,
-   "wageDelta": -18710,
-   "missingSkills": [
-    "Administrative",
-    "English Language",
-    "Computers and Electronics"
-   ]
-  },
-  {
-   "code": "29-2043.00",
-   "slug": "paramedics",
-   "title": "Paramedics",
-   "similarity": 0.861,
-   "typicalHumanShare": 0.73,
-   "wageDelta": -3800,
-   "missingSkills": [
-    "Transportation",
-    "Biology",
-    "Public Safety and Security",
-    "Mechanical",
-    "Geography"
-   ]
-  },
   {
    "code": "31-1131.00",
    "slug": "nursing-assistants",
    "title": "Nursing Assistants",
    "similarity": 0.84,
-   "typicalHumanShare": 0.84,
+   "typicalHumanShare": 0.81,
    "wageDelta": -22140,
    "missingSkills": [
     "Mechanical",
@@ -848,25 +821,14 @@
    ]
   },
   {
-   "code": "31-9099.01",
-   "slug": "speech-language-pathology-assistants",
-   "title": "Speech-Language Pathology Assistants",
-   "similarity": 0.874,
-   "typicalHumanShare": 0.88,
-   "wageDelta": -15970,
+   "code": "29-2099.05",
+   "slug": "ophthalmic-medical-technologists",
+   "title": "Ophthalmic Medical Technologists",
+   "similarity": 0.909,
+   "typicalHumanShare": 0.7,
+   "wageDelta": -14110,
    "missingSkills": [
-    "Education and Training"
-   ]
-  },
-  {
-   "code": "21-1094.00",
-   "slug": "community-health-workers",
-   "title": "Community Health Workers",
-   "similarity": 0.916,
-   "typicalHumanShare": 0.5,
-   "wageDelta": -12550,
-   "missingSkills": [
-    "Transportation"
+    "Mechanical"
    ]
   }
  ],

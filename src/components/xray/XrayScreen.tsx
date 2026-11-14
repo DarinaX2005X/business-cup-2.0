@@ -1,6 +1,8 @@
 'use client';
 
+import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
+import btn from '@/components/kit/controls.module.css';
 import { Sheet } from '@/components/kit/Overlay';
 import { Toast } from '@/components/kit/Toast';
 import type { WeekTask } from '@/components/kit/types';
@@ -158,6 +160,14 @@ export function XrayScreen(props: XrayPageProps) {
 
   return (
     <div className={st.page}>
+      {!isOwner ? (
+        <div className={st.guestBar}>
+          <p>{t('xray.guest.banner', { jobTitle: initial.jobTitle })}</p>
+          <Link href="/start" className={`${btn.btn} ${btn.b_primary} ${btn.s_sm}`}>
+            {t('xray.action.mapOwn')}
+          </Link>
+        </div>
+      ) : null}
       <Conclusion
         xray={initial}
         result={result}

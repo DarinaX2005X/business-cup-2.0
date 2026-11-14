@@ -6,6 +6,8 @@ export interface RelatedInput {
   slug: string;
   title: string;
   jobZone: number | null;
+  /** O*NET Required Level of Education category (1..12) most respondents name; null when unknown. */
+  education: number | null;
   typicalHumanShare: number;
   medianAnnual: number | null;
   /** element id → importance (skills and knowledge, O*NET IM 1..5) */
@@ -41,15 +43,20 @@ export function cosine(a: Float64Array, b: Float64Array): number {
   return s;
 }
 
+export type RelatedTier = 'Primary-Short' | 'Primary-Long';
+
 /**
- * Neighbours of every occupation (01.1.4): cosine of centred skill+knowledge importance within Job Zone 0..+1;
- * candidates = top 30 by cosine ∪ O*NET Related Occupations (boost 10%); rank by
- * boostedSimilarity × (1 + max(0, gain)), gain = target.typicalHumanShare − source.typicalHumanShare; top 8.
- * `relatedPairs` maps code → set of O*NET related codes.
+ * Neighbours of every occupation (01.1.4, reworked after the stage-01 review):
+ * - candidates: same Job Zone or one step up, skill+knowledge cosine >= 0.86 (>= 0.75 for O*NET Related
+ *   Occupations), a larger typical human share than the source (gain > 0);
+ * - rank = (similarity + 0.08 Primary-Short / 0.05 Primary-Long + 0.04 same SOC major group)
+ *          × (1 + 0.1 × min(1, gain / 0.5)) — the gain only breaks near-ties;
+ * - when fewer than 3 have a positive gain, candidates about as safe (gain >= −0.05) fill up to 3; top 8.
+ * `relatedPairs` maps code → O*NET related code → tier.
  */
 export function computeRelated(
   occs: readonly RelatedInput[],
-  relatedPairs: Map<string, Set<string>>,
+  relatedPairs: Map<string, Map<string, RelatedTier>>,
 ): Map<string, RelatedOccupation[]> {
   const dims = [...new Set(occs.flatMap((o) => [...o.importance.keys()]))].sort();
   const vecs = new Map<string, Float64Array>();
@@ -64,27 +71,36 @@ export function computeRelated(
       out.set(src.code, []);
       continue;
     }
-    // Same Job Zone or one step up (data-sources.md §7 step 8). A step down is excluded: with the human-share
-    // gain in the rank, it would fill an RN's list with nursing assistants at −$55k instead of realistic moves.
     const zoneOk = (t: RelatedInput) =>
       src.jobZone === null || t.jobZone === null || (t.jobZone >= src.jobZone && t.jobZone - src.jobZone <= RELATED.jobZoneSpan);
+    const rel = relatedPairs.get(src.code) ?? new Map<string, RelatedTier>();
+    // A neighbour needs at most two more education levels (bachelor's → master's is a move; → MD is not).
+    const eduOk = (t: RelatedInput) => src.education === null || t.education === null || t.education - src.education <= RELATED.maxEducationStep;
     const scored = occs
-      .filter((t) => t.code !== src.code && vecs.has(t.code) && zoneOk(t))
-      .map((t) => ({ t, sim: cosine(sv, vecs.get(t.code)!) }))
-      .sort((a, b) => b.sim - a.sim || cmp(a.t.code, b.t.code));
-    const rel = relatedPairs.get(src.code) ?? new Set<string>();
-    const candidates = [...scored.slice(0, RELATED.candidates), ...scored.slice(RELATED.candidates).filter((x) => rel.has(x.t.code))];
-    const ranked = candidates
-      .map((x) => {
-        const boosted = x.sim * (rel.has(x.t.code) ? 1 + RELATED.relatedBoost : 1);
-        const gain = x.t.typicalHumanShare - src.typicalHumanShare;
-        return { ...x, rank: boosted * (1 + Math.max(0, gain)) };
+      .filter((t) => t.code !== src.code && vecs.has(t.code) && zoneOk(t) && eduOk(t))
+      .map((t) => {
+        const sim = cosine(sv, vecs.get(t.code)!);
+        const tier = rel.get(t.code);
+        const gain = t.typicalHumanShare - src.typicalHumanShare;
+        const bonus =
+          (tier === 'Primary-Short' ? RELATED.bonusPrimaryShort : tier === 'Primary-Long' ? RELATED.bonusPrimaryLong : 0) +
+          (t.code.slice(0, 2) === src.code.slice(0, 2) ? RELATED.bonusSameMajor : 0);
+        const rank = (sim + bonus) * (1 + RELATED.gainTieBreak * Math.min(1, Math.max(0, gain) / 0.5));
+        const sameMajor = t.code.slice(0, 2) === src.code.slice(0, 2);
+        // O*NET-related at a lower bar; same SOC major group at the normal bar; other fields only when very close.
+        const minSim = tier ? RELATED.minSimilarityRelated : sameMajor ? RELATED.minSimilarity : RELATED.minSimilarityOtherGroup;
+        return { t, sim, gain, rank, minSim };
       })
-      .sort((a, b) => b.rank - a.rank || cmp(a.t.code, b.t.code))
-      .slice(0, RELATED.keep);
+      .filter((x) => x.sim >= x.minSim)
+      .sort((a, b) => b.rank - a.rank || cmp(a.t.code, b.t.code));
+    let chosen = scored.filter((x) => x.gain > 0).slice(0, RELATED.keep);
+    if (chosen.length < RELATED.minNeighbours) {
+      const equal = scored.filter((x) => x.gain <= 0 && x.gain >= -RELATED.equalGainTolerance).slice(0, RELATED.minNeighbours - chosen.length);
+      chosen = [...chosen, ...equal].sort((a, b) => b.rank - a.rank || cmp(a.t.code, b.t.code));
+    }
     out.set(
       src.code,
-      ranked.map(({ t, sim }) => ({
+      chosen.map(({ t, sim }) => ({
         code: t.code,
         slug: t.slug,
         title: t.title,

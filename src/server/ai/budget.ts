@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { getStore } from '@/server/store';
+import { getGlobalStore, getStore } from '@/server/store';
 
 /**
  * Money and rate limits for model calls.
@@ -8,6 +8,13 @@ import { getStore } from '@/server/store';
  * atomic INCRBYFLOAT on `budget:total` and `budget:<day>`. If either counter goes over its limit the
  * reservation is rolled back and the call is refused, so parallel calls cannot jointly overspend.
  * After the call the reservation is settled to the real `usage.cost`.
+ *
+ * Spend counters are GLOBAL (`irr:global:budget:*`): there is one OpenRouter key (~$12) behind local
+ * scripts, preview and production, so they all draw from the same total and the same daily cap.
+ * `AI_BUDGET_USD` is the cap on that global total as seen by the environment that reads it: local
+ * development uses a lower value (e.g. 3) so scripts stop early, and production should set it to the
+ * credit that may still be spent in total (the key's remaining credit plus what is already counted).
+ * Per-profile and per-IP rate limits stay per environment (`rl:*` in the environment's namespace).
  */
 
 export interface Actor {
@@ -73,7 +80,7 @@ export const budgetKeys = {
 };
 
 export async function getBudgetStatus(): Promise<BudgetStatus> {
-  const store = getStore();
+  const store = getGlobalStore();
   const day = dayKey();
   const [totalUsd, dayUsd] = await Promise.all([store.getNumber(budgetKeys.total), store.getNumber(budgetKeys.day(day))]);
   return { totalUsd, dayUsd, day, ...budgetLimits() };
@@ -106,7 +113,7 @@ export async function consumeRateLimit(actor: Actor | undefined): Promise<Denial
 export async function reserveBudget(
   estimateUsd: number,
 ): Promise<{ ok: true; reservation: Reservation } | { ok: false; denial: Denial }> {
-  const store = getStore();
+  const store = getGlobalStore();
   const { totalLimitUsd, dayLimitUsd } = budgetLimits();
   const day = dayKey();
   const dayK = budgetKeys.day(day);

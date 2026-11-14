@@ -90,19 +90,25 @@ export function flyPoints(fromEl: Element | null, amount: number): Promise<void>
   });
 }
 
-/** Seven days of the week; practised days are apricot tiles, today has a ring. */
+/**
+ * Seven days as seven small Week Bar tiles: apricot when practised, hatched when missed,
+ * a dashed outline for days still ahead, today ringed.
+ */
 export function StreakWeek({ done, today = 6, surface = 'paper', count }: { done: boolean[]; today?: number; surface?: Surface; count?: number }) {
   const { s, num } = useKit();
   const n = count ?? done.filter(Boolean).length;
+  const state = (i: number) => (done[i] ? 'done' : i < today ? 'missed' : 'ahead');
+  const word = { done: s.streakDone, missed: s.streakMissed, ahead: s.streakAhead } as const;
+  const label = s.streakDays.map((d, i) => `${d} ${word[state(i)]}`).join(', ');
   return (
-    <div className={st.streak} data-surface={surface} role="img" aria-label={`${num(n)} / 7`}>
+    <div className={st.streak} data-surface={surface} role="img" aria-label={`${num(n)} / 7. ${label}`}>
       <div className={st.streakN}>
         <span>{num(n)}</span>
         <small>/ 7</small>
       </div>
       <ol className={st.days}>
         {s.streakDays.map((d, i) => (
-          <li key={i} data-done={done[i] || undefined} data-today={i === today || undefined} style={{ animationDelay: `${i * 60}ms` }}>
+          <li key={i} data-state={state(i)} data-today={i === today || undefined} style={{ animationDelay: `${i * 60}ms` }}>
             <i />
             <span title={i === today ? s.today : undefined}>{d}</span>
           </li>

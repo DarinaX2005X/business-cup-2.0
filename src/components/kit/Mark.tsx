@@ -5,7 +5,7 @@ import { useId, type CSSProperties } from 'react';
 /*
  * The keystone arch: a plain semicircular arch of wedge stones, hatched side stones
  * (the machine part of work) held by one solid apricot keystone (the human part).
- * 7 stones from 40 px, 5 from 20 px, 3 below.
+ * 7 stones from 40 px, 5 from 20 px, 3 thick stones without hatching below 20 px.
  */
 
 type Geometry = { wedges: string; key: string; keyY: number; keyH: number; hatch: string; stroke: number; edge: number };
@@ -32,14 +32,25 @@ const G5: Geometry = {
   edge: 2.16,
 };
 
-const G3: Geometry = {
-  wedges: 'M1.5,49.5 A30.5 30.5 0 0 1 15.78,23.67 L24.52,40.12 A12 12 0 0 0 20,49.5ZM48.22,23.67 A30.5 30.5 0 0 1 62.5,49.5 L44,49.5 A12 12 0 0 0 39.48,40.12Z',
-  key: 'M15.35,13.5 L48.65,13.5 L35.6,38.05 A12 12 0 0 0 28.4,38.05Z',
-  keyY: 13.5,
-  keyH: 3.74,
-  hatch: hatchPath(9),
-  stroke: 3.4,
-  edge: 3.06,
+/*
+ * Icon sizes (under 20 px): three thick stones and a wide keystone, no hatching, solid
+ * contrasting fills, so the arch still reads as an arch on a tab or a favicon.
+ */
+const G16: Geometry = {
+  wedges: 'M1,50 A31 31 0 0 1 17.93,22.38 L27.91,41.98 A9 9 0 0 0 23,50ZM46.07,22.38 A31 31 0 0 1 63,50 L41,50 A9 9 0 0 0 36.09,41.98Z',
+  key: 'M20.88,15.76 L43.12,15.76 L34.78,41.44 A9 9 0 0 0 29.22,41.44Z',
+  keyY: 15.76,
+  keyH: 3.6,
+  hatch: '',
+  stroke: 0,
+  edge: 3.2,
+};
+
+const SMALL_FILL: Record<MarkTone, string> = {
+  paper: 'oklch(56% 0.11 286)',
+  violet: 'oklch(90% 0.045 288)',
+  ink: 'var(--ink)',
+  light: 'var(--on-violet)',
 };
 
 function hatchPath(step: number) {
@@ -59,7 +70,8 @@ const tones: Record<MarkTone, CSSProperties> = {
 
 export function KeystoneMark({ size = 40, tone = 'paper', title, className, style }: { size?: number; tone?: MarkTone; title?: string; className?: string; style?: CSSProperties }) {
   const id = useId().replace(/:/g, '');
-  const g = size >= 40 ? G7 : size >= 20 ? G5 : G3;
+  const small = size < 20;
+  const g = size >= 40 ? G7 : size >= 20 ? G5 : G16;
   const mono = tone === 'ink' || tone === 'light';
   return (
     <svg
@@ -80,8 +92,8 @@ export function KeystoneMark({ size = 40, tone = 'paper', title, className, styl
           <path d={g.key} />
         </clipPath>
       </defs>
-      <path d={g.wedges} style={{ fill: 'var(--m-field)', stroke: 'var(--m-edge, none)', strokeWidth: g.edge }} />
-      {!mono || size >= 24 ? <path d={g.hatch} clipPath={`url(#${id}c)`} style={{ stroke: 'var(--m-line)', strokeWidth: g.stroke, fill: 'none' }} /> : null}
+      <path d={g.wedges} style={small ? { fill: SMALL_FILL[tone] } : { fill: 'var(--m-field)', stroke: 'var(--m-edge, none)', strokeWidth: g.edge }} />
+      {!small && (!mono || size >= 24) ? <path d={g.hatch} clipPath={`url(#${id}c)`} style={{ stroke: 'var(--m-line)', strokeWidth: g.stroke, fill: 'none' }} /> : null}
       <path d={g.key} style={{ fill: 'var(--m-key)' }} />
       <rect x="0" y={g.keyY} width="64" height={g.keyH} clipPath={`url(#${id}k)`} style={{ fill: 'var(--m-key-hi, var(--m-key))' }} />
     </svg>

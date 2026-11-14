@@ -9,9 +9,10 @@ export type Locale = 'en' | 'ru' | 'kk';
 export type EvidenceLevel = 'observed' | 'estimate' | 'none';
 
 export interface TaskEvidence {
-  theoryLabel: 'E0' | 'E1' | 'E2' | null;
-  theorySource: 'human' | 'gpt4' | 'estimated' | null;
-  theory: number; // 1 (E1), 0.5 (E2), 0 (E0); DWA mean when estimated; 0 when unknown
+  theoryLabel: 'E0' | 'E1' | 'E2' | null; // human annotators' label (GPT-4 label when no human label)
+  gpt4Label?: 'E0' | 'E1' | 'E2' | null; // GPT-4 label (always written by the build; optional for older fixtures), shown when it disagrees with the human one
+  theorySource: 'human' | 'gpt4' | 'human+gpt4' | 'estimated' | null; // human+gpt4: labels disagree, theory is their mean
+  theory: number; // 1 (E1), 0.5 (E2), 0 (E0); mean of human and GPT-4 when they disagree; DWA mean when estimated; 0 when unknown
   observed: boolean; // in AEI 2026-06-26 after the work-use gate
   everObserved: boolean; // published in any AEI release since August 2025
   aeiShare: number | null; // 0..1 share of conversations (source in aeiSource)
@@ -34,6 +35,8 @@ export interface OccTask {
   frequency: number | null; // mean FT category 1..7
   core: boolean;
   dwaIds: string[];
+  /** 2–4 word plain-English label for the Week Bar: model-written for the top 150 occupations, else shortLabel(text). */
+  short?: string;
   evidence: TaskEvidence;
 }
 
@@ -113,7 +116,7 @@ export interface XrayResult {
   percent: Record<Category, number>;
   observedShare: number; // 0..1 share of the week in tasks with evidenceLevel = observed
   salary: { annual: number | null; source: 'bls_median' | 'user' | 'none' };
-  payAtStake: number | null; // annual × share of time in tasks with exposure >= 0.5
+  payAtStake: number | null; // annual × (percent.ai_does × 1 + percent.ai_speeds × 0.5) / 100
   weekExposure: number; // Σ share × exposure / 100
   baseScore: number; // round(100 × (1 − weekExposure))
   score: number; // round(baseScore + (100 − baseScore) × 0.45 × F), F = (1 − e^(−n/20)) × avgScore
@@ -135,7 +138,14 @@ export type XrayComputed = Omit<
 export interface XrayBreakdown {
   perTask: { taskId: string; share: number; hours: number; exposure: number; contribution: number }[];
   scoreFormula: { base: number; n: number; avg: number; F: number; score: number };
-  pay: { annual: number | null; shareHighExposure: number };
+  pay: {
+    annual: number | null;
+    /** (percent.ai_does × 1 + percent.ai_speeds × 0.5) / 100; payAtStake = annual × shareAtStake */
+    shareAtStake: number;
+    /** @deprecated kept for existing callers; equals shareAtStake */
+    shareHighExposure: number;
+    weights: { ai_does: number; ai_speeds: number };
+  };
 }
 
 export interface ResumeFacts {

@@ -102,12 +102,13 @@
   align-items: center;
   gap: 7px;
   min-height: 30px;
-  padding: 3px 11px 3px 8px;
+  max-width: 100%;
+  padding: 4px 11px 4px 8px;
   border-radius: var(--r-chip);
   font-size: 14px;
   font-weight: 600;
-  line-height: 1.2;
-  white-space: nowrap;
+  line-height: 1.25;
+  text-wrap: balance;
 }
 
 .badge svg {
@@ -203,8 +204,15 @@
   padding-bottom: 20px;
 }
 
-.meter[data-compact] .scale {
-  padding-bottom: 0;
+.sNote {
+  margin-top: 30px;
+  font-size: 12.5px;
+  line-height: 1.35;
+  color: var(--m-ink-2);
+}
+
+.meter[data-compact] .sNote {
+  margin-top: 28px;
 }
 
 .sTrack {
@@ -273,7 +281,7 @@
 
 .sTicks span {
   position: absolute;
-  top: 18px;
+  top: 16px;
   font-size: 12px;
   color: var(--m-ink-2);
   transform: translateX(-50%);

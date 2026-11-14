@@ -24,10 +24,12 @@
     "4.A.3.b.6.n.3",
     "4.A.3.b.6.n.9"
    ],
+   "short": "Prepare affidavits",
    "evidence": {
     "theoryLabel": "E2",
-    "theorySource": "human",
-    "theory": 0.5,
+    "gpt4Label": "E1",
+    "theorySource": "human+gpt4",
+    "theory": 0.75,
     "observed": false,
     "everObserved": true,
     "aeiShare": null,
@@ -50,8 +52,8 @@
      }
     ],
     "physical": true,
-    "exposure": 0.25,
-    "category": "human_edge",
+    "exposure": 0.375,
+    "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
   },
@@ -65,10 +67,12 @@
    "dwaIds": [
     "4.A.3.b.6.n.9"
    ],
+   "short": "Prepare legal documents",
    "evidence": {
     "theoryLabel": null,
+    "gpt4Label": null,
     "theorySource": "estimated",
-    "theory": 0.5,
+    "theory": 0.5694,
     "observed": true,
     "everObserved": true,
     "aeiShare": 0.0013,
@@ -78,7 +82,7 @@
     "penetration": null,
     "history": null,
     "physical": false,
-    "exposure": 0.6037,
+    "exposure": 0.6384,
     "category": "ai_speeds",
     "evidenceLevel": "observed"
    }
@@ -93,8 +97,10 @@
    "dwaIds": [
     "4.A.1.a.1.e.2"
    ],
+   "short": "Investigate facts",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": false,
@@ -122,8 +128,10 @@
     "4.A.2.a.4.h.1",
     "4.A.3.b.6.n.6"
    ],
+   "short": "Prepare for trial",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": true,
@@ -151,8 +159,10 @@
     "4.A.4.a.2.i.1",
     "4.A.4.a.2.i.2"
    ],
+   "short": "Meet with clients",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -180,8 +190,10 @@
     "4.A.1.a.1.e.1",
     "4.A.1.a.1.e.2"
    ],
+   "short": "Gather research data",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": true,
@@ -215,7 +227,7 @@
     ],
     "physical": false,
     "exposure": 0.6575,
-    "category": "ai_speeds",
+    "category": "ai_does",
     "evidenceLevel": "observed"
    }
   },
@@ -230,8 +242,10 @@
     "4.A.4.c.1.a.10",
     "4.A.4.c.1.b.2"
    ],
+   "short": "File pleadings",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": false,
@@ -258,8 +272,10 @@
    "dwaIds": [
     "4.A.4.b.4.l.3"
    ],
+   "short": "Direct law office activity",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": false,
@@ -286,8 +302,10 @@
    "dwaIds": [
     "4.A.4.a.3.a.2"
    ],
+   "short": "Call upon witnesses",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -315,10 +333,12 @@
     "4.A.1.a.1.e.1",
     "4.A.4.a.7.a.2"
    ],
+   "short": "Arbitrate disputes",
    "evidence": {
     "theoryLabel": "E1",
-    "theorySource": "human",
-    "theory": 1,
+    "gpt4Label": "E2",
+    "theorySource": "human+gpt4",
+    "theory": 0.75,
     "observed": false,
     "everObserved": false,
     "aeiShare": null,
@@ -328,7 +348,7 @@
     "penetration": 0,
     "history": null,
     "physical": false,
-    "exposure": 0.5,
+    "exposure": 0.375,
     "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
@@ -345,8 +365,10 @@
     "4.A.2.a.1.i.3",
     "4.A.4.c.3.g.2"
    ],
+   "short": "Appraise personal property",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": true,
@@ -359,7 +381,7 @@
     "history": null,
     "physical": true,
     "exposure": 0.6875,
-    "category": "ai_speeds",
+    "category": "ai_does",
     "evidenceLevel": "observed"
    }
   },
@@ -373,8 +395,10 @@
    "dwaIds": [
     "4.A.3.b.6.n.3"
    ],
+   "short": "Keep legal volumes",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": false,
@@ -496,122 +520,8 @@
    "importance": 2.55
   }
  ],
- "typicalHumanShare": 0.47,
- "related": [
-  {
-   "code": "33-3021.02",
-   "slug": "police-identification-and-records-officers",
-   "title": "Police Identification and Records Officers",
-   "similarity": 0.869,
-   "typicalHumanShare": 0.75,
-   "wageDelta": 30900,
-   "missingSkills": [
-    "Public Safety and Security",
-    "Chemistry",
-    "Operation and Control",
-    "Physics",
-    "Quality Control Analysis"
-   ]
-  },
-  {
-   "code": "43-6012.00",
-   "slug": "legal-secretaries-and-administrative-assistants",
-   "title": "Legal Secretaries and Administrative Assistants",
-   "similarity": 0.95,
-   "typicalHumanShare": 0.28,
-   "wageDelta": -7320,
-   "missingSkills": [
-    "Quality Control Analysis",
-    "Public Safety and Security"
-   ]
-  },
-  {
-   "code": "43-3031.00",
-   "slug": "bookkeeping-accounting-and-auditing-clerks",
-   "title": "Bookkeeping, Accounting, and Auditing Clerks",
-   "similarity": 0.838,
-   "typicalHumanShare": 0.67,
-   "wageDelta": -12220,
-   "missingSkills": [
-    "Mathematics",
-    "Mathematics",
-    "Management of Financial Resources",
-    "Economics and Accounting",
-    "Management of Material Resources"
-   ]
-  },
-  {
-   "code": "27-3092.00",
-   "slug": "court-reporters-and-simultaneous-captioners",
-   "title": "Court Reporters and Simultaneous Captioners",
-   "similarity": 0.825,
-   "typicalHumanShare": 0.57,
-   "wageDelta": 9530,
-   "missingSkills": [
-    "Quality Control Analysis",
-    "Operation and Control"
-   ]
-  },
-  {
-   "code": "43-4061.00",
-   "slug": "eligibility-interviewers-government-programs",
-   "title": "Eligibility Interviewers, Government Programs",
-   "similarity": 0.903,
-   "typicalHumanShare": 0.07,
-   "wageDelta": -8680,
-   "missingSkills": [
-    "Customer and Personal Service",
-    "Personnel and Human Resources",
-    "Education and Training",
-    "Sociology and Anthropology",
-    "Social Perceptiveness"
-   ]
-  },
-  {
-   "code": "29-2072.00",
-   "slug": "medical-records-specialists",
-   "title": "Medical Records Specialists",
-   "similarity": 0.885,
-   "typicalHumanShare": 0.17,
-   "wageDelta": -11750,
-   "missingSkills": [
-    "Management of Financial Resources",
-    "Management of Material Resources",
-    "Quality Control Analysis",
-    "Communications and Media"
-   ]
-  },
-  {
-   "code": "43-6011.00",
-   "slug": "executive-secretaries-and-executive-administrative-assistants",
-   "title": "Executive Secretaries and Executive Administrative Assistants",
-   "similarity": 0.865,
-   "typicalHumanShare": 0.08,
-   "wageDelta": 13700,
-   "missingSkills": [
-    "Quality Control Analysis",
-    "Management of Material Resources",
-    "Management of Financial Resources",
-    "Mathematics",
-    "Service Orientation"
-   ]
-  },
-  {
-   "code": "33-9021.00",
-   "slug": "private-detectives-and-investigators",
-   "title": "Private Detectives and Investigators",
-   "similarity": 0.914,
-   "typicalHumanShare": 0.31,
-   "wageDelta": -11670,
-   "missingSkills": [
-    "Psychology",
-    "Public Safety and Security",
-    "Operation and Control",
-    "Management of Material Resources",
-    "Systems Analysis"
-   ]
-  }
- ],
+ "typicalHumanShare": 0.21,
+ "related": [],
  "dataVersion": {
   "onet": "31.0",
   "aei": "2026-06-26",

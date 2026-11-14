@@ -1,7 +1,7 @@
 'use client';
 
 import { FileCheck2 } from 'lucide-react';
-import { useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { useKit } from './strings';
 import st from './controls.module.css';
 
@@ -19,9 +19,23 @@ export interface DropzoneProps {
   forceActive?: boolean;
 }
 
-export function Dropzone({ onFile, state = 'idle', fileName = '', error, accept = '.pdf,.docx,.txt', forceActive }: DropzoneProps) {
+export function Dropzone({ onFile, state = 'idle', fileName = '', error, accept = '.pdf,.txt,text/plain,application/pdf', forceActive }: DropzoneProps) {
   const { s } = useKit();
   const input = useRef<HTMLInputElement>(null);
+  const zone = useRef<HTMLDivElement>(null);
+  const [box, setBox] = useState<{ w: number; h: number } | null>(null);
+  useLayoutEffect(() => {
+    const el = zone.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([e]) => {
+      const r = e.borderBoxSize?.[0];
+      const w = r ? r.inlineSize : el.offsetWidth;
+      const h = r ? r.blockSize : el.offsetHeight;
+      setBox((b) => (b && Math.abs(b.w - w) < 0.5 && Math.abs(b.h - h) < 0.5 ? b : { w, h }));
+    });
+    ro.observe(el, { box: 'border-box' });
+    return () => ro.disconnect();
+  }, []);
   const [over, setOver] = useState(false);
   const depth = useRef(0);
   const shown: DropState = (over || forceActive) && (state === 'idle' || state === 'error') ? 'active' : state;
@@ -29,6 +43,7 @@ export function Dropzone({ onFile, state = 'idle', fileName = '', error, accept 
 
   return (
     <div
+      ref={zone}
       className={st.drop}
       data-state={shown}
       role={canPick ? 'button' : undefined}
@@ -60,6 +75,7 @@ export function Dropzone({ onFile, state = 'idle', fileName = '', error, accept 
         if (f) onFile(f);
       }}
     >
+      {box ? <SheetEdge w={box.w} h={box.h} /> : null}
       <input
         ref={input}
         type="file"
@@ -108,5 +124,22 @@ export function Dropzone({ onFile, state = 'idle', fileName = '', error, accept 
         </>
       ) : null}
     </div>
+  );
+}
+
+/** The outline of an unprinted sheet with its top corner folded down, drawn to the zone's size. */
+function SheetEdge({ w, h }: { w: number; h: number }) {
+  const r = 18;
+  const f = Math.min(36, w / 5, h / 4);
+  const i = 1;
+  const W = w - i;
+  const H = h - i;
+  const edge = `M${r},${i} H${W - f} L${W},${i + f} V${H - r} A${r - i} ${r - i} 0 0 1 ${W - r + i},${H} H${r} A${r - i} ${r - i} 0 0 1 ${i},${H - r + i} V${r} A${r - i} ${r - i} 0 0 1 ${r},${i} Z`;
+  const fold = `M${W - f},${i} V${i + f - 7} Q${W - f},${i + f} ${W - f + 7},${i + f} H${W} Z`;
+  return (
+    <svg className={st.dropEdge} width={w} height={h} viewBox={`0 0 ${w} ${h}`} aria-hidden="true">
+      <path d={edge} className={st.dropEdgeLine} />
+      <path d={fold} className={st.dropFold} />
+    </svg>
   );
 }

@@ -291,7 +291,14 @@
   text-underline-offset: 6px;
 }
 
-.mFalse[data-hot] {
+/* the free first false flag: a lighter, dashed underline */
+.mFalseFree {
+  text-decoration: underline 1.5px dashed oklch(72% 0.05 286);
+  text-underline-offset: 6px;
+}
+
+.mFalse[data-hot],
+.mFalseFree[data-hot] {
   background: oklch(92.5% 0.04 288 / 0.5);
 }
 
@@ -346,6 +353,15 @@
   color: var(--apricot-deep);
 }
 
+.note[data-kind='false'] b {
+  color: oklch(45% 0.08 286);
+}
+
+.note[data-kind='first_false'] b {
+  color: var(--ink-2);
+  font-weight: 500;
+}
+
 .note[data-hot],
 .note[data-open] {
   transform: translateX(4px);
@@ -388,11 +404,16 @@
   color: var(--violet);
 }
 
-.cn[data-kind='false'],
+.cn[data-kind='false'] {
+  background: var(--muted-violet);
+  color: var(--card);
+  box-shadow: inset 0 1px 0 oklch(100% 0 0 / 0.25);
+}
+
 .cn[data-kind='first_false'] {
-  outline: 1.75px dotted var(--muted-violet);
+  outline: 1.75px dashed oklch(70% 0.06 286);
   outline-offset: -1.75px;
-  color: oklch(52% 0.07 286);
+  color: oklch(55% 0.06 286);
 }
 
 .inlineNotes {

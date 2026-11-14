@@ -11,10 +11,26 @@
     "THEORY_WEIGHT": 0.5,
     "WORK_GATE": 0.5,
     "AEI_PCT_FLOOR": 0.005,
+    "aiDoesAutomation": 0.6,
+    "aiSpeedsTheory": 0.25,
+    "physicalMaxTheory": 0.5,
     "aiDoesExposure": 0.75,
-    "aiDoesAutomation": 0.5,
     "aiSpeedsExposure": 0.25,
-    "HISTORY_MIN_PERIODS": 3
+    "HISTORY_MIN_PERIODS": 3,
+    "AT_STAKE_AI_DOES": 1,
+    "AT_STAKE_AI_SPEEDS": 0.5,
+    "DEFAULT_WEEK_TASKS": 10,
+    "DEFAULT_SHARE_MIN": 3,
+    "DEFAULT_SHARE_MAX": 25,
+    "FREQ_PER_YEAR_1": 1,
+    "FREQ_PER_YEAR_2": 3,
+    "FREQ_PER_YEAR_3": 20,
+    "FREQ_PER_YEAR_4": 80,
+    "FREQ_PER_YEAR_5": 250,
+    "FREQ_PER_YEAR_6": 750,
+    "FREQ_PER_YEAR_7": 2000,
+    "RELATED_MIN_SIMILARITY": 0.86,
+    "RELATED_MIN_SIMILARITY_ONET": 0.75
   },
   "formula": {
     "theory": "E1 = 1, E2 = 0.5, E0 = 0 (human label, else GPT-4, else mean over tasks sharing a DWA)",
@@ -26,9 +42,9 @@
     "occupations": 1016,
     "occupationsWithTasks": 923,
     "tasks": 18838,
-    "titles": 53292,
-    "aliases": 253,
-    "aliasesI18n": 83,
+    "titles": 53145,
+    "aliases": 255,
+    "aliasesI18n": 89,
     "translations": {
       "ru": 975,
       "kk": 884
@@ -37,6 +53,8 @@
   "coverage": {
     "importanceRated": 0.9778,
     "gptsLabel": 0.9947,
+    "theoryHumanGpt4Mean": 0.3441,
+    "shortFromModel": 0,
     "theoryEstimatedDwa": 0.0053,
     "theoryJoin": {
       "id": 18677,
@@ -81,11 +99,11 @@
       "45-3031.00"
     ],
     "wageShared": 0.2308,
-    "related": 0.9859,
+    "related": 0.896,
     "categories": {
-      "ai_does": 795,
-      "ai_speeds": 7481,
-      "human_edge": 10562,
+      "ai_does": 1895,
+      "ai_speeds": 9007,
+      "human_edge": 7936,
       "no_data": 0
     },
     "evidenceLevels": {

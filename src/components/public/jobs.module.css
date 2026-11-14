@@ -1,0 +1,882 @@
+/* Public job pages: the violet summary block with the typical Week Bar, then tasks, skills, related jobs. */
+
+/* ---------- hero on the violet field ---------- */
+
+.hero {
+  overflow: hidden;
+}
+
+.arches {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.heroIn {
+  max-width: var(--content);
+  margin: 0 auto;
+  padding: 48px 24px 56px;
+}
+
+.heroTop {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 48px 64px;
+  align-items: start;
+}
+
+.heroText {
+  display: grid;
+  gap: 20px;
+  align-content: start;
+}
+
+.crumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: var(--fs-15);
+  color: var(--on-violet-2);
+}
+
+.crumb a {
+  color: var(--on-violet);
+  font-weight: 600;
+  text-decoration-color: oklch(100% 0 0 / 0.35);
+}
+
+.crumb a:hover {
+  text-decoration-color: var(--on-violet);
+}
+
+.h1 {
+  font-size: clamp(38px, 4.9vw, 72px);
+  font-weight: 760;
+  letter-spacing: var(--track-hero);
+  line-height: 1;
+  color: var(--on-violet);
+  max-width: 17ch;
+  margin-top: 8px;
+}
+
+.summary {
+  font-size: var(--fs-20);
+  line-height: 1.5;
+  max-width: 52ch;
+  color: var(--on-violet);
+}
+
+.observed {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 10px;
+  justify-self: start;
+  max-width: 60ch;
+  padding: 8px 14px 8px 10px;
+  border-radius: var(--r-chip);
+  background: oklch(100% 0 0 / 0.1);
+  box-shadow: inset 0 0 0 1px oklch(100% 0 0 / 0.16);
+  font-size: var(--fs-15);
+  color: var(--on-violet);
+}
+
+.observed svg {
+  flex: none;
+  margin-top: 2px;
+  color: var(--on-violet);
+}
+
+.facts {
+  display: grid;
+  gap: 16px;
+  padding: 24px;
+  border-radius: var(--r-card);
+  background: oklch(100% 0 0 / 0.08);
+  box-shadow:
+    inset 0 1px 0 oklch(100% 0 0 / 0.18),
+    inset 0 0 0 1px oklch(100% 0 0 / 0.14),
+    var(--shadow-on-field);
+}
+
+.factsTitle {
+  font-weight: 650;
+  color: var(--on-violet);
+}
+
+.facts dl {
+  display: grid;
+  gap: 14px;
+}
+
+.facts dl > div {
+  display: grid;
+  gap: 2px;
+}
+
+.facts dt {
+  font-size: var(--fs-15);
+  color: var(--on-violet-2);
+}
+
+.facts dd {
+  margin: 0;
+  display: grid;
+  font-size: var(--fs-28);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--on-violet);
+}
+
+.facts dd small {
+  font-size: var(--fs-13);
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--on-violet-2);
+  margin-top: 2px;
+}
+
+.ctaNote {
+  font-size: var(--fs-13);
+  color: var(--on-violet-2);
+  text-align: center;
+}
+
+.week {
+  margin-top: 56px;
+  display: grid;
+  gap: 16px;
+}
+
+.weekCaption {
+  font-size: var(--fs-15);
+  color: var(--on-violet-2);
+  max-width: 90ch;
+}
+
+.factsSource {
+  white-space: nowrap;
+}
+
+/* ---------- body ---------- */
+
+.body {
+  max-width: var(--content);
+  margin: 0 auto;
+  padding: 88px 24px 112px;
+  display: grid;
+  gap: 96px;
+}
+
+.section {
+  display: grid;
+  gap: 28px;
+  align-content: start;
+}
+
+.sectionHead {
+  display: grid;
+  gap: 10px;
+}
+
+.sectionHead h2 {
+  font-size: var(--fs-44);
+}
+
+.sectionHead p {
+  color: var(--ink-2);
+  max-width: 62ch;
+}
+
+/* tasks */
+
+.tasks {
+  list-style: none;
+  display: grid;
+  gap: 10px;
+  max-width: 980px;
+}
+
+.task details {
+  border-radius: var(--r-card);
+  background: var(--card);
+  box-shadow:
+    var(--hl),
+    inset 0 0 0 1px oklch(88.5% 0.03 290 / 0.55),
+    var(--shadow-rest);
+  transition:
+    box-shadow var(--t-hover) var(--ease),
+    transform var(--t-hover) var(--ease);
+}
+
+.task details:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    var(--hl),
+    inset 0 0 0 1px var(--violet-tint),
+    var(--shadow-raised);
+}
+
+.task details[open] {
+  box-shadow:
+    var(--hl),
+    inset 0 0 0 1.5px var(--violet-tint),
+    var(--shadow-raised);
+}
+
+.task summary {
+  list-style: none;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto 32px;
+  gap: 18px;
+  align-items: start;
+  padding: 18px 20px;
+  border-radius: var(--r-card);
+  cursor: pointer;
+}
+
+.task summary::-webkit-details-marker {
+  display: none;
+}
+
+.taskMain {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.taskShort {
+  font-size: var(--fs-20);
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
+.taskText {
+  font-size: var(--fs-15);
+  color: var(--ink-2);
+  max-width: 72ch;
+}
+
+.taskChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.taskHours {
+  display: grid;
+  justify-items: end;
+  gap: 2px;
+  padding-top: 2px;
+}
+
+.taskHours b {
+  font-size: var(--fs-20);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.taskHours span {
+  font-size: var(--fs-13);
+  color: var(--ink-2);
+}
+
+.taskOpen {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--sunk);
+  color: var(--ink);
+  transition:
+    transform var(--t-pop) var(--ease),
+    background-color var(--t-hover) var(--ease);
+}
+
+.task summary:hover .taskOpen {
+  background: var(--violet-soft);
+  color: var(--violet);
+}
+
+.task details[open] .taskOpen {
+  transform: rotate(180deg);
+}
+
+.taskBody {
+  display: grid;
+  gap: 14px;
+  padding: 0 72px 24px 66px;
+  font-size: var(--fs-15);
+}
+
+.taskWhyTitle {
+  font-weight: 650;
+  font-size: var(--fs-17);
+}
+
+.taskEvidence {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px 32px;
+  align-items: start;
+  padding: 16px;
+  border-radius: var(--r-ctl);
+  background: var(--paper);
+}
+
+.taskFacts {
+  display: grid;
+  gap: 10px;
+}
+
+.taskFacts div {
+  display: grid;
+  gap: 2px;
+}
+
+.taskFacts dt {
+  font-weight: 600;
+}
+
+.taskFacts dd {
+  margin: 0;
+  color: var(--ink-2);
+}
+
+.taskEq {
+  justify-self: start;
+  padding: 8px 12px;
+  border-radius: var(--r-chip);
+  background: var(--violet-soft);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.inlineLink {
+  justify-self: start;
+  color: var(--violet);
+  font-weight: 600;
+  text-decoration-color: color-mix(in oklch, var(--violet) 35%, transparent);
+}
+
+.inlineLink:hover {
+  text-decoration-color: var(--violet);
+}
+
+/* other tasks */
+
+.more {
+  max-width: 980px;
+  border-radius: var(--r-card);
+  background: var(--sunk);
+}
+
+.more summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 60px;
+  padding: 0 22px;
+  font-weight: 650;
+  cursor: pointer;
+  border-radius: var(--r-card);
+  transition: background-color var(--t-hover) var(--ease);
+}
+
+.more summary::-webkit-details-marker {
+  display: none;
+}
+
+.more summary:hover {
+  background: var(--violet-soft);
+}
+
+.more summary svg {
+  transition: transform var(--t-pop) var(--ease);
+}
+
+.more[open] summary svg {
+  transform: rotate(180deg);
+}
+
+.moreNote {
+  padding: 0 22px;
+  color: var(--ink-2);
+  font-size: var(--fs-15);
+}
+
+.moreList {
+  list-style: none;
+  display: grid;
+  gap: 4px;
+  padding: 14px 10px 14px;
+}
+
+.moreList li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px 20px;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: var(--r-ctl);
+  font-size: var(--fs-15);
+}
+
+.moreList li:nth-child(odd) {
+  background: oklch(99% 0.008 290 / 0.6);
+}
+
+.moreChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+/* skills and related */
+
+.pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 64px;
+}
+
+.skills {
+  list-style: none;
+  display: grid;
+  gap: 14px;
+}
+
+.skills li {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(80px, 1fr) auto;
+  gap: 16px;
+  align-items: center;
+}
+
+.skillName {
+  font-weight: 600;
+}
+
+.skillMeter {
+  height: 10px;
+  border-radius: 6px;
+  background: var(--sunk);
+  overflow: hidden;
+}
+
+.skillMeter span {
+  display: block;
+  height: 100%;
+  border-radius: 6px;
+  background: linear-gradient(180deg, var(--apricot-hi), var(--apricot) 60%, var(--apricot-low));
+}
+
+.skillValue {
+  font-size: var(--fs-15);
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+.knowledge {
+  font-size: var(--fs-15);
+  color: var(--ink-2);
+}
+
+.knowledge b {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.related {
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.related a {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  min-height: 52px;
+  padding: 12px 16px;
+  border-radius: var(--r-ctl);
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    background-color var(--t-hover) var(--ease),
+    transform var(--t-hover) var(--ease);
+}
+
+.related a:hover {
+  background: var(--violet-soft);
+  color: var(--violet);
+  transform: translateX(3px);
+}
+
+.related small {
+  font-size: var(--fs-15);
+  font-weight: 400;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+/* closing action */
+
+.closing {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 32px 48px;
+  align-items: center;
+  padding: 48px;
+  border-radius: var(--r-panel);
+  background: var(--violet-soft);
+  box-shadow: inset 0 0 0 1px var(--violet-tint);
+}
+
+.closing h2 {
+  font-size: var(--fs-44);
+  margin-bottom: 14px;
+}
+
+.closing p {
+  max-width: 54ch;
+}
+
+.closingActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 24px;
+}
+
+/* ---------- /jobs index ---------- */
+
+.indexPage {
+  max-width: var(--content);
+  margin: 0 auto;
+  padding: 64px 24px 112px;
+}
+
+.indexHead {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.indexH1 {
+  font-size: clamp(44px, 6vw, 88px);
+  font-weight: 760;
+  letter-spacing: var(--track-hero);
+  line-height: 1;
+}
+
+.indexHead p {
+  font-size: var(--fs-20);
+  max-width: 56ch;
+}
+
+.index {
+  display: grid;
+  gap: 32px;
+}
+
+.filterBar {
+  display: grid;
+  grid-template-columns: minmax(0, 560px) auto;
+  gap: 8px 20px;
+  align-items: center;
+}
+
+.filterLabel {
+  grid-column: 1 / -1;
+  font-weight: 650;
+}
+
+.filterField {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.filterField svg {
+  position: absolute;
+  left: 18px;
+  color: var(--ink-2);
+  pointer-events: none;
+}
+
+.filterField input {
+  width: 100%;
+  height: 60px;
+  padding: 0 18px 0 50px;
+  border: 0;
+  border-radius: var(--r-ctl);
+  background: var(--card);
+  font-size: var(--fs-17);
+  box-shadow:
+    inset 0 0 0 1.5px var(--line),
+    var(--shadow-rest);
+  transition: box-shadow var(--t-hover) var(--ease);
+}
+
+.filterField input:hover {
+  box-shadow:
+    inset 0 0 0 1.5px var(--violet-tint),
+    var(--shadow-raised);
+}
+
+.filterField input:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.filterField input::placeholder {
+  color: var(--ink-2);
+}
+
+.filterStatus {
+  color: var(--ink-2);
+  font-size: var(--fs-15);
+}
+
+.letters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.letters a {
+  display: grid;
+  place-items: center;
+  min-width: 44px;
+  height: 44px;
+  border-radius: var(--r-chip);
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    background-color var(--t-hover) var(--ease),
+    color var(--t-hover) var(--ease);
+}
+
+.letters a:hover {
+  background: var(--violet-soft);
+  color: var(--violet);
+}
+
+.empty {
+  padding: 32px;
+  border-radius: var(--r-card);
+  background: var(--sunk);
+  max-width: 640px;
+}
+
+.groups {
+  display: grid;
+  gap: 40px;
+}
+
+.group {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 16px;
+  scroll-margin-top: 96px;
+}
+
+.letter {
+  font-size: var(--fs-44);
+  color: var(--violet);
+  line-height: 1;
+  padding-top: 6px;
+}
+
+.jobList {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px 16px;
+}
+
+.jobLink {
+  display: grid;
+  gap: 6px;
+  height: 100%;
+  padding: 12px 14px;
+  border-radius: var(--r-ctl);
+  color: var(--ink);
+  text-decoration: none;
+  transition:
+    background-color var(--t-hover) var(--ease),
+    transform var(--t-hover) var(--ease);
+}
+
+.jobLink:hover {
+  background: var(--card);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-rest);
+}
+
+.jobTitle {
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.jobLink:hover .jobTitle {
+  color: var(--violet);
+}
+
+.jobHuman {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--fs-13);
+  color: var(--ink-2);
+}
+
+.jobMeter {
+  width: 64px;
+  height: 6px;
+  border-radius: 4px;
+  background: var(--machine-field);
+  overflow: hidden;
+  flex: none;
+}
+
+.jobMeter span {
+  display: block;
+  height: 100%;
+  background: var(--apricot);
+}
+
+.notFound {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 120px 24px;
+  display: grid;
+  gap: 20px;
+}
+
+.notFound h1 {
+  font-size: var(--fs-44);
+}
+
+/* ---------- narrow ---------- */
+
+@media (max-width: 1024px) {
+  .heroTop {
+    grid-template-columns: 1fr;
+  }
+
+  .facts {
+    max-width: 520px;
+  }
+
+  .pair {
+    grid-template-columns: 1fr;
+    gap: 72px;
+  }
+
+  .jobList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .heroIn {
+    padding: 28px 16px 40px;
+  }
+
+  .summary {
+    font-size: var(--fs-17);
+  }
+
+  .week {
+    margin-top: 40px;
+  }
+
+  .body {
+    padding: 56px 16px 80px;
+    gap: 72px;
+  }
+
+  .sectionHead h2,
+  .closing h2 {
+    font-size: var(--fs-28);
+  }
+
+  .task summary {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .taskOpen {
+    display: none;
+  }
+
+  .taskShort {
+    font-size: var(--fs-17);
+  }
+
+  .taskBody {
+    padding: 0 16px 20px;
+  }
+
+  .taskEvidence {
+    grid-template-columns: 1fr;
+  }
+
+  .moreList li {
+    grid-template-columns: 1fr;
+  }
+
+  .moreChips {
+    justify-content: flex-start;
+  }
+
+  .skills li {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .skillMeter {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .closing {
+    grid-template-columns: 1fr;
+    padding: 28px 20px;
+  }
+
+  .indexPage {
+    padding: 40px 16px 80px;
+  }
+
+  .indexHead p {
+    font-size: var(--fs-17);
+  }
+
+  .filterBar {
+    grid-template-columns: 1fr;
+  }
+
+  .group {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .jobList {
+    grid-template-columns: 1fr;
+  }
+}

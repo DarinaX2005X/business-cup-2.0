@@ -5,10 +5,11 @@ import { CategoryChip, EvidenceBadge } from '@/components/kit/Evidence';
 import ctl from '@/components/kit/controls.module.css';
 import { PublicFooter, PublicHeader, type ChromeLabels } from '@/components/public/PublicChrome';
 import { Toc } from '@/components/public/Toc';
-import { ExposureRuler } from '@/components/public/ExposureRuler';
+import { CategoryPath, type PathRow } from '@/components/public/CategoryPath';
 import { METHOD_ANCHORS as A, METHOD_ORDER } from '@/components/public/anchors';
 import { getMeta, getValidation, siteUrl, sourceList } from '@/components/public/data';
-import { CONSTANTS, nurseWeek, workedExamples } from '@/components/public/methodData';
+import { categoryPath, constants, nurseWeek, observedScore, PATH_CATEGORY, pathCounts, workedExamples } from '@/components/public/methodData';
+import type { Category } from '@/domain/types';
 import pub from '@/components/public/public.module.css';
 import st from '@/components/public/method.module.css';
 
@@ -27,7 +28,7 @@ export default async function MethodPage() {
   const t = await getRequestT();
   const f = t.f;
   const meta = getMeta();
-  const c = meta.constants;
+  const c = constants();
   const cov = meta.coverage;
   const counts = meta.counts;
   const pct = (x: number, digits = 1) => f.percent(x, digits);
@@ -36,6 +37,7 @@ export default async function MethodPage() {
   const examples = await workedExamples();
   const nurse = await nurseWeek();
   const validation = getValidation();
+  const paths = await pathCounts();
 
   const chrome: ChromeLabels = {
     home: t('method.chrome.home'),
@@ -53,6 +55,49 @@ export default async function MethodPage() {
     { cat: 'ai_speeds' as const, n: cats.ai_speeds },
     { cat: 'human_edge' as const, n: cats.human_edge },
     ...(cats.no_data ? [{ cat: 'no_data' as const, n: cats.no_data }] : []),
+  ];
+
+  const n = (x: number) => t('method.hero.count', { n: f.integer(x) });
+  const exAt = (steps: string[]) =>
+    examples
+      .filter((e) => steps.includes(e.step))
+      .map((e) => ({ id: e.task.id, label: e.share ? t('method.hero.example', { label: e.short, h: dec((e.share * 40) / 100, 1) }) : e.short }));
+  const pathRows: PathRow[] = [
+    {
+      id: 'observed',
+      question: t('method.hero.q1', { gate: pct(c.WORK_GATE, 0) }),
+      outcomes: [
+        { category: 'ai_does', label: t('method.cat.ai_does'), condition: t('method.hero.q1yes', { auto: pct(c.aiDoesAutomation, 0) }), count: n(paths.observed_does) },
+        { category: 'ai_speeds', label: t('method.cat.ai_speeds'), condition: t('method.hero.q1no', { auto: pct(c.aiDoesAutomation, 0) }), count: n(paths.observed_speeds) },
+      ],
+      examples: exAt(['observed_does', 'observed_speeds']),
+    },
+    {
+      id: 'physical',
+      question: t('method.hero.q2'),
+      outcomes: [{ category: 'human_edge', label: t('method.cat.human_edge'), count: n(paths.physical) }],
+      examples: exAt(['physical']),
+    },
+    {
+      id: 'rated',
+      question: t('method.hero.q3'),
+      outcomes: [{ category: 'ai_speeds', label: t('method.cat.ai_speeds'), count: n(paths.rated_speeds + paths.usage_speeds) }],
+      examples: exAt(['rated_speeds', 'usage_speeds']),
+    },
+    {
+      id: 'rest',
+      question: t('method.hero.q4'),
+      outcomes: [{ category: 'human_edge', label: t('method.cat.human_edge'), count: n(paths.low_human) }],
+      examples: exAt(['low_human']),
+    },
+  ];
+  const ruleRows: { key: string; cat: Category; text: string }[] = [
+    { key: 'r1', cat: PATH_CATEGORY.observed_does, text: t('method.category.r1', { auto: pct(c.aiDoesAutomation, 0) }) },
+    { key: 'r2', cat: PATH_CATEGORY.observed_speeds, text: t('method.category.r2') },
+    { key: 'r3', cat: PATH_CATEGORY.physical, text: t('method.category.r3', { max: dec(c.physicalMaxTheory) }) },
+    { key: 'r4', cat: PATH_CATEGORY.rated_speeds, text: t('method.category.r4', { min: dec(c.aiSpeedsTheory) }) },
+    { key: 'r5', cat: PATH_CATEGORY.low_human, text: t('method.category.r5') },
+    ...(paths.no_data === 0 ? [{ key: 'r6', cat: 'no_data' as Category, text: t('method.category.r6') }] : []),
   ];
 
   const srcLabel = (s: string | null) => t(s === '1p_api' ? 'method.category.src_1p_api' : 'method.category.src_claude_ai');
@@ -94,25 +139,16 @@ export default async function MethodPage() {
         <section className={st.intro}>
           <div className={st.introText}>
             <h1 className={st.h1}>{t('method.title')}</h1>
+            <div className={st.introSide}>
             <p className={st.lead}>{t('method.lead')}</p>
             <p className={st.build}>{t('method.updated', { onet: `${meta.dataVersion.onet} (${meta.onetRelease})`, aei: meta.dataVersion.aei, bls: meta.dataVersion.bls })}</p>
+            </div>
           </div>
           <div className={st.heroSheet}>
-            <ExposureRuler
-              speeds={c.aiSpeedsExposure}
-              does={c.aiDoesExposure}
-              format={(v) => dec(v)}
-              labels={{ scale: t('method.hero.scale'), human: t('method.hero.zoneHuman'), speeds: t('method.hero.zoneSpeeds'), does: t('method.hero.zoneDoes') }}
-              pins={examples.map((e) => ({
-                id: e.task.id,
-                label: e.short,
-                sub: `${e.occupation}, ${dec(e.exposure)}`,
-                value: e.exposure,
-                category: e.task.evidence.category,
-              }))}
-            />
+            <h2 className={st.heroTitle}>{t('method.hero.title')}</h2>
+            <CategoryPath rows={pathRows} noLabel={t('method.hero.no')} exampleLabel={t('method.hero.examples')} />
             <p className={st.heroCaption}>
-              {t('method.hero.caption')}{' '}
+              {t('method.hero.caption', { tasks: f.integer(paths.total) })}{' '}
               <a href={`#${A.category}`} className={pub.textLink}>
                 {t('method.sections.category')}
               </a>
@@ -221,90 +257,87 @@ export default async function MethodPage() {
             <section id={A.category} className={st.section}>
               <h2>{t('method.sections.category')}</h2>
               <p>{t('method.category.intro')}</p>
-              <div className={st.formula} lang="en">
-                <code>{t('method.category.theory')}</code>
-                <code>{t('method.category.observed')}</code>
-                <code className={st.formulaMain}>
-                  {t('method.category.exposure', { tw: dec(c.THEORY_WEIGHT), ow: dec(1 - c.THEORY_WEIGHT) })}
-                </code>
-              </div>
               <p>{t('method.category.rules')}</p>
-              <ul className={st.rules}>
-                <li>
-                  <CategoryChip category="ai_does" />
-                  <span>{t('method.category.ruleDoes', { auto: pct(c.aiDoesAutomation, 0), does: dec(c.aiDoesExposure) })}</span>
-                </li>
-                <li>
-                  <CategoryChip category="ai_speeds" />
-                  <span>{t('method.category.ruleSpeeds', { speeds: dec(c.aiSpeedsExposure) })}</span>
-                </li>
-                <li>
-                  <CategoryChip category="human_edge" />
-                  <span>{t('method.category.ruleHuman', { speeds: dec(c.aiSpeedsExposure) })}</span>
-                </li>
-                {cats.no_data === 0 ? (
-                  <li>
-                    <CategoryChip category="no_data" />
-                    <span>{t('method.category.ruleNone')}</span>
+              <ol className={st.rules}>
+                {ruleRows.map((r) => (
+                  <li key={r.key}>
+                    <span className={st.ruleChip}>
+                      <CategoryChip category={r.cat} />
+                    </span>
+                    <span>{r.text}</span>
                   </li>
-                ) : null}
-              </ul>
-              <p className={st.muted}>{t('method.category.choice', { gate: pct(c.WORK_GATE, 0) })}</p>
+                ))}
+              </ol>
+              <p>{t('method.category.theoryNote')}</p>
+              <p className={st.muted}>{t('method.category.choice', { gate: pct(c.WORK_GATE, 0), auto: pct(c.aiDoesAutomation, 0) })}</p>
 
-              <h3 className={st.h3}>{t('method.category.examples')}</h3>
-              <div className={st.examples}>
-                {examples.map((e) => {
-                  const ev2 = e.task.evidence;
-                  return (
-                    <article key={e.task.id} className={st.example}>
-                      <p className={st.exOcc}>
-                        <Link href={`/jobs/${e.slug}`} className={pub.textLink}>
-                          {e.occupation}
-                        </Link>
-                      </p>
-                      <h4 className={st.exTask} lang="en">
-                        {e.task.text}
-                      </h4>
-                      <dl className={st.exLines}>
-                        <div>
-                          <dt>{t('method.category.rating', { label: ev2.theoryLabel ?? '–' })}</dt>
-                          <dd>{t('method.category.theoryLine', { value: dec(e.theory) })}</dd>
-                        </div>
-                        <div>
-                          <dt>
-                            {ev2.observed
-                              ? t('method.category.observedLine', { source: srcLabel(ev2.aeiSource), auto: pct(ev2.aeiAutomation ?? 0.5, 0) })
-                              : t('method.category.notObserved')}
-                          </dt>
-                          <dd>{t('method.category.observedValue', { value: dec(e.observed, 3) })}</dd>
-                        </div>
-                      </dl>
-                      <p className={st.exEq} lang="en">
-                        <span>
-                          {dec(c.THEORY_WEIGHT)} × {dec(e.theory)} + {dec(1 - c.THEORY_WEIGHT)} × {dec(e.observed, 3)} ={' '}
-                        </span>
-                        <b>{dec(e.exposure, 3)}</b>
-                      </p>
-                      <div className={st.exVerdict}>
-                        <CategoryChip category={ev2.category} />
-                        <EvidenceBadge level={ev2.evidenceLevel} size="sm" />
-                      </div>
-                      <p className={st.exWhy}>
-                        {t(`method.category.${e.reason}`, { does: dec(c.aiDoesExposure), speeds: dec(c.aiSpeedsExposure), label: ev2.theoryLabel ?? '' })}
-                      </p>
-                    </article>
-                  );
-                })}
-              </div>
+              {examples.length ? (
+                <>
+                  <h3 className={st.h3}>{t('method.category.examples')}</h3>
+                  <div className={st.examples}>
+                    {examples.map((e) => {
+                      const ev2 = e.task.evidence;
+                      const g4 = (ev2 as { gpt4Label?: string | null }).gpt4Label ?? null;
+                      const use = ev2.observed
+                        ? t('method.category.useObserved', { auto: pct(ev2.aeiAutomation ?? 0.5, 0), source: srcLabel(ev2.aeiSource) })
+                        : ev2.everObserved
+                          ? t('method.category.useEarlier')
+                          : (ev2.penetration ?? 0) > 0
+                            ? t('method.category.usePenetration', { value: dec(ev2.penetration ?? 0) })
+                            : t('method.category.useNone');
+                      const rating =
+                        ev2.theorySource === 'human+gpt4'
+                          ? t('method.category.ratingMixed', { human: ev2.theoryLabel ?? '', gpt4: g4 ?? '', value: dec(ev2.theory) })
+                          : ev2.theoryLabel
+                            ? t('method.category.ratingValue', { label: ev2.theoryLabel, value: dec(ev2.theory) })
+                            : t('method.category.ratingNone');
+                      return (
+                        <article key={e.task.id} className={st.example} data-cat={ev2.category}>
+                          <h4 className={st.exTask}>
+                            <span className={st.exShort} lang="en">{e.short}</span>
+                            <span className={st.exFull} lang="en">{e.task.text}</span>
+                          </h4>
+                          <dl className={st.exLines}>
+                            <div>
+                              <dt>{t('method.category.use')}</dt>
+                              <dd>{use}</dd>
+                            </div>
+                            <div>
+                              <dt>{t('method.category.physical')}</dt>
+                              <dd>{ev2.physical ? t('method.category.yes') : t('method.category.noAnswer')}</dd>
+                            </div>
+                            <div>
+                              <dt>{t('method.category.rating')}</dt>
+                              <dd>{rating}</dd>
+                            </div>
+                          </dl>
+                          <div className={st.exVerdict}>
+                            <CategoryChip category={ev2.category} />
+                            <EvidenceBadge level={ev2.evidenceLevel} size="sm" />
+                          </div>
+                          <p className={st.exWhy}>{t(`method.category.step_${e.step}`)}</p>
+                        </article>
+                      );
+                    })}
+                  </div>
+                </>
+              ) : null}
             </section>
 
             <section id={A.week} className={st.section}>
               <h2>{t('method.sections.week')}</h2>
               <p>{t('method.week.p1')}</p>
-              <p>{t('method.week.p2', { n: CONSTANTS.DEFAULT_WEEK_TASKS })}</p>
+              <p>{t('method.week.p2', { n: c.DEFAULT_WEEK_TASKS, min: c.DEFAULT_SHARE_MIN, max: c.DEFAULT_SHARE_MAX })}</p>
               <div className={st.formula} lang="en">
                 <code className={st.formulaMain}>{t('method.week.formula')}</code>
               </div>
+              <p className={st.muted}>
+                {t('method.week.freq', {
+                  scale: Object.entries(c.FREQ_PER_YEAR)
+                    .map(([k, v]) => `${k} = ${f.integer(v)}`)
+                    .join(', '),
+                })}
+              </p>
               {nurse ? (
                 <figure className={st.tableWrap}>
                   <figcaption>{t('method.week.example')}</figcaption>
@@ -314,6 +347,7 @@ export default async function MethodPage() {
                         <tr>
                           <th scope="col">{t('method.week.colTask')}</th>
                           <th scope="col">{t('method.week.colImportance')}</th>
+                          <th scope="col">{t('method.week.colRelevance')}</th>
                           <th scope="col">{t('method.week.colFrequency')}</th>
                           <th scope="col">{t('method.week.colWeight')}</th>
                           <th scope="col">{t('method.week.colShare')}</th>
@@ -326,8 +360,9 @@ export default async function MethodPage() {
                               {r.short}
                             </th>
                             <td>{r.importance != null ? dec(r.importance) : '–'}</td>
-                            <td>{r.frequency != null ? dec(r.frequency) : '–'}</td>
-                            <td>{dec(r.weight)}</td>
+                            <td>{r.relevance != null ? f.integer(r.relevance) : '–'}</td>
+                            <td>{r.perYear != null ? f.integer(r.perYear) : '–'}</td>
+                            <td>{dec(r.weight, 1)}</td>
                             <td>
                               {f.integer(r.share)}%<span className={st.cellSub}>{t('method.week.hours', { h: dec((r.share * 40) / 100, 1) })}</span>
                             </td>
@@ -343,13 +378,18 @@ export default async function MethodPage() {
             <section id={A.score} className={st.section}>
               <h2>{t('method.sections.score')}</h2>
               <p>{t('method.score.intro')}</p>
+              <p>{t('method.score.exposureIntro')}</p>
+              <div className={st.formula} lang="en">
+                <code>{t('method.score.e1')}</code>
+                <code className={st.formulaMain}>{t('method.score.e2', { tw: dec(c.THEORY_WEIGHT), ow: dec(1 - c.THEORY_WEIGHT) })}</code>
+              </div>
               <div className={st.formula} lang="en">
                 <code>{t('method.score.f1')}</code>
                 <code>{t('method.score.f2')}</code>
-                <code>{t('method.score.f3', { scale: CONSTANTS.PRACTICE_SCALE })}</code>
-                <code className={st.formulaMain}>{t('method.score.f4', { gain: dec(CONSTANTS.PRACTICE_GAIN) })}</code>
+                <code>{t('method.score.f3', { scale: c.PRACTICE_SCALE })}</code>
+                <code className={st.formulaMain}>{t('method.score.f4', { gain: dec(c.PRACTICE_GAIN) })}</code>
               </div>
-              <p>{t('method.score.explainF', { gain: pct(CONSTANTS.PRACTICE_GAIN, 0) })}</p>
+              <p>{t('method.score.explainF', { gain: pct(c.PRACTICE_GAIN, 0) })}</p>
               {nurse ? (
                 <div className={st.scoreEx}>
                   <h3 className={st.h3}>{t('method.score.example')}</h3>
@@ -368,7 +408,7 @@ export default async function MethodPage() {
                   {nurse.result.payAtStake != null && nurse.result.salary.annual != null ? (
                     <p>
                       {t('method.score.pay', {
-                        high: dec(CONSTANTS.HIGH_EXPOSURE),
+                        half: dec(c.AT_STAKE_SPEEDS),
                         currency: f.currency(nurse.result.payAtStake),
                         annual: f.currency(nurse.result.salary.annual),
                       })}

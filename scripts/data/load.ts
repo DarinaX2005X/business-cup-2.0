@@ -7,7 +7,7 @@ import { download, readTsv, sha256, sha256File, streamCsv, unzip } from './io';
 export const ROOT = join(__dirname, '..', '..');
 export const RAW = join(ROOT, 'data', 'raw');
 const CACHE = join(RAW, '.cache', 'sources.json');
-const LOADER_VERSION = 3;
+const LOADER_VERSION = 4;
 
 const HF = 'https://huggingface.co/datasets/Anthropic/EconomicIndex/resolve/main';
 
@@ -121,6 +121,9 @@ async function parseSources(bls: string | null, log: (s: string) => void): Promi
     tier: r['Relatedness Tier'],
     index: Number(r.Index),
   }));
+  const education = onetTable('Education')
+    .filter((r) => r['Scale ID'] === 'RL' && Number.isFinite(num(r['Data Value'])))
+    .map((r) => [r['O*NET-SOC Code'], Number(r.Category), num(r['Data Value'])] as [string, number, number]);
   const jobZones = onetTable('Job Zones').map((r) => [r['O*NET-SOC Code'], Number(r['Job Zone'])] as [string, number]);
 
   log('parsing GPTs-are-GPTs, Microsoft, task_penetration');
@@ -212,7 +215,7 @@ async function parseSources(bls: string | null, log: (s: string) => void): Promi
   }
   if (bls) files.push({ id: 'bls_oews_may2025_nat', file: relative(RAW, bls).replace(/\\/g, '/'), url: 'https://www.bls.gov/oes/special-requests/oesm25nat.zip', bytes: statSync(bls).size, sha256: await sha256File(bls) });
 
-  return { onetRelease, occupations, tasks, ratings, jobTitles, reportedTitles, skills, knowledge, taskDwas, related, jobZones, gpts, physical, penetration, aei, aeiOld, oews, files };
+  return { onetRelease, occupations, tasks, ratings, jobTitles, reportedTitles, skills, knowledge, taskDwas, related, jobZones, education, gpts, physical, penetration, aei, aeiOld, oews, files };
 }
 
 const AEI_METRICS: Record<string, 'pct' | 'automation' | 'augmentation' | 'work'> = {

@@ -1,4 +1,4 @@
-import { HIGH_EXPOSURE, PRACTICE_GAIN, PRACTICE_SCALE, WEEK_HOURS } from './constants';
+import { AT_STAKE_WEIGHTS, PRACTICE_GAIN, PRACTICE_SCALE, WEEK_HOURS } from './constants';
 import { defaultShares, normalizeShares } from './shares';
 import type { Category, OccTask, OccupationBundle, WeekShare, XrayBreakdown, XrayComputed } from './types';
 
@@ -40,14 +40,12 @@ export function computeXray(
   const percent = emptyByCategory();
   let observed = 0;
   let weekExposure = 0;
-  let highExposure = 0;
   const perTask: XrayBreakdown['perTask'] = [];
   for (const s of shares) {
     const task = byId.get(s.taskId)!;
     const e = task.evidence;
     percent[e.category] += s.share;
     if (e.evidenceLevel === 'observed') observed += s.share;
-    if (e.exposure >= HIGH_EXPOSURE) highExposure += s.share;
     const contribution = (s.share * e.exposure) / 100;
     weekExposure += contribution;
     perTask.push({ taskId: s.taskId, share: s.share, hours: hoursOf(s.share), exposure: e.exposure, contribution: round(contribution, 4) });
@@ -57,8 +55,9 @@ export function computeXray(
 
   const annual = options.salary != null && options.salary > 0 ? options.salary : bundle.wage.medianAnnual;
   const salarySource = options.salary != null && options.salary > 0 ? 'user' : annual != null ? 'bls_median' : 'none';
-  const shareHighExposure = highExposure / 100;
-  const payAtStake = annual != null ? Math.round(annual * shareHighExposure) : null;
+  // Same weights as hoursFreed, so the money always agrees with the categories on screen.
+  const shareAtStake = (percent.ai_does * AT_STAKE_WEIGHTS.ai_does + percent.ai_speeds * AT_STAKE_WEIGHTS.ai_speeds) / 100;
+  const payAtStake = annual != null ? Math.round(annual * shareAtStake) : null;
 
   weekExposure = round(weekExposure, 4);
   const baseScore = Math.round(100 * (1 - weekExposure));
@@ -86,7 +85,7 @@ export function computeXray(
   let hoursFreed = 0;
   for (const id of handToAi) {
     const h = hoursOf(shareOf.get(id)!);
-    hoursFreed += byId.get(id)!.evidence.category === 'ai_does' ? h : h * 0.5;
+    hoursFreed += h * AT_STAKE_WEIGHTS[byId.get(id)!.evidence.category];
   }
 
   const result: XrayComputed = {
@@ -109,7 +108,12 @@ export function computeXray(
   const breakdown: XrayBreakdown = {
     perTask,
     scoreFormula: { base: baseScore, n: ps.n, avg: ps.avg, F: round(ps.F, 4), score: ps.score },
-    pay: { annual: annual ?? null, shareHighExposure },
+    pay: {
+      annual: annual ?? null,
+      shareAtStake,
+      shareHighExposure: shareAtStake,
+      weights: { ai_does: AT_STAKE_WEIGHTS.ai_does, ai_speeds: AT_STAKE_WEIGHTS.ai_speeds },
+    },
   };
   return { result, breakdown };
 }

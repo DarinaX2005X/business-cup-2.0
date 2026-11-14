@@ -18,7 +18,8 @@ export interface ToastProps {
 }
 
 /**
- * A short receipt placed next to the control that caused it (the screen positions it).
+ * A small paper slip with a perforated edge, placed next to the control that caused it
+ * (the screen positions it).
  * Critical results never live only in a toast.
  */
 export function Toast({ message, tone = 'neutral', actionLabel, onAction, onClose, duration = 6000, className }: ToastProps) {
@@ -29,7 +30,8 @@ export function Toast({ message, tone = 'neutral', actionLabel, onAction, onClos
     return () => window.clearTimeout(t);
   }, [duration, onClose, message]);
   return (
-    <div className={`${st.toast} ${className ?? ''}`} data-tone={tone} role={tone === 'error' ? 'alert' : 'status'}>
+    <div className={`${st.toastWrap} ${className ?? ''}`} role={tone === 'error' ? 'alert' : 'status'}>
+    <div className={st.toast} data-tone={tone}>
       {tone !== 'neutral' ? (
         <span className={st.tIcon} aria-hidden="true">
           {tone === 'success' ? <Check strokeWidth={2} /> : <AlertCircle strokeWidth={1.75} />}
@@ -46,6 +48,7 @@ export function Toast({ message, tone = 'neutral', actionLabel, onAction, onClos
           <X strokeWidth={1.75} />
         </button>
       ) : null}
+    </div>
     </div>
   );
 }

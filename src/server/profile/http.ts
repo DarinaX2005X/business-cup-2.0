@@ -56,10 +56,14 @@ export async function optionalProfile(req: Request): Promise<Profile | null> {
   return requireProfile(req);
 }
 
-export function clientIp(req: Request): string | null {
-  const fwd = req.headers.get('x-forwarded-for');
-  if (fwd) return fwd.split(',')[0]!.trim() || null;
-  return req.headers.get('x-real-ip');
+/** Bucket used for rate limits when the request carries no IP header: such requests share one limit instead of none. */
+export const UNKNOWN_IP = 'unknown';
+
+/** Client IP for rate limiting (never for display). Always returns a bucket, `unknown` when no header is present. */
+export function clientIp(req: Request): string {
+  const fwd = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
+  if (fwd) return fwd;
+  return req.headers.get('x-real-ip')?.trim() || UNKNOWN_IP;
 }
 
 /** IANA zone from the `x-tz` header if it is a real zone, else null. */

@@ -7,11 +7,22 @@ import { useId } from 'react';
  * SheetStack: three work sheets, the top one drafted by AI (hatched edge, AI stamp),
  * one line under an apricot marker, and the marker pen that made it.
  */
-export function SheetStack({ className, title }: { className?: string; title?: string }) {
+export function SheetStack({ className, title, fit = 'bleed' }: { className?: string; title?: string; fit?: 'bleed' | 'contain' }) {
   const u = useId().replace(/:/g, '');
   const i = (n: string) => `${u}${n}`;
   return (
-    <svg viewBox="0 0 520 360" className={className} role={title ? 'img' : undefined} aria-label={title} aria-hidden={title ? undefined : true}>
+    /*
+     * `bleed` (default) keeps the 520 × 360 frame and lets the sheet feet, pen and shadows run
+     * past it, for cards that crop the art at their own edge. `contain` frames the whole drawing.
+     */
+    <svg
+      viewBox={fit === 'contain' ? '70 0 470 440' : '0 0 520 360'}
+      overflow="visible"
+      className={className}
+      role={title ? 'img' : undefined}
+      aria-label={title}
+      aria-hidden={title ? undefined : true}
+    >
       <defs>
         <linearGradient id={i('p1')} x1="0" y1="0" x2=".9" y2="1">
           <stop offset="0" stopColor="#FFFFFF" />

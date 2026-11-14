@@ -8,7 +8,9 @@ import st from './controls.module.css';
 export interface ComboItem {
   value: string;
   label: string;
-  /** Second line, for example the O*NET occupation a job title belongs to. */
+  /** The title or alias the query actually matched, shown as «matched: RN» under the label. */
+  matched?: string;
+  /** Free second line used when there is no `matched` (for example «closest match»). */
   hint?: string;
 }
 
@@ -69,7 +71,7 @@ export function Combobox({
   const id = useId();
   const listId = `${id}-list`;
   const [open, setOpen] = useState(defaultOpen);
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(-1);
   const listRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
@@ -108,7 +110,7 @@ export function Combobox({
             placeholder={placeholder}
             onChange={(e) => {
               onQueryChange(e.target.value);
-              setActive(0);
+              setActive(-1);
               setOpen(true);
             }}
             onFocus={() => setOpen(true)}
@@ -117,10 +119,10 @@ export function Combobox({
               if (e.key === 'ArrowDown') {
                 e.preventDefault();
                 setOpen(true);
-                setActive((a) => Math.min(items.length - 1, a + 1));
+                setActive((a) => (a < 0 ? 0 : Math.min(items.length - 1, a + 1)));
               } else if (e.key === 'ArrowUp') {
                 e.preventDefault();
-                setActive((a) => Math.max(0, a - 1));
+                setActive((a) => (a < 0 ? items.length - 1 : Math.max(0, a - 1)));
               } else if (e.key === 'Enter' && showList && items[active]) {
                 e.preventDefault();
                 pick(items[active]);
@@ -154,7 +156,7 @@ export function Combobox({
                     <span className={st.optL}>
                       <Highlight text={it.label} query={query} />
                     </span>
-                    {it.hint ? <span className={st.optH}>{it.hint}</span> : null}
+                    {it.matched ? <span className={st.optH}>{s.matched(it.matched)}</span> : it.hint ? <span className={st.optH}>{it.hint}</span> : null}
                   </li>
                 ))
               )}

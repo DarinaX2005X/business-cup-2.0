@@ -11,15 +11,19 @@ const STOP_AT = new Set(['and', 'or', 'to', 'for', 'using', 'including', 'such',
 export function shortLabel(text: string): string {
   const words = text.replace(/[.;:]+\s*$/, '').split(/\s+/).filter(Boolean);
   const out: string[] = [];
+  let listOpen = false; // «Monitor, record, and report …»: a serial list of verbs stays together
   for (const w of words) {
     const bare = w.toLowerCase().replace(/[^a-z']/g, '');
-    if (out.length >= 2 && STOP_AT.has(bare)) break;
+    const joinsList = listOpen && (bare === 'and' || bare === 'or');
+    if (out.length >= 2 && STOP_AT.has(bare) && !joinsList) break;
     const endsClause = /[,;:]$/.test(w);
-    out.push(w.replace(/[,;:]+$/, ''));
+    if (endsClause && out.length < 3) listOpen = true;
+    out.push(endsClause && out.length < 3 ? w.replace(/[;:]+$/, '') : w.replace(/[,;:]+$/, ''));
     if (out.length >= 5) break;
-    if (endsClause && out.length >= 3) break;
+    if (endsClause && out.length >= 3 && !listOpen) break;
+    if (joinsList) listOpen = false;
   }
-  return out.join(' ');
+  return out.join(' ').replace(/,$/, '');
 }
 
 const IRREGULAR: Record<string, string> = {

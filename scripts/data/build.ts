@@ -19,7 +19,8 @@ export function readDictionaries(): Omit<AssembleInput, 'sources'> {
   const aliases = read<AliasEntry[]>(join(ROOT, 'data', 'aliases.json'), []);
   const aliasesI18n = read<AliasEntry[]>(join(ROOT, 'data', 'aliases.i18n.json'), []);
   const tr = (lang: 'ru' | 'kk') => read<{ items: TranslatedTitle[] }>(join(OUT_BUILD, `titles.${lang}.json`), { items: [] }).items;
-  return { aliases, aliasesI18n, translations: { ru: tr('ru'), kk: tr('kk') } };
+  const shortLabels = read<Record<string, string>>(join(OUT_BUILD, 'short-labels.en.json'), {});
+  return { aliases, aliasesI18n, translations: { ru: tr('ru'), kk: tr('kk') }, shortLabels };
 }
 
 /** Serialise every output file deterministically: path → content. */

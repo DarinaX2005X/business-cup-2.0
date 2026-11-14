@@ -23,8 +23,10 @@
    "dwaIds": [
     "4.A.3.b.6.k.4"
    ],
+   "short": "Record medical information",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": false,
@@ -52,8 +54,10 @@
     "4.A.1.a.2.e.7",
     "4.A.4.a.5.c.6"
    ],
+   "short": "Administer medications",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -80,10 +84,12 @@
    "dwaIds": [
     "4.A.3.b.6.k.2"
    ],
+   "short": "Maintain detailed reports",
    "evidence": {
     "theoryLabel": "E2",
-    "theorySource": "human",
-    "theory": 0.5,
+    "gpt4Label": "E1",
+    "theorySource": "human+gpt4",
+    "theory": 0.75,
     "observed": false,
     "everObserved": false,
     "aeiShare": null,
@@ -93,7 +99,7 @@
     "penetration": 0,
     "history": null,
     "physical": false,
-    "exposure": 0.25,
+    "exposure": 0.375,
     "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
@@ -110,8 +116,10 @@
     "4.A.3.b.6.k.4",
     "4.A.4.a.2.d.1"
    ],
+   "short": "Monitor symptoms",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": true,
@@ -124,7 +132,7 @@
     "history": null,
     "physical": true,
     "exposure": 0.7328,
-    "category": "ai_speeds",
+    "category": "ai_does",
     "evidenceLevel": "observed"
    }
   },
@@ -139,8 +147,10 @@
     "4.A.4.a.5.c.7",
     "4.A.4.a.5.l.2"
    ],
+   "short": "Provide health care",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -167,8 +177,10 @@
    "dwaIds": [
     "4.A.4.a.2.d.5"
    ],
+   "short": "Consult with healthcare team",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": false,
@@ -195,8 +207,10 @@
    "dwaIds": [
     "4.A.4.b.4.a.14"
    ],
+   "short": "Direct healthcare personnel",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -224,10 +238,12 @@
     "4.A.1.a.2.e.1",
     "4.A.1.a.2.e.3"
    ],
+   "short": "Monitor patient care",
    "evidence": {
     "theoryLabel": "E1",
-    "theorySource": "human",
-    "theory": 1,
+    "gpt4Label": "E2",
+    "theorySource": "human+gpt4",
+    "theory": 0.75,
     "observed": false,
     "everObserved": true,
     "aeiShare": 0,
@@ -237,7 +253,7 @@
     "penetration": 0,
     "history": null,
     "physical": false,
-    "exposure": 0.5,
+    "exposure": 0.375,
     "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
@@ -252,8 +268,10 @@
    "dwaIds": [
     "4.A.4.b.4.j.38"
    ],
+   "short": "Perform managerial functions",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": false,
@@ -281,8 +299,10 @@
     "4.A.2.a.4.f.3",
     "4.A.4.c.3.b.1"
    ],
+   "short": "Order diagnostic tests",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": false,
@@ -310,10 +330,12 @@
     "4.A.4.c.3.f.3",
     "4.A.4.c.3.f.4"
    ],
+   "short": "Prescribe drugs",
    "evidence": {
     "theoryLabel": "E0",
-    "theorySource": "human",
-    "theory": 0,
+    "gpt4Label": "E2",
+    "theorySource": "human+gpt4",
+    "theory": 0.25,
     "observed": false,
     "everObserved": true,
     "aeiShare": null,
@@ -323,8 +345,8 @@
     "penetration": 0,
     "history": null,
     "physical": false,
-    "exposure": 0,
-    "category": "human_edge",
+    "exposure": 0.125,
+    "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
   },
@@ -339,8 +361,10 @@
     "4.A.4.b.4.j.23",
     "4.A.4.b.6.f.1"
    ],
+   "short": "Direct infection control programs",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": false,
@@ -368,10 +392,12 @@
     "4.A.2.b.2.n.3",
     "4.A.4.a.3.b.1"
    ],
+   "short": "Instruct individuals",
    "evidence": {
     "theoryLabel": "E1",
-    "theorySource": "human",
-    "theory": 1,
+    "gpt4Label": "E2",
+    "theorySource": "human+gpt4",
+    "theory": 0.75,
     "observed": false,
     "everObserved": true,
     "aeiShare": null,
@@ -394,7 +420,7 @@
      }
     ],
     "physical": false,
-    "exposure": 0.5,
+    "exposure": 0.375,
     "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
@@ -410,8 +436,10 @@
     "4.A.3.a.2.k.1",
     "4.A.4.c.3.a.2"
    ],
+   "short": "Prepare rooms",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -438,8 +466,10 @@
    "dwaIds": [
     "4.A.2.a.1.f.3"
    ],
+   "short": "Modify patient treatment plans",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": false,
@@ -466,8 +496,10 @@
    "dwaIds": [
     "4.A.1.b.2.a.8"
    ],
+   "short": "Conduct laboratory tests",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -495,8 +527,10 @@
     "4.A.1.a.2.e.5",
     "4.A.4.b.4.a.12"
    ],
+   "short": "Observe nurses",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -523,8 +557,10 @@
    "dwaIds": [
     "4.A.2.a.1.a.2"
    ],
+   "short": "Assess needs",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": false,
@@ -551,8 +587,10 @@
    "dwaIds": [
     "4.A.4.a.5.c.3"
    ],
+   "short": "Administer inhalation",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -579,10 +617,12 @@
    "dwaIds": [
     "4.A.4.b.3.f.11"
    ],
+   "short": "Provide for training",
    "evidence": {
     "theoryLabel": "E0",
-    "theorySource": "human",
-    "theory": 0,
+    "gpt4Label": "E2",
+    "theorySource": "human+gpt4",
+    "theory": 0.25,
     "observed": false,
     "everObserved": false,
     "aeiShare": null,
@@ -592,8 +632,8 @@
     "penetration": 0,
     "history": null,
     "physical": false,
-    "exposure": 0,
-    "category": "human_edge",
+    "exposure": 0.125,
+    "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
   },
@@ -607,10 +647,12 @@
    "dwaIds": [
     "4.A.2.b.2.n.3"
    ],
+   "short": "Work with individuals",
    "evidence": {
     "theoryLabel": "E1",
-    "theorySource": "human",
-    "theory": 1,
+    "gpt4Label": "E2",
+    "theorySource": "human+gpt4",
+    "theory": 0.75,
     "observed": false,
     "everObserved": false,
     "aeiShare": null,
@@ -620,7 +662,7 @@
     "penetration": 0,
     "history": null,
     "physical": false,
-    "exposure": 0.5,
+    "exposure": 0.375,
     "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
@@ -636,8 +678,10 @@
     "4.A.4.a.5.k.5",
     "4.A.4.a.5.k.7"
    ],
+   "short": "Prepare patients",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -664,10 +708,12 @@
    "dwaIds": [
     "4.A.4.a.5.a.2"
    ],
+   "short": "Refer students",
    "evidence": {
     "theoryLabel": "E1",
-    "theorySource": "human",
-    "theory": 1,
+    "gpt4Label": "E2",
+    "theorySource": "human+gpt4",
+    "theory": 0.75,
     "observed": false,
     "everObserved": true,
     "aeiShare": 0,
@@ -677,7 +723,7 @@
     "penetration": 0,
     "history": null,
     "physical": false,
-    "exposure": 0.5,
+    "exposure": 0.375,
     "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
@@ -694,8 +740,10 @@
     "4.A.2.b.1.f.2",
     "4.A.4.a.5.g.3"
    ],
+   "short": "Perform physical examinations",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -722,10 +770,12 @@
    "dwaIds": [
     "4.A.4.b.6.f.2"
    ],
+   "short": "Consult with institutions",
    "evidence": {
     "theoryLabel": "E1",
-    "theorySource": "human",
-    "theory": 1,
+    "gpt4Label": "E2",
+    "theorySource": "human+gpt4",
+    "theory": 0.75,
     "observed": false,
     "everObserved": false,
     "aeiShare": null,
@@ -735,7 +785,7 @@
     "penetration": 0,
     "history": null,
     "physical": false,
-    "exposure": 0.5,
+    "exposure": 0.375,
     "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
@@ -750,8 +800,10 @@
    "dwaIds": [
     "4.A.4.a.2.d.1"
    ],
+   "short": "Inform physician",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -778,8 +830,10 @@
    "dwaIds": [
     "4.A.1.a.1.s.1"
    ],
+   "short": "Engage in research activities",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": false,
@@ -901,84 +955,17 @@
    "importance": 3.11
   }
  ],
- "typicalHumanShare": 0.25,
+ "typicalHumanShare": 0.29,
  "related": [
   {
    "code": "29-1141.03",
    "slug": "critical-care-nurses",
    "title": "Critical Care Nurses",
    "similarity": 0.938,
-   "typicalHumanShare": 0.66,
+   "typicalHumanShare": 0.42,
    "wageDelta": 0,
    "missingSkills": [
     "Mechanical",
-    "Biology",
-    "Physics"
-   ]
-  },
-  {
-   "code": "29-1071.00",
-   "slug": "physician-assistants",
-   "title": "Physician Assistants",
-   "similarity": 0.905,
-   "typicalHumanShare": 0.71,
-   "wageDelta": 38330,
-   "missingSkills": [
-    "Biology",
-    "Therapy and Counseling",
-    "Computers and Electronics",
-    "Chemistry",
-    "Education and Training"
-   ]
-  },
-  {
-   "code": "29-1151.00",
-   "slug": "nurse-anesthetists",
-   "title": "Nurse Anesthetists",
-   "similarity": 0.828,
-   "typicalHumanShare": 0.76,
-   "wageDelta": 139040,
-   "missingSkills": [
-    "Physics",
-    "Chemistry",
-    "Biology",
-    "Engineering and Technology",
-    "Mechanical"
-   ]
-  },
-  {
-   "code": "19-3039.02",
-   "slug": "neuropsychologists",
-   "title": "Neuropsychologists",
-   "similarity": 0.922,
-   "typicalHumanShare": 0.74,
-   "wageDelta": 13290,
-   "missingSkills": [
-    "Therapy and Counseling",
-    "Education and Training"
-   ]
-  },
-  {
-   "code": "19-3039.03",
-   "slug": "clinical-neuropsychologists",
-   "title": "Clinical Neuropsychologists",
-   "similarity": 0.909,
-   "typicalHumanShare": 0.73,
-   "wageDelta": 13290,
-   "missingSkills": [
-    "Education and Training",
-    "Therapy and Counseling",
-    "Biology"
-   ]
-  },
-  {
-   "code": "29-1229.04",
-   "slug": "physical-medicine-and-rehabilitation-physicians",
-   "title": "Physical Medicine and Rehabilitation Physicians",
-   "similarity": 0.928,
-   "typicalHumanShare": 0.65,
-   "wageDelta": 168380,
-   "missingSkills": [
     "Biology",
     "Physics"
    ]
@@ -988,18 +975,47 @@
    "slug": "athletic-trainers",
    "title": "Athletic Trainers",
    "similarity": 0.945,
-   "typicalHumanShare": 0.61,
+   "typicalHumanShare": 0.67,
    "wageDelta": -35030,
    "missingSkills": []
   },
   {
-   "code": "29-9099.01",
-   "slug": "midwives",
-   "title": "Midwives",
-   "similarity": 0.933,
-   "typicalHumanShare": 0.58,
-   "wageDelta": -31760,
-   "missingSkills": []
+   "code": "29-1299.02",
+   "slug": "orthoptists",
+   "title": "Orthoptists",
+   "similarity": 0.895,
+   "typicalHumanShare": 0.66,
+   "wageDelta": 17660,
+   "missingSkills": [
+    "Physics",
+    "Biology"
+   ]
+  },
+  {
+   "code": "29-1291.00",
+   "slug": "acupuncturists",
+   "title": "Acupuncturists",
+   "similarity": 0.88,
+   "typicalHumanShare": 0.54,
+   "wageDelta": -21510,
+   "missingSkills": [
+    "Economics and Accounting",
+    "Sales and Marketing"
+   ]
+  },
+  {
+   "code": "29-1122.00",
+   "slug": "occupational-therapists",
+   "title": "Occupational Therapists",
+   "similarity": 0.896,
+   "typicalHumanShare": 0.39,
+   "wageDelta": 2780,
+   "missingSkills": [
+    "Therapy and Counseling",
+    "Operations Analysis",
+    "Philosophy and Theology",
+    "Instructing"
+   ]
   }
  ],
  "dataVersion": {

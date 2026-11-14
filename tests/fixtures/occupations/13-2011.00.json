@@ -25,8 +25,10 @@
     "4.A.2.a.3.c.3",
     "4.A.2.a.4.k.4"
    ],
+   "short": "Prepare accounting records",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": true,
@@ -60,7 +62,7 @@
     ],
     "physical": false,
     "exposure": 0.7185,
-    "category": "ai_speeds",
+    "category": "ai_does",
     "evidenceLevel": "observed"
    }
   },
@@ -74,8 +76,10 @@
    "dwaIds": [
     "4.A.4.c.1.c.7"
    ],
+   "short": "Process invoices",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": false,
@@ -103,10 +107,12 @@
     "4.A.2.a.3.c.1",
     "4.A.2.a.3.c.2"
    ],
+   "short": "Review accounts",
    "evidence": {
     "theoryLabel": "E0",
-    "theorySource": "human",
-    "theory": 0,
+    "gpt4Label": "E2",
+    "theorySource": "human+gpt4",
+    "theory": 0.25,
     "observed": false,
     "everObserved": false,
     "aeiShare": null,
@@ -116,8 +122,8 @@
     "penetration": 0,
     "history": null,
     "physical": false,
-    "exposure": 0,
-    "category": "human_edge",
+    "exposure": 0.125,
+    "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
   },
@@ -132,10 +138,12 @@
     "4.A.2.a.4.k.2",
     "4.A.3.b.6.a.1"
    ],
+   "short": "Prepare adjusting journal entries",
    "evidence": {
     "theoryLabel": "E2",
-    "theorySource": "human",
-    "theory": 0.5,
+    "gpt4Label": "E1",
+    "theorySource": "human+gpt4",
+    "theory": 0.75,
     "observed": true,
     "everObserved": true,
     "aeiShare": 0.0001,
@@ -145,8 +153,8 @@
     "penetration": 0,
     "history": null,
     "physical": false,
-    "exposure": 0.6703,
-    "category": "ai_speeds",
+    "exposure": 0.7953,
+    "category": "ai_does",
     "evidenceLevel": "observed"
    }
   },
@@ -161,8 +169,10 @@
     "4.A.1.b.3.c.3",
     "4.A.3.b.6.a.2"
    ],
+   "short": "Compute prepare tax returns",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": true,
@@ -175,7 +185,7 @@
     "history": null,
     "physical": false,
     "exposure": 0.6892,
-    "category": "ai_speeds",
+    "category": "ai_does",
     "evidenceLevel": "observed"
    }
   },
@@ -189,8 +199,10 @@
    "dwaIds": [
     "4.A.2.a.3.c.2"
    ],
+   "short": "Inspect account books",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": false,
@@ -217,8 +229,10 @@
    "dwaIds": [
     "4.A.3.b.6.a.2"
    ],
+   "short": "Prepare detailed reports",
    "evidence": {
     "theoryLabel": "E1",
+    "gpt4Label": "E1",
     "theorySource": "human",
     "theory": 1,
     "observed": true,
@@ -252,7 +266,7 @@
     ],
     "physical": false,
     "exposure": 0.8913,
-    "category": "ai_does",
+    "category": "ai_speeds",
     "evidenceLevel": "observed"
    }
   },
@@ -267,8 +281,10 @@
     "4.A.2.a.2.a.5",
     "4.A.3.b.6.a.2"
    ],
+   "short": "Prepare annual reports",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": true,
@@ -281,7 +297,7 @@
     "history": null,
     "physical": false,
     "exposure": 0.6695,
-    "category": "ai_speeds",
+    "category": "ai_does",
     "evidenceLevel": "observed"
    }
   },
@@ -296,8 +312,10 @@
     "4.A.1.a.1.c.1",
     "4.A.1.a.1.c.4"
    ],
+   "short": "Collect data",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": false,
@@ -337,8 +355,10 @@
    "dwaIds": [
     "4.A.2.a.3.c.2"
    ],
+   "short": "Review data",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": true,
@@ -351,7 +371,7 @@
     "history": null,
     "physical": false,
     "exposure": 0.6845,
-    "category": "ai_speeds",
+    "category": "ai_does",
     "evidenceLevel": "observed"
    }
   },
@@ -365,8 +385,10 @@
    "dwaIds": [
     "4.A.4.a.2.c.10"
    ],
+   "short": "Report to management",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": true,
@@ -393,10 +415,12 @@
    "dwaIds": [
     "4.A.4.b.4.j.8"
    ],
+   "short": "Supervise auditing",
    "evidence": {
     "theoryLabel": "E0",
-    "theorySource": "human",
-    "theory": 0,
+    "gpt4Label": "E2",
+    "theorySource": "human+gpt4",
+    "theory": 0.25,
     "observed": false,
     "everObserved": false,
     "aeiShare": null,
@@ -406,8 +430,8 @@
     "penetration": 0,
     "history": null,
     "physical": false,
-    "exposure": 0,
-    "category": "human_edge",
+    "exposure": 0.125,
+    "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
   },
@@ -421,8 +445,10 @@
    "dwaIds": [
     "4.A.3.b.2.f.4"
    ],
+   "short": "Develop accounting systems",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": true,
@@ -466,8 +492,10 @@
    "dwaIds": [
     "4.A.2.a.1.i.2"
    ],
+   "short": "Evaluate taxpayer finances",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": false,
@@ -494,8 +522,10 @@
    "dwaIds": [
     "4.A.4.a.2.e.5"
    ],
+   "short": "Confer with company officials",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": false,
@@ -522,8 +552,10 @@
    "dwaIds": [
     "4.A.2.a.2.a.5"
    ],
+   "short": "Review taxpayer accounts",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": false,
@@ -550,8 +582,10 @@
    "dwaIds": [
     "4.A.3.b.6.a.1"
    ],
+   "short": "Establish tables",
    "evidence": {
     "theoryLabel": "E1",
+    "gpt4Label": "E1",
     "theorySource": "human",
     "theory": 1,
     "observed": true,
@@ -599,10 +633,12 @@
    "dwaIds": [
     "4.A.2.a.2.a.1"
    ],
+   "short": "Inspect cash",
    "evidence": {
     "theoryLabel": "E0",
-    "theorySource": "human",
-    "theory": 0,
+    "gpt4Label": "E2",
+    "theorySource": "human+gpt4",
+    "theory": 0.25,
     "observed": false,
     "everObserved": false,
     "aeiShare": null,
@@ -612,7 +648,7 @@
     "penetration": 0,
     "history": null,
     "physical": true,
-    "exposure": 0,
+    "exposure": 0.125,
     "category": "human_edge",
     "evidenceLevel": "estimate"
    }
@@ -628,10 +664,12 @@
     "4.A.2.a.3.c.3",
     "4.A.4.b.6.k.3"
    ],
+   "short": "Examine information systems",
    "evidence": {
     "theoryLabel": "E1",
-    "theorySource": "human",
-    "theory": 1,
+    "gpt4Label": "E2",
+    "theorySource": "human+gpt4",
+    "theory": 0.75,
     "observed": true,
     "everObserved": true,
     "aeiShare": 0,
@@ -658,7 +696,7 @@
      }
     ],
     "physical": false,
-    "exposure": 0.9415,
+    "exposure": 0.8165,
     "category": "ai_does",
     "evidenceLevel": "observed"
    }
@@ -673,10 +711,12 @@
    "dwaIds": [
     "4.A.2.a.3.c.3"
    ],
+   "short": "Examine records",
    "evidence": {
     "theoryLabel": "E1",
-    "theorySource": "human",
-    "theory": 1,
+    "gpt4Label": "E2",
+    "theorySource": "human+gpt4",
+    "theory": 0.75,
     "observed": false,
     "everObserved": true,
     "aeiShare": null,
@@ -686,7 +726,7 @@
     "penetration": 0.954,
     "history": null,
     "physical": false,
-    "exposure": 0.5,
+    "exposure": 0.375,
     "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
@@ -701,8 +741,10 @@
    "dwaIds": [
     "4.A.2.a.4.k.4"
    ],
+   "short": "Analyze business operations",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": true,
@@ -751,8 +793,10 @@
     "4.A.2.a.4.k.1",
     "4.A.4.b.4.h.4"
    ],
+   "short": "Develop budgets",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": true,
@@ -765,7 +809,7 @@
     "history": null,
     "physical": false,
     "exposure": 0.6747,
-    "category": "ai_speeds",
+    "category": "ai_does",
     "evidenceLevel": "observed"
    }
   },
@@ -781,8 +825,10 @@
     "4.A.4.a.7.b.6",
     "4.A.4.b.6.h.1"
    ],
+   "short": "Represent clients",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": false,
@@ -809,8 +855,10 @@
    "dwaIds": [
     "4.A.4.b.1.g.1"
    ],
+   "short": "Direct activities",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": false,
@@ -837,8 +885,10 @@
    "dwaIds": [
     "4.A.2.a.3.c.2"
    ],
+   "short": "Audit payroll",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": false,
@@ -865,8 +915,10 @@
    "dwaIds": [
     "4.A.2.a.1.b.4"
    ],
+   "short": "Examine whether organization objectives",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": false,
@@ -893,8 +945,10 @@
    "dwaIds": [
     "4.A.2.a.3.c.3"
    ],
+   "short": "Conduct pre-implementation audits",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": false,
@@ -921,10 +975,12 @@
    "dwaIds": [
     "4.A.2.a.2.a.1"
    ],
+   "short": "Examine inventory",
    "evidence": {
     "theoryLabel": "E0",
-    "theorySource": "human",
-    "theory": 0,
+    "gpt4Label": "E2",
+    "theorySource": "human+gpt4",
+    "theory": 0.25,
     "observed": false,
     "everObserved": false,
     "aeiShare": null,
@@ -934,7 +990,7 @@
     "penetration": 0,
     "history": null,
     "physical": true,
-    "exposure": 0,
+    "exposure": 0.125,
     "category": "human_edge",
     "evidenceLevel": "estimate"
    }
@@ -949,8 +1005,10 @@
    "dwaIds": [
     "4.A.4.b.6.e.8"
    ],
+   "short": "Advise clients",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": true,
@@ -979,10 +1037,12 @@
     "4.A.4.b.6.e.10",
     "4.A.4.b.6.k.3"
    ],
+   "short": "Report to management",
    "evidence": {
     "theoryLabel": "E1",
-    "theorySource": "human",
-    "theory": 1,
+    "gpt4Label": "E2",
+    "theorySource": "human+gpt4",
+    "theory": 0.75,
     "observed": true,
     "everObserved": true,
     "aeiShare": 0,
@@ -992,7 +1052,7 @@
     "penetration": 0,
     "history": null,
     "physical": false,
-    "exposure": 0.9384,
+    "exposure": 0.8134,
     "category": "ai_does",
     "evidenceLevel": "observed"
    }
@@ -1102,14 +1162,28 @@
    "importance": 2.31
   }
  ],
- "typicalHumanShare": 0.16,
+ "typicalHumanShare": 0.07,
  "related": [
+  {
+   "code": "13-2061.00",
+   "slug": "financial-examiners",
+   "title": "Financial Examiners",
+   "similarity": 0.912,
+   "typicalHumanShare": 0.16,
+   "wageDelta": 10480,
+   "missingSkills": [
+    "Operations Analysis",
+    "Management of Personnel Resources",
+    "Systems Analysis",
+    "Systems Evaluation"
+   ]
+  },
   {
    "code": "11-3031.01",
    "slug": "treasurers-and-controllers",
    "title": "Treasurers and Controllers",
    "similarity": 0.934,
-   "typicalHumanShare": 0.53,
+   "typicalHumanShare": 0.11,
    "wageDelta": 82890,
    "missingSkills": [
     "Operations Analysis",
@@ -1120,94 +1194,61 @@
    ]
   },
   {
-   "code": "11-9033.00",
-   "slug": "education-administrators-postsecondary",
-   "title": "Education Administrators, Postsecondary",
-   "similarity": 0.87,
-   "typicalHumanShare": 0.49,
-   "wageDelta": 20910,
-   "missingSkills": [
-    "Education and Training",
-    "Therapy and Counseling",
-    "Psychology",
-    "Management of Personnel Resources",
-    "Philosophy and Theology"
-   ]
-  },
-  {
-   "code": "41-3031.00",
-   "slug": "securities-commodities-and-financial-services-sales-agents",
-   "title": "Securities, Commodities, and Financial Services Sales Agents",
-   "similarity": 0.948,
-   "typicalHumanShare": 0.35,
-   "wageDelta": -5020,
-   "missingSkills": [
-    "Sales and Marketing",
-    "Customer and Personal Service",
-    "Psychology"
-   ]
-  },
-  {
-   "code": "11-3031.00",
-   "slug": "financial-managers",
-   "title": "Financial Managers",
-   "similarity": 0.952,
-   "typicalHumanShare": 0.08,
-   "wageDelta": 82890,
-   "missingSkills": [
-    "Customer and Personal Service",
-    "Sales and Marketing",
-    "Education and Training",
-    "Management of Personnel Resources",
-    "Administration and Management"
-   ]
-  },
-  {
-   "code": "13-2031.00",
-   "slug": "budget-analysts",
-   "title": "Budget Analysts",
-   "similarity": 0.952,
-   "typicalHumanShare": 0.07,
-   "wageDelta": 7960,
-   "missingSkills": [
-    "Operations Analysis"
-   ]
-  },
-  {
-   "code": "13-1141.00",
-   "slug": "compensation-benefits-and-job-analysis-specialists",
-   "title": "Compensation, Benefits, and Job Analysis Specialists",
-   "similarity": 0.916,
-   "typicalHumanShare": 0.29,
-   "wageDelta": -5470,
-   "missingSkills": [
-    "Personnel and Human Resources",
-    "Operations Analysis",
-    "Education and Training"
-   ]
-  },
-  {
-   "code": "13-2041.00",
-   "slug": "credit-analysts",
-   "title": "Credit Analysts",
-   "similarity": 0.929,
-   "typicalHumanShare": 0.12,
-   "wageDelta": -170,
-   "missingSkills": [
-    "Operations Analysis"
-   ]
-  },
-  {
    "code": "11-3111.00",
    "slug": "compensation-and-benefits-managers",
    "title": "Compensation and Benefits Managers",
    "similarity": 0.928,
-   "typicalHumanShare": 0.26,
+   "typicalHumanShare": 0.2,
    "wageDelta": 65550,
    "missingSkills": [
     "Personnel and Human Resources",
     "Operations Analysis",
     "Management of Personnel Resources"
+   ]
+  },
+  {
+   "code": "13-1111.00",
+   "slug": "management-analysts",
+   "title": "Management Analysts",
+   "similarity": 0.88,
+   "typicalHumanShare": 0.21,
+   "wageDelta": 18180,
+   "missingSkills": [
+    "Sociology and Anthropology",
+    "Education and Training",
+    "Operations Analysis",
+    "Psychology",
+    "Design"
+   ]
+  },
+  {
+   "code": "13-1131.00",
+   "slug": "fundraisers",
+   "title": "Fundraisers",
+   "similarity": 0.892,
+   "typicalHumanShare": 0.1,
+   "wageDelta": -11130,
+   "missingSkills": [
+    "Sales and Marketing",
+    "Customer and Personal Service",
+    "Communications and Media",
+    "Negotiation",
+    "Psychology"
+   ]
+  },
+  {
+   "code": "13-1075.00",
+   "slug": "labor-relations-specialists",
+   "title": "Labor Relations Specialists",
+   "similarity": 0.866,
+   "typicalHumanShare": 0.08,
+   "wageDelta": 11740,
+   "missingSkills": [
+    "Negotiation",
+    "Personnel and Human Resources",
+    "Sociology and Anthropology",
+    "Active Listening",
+    "Public Safety and Security"
    ]
   }
  ],

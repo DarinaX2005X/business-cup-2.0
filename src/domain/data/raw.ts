@@ -44,6 +44,8 @@ export interface RawSources {
   taskDwas: [string, string][]; // [taskId, dwaId]
   related: { code: string; related: string; tier: string; index: number }[];
   jobZones: [string, number][];
+  /** Education.txt, Required Level of Education (RL): [code, category 1..12, percent of respondents]. */
+  education?: [string, number, number][];
   gpts: { taskId: string; text: string; human: 'E0' | 'E1' | 'E2' | null; gpt4: 'E0' | 'E1' | 'E2' | null }[];
   physical: [string, boolean][];
   penetration: [string, number][]; // [task text, penetration]

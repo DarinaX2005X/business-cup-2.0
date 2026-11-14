@@ -50,7 +50,8 @@ import { repDocument, repMarks, repUserRanges } from '@/components/kit/__fixture
 import { defaultShares, redistributeShares } from '@/domain/shares';
 import pipelineNurse from '../../../../tests/fixtures/occupations/29-1141.00.json';
 import pipelineElectrician from '../../../../tests/fixtures/occupations/47-2111.00.json';
-import { kkStrings, ruStrings, shortByLocale } from './strings';
+import { kitStringsFor } from '@/components/kit/locales';
+import { shortByLocale } from './strings';
 import g from './gallery.module.css';
 
 export type GalleryWidth = '1440' | '768' | '390';
@@ -77,7 +78,7 @@ export function Gallery({ initialLang, initialWidth, only }: { initialLang: Loca
   const show = (id: string) => !only || only.includes(id);
   const [lang, setLang] = useState<Locale>(initialLang);
   const [w, setW] = useState<GalleryWidth>(initialWidth);
-  const strings = lang === 'ru' ? ruStrings : lang === 'kk' ? kkStrings : undefined;
+  const strings = kitStringsFor(lang);
   const soundOn = useSyncExternalStore(sound.subscribe, sound.isEnabled, () => true);
 
   return (
@@ -486,7 +487,7 @@ function RowsSection({ w }: { w: GalleryWidth }) {
 function MeterSection({ w }: { w: GalleryWidth }) {
   const base = nurse.tasks[0].evidence;
   return (
-    <Section id="meter" title="Evidence meter" note="Share of AI work conversations on a log scale, and how they split between AI doing it and doing it together.">
+    <Section id="meter" title="Evidence meter" note="Share of AI work conversations against the busiest task of the release, and how they split between AI doing it and doing it together.">
       <Frame w={w}>
         <div className={g.grid2}>
           <State name="Observed">
@@ -624,6 +625,7 @@ function ScoreSection({ w }: { w: GalleryWidth }) {
         <div className={g.scores}>
           <ScoreDial value={0} size={220} />
           <ScoreDial value={37} size={220} />
+          <ScoreDial value={88} size={220} />
           <ScoreDial value={100} size={220} />
           <div className={g.col}>
             <ScoreDial value={v} delta={d} size={220} />
@@ -640,10 +642,21 @@ function ScoreSection({ w }: { w: GalleryWidth }) {
           </div>
         </div>
       </Frame>
+      <Frame w={w}>
+        <State name="Compact, for headers and rows">
+          <div className={g.row}>
+            <ScoreDial value={v} delta={d} variant="compact" />
+            <ScoreDial value={91} variant="compact" />
+          </div>
+        </State>
+      </Frame>
       <Frame w={w} field>
         <div className={g.grid2}>
-          <ScoreDial value={v} delta={d} variant="strip" surface="violet" />
-          <ScoreDial value={v} delta={d} surface="violet" size={240} />
+          <ScoreDial value={v} delta={d} surface="violet" size={260} />
+          <div className={g.col}>
+            <ScoreDial value={v} delta={d} variant="strip" surface="violet" />
+            <ScoreDial value={v} variant="compact" surface="violet" />
+          </div>
         </div>
       </Frame>
     </Section>
@@ -676,7 +689,7 @@ function PointsSection({ w }: { w: GalleryWidth }) {
         </div>
         <div className={g.streaks}>
           <StreakWeek done={[false, false, false, false, false, false, false]} today={0} />
-          <StreakWeek done={[true, true, true, false, false, false, false]} today={3} />
+          <StreakWeek done={[true, false, true, false, false, false, false]} today={3} />
           <StreakWeek done={[true, true, true, true, true, true, true]} today={6} />
         </div>
       </Frame>
@@ -717,7 +730,7 @@ function ShopSection({ w }: { w: GalleryWidth }) {
             }}
           />
           <ShopVoucher big="1 month" bigSub="of Pro" brand="Irreplaceable Pro" name="Daily reps, the 90-day plan and your portfolio" cost={9000} balance={1240} />
-          <ShopVoucher big="Claude Pro" bigSub="1 month" brand="AI tools" tone="deep" showMark={false} name="Sent to your email as a gift code" cost={25000} balance={1240} />
+          <ShopVoucher big="Claude Pro" bigSub="1 month" brand="AI tools" tone="deep" showMark={false} name="Pilot reward: we email you when your code is ready" cost={25000} balance={1240} />
           <ShopSoon />
         </div>
         <div className={g.below}>
@@ -825,27 +838,38 @@ function ButtonsSection({ w }: { w: GalleryWidth }) {
 
 /* ---------- fields ---------- */
 
-const TITLES: ComboItem[] = [
-  { value: '29-1141.00', label: 'Registered Nurses', hint: 'O*NET 29-1141.00' },
-  { value: '29-2061.00', label: 'Licensed Practical and Licensed Vocational Nurses', hint: 'O*NET 29-2061.00' },
-  { value: '29-1171.00', label: 'Nurse Practitioners', hint: 'O*NET 29-1171.00' },
-  { value: '31-1131.00', label: 'Nursing Assistants', hint: 'O*NET 31-1131.00' },
-  { value: '29-1151.00', label: 'Nurse Anesthetists', hint: 'O*NET 29-1151.00' },
+const TITLES: { value: string; label: string; aliases: string[] }[] = [
+  { value: '29-1141.00', label: 'Registered Nurses', aliases: ['RN', 'staff nurse'] },
+  { value: '29-2061.00', label: 'Licensed Practical and Licensed Vocational Nurses', aliases: ['LPN', 'LVN'] },
+  { value: '29-1171.00', label: 'Nurse Practitioners', aliases: ['NP'] },
+  { value: '31-1131.00', label: 'Nursing Assistants', aliases: ['CNA'] },
+  { value: '29-1151.00', label: 'Nurse Anesthetists', aliases: ['CRNA'] },
 ];
+
+/** Gallery stand-in for the search route: a hit on an alias shows what matched. */
+function searchTitles(q: string): ComboItem[] {
+  const n = q.trim().toLowerCase();
+  if (!n) return [];
+  return TITLES.flatMap((t) => {
+    if (t.label.toLowerCase().includes(n)) return [{ value: t.value, label: t.label }];
+    const a = t.aliases.find((x) => x.toLowerCase().startsWith(n));
+    return a ? [{ value: t.value, label: t.label, matched: a }] : [];
+  });
+}
 
 function FieldsSection({ w }: { w: GalleryWidth }) {
   const [q, setQ] = useState('nurs');
-  const [q2, setQ2] = useState('nurs');
+  const [q2, setQ2] = useState('rn');
   const [picked, setPicked] = useState('');
   const [val, setVal] = useState(18);
   const [seg, setSeg] = useState('month');
-  const filter = (s: string) => TITLES.filter((t) => t.label.toLowerCase().includes(s.trim().toLowerCase()));
+  const filter = searchTitles;
   return (
     <Section id="fields" title="Fields, combobox, slider, segmented">
       <Frame w={w}>
         <div className={g.grid2}>
           <div className={g.col}>
-            <Field label="Your salary, per year" placeholder="93 600" inputMode="numeric" help="Used only to estimate the pay tied to each task." />
+            <Field label="Your salary, per year" placeholder="93,600" inputMode="numeric" help="Used only to estimate the pay tied to each task." />
             <Field label="Job title" defaultValue="Registerd nurse" error="We could not find this title. Check the spelling or pick from the list." />
             <Slider label="Share of week" value={val} onChange={setVal} format={(v) => `${v}% · ${((v * 40) / 100).toFixed(1)} h`} />
             <Segmented label="Billing" value={seg} onChange={setSeg} options={[{ value: 'month', label: 'Monthly, $19' }, { value: 'year', label: 'Yearly, $119' }]} />
@@ -945,7 +969,7 @@ function ToastSection({ w }: { w: GalleryWidth }) {
     <Section id="toast" title="Toast" note="Appears next to the control that caused it, with Undo where an action can be reversed.">
       <Frame w={w}>
         <div className={g.toasts}>
-          <Toast message="Removed «Charting» from your week" actionLabel={s.undo} onAction={() => undefined} onClose={() => undefined} duration={0} />
+          <Toast message="Removed “Charting” from your week" actionLabel={s.undo} onAction={() => undefined} onClose={() => undefined} duration={0} />
           <Toast tone="success" message="Saved to your portfolio" onClose={() => undefined} duration={0} />
           <Toast tone="error" message="Could not save your week. Your changes are still here." actionLabel="Try again" onAction={() => undefined} duration={0} />
         </div>
@@ -1003,7 +1027,7 @@ function SkeletonSection({ w }: { w: GalleryWidth }) {
       </Frame>
       <div className={g.artRow}>
         <Frame w={w} field>
-          <SheetStack className={g.art} title="A stack of work sheets, one line under an apricot marker" />
+          <SheetStack className={g.art} fit="contain" title="A stack of work sheets, one line under an apricot marker" />
         </Frame>
       </div>
     </Section>

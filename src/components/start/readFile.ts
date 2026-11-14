@@ -75,7 +75,7 @@ export async function readResumeFile(file: File, onProgress: (page: number, tota
     if (line) lines.push(line);
     pages.push(lines.join('\n'));
   }
-  void pdf.destroy?.();
+  void (pdf as unknown as { destroy?: () => Promise<void> }).destroy?.();
   const text = pages.join('\n\n');
   if ((text.match(/\p{L}/gu)?.length ?? 0) < MIN_PDF_LETTERS) throw new ReadFileError('pdf_no_text');
   return text;

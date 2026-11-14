@@ -15,7 +15,7 @@ export const ruStrings: Partial<KitStrings> = {
   },
   observed: 'Замечено в реальном использовании AI',
   estimate: 'Оценка исследователей',
-  noEvidence: 'Пока нет данных',
+  noEvidence: 'Источников пока нет',
   notSeen: 'В опубликованных данных об AI пока не встречалось',
   research: {
     E0: 'Исследователи считают, что AI почти не помогает с этой задачей',
@@ -46,7 +46,7 @@ export const ruStrings: Partial<KitStrings> = {
   close: 'Закрыть',
   dismiss: 'Скрыть',
   dropTitle: 'Перетащите сюда резюме',
-  dropHint: 'PDF, DOCX или текст, до 5 МБ',
+  dropHint: 'PDF или текст, до 5 МБ',
   dropActive: 'Отпустите, чтобы прочитать',
   dropReading: (f) => `Читаем ${f}`,
   dropDone: (f) => `${f} готов`,
@@ -60,6 +60,12 @@ export const ruStrings: Partial<KitStrings> = {
   highlightKeys: 'Стрелки переходят между словами, Shift расширяет выделение, Enter отмечает.',
   noMatches: 'Таких должностей не нашлось',
   notOnOurList: 'Этого нет в нашем списке',
+  lockedBand: 'Открывается с Pro',
+  scaleOf: (max) => `Шкала от 0 до ${max}, самая частая задача в этом выпуске`,
+  matched: (term) => `найдено по: ${term}`,
+  streakDone: 'занимались',
+  streakMissed: 'пропущено',
+  streakAhead: 'впереди',
 };
 
 export const kkStrings: Partial<KitStrings> = {
@@ -71,7 +77,7 @@ export const kkStrings: Partial<KitStrings> = {
   },
   observed: 'AI-ды нақты қолдануда байқалған',
   estimate: 'Зерттеушілер бағасы',
-  noEvidence: 'Әзірге дерек жоқ',
+  noEvidence: 'Дереккөз әзірге жоқ',
   notSeen: 'Жарияланған AI деректерінде әлі кездеспеді',
   research: {
     E0: 'Зерттеушілердің бағасы бойынша AI бұл тапсырмаға аз көмектеседі',
@@ -102,7 +108,7 @@ export const kkStrings: Partial<KitStrings> = {
   close: 'Жабу',
   dismiss: 'Жасыру',
   dropTitle: 'Түйіндемені осында сүйреңіз',
-  dropHint: 'PDF, DOCX немесе мәтін, 5 МБ-қа дейін',
+  dropHint: 'PDF немесе мәтін, 5 МБ-қа дейін',
   dropActive: 'Оқу үшін жіберіңіз',
   dropReading: (f) => `${f} оқылып жатыр`,
   dropDone: (f) => `${f} дайын`,
@@ -116,6 +122,12 @@ export const kkStrings: Partial<KitStrings> = {
   highlightKeys: 'Көрсеткілер сөзден сөзге өтеді, Shift белгілеуді кеңейтеді, Enter белгілейді.',
   noMatches: 'Мұндай лауазым табылмады',
   notOnOurList: 'Бұл біздің тізімде жоқ',
+  lockedBand: 'Pro-мен ашылады',
+  scaleOf: (max) => `Шкала 0-ден ${max}-ға дейін, осы шығарылымдағы ең жиі тапсырма`,
+  matched: (term) => `табылған сөз: ${term}`,
+  streakDone: 'жаттығу болды',
+  streakMissed: 'өткізілді',
+  streakAhead: 'алда',
 };
 
 

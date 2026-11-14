@@ -20,5 +20,18 @@
     "storage_unavailable": "We couldn't save right now. Try again in a minute.",
     "ai_unavailable": "The AI part is unavailable right now. Everything else works, so try this again a bit later.",
     "server_error": "Something went wrong on our side. Try again in a minute."
+  },
+  "profile": {
+    "orphaned": "We couldn't find your saved profile on this device.",
+    "orphanedHint": "It may be a temporary problem. Try again, or start a new profile; your progress link still works if you saved it.",
+    "orphanedRetry": "Try again",
+    "orphanedFresh": "Start fresh",
+    "restoreAsk": "Open the profile from this link?",
+    "restoreAskHint": "This browser already has a profile with progress. If you open the linked one, you can switch back to the current profile later.",
+    "restoreOpen": "Open linked profile",
+    "restoreKeep": "Keep current profile",
+    "restoreInvalid": "This restore link doesn't work. The profile may have been deleted, or the link was copied incompletely.",
+    "restored": "Your profile is open on this device.",
+    "switchBack": "Switch back to the previous profile"
   }
 }

@@ -1,6 +1,6 @@
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { hasCyrillic } from '@/domain/text';
-import { coversQuery, searchTitles } from '@/server/xray/search';
+import { clampQuery, coversQuery, searchTitles } from '@/server/xray/search';
 import { getSearchIndex } from '@/server/xray/data';
 import { useTempStore } from '../platform/helpers';
 
@@ -80,12 +80,35 @@ describe('GET /api/occupations/search service', () => {
     expect(results[0].localTitle).toBeTruthy();
   });
 
-  it('nonsense: no results, at most 3 word suggestions, no model call for Latin text', async () => {
-    const a = await searchTitles('qwzx', 'en');
-    expect(a.results).toEqual([]);
-    const b = await searchTitles('zzqx plumberr welderr nursse', 'en');
-    expect(b.suggestions.length).toBeLessThanOrEqual(3);
-    expect(fetchMock).not.toHaveBeenCalled();
+  it.each(['xyzzy qwerty', 'qwzx', 'asdf', 'lorem ipsum dolor', 'hello world', 'I like turtles', 'foo bar'])(
+    'nonsense "%s": no results and no unrelated suggestions, no model call',
+    async (q) => {
+      const r = await searchTitles(q, 'en');
+      expect(r.results).toEqual([]);
+      expect(r.suggestions.map((s) => s.title)).not.toContain('Gambling Dealers');
+      expect(r.suggestions.length).toBeLessThanOrEqual(3);
+      expect(fetchMock).not.toHaveBeenCalled();
+    },
+  );
+
+  it('a real word inside nonsense becomes a suggestion, not a result', async () => {
+    const r = await searchTitles('zzqx plumberr', 'en');
+    expect(r.results).toEqual([]);
+    expect(r.suggestions[0].code).toBe('47-2152.00');
+  });
+
+  it('typos, prefixes while typing and real but rare titles still find results', async () => {
+    expect((await searchTitles('nursse', 'en')).results[0].code).toBe('29-1141.00');
+    expect((await searchTitles('dental hyg', 'en')).results[0].code).toBe('29-1292.00');
+    expect((await searchTitles('dog walker', 'en')).results[0].code).toBe('39-2021.00');
+  });
+
+  it('a query over 100 characters is cut and searched, not rejected', async () => {
+    const long = `registered nurse ${'on a busy medical surgical unit '.repeat(5)}`;
+    expect(long.length).toBeGreaterThan(100);
+    expect(clampQuery(long).length).toBeLessThanOrEqual(100);
+    const r = await searchTitles(long, 'en');
+    expect(r.results[0]?.code ?? r.suggestions[0]?.code).toBe('29-1141.00');
   });
 
   it('Cyrillic title missing from the index → title.translate → English search', async () => {

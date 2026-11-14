@@ -23,8 +23,10 @@
    "dwaIds": [
     "4.A.2.b.2.o.7"
    ],
+   "short": "Prepare sketches",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": false,
@@ -51,8 +53,10 @@
    "dwaIds": [
     "4.A.3.a.2.ah.5"
    ],
+   "short": "Place conduit",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -79,8 +83,10 @@
    "dwaIds": [
     "4.A.3.b.5.b.2"
    ],
+   "short": "Work from ladders",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -107,8 +113,10 @@
    "dwaIds": [
     "4.A.1.b.2.l.3"
    ],
+   "short": "Use tools",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -137,8 +145,10 @@
     "4.A.3.a.2.t.1",
     "4.A.3.b.5.b.2"
    ],
+   "short": "Assemble appliances",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -165,8 +175,10 @@
    "dwaIds": [
     "4.A.3.a.2.t.1"
    ],
+   "short": "Connect wires",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -193,10 +205,12 @@
    "dwaIds": [
     "4.A.2.b.3.a.11"
    ],
+   "short": "Maintain current electrician license",
    "evidence": {
     "theoryLabel": "E2",
-    "theorySource": "human",
-    "theory": 0.5,
+    "gpt4Label": "E0",
+    "theorySource": "human+gpt4",
+    "theory": 0.25,
     "observed": false,
     "everObserved": false,
     "aeiShare": null,
@@ -206,7 +220,7 @@
     "penetration": 0,
     "history": null,
     "physical": false,
-    "exposure": 0.25,
+    "exposure": 0.125,
     "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
@@ -221,10 +235,12 @@
    "dwaIds": [
     "4.A.2.b.6.b.1"
    ],
+   "short": "Plan layout",
    "evidence": {
     "theoryLabel": "E0",
-    "theorySource": "human",
-    "theory": 0,
+    "gpt4Label": "E2",
+    "theorySource": "human+gpt4",
+    "theory": 0.25,
     "observed": false,
     "everObserved": true,
     "aeiShare": null,
@@ -234,8 +250,8 @@
     "penetration": 0,
     "history": null,
     "physical": false,
-    "exposure": 0,
-    "category": "human_edge",
+    "exposure": 0.125,
+    "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
   },
@@ -249,8 +265,10 @@
    "dwaIds": [
     "4.A.1.b.2.l.3"
    ],
+   "short": "Test electrical systems",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -278,8 +296,10 @@
     "4.A.4.b.3.d.13",
     "4.A.4.b.4.i.2"
    ],
+   "short": "Direct workers",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -292,7 +312,7 @@
     "history": null,
     "physical": false,
     "exposure": 0,
-    "category": "human_edge",
+    "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
   },
@@ -306,8 +326,10 @@
    "dwaIds": [
     "4.A.1.b.2.l.3"
    ],
+   "short": "Diagnose malfunctioning systems",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -333,7 +355,7 @@
     ],
     "physical": true,
     "exposure": 0,
-    "category": "human_edge",
+    "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
   },
@@ -347,8 +369,10 @@
    "dwaIds": [
     "4.A.1.b.2.g.8"
    ],
+   "short": "Inspect electrical systems",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -375,8 +399,10 @@
    "dwaIds": [
     "4.A.3.a.2.t.1"
    ],
+   "short": "Install ground leads",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -403,10 +429,12 @@
    "dwaIds": [
     "4.A.4.a.2.c.8"
    ],
+   "short": "Advise management",
    "evidence": {
     "theoryLabel": "E2",
-    "theorySource": "human",
-    "theory": 0.5,
+    "gpt4Label": "E0",
+    "theorySource": "human+gpt4",
+    "theory": 0.25,
     "observed": false,
     "everObserved": false,
     "aeiShare": null,
@@ -416,7 +444,7 @@
     "penetration": 0,
     "history": null,
     "physical": false,
-    "exposure": 0.25,
+    "exposure": 0.125,
     "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
@@ -431,8 +459,10 @@
    "dwaIds": [
     "4.A.3.b.5.b.2"
    ],
+   "short": "Repair equipment",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -445,7 +475,7 @@
     "history": null,
     "physical": true,
     "exposure": 0,
-    "category": "human_edge",
+    "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
   },
@@ -459,8 +489,10 @@
    "dwaIds": [
     "4.A.3.a.2.aa.2"
    ],
+   "short": "Construct parts",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -487,8 +519,10 @@
    "dwaIds": [
     "4.A.3.a.1.g.7"
    ],
+   "short": "Provide assistance",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -516,10 +550,12 @@
     "4.A.1.b.3.b.2",
     "4.A.2.b.2.o.7"
    ],
+   "short": "Provide preliminary sketches",
    "evidence": {
     "theoryLabel": "E2",
-    "theorySource": "human",
-    "theory": 0.5,
+    "gpt4Label": "E1",
+    "theorySource": "human+gpt4",
+    "theory": 0.75,
     "observed": false,
     "everObserved": false,
     "aeiShare": null,
@@ -529,7 +565,7 @@
     "penetration": 0,
     "history": null,
     "physical": false,
-    "exposure": 0.25,
+    "exposure": 0.375,
     "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
@@ -545,8 +581,10 @@
     "4.A.3.b.6.o.4",
     "4.A.4.c.3.e.5"
    ],
+   "short": "Perform business management duties",
    "evidence": {
     "theoryLabel": "E1",
+    "gpt4Label": "E1",
     "theorySource": "human",
     "theory": 1,
     "observed": true,
@@ -590,8 +628,10 @@
    "dwaIds": [
     "4.A.3.a.2.t.1"
    ],
+   "short": "Fasten plastic boxes",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -618,8 +658,10 @@
    "dwaIds": [
     "4.A.3.a.1.g.1"
    ],
+   "short": "Perform physically demanding tasks",
    "evidence": {
     "theoryLabel": "E0",
+    "gpt4Label": "E0",
     "theorySource": "human",
     "theory": 0,
     "observed": false,
@@ -741,28 +783,14 @@
    "importance": 2.5
   }
  ],
- "typicalHumanShare": 0.91,
+ "typicalHumanShare": 0.68,
  "related": [
-  {
-   "code": "49-2092.00",
-   "slug": "electric-motor-power-tool-and-related-repairers",
-   "title": "Electric Motor, Power Tool, and Related Repairers",
-   "similarity": 0.829,
-   "typicalHumanShare": 1,
-   "wageDelta": -6980,
-   "missingSkills": [
-    "Equipment Maintenance",
-    "Mechanical",
-    "Equipment Selection",
-    "Programming"
-   ]
-  },
   {
    "code": "47-2152.00",
    "slug": "plumbers-pipefitters-and-steamfitters",
    "title": "Plumbers, Pipefitters, and Steamfitters",
    "similarity": 0.816,
-   "typicalHumanShare": 1,
+   "typicalHumanShare": 0.83,
    "wageDelta": 610,
    "missingSkills": [
     "Engineering and Technology",
@@ -772,83 +800,17 @@
    ]
   },
   {
-   "code": "49-9071.00",
-   "slug": "maintenance-and-repair-workers-general",
-   "title": "Maintenance and Repair Workers, General",
-   "similarity": 0.855,
-   "typicalHumanShare": 0.68,
-   "wageDelta": -13600,
+   "code": "49-2092.00",
+   "slug": "electric-motor-power-tool-and-related-repairers",
+   "title": "Electric Motor, Power Tool, and Related Repairers",
+   "similarity": 0.829,
+   "typicalHumanShare": 0.7,
+   "wageDelta": -6980,
    "missingSkills": [
-    "English Language",
-    "Equipment Maintenance"
-   ]
-  },
-  {
-   "code": "53-7021.00",
-   "slug": "crane-and-tower-operators",
-   "title": "Crane and Tower Operators",
-   "similarity": 0.773,
-   "typicalHumanShare": 1,
-   "wageDelta": 4890,
-   "missingSkills": [
-    "Operation and Control"
-   ]
-  },
-  {
-   "code": "49-2094.00",
-   "slug": "electrical-and-electronics-repairers-commercial-and-industrial-equipment",
-   "title": "Electrical and Electronics Repairers, Commercial and Industrial Equipment",
-   "similarity": 0.756,
-   "typicalHumanShare": 0.75,
-   "wageDelta": 10900,
-   "missingSkills": [
-    "Computers and Electronics",
-    "Engineering and Technology",
-    "Production and Processing",
-    "Programming",
-    "Education and Training"
-   ]
-  },
-  {
-   "code": "49-3042.00",
-   "slug": "mobile-heavy-equipment-mechanics-except-engines",
-   "title": "Mobile Heavy Equipment Mechanics, Except Engines",
-   "similarity": 0.816,
-   "typicalHumanShare": 0.84,
-   "wageDelta": 2320,
-   "missingSkills": [
-    "Mechanical",
-    "Computers and Electronics",
-    "Equipment Maintenance"
-   ]
-  },
-  {
-   "code": "47-4021.00",
-   "slug": "elevator-and-escalator-installers-and-repairers",
-   "title": "Elevator and Escalator Installers and Repairers",
-   "similarity": 0.799,
-   "typicalHumanShare": 0.91,
-   "wageDelta": 46720,
-   "missingSkills": [
-    "Computers and Electronics",
-    "Engineering and Technology",
     "Equipment Maintenance",
     "Mechanical",
-    "Chemistry"
-   ]
-  },
-  {
-   "code": "49-3052.00",
-   "slug": "motorcycle-mechanics",
-   "title": "Motorcycle Mechanics",
-   "similarity": 0.726,
-   "typicalHumanShare": 1,
-   "wageDelta": -14610,
-   "missingSkills": [
-    "Mechanical",
-    "Computers and Electronics",
-    "English Language",
-    "Education and Training"
+    "Equipment Selection",
+    "Programming"
    ]
   }
  ],

@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, type CSSProperties } from 'react';
+import { useMemo, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react';
 import { RollingNumber } from './RollingNumber';
 import { useKit } from './strings';
 import type { Category, Surface, WeekTask } from './types';
@@ -72,6 +72,34 @@ export function WeekBar({
 
   const hasGrowth = !!growth && Object.values(growth).some((v) => v > 0);
 
+  // One Tab stop for the whole bar; arrows move between tiles (roving tabindex), Enter selects.
+  const order = useMemo(() => groups.flatMap((g) => g.tasks.map((t) => t.id)), [groups]);
+  const [focusId, setFocusId] = useState<string | null>(null);
+  const tabStop = focusId && order.includes(focusId) ? focusId : selectedId && order.includes(selectedId) ? selectedId : order[0];
+  const btns = useRef(new Map<string, HTMLButtonElement>());
+  const onTileKey = (e: KeyboardEvent<HTMLButtonElement>, id: string) => {
+    const i = order.indexOf(id);
+    const k = e.key;
+    const next =
+      k === 'ArrowRight' || k === 'ArrowDown' ? Math.min(order.length - 1, i + 1) : k === 'ArrowLeft' || k === 'ArrowUp' ? Math.max(0, i - 1) : k === 'Home' ? 0 : k === 'End' ? order.length - 1 : -1;
+    if (next < 0) return;
+    e.preventDefault();
+    const nid = order[next];
+    setFocusId(nid);
+    btns.current.get(nid)?.focus();
+  };
+
+  // Keep the full-text tooltip inside the viewport.
+  const placeTip = (li: HTMLElement) => {
+    const tip = li.querySelector<HTMLElement>('[data-tip]');
+    if (!tip) return;
+    tip.style.setProperty('--dx', '0px');
+    const r = tip.getBoundingClientRect();
+    const vw = document.documentElement.clientWidth;
+    const dx = r.right > vw - 12 ? vw - 12 - r.right : r.left < 12 ? 12 - r.left : 0;
+    tip.style.setProperty('--dx', `${Math.round(dx)}px`);
+  };
+
   if (tasks.length === 0) {
     return (
       <div className={`${st.wrap} ${className ?? ''}`} data-variant={variant}>
@@ -128,12 +156,21 @@ export function WeekBar({
                     <li
                       key={t.id}
                       className={st.seg}
+                      onMouseEnter={(e) => placeTip(e.currentTarget)}
+                      onFocusCapture={(e) => placeTip(e.currentTarget)}
                       data-selected={selected || undefined}
                       style={{ '--w': t.share, '--h': h, '--at': positions.get(t.id) ?? 0, '--grow': grow } as CSSProperties}
                     >
                       {onSelect ? (
                         <button
                           type="button"
+                          ref={(el) => {
+                            if (el) btns.current.set(t.id, el);
+                            else btns.current.delete(t.id);
+                          }}
+                          tabIndex={t.id === tabStop ? 0 : -1}
+                          onKeyDown={(e) => onTileKey(e, t.id)}
+                          onFocus={() => setFocusId(t.id)}
                           className={st.tile}
                           aria-label={label}
                           aria-pressed={selected}
@@ -155,7 +192,7 @@ export function WeekBar({
                         <div className={st.lh}>{s.hoursShort(hours(h))}</div>
                         <div className={st.lt}>{t.label}</div>
                       </div>
-                      <div className={st.tip} role="presentation" aria-hidden="true">
+                      <div className={st.tip} data-tip="" role="presentation" aria-hidden="true">
                         {t.text}
                       </div>
                     </li>

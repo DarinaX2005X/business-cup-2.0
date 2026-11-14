@@ -1,4 +1,4 @@
-import { DEFAULT_WEEK_TASKS, MAX_WEEK_TASKS } from './constants';
+import { DEFAULT_SHARE_MAX, DEFAULT_SHARE_MIN, DEFAULT_WEEK_TASKS, FREQ_DEFAULT_CATEGORY, FREQ_PER_YEAR, MAX_WEEK_TASKS } from './constants';
 import type { OccTask, OccupationBundle, WeekShare } from './types';
 
 type BundleTasks = Pick<OccupationBundle, 'tasks'>;
@@ -29,19 +29,78 @@ export function apportion(weights: number[], total: number, min = 1): number[] {
   return out;
 }
 
-/** Weight of a task in the typical week: importance × log1p(frequency); importance alone without frequency. */
-export function taskWeight(task: Pick<OccTask, 'importance' | 'frequency'>): number {
-  if (task.importance === null) return 1; // occupation published without ratings: equal weights
-  return task.frequency === null ? task.importance : task.importance * Math.log1p(task.frequency);
+/** O*NET frequency category mean (1..7) → approximate occurrences per year, linear between the anchors. */
+export function occurrencesPerYear(category: number): number {
+  const c = Math.min(7, Math.max(1, category));
+  const lo = Math.floor(c);
+  const hi = Math.min(7, lo + 1);
+  return FREQ_PER_YEAR[lo] + (FREQ_PER_YEAR[hi] - FREQ_PER_YEAR[lo]) * (c - lo);
 }
 
-/** Typical week from O*NET ratings: top 12 tasks by weight, integer shares summing to 100. */
+/**
+ * Weight of a task in the typical week: importance × relevance/100 × sqrt(occurrences per year).
+ * Relevance is left out when missing; a rated task without frequency counts as "more than weekly";
+ * an occupation published without ratings gets equal weights.
+ */
+export function taskWeight(task: Pick<OccTask, 'importance' | 'frequency'> & { relevance?: number | null }): number {
+  if (task.importance === null) return 1;
+  const relevance = task.relevance == null ? 1 : Math.max(task.relevance, 1) / 100;
+  const freq = Math.sqrt(occurrencesPerYear(task.frequency ?? FREQ_DEFAULT_CATEGORY));
+  return task.importance * relevance * freq;
+}
+
+/**
+ * Integer shares proportional to weights within [min, max] that sum to `total` (water-filling, then largest
+ * remainder without crossing the bounds). The cap is lifted when it cannot be met (fewer than total/max items).
+ */
+export function boundedApportion(weights: number[], total: number, min: number, max: number): number[] {
+  const n = weights.length;
+  if (n === 0) return [];
+  const cap = n * max < total ? total : max;
+  const w = weights.map((x) => (Number.isFinite(x) && x > 0 ? x : 0));
+  const fixed: (number | null)[] = new Array(n).fill(null);
+  let real: number[] = [];
+  for (let iter = 0; iter <= n; iter++) {
+    const free = w.map((_, i) => i).filter((i) => fixed[i] === null);
+    const left = total - fixed.reduce<number>((a, v) => a + (v ?? 0), 0);
+    const sum = free.reduce((a, i) => a + w[i], 0);
+    real = w.map((x, i) => fixed[i] ?? (sum > 0 ? (x / sum) * left : left / free.length));
+    let changed = false;
+    for (const i of free) {
+      if (real[i] > cap) (fixed[i] = cap), (changed = true);
+      else if (real[i] < min) (fixed[i] = min), (changed = true);
+    }
+    if (!changed) break;
+  }
+  const out = real.map((r) => Math.min(cap, Math.max(min, Math.floor(r))));
+  let diff = total - out.reduce((a, b) => a + b, 0);
+  const order = real.map((r, i) => ({ i, frac: r - Math.floor(r) })).sort((a, b) => b.frac - a.frac || a.i - b.i);
+  for (let guard = 0; diff > 0 && guard < n * total; guard++) {
+    const k = order[guard % n].i;
+    if (out[k] < cap) (out[k] += 1), diff--;
+  }
+  for (let guard = 0; diff < 0 && guard < n * total; guard++) {
+    const k = order[n - 1 - (guard % n)].i;
+    if (out[k] > min) (out[k] -= 1), diff++;
+  }
+  return out;
+}
+
+/**
+ * Typical week from O*NET ratings: the 10 tasks with the largest weight, integer shares summing to 100,
+ * each between 3% and 25% so the week has real variance without one task swallowing it.
+ */
 export function defaultShares(bundle: BundleTasks): WeekShare[] {
   const ranked = bundle.tasks
     .map((t, i) => ({ t, i, w: taskWeight(t) }))
     .sort((a, b) => b.w - a.w || a.i - b.i)
     .slice(0, DEFAULT_WEEK_TASKS);
-  const shares = apportion(ranked.map((r) => r.w), 100);
+  const shares = boundedApportion(
+    ranked.map((r) => r.w),
+    100,
+    DEFAULT_SHARE_MIN,
+    DEFAULT_SHARE_MAX,
+  );
   return ranked.map((r, k) => ({ taskId: r.t.id, share: shares[k] }));
 }
 

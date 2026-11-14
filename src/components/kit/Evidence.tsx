@@ -49,8 +49,12 @@ export function EvidenceBadge({ level, surface = 'paper', size = 'md' }: { level
 
 /* ---------- evidence meter ---------- */
 
-const LOG_MIN = -5; // 0.001 % of conversations
-const LOG_MAX = -2; // 1 %
+/**
+ * The busiest task in the Anthropic Economic Index release of 26 June 2026 takes 4.95 % of
+ * work conversations (measured over public/data/occ at build time). The meter is linear
+ * against it, so a bar is as long as the share really is compared with the busiest task.
+ */
+export const AEI_RELEASE_MAX_SHARE = 0.0495;
 
 export function formatShare(v: number, locale: string) {
   const f = (x: number) => new Intl.NumberFormat(locale, { style: 'percent', maximumSignificantDigits: 2 }).format(x);
@@ -63,6 +67,8 @@ export interface EvidenceMeterProps {
   evidence: MeterEvidence;
   surface?: Surface;
   compact?: boolean;
+  /** Top of the linear scale; defaults to the busiest task of the release. */
+  scaleMax?: number;
 }
 
 /**
@@ -70,7 +76,7 @@ export interface EvidenceMeterProps {
  * from thousandths of a percent to about one percent), and how those conversations split
  * between AI doing the task and doing it together. Without observations it says so plainly.
  */
-export function EvidenceMeter({ evidence, surface = 'paper', compact }: EvidenceMeterProps) {
+export function EvidenceMeter({ evidence, surface = 'paper', compact, scaleMax = AEI_RELEASE_MAX_SHARE }: EvidenceMeterProps) {
   const { s, locale } = useKit();
   const loc = numberLocale[locale];
 
@@ -99,14 +105,10 @@ export function EvidenceMeter({ evidence, surface = 'paper', compact }: Evidence
   }
 
   const share = evidence.aeiShare;
-  const pos = Math.min(1, Math.max(0, (Math.log10(Math.max(share, 1e-6)) - LOG_MIN) / (LOG_MAX - LOG_MIN)));
+  const pos = Math.min(1, Math.max(0, share / scaleMax));
   const auto = evidence.aeiAutomation ?? 0;
-  const ticks: [number, number][] = [
-    [-5, 0.00001],
-    [-4, 0.0001],
-    [-3, 0.001],
-    [-2, 0.01],
-  ];
+  const pct = (x: number) => new Intl.NumberFormat(loc, { style: 'percent', maximumFractionDigits: 1 }).format(x);
+  const ticks = [0, scaleMax / 2, scaleMax];
 
   return (
     <div className={st.meter} data-surface={surface} data-compact={compact || undefined}>
@@ -119,15 +121,14 @@ export function EvidenceMeter({ evidence, surface = 'paper', compact }: Evidence
           <div className={st.sFill} />
           <div className={st.sPin} />
         </div>
-        {!compact ? (
-          <div className={st.sTicks} aria-hidden="true">
-            {ticks.map(([t, v]) => (
-              <span key={t} style={{ left: `${((t - LOG_MIN) / (LOG_MAX - LOG_MIN)) * 100}%` }}>
-                {formatShare(v, loc)}
-              </span>
-            ))}
-          </div>
-        ) : null}
+        <div className={st.sTicks} aria-hidden="true">
+          {ticks.map((v, i) => (
+            <span key={i} style={{ left: `${(v / scaleMax) * 100}%` }}>
+              {pct(v)}
+            </span>
+          ))}
+        </div>
+        <p className={st.sNote}>{s.scaleOf(pct(scaleMax))}</p>
       </div>
       <div className={st.split} role="img" aria-label={`${s.automation} ${formatShare(auto, loc)}, ${s.together} ${formatShare(1 - auto, loc)}`}>
         <div className={st.splitBar}>

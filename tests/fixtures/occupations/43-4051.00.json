@@ -23,10 +23,12 @@
    "dwaIds": [
     "4.A.4.a.1.a.3"
    ],
+   "short": "Confer with customers",
    "evidence": {
     "theoryLabel": "E1",
-    "theorySource": "human",
-    "theory": 1,
+    "gpt4Label": "E2",
+    "theorySource": "human+gpt4",
+    "theory": 0.75,
     "observed": true,
     "everObserved": true,
     "aeiShare": 0.0006,
@@ -57,7 +59,7 @@
      }
     ],
     "physical": false,
-    "exposure": 0.8613,
+    "exposure": 0.7363,
     "category": "ai_speeds",
     "evidenceLevel": "observed"
    }
@@ -72,8 +74,10 @@
    "dwaIds": [
     "4.A.3.b.6.j.3"
    ],
+   "short": "Keep records",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": false,
@@ -113,10 +117,12 @@
    "dwaIds": [
     "4.A.4.a.8.c.1"
    ],
+   "short": "Check to ensure",
    "evidence": {
     "theoryLabel": "E1",
-    "theorySource": "human",
-    "theory": 1,
+    "gpt4Label": "E2",
+    "theorySource": "human+gpt4",
+    "theory": 0.75,
     "observed": true,
     "everObserved": true,
     "aeiShare": 0,
@@ -126,7 +132,7 @@
     "penetration": 0,
     "history": null,
     "physical": false,
-    "exposure": 0.9788,
+    "exposure": 0.8538,
     "category": "ai_does",
     "evidenceLevel": "observed"
    }
@@ -141,8 +147,10 @@
    "dwaIds": [
     "4.A.4.a.3.c.7"
    ],
+   "short": "Contact customers",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": true,
@@ -172,7 +180,7 @@
     ],
     "physical": false,
     "exposure": 0.7419,
-    "category": "ai_speeds",
+    "category": "ai_does",
     "evidenceLevel": "observed"
    }
   },
@@ -187,10 +195,12 @@
     "4.A.4.a.8.c.1",
     "4.A.4.c.1.c.4"
    ],
+   "short": "Resolve service",
    "evidence": {
     "theoryLabel": "E1",
-    "theorySource": "human",
-    "theory": 1,
+    "gpt4Label": "E2",
+    "theorySource": "human+gpt4",
+    "theory": 0.75,
     "observed": true,
     "everObserved": true,
     "aeiShare": 0,
@@ -221,7 +231,7 @@
      }
     ],
     "physical": true,
-    "exposure": 0.9572,
+    "exposure": 0.8322,
     "category": "ai_does",
     "evidenceLevel": "observed"
    }
@@ -237,8 +247,10 @@
     "4.A.2.b.1.a.7",
     "4.A.4.c.3.d.1"
    ],
+   "short": "Determine charges",
    "evidence": {
     "theoryLabel": "E2",
+    "gpt4Label": "E2",
     "theorySource": "human",
     "theory": 0.5,
     "observed": false,
@@ -265,8 +277,10 @@
    "dwaIds": [
     "4.A.3.b.6.m.5"
    ],
+   "short": "Complete contract forms",
    "evidence": {
     "theoryLabel": "E1",
+    "gpt4Label": "E1",
     "theorySource": "human",
     "theory": 1,
     "observed": false,
@@ -293,10 +307,12 @@
    "dwaIds": [
     "4.A.4.a.5.a.1"
    ],
+   "short": "Refer unresolved customer grievances",
    "evidence": {
     "theoryLabel": "E1",
-    "theorySource": "human",
-    "theory": 1,
+    "gpt4Label": "E2",
+    "theorySource": "human+gpt4",
+    "theory": 0.75,
     "observed": true,
     "everObserved": true,
     "aeiShare": 0.0001,
@@ -306,7 +322,7 @@
     "penetration": 1,
     "history": null,
     "physical": false,
-    "exposure": 0.9957,
+    "exposure": 0.8707,
     "category": "ai_does",
     "evidenceLevel": "observed"
    }
@@ -321,10 +337,12 @@
    "dwaIds": [
     "4.A.2.a.3.c.4"
    ],
+   "short": "Review insurance policy terms",
    "evidence": {
     "theoryLabel": "E0",
-    "theorySource": "human",
-    "theory": 0,
+    "gpt4Label": "E2",
+    "theorySource": "human+gpt4",
+    "theory": 0.25,
     "observed": false,
     "everObserved": true,
     "aeiShare": null,
@@ -347,8 +365,8 @@
      }
     ],
     "physical": false,
-    "exposure": 0,
-    "category": "human_edge",
+    "exposure": 0.125,
+    "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
   },
@@ -362,10 +380,12 @@
    "dwaIds": [
     "4.A.4.a.6.c.12"
    ],
+   "short": "Solicit sales",
    "evidence": {
     "theoryLabel": "E1",
-    "theorySource": "human",
-    "theory": 1,
+    "gpt4Label": "E2",
+    "theorySource": "human+gpt4",
+    "theory": 0.75,
     "observed": true,
     "everObserved": true,
     "aeiShare": 0,
@@ -388,7 +408,7 @@
      }
     ],
     "physical": false,
-    "exposure": 0.946,
+    "exposure": 0.821,
     "category": "ai_does",
     "evidenceLevel": "observed"
    }
@@ -404,10 +424,12 @@
     "4.A.2.a.2.a.9",
     "4.A.4.c.1.c.6"
    ],
+   "short": "Compare disputed merchandise",
    "evidence": {
     "theoryLabel": "E0",
-    "theorySource": "human",
-    "theory": 0,
+    "gpt4Label": "E1",
+    "theorySource": "human+gpt4",
+    "theory": 0.5,
     "observed": false,
     "everObserved": false,
     "aeiShare": null,
@@ -417,7 +439,7 @@
     "penetration": 0,
     "history": null,
     "physical": true,
-    "exposure": 0,
+    "exposure": 0.25,
     "category": "human_edge",
     "evidenceLevel": "estimate"
    }
@@ -432,10 +454,12 @@
    "dwaIds": [
     "4.A.4.a.8.c.1"
    ],
+   "short": "Obtain information",
    "evidence": {
     "theoryLabel": "E1",
-    "theorySource": "human",
-    "theory": 1,
+    "gpt4Label": "E2",
+    "theorySource": "human+gpt4",
+    "theory": 0.75,
     "observed": true,
     "everObserved": true,
     "aeiShare": 0,
@@ -445,7 +469,7 @@
     "penetration": 0,
     "history": null,
     "physical": false,
-    "exposure": 0.9881,
+    "exposure": 0.8631,
     "category": "ai_does",
     "evidenceLevel": "observed"
    }
@@ -460,10 +484,12 @@
    "dwaIds": [
     "4.A.4.b.6.e.4"
    ],
+   "short": "Recommend improvements",
    "evidence": {
     "theoryLabel": "E1",
-    "theorySource": "human",
-    "theory": 1,
+    "gpt4Label": "E2",
+    "theorySource": "human+gpt4",
+    "theory": 0.75,
     "observed": false,
     "everObserved": false,
     "aeiShare": null,
@@ -473,7 +499,7 @@
     "penetration": 0,
     "history": null,
     "physical": false,
-    "exposure": 0.5,
+    "exposure": 0.375,
     "category": "ai_speeds",
     "evidenceLevel": "estimate"
    }
@@ -583,29 +609,43 @@
    "importance": 2.55
   }
  ],
- "typicalHumanShare": 0.23,
+ "typicalHumanShare": 0.09,
  "related": [
   {
-   "code": "39-3011.00",
-   "slug": "gambling-dealers",
-   "title": "Gambling Dealers",
-   "similarity": 0.898,
-   "typicalHumanShare": 1,
-   "wageDelta": -10450,
+   "code": "43-4141.00",
+   "slug": "new-accounts-clerks",
+   "title": "New Accounts Clerks",
+   "similarity": 0.938,
+   "typicalHumanShare": 0.33,
+   "wageDelta": 2900,
    "missingSkills": [
-    "Law and Government"
+    "Sales and Marketing",
+    "Law and Government",
+    "Administrative"
    ]
   },
   {
-   "code": "39-3031.00",
-   "slug": "ushers-lobby-attendants-and-ticket-takers",
-   "title": "Ushers, Lobby Attendants, and Ticket Takers",
-   "similarity": 0.901,
-   "typicalHumanShare": 0.93,
-   "wageDelta": -11860,
+   "code": "43-4171.00",
+   "slug": "receptionists-and-information-clerks",
+   "title": "Receptionists and Information Clerks",
+   "similarity": 0.912,
+   "typicalHumanShare": 0.22,
+   "wageDelta": -6760,
+   "missingSkills": [
+    "Quality Control Analysis"
+   ]
+  },
+  {
+   "code": "43-3071.00",
+   "slug": "tellers",
+   "title": "Tellers",
+   "similarity": 0.929,
+   "typicalHumanShare": 0.6,
+   "wageDelta": -1740,
    "missingSkills": [
     "Operation and Control",
-    "Food Production"
+    "Quality Control Analysis",
+    "Mathematics"
    ]
   },
   {
@@ -613,7 +653,7 @@
    "slug": "postal-service-clerks",
    "title": "Postal Service Clerks",
    "similarity": 0.913,
-   "typicalHumanShare": 0.84,
+   "typicalHumanShare": 0.67,
    "wageDelta": 17360,
    "missingSkills": [
     "Quality Control Analysis",
@@ -624,48 +664,11 @@
    ]
   },
   {
-   "code": "43-3071.00",
-   "slug": "tellers",
-   "title": "Tellers",
-   "similarity": 0.929,
-   "typicalHumanShare": 0.75,
-   "wageDelta": -1740,
-   "missingSkills": [
-    "Operation and Control",
-    "Quality Control Analysis",
-    "Mathematics"
-   ]
-  },
-  {
-   "code": "39-3012.00",
-   "slug": "gambling-and-sports-book-writers-and-runners",
-   "title": "Gambling and Sports Book Writers and Runners",
-   "similarity": 0.893,
-   "typicalHumanShare": 0.69,
-   "wageDelta": -9790,
-   "missingSkills": [
-    "Quality Control Analysis",
-    "Mathematics",
-    "Troubleshooting"
-   ]
-  },
-  {
-   "code": "43-3031.00",
-   "slug": "bookkeeping-accounting-and-auditing-clerks",
-   "title": "Bookkeeping, Accounting, and Auditing Clerks",
-   "similarity": 0.895,
-   "typicalHumanShare": 0.67,
-   "wageDelta": 5900,
-   "missingSkills": [
-    "Mathematics"
-   ]
-  },
-  {
    "code": "43-4081.00",
    "slug": "hotel-motel-and-resort-desk-clerks",
    "title": "Hotel, Motel, and Resort Desk Clerks",
    "similarity": 0.941,
-   "typicalHumanShare": 0.52,
+   "typicalHumanShare": 0.35,
    "wageDelta": -9700,
    "missingSkills": [
     "Quality Control Analysis",
@@ -674,18 +677,38 @@
    ]
   },
   {
-   "code": "39-1014.00",
-   "slug": "first-line-supervisors-of-entertainment-and-recreation-workers-except-gambling-services",
-   "title": "First-Line Supervisors of Entertainment and Recreation Workers, Except Gambling Services",
-   "similarity": 0.892,
+   "code": "43-3041.00",
+   "slug": "gambling-cage-workers",
+   "title": "Gambling Cage Workers",
+   "similarity": 0.887,
    "typicalHumanShare": 0.58,
-   "wageDelta": 3790,
+   "wageDelta": -7190,
    "missingSkills": [
-    "Personnel and Human Resources",
-    "Management of Personnel Resources",
-    "Fine Arts",
-    "Food Production",
-    "Mechanical"
+    "Mathematics",
+    "Operation and Control",
+    "Quality Control Analysis"
+   ]
+  },
+  {
+   "code": "41-2011.00",
+   "slug": "cashiers",
+   "title": "Cashiers",
+   "similarity": 0.932,
+   "typicalHumanShare": 0.35,
+   "wageDelta": -11890,
+   "missingSkills": []
+  },
+  {
+   "code": "43-6014.00",
+   "slug": "secretaries-and-administrative-assistants-except-legal-medical-and-executive",
+   "title": "Secretaries and Administrative Assistants, Except Legal, Medical, and Executive",
+   "similarity": 0.905,
+   "typicalHumanShare": 0.22,
+   "wageDelta": 2770,
+   "missingSkills": [
+    "Administrative",
+    "Quality Control Analysis",
+    "Writing"
    ]
   }
  ],

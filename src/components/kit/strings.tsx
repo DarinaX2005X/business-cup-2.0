@@ -53,6 +53,16 @@ export interface KitStrings {
   highlightKeys: string;
   noMatches: string;
   notOnOurList: string;
+  /** Band across a sealed Pro sheet. */
+  lockedBand: string;
+  /** Scale note under the evidence meter, `max` already formatted as a percent. */
+  scaleOf: (max: string) => string;
+  /** Second line of a combobox option that was found through another title. */
+  matched: (term: string) => string;
+  /** Short words for streak tiles read by screen readers. */
+  streakDone: string;
+  streakMissed: string;
+  streakAhead: string;
 }
 
 export const enStrings: KitStrings = {
@@ -95,7 +105,7 @@ export const enStrings: KitStrings = {
   close: 'Close',
   dismiss: 'Dismiss',
   dropTitle: 'Drop your résumé here',
-  dropHint: 'PDF, DOCX or plain text, up to 5 MB',
+  dropHint: 'PDF or plain text, up to 5 MB',
   dropActive: 'Let go to read it',
   dropReading: (f) => `Reading ${f}`,
   dropDone: (f) => `${f} is ready`,
@@ -109,6 +119,12 @@ export const enStrings: KitStrings = {
   highlightKeys: 'Arrow keys move between words, Shift extends the selection, Enter marks it.',
   noMatches: 'No matching job titles',
   notOnOurList: 'Not on our list',
+  lockedBand: 'Opens with Pro',
+  scaleOf: (max) => `Scale from 0 to ${max}, the busiest task in this release`,
+  matched: (term) => `matched: ${term}`,
+  streakDone: 'practised',
+  streakMissed: 'missed',
+  streakAhead: 'still ahead',
 };
 
 interface KitContextValue {

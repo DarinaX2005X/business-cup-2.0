@@ -18,7 +18,18 @@
     "points.earned_few",
     "points.earned_many",
     "points.earned_one",
-    "points.earned_other"
+    "points.earned_other",
+    "profile.orphaned",
+    "profile.orphanedFresh",
+    "profile.orphanedHint",
+    "profile.orphanedRetry",
+    "profile.restoreAsk",
+    "profile.restoreAskHint",
+    "profile.restoreInvalid",
+    "profile.restoreKeep",
+    "profile.restoreOpen",
+    "profile.restored",
+    "profile.switchBack"
   ],
   "actions": {
     "retry": "Попробовать снова",
@@ -42,5 +53,18 @@
     "earned_many": "+{count} поинтов",
     "earned_one": "+{count} поинт",
     "earned_other": "+{count} поинтов"
+  },
+  "profile": {
+    "orphaned": "Не удалось найти сохранённый профиль на этом устройстве.",
+    "orphanedHint": "Возможно, это временный сбой. Попробуйте ещё раз или начните новый профиль; ссылка для восстановления продолжит работать, если вы её сохранили.",
+    "orphanedRetry": "Попробовать снова",
+    "orphanedFresh": "Начать заново",
+    "restoreAsk": "Открыть профиль по этой ссылке?",
+    "restoreAskHint": "В этом браузере уже есть профиль с прогрессом. Если откроете профиль по ссылке, к текущему можно будет вернуться позже.",
+    "restoreOpen": "Открыть профиль по ссылке",
+    "restoreKeep": "Оставить текущий",
+    "restoreInvalid": "Ссылка для восстановления не работает. Возможно, профиль удалён или ссылка скопирована не полностью.",
+    "restored": "Ваш профиль открыт на этом устройстве.",
+    "switchBack": "Вернуться к предыдущему профилю"
   }
 }

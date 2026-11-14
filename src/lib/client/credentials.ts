@@ -11,6 +11,7 @@ export interface Credentials {
 
 const STORAGE_KEY = 'irr_profile';
 const PREV_KEY = 'irr_profile_prev';
+const ORPHAN_KEY = 'irr_profile_orphan';
 export const PROFILE_COOKIE = 'irr_p';
 const COOKIE_MAX_AGE = 400 * 24 * 3600;
 const ID_RE = /^[0-9A-Za-z]{22}$/;
@@ -90,7 +91,42 @@ export function clearCredentials(): void {
   notifyOtherTabs();
 }
 
-export const isProfileStorageKey = (key: string | null) => key === STORAGE_KEY;
+export const isProfileStorageKey = (key: string | null) => key === STORAGE_KEY || key === ORPHAN_KEY;
+
+function loadSlot(key: string): Credentials | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const parsed = JSON.parse(safeGet(key) ?? 'null');
+    return isCredentials(parsed) ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
+/** The profile this browser used before the last switch (restore link or restorePrevious). */
+export function loadPreviousCredentials(): Credentials | null {
+  return loadSlot(PREV_KEY);
+}
+
+/** Credentials the server stopped recognising (401). Kept until the person retries or starts fresh. */
+export function loadOrphanCredentials(): Credentials | null {
+  return loadSlot(ORPHAN_KEY);
+}
+
+/** Moves the active credentials aside instead of deleting them, so a temporary server problem loses nothing. */
+export function orphanCredentials(c: Credentials): void {
+  safeSet(ORPHAN_KEY, JSON.stringify(c));
+  if (loadCredentials()?.id === c.id) {
+    safeSet(STORAGE_KEY, null);
+    writeCookie(null);
+  }
+  notifyOtherTabs();
+}
+
+export function clearOrphanCredentials(): void {
+  safeSet(ORPHAN_KEY, null);
+  notifyOtherTabs();
+}
 
 let channel: BroadcastChannel | null = null;
 export function profileChannel(): BroadcastChannel | null {

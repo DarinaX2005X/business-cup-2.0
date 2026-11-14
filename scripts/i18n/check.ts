@@ -7,11 +7,12 @@ import { expectedKeys, flat, listSections, placeholders, readTree, writeCatalog 
  * no extra keys, the same placeholders as English. Also refreshes src/i18n/catalog/*.ts.
  * Exits 1 on any problem. Keys listed in "_draft" still count as present (reviewed in 06.2).
  */
-export function checkDictionaries(): { problems: string[]; drafts: number; keys: number } {
+export function checkDictionaries(only?: string[]): { problems: string[]; drafts: number; keys: number } {
   const problems: string[] = [];
   let drafts = 0;
   let keys = 0;
   for (const [section, present] of listSections()) {
+    if (only && !only.includes(section)) continue;
     if (!present.has('en')) {
       problems.push(`${section}: no English file ${section}.en.json`);
       continue;

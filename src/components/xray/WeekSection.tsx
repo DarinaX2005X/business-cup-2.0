@@ -3,7 +3,6 @@
 import { useState, type FormEvent, type MouseEvent } from 'react';
 import { Button } from '@/components/kit/Button';
 import { Field } from '@/components/kit/Field';
-import { RollingNumber } from '@/components/kit/RollingNumber';
 import type { WeekTask } from '@/components/kit/types';
 import { WeekBar } from '@/components/kit/WeekBar';
 import type { XrayComputed } from '@/domain/types';
@@ -140,9 +139,7 @@ function PayLine({
     <div className={st.pay}>
       <button type="button" className={st.payBtn} onClick={() => onMetric('pay')}>
         {a}
-        <b className={st.payNum}>
-          $<RollingNumber value={result.payAtStake} />
-        </b>
+        <b className={st.payNum}>{f.currency(result.payAtStake)}</b>
         {b1}
         <b>{f.currency(annual)}</b>
         {b2}

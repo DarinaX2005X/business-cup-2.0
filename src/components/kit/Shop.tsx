@@ -1,6 +1,6 @@
 'use client';
 
-import { Check, Copy, Lock } from 'lucide-react';
+import { Check, Copy } from 'lucide-react';
 import { useEffect, useState, type ReactNode } from 'react';
 import { Button } from './Button';
 import { KeystoneMark } from './Mark';
@@ -133,22 +133,40 @@ export function ShopSoon() {
   );
 }
 
-/** A Pro area: a blurred stand-in drawing (never real data), the reason and the way in. */
-export function LockedPanel({ title, reason, action, shape = 'week' }: { title: string; reason: string; action: ReactNode; shape?: 'week' | 'list' }) {
+/**
+ * A Pro area as a sealed work file: a stack of sheets held by a violet band, placeholder
+ * lines only (real content is never rendered underneath), the reason and the way in beside it.
+ */
+export function LockedPanel({ title, reason, action, shape = 'week', band }: { title: string; reason: string; action: ReactNode; shape?: 'week' | 'list'; band?: string }) {
+  const { s } = useKit();
   return (
     <section className={st.locked} aria-label={title}>
-      <div className={st.lockedArt} aria-hidden="true" data-shape={shape}>
-        {shape === 'week'
-          ? [18, 10, 14, 22, 12, 8].map((w, i) => <i key={i} style={{ flexGrow: w }} data-k={i % 3} />)
-          : [86, 64, 78, 52].map((w, i) => <i key={i} style={{ width: `${w}%` }} />)}
+      <div className={st.lockedIn}>
+      <div className={st.sealArt} aria-hidden="true">
+        <div className={st.sealBack} />
+        <div className={st.sealSheet} data-shape={shape}>
+          <i className={st.sealHead} />
+          {shape === 'week' ? (
+            <div className={st.sealTiles}>
+              {[16, 9, 13, 21, 11, 6].map((w, i) => (
+                <span key={i} style={{ flexGrow: w }} />
+              ))}
+            </div>
+          ) : null}
+          {[88, 72, 80, 56, 76].slice(0, shape === 'week' ? 3 : 5).map((w, i) => (
+            <i key={i} className={st.sealLine} style={{ width: `${w}%` }} />
+          ))}
+          <div className={st.sealBand}>
+            <KeystoneMark size={22} tone="violet" />
+            <span>{band ?? s.lockedBand}</span>
+          </div>
+        </div>
       </div>
-      <div className={st.lockedCard}>
-        <span className={st.lockIcon} aria-hidden="true">
-          <Lock size={20} strokeWidth={1.75} />
-        </span>
+      <div className={st.lockedText}>
         <h3>{title}</h3>
         <p>{reason}</p>
-        {action}
+        <div className={st.lockedAction}>{action}</div>
+      </div>
       </div>
     </section>
   );

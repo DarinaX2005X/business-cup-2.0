@@ -25,7 +25,8 @@ export function storePrefix(env: NodeJS.ProcessEnv = process.env): string {
  * - otherwise local files in `.data/` — never on Vercel, where the file system does not survive.
  * `STORE_DRIVER=redis|blob|fs` forces a choice (tests use fs) and fails if its configuration is missing.
  */
-export function resolveStore(env: NodeJS.ProcessEnv = process.env): Store {
+export function resolveStore(env: NodeJS.ProcessEnv = process.env, opts: { prefix?: string } = {}): Store {
+  const prefix = opts.prefix ?? storePrefix(env);
   const url = env.KV_REST_API_URL || env.UPSTASH_REDIS_REST_URL;
   const token = env.KV_REST_API_TOKEN || env.UPSTASH_REDIS_REST_TOKEN;
   const blobToken = env.BLOB_READ_WRITE_TOKEN;
@@ -39,10 +40,10 @@ export function resolveStore(env: NodeJS.ProcessEnv = process.env): Store {
   switch (driver) {
     case 'redis':
       if (!url || !token) throw new StoreConfigError('STORE_DRIVER=redis but the Redis URL/token are missing.');
-      return createRedisStore(url, token, storePrefix(env));
+      return createRedisStore(url, token, prefix);
     case 'blob':
       if (!blobToken) throw new StoreConfigError('STORE_DRIVER=blob but BLOB_READ_WRITE_TOKEN is missing.');
-      return createBlobStore(blobToken, storePrefix(env));
+      return createBlobStore(blobToken, prefix);
     case 'fs':
       if (env.VERCEL) {
         throw new StoreConfigError(
@@ -55,13 +56,30 @@ export function resolveStore(env: NodeJS.ProcessEnv = process.env): Store {
   }
 }
 
-let current: Store | null = null;
+/**
+ * Namespace shared by every environment (local scripts, preview, production) on the same backend.
+ * Only for things that are really global, such as the spend of the single OpenRouter key.
+ */
+export const GLOBAL_PREFIX = 'irr:global:';
 
+let current: Store | null = null;
+let global: Store | null = null;
+
+/** Per-environment store (profiles, maps, reps, caches, rate limits). */
 export function getStore(): Store {
   return (current ??= resolveStore());
 }
 
-/** Tests only: swap the store (for example an fs store in a temp dir). */
-export function setStoreForTests(store: Store | null): void {
+/**
+ * Cross-environment store (`irr:global:`), same backend as getStore(). With the local fs driver it is
+ * simply the local store: there is nothing to share it with.
+ */
+export function getGlobalStore(): Store {
+  return (global ??= resolveStore(process.env, { prefix: GLOBAL_PREFIX }));
+}
+
+/** Tests only: swap the stores (for example an fs store in a temp dir). The global one defaults to the same store. */
+export function setStoreForTests(store: Store | null, globalStore: Store | null = store): void {
   current = store;
+  global = globalStore;
 }

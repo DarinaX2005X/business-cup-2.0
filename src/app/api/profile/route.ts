@@ -36,13 +36,9 @@ function validTz(tz: string): boolean {
 /** Creates an anonymous profile. The secret is returned once; the server stores only its hash. */
 export const POST = withApi(async (req: Request) => {
   const body = await readJson(req, createSchema);
-  const ip = clientIp(req);
-  if (ip) {
-    const store = getStore();
-    const key = `rl:create:${hashIp(ip)}:${dayKey()}`;
-    const n = await store.incrFloat(key, 1, 2 * 24 * 3600);
-    if (n > CREATE_PER_IP_PER_DAY) throw new HttpError(429, 'rate_limited', 'Too many new profiles from this network today.');
-  }
+  const key = `rl:create:${hashIp(clientIp(req))}:${dayKey()}`;
+  const n = await getStore().incrFloat(key, 1, 2 * 24 * 3600);
+  if (n > CREATE_PER_IP_PER_DAY) throw new HttpError(429, 'rate_limited', 'Too many new profiles from this network today.');
   const { profile, secret } = await createProfile({ locale: body.locale, tz: clientTz(req), invitedBy: body.invitedBy });
   return Response.json({ id: profile.id, secret }, { status: 201 });
 });

@@ -48,25 +48,29 @@
     "ratingSource_estimated": "estimated from similar work activities",
     "noRating": "No research rating",
     "physical": "Physical task",
-    "exposure": "Exposure {tw} × {theory} + {ow} × {observed} = {value}",
     "penetration": "Anthropic task penetration {value}",
     "methodLink": "How categories work",
     "more": "{n, integer} more tasks O*NET lists for this job",
     "moreNote": "Rarer or less important, so the typical week leaves them out. Your own week can include them.",
-    "perWeek": "{h} h a week"
+    "perWeek": "{h} h a week",
+    "ratingSource_human+gpt4": "researchers and GPT-4 disagreed, so we use the mean",
+    "exposure": "Exposure for the score: {tw} × {theory} + {ow} × {observed} = {value}"
   },
   "explain": {
-    "observed_auto": "Seen in real AI use: {auto} of the conversations about this task in {source} hand the whole task to AI.",
-    "observed_collab": "Seen in real AI use: in {collab} of the conversations about this task in {source}, people work on it together with AI.",
+    "observed_auto": "Seen in real AI use at work: {auto} of the conversations about this task in {source} hand the whole task to AI.",
+    "observed_collab": "Seen in real AI use at work: in {collab} of the conversations about this task in {source}, people work on it together with AI rather than handing it over.",
     "personal_use": "Published in AI usage data, but only {work} of that use is work, so it does not count as observed work use. The research rating was {label}.",
     "estimate_e1": "Not seen in published AI work use yet. Researchers rated it E1: a language model alone can halve the time.",
     "estimate_e2": "Not seen in published AI work use yet. Researchers rated it E2: AI can halve the time with extra tools built around it.",
     "estimate_e0": "Not seen in published AI work use yet. Researchers rated it E0: a language model barely helps.",
     "estimate_dwa": "No direct rating, so we use the average of tasks with the same detailed work activity ({theory}).",
-    "physical": "A physical task that people do not bring to AI. It stays with people whatever the rating.",
+    "physical": "A physical, hands-on task with no sign of AI use anywhere. It stays with people.",
     "no_data": "No research rating and no observed use yet.",
     "src_claude_ai": "Claude conversations",
-    "src_1p_api": "API traffic"
+    "src_1p_api": "API traffic",
+    "earlier_use": "Not in the latest work-use data, but it showed up in an earlier release of the Anthropic Economic Index, so AI already helps with it.",
+    "penetration": "Researchers rated it low, but Anthropic's own measure finds AI use for it ({penetration} task penetration), so AI already helps with it.",
+    "estimate_mixed": "Not seen in published AI work use yet. Researchers rated it {human} and GPT-4 rated it {gpt4}, so we take the middle ({theory})."
   },
   "skills": {
     "title": "Skills that keep this job human",

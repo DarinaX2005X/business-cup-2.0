@@ -1,9 +1,10 @@
 import { z } from 'zod';
 import { clientIp, HttpError, withApi } from '@/server/profile/http';
-import { QUERY_MAX, QUERY_MIN, searchTitles } from '@/server/xray/search';
+import { QUERY_MIN, searchTitles } from '@/server/xray/search';
 
 const querySchema = z.object({
-  q: z.string().trim().min(QUERY_MIN, `q: at least ${QUERY_MIN} characters`).max(QUERY_MAX, `q: at most ${QUERY_MAX} characters`),
+  // Longer text is cut to 100 characters by searchTitles, not rejected.
+  q: z.string().trim().min(QUERY_MIN, `q: at least ${QUERY_MIN} characters`).max(2000, 'q: too long'),
   locale: z.enum(['en', 'ru', 'kk']).catch('en'),
 });
 

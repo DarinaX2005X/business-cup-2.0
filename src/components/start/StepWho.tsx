@@ -332,29 +332,26 @@ const TextPanel = forwardRef<
 /* ---------- search ---------- */
 
 function useSearch(query: string, locale: string) {
-  const [state, setState] = useState<{ response: SearchResponse | null; forQuery: string; loading: boolean }>({ response: null, forQuery: '', loading: false });
+  const [state, setState] = useState<{ response: SearchResponse | null; forQuery: string; failedFor: string }>({ response: null, forQuery: '', failedFor: '' });
+  const q = query.trim();
   useEffect(() => {
-    const q = query.trim();
-    if (q.length < 2) {
-      setState((s) => (s.loading || s.response ? { response: null, forQuery: '', loading: false } : s));
-      return;
-    }
+    if (q.length < 2) return;
     const ctrl = new AbortController();
-    setState((s) => ({ ...s, loading: true }));
     const timer = window.setTimeout(() => {
       searchOccupations(q, locale as 'en', ctrl.signal)
-        .then((response) => setState({ response, forQuery: q, loading: false }))
+        .then((response) => setState({ response, forQuery: q, failedFor: '' }))
         .catch((err) => {
-          if ((err as Error).name === 'AbortError') return;
-          setState((s) => ({ ...s, loading: false }));
+          if ((err as Error).name !== 'AbortError') setState((s) => ({ ...s, failedFor: q }));
         });
     }, SEARCH_DEBOUNCE);
     return () => {
       window.clearTimeout(timer);
       ctrl.abort();
     };
-  }, [query, locale]);
-  return state;
+  }, [q, locale]);
+  if (q.length < 2) return { response: null, forQuery: '', loading: false };
+  // The previous answer stays on screen while the next one loads, so the list never blinks.
+  return { response: state.response, forQuery: state.forQuery, loading: state.forQuery !== q && state.failedFor !== q };
 }
 
 const fold = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();

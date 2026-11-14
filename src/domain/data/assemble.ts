@@ -1,9 +1,21 @@
 // Pure data build: RawSources (+ hand-written dictionaries) → published files. No I/O, deterministic.
-import { AEI_PCT_FLOOR, CATEGORY_THRESHOLDS, HISTORY_MIN_PERIODS, THEORY_WEIGHT, WORK_GATE } from '../constants';
-import { buildEvidence, theoryOfLabel } from '../evidence';
+import {
+  AEI_PCT_FLOOR,
+  AT_STAKE_WEIGHTS,
+  CATEGORY_THRESHOLDS,
+  DEFAULT_SHARE_MAX,
+  DEFAULT_SHARE_MIN,
+  DEFAULT_WEEK_TASKS,
+  FREQ_PER_YEAR,
+  HISTORY_MIN_PERIODS,
+  RELATED,
+  THEORY_WEIGHT,
+  WORK_GATE,
+} from '../constants';
+import { buildEvidence, theoryFromLabels } from '../evidence';
 import { buildSearchIndex, type SearchIndexFile } from '../search';
 import { defaultShares } from '../shares';
-import { normTaskText, slugify } from '../text';
+import { normTaskText, shortLabel, slugify } from '../text';
 import type {
   Category,
   DataVersion,
@@ -35,6 +47,8 @@ export interface AssembleInput {
   aliasesI18n: AliasEntry[];
   /** Model translations from data/build/titles.<lang>.json, when the script has been run. */
   translations: { ru: TranslatedTitle[]; kk: TranslatedTitle[] };
+  /** Model-written short task labels from data/build/short-labels.en.json (taskId → label), when present. */
+  shortLabels?: Record<string, string>;
 }
 
 export interface BuildOutput {
@@ -101,7 +115,8 @@ export function assemble(input: AssembleInput): BuildOutput {
     const n = normTaskText(g.text);
     if (!gptByNorm.has(n)) gptByNorm.set(n, g);
   }
-  const theoryOf = new Map<string, { label: 'E0' | 'E1' | 'E2'; source: 'human' | 'gpt4'; how: 'id' | 'text' | 'id_text_changed' }>();
+  type Label = 'E0' | 'E1' | 'E2';
+  const theoryOf = new Map<string, { human: Label | null; gpt4: Label | null; theory: number; source: 'human' | 'gpt4' | 'human+gpt4'; how: 'id' | 'text' | 'id_text_changed' }>();
   for (const t of src.tasks) {
     const n = normOfTask.get(t.id)!;
     const byId = gptById.get(t.id);
@@ -116,8 +131,8 @@ export function assemble(input: AssembleInput): BuildOutput {
       how = 'id_text_changed';
     }
     if (!g) continue;
-    if (g.human) theoryOf.set(t.id, { label: g.human, source: 'human', how });
-    else if (g.gpt4) theoryOf.set(t.id, { label: g.gpt4, source: 'gpt4', how });
+    const th = theoryFromLabels(g.human, g.gpt4);
+    if (th) theoryOf.set(t.id, { human: g.human, gpt4: g.gpt4, theory: th.theory, source: th.source, how });
   }
   // DWA imputation: mean theory of labelled tasks sharing a DWA, then mean over the task's DWAs
   const dwasOf = new Map<string, string[]>();
@@ -131,7 +146,7 @@ export function assemble(input: AssembleInput): BuildOutput {
     const th = theoryOf.get(taskId);
     if (!th) continue;
     const d = dwaSum.get(dwa) ?? { s: 0, n: 0 };
-    d.s += theoryOfLabel(th.label);
+    d.s += th.theory;
     d.n += 1;
     dwaSum.set(dwa, d);
   }
@@ -221,9 +236,10 @@ export function assemble(input: AssembleInput): BuildOutput {
         : null;
 
     return buildEvidence({
-      theoryLabel: th?.label ?? null,
+      theoryLabel: th ? th.human ?? th.gpt4 : null,
+      gpt4Label: th?.gpt4 ?? null,
       theorySource: th ? th.source : est !== null ? 'estimated' : null,
-      theory: th ? theoryOfLabel(th.label) : est,
+      theory: th ? th.theory : est,
       observed,
       everObserved: everNorms.has(n),
       aeiShare: share === null ? null : round(share, 6),
@@ -240,6 +256,12 @@ export function assemble(input: AssembleInput): BuildOutput {
   const skillsByCode = groupElements(src.skills);
   const knowledgeByCode = groupElements(src.knowledge);
   const zoneByCode = new Map(src.jobZones);
+  // Typical required education: the RL category most respondents name (ties → the lower category).
+  const eduBest = new Map<string, [number, number]>();
+  for (const [code, cat, v] of src.education ?? []) {
+    const prev = eduBest.get(code);
+    if (!prev || v > prev[1] || (v === prev[1] && cat < prev[0])) eduBest.set(code, [cat, v]);
+  }
 
   // ---- titles per occupation (for slugs, ranking fallback and search)
   const titleCount = new Map<string, number>();
@@ -274,6 +296,7 @@ export function assemble(input: AssembleInput): BuildOutput {
           frequency: f && f.w > 0 ? round(f.cw / f.w, 2) : null,
           core: t.type === 'Core',
           dwaIds: [...(dwasOf.get(t.id) ?? [])].sort(),
+          short: input.shortLabels?.[t.id] ?? shortLabel(t.text),
           evidence: evidenceOf(t.id),
         };
       })
@@ -298,11 +321,11 @@ export function assemble(input: AssembleInput): BuildOutput {
   });
 
   // ---- neighbours
-  const relatedPairs = new Map<string, Set<string>>();
+  const relatedPairs = new Map<string, Map<string, 'Primary-Short' | 'Primary-Long'>>();
   for (const r of src.related) {
     if (r.tier !== 'Primary-Short' && r.tier !== 'Primary-Long') continue;
-    if (!relatedPairs.has(r.code)) relatedPairs.set(r.code, new Set());
-    relatedPairs.get(r.code)!.add(r.related);
+    if (!relatedPairs.has(r.code)) relatedPairs.set(r.code, new Map());
+    relatedPairs.get(r.code)!.set(r.related, r.tier as 'Primary-Short' | 'Primary-Long');
   }
   const relInputs: RelatedInput[] = bundles.map((b) => {
     const importance = new Map<string, number>();
@@ -311,7 +334,7 @@ export function assemble(input: AssembleInput): BuildOutput {
       importance.set(id, v);
       names.set(id, name);
     }
-    return { code: b.code, slug: b.slug, title: b.title, jobZone: b.jobZone, typicalHumanShare: b.typicalHumanShare, medianAnnual: b.wage.medianAnnual, importance, names };
+    return { code: b.code, slug: b.slug, title: b.title, jobZone: b.jobZone, education: eduBest.get(b.code)?.[0] ?? null, typicalHumanShare: b.typicalHumanShare, medianAnnual: b.wage.medianAnnual, importance, names };
   });
   const related = computeRelated(relInputs, relatedPairs);
   for (const b of bundles) b.related = related.get(b.code) ?? [];
@@ -355,8 +378,17 @@ export function assemble(input: AssembleInput): BuildOutput {
   }
   for (const a of input.aliases) raw.push({ t: a.alias, c: a.code, k: 'alias' });
   for (const a of input.aliasesI18n) raw.push({ t: a.alias, c: a.code, k: 'alias', l: a.lang });
+  // Curated titles override model translations: a code with curated titles in a language takes no model titles
+  // in it, and a model title equal to a curated one (for any code) is dropped.
   for (const lang of ['ru', 'kk'] as const) {
-    for (const tr of input.translations[lang]) if (codeSet.has(tr.code) && tr.title.trim()) raw.push({ t: tr.title.trim(), c: tr.code, k: 'alt', l: lang });
+    const curated = input.aliasesI18n.filter((a) => a.lang === lang);
+    const curatedCodes = new Set(curated.map((a) => a.code));
+    const curatedTitles = new Set(curated.map((a) => a.alias.trim().toLowerCase()));
+    for (const tr of input.translations[lang]) {
+      const title = tr.title.trim();
+      if (!codeSet.has(tr.code) || !title || curatedCodes.has(tr.code) || curatedTitles.has(title.toLowerCase())) continue;
+      raw.push({ t: title, c: tr.code, k: 'alt', l: lang });
+    }
   }
   const titles = dedupeTitles(raw);
   const primaryTitles: Record<string, string> = {};
@@ -376,7 +408,21 @@ export function assemble(input: AssembleInput): BuildOutput {
   const meta: BuildMeta = {
     dataVersion: DATA_VERSION,
     onetRelease: src.onetRelease,
-    constants: { THEORY_WEIGHT, WORK_GATE, AEI_PCT_FLOOR, ...CATEGORY_THRESHOLDS, HISTORY_MIN_PERIODS },
+    constants: {
+      THEORY_WEIGHT,
+      WORK_GATE,
+      AEI_PCT_FLOOR,
+      ...CATEGORY_THRESHOLDS,
+      HISTORY_MIN_PERIODS,
+      AT_STAKE_AI_DOES: AT_STAKE_WEIGHTS.ai_does,
+      AT_STAKE_AI_SPEEDS: AT_STAKE_WEIGHTS.ai_speeds,
+      DEFAULT_WEEK_TASKS,
+      DEFAULT_SHARE_MIN,
+      DEFAULT_SHARE_MAX,
+      ...Object.fromEntries(Object.entries(FREQ_PER_YEAR).map(([k, v]) => [`FREQ_PER_YEAR_${k}`, v])),
+      RELATED_MIN_SIMILARITY: RELATED.minSimilarity,
+      RELATED_MIN_SIMILARITY_ONET: RELATED.minSimilarityRelated,
+    },
     formula: {
       theory: 'E1 = 1, E2 = 0.5, E0 = 0 (human label, else GPT-4, else mean over tasks sharing a DWA)',
       observedScore: 'observed ? 0.5 + 0.5 × automation share : 0 (observed = published in AEI 2026-06-26 with work use ≥ 50% in claude_ai or API)',
@@ -395,7 +441,9 @@ export function assemble(input: AssembleInput): BuildOutput {
     },
     coverage: {
       importanceRated: share((t) => t.importance !== null),
-      gptsLabel: share((t) => t.evidence.theorySource === 'human' || t.evidence.theorySource === 'gpt4'),
+      gptsLabel: share((t) => t.evidence.theorySource === 'human' || t.evidence.theorySource === 'gpt4' || t.evidence.theorySource === 'human+gpt4'),
+      theoryHumanGpt4Mean: share((t) => t.evidence.theorySource === 'human+gpt4'),
+      shortFromModel: share((t) => input.shortLabels?.[t.id] !== undefined),
       theoryEstimatedDwa: share((t) => t.evidence.theorySource === 'estimated'),
       theoryJoin: theoryHow,
       aeiPublished: share((t) => t.evidence.aeiShare !== null),

@@ -337,16 +337,26 @@
 }
 
 .days i {
-  width: 26px;
-  height: 30px;
-  border-radius: 6px 6px 3px 3px;
-  outline: 1.5px dashed var(--s-empty);
-  outline-offset: -1.5px;
+  width: 22px;
+  height: 28px;
+  border-radius: 5px 5px 2px 2px;
   margin-bottom: 4px;
 }
 
-.days li[data-done] i {
-  outline: none;
+.days li[data-state='ahead'] i {
+  outline: 1.5px dashed var(--s-empty);
+  outline-offset: -1.5px;
+}
+
+.days li[data-state='missed'] i {
+  background: var(--tile-ai);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    inset 0 0 0 1px var(--tile-ai-edge),
+    0 4px 0 var(--tile-ai-face);
+}
+
+.days li[data-state='done'] i {
   background: var(--tile-hu);
   box-shadow:
     inset 0 1.5px 0 oklch(100% 0 0 / 0.6),
@@ -361,23 +371,18 @@
 }
 
 .days li[data-today] i {
-  box-shadow:
-    0 0 0 2px var(--paper),
-    0 0 0 4px var(--violet);
+  outline: 2px solid var(--violet);
+  outline-offset: 3px;
+}
+
+.days li[data-today][data-state='ahead'] i {
+  outline: 2px solid var(--violet);
+  outline-offset: 3px;
+  box-shadow: inset 0 0 0 1.5px var(--s-empty);
 }
 
 .streak[data-surface='violet'] .days li[data-today] i {
-  box-shadow:
-    0 0 0 2px var(--field),
-    0 0 0 4px #fff;
-}
-
-.days li[data-today][data-done] i {
-  box-shadow:
-    inset 0 1.5px 0 oklch(100% 0 0 / 0.6),
-    0 4px 0 var(--tile-hu-face),
-    0 0 0 3px var(--paper),
-    0 0 0 5px var(--violet);
+  outline-color: #fff;
 }
 
 @keyframes dayIn {
@@ -645,95 +650,165 @@
   border-top: 2px dashed oklch(80% 0.05 288);
 }
 
-/* ---------- locked ---------- */
+/* ---------- locked: a sealed work file ---------- */
 
 .locked {
+  container-type: inline-size;
   position: relative;
-  min-height: 300px;
   border-radius: var(--r-panel);
-  overflow: hidden;
   background: var(--card);
   box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.lockedIn {
   display: grid;
-  place-items: center;
-  padding: 32px 20px;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+  gap: 32px;
+  align-items: center;
+  padding: 32px;
 }
 
-.lockedArt {
+.sealArt {
+  position: relative;
+  isolation: isolate;
+  padding: 10px 18px 18px 10px;
+}
+
+.sealBack {
   position: absolute;
-  inset: 28px;
-  display: flex;
-  gap: 8px;
-  align-items: flex-end;
-  filter: blur(9px);
-  opacity: 0.75;
+  inset: 18px 4px 6px 22px;
+  z-index: -1;
+  border-radius: 14px;
+  background: oklch(95.5% 0.02 290);
+  box-shadow:
+    inset 0 0 0 1px var(--line),
+    var(--shadow-rest);
+  transform: rotate(3deg);
 }
 
-.lockedArt[data-shape='week'] i {
-  flex-basis: 0;
-  height: 60%;
-  border-radius: 10px;
+.sealSheet {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  min-height: 190px;
+  padding: 22px 22px 26px;
+  border-radius: 14px;
+  background: var(--card);
+  box-shadow:
+    inset 0 0 0 1px oklch(89% 0.03 290),
+    inset 0 1px 0 #fff,
+    var(--shadow-raised);
+  transform: rotate(-1.5deg);
+  transition: transform 0.3s var(--ease);
 }
 
-.lockedArt[data-shape='week'] i[data-k='0'] {
-  background: var(--tile-ai);
+.locked:hover .sealSheet {
+  transform: rotate(-2.5deg) translateY(-3px);
 }
 
-.lockedArt[data-shape='week'] i[data-k='1'] {
-  background: var(--tile-sp);
-}
-
-.lockedArt[data-shape='week'] i[data-k='2'] {
-  background: var(--tile-hu);
-}
-
-.lockedArt[data-shape='list'] {
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 18px;
-}
-
-.lockedArt[data-shape='list'] i {
-  height: 22px;
-  border-radius: 8px;
+.sealHead {
+  display: block;
+  width: 46%;
+  height: 10px;
+  border-radius: 5px;
   background: var(--violet-tint);
 }
 
-.lockedCard {
-  position: relative;
-  display: grid;
-  justify-items: center;
+.sealTiles {
+  display: flex;
+  gap: 4px;
+  margin: 6px 0 4px;
+}
+
+.sealTiles span {
+  flex-basis: 0;
+  height: 46px;
+  border-radius: 6px 6px 3px 3px;
+  outline: 1.5px dashed oklch(80% 0.05 288);
+  outline-offset: -1.5px;
+}
+
+.sealLine {
+  display: block;
+  height: 7px;
+  border-radius: 4px;
+  background: var(--sunk);
+}
+
+/* the band: a strip of the violet field wrapped round the sheets, ends folded under */
+.sealBand {
+  position: absolute;
+  left: -16px;
+  right: -16px;
+  top: 58%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 10px;
-  max-width: 400px;
-  padding: 28px 28px 24px;
-  border-radius: var(--r-card);
-  text-align: center;
-  background: oklch(99% 0.008 290 / 0.92);
+  min-height: 44px;
+  padding: 6px 16px;
+  color: var(--on-violet);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+  background: var(--field);
   box-shadow:
-    inset 0 1px 0 #fff,
-    var(--shadow-raised);
+    inset 0 1px 0 oklch(100% 0 0 / 0.18),
+    0 6px 14px -6px oklch(18% 0.14 283 / 0.55);
 }
 
-.lockedCard h3 {
-  font-size: 22px;
-  letter-spacing: -0.02em;
+.sealBand::before,
+.sealBand::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  width: 16px;
+  height: 8px;
+  background: var(--violet-deep);
 }
 
-.lockedCard p {
-  color: var(--ink-2);
-  font-size: 15.5px;
-  margin-bottom: 8px;
+.sealBand::before {
+  left: 0;
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
 }
 
-.lockIcon {
+.sealBand::after {
+  right: 0;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+.lockedText {
   display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
-  color: var(--violet);
-  background: var(--violet-soft);
+  gap: 10px;
+  justify-items: start;
+}
+
+.lockedText h3 {
+  font-size: 24px;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.lockedText p {
+  color: var(--ink-2);
+  font-size: 16px;
+  max-width: 40ch;
+}
+
+.lockedAction {
+  margin-top: 8px;
+}
+
+@container (max-width: 560px) {
+  .lockedIn {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 24px 20px;
+    gap: 24px;
+  }
+  .sealSheet {
+    min-height: 160px;
+  }
 }
 
 /* ---------- source ---------- */
@@ -762,4 +837,156 @@
 
 .source a:hover {
   text-decoration-color: currentColor;
+}
+
+/* ---------- score: the keystone arch ---------- */
+
+.arch {
+  --a-ink: var(--ink);
+  --a-ink-2: var(--ink-2);
+  --a-empty: var(--card);
+  --a-edge: oklch(80% 0.05 288);
+  --a-hatch: oklch(78% 0.05 288);
+  --d-ink-2: var(--a-ink-2);
+  position: relative;
+  display: grid;
+  justify-items: center;
+  max-width: 100%;
+  color: var(--a-ink);
+}
+
+.arch[data-surface='violet'],
+.archCompact[data-surface='violet'] {
+  --a-ink: #fff;
+  --a-ink-2: var(--on-violet-2);
+  --d-ink-2: var(--on-violet-2);
+  --a-empty: oklch(100% 0 0 / 0.08);
+  --a-edge: oklch(100% 0 0 / 0.32);
+  --a-hatch: oklch(100% 0 0 / 0.34);
+}
+
+.archStage {
+  position: relative;
+  width: 100%;
+}
+
+.archSvg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.archEmpty path {
+  fill: var(--a-empty);
+  stroke: var(--a-edge);
+  stroke-width: 0.45;
+  stroke-linejoin: round;
+}
+
+.archHatch {
+  fill: var(--a-hatch);
+}
+
+.archHatchLayer {
+  opacity: 0.9;
+}
+
+.archFill {
+  filter: drop-shadow(0 1.2px 0 var(--tile-hu-face)) drop-shadow(0 2.5px 2px oklch(52% 0.13 45 / 0.35));
+}
+
+.arch[data-surface='violet'] .archFill,
+.archCompact[data-surface='violet'] .archFill {
+  filter: drop-shadow(0 1.2px 0 var(--tile-hu-face)) drop-shadow(0 3px 3px oklch(14% 0.14 283 / 0.45));
+}
+
+.archKey {
+  opacity: 0;
+  transform: translateY(-3px);
+  transform-box: fill-box;
+  transition:
+    opacity 0.35s var(--ease),
+    transform 0.5s var(--spring);
+}
+
+.archKey[data-lit] {
+  opacity: 1;
+  transform: none;
+  filter: drop-shadow(0 1.2px 0 var(--tile-hu-face)) drop-shadow(0 0 4px oklch(86% 0.12 66 / 0.55));
+}
+
+.archKeyHi {
+  fill: oklch(100% 0 0 / 0.6);
+}
+
+.archNum {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--dial) * 0.035);
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.archV {
+  font-size: calc(var(--dial) * 0.2);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  line-height: 0.78;
+}
+
+.archNum .delta {
+  position: absolute;
+  left: calc(50% + var(--dial) * 0.24);
+  bottom: calc(var(--dial) * 0.1);
+}
+
+.archCompact {
+  --a-ink: var(--ink);
+  --a-ink-2: var(--ink-2);
+  --a-empty: var(--card);
+  --a-edge: oklch(80% 0.05 288);
+  --a-hatch: oklch(72% 0.06 288);
+  display: inline-grid;
+  grid-template-columns: auto auto auto;
+  grid-template-rows: auto auto;
+  column-gap: 10px;
+  align-items: end;
+  color: var(--a-ink);
+}
+
+.archCompactArt {
+  grid-row: 1 / span 2;
+  display: block;
+  width: 56px;
+}
+
+.archCompactV {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+}
+
+.archCompactK {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--a-ink-2);
+}
+
+.archCompact .delta {
+  grid-column: 3;
+  grid-row: 1;
+  height: 22px;
+  font-size: 13px;
+  padding: 0 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .archKey {
+    transition: none;
+  }
 }

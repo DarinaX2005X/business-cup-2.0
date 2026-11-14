@@ -191,8 +191,18 @@ export function getModelId(): string {
   return process.env.OPENROUTER_MODEL || DEFAULT_MODEL;
 }
 
-function reasoningParam(effort: ReasoningEffort) {
-  return effort === 'off' ? { enabled: false, exclude: true } : { effort, exclude: true };
+/**
+ * Models whose endpoint refuses to switch reasoning off (OpenRouter answers 400 "Reasoning is mandatory
+ * for this endpoint and cannot be disabled", seen for google/gemini-3.8-flash). For them 'off' is sent
+ * as the cheapest allowed level, so no caller can trigger that 400.
+ */
+const REASONING_MANDATORY = [/^google\/gemini-3/];
+
+export function reasoningParam(effort: ReasoningEffort, model: string) {
+  if (effort === 'off') {
+    return REASONING_MANDATORY.some((re) => re.test(model)) ? { effort: 'minimal' as const, exclude: true } : { enabled: false, exclude: true };
+  }
+  return { effort, exclude: true };
 }
 
 function defaultReasoning(): ReasoningEffort {
@@ -308,7 +318,7 @@ export async function callModel<S extends z.ZodType>(input: CallModelInput<S>): 
           max_tokens: input.maxTokens,
           temperature: input.temperature,
           response_format: { type: 'json_schema', json_schema: { name: op.replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 64), strict: true, schema: jsonSchema } },
-          reasoning: reasoningParam(effort),
+          reasoning: reasoningParam(effort, model),
           usage: { include: true },
           provider: { require_parameters: true },
         }),

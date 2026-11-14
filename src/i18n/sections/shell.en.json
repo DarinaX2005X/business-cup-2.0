@@ -1,0 +1,22 @@
+{
+  "skip": "Skip to content",
+  "home": "Irreplaceable, your week map",
+  "nav": {
+    "label": "Sections",
+    "week": "Week map",
+    "today": "Today",
+    "progress": "Progress",
+    "shop": "Shop"
+  },
+  "mapOwn": "Map your own week",
+  "pointsLabel": "points",
+  "streak_one": "{count} day of practice this week",
+  "streak_other": "{count} days of practice this week",
+  "language": "Language",
+  "profile": "Your profile",
+  "account": "Profile and language",
+  "restore": "Copy restore link",
+  "restoreHint": "Opens your profile on another device. Keep it private.",
+  "copied": "Link copied",
+  "sound": "Sound"
+}

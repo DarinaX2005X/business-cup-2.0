@@ -187,12 +187,22 @@
  {
   "alias": "doctor",
   "code": "29-1215.00",
+  "note": "Primary care physician (PCP)"
+ },
+ {
+  "alias": "PCP",
+  "code": "29-1215.00",
   "note": "Primary care physician"
+ },
+ {
+  "alias": "primary care physician",
+  "code": "29-1215.00",
+  "note": ""
  },
  {
   "alias": "GP",
   "code": "29-1215.00",
-  "note": "General practitioner"
+  "note": "Search input only: non-US users type GP; the US term is PCP"
  },
  {
   "alias": "vet tech",

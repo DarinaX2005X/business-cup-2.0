@@ -27,7 +27,7 @@ export interface RepCardProps {
 }
 
 const PRIORITY: ReviewMarkKind[] = ['found', 'missed', 'first_false', 'false'];
-const markClass: Record<ReviewMarkKind, string> = { found: st.mFound, missed: st.mMissed, false: st.mFalse, first_false: st.mFalse };
+const markClass: Record<ReviewMarkKind, string> = { found: st.mFound, missed: st.mMissed, false: st.mFalse, first_false: st.mFalseFree };
 
 type Hit = { s: number; e: number };
 
@@ -70,11 +70,21 @@ export function RepCard({ document: src, mode, ranges, onRangesChange, marks = [
     [ranges, onRangesChange],
   );
 
+  // A second press on the word just marked (a double-click or double-tap) keeps it marked.
+  const lastMark = useRef<{ s: number; t: number } | null>(null);
   const toggleAt = useCallback(
     (hit: Hit) => {
       const inside = ranges.find((r) => hit.s < r[1] && hit.e > r[0]);
-      if (inside) onRangesChange?.(ranges.filter((r) => r !== inside));
-      else commit([hit.s, hit.e]);
+      const now = performance.now();
+      const repeat = lastMark.current && lastMark.current.s === hit.s && now - lastMark.current.t < 450;
+      if (inside) {
+        if (repeat) return;
+        lastMark.current = null;
+        onRangesChange?.(ranges.filter((r) => r !== inside));
+      } else {
+        lastMark.current = { s: hit.s, t: now };
+        commit([hit.s, hit.e]);
+      }
     },
     [ranges, onRangesChange, commit],
   );
@@ -385,7 +395,19 @@ export function RepCard({ document: src, mode, ranges, onRangesChange, marks = [
       onClick={() => inline && setOpenId((o) => (o === m.id ? null : m.id))}
     >
       <span className={st.cn} data-kind={m.kind} aria-hidden="true">
-        {m.n ?? '?'}
+        {m.kind === 'false' ? (
+          // a false flag that costs points: a struck mark
+          <svg viewBox="0 0 16 16" width="12" height="12">
+            <path d="M4 8h8" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        ) : m.kind === 'first_false' ? (
+          // the first false flag is free: an open ring with a zero
+          <svg viewBox="0 0 16 16" width="13" height="13">
+            <text x="8" y="12" textAnchor="middle" fontSize="11" fontWeight="700" fill="currentColor">0</text>
+          </svg>
+        ) : (
+          m.n ?? ''
+        )}
       </span>
       <div>
         <b>{m.kind === 'first_false' ? s.notOnOurList : m.title}</b>

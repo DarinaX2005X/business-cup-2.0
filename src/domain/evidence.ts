@@ -1,6 +1,8 @@
 import { CATEGORY_THRESHOLDS, THEORY_BY_LABEL, THEORY_WEIGHT } from './constants';
 import type { Category, EvidenceLevel, TaskEvidence } from './types';
 
+type Label = 'E0' | 'E1' | 'E2';
+
 /** Observed half of the indicator: 0 when not observed, else 0.5 + 0.5 × automation share (0.5 when unknown). */
 export function observedScore(observed: boolean, aeiAutomation: number | null): number {
   if (!observed) return 0;
@@ -12,26 +14,48 @@ export function exposureOf(theory: number, observed: boolean, aeiAutomation: num
   return THEORY_WEIGHT * theory + (1 - THEORY_WEIGHT) * observedScore(observed, aeiAutomation);
 }
 
-export function theoryOfLabel(label: 'E0' | 'E1' | 'E2'): number {
+export function theoryOfLabel(label: Label): number {
   return THEORY_BY_LABEL[label];
 }
 
-type CategoryInput = Pick<TaskEvidence, 'theorySource' | 'observed' | 'aeiAutomation' | 'exposure' | 'physical'>;
+/**
+ * Research theory of a task from the GPTs-are-GPTs labels: both labels agree (or only one exists) → that label;
+ * human and GPT-4 disagree → their mean (e.g. E0 + E2 → 0.25), source 'human+gpt4'.
+ */
+export function theoryFromLabels(human: Label | null, gpt4: Label | null): { theory: number; source: 'human' | 'gpt4' | 'human+gpt4' } | null {
+  if (human && gpt4 && human !== gpt4) return { theory: (theoryOfLabel(human) + theoryOfLabel(gpt4)) / 2, source: 'human+gpt4' };
+  if (human) return { theory: theoryOfLabel(human), source: 'human' };
+  if (gpt4) return { theory: theoryOfLabel(gpt4), source: 'gpt4' };
+  return null;
+}
+
+type CategoryInput = Pick<TaskEvidence, 'theorySource' | 'theory' | 'observed' | 'everObserved' | 'penetration' | 'aeiAutomation' | 'physical'>;
+
+/** Any sign of real AI use beyond the work-gated latest release. */
+function otherUsage(e: Pick<TaskEvidence, 'everObserved' | 'penetration'>): boolean {
+  return e.everObserved || (e.penetration ?? 0) > 0;
+}
+
+/** The Microsoft physical flag decides only when nothing else says the task is done with AI. */
+function physicalWins(e: CategoryInput): boolean {
+  return e.physical === true && !e.observed && !otherUsage(e) && e.theory <= CATEGORY_THRESHOLDS.physicalMaxTheory;
+}
 
 /**
- * PLAN «Категория задачи»:
+ * Category of a task. Observed real use wins over the research label:
  * - no_data: no research label (human, GPT-4 or DWA estimate) and not observed;
- * - ai_does: observed, automation share >= 0.5 and exposure >= 0.75;
- * - human_edge: exposure < 0.25, or a physical task without observations;
- * - ai_speeds: everything else (exposure >= 0.25).
+ * - observed (work-gated AEI 2026-06-26): automation share >= 0.6 → ai_does, otherwise ai_speeds;
+ * - physical task (Microsoft) without any usage signal and theory <= 0.5 → human_edge;
+ * - theory >= 0.25, or ever observed since Aug 2025, or Anthropic task_penetration > 0 → ai_speeds;
+ * - otherwise human_edge.
  */
 export function categorize(e: CategoryInput): Category {
   const t = CATEGORY_THRESHOLDS;
   if (e.theorySource === null && !e.observed) return 'no_data';
-  if (e.observed && (e.aeiAutomation ?? 0) >= t.aiDoesAutomation && e.exposure >= t.aiDoesExposure) return 'ai_does';
-  if (e.physical === true && !e.observed) return 'human_edge';
-  if (e.exposure < t.aiSpeedsExposure) return 'human_edge';
-  return 'ai_speeds';
+  if (e.observed) return (e.aeiAutomation ?? 0.5) >= t.aiDoesAutomation ? 'ai_does' : 'ai_speeds';
+  if (physicalWins(e)) return 'human_edge';
+  if (e.theory >= t.aiSpeedsTheory || otherUsage(e)) return 'ai_speeds';
+  return 'human_edge';
 }
 
 export function evidenceLevelOf(e: Pick<TaskEvidence, 'observed' | 'theorySource'>): EvidenceLevel {
@@ -42,8 +66,9 @@ export function evidenceLevelOf(e: Pick<TaskEvidence, 'observed' | 'theorySource
 
 export interface EvidenceInput {
   theoryLabel: TaskEvidence['theoryLabel'];
+  gpt4Label: TaskEvidence['gpt4Label'];
   theorySource: TaskEvidence['theorySource'];
-  theory: number | null; // DWA mean when estimated; null when nothing is known
+  theory: number | null; // label value, mean of disagreeing labels, or DWA mean; null when nothing is known
   observed: boolean;
   everObserved: boolean;
   aeiShare: number | null;
@@ -68,9 +93,12 @@ export const EXPLAIN_KEYS = [
   'category.explain.observed_auto',
   'category.explain.observed_collab',
   'category.explain.personal_use',
+  'category.explain.earlier_use',
+  'category.explain.penetration',
   'category.explain.estimate_e1',
   'category.explain.estimate_e2',
   'category.explain.estimate_e0',
+  'category.explain.estimate_mixed',
   'category.explain.estimate_dwa',
   'category.explain.physical',
   'category.explain.no_data',
@@ -78,28 +106,35 @@ export const EXPLAIN_KEYS = [
 export type ExplainKey = (typeof EXPLAIN_KEYS)[number];
 
 /**
- * One sentence of evidence for the UI dictionary. Params are pre-formatted strings, e.g.
- * observed_auto { share: '0.42%', auto: '71%', source: 'claude_ai' } → "Seen in real AI use: 71% of these
- * conversations hand the whole task to AI". The source key lets the dictionary say "Claude conversations"
- * or "API traffic".
+ * One sentence of evidence for the UI dictionary, matching the reason categorize() used. Params are
+ * pre-formatted strings, e.g. observed_auto { share: '0.42%', auto: '71%', source: 'claude_ai' } → "Seen in real
+ * AI use: 71% of these conversations hand the whole task to AI".
  */
 export function explainCategory(e: TaskEvidence): { key: ExplainKey; params: Record<string, string> } {
   if (e.observed) {
     const auto = e.aeiAutomation ?? 0.5;
     const share = formatShare(e.aeiShare);
     const source = e.aeiSource ?? 'claude_ai';
-    if (auto >= 0.5) return { key: 'category.explain.observed_auto', params: { share, auto: pct(auto), source } };
-    return { key: 'category.explain.observed_collab', params: { share, collab: pct(1 - auto), source } };
+    if (e.category === 'ai_does') return { key: 'category.explain.observed_auto', params: { share, auto: pct(auto), source } };
+    return { key: 'category.explain.observed_collab', params: { share, collab: pct(1 - auto), auto: pct(auto), source } };
   }
-  if (e.physical === true) return { key: 'category.explain.physical', params: {} };
+  if (e.category === 'human_edge' && physicalWins(e)) return { key: 'category.explain.physical', params: {} };
   if (e.aeiShare !== null && e.aeiWorkShare !== null) {
     // Published in AEI, but most of that use is personal or coursework, so it does not count as work use.
     return { key: 'category.explain.personal_use', params: { work: pct(e.aeiWorkShare), label: e.theoryLabel ?? '' } };
   }
+  if (e.category === 'ai_speeds' && e.theory < CATEGORY_THRESHOLDS.aiSpeedsTheory) {
+    if (e.everObserved) return { key: 'category.explain.earlier_use', params: {} };
+    return { key: 'category.explain.penetration', params: { penetration: pct(e.penetration ?? 0) } };
+  }
   if (e.theorySource === 'estimated') return { key: 'category.explain.estimate_dwa', params: { theory: pct(e.theory) } };
-  if (e.theoryLabel === 'E1') return { key: 'category.explain.estimate_e1', params: {} };
-  if (e.theoryLabel === 'E2') return { key: 'category.explain.estimate_e2', params: {} };
-  if (e.theoryLabel === 'E0') return { key: 'category.explain.estimate_e0', params: {} };
+  if (e.theorySource === 'human+gpt4') {
+    return { key: 'category.explain.estimate_mixed', params: { human: e.theoryLabel ?? '', gpt4: e.gpt4Label ?? '', theory: pct(e.theory) } };
+  }
+  const label = e.theoryLabel ?? e.gpt4Label;
+  if (label === 'E1') return { key: 'category.explain.estimate_e1', params: {} };
+  if (label === 'E2') return { key: 'category.explain.estimate_e2', params: {} };
+  if (label === 'E0') return { key: 'category.explain.estimate_e0', params: {} };
   return { key: 'category.explain.no_data', params: {} };
 }
 

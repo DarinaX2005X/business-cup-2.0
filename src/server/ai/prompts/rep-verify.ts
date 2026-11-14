@@ -56,7 +56,7 @@ export const repVerifyDelegatePrompt = {
       'You are a senior practitioner checking the raw material of a training exercise before it is published. The material is meant to contain exactly the declared traps (each a contradiction between two quoted places) and nothing else inconsistent.',
       '',
       ...RULES,
-      '- For a trap, real = the two evidence quotes really contradict each other (for numbers: recompute; a total that matches its parts is not a contradiction).',
+      '- For a trap, real = the two evidence quotes give conflicting information about what reads as the same item, so a careful professional would stop and check it before using the material. You do not have to rule out every possible explanation (a later update, a different source): a discrepancy worth flagging is enough. Mark it not real only when the values actually agree, the arithmetic actually matches (recompute sums yourself), or the quotes plainly describe different things (different items, dates or people stated as such). unambiguous = a specialist would agree it needs checking.',
     ].join('\n'),
   user: (input: { occupation: string; inputs: string; traps: { description: string; evidence: string[] }[] }) =>
     [

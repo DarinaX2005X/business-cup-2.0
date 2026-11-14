@@ -247,6 +247,11 @@ export function groundingProblems(traps: readonly TrapFull[], inputs: string): s
       return;
     }
     for (const q of ev) if (!findIn(inputs, q)) problems.push(`Trap ${i + 1}: the evidence "${q}" is not in the inputs word for word; copy it exactly.`);
+    // two quotes carrying exactly the same values cannot be the two sides of a contradiction
+    const values = (q: string) => [...new Set((q.match(/\d[\d.,:/]*/g) ?? []).map((v) => v.replace(/[.,]$/, '')))].sort().join(' ');
+    if (values(ev[0]) && values(ev[0]) === values(ev[1])) {
+      problems.push(`Trap ${i + 1}: both evidence quotes state the same values (${values(ev[0])}); quote the two places that disagree.`);
+    }
   });
   return problems;
 }

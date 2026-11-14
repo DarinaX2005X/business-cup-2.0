@@ -603,7 +603,8 @@ function topElements(rows: [string, string, number][] | undefined, n: number) {
 function dedupeTitles(raw: TitleIndexEntry[]): TitleIndexEntry[] {
   const best = new Map<string, TitleIndexEntry>();
   for (const e of raw) {
-    const key = `${e.c}|${e.t.trim().toLowerCase()}`;
+    // One entry per language: "бухгалтер" is both a Russian and a Kazakh title and each locale must find its own.
+    const key = `${e.c}|${e.l ?? ''}|${e.t.trim().toLowerCase()}`;
     const prev = best.get(key);
     if (!prev || KIND_ORDER[e.k] < KIND_ORDER[prev.k]) best.set(key, { ...e, t: e.t.trim() });
   }

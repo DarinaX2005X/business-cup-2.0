@@ -1,12 +1,12 @@
 import MiniSearch, { type SearchResult } from 'minisearch';
 import { normQuery, normTitle } from './text';
-import type { TitleIndexEntry } from './types';
+import type { Locale, TitleIndexEntry } from './types';
 
 // One search configuration for the build (index) and the route (query). PLAN «Механизм карты недели» step 1:
 // aliases ×3, primary ×2, alternate ×1.3; prefix on the last word; fuzzy 0.2 for words longer than 4 letters;
 // grouped by occupation; up to 8 results.
 
-export const SEARCH_INDEX_VERSION = 1;
+export const SEARCH_INDEX_VERSION = 2;
 
 const FIELD_BY_KIND: Record<TitleIndexEntry['k'], 'alias' | 'primary' | 'alt'> = {
   alias: 'alias',
@@ -27,11 +27,12 @@ interface SearchDoc {
   c: string;
   t: string;
   k: TitleIndexEntry['k'];
+  l?: TitleIndexEntry['l'];
 }
 
 const MINI_OPTIONS = {
   fields: ['alias', 'primary', 'alt', 'extra'],
-  storeFields: ['c', 't', 'k'],
+  storeFields: ['c', 't', 'k', 'l'],
 };
 
 export interface SearchIndexFile {
@@ -57,6 +58,8 @@ export interface OccupationHit {
   score: number;
   /** 0..1 share of the query this hit explains (exact word 1, prefix 0.9, typo 1 − edits/length) */
   confidence: number;
+  /** The same over the query's content words only ("happiness" in "chief happiness officer"). */
+  contentConfidence?: number;
 }
 
 /** Build time: index every title entry. Entries must already be deduplicated and in a stable order. */
@@ -69,6 +72,7 @@ export function buildSearchIndex(
   const docs: SearchDoc[] = entries.map((e, id) => {
     const { main, paren } = normTitle(e.t);
     const doc: SearchDoc = { id, c: e.c, t: e.t, k: e.k };
+    if (e.l) doc.l = e.l;
     doc[FIELD_BY_KIND[e.k]] = main;
     if (paren) doc.extra = paren;
     return doc;
@@ -100,6 +104,8 @@ export const MAX_QUERY_LENGTH = 100;
  * table scores >= 0.85, keyboard mashes score 0.
  */
 export const MIN_CONFIDENCE = 0.6;
+/** Share of the query's content words (not generic job words) a confident hit must explain. */
+export const MIN_CONTENT_CONFIDENCE = 0.5;
 /** A single word counts as a strong match for suggestions at this quality (exact or prefix). */
 const STRONG_TERM = 0.9;
 
@@ -137,20 +143,54 @@ function confidenceOf(r: SearchResult, tokens: string[]): number {
   return sum / tokens.length;
 }
 
-function group(idx: LoadedSearchIndex, results: SearchResult[], limit: number, tokens: string[]): OccupationHit[] {
+/** Job words that say little on their own: a hit must explain the other words of the query. */
+const GENERIC_WORDS = new Set([
+  'officer', 'chief', 'manager', 'specialist', 'assistant', 'associate', 'worker', 'clerk', 'representative', 'rep',
+  'technician', 'coordinator', 'agent', 'operator', 'director', 'head', 'staff', 'executive', 'consultant', 'administrator',
+  'менеджер', 'специалист', 'помощник', 'ассистент', 'сотрудник', 'работник', 'агент', 'оператор', 'директор', 'руководитель',
+  'начальник', 'главный', 'старший', 'маманы', 'менеджері', 'көмекшісі', 'қызметкері', 'жетекшісі', 'басшысы',
+]);
+
+const round3 = (x: number) => Math.round(x * 1000) / 1000;
+
+/**
+ * Group hits by occupation. With a locale, titles in the other Cyrillic language count less (0.6) and the
+ * `matched` text shown is in the request's locale or English; when only another language matched, `matched`
+ * is the English occupation title.
+ */
+function group(idx: LoadedSearchIndex, results: SearchResult[], limit: number, tokens: string[], locale?: Locale): OccupationHit[] {
+  const content = tokens.filter((t) => !GENERIC_WORDS.has(t));
   const best = new Map<string, OccupationHit>();
+  const shown = new Map<string, SearchResult>();
   for (const r of results) {
     const code = r.c as string;
+    const lang = r.l as TitleIndexEntry['l'] | undefined;
+    // Only Russian and Kazakh requests filter the shown title; an English request shows whatever was typed.
+    const displayable = !locale || locale === 'en' || !lang || lang === locale;
+    const score = locale && lang && lang !== locale && locale !== 'en' ? r.score * 0.6 : r.score;
     const prev = best.get(code);
-    if (!prev || r.score > prev.score) {
+    if (!prev || score > prev.score) {
       best.set(code, {
         code,
         title: idx.titles[code] ?? code,
         matched: r.t as string,
         kind: r.k as TitleIndexEntry['k'],
-        score: r.score,
-        confidence: Math.round(confidenceOf(r, tokens) * 1000) / 1000,
+        score,
+        confidence: round3(confidenceOf(r, tokens)),
+        contentConfidence: round3(content.length ? confidenceOf(r, content) : confidenceOf(r, tokens)),
       });
+    }
+    const prevShown = shown.get(code);
+    if (displayable && (!prevShown || r.score > prevShown.score)) shown.set(code, r);
+  }
+  for (const [code, hit] of best) {
+    const d = shown.get(code);
+    if (d) {
+      hit.matched = d.t as string;
+      hit.kind = d.k as TitleIndexEntry['k'];
+    } else if (locale) {
+      hit.matched = idx.titles[code] ?? code;
+      hit.kind = 'primary';
     }
   }
   const ranked = [...best.values()].map((h) => ({ ...h, score: h.score * (1 + POPULARITY_WEIGHT * (idx.popularity[h.code] ?? 0)) }));
@@ -168,20 +208,24 @@ export function searchOccupations(
   idx: LoadedSearchIndex,
   query: string,
   limit = 8,
+  locale?: Locale,
 ): { results: OccupationHit[]; suggestions: { code: string; title: string }[]; confident: boolean; score: number } {
   const q = normQuery(typeof query === 'string' ? query.slice(0, MAX_QUERY_LENGTH) : '');
   if (!q) return { results: [], suggestions: [], confident: false, score: 0 };
   const tokens = [...new Set(q.split(' '))];
-  const results = group(idx, runQuery(idx, q), limit, tokens);
+  const results = group(idx, runQuery(idx, q), limit, tokens, locale);
   const top = results[0];
-  const confident = !!top && results.some((r) => r.confidence >= MIN_CONFIDENCE);
+  // A confident hit explains enough of the query and at least half of its content words, so
+  // "chief happiness officer" is not answered with Chief Executives or Police Officers.
+  const strong = (r: OccupationHit) => r.confidence >= MIN_CONFIDENCE && (r.contentConfidence ?? 1) >= MIN_CONTENT_CONFIDENCE;
+  const confident = !!top && results.some(strong);
   if (confident) {
     return { results: results.filter((r) => r.confidence >= MIN_CONFIDENCE / 2), suggestions: [], confident, score: top.score };
   }
   const suggestions: { code: string; title: string }[] = [];
   for (const word of tokens) {
     if (word.length < 3) continue;
-    const hit = group(idx, runQuery(idx, word), 1, [word])[0];
+    const hit = group(idx, runQuery(idx, word), 1, [word], locale)[0];
     if (hit && hit.confidence >= STRONG_TERM && !suggestions.some((s) => s.code === hit.code)) suggestions.push({ code: hit.code, title: hit.title });
   }
   return { results: [], suggestions: suggestions.slice(0, 5), confident: false, score: top?.score ?? 0 };

@@ -10,12 +10,14 @@
     "estimate_e0": "Not meaningfully seen in AI work use yet. Researchers rated it as a task a language model barely speeds up.",
     "estimate_mixed": "Not meaningfully seen in AI work use yet. Researchers rated it {human} and GPT-4 rated it {gpt4}. The midpoint of the two ratings is high enough to count as sped up by AI.",
     "estimate_dwa": "No direct rating for this task, so we estimated it from the rated work activities it belongs to.",
-    "physical": "Hands-on work done in person, not meaningfully seen in AI work use, and researchers see little help from a language model.",
+    "physical": "A hands-on task done in person, not meaningfully seen in AI work use, and not rated by researchers as something a language model can do on its own.",
     "no_data": "No research rating and no published AI usage for this task yet.",
     "observed_api": "Seen in real AI work use, mostly through the API: {share} of that traffic, and in {auto} of it AI does the whole task. Researchers also rate it as a task a language model can do on its own.",
     "seen_rarely": "Shows up in AI work use, but rarely: below 0.01% of conversations, too little to count. The research rating decides instead.",
-    "people": "Work with people, such as care, teaching, supervising or negotiating, and not meaningfully seen in AI work use. Researchers did not both rate it as something a language model can do alone.",
-    "estimate_low": "Not meaningfully seen in AI work use yet. Researchers rated it {human} and GPT-4 rated it {gpt4}. The midpoint of the two ratings is too low to count as sped up by AI."
+    "people": "Work with people, such as care, teaching, supervising or negotiating, not meaningfully seen in AI work use, and not rated by researchers as something a language model can do on its own.",
+    "estimate_low": "Not meaningfully seen in AI work use yet. Researchers rated it {human} and GPT-4 rated it {gpt4}. The midpoint of the two ratings is too low to count as sped up by AI.",
+    "estimate_e2_unseen": "Researchers rated it {label}: AI could help once extra software is built around it. Nobody has been seen using AI for it at work yet, so it stays with you for now.",
+    "seen_rarely_e2": "Shows up in AI work use, but rarely: below 0.01% of conversations. Together with the research rating ({label}) that is enough to count it as sped up by AI."
   },
   "source": {
     "claude_ai": "Claude conversations",

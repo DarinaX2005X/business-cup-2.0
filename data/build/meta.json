@@ -14,7 +14,8 @@
     "aiDoesAutomation": 0.7,
     "minObservedShare": 0.0001,
     "aiDoesApiTheory": 0.75,
-    "unobservedSpeedsTheory": 0.5,
+    "unobservedSpeedsTheory": 0.75,
+    "e2Theory": 0.5,
     "peopleMaxTheory": 0.75,
     "peopleWorkShare": 0.5,
     "aiSpeedsTheory": 0.25,
@@ -47,7 +48,7 @@
     "occupations": 1016,
     "occupationsWithTasks": 923,
     "tasks": 18838,
-    "titles": 53188,
+    "titles": 53323,
     "aliases": 263,
     "aliasesI18n": 99,
     "translations": {
@@ -104,11 +105,11 @@
       "45-3031.00"
     ],
     "wageShared": 0.2308,
-    "related": 0.9372,
+    "related": 0.9523,
     "categories": {
       "ai_does": 370,
-      "ai_speeds": 6774,
-      "human_edge": 11694,
+      "ai_speeds": 4659,
+      "human_edge": 13809,
       "no_data": 0
     },
     "evidenceLevels": {
@@ -122,13 +123,13 @@
     {
       "id": "anthropic",
       "label": "Anthropic observed_exposure (labor market impacts, 2026)",
-      "rho": 0.655,
+      "rho": 0.641,
       "n": 756
     },
     {
       "id": "microsoft",
       "label": "Microsoft ai_applicability_score (Working with AI)",
-      "rho": 0.684,
+      "rho": 0.662,
       "n": 773
     }
   ],

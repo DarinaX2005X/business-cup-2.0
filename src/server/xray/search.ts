@@ -46,6 +46,11 @@ export interface SearchResponse {
    * (translate=0 while typing): asking again with translate=1 may find it. Absent otherwise.
    */
   translatable?: boolean;
+  /**
+   * true when results answer the query; false when nothing matched well enough (results is empty and suggestions,
+   * if any, are weak per-word guesses). The UI shows "No exact match" and the describe-your-work path when false.
+   */
+  confident?: boolean;
 }
 
 export interface SearchOptions {
@@ -70,7 +75,8 @@ export async function searchTitles(rawQuery: string, locale: Locale, actor?: Act
   const localOf = (code: string) => local?.get(code) ?? null;
   const shape = (hits: OccupationHit[]): SearchResultItem[] =>
     hits.map((h) => ({ code: h.code, title: h.title, matched: h.matched, kind: h.kind, localTitle: localOf(h.code) }));
-  const search = (q: string) => searchOccupations(idx, q, SEARCH_LIMIT) as DomainSearch;
+  // The locale makes aliases in the request language win and keeps `matched` in that language or English.
+  const search = (q: string) => searchOccupations(idx, q, SEARCH_LIMIT, locale) as DomainSearch;
   // The domain flag (when the data package provides it) and the word check must both agree.
   const confident = (q: string, r: DomainSearch) => r.results.length > 0 && r.confident !== false && matchesQuery(q, r.results[0].matched);
   const suggest = (...queries: string[]) => {
@@ -87,18 +93,19 @@ export async function searchTitles(rawQuery: string, locale: Locale, actor?: Act
     suggestions: suggest(...suggestFrom),
     translated: null,
     hint,
+    confident: false,
   });
 
   const first = search(query);
   if (!hasCyrillic(query)) {
-    return confident(query, first) ? { results: shape(first.results), suggestions: [], translated: null, hint: null } : none(null, query);
+    return confident(query, first) ? { results: shape(first.results), suggestions: [], translated: null, hint: null, confident: true } : none(null, query);
   }
 
   // Cyrillic: the translated titles cover the top occupations only, so a missing or partial match
   // goes through translation ("крановщик" must not stop at the typo match "кладовщик").
   const original = shape(first.results);
   if (original.length && first.confident !== false && coversQuery(query, original[0].matched)) {
-    return { results: original, suggestions: [], translated: null, hint: null };
+    return { results: original, suggestions: [], translated: null, hint: null, confident: true };
   }
 
   if (options.translate === false) return { ...none(null, query), translatable: normQuery(query).length >= 3 };
@@ -117,7 +124,7 @@ export async function searchTitles(rawQuery: string, locale: Locale, actor?: Act
   // Translated matches first, then whatever the Cyrillic index found.
   const merged = shape(second.results);
   for (const r of original) if (merged.length < SEARCH_LIMIT && !merged.some((m) => m.code === r.code)) merged.push(r);
-  return { results: merged, suggestions: [], translated: english, hint: null };
+  return { results: merged, suggestions: [], translated: english, hint: null, confident: true };
 }
 
 /** Words that carry no job meaning in a query. */

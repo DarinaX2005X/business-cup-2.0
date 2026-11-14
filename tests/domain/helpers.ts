@@ -32,7 +32,8 @@ export function evidence(over: Partial<EvidenceInput> = {}) {
 /** Evidence presets for each category. */
 export const preset = {
   ai_does: () => evidence({ theoryLabel: 'E1', theory: 1, observed: true, aeiShare: 0.004, aeiSource: 'claude_ai', aeiAutomation: 0.8, aeiWorkShare: 0.9 }),
-  ai_speeds: () => evidence({ theoryLabel: 'E2', theory: 0.5 }),
+  // Unobserved tasks need E1-level research (theory >= 0.75) to count as ai_speeds.
+  ai_speeds: () => evidence({ theoryLabel: 'E1', gpt4Label: 'E2', theorySource: 'human+gpt4', theory: 0.75 }),
   human_edge: () => evidence({ theoryLabel: 'E0', theory: 0 }),
   no_data: () => evidence({ theoryLabel: null, theorySource: null, theory: null }),
 };

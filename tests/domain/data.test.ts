@@ -78,9 +78,10 @@ const xrayOf = (code: string) => {
 const relatedFile = JSON.parse(readFileSync(join(ROOT, 'data', 'build', 'related.json'), 'utf8')) as Record<string, OccupationBundle['related']>;
 
 describe('task evidence on real occupations', () => {
-  it('registered nurse: documentation is ai_speeds, hands-on care and supervision stay human', () => {
+  it('registered nurse: E2-only tasks nobody uses AI for stay human; bedside monitoring is never handed to AI', () => {
     const rn = bundleOf('29-1141.00');
-    expect(byId(rn, '1841').evidence.category).toBe('ai_speeds'); // Record patients' medical information
+    // Record patients' medical information: E2 by both raters, not seen in AI work use → stays with you for now.
+    expect(byId(rn, '1841').evidence).toMatchObject({ theory: 0.5, observed: false, category: 'human_edge' });
     expect(byId(rn, '20413').evidence.category).toBe('human_edge'); // Administer medications (physical, E0)
     expect(byId(rn, '1855').evidence.category).toBe('human_edge'); // Provide health care, first aid
     expect(byId(rn, '1846').evidence.category).toBe('human_edge'); // Direct or supervise nursing personnel (people work)
@@ -100,10 +101,11 @@ describe('task evidence on real occupations', () => {
     expect(byId(acc, '21516').evidence).toMatchObject({ theorySource: 'human+gpt4', theory: 0.25, category: 'human_edge' });
   });
 
-  it('bookkeeping clerks: computer and office-machine work is ai_speeds, coding documents is ai_does', () => {
+  it('bookkeeping clerks: observed checking work is ai_speeds, coding documents is ai_does', () => {
     const bk = bundleOf('43-3031.00');
     expect(byId(bk, '2486').evidence).toMatchObject({ category: 'ai_speeds', evidenceLevel: 'observed' }); // Check figures, postings
-    expect(byId(bk, '2487').evidence.category).toBe('ai_speeds'); // Operate computers programmed with accounting software
+    // Operate computers with accounting software: E0 / E1 (theory 0.5) and not seen in use → stays human for now.
+    expect(byId(bk, '2487').evidence.category).toBe('human_edge');
     expect(bk.tasks.filter((t) => t.evidence.category === 'ai_does').length).toBeGreaterThan(0);
   });
 
@@ -121,12 +123,25 @@ describe('task evidence on real occupations', () => {
   it('category distributions and base scores (fixed so a data change is visible in review)', () => {
     const rows = ['29-1141.00', '29-2061.00', '29-1141.03', '13-2011.00', '43-3031.00', '47-2111.00', '43-4051.00'].map((c) => ({ c, d: dist(c), base: xrayOf(c).baseScore }));
     console.log(rows.map((r) => `${r.c} ${JSON.stringify(r.d)} base ${r.base}`).join('\n'));
-    expect(dist('29-1141.00')).toEqual({ ai_speeds: 11, human_edge: 16 });
-    expect(dist('29-2061.00')).toEqual({ ai_speeds: 5, human_edge: 17 });
-    expect(dist('13-2011.00')).toEqual({ ai_speeds: 20, human_edge: 10 });
-    expect(dist('43-3031.00')).toEqual({ ai_does: 2, ai_speeds: 20, human_edge: 6 });
-    expect(dist('47-2111.00')).toEqual({ ai_speeds: 3, human_edge: 18 });
-    expect(dist('43-4051.00')).toEqual({ ai_does: 4, ai_speeds: 4, human_edge: 5 });
+    expect(dist('29-1141.00')).toEqual({ ai_speeds: 6, human_edge: 21 });
+    expect(dist('29-2061.00')).toEqual({ ai_speeds: 3, human_edge: 19 });
+    expect(dist('29-1141.01')).toEqual({ ai_does: 1, ai_speeds: 5, human_edge: 21 });
+    expect(dist('29-1141.03')).toEqual({ ai_speeds: 5, human_edge: 24 });
+    expect(dist('13-2011.00')).toEqual({ ai_speeds: 13, human_edge: 17 });
+    expect(dist('43-3031.00')).toEqual({ ai_does: 2, ai_speeds: 16, human_edge: 10 });
+    expect(dist('47-2111.00')).toEqual({ ai_speeds: 2, human_edge: 19 });
+    expect(dist('43-4051.00')).toEqual({ ai_does: 4, ai_speeds: 5, human_edge: 4 });
+    // Similar nursing jobs land close together (the jury's "compare two similar jobs").
+    const human = (c: string) => xrayOf(c).percent.human_edge;
+    expect(Math.abs(human('29-1141.00') - human('29-1141.01'))).toBeLessThan(20);
+    expect(Math.abs(human('29-1141.00') - human('29-1141.03'))).toBeLessThan(20);
+    // Air traffic control: radar and pilot communication are not "AI speeds it up".
+    const atc = bundleOf('53-2021.00');
+    const control = atc.tasks.filter((x) => /^(Inform pilots|Monitor aircraft|Direct pilots|Contact pilots)/.test(x.text));
+    expect(control.length).toBeGreaterThan(2);
+    for (const t of control) expect(t.evidence.category, t.text).toBe('human_edge');
+    // Elementary teachers: observing students stays human.
+    expect(byId(bundleOf('25-2021.00'), '6536').evidence.category).toBe('human_edge');
     expect(xrayOf('43-3031.00').baseScore).toBeLessThanOrEqual(xrayOf('13-2011.00').baseScore);
   });
 

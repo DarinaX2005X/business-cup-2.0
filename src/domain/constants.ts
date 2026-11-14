@@ -19,9 +19,9 @@ export const THEORY_BY_LABEL = { E0: 0, E1: 1, E2: 0.5 } as const;
  *   the API; work use below that floor is `seenRarely` and is categorised like an unobserved task;
  * - observed: Claude.ai automation >= aiDoesAutomation → ai_does; API-only automation counts only when the
  *   research rating also says an LLM alone can do it (theory >= aiDoesApiTheory); otherwise ai_speeds;
- * - not observed: physical (Microsoft) with theory <= physicalMaxTheory, or people work (O*NET interpersonal
- *   activities) with theory <= peopleMaxTheory → human_edge; theory >= unobservedSpeedsTheory → ai_speeds;
- *   otherwise human_edge;
+ * - not observed (including seenRarely): theory >= unobservedSpeedsTheory (0.75: at least one E1 and nothing
+ *   below E2) → ai_speeds; theory 0.5 (E2) → ai_speeds only with real but rare usage (seenRarely) on a task that
+ *   is neither physical nor people work, otherwise human_edge ("stays with you for now"); theory <= 0.25 → human_edge;
  * - no label and no observation → no_data. task_penetration and everObserved are shown, never used as triggers.
  */
 export const CATEGORY_THRESHOLDS = {
@@ -34,7 +34,9 @@ export const CATEGORY_THRESHOLDS = {
   /** API traffic is mostly programmatic (median automation 0.98 vs 0.66 on Claude.ai): API-only ai_does needs this theory. */
   aiDoesApiTheory: 0.75,
   /** Unobserved tasks need this research theory (E2 agreed by both raters, or better) to count as ai_speeds. */
-  unobservedSpeedsTheory: 0.5,
+  unobservedSpeedsTheory: 0.75,
+  /** E2 level: with no meaningful use observed it counts as ai_speeds only when rare real usage backs it up. */
+  e2Theory: 0.5,
   /** People work stays with the person when unobserved and theory is at most this (one rater E1, the other E2). */
   peopleMaxTheory: 0.75,
   /** A task is people work when at least this share of its DWAs belong to the interpersonal GWAs below. */

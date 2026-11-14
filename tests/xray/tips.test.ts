@@ -19,6 +19,8 @@ describe('short labels without the model', () => {
 describe('tips post-processing', () => {
   const speeds = byCat('ai_speeds');
   const edge = byCat('human_edge');
+  // Any task that is neither of the two above (the categories come from the data build).
+  const other = nurse.tasks.find((t) => t.id !== speeds.id && t.id !== edge.id)!;
 
   it('picks the tip by the data category, drops unknown ids and runaway text', () => {
     const record = applyTips(
@@ -27,7 +29,7 @@ describe('tips post-processing', () => {
           { taskId: speeds.id, short: 'Charting.', tipHand: 'Dictate your notes and ask for a draft; check doses.', tipEdge: 'ignored', text: null },
           { taskId: edge.id, short: 'Medication rounds', tipHand: 'should be ignored', tipEdge: 'You see the patient react.', text: null },
           { taskId: 'unknown', short: 'x', tipHand: 'x', tipEdge: null, text: null },
-          { taskId: nurse.tasks[2].id, short: 'A label that is far too long to be a short label', tipHand: 'x'.repeat(400), tipEdge: null, text: null },
+          { taskId: other.id, short: 'A label that is far too long to be a short label', tipHand: 'x'.repeat(400), tipEdge: null, text: null },
         ],
       },
       nurse,
@@ -36,7 +38,7 @@ describe('tips post-processing', () => {
     expect(record.tasks[speeds.id]).toMatchObject({ short: 'Charting', tip: 'Dictate your notes and ask for a draft; check doses.', kind: 'hand', edgeTip: null });
     expect(record.tasks[edge.id]).toMatchObject({ tip: 'You see the patient react.', kind: 'edge' });
     expect(record.tasks.unknown).toBeUndefined();
-    expect(record.tasks[nurse.tasks[2].id]).toMatchObject({ short: null, tip: null });
+    expect(record.tasks[other.id]).toMatchObject({ short: null, tip: null });
 
     const tips = tipsResponse(record, nurse);
     expect(Object.keys(tips).sort()).toEqual([speeds.id, edge.id].sort());

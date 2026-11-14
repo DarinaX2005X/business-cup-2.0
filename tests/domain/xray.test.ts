@@ -25,8 +25,8 @@ describe('computeXray', () => {
 
   it('applies the formulas: weekExposure, baseScore, payAtStake, handToAi, humanEdge, hoursFreed', () => {
     const { result, breakdown } = computeXray(b, shares);
-    // exposures: ai_does 0.5 × 1 + 0.5 × (0.5 + 0.5 × 0.8) = 0.95, ai_speeds 0.25, human_edge 0, no_data 0
-    expect(result.weekExposure).toBeCloseTo(0.4 * 0.95 + 0.3 * 0.25, 4);
+    // exposures: ai_does 0.5 × 1 + 0.5 × (0.5 + 0.5 × 0.8) = 0.95, ai_speeds 0.5 × 0.75 = 0.375, human_edge 0, no_data 0
+    expect(result.weekExposure).toBeCloseTo(0.4 * 0.95 + 0.3 * 0.375, 4);
     // the score uses the category weights of pay at stake: 100 × (1 − 0.55) = 45
     expect(result.baseScore).toBe(45);
     expect(result.score).toBe(result.baseScore);

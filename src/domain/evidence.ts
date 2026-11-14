@@ -30,7 +30,7 @@ export function theoryFromLabels(human: Label | null, gpt4: Label | null): { the
 }
 
 type CategoryInput = Pick<TaskEvidence, 'theorySource' | 'theory' | 'observed' | 'aeiAutomation' | 'physical'> &
-  Partial<Pick<TaskEvidence, 'aeiClaudeShare' | 'aeiApiShare' | 'aeiClaudeAutomation' | 'aeiApiAutomation' | 'aeiClaudeWorkShare' | 'aeiApiWorkShare' | 'peopleWork'>>;
+  Partial<Pick<TaskEvidence, 'aeiClaudeShare' | 'aeiApiShare' | 'aeiClaudeAutomation' | 'aeiApiAutomation' | 'aeiClaudeWorkShare' | 'aeiApiWorkShare' | 'peopleWork' | 'seenRarely'>>;
 
 /** A source counts when its share is at least 0.01% and most of its use is work (missing work share: assumed). */
 function meaningful(share: number | null | undefined, work: number | null | undefined): boolean {
@@ -56,11 +56,22 @@ export function automationBasis(e: CategoryInput): { automation: number | null; 
 
 /** Why an unobserved task stays with the person, if it does: hands-on work or work with people. */
 function humanReason(e: CategoryInput): 'physical' | 'people' | null {
-  if (e.observed) return null;
-  if (e.physical === true && e.theory <= CATEGORY_THRESHOLDS.physicalMaxTheory) return 'physical';
-  // GPT-4 rates interpersonal tasks E2 or E1 far more often than human raters; one E1 vote is not enough here.
-  if (e.peopleWork === true && e.theory <= CATEGORY_THRESHOLDS.peopleMaxTheory) return 'people';
+  if (e.observed || e.theory >= CATEGORY_THRESHOLDS.unobservedSpeedsTheory) return null;
+  if (e.physical === true) return 'physical';
+  if (e.peopleWork === true) return 'people';
   return null;
+}
+
+/**
+ * Unobserved task (no meaningful work use, possibly seen rarely): does the research rating alone make it
+ * ai_speeds? At least one E1 and nothing below E2 (theory >= 0.75): yes. E2 level (0.5): only with real but
+ * rare usage on a task that is neither hands-on nor work with people. Lower: no.
+ */
+function unobservedSpeeds(e: CategoryInput): boolean {
+  const t = CATEGORY_THRESHOLDS;
+  if (e.theory >= t.unobservedSpeedsTheory) return true;
+  if (e.theory >= t.e2Theory) return e.seenRarely === true && e.physical !== true && e.peopleWork !== true;
+  return false;
 }
 
 /**
@@ -69,10 +80,11 @@ function humanReason(e: CategoryInput): 'physical' | 'people' | null {
  * - Observed (AEI 2026-06-26 work use with a share >= 0.01% of a source's conversations; smaller shares round
  *   to 0.00% in the published data and are only `seenRarely`): automation >= 0.7 measured on Claude.ai (or on
  *   the API when theory >= 0.75) → ai_does; any other meaningful observation → ai_speeds.
- * - Not observed (or seen rarely): hands-on (Microsoft physical flag, theory <= 0.25) or people work (most O*NET activities are
- *   interpersonal: care, teaching, supervising, negotiating …) with theory <= 0.75 → human_edge;
- *   research theory >= 0.5 (both raters say an LLM with tools can halve the time, or better) → ai_speeds;
- *   otherwise human_edge.
+ * - Not observed (or seen rarely): research theory >= 0.75 (at least one rater E1, nothing below E2) →
+ *   ai_speeds; theory 0.5 (E2: an LLM could help once extra software exists) → ai_speeds only when real but rare
+ *   usage backs it up (seenRarely) and the task is neither hands-on (Microsoft physical flag) nor work with
+ *   people (most O*NET activities interpersonal: care, teaching, supervising, negotiating …); otherwise
+ *   human_edge, "stays with you for now"; theory <= 0.25 → human_edge.
  * Anthropic's task_penetration (β > 0 and enough work use in the Aug and Nov 2025 samples, automated use
  * weighted fully and augmentative use half; Massenkoff and McCrory, "Labor market impacts", 2026) and older
  * releases (everObserved) are shown as supporting facts, never used as triggers.
@@ -84,8 +96,7 @@ export function categorize(e: CategoryInput): Category {
     const { automation } = automationBasis(e);
     return automation !== null && automation >= t.aiDoesAutomation ? 'ai_does' : 'ai_speeds';
   }
-  if (humanReason(e)) return 'human_edge';
-  return e.theory >= t.unobservedSpeedsTheory ? 'ai_speeds' : 'human_edge';
+  return unobservedSpeeds(e) ? 'ai_speeds' : 'human_edge';
 }
 
 export function evidenceLevelOf(e: Pick<TaskEvidence, 'observed' | 'theorySource'>): EvidenceLevel {
@@ -173,6 +184,9 @@ export const EXPLAIN_KEYS = [
   'category.explain.seen_rarely',
   'category.explain.people',
   'category.explain.estimate_low',
+  // Added in the final category repair
+  'category.explain.estimate_e2_unseen',
+  'category.explain.seen_rarely_e2',
 ] as const;
 export type ExplainKey = (typeof EXPLAIN_KEYS)[number];
 
@@ -205,6 +219,9 @@ export function explainCategory(e: TaskEvidence): { key: ExplainKey; params: Rec
   if (e.category === 'human_edge' && reason === 'physical') return { key: 'category.explain.physical', params: {} };
   if (e.category === 'human_edge' && reason === 'people') return { key: 'category.explain.people', params: {} };
   const label = e.theoryLabel ?? e.gpt4Label ?? '';
+  if (e.seenRarely && e.category === 'ai_speeds' && e.theory < CATEGORY_THRESHOLDS.unobservedSpeedsTheory) {
+    return { key: 'category.explain.seen_rarely_e2', params: { label } };
+  }
   if (e.seenRarely) return { key: 'category.explain.seen_rarely', params: { label } };
   if (e.aeiShare !== null && e.aeiWorkShare !== null) {
     // Published in AEI, but most of that use is personal or coursework, so it does not count as work use.
@@ -213,6 +230,8 @@ export function explainCategory(e: TaskEvidence): { key: ExplainKey; params: Rec
   if (e.theorySource === 'estimated') return { key: 'category.explain.estimate_dwa', params: { theory: pct(e.theory) } };
   const mixed = { human: e.theoryLabel ?? '', gpt4: e.gpt4Label ?? '', theory: pct(e.theory) };
   if (e.category === 'human_edge') {
+    // E2 alone says AI could help once extra software exists; with no use observed it stays with the person for now.
+    if (e.theory >= CATEGORY_THRESHOLDS.e2Theory) return { key: 'category.explain.estimate_e2_unseen', params: { label } };
     if (e.theorySource === 'human+gpt4') return { key: 'category.explain.estimate_low', params: mixed };
     return { key: 'category.explain.estimate_e0', params: {} };
   }

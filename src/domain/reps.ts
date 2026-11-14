@@ -34,7 +34,7 @@ export type RepNote =
   | 'english_only' // "Available in English today"
   | 'related_job'; // "From a related job"
 
-export type RepFlag = 'over_selected' | 'ended_early' | 'keyword_grade';
+export type RepFlag = 'over_selected' | 'too_broad' | 'ended_early' | 'keyword_grade' | 'harm';
 
 export type CriterionStatus = 'met' | 'partly' | 'missed';
 
@@ -53,15 +53,37 @@ export interface CriterionGrade {
   note?: string;
 }
 
-export interface RepResultFull extends Omit<RepResult, 'flags' | 'criteria'> {
+/**
+ * Map score before and after this rep. `before`/`after` (= `from`/`to`) are the rounded scores the map
+ * shows; `fromExact`/`toExact` carry one decimal, so a small step reads "79.0 → 79.6" honestly.
+ */
+export interface ScoreChange {
+  before: number;
+  after: number;
+  from: number;
+  to: number;
+  fromExact: number;
+  toExact: number;
+}
+
+export interface RepResultFull extends Omit<RepResult, 'flags' | 'criteria' | 'scoreChange'> {
   flags?: RepFlag[];
   criteria?: CriterionGrade[];
+  scoreChange: ScoreChange;
   /** slip: merged user ranges that were graded. */
   ranges?: [number, number][];
   /** slip: found or not, aligned with reveal.errors. */
   errorsFound?: boolean[];
   /** slip: highlights that hit no mistake; the first is free ("Not on our list"). */
   falseRanges?: [number, number][];
+  /** slip: highlights that covered a mistake but were too long to count ("Narrow it down to the wrong part"). */
+  tooBroad?: [number, number][];
+  /** slip: every graded highlight with its status (hit, near, too_broad, false) and the errors it found. */
+  marks?: RangeMark[];
+  /** delegate: traps the person missed but the AI's result pointed out by itself. */
+  trapsCaughtByAi?: string[];
+  /** edge: the harmful move found in the person's replies (quote checked in their text); the score is capped at 0.4. */
+  harm?: { quote: string; why: string };
   /** delegate: the one instruction line that would have helped most; edge: one-sentence feedback. */
   summary?: string;
   /** delegate: feedback on the user's "what would you fix" sentence. */
@@ -75,29 +97,39 @@ export interface TrapSpot {
   end: number;
 }
 
-export interface RepRevealFull extends RepReveal {
-  /** delegate: where each trap's keywords sit in the inputs and in the AI's result. */
+/** A Delegate trap grounded in the material: two verbatim quotes of the inputs that contradict each other. */
+export type TrapFull = Trap & { evidence?: string[] };
+
+export interface RepRevealFull extends Omit<RepReveal, 'errors' | 'traps'> {
+  /** slip: the planted mistakes, each with `focusStart`/`focusEnd`: the exact wrong part. */
+  errors?: (SlipError & { focusStart?: number; focusEnd?: number })[];
+  traps?: TrapFull[];
+  /** delegate: where each trap sits in the inputs (its evidence and keywords) and in the AI's result. */
   trapSpots?: TrapSpot[];
+  /** delegate: one strong instruction for this scenario, shown after grading. */
+  exemplar?: string;
 }
 
 /** What the engine stores under `rep:<id>`. */
 export interface RepRecord extends Omit<Rep, 'result' | 'delegate' | 'edge'> {
   docType?: string;
   notes?: RepNote[];
-  delegate?: Omit<NonNullable<Rep['delegate']>, 'criteria'> & { criteria: RubricItem[] };
+  delegate?: Omit<NonNullable<Rep['delegate']>, 'criteria' | 'traps'> & { criteria: RubricItem[]; traps: TrapFull[]; exemplar?: string };
   edge?: Omit<NonNullable<Rep['edge']>, 'criteria'> & { criteria: RubricItem[] };
   result?: RepResultFull;
   reveal?: RepRevealFull;
 }
 
 /** What the client receives: RepPublic plus labels and captions. */
-export interface RepView extends Omit<RepPublic, 'result' | 'reveal'> {
+export interface RepView extends Omit<RepPublic, 'result' | 'reveal' | 'delegate'> {
   taskShort: string;
   occupationCode: string;
   docType?: string;
   notes: RepNote[];
   difficulty: 1 | 2 | 3;
   day: string;
+  /** delegate: `review` is the person's highlights in `run` and their fix sentence, once submitted. */
+  delegate?: NonNullable<RepPublic['delegate']> & { review?: { ranges: [number, number][]; fix: string } };
   result?: RepResultFull;
   reveal?: RepRevealFull;
 }
@@ -169,6 +201,31 @@ export function normalizeDocument(text: string): string {
     .trim();
 }
 
+/**
+ * Keeps only the light markup documents use ("# ", "## ", "- ", "|" tables): deeper headings become
+ * "## ", bold/italic/code markers, links, block quotes, HTML tags and rules are removed, "* " and "+ "
+ * bullets become "- ". For model output that slipped into full Markdown.
+ */
+export function toLightMarkup(text: string): string {
+  return text
+    .replace(/\r\n?/g, '\n')
+    .split('\n')
+    .map((line) => {
+      let l = line;
+      if (/^\s*(?:-{3,}|\*{3,}|_{3,})\s*$/.test(l)) return '';
+      l = l.replace(/^(\s*)#{3,6}\s+/, '$1## ');
+      l = l.replace(/^(\s*)>\s?/, '$1');
+      l = l.replace(/^(\s*)[*+]\s+/, '$1- ');
+      l = l.replace(/\*\*([^*]+)\*\*/g, '$1').replace(/__([^_]+)__/g, '$1');
+      l = l.replace(/(^|[\s(])\*([^*\s][^*]*?)\*(?=[\s).,;:!?]|$)/g, '$1$2');
+      l = l.replace(/`([^`]*)`/g, '$1');
+      l = l.replace(/\[([^\]]+)\]\((?:[^)]+)\)/g, '$1');
+      l = l.replace(/<\/?[a-zA-Z][^>]*>/g, '');
+      return l;
+    })
+    .join('\n');
+}
+
 /** A quote as the model wrote it → the form searched in the document. */
 export function normalizeQuote(quote: string): string {
   return normalizeDocument(quote)
@@ -197,7 +254,12 @@ export interface SlipDraftError {
   type: string;
   explanation: string;
   fix: string;
+  /** The exact wrong part inside the quote, as the generator sees it (optional; checked). */
+  focus?: string | null;
 }
+
+/** A stored slip error with its focus: the exact wrong part, in document offsets. */
+export type SlipErrorFull = SlipError & { focusStart: number; focusEnd: number };
 
 export interface SlipDraft {
   title: string;
@@ -211,7 +273,7 @@ export interface SlipContent {
   title: string;
   brief: string;
   docType: string;
-  slip: { document: string; errors: SlipError[] };
+  slip: { document: string; errors: SlipErrorFull[] };
 }
 
 export interface SlipRules {
@@ -237,7 +299,7 @@ export type SlipValidation = { ok: true; content: SlipContent; repairs: string[]
 export function validateSlip(draft: SlipDraft, rules: SlipRules): SlipValidation {
   const problems: string[] = [];
   const repairs: string[] = [];
-  const document = normalizeDocument(draft.document ?? '');
+  const document = normalizeDocument(toLightMarkup(draft.document ?? ''));
   const words = wordCount(document);
   const minWords = rules.minWords ?? SLIP_WORDS.min;
   const maxWords = rules.maxWords ?? SLIP_WORDS.max;
@@ -246,7 +308,7 @@ export function validateSlip(draft: SlipDraft, rules: SlipRules): SlipValidation
   if (!draft.title?.trim()) problems.push('title is empty.');
   if ((draft.errors ?? []).length !== rules.n) problems.push(`There must be exactly ${rules.n} mistakes; you listed ${(draft.errors ?? []).length}.`);
 
-  const errors: SlipError[] = [];
+  const errors: SlipErrorFull[] = [];
   (draft.errors ?? []).forEach((e, i) => {
     const label = `Mistake ${i + 1}`;
     const type = String(e.type ?? '').trim().toLowerCase() as SlipErrorType;
@@ -298,13 +360,23 @@ export function validateSlip(draft: SlipDraft, rules: SlipRules): SlipValidation
       return;
     }
     const start = found[0];
+    const fix = e.fix.trim();
+    // focus: the generator's own pick when it sits inside the quote, else the word diff quote → fix
+    let [fa, fb] = type === 'omission' ? [0, quote.length] : focusInQuote(quote, fix);
+    const given = normalizeQuote(e.focus ?? '');
+    if (type !== 'omission' && given && given.length >= 2 && given.length < quote.length) {
+      const at = quote.toLowerCase().indexOf(given.toLowerCase());
+      if (at >= 0) [fa, fb] = [at, at + given.length];
+    }
     errors.push({
       quote,
       start,
       end: start + quote.length,
+      focusStart: start + fa,
+      focusEnd: start + fb,
       type,
       explanation: e.explanation.trim(),
-      fix: e.fix.trim(),
+      fix,
     });
   });
 
@@ -335,6 +407,8 @@ export function slipRangesValid(slip: { document: string; errors: SlipError[] })
     if (e.start < 0 || e.end > slip.document.length || e.start >= e.end) return false;
     if (slip.document.slice(e.start, e.end) !== e.quote) return false;
     if (e.start < prevEnd) return false;
+    const f = e as Partial<SlipErrorFull>;
+    if (f.focusStart !== undefined && (f.focusStart < e.start || (f.focusEnd ?? 0) > e.end || (f.focusEnd ?? 0) <= f.focusStart)) return false;
     prevEnd = e.end;
   }
   return true;
@@ -346,10 +420,12 @@ export function slipRangesValid(slip: { document: string; errors: SlipError[] })
 export type Range = [number, number];
 
 export const MAX_RANGES = 12;
-export const FOUND_MIN_COVER = 0.4;
-export const FALSE_MAX_OVERLAP = 0.2;
 export const FALSE_PENALTY = 0.15;
-export const OVER_SELECTED = 0.6;
+/** Selecting more than this share of the document scores 0. */
+export const OVER_SELECTED = 0.35;
+/** A highlight longer than max(BROAD_FACTOR × focus, quote + BROAD_SLACK) characters is too broad to count. */
+export const BROAD_FACTOR = 3;
+export const BROAD_SLACK = 40;
 
 /** Clamps to the document, drops empty ranges, merges overlapping or touching ones and keeps at most 12. */
 export function mergeRanges(ranges: readonly Range[], docLength: number, max = MAX_RANGES): Range[] {
@@ -370,6 +446,100 @@ function overlap(a: Range, b: Range): number {
   return Math.max(0, Math.min(a[1], b[1]) - Math.max(a[0], b[0]));
 }
 
+interface Tok {
+  key: string;
+  start: number;
+  end: number;
+}
+
+/** Whitespace tokens compared without case and without punctuation at their edges ("daily." = "daily"). */
+function tokens(s: string): Tok[] {
+  const out: Tok[] = [];
+  const re = /\S+/g;
+  for (let m = re.exec(s); m; m = re.exec(s)) {
+    out.push({ key: m[0].toLowerCase().replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu, ''), start: m.index, end: m.index + m[0].length });
+  }
+  return out;
+}
+
+const EDGE_PUNCT_START = /^[("'«“]+/;
+const EDGE_PUNCT_END = /[.,;:!?)"'»”]+$/;
+
+/**
+ * The wrong part of a quote, as offsets inside it: the quote's words that the fix changes (common
+ * leading and trailing words removed). When the fix only adds words (an omission) or rewrites
+ * everything, the whole quote. Sentence punctuation at the edges is dropped ("482,000." → "482,000").
+ */
+export function focusInQuote(quote: string, fix: string): Range {
+  const q = tokens(quote);
+  const f = tokens(fix);
+  let p = 0;
+  while (p < q.length && p < f.length && q[p].key === f[p].key) p++;
+  let s = 0;
+  while (s < q.length - p && s < f.length - p && q[q.length - 1 - s].key === f[f.length - 1 - s].key) s++;
+  const from = p;
+  const to = q.length - s;
+  if (to <= from || (from === 0 && to === q.length)) return [0, quote.length];
+  let a = q[from].start;
+  let b = q[to - 1].end;
+  const text = quote.slice(a, b);
+  const lead = EDGE_PUNCT_START.exec(text)?.[0].length ?? 0;
+  const trail = EDGE_PUNCT_END.exec(text)?.[0].length ?? 0;
+  if (lead + trail < text.length) {
+    a += lead;
+    b -= trail;
+  }
+  return [a, b];
+}
+
+/** Error fields the grader reads; `quote`/`fix` let it derive the focus when it is not stored. */
+export interface GradableError {
+  start: number;
+  end: number;
+  quote?: string;
+  fix?: string;
+  type?: string;
+  focusStart?: number;
+  focusEnd?: number;
+}
+
+/** Document offsets of the wrong part of an error: the stored focus, else derived from quote and fix. */
+export function errorFocus(e: GradableError): Range {
+  if (typeof e.focusStart === 'number' && typeof e.focusEnd === 'number' && e.focusStart >= e.start && e.focusEnd <= e.end && e.focusEnd > e.focusStart) {
+    return [e.focusStart, e.focusEnd];
+  }
+  if (e.type === 'omission') return [e.start, e.end]; // what is missing has no words of its own: the whole line
+  if (e.quote && e.fix && e.quote.length === e.end - e.start) {
+    const [a, b] = focusInQuote(e.quote, e.fix);
+    return [e.start + a, e.start + b];
+  }
+  return [e.start, e.end];
+}
+
+const PAD = /[.,$%£€−+\-/:]/;
+
+/**
+ * The focus widened by one adjacent punctuation character on each side (".5 мг", "$482,000", "12%"),
+ * read from the quote, so a word-level selection next to a symbol still lands.
+ */
+function paddedFocus(e: GradableError, f: Range): Range {
+  if (!e.quote || e.quote.length !== e.end - e.start) return f;
+  const at = (i: number) => e.quote![i - e.start] ?? '';
+  const a = f[0] > e.start && PAD.test(at(f[0] - 1)) ? f[0] - 1 : f[0];
+  const b = f[1] < e.end && PAD.test(at(f[1])) ? f[1] + 1 : f[1];
+  return [a, b];
+}
+
+export type RangeStatus = 'hit' | 'near' | 'too_broad' | 'false';
+
+export interface RangeMark {
+  start: number;
+  end: number;
+  status: RangeStatus;
+  /** Indexes of the errors this highlight found. */
+  errors: number[];
+}
+
 export interface SlipGrade {
   score: number;
   found: number;
@@ -378,31 +548,53 @@ export interface SlipGrade {
   flags: RepFlag[];
   ranges: Range[];
   errorsFound: boolean[];
+  /** Highlights that touch no mistake; the first is free ("Not on our list"). */
   falseRanges: Range[];
+  /** Highlights that cover a mistake but are too long to count ("Narrow it down to the wrong part"). */
+  tooBroad: Range[];
+  /** Every graded highlight with its status, in document order. */
+  marks: RangeMark[];
+  /** The wrong part of each error, aligned with the errors. */
+  focus: Range[];
 }
 
 const round2 = (x: number) => Math.round(x * 100) / 100;
 
 /**
- * Spot-the-slip grading. A mistake counts as found when the highlights cover at least 40% of its quote.
- * A highlight is false when no more than 20% of it lies on mistakes. The first false highlight is free,
- * each further one costs 0.15. Highlighting more than 60% of the document scores 0 (`over_selected`).
+ * Spot-the-slip grading. Each error has a focus: the exact wrong part. A highlight finds an error when
+ * it overlaps the focus by at least one character (adjacent punctuation tolerated) and is not longer
+ * than max(3 × focus, quote + 40) characters; a longer one is `too_broad` and finds nothing. A
+ * highlight inside a quote but off its focus is `near`: no credit, no penalty. A highlight that touches
+ * no quote is false: the first is free, each further one costs 0.15. Selecting more than 35% of the
+ * document scores 0 (`over_selected`).
  */
-export function gradeSlip(errors: readonly Pick<SlipError, 'start' | 'end'>[], rawRanges: readonly Range[], docLength: number): SlipGrade {
+export function gradeSlip(errors: readonly GradableError[], rawRanges: readonly Range[], docLength: number): SlipGrade {
   const ranges = mergeRanges(rawRanges, docLength);
-  const errorSpans: Range[] = errors.map((e) => [e.start, e.end]);
-  const errorsFound = errorSpans.map((span) => {
-    const covered = ranges.reduce((n, r) => n + overlap(span, r), 0);
-    return covered >= FOUND_MIN_COVER * (span[1] - span[0]);
+  const focus = errors.map(errorFocus);
+  const errorsFound = errors.map(() => false);
+  const marks: RangeMark[] = ranges.map((r) => {
+    const hits: number[] = [];
+    let broad = false;
+    let near = false;
+    errors.forEach((e, i) => {
+      const f = focus[i];
+      if (overlap(r, paddedFocus(e, f)) > 0) {
+        const limit = Math.max(BROAD_FACTOR * (f[1] - f[0]), e.end - e.start + BROAD_SLACK);
+        if (r[1] - r[0] > limit) broad = true;
+        else hits.push(i);
+      } else if (overlap(r, [e.start, e.end]) > 0) near = true;
+    });
+    for (const i of hits) errorsFound[i] = true;
+    const status: RangeStatus = hits.length ? 'hit' : broad ? 'too_broad' : near ? 'near' : 'false';
+    return { start: r[0], end: r[1], status, errors: hits };
   });
-  const falseRanges = ranges.filter((r) => {
-    const onErrors = errorSpans.reduce((n, s) => n + overlap(r, s), 0);
-    return onErrors <= FALSE_MAX_OVERLAP * (r[1] - r[0]);
-  });
+  const falseRanges = marks.filter((m) => m.status === 'false').map((m): Range => [m.start, m.end]);
+  const tooBroad = marks.filter((m) => m.status === 'too_broad').map((m): Range => [m.start, m.end]);
   const found = errorsFound.filter(Boolean).length;
   const total = errors.length;
   const selected = ranges.reduce((n, r) => n + (r[1] - r[0]), 0);
   const flags: RepFlag[] = [];
+  if (tooBroad.length) flags.push('too_broad');
   let score: number;
   if (docLength > 0 && selected > OVER_SELECTED * docLength) {
     flags.push('over_selected');
@@ -410,7 +602,7 @@ export function gradeSlip(errors: readonly Pick<SlipError, 'start' | 'end'>[], r
   } else {
     score = total ? Math.max(0, found / total - FALSE_PENALTY * Math.max(0, falseRanges.length - 1)) : 0;
   }
-  return { score: round2(score), found, total, falseFlags: falseRanges.length, flags, ranges, errorsFound, falseRanges };
+  return { score: round2(score), found, total, falseFlags: falseRanges.length, flags, ranges, errorsFound, falseRanges, tooBroad, marks, focus };
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -466,6 +658,25 @@ export function delegateScore(criteria: readonly { status: CriterionStatus }[], 
 
 export function edgeScore(criteria: readonly { status: CriterionStatus }[]): number {
   return round2(rubricScore(criteria));
+}
+
+/** Highest Human edge score after a harmful move (unsafe, dishonest, non-compliant or unethical). */
+export const HARM_CAP = 0.4;
+
+/**
+ * Applies a harmful move found by the grader (its quote already checked in the person's replies): the
+ * criterion it breaks becomes missed with the reason as its note, and the score is capped at 0.4.
+ */
+export function applyHarm(
+  criteria: readonly CriterionGrade[],
+  harm: { quote: string; why: string; criterionId: string | null } | undefined,
+): { criteria: CriterionGrade[]; harm?: { quote: string; why: string }; cap: (score: number) => number } {
+  if (!harm) return { criteria: [...criteria], cap: (s) => s };
+  return {
+    criteria: criteria.map((c) => (c.id === harm.criterionId ? { id: c.id, status: 'missed', note: harm.why } : c)),
+    harm: { quote: harm.quote, why: harm.why },
+    cap: (s) => Math.min(s, HARM_CAP),
+  };
 }
 
 /**
@@ -580,9 +791,15 @@ export function trapsCaught(
     .map((t) => t.id);
 }
 
-export function trapSpots(traps: readonly Trap[], inputs: string, run: string | undefined): TrapSpot[] {
+/** Where each trap sits: its two evidence quotes and its keywords in the inputs, its keywords in the AI's result. */
+export function trapSpots(traps: readonly TrapFull[], inputs: string, run: string | undefined): TrapSpot[] {
   const out: TrapSpot[] = [];
   for (const t of traps) {
+    for (const q of t.evidence ?? []) {
+      const at = inputs.indexOf(q);
+      const r = at >= 0 ? ([at, at + q.length] as Range) : locateLoose(inputs, q);
+      if (r) out.push({ trapId: t.id, where: 'inputs', start: r[0], end: r[1] });
+    }
     for (const k of trapTerms(t)) {
       for (const [start, end] of keywordSpots(inputs, k)) out.push({ trapId: t.id, where: 'inputs', start, end });
       if (run) for (const [start, end] of keywordSpots(run, k)) out.push({ trapId: t.id, where: 'run', start, end });
@@ -753,15 +970,30 @@ export function hoursOfShare(share: number): number {
 }
 
 /**
- * Fact for a card, from the data only. Keys (03.2 renders them):
- * - today.aiOrMe.fact.observed  { automation }        "People hand this task to AI in {automation}% of conversations about it"
- * - today.aiOrMe.fact.used      { }                   "Seen in real AI use at work" (observed, no automation split)
- * - today.aiOrMe.fact.seen      { }                   "Seen in AI usage data, but rarely"
- * - today.aiOrMe.fact.estimate  { exposure }          "Research rates it {exposure}% exposed to language models"
- * - today.aiOrMe.fact.hands_on  { }                   "Hands-on task: barely appears in AI usage"
- * - today.aiOrMe.fact.people    { }                   "Work with people: barely appears in AI usage"
- * - today.aiOrMe.fact.human     { }                   "Judgment and people: barely appears in AI usage"
- * - today.aiOrMe.fact.no_data   { }                   "No data yet on this task"
+ * Clear-cut tasks only, so every answer can be defended from the data:
+ * - "ai": observed in real AI use at work, or rated by research as doable by language models (theory >= 0.75);
+ * - "human": not seen in AI usage (not observed, not seen rarely) and either research rates it low
+ *   (theory <= 0.25), or it is physical, or it is work with people.
+ * Unobserved middle ratings (theory 0.5) and rarely seen tasks are left out: either answer is arguable.
+ */
+export function aiOrMeAnswer(task: Pick<OccTask, 'evidence'>): 'ai' | 'human' | null {
+  const e = task.evidence;
+  if (!e.observed && e.seenRarely) return null; // published but rare: neither answer is clean
+  if (isAiCat(e.category) && (e.observed || e.theory >= 0.75)) return 'ai';
+  if (e.observed || e.seenRarely || e.theory >= 0.75 || e.category === 'ai_does') return null;
+  if (e.theory <= 0.25 || e.physical === true || e.peopleWork === true) return 'human';
+  return null;
+}
+
+/**
+ * Fact for a card: only what the data says. Keys (the Today screen renders them):
+ * - today.aiOrMe.fact.observed      { automation }  "Seen in AI use at work: in {automation}% of those conversations AI does the task itself"
+ * - today.aiOrMe.fact.used          { }             "Seen in AI use at work"
+ * - today.aiOrMe.fact.research_high { }            "Research rates it as work language models can do; not seen in AI usage yet"
+ * - today.aiOrMe.fact.hands_on      { }             "Hands-on work; not seen in AI usage yet"
+ * - today.aiOrMe.fact.people        { }             "Work with people; not seen in AI usage yet"
+ * - today.aiOrMe.fact.not_seen      { }             "Not seen in AI usage yet; research rates it low"
+ * - today.aiOrMe.fact.no_data       { }             "No data yet on this task" (unscored filler)
  * Every fact gets `hours` when the task is in the person's week ("You spend {hours} h a week on this").
  */
 export function aiOrMeFact(task: Pick<OccTask, 'evidence'>, share: number | undefined): AiOrMeCard['fact'] {
@@ -769,40 +1001,50 @@ export function aiOrMeFact(task: Pick<OccTask, 'evidence'>, share: number | unde
   const params: Record<string, number | string> = {};
   if (share && share > 0) params.hours = hoursOfShare(share);
   let key: string;
-  if (e.category === 'no_data') key = 'no_data';
-  else if (isAiCat(e.category)) {
+  const answer = aiOrMeAnswer(task);
+  if (answer === 'ai') {
     if (e.observed && e.aeiAutomation !== null) {
       key = 'observed';
       params.automation = Math.round(e.aeiAutomation * 100);
     } else if (e.observed) key = 'used';
-    else if (e.theory >= 0.75) {
-      key = 'estimate';
-      params.exposure = Math.round(e.exposure * 100);
-    } else if (e.seenRarely || e.everObserved) key = 'seen';
-    else {
-      key = 'estimate';
-      params.exposure = Math.round(e.exposure * 100);
-    }
-  } else key = e.physical ? 'hands_on' : e.peopleWork ? 'people' : 'human';
+    else key = 'research_high';
+  } else if (answer === 'human') key = e.physical ? 'hands_on' : e.peopleWork ? 'people' : 'not_seen';
+  else key = 'no_data';
   return { key: `today.aiOrMe.fact.${key}`, params };
 }
 
-/**
- * How strong the "AI" evidence of a task is: observed real use 4, high research rating (theory >= 0.75) 3,
- * rare published use 2, anything else in ai_speeds 1. Ties keep the person's week first.
- */
-function aiStrength(t: Pick<OccTask, 'evidence'>): number {
-  const e = t.evidence;
-  if (e.observed) return 4;
-  if (e.theory >= 0.75) return 3;
-  if (e.seenRarely || e.everObserved) return 2;
-  return 1;
+const STOPWORDS = new Set(['and', 'or', 'the', 'for', 'with', 'from', 'that', 'such', 'other', 'into', 'their', 'about', 'using', 'including']);
+
+function contentWords(text: string): Set<string> {
+  return new Set(
+    text
+      .toLowerCase()
+      .replace(/[^\p{L}\s]/gu, ' ')
+      .split(/\s+/)
+      .filter((w) => w.length >= 4 && !STOPWORDS.has(w))
+      .map((w) => w.replace(/(ing|ed|es|s)$/, '')),
+  );
 }
 
+/** Jaccard similarity of content words: near-duplicate task texts score >= NEAR_DUPLICATE (0.3: the closest Accountants pair is 0.36, the next 0.25). */
+export function textSimilarity(a: string, b: string): number {
+  const x = contentWords(a);
+  const y = contentWords(b);
+  if (!x.size || !y.size) return 0;
+  let common = 0;
+  for (const w of x) if (y.has(w)) common++;
+  return common / (x.size + y.size - common);
+}
+
+export const NEAR_DUPLICATE = 0.3;
+
+/** Evidence strength for ordering "ai" cards: observed first. */
+const aiStrength = (t: Pick<OccTask, 'evidence'>) => (t.evidence.observed ? 2 : 1);
+
 /**
- * Round of the day, deterministic for (profileId, day): 2 "AI" cards (ai_does/ai_speeds, observed first),
- * 2 "human" cards (human_edge), 1 more from either group; tasks of the person's week come first. When a group
- * runs short the missing cards come from no_data and are not scored.
+ * Round of the day, deterministic for (profileId, day): 2 "AI" and 2 "human" cards from clear-cut tasks
+ * (aiOrMeAnswer), 1 more from either group, tasks of the person's week first, no two near-duplicate texts.
+ * When the clear-cut tasks run out the round is shorter; no_data tasks may fill it, unscored.
  */
 export function buildAiOrMeRound(
   bundle: Pick<OccupationBundle, 'tasks'>,
@@ -816,27 +1058,29 @@ export function buildAiOrMeRound(
   const shareOf = new Map(shares.map((s) => [s.taskId, s.share]));
   const order = (pool: readonly OccTask[], strength: (t: OccTask) => number) =>
     shuffle(pool, rand).sort((a, b) => strength(b) - strength(a) || Number(shareOf.has(b.id)) - Number(shareOf.has(a.id)));
-  const ai = order(bundle.tasks.filter((t) => isAiCat(t.evidence.category)), aiStrength);
-  const human = order(bundle.tasks.filter((t) => t.evidence.category === 'human_edge'), () => 0);
+  const ai = order(bundle.tasks.filter((t) => aiOrMeAnswer(t) === 'ai'), aiStrength);
+  const human = order(bundle.tasks.filter((t) => aiOrMeAnswer(t) === 'human'), () => 0);
   const none = order(bundle.tasks.filter((t) => t.evidence.category === 'no_data'), () => 0);
 
   const chosen: { task: OccTask; answer: 'ai' | 'human'; counted: boolean }[] = [];
-  const take = (pool: OccTask[], answer: 'ai' | 'human', n: number) => {
-    for (let i = 0; i < n && pool.length; i++) chosen.push({ task: pool.shift()!, answer, counted: true });
+  const distinct = (t: OccTask) => chosen.every((c) => textSimilarity(c.task.text, t.text) < NEAR_DUPLICATE);
+  const take = (pool: OccTask[], answer: 'ai' | 'human', n: number, counted = true) => {
+    let added = 0;
+    while (added < n && pool.length) {
+      const t = pool.shift()!;
+      if (!distinct(t)) continue;
+      chosen.push({ task: t, answer, counted });
+      added++;
+    }
   };
   take(ai, 'ai', 2);
   take(human, 'human', 2);
-  const fifth = rand() < 0.5 ? ['ai', 'human'] : ['human', 'ai'];
-  for (const g of fifth) {
+  for (const g of rand() < 0.5 ? (['ai', 'human'] as const) : (['human', 'ai'] as const)) {
     if (chosen.length >= AI_OR_ME_SIZE) break;
-    const pool = g === 'ai' ? ai : human;
-    if (pool.length) take(pool, g as 'ai' | 'human', 1);
+    take(g === 'ai' ? ai : human, g, 1);
   }
-  while (chosen.length < AI_OR_ME_SIZE && none.length) chosen.push({ task: none.shift()!, answer: 'human', counted: false });
-  // still short (tiny occupation): any remaining scored tasks
-  for (const [pool, answer] of [[ai, 'ai'], [human, 'human']] as const) {
-    while (chosen.length < AI_OR_ME_SIZE && pool.length) chosen.push({ task: pool.shift()!, answer, counted: true });
-  }
+  for (const [pool, answer] of [[ai, 'ai'], [human, 'human']] as const) take(pool, answer, AI_OR_ME_SIZE - chosen.length);
+  take(none, 'human', AI_OR_ME_SIZE - chosen.length, false);
 
   const cards: AiOrMeCard[] = shuffle(chosen, rand).map(({ task, answer, counted }) => ({
     taskId: task.id,

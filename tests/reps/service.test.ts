@@ -10,6 +10,9 @@ import { aiOrMeFor, answerRep, createRep, getToday, logWork, resetBankCache, sta
 import { MAX_EXTRAS_PER_DAY } from '@/server/reps/service';
 import { loadBundle, typicalWeek } from '@/server/xray';
 import { createXray } from '@/server/xray/records';
+import { POINT_RULES, REP_POINTS, repPoints } from '@/domain/points';
+import { readBank, findBankSlip } from '@/server/reps';
+import { writeFileSync } from 'node:fs';
 import { useTempStore } from '../platform/helpers';
 import { nurseEdge, nurseSlip, writeBank } from './fixtures';
 
@@ -78,10 +81,16 @@ describe('reps without budget (bank fallback)', () => {
     await expectHttp(createRep(await ctx(p.id, '2026-11-14T16:00:00Z'), { type: 'slip', kind: 'daily' }), 409, 'daily_exists');
 
     const done = await answerRep(await ctx(p.id, '2026-11-14T16:00:00Z'), rep.id, { ranges: exactRanges(rep) });
-    expect(done.rep.result).toMatchObject({ score: 1, found: 3, total: 3, falseFlags: 0, points: 0 });
+    // points (stage 04) come from the rule table: daily rep at score 1, perfect, first rep
+    const award = (type: string, ruleId: string, points: number) => ({ type, points, labelKey: POINT_RULES.find((r) => r.id === ruleId)!.labelKey });
+    const expected = [award('rep_completed', 'rep_daily', repPoints('daily', 1)), award('rep_perfect', 'rep_perfect', REP_POINTS.perfect), award('first_rep', 'first_rep', REP_POINTS.first)];
+    const total = expected.reduce((n, a) => n + a.points, 0);
+    expect(done.rep.result).toMatchObject({ score: 1, found: 3, total: 3, falseFlags: 0, points: total });
+    expect(done.rep.result!.scoreChange).toMatchObject({ from: expect.any(Number), to: expect.any(Number), fromExact: expect.any(Number), toExact: expect.any(Number) });
+    expect(done.rep.result!.scoreChange.toExact).toBeGreaterThan(done.rep.result!.scoreChange.fromExact);
     expect(done.rep.reveal?.errors).toHaveLength(3);
     expect(done.rep.result!.scoreChange.after).toBeGreaterThanOrEqual(done.rep.result!.scoreChange.before);
-    expect(done.pointsAwarded).toEqual([]);
+    expect(done.pointsAwarded).toEqual(expected);
     expect(done.streak.current).toBe(1);
     const after = (await getProfile(p.id))!;
     expect(after.repLog.find((r) => r.id === rep.id)?.score).toBe(1);
@@ -151,6 +160,30 @@ describe('reps without budget (bank fallback)', () => {
     const t2 = await getToday(await ctx(p.id, '2026-11-14T15:30:00Z'));
     expect(t2.daily?.type).toBe('slip');
     expect(t2.nextKind).toBe('extra');
+  });
+});
+
+describe('showcase', () => {
+  it('an entry published on the landing (showcase.json) is never served, also not as a trial or fallback', async () => {
+    const bundle = (await loadBundle(NURSE))!;
+    const week = typicalWeek(bundle).shares;
+    writeBank(bankDir, [nurseSlip(week[0].taskId), nurseSlip(week[1].taskId)]); // slip-1 and slip-2
+    writeFileSync(path.join(bankDir, 'showcase.json'), JSON.stringify([`${NURSE}/slip-1.json`, `${NURSE}/edge-1.json`]));
+    resetBankCache();
+    expect((await readBank(NURSE, 'slip', 'en')).map((i) => i.file)).toEqual([`${NURSE}/slip-2.json`]);
+    expect(await readBank(NURSE, 'edge', 'en')).toEqual([]);
+    for (let i = 0; i < 10; i++) {
+      const pick = await findBankSlip({ code: NURSE, locale: 'en', seed: `s${i}`, weekTaskIds: [week[0].taskId] });
+      expect(pick?.item.file).toBe(`${NURSE}/slip-2.json`);
+    }
+    process.env.DEV_FORCE_PRO = '0';
+    try {
+      const p = await nurse();
+      const t = (await startTrial(await ctx(p.id, '2026-11-14T15:00:00Z'))) as { rep: RepView };
+      expect(t.rep.taskId).toBe(week[1].taskId); // the showcased slip-1 (task week[0]) is skipped
+    } finally {
+      process.env.DEV_FORCE_PRO = '1';
+    }
   });
 });
 

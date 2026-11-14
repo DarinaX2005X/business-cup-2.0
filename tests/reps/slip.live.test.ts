@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { categoriesFor } from '@/domain/reps';
-import { generateSlip } from '@/server/reps';
+import { generateSlip, SLIP_RETRIES } from '@/server/reps';
 import { heuristicShort, loadBundle, typicalWeek } from '@/server/xray';
 import { budgetLeft, loadLiveEnv, saveOutput, spend } from './live-helpers';
 
@@ -12,7 +12,7 @@ const LOCALE = (process.env.LIVE_LOCALE ?? 'en') as 'en' | 'ru' | 'kk';
 
 describe('rep.slip live', () => {
   for (const code of CODES) {
-    it(`generates a validated slip for ${code} in at most 2 attempts`, async () => {
+    it(`generates a validated slip for ${code} within the retry limit`, async () => {
       if (budgetLeft() <= 0) return void console.warn('live budget used up; skipped');
       const bundle = (await loadBundle(code))!;
       const week = typicalWeek(bundle).shares;
@@ -34,7 +34,7 @@ describe('rep.slip live', () => {
       const s = out.entry.slip;
       console.info(`${code} ${bundle.title}: attempts=${out.attempts} cost=$${out.costUsd.toFixed(4)} total=$${total.toFixed(4)} words=${s.document.split(/\s+/).length} → ${file}`);
       for (const e of s.errors) expect(s.document.slice(e.start, e.end)).toBe(e.quote);
-      expect(out.attempts).toBeLessThanOrEqual(2);
+      expect(out.attempts).toBeLessThanOrEqual(1 + SLIP_RETRIES); // the verifier may reject; bank fallback after that
     });
   }
 });

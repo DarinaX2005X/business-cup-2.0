@@ -1,3 +1,4 @@
+import { applyFreeze } from '@/domain/points';
 import {
   addDays,
   chooseTask,
@@ -131,7 +132,7 @@ function makePlan(ctx: RepCtx, week: Week, type: RepType, kind: RepRecord['kind'
     day,
     taskId,
     seed,
-    difficulty: difficultyFor(streakAsOf(profile.streak, day).current),
+    difficulty: difficultyFor(streakAsOf(applyFreeze(profile.streak, day).streak, day).current),
     week,
     locale: profile.locale,
     avoidTaskIds: recent,
@@ -414,7 +415,8 @@ export async function getToday(ctx: RepCtx) {
   const { profile } = ctx;
   const day = todayOf(ctx);
   const week = await weekOf(profile);
-  const streak = streakAsOf(profile.streak, day);
+  // reading applies a freeze to missed days without spending it (spent only when a rep is saved)
+  const streak = streakAsOf(applyFreeze(profile.streak, day).streak, day);
   const aiOrMe = week ? await aiOrMeFor(profile, week, day) : null;
   const tomorrow = week ? await tomorrowFor(profile, week, day) : null;
   if (!isPro(profile, nowOf(ctx))) {

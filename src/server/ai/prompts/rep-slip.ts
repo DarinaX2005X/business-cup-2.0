@@ -17,6 +17,7 @@ export const repSlipSchema = z.object({
   errors: z.array(
     z.object({
       quote: z.string(),
+      focus: z.string(),
       type: z.enum(['fact', 'logic', 'compliance', 'omission', 'tone', 'calculation']),
       explanation: z.string(),
       fix: z.string(),
@@ -87,6 +88,7 @@ export const repSlipPrompt = {
       '- type: one of the requested types.',
       `- explanation: one or two sentences in ${lang} saying why it is wrong, pointing to the evidence (the other line of the document, or the rule).`,
       `- fix: the corrected wording of the quoted phrase, in ${lang}.`,
+      '- focus: the exact wrong part inside the quote, copied character for character from it: the wrong number, drug, date, code or form name, usually 1 to 4 words. A reader who highlights only these words has found the mistake. For an omission, repeat the whole quote.',
       '',
       'ALSO RETURN',
       `- title: the document title as it appears after "# ", in ${lang}.`,

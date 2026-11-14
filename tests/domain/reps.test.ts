@@ -4,6 +4,12 @@ import {
   buildAiOrMeRound,
   chooseTask,
   copiesInputs,
+  focusInQuote,
+  toLightMarkup,
+  applyHarm,
+  aiOrMeAnswer,
+  textSimilarity,
+  NEAR_DUPLICATE,
   delegateScore,
   gradeSlip,
   keywordCriteria,
@@ -18,8 +24,10 @@ import {
   verifyCriteria,
   type Range,
 } from '@/domain/reps';
-import type { Profile } from '@/domain/types';
-import { fixture } from './helpers';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import type { OccupationBundle, Profile } from '@/domain/types';
+import { fixture, ROOT } from './helpers';
 
 // A slip in the stored form, with three planted mistakes.
 const DOC = normalizeDocument(`# Discharge Instructions
@@ -130,53 +138,63 @@ describe('gradeSlip', () => {
   const slip = validSlip();
   const errs = slip.errors;
   const len = slip.document.length;
-  const exact = errs.map((e): Range => [e.start, e.end]);
-  const falseA = at(slip.document, 'Continue metoprolol 25 mg');
-  const falseB = at(slip.document, 'Avoid smoking and secondhand smoke');
-  const falseC = at(slip.document, 'Bring this sheet');
+  const doc = slip.document;
+  const focusOf = (i: number): Range => [errs[i].focusStart, errs[i].focusEnd];
+  const falseA = at(doc, 'Continue metoprolol 25 mg');
+  const falseB = at(doc, 'Avoid smoking and secondhand smoke');
+  const falseC = at(doc, 'Bring this sheet');
 
-  it('exact highlights find every mistake: score 1', () => {
-    expect(gradeSlip(errs, exact, len)).toMatchObject({ score: 1, found: 3, total: 3, falseFlags: 0, flags: [] });
+  it('the focus is the wrong part: the words the fix changes, or the whole quote for an omission', () => {
+    expect(doc.slice(...focusOf(0))).toBe('amoxicillin 500 mg by mouth three times');
+    expect(doc.slice(...focusOf(1))).toBe(errs[1].quote); // omission: the whole line is the place
+    expect(doc.slice(...focusOf(2))).toBe('88%');
+    expect(focusInQuote('Total current assets of $482,000.', 'Total current assets of $472,000.')).toEqual([24, 32]);
   });
 
-  it('a partial highlight counts from 40% of the quote', () => {
-    const e = errs[0];
-    const span = e.end - e.start;
-    const enough: Range = [e.start, e.start + Math.ceil(span * 0.4)];
-    const short: Range = [e.start, e.start + Math.floor(span * 0.39)];
-    expect(gradeSlip(errs, [enough], len).errorsFound[0]).toBe(true);
-    expect(gradeSlip(errs, [short], len).errorsFound[0]).toBe(false);
-    // the short highlight is mostly on the mistake, so it is not a false flag either
-    expect(gradeSlip(errs, [short], len).falseFlags).toBe(0);
+  it('tapping exactly the wrong part finds every mistake: score 1', () => {
+    expect(gradeSlip(errs, [focusOf(0), focusOf(1), focusOf(2)], len)).toMatchObject({ score: 1, found: 3, total: 3, falseFlags: 0, flags: [] });
+    // one word of the focus is enough
+    const word = at(doc, 'amoxicillin');
+    const pct = at(doc, '88');
+    expect(gradeSlip(errs, [word, pct], len)).toMatchObject({ found: 2, falseFlags: 0 });
   });
 
-  it('overlapping and touching highlights are merged before grading', () => {
-    const e = errs[1];
-    const mid = Math.floor((e.start + e.end) / 2);
-    const g = gradeSlip(errs, [[e.start, mid + 3], [mid - 3, e.end], [e.start + 2, mid]], len);
-    expect(g.ranges).toEqual([[e.start, e.end]]);
-    expect(g.found).toBe(1);
+  it('a highlight in the quote but off the wrong part is near: no credit, no penalty', () => {
+    const g = gradeSlip(errs, [at(doc, 'Your oxygen level today')], len);
+    expect(g).toMatchObject({ found: 0, falseFlags: 0, score: 0 });
+    expect(g.marks[0].status).toBe('near');
+  });
+
+  it('a whole-line highlight still counts; a drag across a section is too broad and finds nothing', () => {
+    const line = at(doc, '- Your oxygen level today was 88% on room air, which is normal for going home.');
+    expect(gradeSlip(errs, [line], len).errorsFound[2]).toBe(true);
+    const section = at(doc, '## Follow-up');
+    const end = doc.indexOf('## Activity and diet');
+    const drag: Range = [section[0], end];
+    expect(drag[1] - drag[0]).toBeLessThan(0.35 * len); // not over_selected: the breadth rule decides
+    const g = gradeSlip(errs, [drag], len);
+    expect(g).toMatchObject({ score: 0, found: 0, flags: ['too_broad'] });
+    expect(g.tooBroad).toEqual([drag]);
   });
 
   it('one false highlight is free ("Not on our list"), each further one costs 0.15', () => {
+    const exact = [focusOf(0), focusOf(1), focusOf(2)];
     expect(gradeSlip(errs, [...exact, falseA], len)).toMatchObject({ score: 1, falseFlags: 1 });
     expect(gradeSlip(errs, [...exact, falseA, falseB], len)).toMatchObject({ score: 0.85, falseFlags: 2 });
     expect(gradeSlip(errs, [...exact, falseA, falseB, falseC], len)).toMatchObject({ score: 0.7, falseFlags: 3 });
-    expect(gradeSlip(errs, [exact[0], falseA], len)).toMatchObject({ score: 0.33, found: 1 });
+    expect(gradeSlip(errs, [focusOf(0), falseA], len)).toMatchObject({ score: 0.33, found: 1 });
   });
 
-  it('a long highlight that only grazes a mistake is a false flag and does not find it', () => {
-    const e = errs[2];
-    const graze: Range = [e.end - 3, e.end + 120];
-    const g = gradeSlip(errs, [graze], len);
-    expect(g.errorsFound[2]).toBe(false);
-    expect(g.falseFlags).toBe(1);
+  it('overlapping highlights are merged before grading', () => {
+    const f = focusOf(0);
+    const g = gradeSlip(errs, [[f[0], f[0] + 6], [f[0] + 3, f[1]], [f[0] + 1, f[0] + 4]], len);
+    expect(g.ranges).toEqual([f]);
+    expect(g.found).toBe(1);
   });
 
-  it('selecting everything scores 0 with over_selected, even though every mistake is covered', () => {
-    const g = gradeSlip(errs, [[0, len]], len);
-    expect(g).toMatchObject({ score: 0, found: 3, flags: ['over_selected'] });
-    expect(gradeSlip(errs, [[0, Math.floor(len * 0.61)]], len).flags).toContain('over_selected');
+  it('selecting more than 35% of the document scores 0 with over_selected', () => {
+    expect(gradeSlip(errs, [[0, len]], len)).toMatchObject({ score: 0, flags: expect.arrayContaining(['over_selected']) });
+    expect(gradeSlip(errs, [[0, Math.floor(len * 0.36)]], len).flags).toContain('over_selected');
   });
 
   it('an empty answer scores 0; out-of-range and reversed ranges are clamped; at most 12 ranges', () => {
@@ -184,6 +202,57 @@ describe('gradeSlip', () => {
     expect(mergeRanges([[len + 50, -10]], len)).toEqual([[0, len]]);
     const many = Array.from({ length: 20 }, (_, i): Range => [i * 10, i * 10 + 3]);
     expect(mergeRanges(many, len)).toHaveLength(12);
+  });
+
+  // The reviewer's cases (before: 40% of the quote was needed, so these all read "missed").
+  const one = (document: string, quote: string, fix: string) => {
+    const [s, e] = at(document, quote);
+    return { start: s, end: e, quote, fix };
+  };
+
+  it('accountant: highlighting just «cash equivalent» and «482,000» catches both', () => {
+    const d =
+      'Reclassify the $50,000 nine-month certificate of deposit as a cash equivalent on the balance sheet. Total current assets of $482,000 are carried to the summary page.';
+    const e = [
+      one(d, 'Reclassify the $50,000 nine-month certificate of deposit as a cash equivalent', 'Reclassify the $50,000 nine-month certificate of deposit as a short-term investment'),
+      one(d, 'Total current assets of $482,000 are carried', 'Total current assets of $472,000 are carried'),
+    ];
+    expect(gradeSlip(e, [at(d, 'cash equivalent'), at(d, '482,000')], d.length)).toMatchObject({ found: 2, score: 1 });
+  });
+
+  it('lawyer: tapping the wrong date «09/30/2026» catches it', () => {
+    const d = 'Under the scheduling order, the opposition to the motion is due 09/30/2026, and the reply is due seven days later.';
+    const e = [one(d, 'the opposition to the motion is due 09/30/2026', 'the opposition to the motion is due 10/14/2026')];
+    expect(gradeSlip(e, [at(d, '09/30/2026')], d.length).found).toBe(1);
+  });
+
+  it('RU: «.5 мг» is caught by selecting the number without its dot, or the dot alone', () => {
+    const d = 'Назначение: дигоксин .5 мг внутрь один раз в день под контролем пульса.';
+    const e = [one(d, 'дигоксин .5 мг внутрь один раз в день', 'дигоксин 0,125 мг внутрь один раз в день')];
+    const five = d.indexOf('.5') + 1;
+    expect(gradeSlip(e, [[five, five + 1]], d.length).found).toBe(1);
+    const dot = d.indexOf('.5');
+    expect(gradeSlip(e, [[dot, dot + 1]], d.length).found).toBe(1);
+  });
+
+  it('punctuation next to the wrong part is tolerated: "$" before an amount, "%" after a rate', () => {
+    const d = 'The late fee is $75 per month and the APR is 29% for this account.';
+    const e = [one(d, 'The late fee is $75 per month', 'The late fee is $35 per month'), one(d, 'the APR is 29% for this account', 'the APR is 19% for this account')];
+    const dollar = d.indexOf('$75');
+    const pctSign = d.indexOf('29%') + 2;
+    expect(gradeSlip(e, [[dollar, dollar + 1], [pctSign, pctSign + 1]], d.length).found).toBe(2);
+  });
+
+  it('errors without a stored focus (older bank files, landing minis) derive it from quote and fix', () => {
+    const plain = errs.map(({ start, end, quote, fix }) => ({ start, end, quote, fix }));
+    expect(gradeSlip(plain, [at(doc, '88')], len).errorsFound).toEqual([false, false, true]);
+  });
+});
+
+describe('light markup', () => {
+  it('keeps "# ", "## ", "- " and tables, strips bold, deeper headings, code and links', () => {
+    const md = '### Material Draft Balances\n**Cash:** $12,000\n* item one\n`code` and [a link](http://x)\n---\n| a | b |\n| --- | --- |';
+    expect(toLightMarkup(md)).toBe('## Material Draft Balances\nCash: $12,000\n- item one\ncode and a link\n\n| a | b |\n| --- | --- |');
   });
 });
 
@@ -320,23 +389,57 @@ describe('task choice', () => {
 });
 
 describe('AI or me?', () => {
-  const acc = fixture('13-2011.00');
+  // the built bundle (current categories, seenRarely, peopleWork), not the stage-01 fixture
+  const acc = JSON.parse(readFileSync(join(ROOT, 'public', 'data', 'occ', '13-2011.00.json'), 'utf8')) as OccupationBundle;
   const shares = acc.tasks.slice(0, 8).map((t) => ({ taskId: t.id, share: 12.5 }));
   const texts = {};
+  const rounds = Array.from({ length: 30 }, (_, i) => buildAiOrMeRound(acc, shares, `P${i}`, '2026-11-14', texts));
 
-  it('is the same all day, different the next day, with 2+2+1 scored cards and facts from the data', () => {
-    const a = buildAiOrMeRound(acc, shares, 'P1', '2026-11-14', texts);
-    const b = buildAiOrMeRound(acc, shares, 'P1', '2026-11-14', texts);
-    const c = buildAiOrMeRound(acc, shares, 'P1', '2026-11-15', texts);
-    expect(b).toEqual(a);
-    expect(c.roundId).not.toBe(a.roundId);
+  it('is the same all day and different the next day', () => {
+    const a = rounds[0];
+    expect(buildAiOrMeRound(acc, shares, 'P0', '2026-11-14', texts)).toEqual(a);
+    expect(buildAiOrMeRound(acc, shares, 'P0', '2026-11-15', texts).roundId).not.toBe(a.roundId);
     expect(a.cards).toHaveLength(5);
     expect(a.cards.filter((x) => x.answer === 'ai').length).toBeGreaterThanOrEqual(2);
     expect(a.cards.filter((x) => x.answer === 'human').length).toBeGreaterThanOrEqual(2);
-    const observed = a.cards.find((x) => x.fact.key === 'today.aiOrMe.fact.observed');
-    expect(observed?.fact.params.automation).toEqual(expect.any(Number));
-    const inWeek = a.cards.find((x) => shares.some((s) => s.taskId === x.taskId));
-    if (inWeek) expect(inWeek.fact.params.hours).toBe(5);
+  });
+
+  it('uses only clear-cut tasks: AI = observed or theory >= 0.75; human = low theory, physical or people work, never seen', () => {
+    const byId = new Map(acc.tasks.map((t) => [t.id, t]));
+    for (const r of rounds) {
+      for (const c of r.cards.filter((x) => x.counted)) {
+        const e = byId.get(c.taskId)!.evidence;
+        expect(aiOrMeAnswer(byId.get(c.taskId)!)).toBe(c.answer);
+        if (c.answer === 'ai') expect(e.observed || e.theory >= 0.75).toBe(true);
+        else {
+          expect(e.observed || e.seenRarely).toBeFalsy();
+          expect(e.theory <= 0.25 || e.physical === true || e.peopleWork === true).toBe(true);
+        }
+      }
+    }
+    // the reviewer's case: a 0.5-rated, unobserved task is not a card at all
+    const invoices = acc.tasks.find((t) => /^Process invoices/i.test(t.text));
+    if (invoices && !invoices.evidence.observed && invoices.evidence.theory === 0.5) expect(aiOrMeAnswer(invoices)).toBeNull();
+  });
+
+  it('facts say only what the data says, with numbers where the data has them', () => {
+    const keys = new Set(rounds.flatMap((r) => r.cards.map((c) => c.fact.key)));
+    expect(keys.has('today.aiOrMe.fact.human')).toBe(false); // the old "Judgment and people" text
+    for (const r of rounds) {
+      for (const c of r.cards) {
+        if (c.fact.key.endsWith('.observed')) expect(c.fact.params.automation).toEqual(expect.any(Number));
+        if (shares.some((s) => s.taskId === c.taskId)) expect(c.fact.params.hours).toBe(5);
+      }
+    }
+  });
+
+  it('never puts two near-duplicate tasks in one round', () => {
+    for (const r of rounds) {
+      for (let i = 0; i < r.cards.length; i++) {
+        for (let j = i + 1; j < r.cards.length; j++) expect(textSimilarity(r.cards[i].text, r.cards[j].text)).toBeLessThan(NEAR_DUPLICATE);
+      }
+    }
+    expect(textSimilarity('Audit payroll records for compliance', 'Audit payroll records and reports for compliance')).toBeGreaterThanOrEqual(NEAR_DUPLICATE);
   });
 
   it('unanswered cards are wrong; uncounted cards are not scored', () => {
@@ -346,5 +449,19 @@ describe('AI or me?', () => {
       { answer: 'human' as const, counted: false },
     ];
     expect(scoreAiOrMe(cards, ['ai', null, 'human'])).toEqual({ correct: [true, false, true], right: 1, total: 2 });
+  });
+});
+
+describe('Human edge harm', () => {
+  it('a harmful move marks its criterion missed and caps the score at 0.4', () => {
+    const criteria = [
+      { id: 'c1', status: 'met' as const, quote: 'x' },
+      { id: 'c2', status: 'met' as const, quote: 'y' },
+    ];
+    const h = applyHarm(criteria, { quote: 'write it off to other expenses', why: 'Hiding a $24,800 variance misstates the books.', criterionId: 'c2' });
+    expect(h.criteria[1]).toMatchObject({ status: 'missed', note: 'Hiding a $24,800 variance misstates the books.' });
+    expect(h.cap(1)).toBe(0.4);
+    expect(h.harm).toEqual({ quote: 'write it off to other expenses', why: 'Hiding a $24,800 variance misstates the books.' });
+    expect(applyHarm(criteria, undefined).cap(1)).toBe(1);
   });
 });

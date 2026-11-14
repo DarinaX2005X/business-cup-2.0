@@ -97,7 +97,7 @@ export const WEEK_HOURS = 40;
 
 /** Score: score = base + (100 − base) × PRACTICE_GAIN × F, F = (1 − e^(−n / PRACTICE_SCALE)) × avgScore. */
 export const PRACTICE_GAIN = 0.45;
-export const PRACTICE_SCALE = 20;
+export const PRACTICE_SCALE = 8;
 
 /** defaultShares keeps the top N tasks; normalizeShares keeps at most MAX_WEEK_TASKS. */
 export const DEFAULT_WEEK_TASKS = 10;

@@ -99,6 +99,7 @@ export async function toView(rep: RepRecord, uiLocale: Locale): Promise<RepView>
       criteria: d.criteria.map(({ id, text }) => ({ id, text })),
       ...(d.instruction !== undefined ? { instruction: d.instruction } : {}),
       ...(d.run !== undefined ? { run: d.run } : {}),
+      ...(d.review ? { review: d.review } : {}),
     };
   }
   if (rep.edge) {

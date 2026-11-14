@@ -18,9 +18,11 @@ const slipErrorSchema = z.object({
   type: z.enum(['fact', 'logic', 'compliance', 'omission', 'tone', 'calculation']),
   explanation: z.string().min(1),
   fix: z.string().min(1),
+  focusStart: z.number().int().min(0).optional(),
+  focusEnd: z.number().int().min(1).optional(),
 });
 const rubricSchema = z.object({ id: z.string().min(1), text: z.string().min(1), keywords: z.array(z.string()) });
-const trapSchema = z.object({ id: z.string().min(1), description: z.string().min(1), keywords: z.array(z.string()).min(1) });
+const trapSchema = z.object({ id: z.string().min(1), description: z.string().min(1), keywords: z.array(z.string()).min(1), evidence: z.array(z.string()).optional() });
 
 const base = {
   occupationCode: z.string().regex(/^\d{2}-\d{4}\.\d{2}$/),
@@ -46,6 +48,7 @@ export const bankDelegateSchema = z.object({
     goal: z.string().min(1),
     criteria: z.array(rubricSchema).min(3).max(6),
     traps: z.array(trapSchema).min(1).max(3),
+    exemplar: z.string().optional(),
   }),
 });
 export const bankEdgeSchema = z.object({
@@ -88,6 +91,26 @@ export function checkBankEntry(value: unknown): { ok: true; entry: BankEntry } |
 }
 
 const dirCache = new Map<string, Promise<BankItem[]>>();
+const showcaseCache = new Map<string, Promise<Set<string>>>();
+
+/**
+ * Entries published on the landing (`<root>/showcase.json`: an array of "<code>/<file>"). Their
+ * documents, traps or rubrics are public, so the bank never serves them as anyone's rep. A missing or
+ * malformed file means nothing is excluded.
+ */
+export function showcased(root = bankRoot()): Promise<Set<string>> {
+  let p = showcaseCache.get(root);
+  if (!p) {
+    p = readFile(path.join(root, 'showcase.json'), 'utf8')
+      .then((raw) => {
+        const list: unknown = JSON.parse(raw);
+        return new Set(Array.isArray(list) ? list.filter((x): x is string => typeof x === 'string') : []);
+      })
+      .catch(() => new Set<string>());
+    showcaseCache.set(root, p);
+  }
+  return p;
+}
 
 async function readCodeDir(root: string, code: string): Promise<BankItem[]> {
   let files: string[];
@@ -97,7 +120,8 @@ async function readCodeDir(root: string, code: string): Promise<BankItem[]> {
     return [];
   }
   const items: BankItem[] = [];
-  for (const file of files.filter((f) => FILE_RE.test(f)).sort((a, b) => fileOrder(a) - fileOrder(b))) {
+  const hidden = await showcased(root);
+  for (const file of files.filter((f) => FILE_RE.test(f) && !hidden.has(`${code}/${f}`)).sort((a, b) => fileOrder(a) - fileOrder(b))) {
     try {
       const raw = JSON.parse(await readFile(path.join(root, code, file), 'utf8'));
       const checked = checkBankEntry(raw);
@@ -151,6 +175,7 @@ export async function listBankCodes(): Promise<string[]> {
 /** Tests only: forget cached directory listings. */
 export function resetBankCache(): void {
   dirCache.clear();
+  showcaseCache.clear();
   codesCache = null;
 }
 

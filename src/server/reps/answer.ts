@@ -14,8 +14,12 @@ import {
   type RepResultFull,
   type RepRevealFull,
   type RepView,
+  type ScoreChange,
+  applyHarm,
 } from '@/domain/reps';
-import { computeXray } from '@/domain/xray';
+import { PRACTICE_GAIN } from '@/domain/constants';
+import { applyFreeze } from '@/domain/points';
+import { computeXray, practiceScore } from '@/domain/xray';
 import type { PointsAward, Profile, ProofEntry } from '@/domain/types';
 import type { AiErrorCode } from '@/server/ai/client';
 import { isAiError } from '@/server/ai/client';
@@ -68,23 +72,34 @@ async function save(rep: RepRecord, version: number): Promise<number> {
   }
 }
 
-const streakNow = (ctx: RepCtx, p: Profile) => streakAsOf(p.streak, localDay(nowOf(ctx), tzOf(ctx)));
+/** The streak as it reads now; a freeze covers missed days on reading but is spent only when a rep is saved. */
+const streakNow = (ctx: RepCtx, p: Profile) => {
+  const day = localDay(nowOf(ctx), tzOf(ctx));
+  return streakAsOf(applyFreeze(p.streak, day).streak, day);
+};
 
-/** Score of the latest week map with the given practice (null without a map). */
-async function mapScore(profile: Profile, practice: { n: number; avgScore: number }): Promise<number | null> {
+const round1 = (x: number) => Math.round(x * 10) / 10;
+
+/** Score of the latest week map with the given practice, rounded and with one decimal (null without a map). */
+async function mapScore(profile: Profile, practice: { n: number; avgScore: number }): Promise<{ score: number; exact: number } | null> {
   if (!profile.lastXrayId) return null;
   const xray = await readXray(profile.lastXrayId);
   if (!xray) return null;
   const bundle = await loadBundle(xray.occupationCode);
-  if (!bundle) return xray.score;
-  return computeXray(bundle, xray.shares, { salary: profile.salary ?? null, practice }).result.score;
+  if (!bundle) return { score: xray.score, exact: xray.score };
+  const { baseScore, score } = computeXray(bundle, xray.shares, { salary: profile.salary ?? null, practice }).result;
+  const { F } = practiceScore(baseScore, practice);
+  return { score, exact: round1(baseScore + (100 - baseScore) * PRACTICE_GAIN * F) };
 }
 
-async function scoreChange(profile: Profile, repId: string, score: number): Promise<{ before: number; after: number }> {
+/** Map score before and after this rep's score enters the practice average. */
+async function scoreChange(profile: Profile, repId: string, score: number): Promise<ScoreChange> {
   const before = practiceOf(profile);
   const after = practiceOf({ repLog: profile.repLog.map((r) => (r.id === repId ? { ...r, score } : r)) });
   const [b, a] = await Promise.all([mapScore(profile, before), mapScore(profile, after)]);
-  return { before: b ?? 0, after: a ?? b ?? 0 };
+  const from = b ?? { score: 0, exact: 0 };
+  const to = a ?? from;
+  return { before: from.score, after: to.score, from: from.score, to: to.score, fromExact: from.exact, toExact: to.exact };
 }
 
 async function proofFor(rep: RepRecord, result: RepResultFull, locale: Profile['locale']): Promise<Pick<ProofEntry, 'summaryKey' | 'summaryParams'>> {
@@ -124,7 +139,8 @@ async function finalizeProfile(ctx: RepCtx, rep: RepRecord): Promise<{ awards: P
         public: false,
       });
     }
-    if (rep.kind === 'daily' || rep.kind === 'trial') p.streak = applyStreak(p.streak, day);
+    // a freeze covers the missed days only now, when a counted rep is saved
+    if (rep.kind === 'daily' || rep.kind === 'trial') p.streak = applyStreak(applyFreeze(p.streak, day).streak, day);
     if (rep.kind === 'trial') p.trial = { status: 'used', repId: rep.id };
     return emit(p, { type: 'rep_completed', ref: rep.id, data: { score: result.score, type: rep.type, kind: rep.kind } });
   });
@@ -177,8 +193,20 @@ function answerSlip(ctx: RepCtx, rep: RepRecord, version: number, body: AnswerBo
     ctx,
     rep,
     version,
-    { score: g.score, found: g.found, total: g.total, falseFlags: g.falseFlags, flags: g.flags, ranges: g.ranges, errorsFound: g.errorsFound, falseRanges: g.falseRanges },
-    { errors: slip.errors },
+    {
+      score: g.score,
+      found: g.found,
+      total: g.total,
+      falseFlags: g.falseFlags,
+      flags: g.flags,
+      ranges: g.ranges,
+      errorsFound: g.errorsFound,
+      falseRanges: g.falseRanges,
+      tooBroad: g.tooBroad,
+      marks: g.marks,
+    },
+    // every revealed error carries its focus (stored, or derived for older bank entries)
+    { errors: slip.errors.map((e, i) => ({ ...e, focusStart: g.focus[i][0], focusEnd: g.focus[i][1] })) },
   );
 }
 
@@ -200,14 +228,14 @@ async function answerDelegate(ctx: RepCtx, rep: RepRecord, version: number, body
       }
       // No model today: grade the instruction itself (keywords), traps by the instruction only.
       const graded = await gradeDelegate({ occupation: '', locale: rep.locale, scenario: d.scenario, goal: d.goal, inputs: d.inputs, criteria: d.criteria, traps: d.traps, instruction, run: '', highlighted: [], fix: '' });
-      const caught = trapsCaught(d.traps, instruction, '', [], d.inputs, '', graded.trapsNamed);
+      const caught = trapsCaught(d.traps, instruction, '', [], d.inputs, '', graded.trapsAsked);
       const flags: RepFlag[] = ['ended_early', ...(graded.keywordGrade ? (['keyword_grade'] as const) : [])];
       return complete(
         ctx,
         { ...rep, delegate: { ...d, instruction } },
         version,
         { score: delegateScore(graded.criteria, caught.length, d.traps.length), criteria: graded.criteria, trapsCaught: caught, flags, ...(graded.summary ? { summary: graded.summary } : {}) },
-        { traps: d.traps, trapSpots: trapSpots(d.traps, d.inputs, undefined) },
+        { traps: d.traps, trapSpots: trapSpots(d.traps, d.inputs, undefined), ...(d.exemplar ? { exemplar: d.exemplar } : {}) },
       );
     }
   }
@@ -229,7 +257,10 @@ async function answerDelegate(ctx: RepCtx, rep: RepRecord, version: number, body
     fix,
     actor: innerActorOf(ctx),
   });
-  const caught = trapsCaught(d.traps, d.instruction, d.run, ranges, d.inputs, fix, graded.trapsNamed);
+  // caught = the person asked for the check (grader quote verified, or the value named) or highlighted it;
+  // a trap only the AI's own result pointed out is reported as caughtByAi, with no credit
+  const caught = trapsCaught(d.traps, d.instruction, d.run, ranges, d.inputs, fix, graded.trapsAsked);
+  const byAi = (graded.trapsFlaggedByAi ?? []).filter((id) => !caught.includes(id));
   return complete(
     ctx,
     { ...rep, delegate: { ...d, review: { ranges, fix } } },
@@ -238,11 +269,12 @@ async function answerDelegate(ctx: RepCtx, rep: RepRecord, version: number, body
       score: delegateScore(graded.criteria, caught.length, d.traps.length),
       criteria: graded.criteria,
       trapsCaught: caught,
+      trapsCaughtByAi: byAi,
       flags: graded.keywordGrade ? ['keyword_grade'] : [],
       ...(graded.summary ? { summary: graded.summary } : {}),
       ...(graded.fixFeedback ? { fixFeedback: graded.fixFeedback } : {}),
     },
-    { traps: d.traps, trapSpots: trapSpots(d.traps, d.inputs, d.run) },
+    { traps: d.traps, trapSpots: trapSpots(d.traps, d.inputs, d.run), ...(d.exemplar ? { exemplar: d.exemplar } : {}) },
   );
 }
 
@@ -267,12 +299,23 @@ async function answerEdge(ctx: RepCtx, rep: RepRecord, version: number, body: An
     return { graded, extra };
   };
   const finish = (turns: typeof e.turns, graded: Awaited<ReturnType<typeof gradeEdge>>, endedEarly: boolean) => {
-    const flags: RepFlag[] = [...(endedEarly ? (['ended_early'] as const) : []), ...(graded.keywordGrade ? (['keyword_grade'] as const) : [])];
+    const harmed = applyHarm(graded.criteria, graded.harm);
+    const flags: RepFlag[] = [
+      ...(endedEarly ? (['ended_early'] as const) : []),
+      ...(graded.keywordGrade ? (['keyword_grade'] as const) : []),
+      ...(harmed.harm ? (['harm'] as const) : []),
+    ];
     return complete(
       ctx,
       { ...rep, edge: { ...e, turns } },
       version,
-      { score: edgeScore(graded.criteria), criteria: graded.criteria, flags, ...(graded.summary ? { summary: graded.summary } : {}) },
+      {
+        score: harmed.cap(edgeScore(harmed.criteria)),
+        criteria: harmed.criteria,
+        flags,
+        ...(harmed.harm ? { harm: harmed.harm } : {}),
+        ...(graded.summary ? { summary: graded.summary } : {}),
+      },
       { personaHidden: e.personaHidden },
     );
   };

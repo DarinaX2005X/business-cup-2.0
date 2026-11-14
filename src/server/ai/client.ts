@@ -192,7 +192,7 @@ export function getModelId(): string {
 }
 
 /** Long document generation (the rep writers) can run on a cheaper model set in OPENROUTER_MODEL_GEN. */
-const GENERATION_OPS = new Set(['rep.slip', 'rep.delegate', 'rep.edge']);
+const GENERATION_OPS = new Set(['rep.slip', 'rep.delegate', 'rep.edge', 'rep.verify']);
 
 export function modelFor(op: string): string {
   const gen = process.env.OPENROUTER_MODEL_GEN;

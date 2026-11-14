@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import { Sheet } from '@/components/kit/Overlay';
 import { Toast } from '@/components/kit/Toast';
@@ -18,7 +19,10 @@ import { TaskList } from './TaskList';
 import { focusParam, parseFocus, type Focus, type XrayData, type XrayPageProps } from './types';
 import { useTaskTexts, useTips } from './useTaskTexts';
 import { useWeekSave } from './useWeekSave';
-import { WeekSection } from './WeekSection';
+import { PayLine, WeekSection } from './WeekSection';
+import { isMapTab, MapTabs, TabPanel, type MapTab } from './MapTabs';
+import { Overview } from './Overview';
+import { PlanView, SkillsView } from './growthSlots';
 import { FIRST_FRAME_KEY } from './XraySkeleton';
 import st from './xray.module.css';
 
@@ -118,19 +122,35 @@ export function XrayScreen(props: XrayPageProps) {
     focus && (focus.kind === 'metric' || result.shares.some((s) => s.taskId === focus.id)) ? focus : narrow || !largest ? null : { kind: 'task', id: largest };
   const inspectorRef = useRef<HTMLDivElement>(null);
 
+  /* ---------- tabs under the top block, kept in the URL as ?tab= ---------- */
+  const [tab, setTabState] = useState<MapTab>(() => (isMapTab(props.initialTab) ? props.initialTab : 'overview'));
+  const tabsRef = useRef<HTMLDivElement>(null);
+  const setTab = useCallback((next: MapTab, opts: { scroll?: boolean } = {}) => {
+    setTabState(next);
+    const url = new URL(window.location.href);
+    url.searchParams.set('tab', next);
+    window.history.replaceState(window.history.state, '', url.toString());
+    // Opening a tab from below (a card, a step) brings its start under the sticky bar.
+    if (opts.scroll) requestAnimationFrame(() => tabsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+  }, []);
+
+  // Every number and task is explained in the inspector, which lives on the Tasks tab.
   const setFocus = useCallback(
     (f: Focus, opts: { reveal?: boolean } = {}) => {
       setFocusState(f);
       const url = new URL(window.location.href);
       url.searchParams.set('focus', focusParam(f));
+      url.searchParams.set('tab', 'tasks');
       window.history.replaceState(window.history.state, '', url.toString());
+      setTabState('tasks');
       if (window.matchMedia(NARROW).matches) setSheetOpen(true);
       else if (opts.reveal) {
-        const el = inspectorRef.current;
-        if (el) {
+        requestAnimationFrame(() => {
+          const el = inspectorRef.current;
+          if (!el) return;
           const r = el.getBoundingClientRect();
-          if (r.top < 64 || r.top > window.innerHeight * 0.6) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+          if (r.top < 120 || r.top > window.innerHeight * 0.6) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
       }
     },
     [],
@@ -223,60 +243,106 @@ export function XrayScreen(props: XrayPageProps) {
         taskLabel={teaserLabel}
         href={repHref}
       />
-      <WeekSection
-        tasks={weekTasks}
-        result={result}
-        selectedId={selectedTask}
-        editing={editing}
-        dragging={dragging}
-        isOwner={isOwner}
-        salary={salary}
-        onSalary={setSalary}
-        onSelect={(id) => setFocus({ kind: 'task', id }, { reveal: true })}
-        onMetric={(id) => setFocus({ kind: 'metric', id }, { reveal: true })}
-      />
-      <section className={st.work} aria-labelledby="tasks-title">
-        <TaskList
-          tasks={weekTasks}
-          bundle={bundle}
-          selectedId={selectedTask}
-          editing={editing}
-          isOwner={isOwner}
-          saveState={save.state}
-          dirty={dirty}
-          xrayId={initial.id}
-          label={label}
-          fullText={fullText}
-          onSelect={(id) => setFocus({ kind: 'task', id })}
-          onEdit={startEdit}
-          onDone={() => {
-            setEditing(false);
-            setDragging(false);
-          }}
-          onShare={onShare}
-          onGestureStart={startGesture}
-          onGestureEnd={endGesture}
-          onRemove={onRemove}
-          onReset={onReset}
-          onRetry={save.retry}
-          onDrag={setDragging}
-        />
-        <aside className={st.inspectorCol} aria-label={t('xray.inspector.label')}>
-          <div ref={inspectorRef} className={st.inspectorSticky}>
-            {!narrow ? inspector() : null}
-          </div>
-        </aside>
-      </section>
-      <Further
-        result={result}
-        bundle={bundle}
-        isPro={isPro}
-        isOwner={isOwner}
-        label={label}
-        tips={tips}
-        xrayId={initial.id}
-        onSelect={(id) => setFocus({ kind: 'task', id }, { reveal: true })}
-      />
+      <div ref={tabsRef} className={st.tabsAnchor} />
+      <MapTabs tab={tab} onTab={(next) => setTab(next)} />
+
+      {tab === 'overview' ? (
+        <TabPanel id="overview" lead={t(isOwner ? 'xray.tabs.lead.overview' : 'xray.tabs.lead.overviewGuest')}>
+          <Overview
+            result={result}
+            byId={byId}
+            label={label}
+            isOwner={isOwner}
+            pay={<PayLine result={result} isOwner={isOwner} salary={salary} onSalary={setSalary} onMetric={(id) => setFocus({ kind: 'metric', id }, { reveal: true })} />}
+            onTask={(id) => setFocus({ kind: 'task', id }, { reveal: true })}
+            onTab={(next) => setTab(next, { scroll: true })}
+          />
+        </TabPanel>
+      ) : null}
+
+      {tab === 'tasks' ? (
+        <TabPanel id="tasks" lead={t('xray.tabs.lead.tasks')}>
+          <WeekSection
+            tasks={weekTasks}
+            result={result}
+            selectedId={selectedTask}
+            editing={editing}
+            dragging={dragging}
+            isOwner={isOwner}
+            salary={salary}
+            onSalary={setSalary}
+            showPay={false}
+            onSelect={(id) => setFocus({ kind: 'task', id }, { reveal: true })}
+            onMetric={(id) => setFocus({ kind: 'metric', id }, { reveal: true })}
+          />
+          <section className={st.work} aria-labelledby="tasks-title">
+            <TaskList
+              tasks={weekTasks}
+              bundle={bundle}
+              selectedId={selectedTask}
+              editing={editing}
+              isOwner={isOwner}
+              saveState={save.state}
+              dirty={dirty}
+              xrayId={initial.id}
+              label={label}
+              fullText={fullText}
+              onSelect={(id) => setFocus({ kind: 'task', id })}
+              onEdit={startEdit}
+              onDone={() => {
+                setEditing(false);
+                setDragging(false);
+              }}
+              onShare={onShare}
+              onGestureStart={startGesture}
+              onGestureEnd={endGesture}
+              onRemove={onRemove}
+              onReset={onReset}
+              onRetry={save.retry}
+              onDrag={setDragging}
+            />
+            <aside className={st.inspectorCol} aria-label={t('xray.inspector.label')}>
+              <div ref={inspectorRef} className={st.inspectorSticky}>
+                {!narrow ? inspector() : null}
+              </div>
+            </aside>
+          </section>
+          <Further result={result} bundle={bundle} isPro={isPro} isOwner={isOwner} label={label} tips={tips} xrayId={initial.id} only="pairs" onSelect={(id) => setFocus({ kind: 'task', id }, { reveal: true })} />
+        </TabPanel>
+      ) : null}
+
+      {tab === 'plan' ? (
+        <TabPanel id="plan" lead={t('xray.tabs.lead.plan')}>
+          {PlanView ? (
+            <PlanView xrayId={initial.id} />
+          ) : (
+            <Further result={result} bundle={bundle} isPro={isPro} isOwner={isOwner} label={label} tips={tips} xrayId={initial.id} only="plan" onSelect={(id) => setFocus({ kind: 'task', id }, { reveal: true })} />
+          )}
+        </TabPanel>
+      ) : null}
+
+      {tab === 'skills' ? (
+        <TabPanel id="skills" lead={t('xray.tabs.lead.skills')}>
+          {SkillsView ? (
+            <SkillsView xrayId={initial.id} />
+          ) : (
+            <div className={st.emptyTab}>
+              <p>{t('xray.tabs.skillsEmpty')}</p>
+            </div>
+          )}
+        </TabPanel>
+      ) : null}
+
+      {tab === 'next' ? (
+        <TabPanel id="next" lead={t('xray.tabs.lead.next')}>
+          <Further result={result} bundle={bundle} isPro={isPro} isOwner={isOwner} label={label} tips={tips} xrayId={initial.id} only="next" onSelect={(id) => setFocus({ kind: 'task', id }, { reveal: true })} />
+          <p className={st.pivotLink}>
+            <Link href="/pivot" className={st.textLink}>
+              {t('xray.tabs.pivot')}
+            </Link>
+          </p>
+        </TabPanel>
+      ) : null}
       {narrow && shownFocus ? (
         <Sheet open={sheetOpen} onClose={() => setSheetOpen(false)} title={inspectorTitle(shownFocus, t, label)}>
           <div className={st.sheetInsp}>{inspector(true)}</div>

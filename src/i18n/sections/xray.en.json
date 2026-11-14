@@ -230,5 +230,82 @@
     "m3Item": "Practise “{task}” on harder cases",
     "lockedTitle": "Twelve weeks of reps from your own tasks",
     "lockedReason": "The plan turns this week into ten-minute daily reps: first what to hand off, then how to check AI's work, then the part that stays yours. It is part of Pro."
+  },
+  "tabs": {
+    "label": "Parts of your week map",
+    "overview": "Overview",
+    "tasks": "Tasks",
+    "plan": "Plan",
+    "skills": "Skills",
+    "next": "Next jobs",
+    "lead": {
+      "overview": "Your week in three parts: what AI already does, what it speeds up, and what stays yours. Then what to do next.",
+      "overviewGuest": "This week in three parts: what AI already does, what it speeds up, and what stays human.",
+      "tasks": "Every task of your week with its hours. Tap a task to see why it is in its group, and change the hours if your week looks different.",
+      "plan": "Twelve weeks of short daily practice built from your own tasks: first what to hand to AI, then how to check its work, then the part that stays yours.",
+      "skills": "The skills you already bring, and the few worth building next for your job and the jobs near it.",
+      "next": "Jobs close to yours that use many of the same skills, and how much of their week stays human."
+    },
+    "skillsEmpty": "Your skills will show here once your résumé has been read. Nothing has been filled in for you.",
+    "pivot": "Explore all next jobs"
+  },
+  "overview": {
+    "hoursWeek_one": "hour a week",
+    "hoursWeek_other": "hours a week",
+    "taskHours": "{hours} h",
+    "does": {
+      "title": "AI already does",
+      "what": "In real use, people mostly hand these tasks to AI whole.",
+      "none": "AI doesn’t do any of your tasks on its own yet."
+    },
+    "speeds": {
+      "title": "AI speeds up",
+      "what": "AI helps with these, but you still do them and check the result.",
+      "none": "None of your tasks are sped up by AI yet."
+    },
+    "yours": {
+      "title": "Stays yours",
+      "what": "Work with people, hands-on work and judgment that AI barely helps with.",
+      "none": "Your edge is in checking and directing AI’s work."
+    },
+    "next": {
+      "title": "What to do next",
+      "rep": "Do today’s rep",
+      "repWhy": "Ten minutes: find the mistake AI made in a document from your own work.",
+      "plan": "Open your 90-day plan",
+      "planWhy": "What to practise each week, from your own tasks.",
+      "skills": "Check your skills",
+      "skillsWhy": "What you already bring and what to build next."
+    }
+  },
+  "report": {
+    "download": "Download PDF",
+    "print": "Save as PDF",
+    "back": "Back to the map",
+    "kicker": "Week map report",
+    "made": "Made on {date} from O*NET {onet} and the Anthropic Economic Index of {aei}.",
+    "scoreTitle": "Irreplaceability score",
+    "scoreMeaning": "How much of your week stays out of AI’s reach, from 0 to 100. It grows as you practise.",
+    "weekTitle": "Your 40-hour week",
+    "hours": "{hours} h",
+    "groupsTitle": "Your tasks by group",
+    "payTitle": "Pay at stake",
+    "payLine": "{atStake} of {annual} a year is tied to tasks AI already does or speeds up. Tasks AI speeds up count at half.",
+    "payNone": "There is no US pay data for this job.",
+    "stepsTitle": "Your next 3 steps",
+    "step1": "Hand “{task}” to AI with a clear brief, then check what comes back.",
+    "step2": "Practise spotting AI’s mistakes on “{task}” in a ten-minute daily rep.",
+    "step3": "Grow the part that stays yours: “{task}”.",
+    "stepsGeneric": "Practise checking AI’s work on your biggest tasks in a ten-minute daily rep.",
+    "sources": "Sources: O*NET {onet} (CC BY 4.0), Anthropic Economic Index {aei}, GPTs are GPTs (Eloundou et al.), Microsoft Working with AI, BLS OEWS May 2025. How we measure: irreplaceable.app/method",
+    "reason": {
+      "observed_does": "Seen in real AI use, mostly done by AI on its own",
+      "observed_speeds": "Seen in real AI use, done together with people",
+      "rated_speeds": "Researchers expect AI to save time on it",
+      "physical": "Hands-on work done in person",
+      "people": "Work with people",
+      "low_human": "Researchers expect little help from AI",
+      "no_data": "No data on this task yet"
+    }
   }
 }

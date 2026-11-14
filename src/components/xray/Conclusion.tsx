@@ -1,6 +1,6 @@
 'use client';
 
-import { Check, Share2 } from 'lucide-react';
+import { Check, FileDown, Share2 } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { FieldArches } from '@/components/kit/Illustration';
@@ -132,6 +132,10 @@ export function Conclusion({
               ? t(`xray.conclusion.observed${g}`, { share: f.percent(result.observedShare) })
               : t(`xray.conclusion.observedNone${g}`)}
           </button>
+          <Link href={`/x/${xray.id}/report?print=1`} className={st.shareBtn} prefetch={false}>
+            <FileDown size={18} strokeWidth={1.75} aria-hidden="true" />
+            <span>{t('xray.report.download')}</span>
+          </Link>
           <button type="button" className={st.shareBtn} onClick={share}>
             {shared ? <Check size={18} strokeWidth={2} aria-hidden="true" /> : <Share2 size={18} strokeWidth={1.75} aria-hidden="true" />}
             <span aria-live="polite">{shared ? t('xray.conclusion.shared') : t(`xray.conclusion.share${g}`)}</span>

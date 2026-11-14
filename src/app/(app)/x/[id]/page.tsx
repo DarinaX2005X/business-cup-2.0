@@ -67,6 +67,7 @@ export default async function XrayPage({ params, searchParams }: Props) {
       textsLocale={locale}
       occupationTitle={localTitles?.get(bundle.code) ?? bundle.title}
       initialFocus={focus}
+      initialTab={typeof sp.tab === 'string' ? sp.tab : null}
     />
   );
 }

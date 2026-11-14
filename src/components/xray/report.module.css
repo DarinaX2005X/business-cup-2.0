@@ -1,0 +1,276 @@
+/*
+ * The week map report: one calm A4 page. On screen it sits as a sheet of paper on the lavender field;
+ * in print the sheet is the page, cards never split across pages, colours stay (print-color-adjust).
+ */
+
+.sheet {
+  max-width: calc(210mm + 64px);
+  margin: 0 auto;
+  padding: 24px 32px 96px;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.page {
+  width: 100%;
+  max-width: 210mm;
+  margin: 0 auto;
+  padding: 18mm 16mm;
+  border-radius: 6px;
+  background: #fff;
+  color: var(--ink);
+  box-shadow:
+    0 1px 2px oklch(26% 0.09 285 / 0.08),
+    0 18px 48px -16px oklch(26% 0.09 285 / 0.25);
+  display: grid;
+  gap: 14px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.head {
+  display: grid;
+  gap: 6px;
+  padding-bottom: 6px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.kicker {
+  margin-left: auto;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+
+.title {
+  margin-top: 10px;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+}
+
+.sub {
+  color: var(--ink-2);
+}
+
+.card {
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: var(--paper);
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.h2 {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.scoreCard {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 18px;
+  background: var(--field);
+  color: #fff;
+}
+
+.scoreCard .h2 {
+  color: #fff;
+  margin-bottom: 2px;
+}
+
+.scoreCard p {
+  color: oklch(92% 0.03 290);
+}
+
+.scoreNum {
+  min-width: 76px;
+  padding: 6px 12px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, var(--apricot-hi), var(--apricot));
+  color: var(--ink);
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  text-align: center;
+  font-variant-numeric: proportional-nums;
+}
+
+.bar {
+  display: flex;
+  gap: 3px;
+  height: 22px;
+  margin: 4px 0 10px;
+}
+
+.seg {
+  flex-basis: 0;
+  border-radius: 5px;
+}
+
+.seg[data-cat='ai_does'],
+.key[data-cat='ai_does'] {
+  background: var(--hatch-dense), oklch(93% 0.022 290);
+}
+
+.seg[data-cat='ai_speeds'],
+.key[data-cat='ai_speeds'] {
+  background: var(--hatch-sparse), var(--speed-field);
+}
+
+.seg[data-cat='human_edge'],
+.key[data-cat='human_edge'] {
+  background: linear-gradient(180deg, var(--apricot-hi), var(--apricot));
+}
+
+.seg[data-cat='no_data'] {
+  outline: 1.5px dashed oklch(76% 0.05 288);
+  outline-offset: -1.5px;
+}
+
+.legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 22px;
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.key {
+  flex: none;
+  display: inline-block;
+  width: 14px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+.groups {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.groupGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.groupGrid .card[data-cat='human_edge'] {
+  background: oklch(96.5% 0.03 70);
+}
+
+.tasks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.tasks li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 8px;
+}
+
+.tasks b {
+  font-weight: 650;
+}
+
+.taskH {
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.tasks small {
+  grid-column: 1 / -1;
+  color: var(--ink-2);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.muted {
+  color: var(--ink-2);
+}
+
+.pay {
+  font-size: 14px;
+}
+
+.steps {
+  margin: 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 6px;
+}
+
+.foot {
+  margin-top: 6px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 2px;
+  font-size: 11px;
+  color: var(--ink-2);
+}
+
+@media (max-width: 720px) {
+  .sheet {
+    padding: 16px 12px 72px;
+  }
+  .page {
+    padding: 22px 18px;
+  }
+  .groupGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media print {
+  .sheet {
+    max-width: none;
+    padding: 0;
+  }
+  .actions {
+    display: none;
+  }
+  .page {
+    max-width: none;
+    padding: 0;
+    box-shadow: none;
+    border-radius: 0;
+  }
+}

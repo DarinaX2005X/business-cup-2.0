@@ -25,6 +25,7 @@ export function WeekSection({
   onSalary,
   onSelect,
   onMetric,
+  showPay = true,
 }: {
   tasks: WeekTask[];
   result: XrayComputed;
@@ -36,6 +37,8 @@ export function WeekSection({
   onSalary: (v: number | null) => void;
   onSelect: (id: string) => void;
   onMetric: (id: MetricId) => void;
+  /** The pay line lives on the Overview tab; the Tasks tab shows the bar alone. */
+  showPay?: boolean;
 }) {
   const { t, f } = useT();
 
@@ -74,13 +77,13 @@ export function WeekSection({
             {t('xray.week.noData', { hours: f.number(result.hours.no_data, { maximumFractionDigits: 1 }) })}
           </p>
         ) : null}
-        <PayLine result={result} isOwner={isOwner} salary={salary} onSalary={onSalary} onMetric={onMetric} />
+        {showPay ? <PayLine result={result} isOwner={isOwner} salary={salary} onSalary={onSalary} onMetric={onMetric} /> : null}
       </div>
     </section>
   );
 }
 
-function PayLine({
+export function PayLine({
   result,
   isOwner,
   salary,

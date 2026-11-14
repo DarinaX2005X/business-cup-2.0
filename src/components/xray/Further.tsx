@@ -25,6 +25,7 @@ export function Further({
   label,
   tips,
   xrayId,
+  only,
   onSelect,
 }: {
   result: XrayComputed;
@@ -35,6 +36,8 @@ export function Further({
   tips: TipsState;
   /** The map, so the trial opens with this week as its first week. */
   xrayId: string;
+  /** Which block to render: each one lives in its own tab of the map. */
+  only: 'pairs' | 'next' | 'plan';
   onSelect: (id: string) => void;
 }) {
   const { t, f } = useT();
@@ -70,6 +73,7 @@ export function Further({
 
   return (
     <>
+      {only === 'pairs' ? (
       <section className={st.pairs} aria-label={t('xray.hand.label')}>
         <div className={st.pairCol}>
           <h2 className={st.h2}>{t('xray.hand.title')}</h2>
@@ -117,8 +121,9 @@ export function Further({
           )}
         </div>
       </section>
+      ) : null}
 
-      {rel ? (
+      {only === 'next' && rel ? (
         <section className={st.next} aria-labelledby="next-title">
           <h2 id="next-title" className={st.h2}>
             {t('xray.next.title')}
@@ -169,7 +174,7 @@ export function Further({
         </section>
       ) : null}
 
-      {isOwner ? (
+      {only === 'plan' && isOwner ? (
         <section className={st.plan} aria-labelledby="plan-title">
           <h2 id="plan-title" className={st.h2}>
             {t('xray.plan.title')}

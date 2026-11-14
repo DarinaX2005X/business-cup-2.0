@@ -35,6 +35,8 @@ export interface XrayPageProps {
   /** Occupation title in the interface language, when the build has one. */
   occupationTitle: string;
   initialFocus: string | null;
+  /** `?tab=` of the URL: which section of the map opens under the top block. */
+  initialTab: string | null;
 }
 
 export type Focus = { kind: 'task'; id: string } | { kind: 'metric'; id: MetricId };

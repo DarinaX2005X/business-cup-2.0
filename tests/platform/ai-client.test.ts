@@ -30,6 +30,9 @@ beforeEach(() => {
   vi.stubEnv('OPENROUTER_API_KEY', 'test-key');
   vi.stubEnv('AI_BUDGET_USD', '1');
   vi.stubEnv('AI_DAILY_CAP_USD', '1');
+  vi.stubEnv('AI_BACKOFF_MS', '0,0');
+  vi.stubEnv('OPENROUTER_MODEL', 'google/gemini-3.8-flash');
+  vi.stubEnv('OPENROUTER_MODEL_GEN', '');
   vi.spyOn(console, 'info').mockImplementation(() => undefined);
   fetchMock.mockReset();
 });
@@ -107,25 +110,41 @@ describe('callModel', () => {
     expect(res.usage.costUsd).toBeCloseTo(0.0002, 8); // both attempts are counted
   });
 
-  it('gives invalid_output after a second bad answer', async () => {
-    fetchMock.mockResolvedValueOnce(okResponse('not json')).mockResolvedValueOnce(okResponse('{"word":'));
+  const modelOf = (call: number) => JSON.parse(String(fetchMock.mock.calls[call][1]!.body)).model as string;
+  const status = (code: number, message = 'x') => new Response(JSON.stringify({ error: { code, message } }), { status: code });
+
+  it('gives invalid_output only after both models answered badly twice', async () => {
+    fetchMock.mockResolvedValueOnce(okResponse('not json')).mockResolvedValueOnce(okResponse('{"word":')).mockResolvedValueOnce(okResponse('[]')).mockResolvedValueOnce(okResponse('{}'));
     await expect(callModel(base)).rejects.toMatchObject({ code: 'invalid_output' });
+    expect(fetchMock).toHaveBeenCalledTimes(4);
+    expect([0, 1, 2, 3].map(modelOf)).toEqual(['google/gemini-3.8-flash', 'google/gemini-3.8-flash', 'openai/gpt-6-luna', 'openai/gpt-6-luna']);
+  });
+
+  it('fails over to the other model after retries, and the answer comes from it', async () => {
+    fetchMock.mockResolvedValueOnce(status(503)).mockRejectedValueOnce(new TypeError('fetch failed')).mockResolvedValueOnce(okResponse({ word: 'luna', n: 1 }));
+    expect((await callModel(base)).data.word).toBe('luna');
+    expect(modelOf(2)).toBe('openai/gpt-6-luna');
+    // a request the model cannot take (400) goes straight to the other model
+    fetchMock.mockReset();
+    fetchMock.mockResolvedValueOnce(status(400, 'bad schema')).mockResolvedValueOnce(okResponse({ word: 'ok', n: 2 }));
+    expect((await callModel(base)).data.n).toBe(2);
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 
-  it('maps provider statuses to clear error codes', async () => {
-    fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({ error: { code: 429, message: 'slow down' } }), { status: 429 }));
+  it('maps provider statuses to clear error codes once both models fail', async () => {
+    for (let i = 0; i < 4; i++) fetchMock.mockResolvedValueOnce(status(429, 'slow down'));
     await expect(callModel(base)).rejects.toMatchObject({ code: 'rate_limited' });
-    fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({ error: { code: 402, message: 'no credits' } }), { status: 402 }));
-    await expect(callModel(base)).rejects.toMatchObject({ code: 'budget_exceeded' });
-    fetchMock.mockRejectedValueOnce(Object.assign(new Error('timed out'), { name: 'TimeoutError' }));
+    fetchMock.mockResolvedValueOnce(status(402, 'no credits'));
+    await expect(callModel(base)).rejects.toMatchObject({ code: 'budget_exceeded' }); // shared credit: no failover
+    for (let i = 0; i < 4; i++) fetchMock.mockRejectedValueOnce(Object.assign(new Error('timed out'), { name: 'TimeoutError' }));
     await expect(callModel(base)).rejects.toMatchObject({ code: 'timeout' });
-    fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({ error: { code: 400, message: 'bad schema' } }), { status: 400 }));
+    fetchMock.mockResolvedValueOnce(status(400, 'bad schema')).mockResolvedValueOnce(status(400, 'bad schema'));
     await expect(callModel(base)).rejects.toMatchObject({ code: 'provider_error' });
-    // failed requests before generation are released from the budget; the timeout keeps its reservation
+    expect(fetchMock).toHaveBeenCalledTimes(4 + 1 + 4 + 2);
+    // failed requests before generation are released from the budget; timeouts keep their reservations
     const s = await getBudgetStatus();
     expect(s.totalUsd).toBeGreaterThan(0);
-    expect(s.totalUsd).toBeLessThan(0.002);
+    expect(s.totalUsd).toBeLessThan(0.02);
   });
 
   it('retries once on a network error', async () => {

@@ -23,7 +23,7 @@ export type RepVerifyOutput = z.infer<typeof repVerifySchema>;
 
 const RULES = [
   'Be a strict, fair reviewer:',
-  '- Recompute every number yourself: sums, totals, differences, rates, percentages, doses, unit conversions, loads, dates and day counts. Show nothing, but base your verdicts on the arithmetic.',
+  '- Recompute every number yourself: sums, totals, differences, rates, percentages, quantities, unit conversions, limits, dates and day counts. Show nothing, but base your verdicts on the arithmetic.',
   '- A declared item is real only if it is wrong (or, for a trap, a contradiction) exactly as described. It is unambiguous only if any licensed specialist in this occupation in the US would agree without needing a local policy, a judgment call or information that is not there.',
   '- otherErrors: everything else in the material that a specialist would call a mistake or an inconsistency: wrong arithmetic, contradictions between two places, a wrong rule, form, code or regulator, an impossible value. Quote the exact words (3–20) from the material. Do not list style, wording preferences, missing nice-to-have details, or the declared items themselves. An empty list is the expected answer for good material.',
   '- Write reasons in English, one sentence each.',

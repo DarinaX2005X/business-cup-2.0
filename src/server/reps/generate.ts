@@ -40,6 +40,8 @@ export interface GenerateInput {
   occupationCode: string;
   /** Occupation title in English (O*NET). */
   occupation: string;
+  /** The person's own job title (map or résumé); prompts use it next to the occupation. */
+  jobTitle?: string | null;
   taskId: string;
   /** Full task text (English O*NET text is fine for any locale). */
   task: string;
@@ -155,7 +157,7 @@ export async function generateSlip(input: GenerateInput): Promise<Generated<Bank
       op: 'rep.slip',
       schema: repSlipSchema,
       system: repSlipPrompt.system(input.locale),
-      user: repSlipPrompt.user({ occupation: input.occupation, task: input.task, taskShort: input.taskShort, locale: input.locale, difficulty: input.difficulty, types, seed: input.seed, retry }),
+      user: repSlipPrompt.user({ occupation: input.occupation, jobTitle: input.jobTitle, task: input.task, taskShort: input.taskShort, locale: input.locale, difficulty: input.difficulty, types, seed: input.seed, retry }),
       locale: input.locale,
       maxTokens: 5000,
       temperature: 0.9,
@@ -287,7 +289,7 @@ export async function generateDelegate(input: GenerateInput): Promise<Generated<
       op: 'rep.delegate',
       schema: repDelegateSchema,
       system: repDelegatePrompt.system(input.locale),
-      user: repDelegatePrompt.user({ occupation: input.occupation, task: input.task, locale: input.locale, seed: input.seed, retry }),
+      user: repDelegatePrompt.user({ occupation: input.occupation, jobTitle: input.jobTitle, task: input.task, locale: input.locale, seed: input.seed, retry }),
       locale: input.locale,
       maxTokens: 5000,
       temperature: 0.8,
@@ -439,7 +441,7 @@ export async function generateEdge(input: GenerateInput): Promise<Generated<Bank
       op: 'rep.edge',
       schema: repEdgeSchema,
       system: repEdgePrompt.system(input.locale),
-      user: repEdgePrompt.user({ occupation: input.occupation, task: input.task, locale: input.locale, seed: `${input.seed}${attempt > 1 ? `-${attempt}` : ''}` }),
+      user: repEdgePrompt.user({ occupation: input.occupation, jobTitle: input.jobTitle, task: input.task, locale: input.locale, seed: `${input.seed}${attempt > 1 ? `-${attempt}` : ''}` }),
       locale: input.locale,
       maxTokens: 3000,
       temperature: 0.9,

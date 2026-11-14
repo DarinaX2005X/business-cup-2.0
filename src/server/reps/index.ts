@@ -3,8 +3,6 @@ export { generateSlip, generateDelegate, generateEdge, validateDelegate, validat
 export {
   readBank,
   listBankCodes,
-  findBankSame,
-  findBankSlip,
   checkBankEntry,
   bankEntrySchema,
   bankRoot,

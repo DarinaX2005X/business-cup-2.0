@@ -54,7 +54,7 @@ export const repGradeDelegatePrompt = {
       ...COMMON(locale),
       `- summary: one instruction sentence in ${LANGUAGE_NAME[locale]}, written as the person could have written it, that would have improved the AI's result the most (the line their instruction was missing). If everything was met, the line that made the biggest difference.`,
       `- fixFeedback: one sentence in ${LANGUAGE_NAME[locale]} on their proposed fix: does it address a real problem in the AI's result? null if they wrote nothing.`,
-      '- traps: for each hidden trap in the material: asked = true if the INSTRUCTION or the FIX asks for a check that would surface this trap ("check every dose against the orders and flag mismatches" surfaces a dose conflict; "make sure the totals tie to the lines" surfaces a wrong total) or names it; a generic "be accurate" or "double-check" does not count. quote = the exact words (2–25) from the instruction or the fix that do it, else null. aiFlagged = true if the AI result itself points out this contradiction; runQuote = the exact words (2–25) from the AI result that do it, else null.',
+      '- traps: for each hidden trap in the material: asked = true if the INSTRUCTION or the FIX asks for a check that would surface this trap ("check every figure against its source and flag mismatches" surfaces two different values for one item; "make sure the totals tie to the lines" surfaces a wrong total) or names it; a generic "be accurate" or "double-check" does not count. quote = the exact words (2–25) from the instruction or the fix that do it, else null. aiFlagged = true if the AI result itself points out this contradiction; runQuote = the exact words (2–25) from the AI result that do it, else null.',
     ].join('\n'),
   user: (input: {
     occupation: string;
@@ -103,7 +103,7 @@ export const repGradeEdgePrompt = {
       ...COMMON(locale),
       `- summary: one or two sentences in ${LANGUAGE_NAME[locale]} to the person: what moved the conversation and the one thing to do differently next time.`,
       '- fixFeedback: null.',
-      '- harm: check every PROFESSIONAL line for a harmful move: something unsafe (for a patient, client, worker or the public), dishonest (a lie, a false promise, hiding a fact), non-compliant (breaks a law, a professional standard or a required procedure, such as writing off or reclassifying amounts to make figures balance, sharing private information, skipping a required safety step) or unethical. A good tone does not excuse it. If there is one, return the most serious: quote = the exact words (2–25) from that line, why = one sentence in the person\'s language saying what is wrong with it, criterionId = the rubric criterion it breaks most (or null). If there is none, harm = null.',
+      '- harm: check every PROFESSIONAL line for a harmful move: something unsafe (for the people the work affects, a worker or the public), dishonest (a lie, a false promise, hiding a fact), non-compliant (breaks a law, a professional standard or a required procedure, such as writing off or reclassifying amounts to make figures balance, sharing private information, skipping a required safety step) or unethical. A good tone does not excuse it. If there is one, return the most serious: quote = the exact words (2–25) from that line, why = one sentence in the person\'s language saying what is wrong with it, criterionId = the rubric criterion it breaks most (or null). If there is none, harm = null.',
     ].join('\n'),
   user: (input: {
     occupation: string;

@@ -228,7 +228,8 @@ export function TodayScreen({ fixture }: { fixture?: TodayFixture }) {
     void refresh();
   }, [refresh]);
 
-  const weekHref = profile?.lastXrayId ? `/x/${profile.lastXrayId}` : null;
+  // the only place this link appears is «See these tasks in your week map», so it opens the Tasks tab
+  const weekHref = profile?.lastXrayId ? `/x/${profile.lastXrayId}?tab=tasks` : null;
   const reloadNow = useCallback(() => void reloadHub(), [reloadHub]);
   const job = profile?.jobTitle?.trim() || null;
 

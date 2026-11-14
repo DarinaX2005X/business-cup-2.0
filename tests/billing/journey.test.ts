@@ -80,7 +80,7 @@ describe('Business Cup offer through the API', () => {
 
     const unlocked = await cupPOST(req('/api/billing/cup', n.headers, { method: 'POST' }));
     expect(unlocked.status).toBe(201);
-    expect(await unlocked.json()).toMatchObject({ isPro: true, plan: { status: 'pro', source: 'cup', tier: 'coach' }, offer: { until: '2026-11-30', tier: 'coach' } });
+    expect(await unlocked.json()).toMatchObject({ isPro: true, plan: { status: 'pro', source: 'cup', tier: 'coach' }, offer: { until: '2026-11-30', tier: 'coach', tierName: 'Max' } });
 
     const today = await todayGET(req('/api/reps/today', n.headers));
     expect(today.status).toBe(200);

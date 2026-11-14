@@ -192,7 +192,24 @@ export function getModelId(): string {
 }
 
 /** Long document generation (the rep writers) can run on a cheaper model set in OPENROUTER_MODEL_GEN. */
-const GENERATION_OPS = new Set(['rep.slip', 'rep.delegate', 'rep.edge', 'rep.verify']);
+const GENERATION_OPS = new Set(['rep.slip', 'rep.delegate', 'rep.edge', 'rep.verify', 'plan.generate', 'profile.skills']);
+
+/**
+ * The other model to fail over to when the first one keeps failing (transport errors, timeouts, 5xx,
+ * 429, invalid JSON): google/gemini-3.8-flash ↔ openai/gpt-6-luna. OPENROUTER_MODEL_FAILOVER overrides.
+ */
+export function failoverModel(model: string): string {
+  const env = process.env.OPENROUTER_MODEL_FAILOVER;
+  if (env && env !== model) return env;
+  return /^google\//.test(model) ? 'openai/gpt-6-luna' : 'google/gemini-3.8-flash';
+}
+
+/** Attempts per model (with backoff between them) before failing over, and the whole call's time limit. */
+const ATTEMPTS_PER_MODEL = 2;
+/** AI_BACKOFF_MS (comma list) overrides the waits, e.g. "0,0" in tests. */
+const backoffMs = (attempt: number) => Number((process.env.AI_BACKOFF_MS ?? '700,2000').split(',')[attempt - 1] ?? 2_000) || 0;
+const CALL_DEADLINE_MS = 100_000;
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, Math.max(0, ms)));
 
 export function modelFor(op: string): string {
   const gen = process.env.OPENROUTER_MODEL_GEN;
@@ -266,13 +283,13 @@ const usd = (n: number) => `$${n.toFixed(5)}`;
 
 export async function callModel<S extends z.ZodType>(input: CallModelInput<S>): Promise<CallModelResult<z.infer<S>>> {
   const { op } = input;
-  const model = modelFor(op);
+  const primary = modelFor(op);
   const started = Date.now();
   const jsonSchema = strictSchema(input.schema);
 
   const cacheKey =
     input.cacheKey !== undefined
-      ? cacheStoreKey(op, { k: input.cacheKey, model, system: input.system, user: input.user, images: input.images ?? [], schema: jsonSchema })
+      ? cacheStoreKey(op, { k: input.cacheKey, model: primary, system: input.system, user: input.user, images: input.images ?? [], schema: jsonSchema })
       : null;
   if (cacheKey) {
     const hit = await cacheGet(cacheKey, input.schema);
@@ -294,142 +311,154 @@ export async function callModel<S extends z.ZodType>(input: CallModelInput<S>): 
   const userContent: ORMessage['content'] = input.images?.length
     ? [{ type: 'text', text: input.user }, ...input.images.map((url) => ({ type: 'image_url' as const, image_url: { url } }))]
     : input.user;
-  const messages: ORMessage[] = [
-    { role: 'system', content: input.system },
-    { role: 'user', content: userContent },
-  ];
   const usage: ModelUsage = { promptTokens: 0, completionTokens: 0, reasoningTokens: 0, costUsd: 0 };
   const effort = input.reasoning ?? defaultReasoning();
   let lastStatus: BudgetStatus | null = null;
   let lastRequestId: string | undefined;
+  let lastError: AiError | null = null;
+  const deadline = started + CALL_DEADLINE_MS;
+  const models = [primary, failoverModel(primary)].filter((m, i, all) => all.indexOf(m) === i);
 
-  for (let attempt = 0; attempt < 2; attempt++) {
-    const canRetry = attempt === 0;
-    const promptChars = messages.reduce((n, m) => n + (typeof m.content === 'string' ? m.content.length : input.user.length), 0);
-    const estimate = estimateMaxCostUsd({ model, promptChars, images: input.images?.length ?? 0, maxTokens: input.maxTokens });
-    const reserved = await reserveBudget(estimate);
-    if (!reserved.ok) {
-      log({ op, refused: reserved.denial.code });
-      throw new AiError(reserved.denial.code, reserved.denial.reason, { op });
-    }
-    const reservation: Reservation = reserved.reservation;
-
-    const signal = input.signal ? AbortSignal.any([input.signal, AbortSignal.timeout(TIMEOUT_MS)]) : AbortSignal.timeout(TIMEOUT_MS);
-    let res: Response;
-    try {
-      res = await fetch(ENDPOINT, {
-        method: 'POST',
-        signal,
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          'Content-Type': 'application/json',
-          'HTTP-Referer': process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
-          'X-Title': 'Irreplaceable',
-        },
-        body: JSON.stringify({
-          model,
-          messages,
-          max_tokens: input.maxTokens,
-          ...(NO_TEMPERATURE.some((re) => re.test(model)) ? {} : { temperature: input.temperature }),
-          response_format: { type: 'json_schema', json_schema: { name: op.replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 64), strict: true, schema: jsonSchema } },
-          reasoning: reasoningParam(effort, model),
-          usage: { include: true },
-          provider: { require_parameters: true },
-        }),
-      });
-    } catch (err) {
-      // The request may have reached the provider, so the reservation is kept (it can only over-count).
-      await reservation.settle(reservation.amountUsd);
-      if (input.signal?.aborted) throw err;
-      const isTimeout = (err as Error).name === 'TimeoutError' || (err as Error).name === 'AbortError';
-      if (isTimeout) {
-        log({ op, error: 'timeout', ms: Date.now() - started });
-        throw new AiError('timeout', `no answer within ${TIMEOUT_MS / 1000}s`, { op });
+  for (const [mi, model] of models.entries()) {
+    if (mi > 0) log({ op, failover: `${models[mi - 1]}->${model}`, after: lastError?.code });
+    // a fresh conversation per model: repair messages written for one model do not carry over
+    const messages: ORMessage[] = [
+      { role: 'system', content: input.system },
+      { role: 'user', content: userContent },
+    ];
+    for (let attempt = 0; attempt < ATTEMPTS_PER_MODEL; attempt++) {
+      const remaining = deadline - Date.now();
+      if (remaining < 5_000) break;
+      if (attempt > 0) await sleep(Math.min(backoffMs(attempt), remaining - 4_000));
+      const promptChars = messages.reduce((n, m) => n + (typeof m.content === 'string' ? m.content.length : input.user.length), 0);
+      const estimate = estimateMaxCostUsd({ model, promptChars, images: input.images?.length ?? 0, maxTokens: input.maxTokens });
+      const reserved = await reserveBudget(estimate);
+      if (!reserved.ok) {
+        log({ op, refused: reserved.denial.code });
+        throw new AiError(reserved.denial.code, reserved.denial.reason, { op });
       }
-      if (canRetry) continue;
-      log({ op, error: 'network', ms: Date.now() - started });
-      throw new AiError('provider_error', `network error: ${(err as Error).message}`, { op });
-    }
+      const reservation: Reservation = reserved.reservation;
 
-    let body: ORResponse | null = null;
-    try {
-      body = (await res.json()) as ORResponse;
-    } catch {
-      body = null;
-    }
-    lastRequestId = body?.id;
-
-    if (!res.ok || !body || body.error) {
-      // OpenRouter does not bill requests that fail before generation.
-      await reservation.release();
-      const status = res.ok ? Number(body?.error?.code) || 502 : res.status;
-      const message = body?.error?.message ?? `HTTP ${res.status}`;
-      const detail = { op, providerStatus: status, requestId: lastRequestId };
-      log({ op, error: `http_${status}`, ms: Date.now() - started });
-      if (status === 429) throw new AiError('rate_limited', `provider rate limit: ${message}`, detail);
-      if (status === 402) throw new AiError('budget_exceeded', `OpenRouter credits exhausted: ${message}`, detail);
-      if (status === 408) throw new AiError('timeout', `provider timeout: ${message}`, detail);
-      if (status >= 500 && canRetry) continue;
-      throw new AiError('provider_error', `provider error ${status}: ${message}`, detail);
-    }
-
-    const promptTokens = body.usage?.prompt_tokens ?? 0;
-    const completionTokens = body.usage?.completion_tokens ?? 0;
-    const cost = typeof body.usage?.cost === 'number' ? body.usage.cost : costFromTokens(model, promptTokens, completionTokens);
-    usage.promptTokens += promptTokens;
-    usage.completionTokens += completionTokens;
-    usage.reasoningTokens += body.usage?.completion_tokens_details?.reasoning_tokens ?? 0;
-    usage.costUsd += cost;
-    lastStatus = await reservation.settle(cost);
-
-    const choice = body.choices?.[0];
-    const content = choice?.message?.content;
-    let problem: string;
-    if (choice?.finish_reason === 'length') {
-      problem = `the answer was cut off at max_tokens=${input.maxTokens}`;
-    } else if (typeof content !== 'string' || !content.trim()) {
-      problem = choice?.message?.refusal ? 'the model refused' : 'empty answer';
-    } else {
-      let json: unknown;
+      const timeoutMs = Math.min(TIMEOUT_MS, deadline - Date.now());
+      const signal = input.signal ? AbortSignal.any([input.signal, AbortSignal.timeout(timeoutMs)]) : AbortSignal.timeout(timeoutMs);
+      let res: Response;
       try {
-        json = JSON.parse(stripFences(content));
-      } catch {
-        json = undefined;
+        res = await fetch(ENDPOINT, {
+          method: 'POST',
+          signal,
+          headers: {
+            Authorization: `Bearer ${apiKey}`,
+            'Content-Type': 'application/json',
+            'HTTP-Referer': process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+            'X-Title': 'Irreplaceable',
+          },
+          body: JSON.stringify({
+            model,
+            messages,
+            max_tokens: input.maxTokens,
+            ...(NO_TEMPERATURE.some((re) => re.test(model)) ? {} : { temperature: input.temperature }),
+            response_format: { type: 'json_schema', json_schema: { name: op.replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 64), strict: true, schema: jsonSchema } },
+            reasoning: reasoningParam(effort, model),
+            usage: { include: true },
+            provider: { require_parameters: true },
+          }),
+        });
+      } catch (err) {
+        // The request may have reached the provider, so the reservation is kept (it can only over-count).
+        await reservation.settle(reservation.amountUsd);
+        if (input.signal?.aborted) throw err;
+        const isTimeout = (err as Error).name === 'TimeoutError' || (err as Error).name === 'AbortError';
+        log({ op, model, error: isTimeout ? 'timeout' : 'network', attempt: attempt + 1, ms: Date.now() - started });
+        lastError = isTimeout
+          ? new AiError('timeout', `no answer within ${Math.round(timeoutMs / 1000)}s`, { op })
+          : new AiError('provider_error', `network error: ${(err as Error).message}`, { op });
+        continue;
       }
-      if (json === undefined) {
-        problem = 'the answer is not valid JSON';
-      } else {
-        const parsed = input.schema.safeParse(json);
-        if (parsed.success) {
-          if (cacheKey) await cacheSet(cacheKey, parsed.data, input.cacheTtlSec ?? DEFAULT_CACHE_TTL_SEC);
-          log({
-            op,
-            cached: false,
-            attempt: attempt + 1,
-            cost: usd(usage.costUsd),
-            day: lastStatus ? `${usd(lastStatus.dayUsd)}/${lastStatus.dayLimitUsd}` : undefined,
-            total: lastStatus ? `${usd(lastStatus.totalUsd)}/${lastStatus.totalLimitUsd}` : undefined,
-            tokens: `${usage.promptTokens}/${usage.completionTokens}`,
-            reasoning: usage.reasoningTokens,
-            ms: Date.now() - started,
-            id: lastRequestId,
-          });
-          return { data: parsed.data, usage, cached: false };
-        }
-        problem = `the JSON does not match the schema: ${summarizeIssues(parsed.error)}`;
-      }
-    }
 
-    log({ op, attempt: attempt + 1, invalid: problem.slice(0, 120), cost: usd(usage.costUsd) });
-    if (!canRetry) break;
-    if (typeof content === 'string' && content.trim()) messages.push({ role: 'assistant', content });
-    messages.push({
-      role: 'user',
-      content: `Your previous answer was rejected: ${problem}. Answer again with a single JSON object that follows the schema exactly${
-        choice?.finish_reason === 'length' ? ', and keep every text field shorter' : ''
-      }.`,
-    });
+      let body: ORResponse | null = null;
+      try {
+        body = (await res.json()) as ORResponse;
+      } catch {
+        body = null;
+      }
+      lastRequestId = body?.id;
+
+      if (!res.ok || !body || body.error) {
+        // OpenRouter does not bill requests that fail before generation.
+        await reservation.release();
+        const status = res.ok ? Number(body?.error?.code) || 502 : res.status;
+        const message = body?.error?.message ?? `HTTP ${res.status}`;
+        const detail = { op, providerStatus: status, requestId: lastRequestId };
+        log({ op, model, error: `http_${status}`, attempt: attempt + 1, ms: Date.now() - started });
+        // the key's credit is shared by every model: switching does not help
+        if (status === 402) throw new AiError('budget_exceeded', `OpenRouter credits exhausted: ${message}`, detail);
+        if (status === 429) lastError = new AiError('rate_limited', `provider rate limit: ${message}`, detail);
+        else if (status === 408) lastError = new AiError('timeout', `provider timeout: ${message}`, detail);
+        else lastError = new AiError('provider_error', `provider error ${status}: ${message}`, detail);
+        if (status === 429 || status === 408 || status >= 500) continue; // transient: retry this model
+        break; // 400/404…: this model cannot take the request; try the other one
+      }
+
+      const promptTokens = body.usage?.prompt_tokens ?? 0;
+      const completionTokens = body.usage?.completion_tokens ?? 0;
+      const cost = typeof body.usage?.cost === 'number' ? body.usage.cost : costFromTokens(model, promptTokens, completionTokens);
+      usage.promptTokens += promptTokens;
+      usage.completionTokens += completionTokens;
+      usage.reasoningTokens += body.usage?.completion_tokens_details?.reasoning_tokens ?? 0;
+      usage.costUsd += cost;
+      lastStatus = await reservation.settle(cost);
+
+      const choice = body.choices?.[0];
+      const content = choice?.message?.content;
+      let problem: string;
+      if (choice?.finish_reason === 'length') {
+        problem = `the answer was cut off at max_tokens=${input.maxTokens}`;
+      } else if (typeof content !== 'string' || !content.trim()) {
+        problem = choice?.message?.refusal ? 'the model refused' : 'empty answer';
+      } else {
+        let json: unknown;
+        try {
+          json = JSON.parse(stripFences(content));
+        } catch {
+          json = undefined;
+        }
+        if (json === undefined) {
+          problem = 'the answer is not valid JSON';
+        } else {
+          const parsed = input.schema.safeParse(json);
+          if (parsed.success) {
+            if (cacheKey) await cacheSet(cacheKey, parsed.data, input.cacheTtlSec ?? DEFAULT_CACHE_TTL_SEC);
+            log({
+              op,
+              cached: false,
+              ...(model !== primary ? { model } : {}),
+              attempt: attempt + 1,
+              cost: usd(usage.costUsd),
+              day: lastStatus ? `${usd(lastStatus.dayUsd)}/${lastStatus.dayLimitUsd}` : undefined,
+              total: lastStatus ? `${usd(lastStatus.totalUsd)}/${lastStatus.totalLimitUsd}` : undefined,
+              tokens: `${usage.promptTokens}/${usage.completionTokens}`,
+              reasoning: usage.reasoningTokens,
+              ms: Date.now() - started,
+              id: lastRequestId,
+            });
+            return { data: parsed.data, usage, cached: false };
+          }
+          problem = `the JSON does not match the schema: ${summarizeIssues(parsed.error)}`;
+        }
+      }
+
+      log({ op, model, attempt: attempt + 1, invalid: problem.slice(0, 120), cost: usd(usage.costUsd) });
+      lastError = new AiError('invalid_output', `the model did not return valid output: ${problem.slice(0, 160)}`, { op, requestId: lastRequestId });
+      if (typeof content === 'string' && content.trim()) messages.push({ role: 'assistant', content });
+      messages.push({
+        role: 'user',
+        content: `Your previous answer was rejected: ${problem}. Answer again with a single JSON object that follows the schema exactly${
+          choice?.finish_reason === 'length' ? ', and keep every text field shorter' : ''
+        }.`,
+      });
+    }
   }
 
-  throw new AiError('invalid_output', 'the model did not return valid output after one retry', { op, requestId: lastRequestId });
+  // Both models failed after their retries: an honest error with the last cause, never a canned answer.
+  throw lastError ?? new AiError('timeout', 'no time left for another attempt', { op });
 }

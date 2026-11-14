@@ -24,6 +24,8 @@ export type RepDelegateOutput = z.infer<typeof repDelegateSchema>;
 
 export interface RepDelegateInput {
   occupation: string;
+  /** The person's own job title from their map or résumé. */
+  jobTitle?: string | null;
   task: string;
   locale: Locale;
   seed: string;
@@ -36,24 +38,30 @@ export const repDelegatePrompt = {
     return [
       'You design a practice exercise called "Delegate" for working professionals. The person must hand one real piece of their work to an AI assistant by writing an instruction, then check what comes back. Your job is the situation and the raw material they hand over.',
       '',
-      `Write every field in ${lang}. Setting: a US workplace in 2026 with US conventions (US units, mg/dL, USD, MM/DD/YYYY, US regulators, forms and role names). All people and organisations are invented.`,
+      `Write every field in ${lang}. Setting: a US workplace in 2026 with US conventions (US units, USD, MM/DD/YYYY, and the US regulators, forms and role names of this occupation). All people and organisations are invented.`,
       '',
       'Return:',
-      '- title: 3–6 words naming the piece of work (for example "Shift handoff for bed 12").',
+      '- title: 3–6 words naming the piece of work (the way someone in this job would label it).',
       '- brief: one sentence: what the person needs the AI to produce.',
       '- scenario: 2–3 sentences: the situation, who will use the result and when.',
       '- inputs: the raw material the person would paste into the AI, 80–200 words: notes, a short table ("|" between cells, a header row and a "| --- |" separator row), an email or a list ("- "). Plain text, no bold or other Markdown. Realistic and specific, as a colleague would actually write it. Apart from the two traps, every number must be consistent: totals equal the sum of their parts, the same item has the same value everywhere.',
       '- goal: one sentence: what a good result must achieve for the reader.',
-      '- criteria: 4 to 6 things a strong instruction for this work states explicitly. Cover: the context and audience, the constraints, the output format and length, and at least one check specific to the risks of this profession (for a nurse: reconcile medication doses and allergies; for an accountant: tie totals to the source; for an electrician: confirm code requirements). Each criterion is one short sentence ("Says the result is for the night-shift nurse taking over"). The person sees the criteria, so they must not give the traps away: phrase the risk check generally ("Asks the AI to check doses against the orders and flag conflicts") and never name the specific conflicting item or value. keywords: 3–6 single words or short phrases in the same language that an instruction meeting this criterion would likely contain.',
-      '- traps: exactly 2 contradictions planted in the inputs that an assistant following a vague instruction would copy into its result without noticing, but that a careful professional would ask to check: the same drug with two different doses, a total that does not equal the sum of its lines, two different dates for the same event. Do not mark, comment on or hint at them in the inputs (no "Note:", "discrepancy", "(?)"): they sit in the material as a colleague would have left them. Check your arithmetic: a contradiction about a sum must really not add up.',
+      '- criteria: 4 to 6 things a strong instruction for this work states explicitly. Cover: the context and audience, the constraints, the output format and length, and at least one check specific to the risks of this profession (what goes wrong in this occupation when work is not checked). Each criterion is one short sentence ("Says who will read the result and when"). The person sees the criteria, so they must not give the traps away: phrase the risk check generally ("Asks the AI to check every figure against its source and flag conflicts") and never name the specific conflicting item or value. keywords: 3–6 single words or short phrases in the same language that an instruction meeting this criterion would likely contain.',
+      '- traps: exactly 2 contradictions planted in the inputs that an assistant following a vague instruction would copy into its result without noticing, but that a careful professional would ask to check: the same item with two different values, a total that does not equal the sum of its lines, two different dates for the same event. Do not mark, comment on or hint at them in the inputs (no "Note:", "discrepancy", "(?)"): they sit in the material as a colleague would have left them. Check your arithmetic: a contradiction about a sum must really not add up.',
       '  - description: one sentence saying what contradicts what.',
       '  - evidence: exactly 2 short quotes (3–12 words each) copied character for character from the inputs, the two places that contradict each other.',
-      '  - keywords: 1–3 short exact strings from the inputs that mark the trap: the conflicting number with its unit ("20 mg", "$4,150", "3L") or the one specific item name, 1–3 words each.',
-      '- exemplar: one strong instruction for this scenario, 40–110 words, as a skilled professional would write it to the AI: it covers every criterion (audience, constraints, format and length, the profession\'s risk check phrased generally, such as "check every dose against the orders and list any mismatch first"). It must not name the specific conflicting items or values of the traps.',
+      '  - keywords: 1–3 short exact strings from the inputs that mark the trap: the conflicting number with its unit (such as "$4,150" or "14 days") or the one specific item name, 1–3 words each.',
+      '- exemplar: one strong instruction for this scenario, 40–110 words, as a skilled professional would write it to the AI: it covers every criterion (audience, constraints, format and length, the profession\'s risk check phrased generally, such as "check every figure against its source and list any mismatch first"). It must not name the specific conflicting items or values of the traps.',
     ].join('\n');
   },
   user: (input: RepDelegateInput) => {
-    const lines = [`Occupation: ${input.occupation}`, `Task from their week: ${input.task}`, `Variation code: ${input.seed} (vary people, numbers and situation).`];
+    const lines = [
+      `Occupation: ${input.occupation}`,
+      ...(input.jobTitle ? [`Job title: ${input.jobTitle}`] : []),
+      `Task from their week: ${input.task}`,
+      `Everything (setting, people, terms, tools, numbers) comes from the person's occupation, task and job title below; nothing from any other occupation. `,
+      `Variation code: ${input.seed} (vary people, numbers and situation).`,
+    ];
     if (input.retry) {
       lines.push('', 'Your previous answer failed these checks:', ...input.retry.problems.map((p) => `- ${p}`), '', 'Return the whole corrected answer. Previous answer:', JSON.stringify(input.retry.previous));
     }

@@ -1,7 +1,7 @@
 import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { z } from 'zod';
-import { hash32, slipRangesValid, type RepNote } from '@/domain/reps';
+import { slipRangesValid } from '@/domain/reps';
 import type { Locale, RepType } from '@/domain/types';
 
 /**
@@ -9,6 +9,9 @@ import type { Locale, RepType } from '@/domain/types';
  * produced by the same generators and checks as the live path. Read once per instance; a missing
  * directory is an empty bank, a malformed or failing file is skipped with a log line.
  * REP_BANK_DIR overrides the location (tests).
+ *
+ * Round 3: the bank is NEVER served to users (no trial, daily, extra or fallback reads it). It feeds only the
+ * landing's static illustrations (scripts/landing-fixtures.ts) and the bank script's checks.
  */
 
 const slipErrorSchema = z.object({
@@ -187,67 +190,4 @@ export async function readBank<T extends RepType>(code: string, type: T, locale:
   if (!CODE_RE.test(code)) return [];
   const items = await codeItems(code);
   return items.filter((i): i is BankItem<T> => i.type === type && i.locale === locale);
-}
-
-export interface BankPick<T extends RepType> {
-  item: BankItem<T>;
-  notes: RepNote[];
-}
-
-export interface BankQuery {
-  code: string;
-  locale: Locale;
-  /** Tasks of the person's week, preferred within the same occupation. */
-  weekTaskIds?: readonly string[];
-  /** Tasks to avoid (done in the last days), used only while others exist. */
-  avoidTaskIds?: readonly string[];
-  seed: string;
-}
-
-function choose<T extends RepType>(items: BankItem<T>[], q: BankQuery, sameCode: boolean): BankItem<T> | null {
-  if (!items.length) return null;
-  const avoid = new Set(q.avoidTaskIds ?? []);
-  const fresh = items.filter((i) => !avoid.has(i.taskId));
-  let pool = fresh.length ? fresh : items;
-  if (sameCode && q.weekTaskIds?.length) {
-    const week = new Set(q.weekTaskIds);
-    const inWeek = pool.filter((i) => week.has(i.taskId));
-    if (inWeek.length) pool = inWeek;
-    else return pool[0]; // "otherwise the first one for the occupation"
-  }
-  return pool[hash32(q.seed) % pool.length];
-}
-
-/**
- * One rep of `type` from the same occupation: the user's language first, then English with the
- * `english_only` note.
- */
-export async function findBankSame<T extends RepType>(type: T, q: BankQuery, opts: { english?: boolean } = {}): Promise<BankPick<T> | null> {
-  const own = choose(await readBank(q.code, type, q.locale), q, true);
-  if (own) return { item: own, notes: [] };
-  if (q.locale !== 'en' && opts.english !== false) {
-    const en = choose(await readBank(q.code, type, 'en'), q, true);
-    if (en) return { item: en, notes: ['english_only'] };
-  }
-  return null;
-}
-
-/**
- * Fallback slip: same occupation → same SOC major group → any occupation ("related_job"), each level
- * in the user's language first, then English ("english_only").
- */
-export async function findBankSlip(q: BankQuery): Promise<BankPick<'slip'> | null> {
-  const same = await findBankSame('slip', q);
-  if (same) return same;
-  const codes = (await listBankCodes()).filter((c) => c !== q.code);
-  const major = q.code.slice(0, 2);
-  const levels = [codes.filter((c) => c.startsWith(major)), codes.filter((c) => !c.startsWith(major))];
-  for (const level of levels) {
-    for (const locale of q.locale === 'en' ? (['en'] as const) : ([q.locale, 'en'] as const)) {
-      const all = (await Promise.all(level.map((c) => readBank(c, 'slip', locale)))).flat();
-      const pick = choose(all, q, false);
-      if (pick) return { item: pick, notes: locale !== q.locale ? ['related_job', 'english_only'] : ['related_job'] };
-    }
-  }
-  return null;
 }

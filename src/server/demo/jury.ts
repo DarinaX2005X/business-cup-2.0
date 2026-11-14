@@ -15,7 +15,7 @@ import { proposeWeek } from '@/server/xray/week';
  * Business Cup 2.0 jury account (round 3): one click builds a ready account from a fictional sample
  * résumé through the same server functions as /start, with live model calls:
  *   résumé analysis (resume.parse + occupation.pick) → the top occupation → the proposed week from the
- *   résumé duties (week.map) → createXray (points included) → the Cup offer (Coach) → `profile.demo`.
+ *   résumé duties (week.map) → createXray (points included) → the Cup offer (Max) → `profile.demo`.
  * The account is labelled as a demo; nothing in it is prepared content. Idempotent per profile and
  * persona: a repeat returns the same map without new model calls; a parallel click gets 409 in_progress.
  */
@@ -31,7 +31,7 @@ export interface JuryResult {
   created: boolean;
 }
 
-/** Coach through the Cup offer when possible; a paid plan or an ended offer keeps the plan as it is. */
+/** Max through the Cup offer when possible; a paid plan or an ended offer keeps the plan as it is. */
 async function cupIfPossible(profile: Profile, now: Date): Promise<Profile['plan']> {
   try {
     return (await unlockCup(profile, now)).plan;
@@ -43,8 +43,17 @@ async function cupIfPossible(profile: Profile, now: Date): Promise<Profile['plan
 
 export async function openJuryAccount(profile: Profile, persona: JuryPersona, actor: Actor, now: Date = new Date()): Promise<JuryResult> {
   const known = profile.demoXrays?.[persona];
-  if (known && (await readXray(known))?.profileId === profile.id) {
-    return { xrayId: known, plan: await cupIfPossible(profile, now), created: false };
+  const knownXray = known ? await readXray(known) : null;
+  if (known && knownXray?.profileId === profile.id) {
+    // Re-opening a persona makes its map the active one again. Without this the profile kept the week of the
+    // persona opened last (a "software engineer" landed on their map but Today wrote nurse reps).
+    const { profile: active } = await updateProfile(profile.id, (p) => {
+      p.occupationCode = knownXray.occupationCode;
+      p.jobTitle = knownXray.jobTitle;
+      p.shares = knownXray.shares;
+      p.lastXrayId = knownXray.id;
+    });
+    return { xrayId: known, plan: await cupIfPossible(active, now), created: false };
   }
 
   const store = getStore();

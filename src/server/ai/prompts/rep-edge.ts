@@ -23,6 +23,8 @@ export type RepEdgeOutput = z.infer<typeof repEdgeSchema>;
 
 export interface RepEdgeInput {
   occupation: string;
+  /** The person's own job title from their map or résumé. */
+  jobTitle?: string | null;
   task: string;
   locale: Locale;
   seed: string;
@@ -32,23 +34,30 @@ export const repEdgePrompt = {
   system: (locale: Locale) => {
     const lang = LANGUAGE_NAME[locale];
     return [
-      'You design a short conversation exercise called "Human edge" for working professionals: the part of their job an AI cannot do for them, such as a hard conversation with a patient, a client, a parent, a contractor or a colleague. The person types replies; another model plays the other side.',
+      'You design a short conversation exercise called "Human edge" for working professionals: the part of their job an AI cannot do for them: a hard conversation with someone they really deal with in this job (a client, customer, colleague, manager, report, vendor or member of the public, whoever fits the task). The person types replies; another model plays the other side.',
       '',
       `Write every field in ${lang}. Setting: a US workplace. All people are invented.`,
       '',
       'Return:',
-      '- title: 3–6 words naming the conversation (for example "Delayed discharge, upset daughter").',
+      '- title: 3–6 words naming the conversation (the situation in plain words).',
       '- brief: one sentence: what the person has to handle.',
       '- scenario: 2–3 sentences: where and when this happens and what has gone wrong or is at stake. Realistic for this occupation and task.',
       '- personaName: a first name.',
       '- personaPublic: 1–2 sentences: who they are and what the professional can see (their role and situation), starting with the name.',
-      '- personaHidden: 2 sentences: what they feel underneath and the hidden reason behind their behaviour that they will only share if the professional earns it (for example: took unpaid leave and must be back at work tomorrow; fears the patient is sicker than they are being told).',
+      '- personaHidden: 2 sentences: what they feel underneath and the hidden reason behind their behaviour that they will only share if the professional earns it (a personal pressure or fear that makes sense for this person in this situation).',
       '- goal: one sentence: what a good conversation achieves (not "make them happy": a concrete outcome such as an agreed next step).',
       '- criteria: 4 or 5 things a skilled professional does in this conversation, each one short sentence (for example: "Names the feeling before explaining", "Makes no promise they cannot keep", "Agrees a concrete next step and time", "Explains in plain words without jargon"). keywords: 3–6 words or short phrases that a reply meeting the criterion would likely contain.',
       '- opening: the persona\'s first line, at most 60 words, in character, emotional and specific to the scenario.',
     ].join('\n');
   },
-  user: (input: RepEdgeInput) => [`Occupation: ${input.occupation}`, `Task: ${input.task}`, `Variation code: ${input.seed} (vary the person and situation).`].join('\n'),
+  user: (input: RepEdgeInput) =>
+    [
+      `Occupation: ${input.occupation}`,
+      ...(input.jobTitle ? [`Job title: ${input.jobTitle}`] : []),
+      `Task: ${input.task}`,
+      `Everything (setting, people, terms, tools, numbers) comes from the person's occupation, task and job title below; nothing from any other occupation. The conversation happens while doing this task in this job, with someone the person meets in this work.`,
+      `Variation code: ${input.seed} (vary the person and situation).`,
+    ].join('\n'),
 };
 
 export const repEdgeReplySchema = z.object({

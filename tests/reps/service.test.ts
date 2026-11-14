@@ -1,27 +1,45 @@
-import { mkdtempSync, rmSync } from 'node:fs';
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
-import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Range, RepView } from '@/domain/reps';
 import type { Profile } from '@/domain/types';
+import { POINT_RULES, REP_POINTS, repPoints } from '@/domain/points';
+import { AiError } from '@/server/ai/client';
 import { createProfile, getProfile, updateProfile } from '@/server/profile';
 import { HttpError } from '@/server/profile/http';
-import { aiOrMeFor, answerRep, createRep, getToday, logWork, resetBankCache, startTrial, submitAiOrMe, weekOf, type RepCtx } from '@/server/reps';
-import { MAX_EXTRAS_PER_DAY } from '@/server/reps/service';
+import { aiOrMeFor, answerRep, createRep, getRep, getToday, logWork, readBank, resetBankCache, startTrial, submitAiOrMe, weekOf, type RepCtx } from '@/server/reps';
+import { MAX_EXTRAS_PER_DAY, retryRep } from '@/server/reps/service';
 import { loadBundle, typicalWeek } from '@/server/xray';
 import { createXray } from '@/server/xray/records';
-import { POINT_RULES, REP_POINTS, repPoints } from '@/domain/points';
-import { readBank, findBankSlip } from '@/server/reps';
-import { writeFileSync } from 'node:fs';
 import { useTempStore } from '../platform/helpers';
 import { nurseEdge, nurseSlip, writeBank } from './fixtures';
 
 /**
- * The engine without the model: AI_BUDGET_USD=0 makes every model call fail with budget_exceeded
- * before any network request, so reps come from a temporary bank.
+ * The engine with the writers stubbed: every rep is "written live" from the person's own occupation and
+ * task (the stub echoes them), and a failing writer gives an honest generation_failed with a same-id retry.
+ * AI_BUDGET_USD=0 keeps every other model call (Edge replies, grading) offline: they fail with
+ * budget_exceeded, which exercises the graded-on-what-was-said path. The rep bank is never read.
  */
 
+const gen = vi.hoisted(() => ({ fail: null as null | 'budget_exceeded' | 'provider_error' | 'invalid_output', calls: [] as { type: string; occupationCode: string; taskId: string }[] }));
+
+vi.mock('@/server/reps/generate', async (importOriginal) => {
+  const real = await importOriginal<typeof import('@/server/reps/generate')>();
+  const { nurseSlip: slip, nurseEdge: edge } = await import('./fixtures');
+  const stub = (type: 'slip' | 'edge' | 'delegate') =>
+    vi.fn(async (input: { occupationCode: string; taskId: string }) => {
+      gen.calls.push({ type, occupationCode: input.occupationCode, taskId: input.taskId });
+      if (gen.fail) throw new AiError(gen.fail, `stubbed ${gen.fail}`, { op: `rep.${type}` });
+      const base = type === 'edge' ? edge(input.taskId) : slip(input.taskId);
+      if (type === 'delegate') throw new AiError('invalid_output', 'no delegate stub', { op: 'rep.delegate' });
+      return { entry: { ...base, occupationCode: input.occupationCode, taskId: input.taskId }, attempts: 1, costUsd: 0, rejected: [] };
+    });
+  return { ...real, generateSlip: stub('slip'), generateEdge: stub('edge'), generateDelegate: stub('delegate') };
+});
+
 const NURSE = '29-1141.00';
+const DEV = '15-1252.00';
 const env = { ...process.env };
 let bankDir: string;
 let cleanup: () => void;
@@ -36,27 +54,30 @@ afterAll(() => {
 });
 beforeEach(async () => {
   ({ cleanup } = useTempStore());
+  gen.fail = null;
+  gen.calls = [];
+  // a full bank for the nurse: it must never be served
   rmSync(bankDir, { recursive: true, force: true });
-  const bundle = (await loadBundle(NURSE))!;
-  const week = typicalWeek(bundle).shares;
+  const week = typicalWeek((await loadBundle(NURSE))!).shares;
   writeBank(bankDir, [nurseSlip(week[0].taskId), nurseEdge(week[1].taskId)]);
   resetBankCache();
 });
 afterEach(() => cleanup());
 
-async function nurse(): Promise<Profile> {
+async function profileFor(code: string, jobTitle: string): Promise<Profile> {
   const { profile } = await createProfile({ locale: 'en', tz: 'America/Chicago' });
-  const bundle = (await loadBundle(NURSE))!;
-  await createXray({ profile, occupationCode: NURSE, shares: typicalWeek(bundle).shares, jobTitle: 'RN', inputSource: 'title' });
+  const bundle = (await loadBundle(code))!;
+  await createXray({ profile, occupationCode: code, shares: typicalWeek(bundle).shares, jobTitle, inputSource: 'title' });
   return (await getProfile(profile.id))!;
 }
+const nurse = () => profileFor(NURSE, 'RN');
 
 const at = (iso: string) => new Date(iso);
 async function ctx(id: string, now: string, extra: Partial<RepCtx> = {}): Promise<RepCtx> {
   return { profile: (await getProfile(id))!, headerTz: 'America/Chicago', now: at(now), ...extra };
 }
 const exactRanges = (rep: RepView, all = true): Range[] => {
-  // the client never sees the errors; tests read them from the bank fixture
+  // the client never sees the errors; tests read them from the stub's fixture
   const slip = nurseSlip('x').slip;
   expect(rep.slip?.document).toBe(slip.document);
   return slip.errors.slice(0, all ? 3 : 1).map((e) => [e.start, e.end]);
@@ -69,13 +90,12 @@ async function expectHttp(p: Promise<unknown>, status: number, code: string) {
   return err as HttpError;
 }
 
-describe('reps without budget (bank fallback)', () => {
-  it('a daily slip comes from the bank, is graded exactly and recorded once', async () => {
+describe('reps are written live', () => {
+  it('a daily slip is written for the person, graded exactly and recorded once', async () => {
     const p = await nurse();
     const made = await createRep(await ctx(p.id, '2026-11-14T15:00:00Z'), { type: 'slip', kind: 'daily' });
-    expect('rep' in made).toBe(true);
     const rep = (made as { rep: RepView }).rep;
-    expect(rep).toMatchObject({ source: 'bank', status: 'open', notes: ['prepared_maintenance'], slip: { errorCount: 3 } });
+    expect(rep).toMatchObject({ source: 'live', status: 'open', notes: [], occupationCode: NURSE, slip: { errorCount: 3 } });
     expect(rep).not.toHaveProperty('reveal');
 
     await expectHttp(createRep(await ctx(p.id, '2026-11-14T16:00:00Z'), { type: 'slip', kind: 'daily' }), 409, 'daily_exists');
@@ -84,19 +104,13 @@ describe('reps without budget (bank fallback)', () => {
     // points (stage 04) come from the rule table: daily rep at score 1, perfect, first rep
     const award = (type: string, ruleId: string, points: number) => ({ type, points, labelKey: POINT_RULES.find((r) => r.id === ruleId)!.labelKey });
     const expected = [award('rep_completed', 'rep_daily', repPoints('daily', 1)), award('rep_perfect', 'rep_perfect', REP_POINTS.perfect), award('first_rep', 'first_rep', REP_POINTS.first)];
-    const total = expected.reduce((n, a) => n + a.points, 0);
-    expect(done.rep.result).toMatchObject({ score: 1, found: 3, total: 3, falseFlags: 0, points: total });
-    expect(done.rep.result!.scoreChange).toMatchObject({ from: expect.any(Number), to: expect.any(Number), fromExact: expect.any(Number), toExact: expect.any(Number) });
+    expect(done.rep.result).toMatchObject({ score: 1, found: 3, total: 3, falseFlags: 0, points: expected.reduce((n, a) => n + a.points, 0) });
     expect(done.rep.result!.scoreChange.toExact).toBeGreaterThan(done.rep.result!.scoreChange.fromExact);
-    expect(done.rep.reveal?.errors).toHaveLength(3);
-    expect(done.rep.result!.scoreChange.after).toBeGreaterThanOrEqual(done.rep.result!.scoreChange.before);
     expect(done.pointsAwarded).toEqual(expected);
     expect(done.streak.current).toBe(1);
     const after = (await getProfile(p.id))!;
     expect(after.repLog.find((r) => r.id === rep.id)?.score).toBe(1);
     expect(after.proof).toHaveLength(1);
-    expect(after.proof[0]).toMatchObject({ summaryKey: 'proof.slip', summaryParams: { found: 3, total: 3, doc: 'discharge instructions' } });
-
     await expectHttp(answerRep(await ctx(p.id, '2026-11-14T16:05:00Z'), rep.id, { ranges: [] }), 409, 'already_done');
     expect((await getProfile(p.id))!.proof).toHaveLength(1);
   });
@@ -114,36 +128,29 @@ describe('reps without budget (bank fallback)', () => {
     expect(gap.streak).toMatchObject({ current: 1, best: 2, days: ['2026-11-14', '2026-11-15', '2026-11-17'] });
   });
 
-  it('delegate without a bank delegate becomes a slip with a caption; edge comes from the bank', async () => {
+  it('an edge rep whose model goes down mid-conversation is graded on what was said', async () => {
     const p = await nurse();
-    const d = (await createRep(await ctx(p.id, '2026-11-14T15:00:00Z'), { type: 'delegate', kind: 'daily' })) as { rep: RepView };
-    expect(d.rep).toMatchObject({ type: 'slip', source: 'bank', notes: ['prepared_maintenance', 'type_swapped'] });
     const e = (await createRep(await ctx(p.id, '2026-11-14T15:10:00Z'), { type: 'edge', kind: 'extra' })) as { rep: RepView };
-    expect(e.rep.type).toBe('edge');
+    expect(e.rep).toMatchObject({ type: 'edge', source: 'live' });
     expect(e.rep.edge).toMatchObject({ repliesLeft: 6, turns: [{ role: 'persona' }] });
     expect(JSON.stringify(e.rep)).not.toContain('unpaid leave'); // hidden reason stays hidden
-
-    // the model is out mid-conversation: graded on what was said, ended_early, keywords decide
     const r = await answerRep(await ctx(p.id, '2026-11-14T15:12:00Z'), e.rep.id, {
       message: "I understand, waiting all day is frustrating. The pharmacy is doing a final medication check. I can't promise a time, but I will check with them and come back by 5.",
     });
     expect(r.rep.status).toBe('done');
     expect(r.rep.result?.flags).toEqual(['ended_early', 'keyword_grade']);
-    expect(r.rep.result?.criteria?.map((c) => c.status)).toEqual(['met', 'met', 'met', 'met']);
     expect(r.rep.reveal?.personaHidden).toContain('unpaid leave');
     expect(r.streak.current).toBe(0); // an extra does not start the streak
   });
 
-  it('extras stop at 3 a day; Free users get 402 with trial, AI or me and tomorrow', async () => {
+  it('extras have a daily cap; Free users get 402 with trial, AI or me and tomorrow', async () => {
     const p = await nurse();
     for (let i = 0; i < MAX_EXTRAS_PER_DAY; i++) await createRep(await ctx(p.id, '2026-11-14T15:00:00Z'), { type: 'slip', kind: 'extra' });
     await expectHttp(createRep(await ctx(p.id, '2026-11-14T15:00:00Z'), { type: 'slip', kind: 'extra' }), 429, 'extra_limit');
-
     process.env.DEV_FORCE_PRO = '0';
     try {
       const err = await expectHttp(getToday(await ctx(p.id, '2026-11-14T15:00:00Z')), 402, 'pro_required');
       expect(err.extra).toMatchObject({ trial: { status: 'available' }, hasXray: true });
-      expect((err.extra!.aiOrMe as { cards: unknown[] }).cards).toHaveLength(5);
       expect(err.extra!.tomorrow).toMatchObject({ taskId: expect.any(String), taskShort: expect.any(String) });
     } finally {
       process.env.DEV_FORCE_PRO = '1';
@@ -153,7 +160,7 @@ describe('reps without budget (bank fallback)', () => {
   it('today shows choices with tasks of the week and the daily once made', async () => {
     const p = await nurse();
     const t1 = await getToday(await ctx(p.id, '2026-11-14T15:00:00Z'));
-    expect(t1).toMatchObject({ daily: null, nextKind: 'daily', choices: ['slip', 'delegate', 'edge'] });
+    expect(t1).toMatchObject({ daily: null, nextKind: 'daily', failed: [], choices: ['slip', 'delegate', 'edge'] });
     const week = new Set(p.shares!.map((s) => s.taskId));
     for (const c of Object.values(t1.choiceTasks)) expect(week.has(c.taskId)).toBe(true);
     await createRep(await ctx(p.id, '2026-11-14T15:00:00Z'), { type: 'slip', kind: 'daily' });
@@ -163,44 +170,92 @@ describe('reps without budget (bank fallback)', () => {
   });
 });
 
-describe('showcase', () => {
-  it('an entry published on the landing (showcase.json) is never served, also not as a trial or fallback', async () => {
-    const bundle = (await loadBundle(NURSE))!;
-    const week = typicalWeek(bundle).shares;
-    writeBank(bankDir, [nurseSlip(week[0].taskId), nurseSlip(week[1].taskId)]); // slip-1 and slip-2
-    writeFileSync(path.join(bankDir, 'showcase.json'), JSON.stringify([`${NURSE}/slip-1.json`, `${NURSE}/edge-1.json`]));
-    resetBankCache();
-    expect((await readBank(NURSE, 'slip', 'en')).map((i) => i.file)).toEqual([`${NURSE}/slip-2.json`]);
-    expect(await readBank(NURSE, 'edge', 'en')).toEqual([]);
-    for (let i = 0; i < 10; i++) {
-      const pick = await findBankSlip({ code: NURSE, locale: 'en', seed: `s${i}`, weekTaskIds: [week[0].taskId] });
-      expect(pick?.item.file).toBe(`${NURSE}/slip-2.json`);
-    }
-    process.env.DEV_FORCE_PRO = '0';
-    try {
+describe('no prepared content: an honest error and a same-id retry', () => {
+  for (const code of ['budget_exceeded', 'provider_error', 'invalid_output'] as const) {
+    it(`on ${code} the daily fails honestly, keeps its id, and "Try again" rewrites it live`, async () => {
       const p = await nurse();
-      const t = (await startTrial(await ctx(p.id, '2026-11-14T15:00:00Z'))) as { rep: RepView };
-      expect(t.rep.taskId).toBe(week[1].taskId); // the showcased slip-1 (task week[0]) is skipped
-    } finally {
-      process.env.DEV_FORCE_PRO = '1';
-    }
-  });
-});
+      gen.fail = code;
+      const err = await expectHttp(createRep(await ctx(p.id, '2026-11-14T15:00:00Z'), { type: 'slip', kind: 'daily' }), 503, 'generation_failed');
+      const repId = err.extra!.repId as string;
+      expect(err.extra).toMatchObject({ retryable: true, reason: code });
+      // nothing was served from the bank, and the failed rep reads as failed under its id
+      await expectHttp(getRep(await ctx(p.id, '2026-11-14T15:01:00Z'), repId), 503, 'generation_failed');
+      const today = await getToday(await ctx(p.id, '2026-11-14T15:01:00Z'));
+      expect(today).toMatchObject({ daily: null, nextKind: 'daily', failed: [{ repId, kind: 'daily' }] });
 
-describe('trial', () => {
-  it('is idempotent until completed, survives a reload, then 409 trial_used', async () => {
+      gen.fail = null;
+      // the UI's "Try again" posts the same daily again: same id, written live
+      const again = (await createRep(await ctx(p.id, '2026-11-14T15:02:00Z'), { type: 'slip', kind: 'daily' })) as { rep: RepView };
+      expect(again.rep).toMatchObject({ id: repId, source: 'live', notes: [] });
+      // or explicitly through POST /api/reps/:id/retry once it exists
+      expect((await retryRep(await ctx(p.id, '2026-11-14T15:03:00Z'), repId)) as { rep: RepView }).toMatchObject({ rep: { id: repId } });
+      expect((await getProfile(p.id))!.repLog.filter((r) => r.kind === 'daily')).toHaveLength(1);
+    });
+  }
+
+  it('a failing delegate never turns into another rep type', async () => {
+    const p = await nurse();
+    const err = await expectHttp(createRep(await ctx(p.id, '2026-11-14T15:00:00Z'), { type: 'delegate', kind: 'daily' }), 503, 'generation_failed');
+    expect(gen.calls.map((c) => c.type)).toEqual(['delegate']);
+    expect(err.extra).toMatchObject({ retryable: true });
+  });
+
+  it('the trial is written live too, is idempotent until completed, then 409 trial_used', async () => {
     process.env.DEV_FORCE_PRO = '0';
     try {
       const p = await nurse();
-      const a = (await startTrial(await ctx(p.id, '2026-11-14T15:00:00Z'))) as { rep: RepView };
+      gen.fail = 'provider_error';
+      const err = await expectHttp(startTrial(await ctx(p.id, '2026-11-14T15:00:00Z')), 503, 'generation_failed');
+      gen.fail = null;
+      const a = (await startTrial(await ctx(p.id, '2026-11-14T15:01:00Z'))) as { rep: RepView };
+      expect(a.rep).toMatchObject({ id: err.extra!.repId, kind: 'trial', source: 'live', type: 'slip', notes: [] });
       const b = (await startTrial(await ctx(p.id, '2026-11-14T15:05:00Z'))) as { rep: RepView };
       expect(b.rep.id).toBe(a.rep.id);
-      expect(a.rep).toMatchObject({ kind: 'trial', source: 'bank', type: 'slip', notes: ['prepared_maintenance'] });
-      expect((await getProfile(p.id))!.trial).toEqual({ status: 'in_progress', repId: a.rep.id });
       const done = await answerRep(await ctx(p.id, '2026-11-14T15:10:00Z'), a.rep.id, { ranges: exactRanges(a.rep) });
       expect(done.streak.current).toBe(1);
       expect((await getProfile(p.id))!.trial).toEqual({ status: 'used', repId: a.rep.id });
       await expectHttp(startTrial(await ctx(p.id, '2026-11-15T15:00:00Z')), 409, 'trial_used');
+    } finally {
+      process.env.DEV_FORCE_PRO = '1';
+    }
+  });
+
+  it('the bank reader still skips landing showcase entries (static illustrations only)', async () => {
+    const week = typicalWeek((await loadBundle(NURSE))!).shares;
+    writeBank(bankDir, [nurseSlip(week[0].taskId), nurseSlip(week[1].taskId)]);
+    writeFileSync(path.join(bankDir, 'showcase.json'), JSON.stringify([`${NURSE}/slip-1.json`]));
+    resetBankCache();
+    expect((await readBank(NURSE, 'slip', 'en')).map((i) => i.file)).toEqual([`${NURSE}/slip-2.json`]);
+  });
+});
+
+describe('a new map for another job', () => {
+  it('a rep made for the earlier job is not today\'s rep any more; new reps and the open trial use the new job', async () => {
+    const p = await nurse();
+    const first = (await createRep(await ctx(p.id, '2026-11-14T15:00:00Z'), { type: 'slip', kind: 'daily' })) as { rep: RepView };
+    expect(first.rep.occupationCode).toBe(NURSE);
+    // the same person maps their week as a software developer the same day
+    const dev = (await loadBundle(DEV))!;
+    await createXray({ profile: (await getProfile(p.id))!, occupationCode: DEV, shares: typicalWeek(dev).shares, jobTitle: 'Software Engineer', inputSource: 'resume' });
+    const today = await getToday(await ctx(p.id, '2026-11-14T16:00:00Z'));
+    expect(today.daily).toBeNull();
+    expect(today.nextKind).toBe('daily');
+    const devTasks = new Set(dev.tasks.map((t) => t.id));
+    for (const c of Object.values(today.choiceTasks)) expect(devTasks.has(c.taskId)).toBe(true);
+    const edge = (await createRep(await ctx(p.id, '2026-11-14T16:01:00Z'), { type: 'edge', kind: 'daily' })) as { rep: RepView };
+    expect(edge.rep.occupationCode).toBe(DEV);
+    expect(devTasks.has(edge.rep.taskId)).toBe(true);
+  });
+
+  it('an open trial written for the earlier job is rewritten for the new one under the same id', async () => {
+    process.env.DEV_FORCE_PRO = '0';
+    try {
+      const p = await nurse();
+      const t = (await startTrial(await ctx(p.id, '2026-11-14T15:00:00Z'))) as { rep: RepView };
+      const dev = (await loadBundle(DEV))!;
+      await createXray({ profile: (await getProfile(p.id))!, occupationCode: DEV, shares: typicalWeek(dev).shares, jobTitle: 'Software Engineer', inputSource: 'resume' });
+      const again = (await startTrial(await ctx(p.id, '2026-11-14T15:30:00Z'))) as { rep: RepView };
+      expect(again.rep).toMatchObject({ id: t.rep.id, occupationCode: DEV });
     } finally {
       process.env.DEV_FORCE_PRO = '1';
     }

@@ -918,7 +918,7 @@ export function categoriesFor(type: RepType): Category[] {
 }
 
 export interface TaskChoiceInput {
-  tasks: readonly Pick<OccTask, 'id' | 'evidence'>[];
+  tasks: readonly (Pick<OccTask, 'id' | 'evidence'> & { importance?: number | null })[];
   shares: readonly WeekShare[];
   repLog: Profile['repLog'];
   type: RepType;
@@ -949,12 +949,27 @@ export function chooseTask(input: TaskChoiceInput): string | null {
     return pool[pool.length - 1].taskId;
   };
   for (const allowRecent of [false, true]) {
+    const open = week.filter((s) => allowRecent || !recent.has(s.taskId));
+    if (input.type === 'edge') {
+      // 1) a human-edge task of the person's own week
+      const human = open.filter((s) => byId.get(s.taskId)!.evidence.category === 'human_edge');
+      if (human.length) return pick(human);
+      // 2) otherwise the week's most human task: work with people, then the least automated, then the most important
+      if (open.length) return [...open].sort((a, b) => edgeRank(byId.get(b.taskId)!, b) - edgeRank(byId.get(a.taskId)!, a))[0].taskId;
+      continue;
+    }
     for (const cats of CATEGORY_GROUPS[input.type]) {
-      const pool = week.filter((s) => cats.includes(byId.get(s.taskId)!.evidence.category) && (allowRecent || !recent.has(s.taskId)));
+      const pool = open.filter((s) => cats.includes(byId.get(s.taskId)!.evidence.category));
       if (pool.length) return pick(pool);
     }
   }
   return [...week].sort((a, b) => b.share - a.share)[0].taskId;
+}
+
+/** How suited a task is to a conversation rep: people work first, then low automation, then importance. */
+function edgeRank(task: Pick<OccTask, 'evidence'> & { importance?: number | null }, share: WeekShare): number {
+  const e = task.evidence;
+  return (e.peopleWork ? 100 : 0) + (1 - e.exposure) * 10 + (task.importance ?? 0) + share.share / 1000;
 }
 
 // ---------------------------------------------------------------------------------------------

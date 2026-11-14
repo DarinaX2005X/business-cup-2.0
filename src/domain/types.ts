@@ -308,7 +308,8 @@ export type PointsType =
   | 'invite_completed'
   | 'invited_bonus'
   | 'pivot_explored'
-  | 'redeem';
+  | 'redeem'
+  | 'plan_item_done';
 
 export interface PointsEvent {
   id: string;
@@ -382,7 +383,8 @@ export interface Profile {
   repLog: { id: string; taskId: string; type: RepType; kind: Rep['kind']; day: string; score?: number }[];
   trial: { status: 'available' | 'in_progress' | 'used'; repId?: string };
   streak: { current: number; best: number; lastDay: string | null; days: string[]; freezes: number };
-  points: { balance: number; events: PointsEvent[] };
+  /** `xp`: every positive award ever, never spent (levels, leaderboard); older profiles derive it, see xpOf. */
+  points: { balance: number; events: PointsEvent[]; xp?: number };
   redemptions: Redemption[];
   plan: {
     status: 'free' | 'trialing' | 'pro';
@@ -396,10 +398,72 @@ export interface Profile {
     cancelAtPeriodEnd?: boolean;
     /** Last time the plan was read from Stripe. */
     syncedAt?: string;
+    /** Paid tier; missing means 'pro' (plans made before round 3). The Cup offer is always 'coach'. */
+    tier?: 'pro' | 'coach';
   };
   proof: ProofEntry[];
   publicSlug?: string;
   invitedBy?: string;
   sound: boolean;
   hintsSeen: string[];
+  /** Leaderboard name chosen by the person (2–24 characters, see cleanNickname). */
+  nickname?: string;
+  /** A Business Cup jury account built from a sample résumé (shown with a "Demo account" mark). */
+  demo?: boolean;
+  /** Jury persona → the week map built for it (makes POST /api/demo/jury idempotent). */
+  demoXrays?: Partial<Record<'nurse' | 'software' | 'accountant', string>>;
+  /** Skills read from the résumé or added by the person (round 3 growth, src/server/growth). */
+  skills?: ProfileSkills;
+  /** Progress on the 90-day plan of each week map, by xray id (round 3 growth). */
+  planProgress?: Record<string, PlanProgress>;
+}
+
+// ---- Round 3 growth: skills from the résumé and the 90-day plan (src/server/growth)
+
+/** resume: read from the résumé by `profile.skills`; added: typed by the person; confirmed: a résumé skill the person kept. */
+export type SkillSource = 'resume' | 'added' | 'confirmed';
+export type SkillKind = 'skill' | 'knowledge' | 'tool';
+
+export interface ProfileSkill {
+  /** Stable within the profile: `sk_` + a hash of the normalised name. */
+  id: string;
+  /** The person's own wording: «Patient triage», «Python», «Month-end close». */
+  name: string;
+  kind: SkillKind;
+  /** O*NET skill or knowledge element this counts toward (src/server/growth/onet.ts), or null. */
+  onetId: string | null;
+  /** O*NET technology name a tool matches (Software Skills of the occupation), or null. */
+  tech: string | null;
+  source: SkillSource;
+  /** Up to two short verbatim excerpts of the résumé; the code checked each one is in the text. */
+  quotes: string[];
+  /** Years of use when the résumé states or dates them. */
+  years: number | null;
+  at: string;
+}
+
+export interface ProfileSkills {
+  items: ProfileSkill[];
+  /** O*NET elements the résumé shows, each with a verified excerpt (gaps are what is not here). */
+  shown: { onetId: string; quote: string }[];
+  /** O*NET elements the read looked for (shown or not); elements outside it are unknown, not missing. */
+  checked: string[];
+  /** Skills the person removed: a new read does not bring them back, and «Undo» restores them. */
+  removed: { key: string; item: ProfileSkill }[];
+  /** Occupation the résumé was read against. */
+  occupationCode: string | null;
+  /** sha256 of the normalised résumé text (the text itself is never stored). */
+  textHash: string | null;
+  seniorityYears: number | null;
+  extractedAt: string | null;
+  updatedAt: string;
+}
+
+export interface PlanProgress {
+  /** The plan these checks belong to (`plan:<xrayId>` in the store). */
+  planId: string;
+  /** Local day (YYYY-MM-DD) week 1 started. */
+  startDay: string;
+  /** Checked items with the local day they were checked. */
+  done: { id: string; day: string }[];
 }

@@ -22,7 +22,9 @@ export type ProductEventType =
   | 'review_kit'
   | 'invite_completed'
   | 'pivot_explored'
-  | 'cup_unlocked';
+  | 'cup_unlocked'
+  /** A 90-day plan item checked off (ref = item id; 15 points, at most 10 a day). */
+  | 'plan_item_done';
 
 export interface ProductEvent {
   type: ProductEventType;

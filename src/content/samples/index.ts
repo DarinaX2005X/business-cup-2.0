@@ -6,7 +6,7 @@ import path from 'node:path';
  * The .txt files are the source; the server reads them (GET /api/xray/sample?name=).
  */
 
-export const SAMPLE_NAMES = ['nurse', 'electrician'] as const;
+export const SAMPLE_NAMES = ['nurse', 'electrician', 'software', 'accountant'] as const;
 export type SampleName = (typeof SAMPLE_NAMES)[number];
 
 export const isSampleName = (v: unknown): v is SampleName => typeof v === 'string' && (SAMPLE_NAMES as readonly string[]).includes(v);

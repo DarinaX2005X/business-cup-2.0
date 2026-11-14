@@ -1,5 +1,5 @@
 import type Stripe from 'stripe';
-import { PRO_PRICES, pendingProCode, rewardById, TRIAL_DAYS, type ProInterval } from '@/domain/points';
+import { pendingProCode, rewardById, TIER_PRICES, tierOf, TRIAL_DAYS, type BillingInterval, type Tier } from '@/domain/points';
 import type { Profile } from '@/domain/types';
 import { updateProfile } from '@/server/profile';
 import { HttpError } from '@/server/profile/http';
@@ -26,21 +26,21 @@ export function siteOrigin(req: Request): string {
   return new URL(req.url).origin;
 }
 
-const priceCache = new Map<ProInterval, { id: string; at: number }>();
+const priceCache = new Map<string, { id: string; at: number }>();
 const PRICE_TTL_MS = 10 * 60_000;
 
-/** The active price for `pro_monthly` / `pro_yearly` (created by `npm run stripe:setup`). */
-export async function priceFor(interval: ProInterval): Promise<string> {
-  const hit = priceCache.get(interval);
+/** The active price for `pro_monthly` / `pro_yearly` / `coach_monthly` / `coach_yearly` (created by `npm run stripe:setup`). */
+export async function priceFor(interval: BillingInterval, tier: Tier = 'pro'): Promise<string> {
+  const lookupKey = TIER_PRICES[tier][interval].lookupKey;
+  const hit = priceCache.get(lookupKey);
   if (hit && Date.now() - hit.at < PRICE_TTL_MS) return hit.id;
-  const lookupKey = PRO_PRICES[interval].lookupKey;
   const list = await stripeCall('price lookup', (s) => s.prices.list({ lookup_keys: [lookupKey], active: true, limit: 1 }));
   const price = list.data[0];
   if (!price) {
     console.error(`[billing] no active Stripe price with lookup_key ${lookupKey}; run npm run stripe:setup`);
-    throw new HttpError(503, 'billing_unavailable', 'Pro prices are not set up in Stripe yet.');
+    throw new HttpError(503, 'billing_unavailable', 'Plan prices are not set up in Stripe yet.');
   }
-  priceCache.set(interval, { id: price.id, at: Date.now() });
+  priceCache.set(lookupKey, { id: price.id, at: Date.now() });
   return price.id;
 }
 
@@ -60,14 +60,29 @@ export async function ensureCustomer(profile: Profile): Promise<{ customerId: st
   return { customerId: saved.plan.stripeCustomerId!, profile: saved };
 }
 
-export async function createCheckout(profile: Profile, interval: ProInterval, origin: string, now: Date = new Date()): Promise<{ url: string; id: string }> {
+/**
+ * A Checkout Session for Pro or Coach. Both tiers get the 7-day trial on a first subscription. A shop
+ * code waiting for checkout goes in, except free Pro months on a Coach checkout (they are Pro only).
+ * Switching tiers on a running subscription happens in the Billing Portal.
+ */
+export async function createCheckout(
+  profile: Profile,
+  choice: { tier: Tier; interval: BillingInterval },
+  origin: string,
+  now: Date = new Date(),
+): Promise<{ url: string; id: string }> {
+  const { tier, interval } = choice;
   if (stripeActive(profile.plan, now)) {
-    throw new HttpError(409, 'already_subscribed', 'You already have Pro through Stripe. Manage it in the billing portal.');
+    throw new HttpError(409, 'already_subscribed', 'You already have a paid plan through Stripe. Change or manage it in the billing portal.', {
+      tier: tierOf(profile.plan),
+    });
   }
-  const price = await priceFor(interval);
+  const price = await priceFor(interval, tier);
   const { customerId, profile: current } = await ensureCustomer(profile);
-  const pending = pendingProCode(current);
-  const pendingReward = pending ? rewardById(pending.rewardId) : undefined;
+  const waiting = pendingProCode(current);
+  const waitingReward = waiting ? rewardById(waiting.rewardId) : undefined;
+  const pending = waiting && !(tier === 'coach' && waitingReward?.kind === 'pro_months') ? waiting : undefined;
+  const pendingReward = pending ? waitingReward : undefined;
   // A trial is for the first subscription only.
   const trial = !current.plan.subscriptionId;
 
@@ -78,8 +93,8 @@ export async function createCheckout(profile: Profile, interval: ProInterval, or
     line_items: [{ price, quantity: 1 }],
     customer: customerId,
     client_reference_id: current.id,
-    metadata: { profileId: current.id, interval, ...(pending ? { redemptionId: pending.id } : {}) },
-    subscription_data: { metadata: { profileId: current.id }, ...(trial ? { trial_period_days: TRIAL_DAYS } : {}) },
+    metadata: { profileId: current.id, tier, interval, ...(pending ? { redemptionId: pending.id } : {}) },
+    subscription_data: { metadata: { profileId: current.id, tier }, ...(trial ? { trial_period_days: TRIAL_DAYS } : {}) },
     // A card is asked for, so the trial continues as a paid plan (test card 4242 4242 4242 4242).
     // Free months from the shop (a 100% code) need no card: Stripe then collects one only if something is due.
     payment_method_collection: pendingReward?.kind === 'pro_months' ? 'if_required' : 'always',

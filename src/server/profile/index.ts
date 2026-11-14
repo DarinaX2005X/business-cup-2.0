@@ -3,6 +3,9 @@ import type { Locale, PointsAward, Profile } from '@/domain/types';
 import { getStore, isConflictError, ConflictError } from '@/server/store';
 import { runWithEventContext, type EmitResult } from '@/server/events';
 import { planActive } from '@/server/billing/plan';
+
+/** Coach access (round 3); `isPro` below is true for both paid tiers. */
+export { isCoach } from '@/server/billing/plan';
 import { hashSecret, isProfileId, isSecret, newProfileId, newSecret, verifySecret } from './ids';
 
 export { isProfileId, isSecret } from './ids';

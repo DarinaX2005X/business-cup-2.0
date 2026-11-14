@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { CUP_OFFER_ENDS_AT, CUP_PRO_DAYS } from '@/domain/points';
+import { CUP_OFFER_ENDS_AT } from '@/domain/points';
 import type { Profile } from '@/domain/types';
-import { setStripeForTests, unlockCup } from '@/server/billing';
+import { isCoach, setStripeForTests, unlockCup } from '@/server/billing';
 import { createProfile, getProfile, isPro, updateProfile } from '@/server/profile';
 import { HttpError } from '@/server/profile/http';
 import { useTempStore } from '../platform/helpers';
@@ -31,14 +31,15 @@ async function expectHttp(p: Promise<unknown>, status: number, code: string) {
 }
 
 describe('Business Cup 2.0 offer', () => {
-  it('one request gives a fresh profile Pro for 30 days with no Stripe call; a repeat returns the same plan', async () => {
+  it('one request gives a fresh profile Coach until the end of Nov 30 with no Stripe call; a repeat returns the same plan', async () => {
     const { profile } = await createProfile({ locale: 'en' });
     expect(pro(profile, NOW)).toBe(false);
     const first = await unlockCup(profile, NOW);
     expect(first.created).toBe(true);
-    expect(first.plan).toEqual({ status: 'pro', source: 'cup', periodEnd: new Date(NOW.getTime() + CUP_PRO_DAYS * 86_400_000).toISOString() });
+    expect(first.plan).toEqual({ status: 'pro', source: 'cup', tier: 'coach', periodEnd: CUP_OFFER_ENDS_AT });
     const saved = (await getProfile(profile.id))!;
     expect(pro(saved, NOW)).toBe(true);
+    expect(isCoach(saved, NOW, { NODE_ENV: 'test' } as NodeJS.ProcessEnv)).toBe(true);
     const again = await unlockCup(saved, new Date('2026-11-20T00:00:00Z'));
     expect(again).toEqual({ plan: first.plan, created: false });
     expect(stub.calls).toEqual([]);
@@ -67,6 +68,26 @@ describe('Business Cup 2.0 offer', () => {
     });
     await expectHttp(unlockCup(trialing, NOW), 409, 'already_pro');
     const ended = await unlockCup(trialing, new Date('2026-11-21T00:00:00Z'));
-    expect(ended.plan).toMatchObject({ status: 'pro', source: 'cup', subscriptionId: 'sub_1', stripeCustomerId: 'cus_1' });
+    expect(ended.plan).toMatchObject({ status: 'pro', source: 'cup', tier: 'coach', subscriptionId: 'sub_1', stripeCustomerId: 'cus_1' });
+  });
+
+  it('a Cup plan from before round 3 is Coach, and a repeat stores the tier with the same end date', async () => {
+    const { profile } = await createProfile({ locale: 'en' });
+    const old = { status: 'pro' as const, source: 'cup' as const, periodEnd: '2026-12-14T16:20:44.432Z' };
+    const { profile: legacy } = await updateProfile(profile.id, (p) => {
+      p.plan = old;
+    });
+    const env = { NODE_ENV: 'test' } as NodeJS.ProcessEnv;
+    expect(isCoach(legacy, NOW, env)).toBe(true);
+    const again = await unlockCup(legacy, NOW);
+    expect(again).toEqual({ plan: { ...old, tier: 'coach' }, created: false });
+  });
+
+  it('isCoach is false for a Pro plan and for an ended Cup plan', async () => {
+    const env = { NODE_ENV: 'test' } as NodeJS.ProcessEnv;
+    const end = '2026-11-20T00:00:00.000Z';
+    expect(isCoach({ plan: { status: 'pro', source: 'stripe', tier: 'pro', subscriptionId: 's', periodEnd: end } }, NOW, env)).toBe(false);
+    expect(isCoach({ plan: { status: 'trialing', source: 'stripe', subscriptionId: 's', periodEnd: end } }, NOW, env)).toBe(false);
+    expect(isCoach({ plan: { status: 'pro', source: 'cup', tier: 'coach', periodEnd: end } }, new Date('2026-11-21T00:00:00Z'), env)).toBe(false);
   });
 });

@@ -1,0 +1,39 @@
+JORDAN MERCER
+Austin, TX · jordan.mercer@example.com · (512) 555-0186
+
+SUMMARY
+Software engineer with 6 years of experience building web applications and backend services. Writes clear code, owns features from the first design note to production, and is the person teammates ask to review tricky pull requests.
+
+SKILLS
+TypeScript, JavaScript, Python, SQL · React, Node.js, PostgreSQL, Redis · AWS (Lambda, S3, RDS), Docker · REST and GraphQL APIs · Git, CI/CD, automated testing
+
+EXPERIENCE
+
+Software Engineer II
+Logistics software company, Austin, TX · April 2021 – Present
+- Design and build features for a shipment-tracking web app used by 1,200 business customers, from requirements to release.
+- Write and maintain REST and GraphQL APIs in Node.js and TypeScript backed by PostgreSQL.
+- Review teammates' pull requests for correctness, security and readability; about 15 reviews a week.
+- Debug production incidents with logs and metrics, write the fix and the follow-up report.
+- Write unit and integration tests; raised test coverage of the billing service from 41% to 78%.
+- Break product requests into technical tasks and estimates with the product manager and designer.
+- Improve slow database queries and page load times; cut the main dashboard load time by half.
+- Mentor two junior engineers and run the team's onboarding sessions.
+- Keep technical documentation and runbooks up to date.
+
+Software Engineer
+Healthcare scheduling startup, Dallas, TX · June 2019 – March 2021
+- Built React screens for appointment booking and patient reminders.
+- Wrote Python scripts to clean and migrate clinic data between systems.
+- Set up automated builds and deployments with GitHub Actions and Docker.
+- Worked with customer support to reproduce and fix bugs reported by clinics.
+
+Junior Developer (contract)
+Regional marketing agency, Austin, TX · July 2018 – May 2019
+- Built and updated client websites and landing pages; fixed cross-browser layout issues.
+
+EDUCATION
+B.S. in Computer Science, Texas public university, 2018
+
+CERTIFICATIONS
+AWS Certified Developer – Associate

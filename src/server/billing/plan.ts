@@ -1,5 +1,5 @@
 import type Stripe from 'stripe';
-import { CUP_PRO_DAYS } from '@/domain/points';
+import { CUP_OFFER_ENDS_AT, tierOf, tierOfLookupKey, type Tier } from '@/domain/points';
 import type { Profile } from '@/domain/types';
 
 /**
@@ -16,6 +16,30 @@ export function planActive(plan: Plan, now: Date = new Date()): boolean {
   if (!plan.periodEnd) return false;
   const end = Date.parse(plan.periodEnd);
   return Number.isFinite(end) && end > now.getTime();
+}
+
+/**
+ * Coach access (round 3): an active plan on the Coach tier (the Cup offer is Coach; plans from before
+ * the tier existed are Pro), or DEV_FORCE_COACH=1 outside production. Pro access (`isPro` in
+ * src/server/profile) is true for both tiers.
+ */
+export function isCoach(profile: Pick<Profile, 'plan'>, now: Date = new Date(), env: NodeJS.ProcessEnv = process.env): boolean {
+  if (env.DEV_FORCE_COACH === '1' && env.NODE_ENV !== 'production' && env.VERCEL_ENV !== 'production') return true;
+  return planActive(profile.plan, now) && tierOf(profile.plan) === 'coach';
+}
+
+/** Stripe products by tier (created by `npm run stripe:setup`). */
+export const STRIPE_PRODUCTS: Record<Tier, string> = { pro: 'irr_pro', coach: 'irr_coach' };
+
+/** Tier of a subscription: its price's lookup_key, else its product, else `metadata.tier`, else Pro. */
+export function tierOfSubscription(sub: Stripe.Subscription): Tier {
+  const price = sub.items?.data?.[0]?.price;
+  const byKey = tierOfLookupKey(price?.lookup_key);
+  if (byKey) return byKey;
+  const product = typeof price?.product === 'string' ? price.product : price?.product?.id;
+  if (product === STRIPE_PRODUCTS.coach) return 'coach';
+  if (product === STRIPE_PRODUCTS.pro) return 'pro';
+  return sub.metadata?.tier === 'coach' ? 'coach' : 'pro';
 }
 
 /** An active plan paid through Stripe (subscription or its trial). */
@@ -44,18 +68,24 @@ export function planFromSubscription(sub: Stripe.Subscription, now: Date = new D
     stripeCustomerId: typeof sub.customer === 'string' ? sub.customer : sub.customer?.id,
     subscriptionId: sub.id,
     source: 'stripe',
+    tier: tierOfSubscription(sub),
     ...(interval ? { interval } : {}),
     cancelAtPeriodEnd: Boolean(sub.cancel_at_period_end || sub.cancel_at),
     syncedAt: now.toISOString(),
   };
 }
 
-/** The Business Cup 2.0 plan: Pro for CUP_PRO_DAYS from `now`, no payment. Stripe ids (if any) are kept. */
+/**
+ * The Business Cup 2.0 plan (round 3): Coach, free, until the offer ends (end of November 30 anywhere on
+ * Earth), no payment. Stripe ids (if any) are kept.
+ */
 export function cupPlan(prev: Plan, now: Date): Plan {
+  const end = Math.max(Date.parse(CUP_OFFER_ENDS_AT), now.getTime());
   return {
     status: 'pro',
     source: 'cup',
-    periodEnd: new Date(now.getTime() + CUP_PRO_DAYS * 86_400_000).toISOString(),
+    tier: 'coach',
+    periodEnd: new Date(end).toISOString(),
     ...(prev.stripeCustomerId ? { stripeCustomerId: prev.stripeCustomerId } : {}),
     ...(prev.subscriptionId ? { subscriptionId: prev.subscriptionId } : {}),
   };

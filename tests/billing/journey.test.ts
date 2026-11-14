@@ -1,7 +1,7 @@
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
-import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { GET as pointsGET } from '@/app/api/points/route';
 import { POST as cupPOST } from '@/app/api/billing/cup/route';
 import { GET as todayGET } from '@/app/api/reps/today/route';
@@ -16,8 +16,23 @@ import { useTempStore } from '../platform/helpers';
 import { nurseEdge, nurseSlip, writeBank } from '../reps/fixtures';
 import { createStripeStub } from './stripe-stub';
 
+// Reps are always written live (round 3: the bank is never served); the writer is stubbed with the fixture slip.
+vi.mock('@/server/reps/generate', async (importOriginal) => {
+  const real = await importOriginal<typeof import('@/server/reps/generate')>();
+  const { nurseSlip: slip } = await import('../reps/fixtures');
+  return {
+    ...real,
+    generateSlip: vi.fn(async (input: { occupationCode: string; taskId: string }) => ({
+      entry: { ...slip(input.taskId), occupationCode: input.occupationCode, taskId: input.taskId },
+      attempts: 1,
+      costUsd: 0,
+      rejected: [],
+    })),
+  };
+});
+
 /**
- * Whole paths through the real routes and the reps engine (bank reps, no model, fs store, Stripe stub),
+ * Whole paths through the real routes and the reps engine (stubbed rep writer, no model, fs store, Stripe stub),
  * with DEV_FORCE_PRO switched off so Pro comes only from the plan.
  */
 
@@ -65,7 +80,7 @@ describe('Business Cup offer through the API', () => {
 
     const unlocked = await cupPOST(req('/api/billing/cup', n.headers, { method: 'POST' }));
     expect(unlocked.status).toBe(201);
-    expect(await unlocked.json()).toMatchObject({ isPro: true, plan: { status: 'pro', source: 'cup' }, offer: { until: '2026-11-30' } });
+    expect(await unlocked.json()).toMatchObject({ isPro: true, plan: { status: 'pro', source: 'cup', tier: 'coach' }, offer: { until: '2026-11-30', tier: 'coach' } });
 
     const today = await todayGET(req('/api/reps/today', n.headers));
     expect(today.status).toBe(200);

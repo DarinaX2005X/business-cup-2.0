@@ -1,7 +1,7 @@
 import Stripe from 'stripe';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import type { Profile } from '@/domain/types';
-import { confirmCheckout, createCheckout, createPortal, ensureFreshPlan, handleWebhook, redeem, setStripeForTests } from '@/server/billing';
+import { confirmCheckout, createCheckout, createPortal, ensureFreshPlan, handleWebhook, isCoach, redeem, setStripeForTests } from '@/server/billing';
 import { createProfile, getProfile, isPro, updateProfile } from '@/server/profile';
 import { HttpError } from '@/server/profile/http';
 import { useTempStore } from '../platform/helpers';
@@ -39,14 +39,14 @@ const sessionParams = () => stub.callsOf('checkout.sessions.create').at(-1)!.arg
 describe('checkout', () => {
   it('yearly by default: 7-day trial, card asked for, promotion codes allowed, return URLs, one customer per profile', async () => {
     const p = await fresh();
-    const { url } = await createCheckout(p, 'year', ORIGIN);
+    const { url } = await createCheckout(p, { tier: 'pro', interval: 'year' }, ORIGIN);
     expect(url).toMatch(/^https:\/\/checkout\.stripe\.com\//);
     expect(sessionParams()).toMatchObject({
       mode: 'subscription',
       line_items: [{ price: 'price_pro_yearly', quantity: 1 }],
       client_reference_id: p.id,
-      metadata: { profileId: p.id, interval: 'year' },
-      subscription_data: { trial_period_days: 7, metadata: { profileId: p.id } },
+      metadata: { profileId: p.id, tier: 'pro', interval: 'year' },
+      subscription_data: { trial_period_days: 7, metadata: { profileId: p.id, tier: 'pro' } },
       payment_method_collection: 'always',
       allow_promotion_codes: true,
       success_url: `${ORIGIN}/pro/success?session_id={CHECKOUT_SESSION_ID}`,
@@ -55,7 +55,7 @@ describe('checkout', () => {
     expect(sessionParams()).not.toHaveProperty('discounts');
     const saved = (await getProfile(p.id))!;
     expect(saved.plan.stripeCustomerId).toMatch(/^cus_/);
-    await createCheckout(saved, 'month', ORIGIN);
+    await createCheckout(saved, { tier: 'pro', interval: 'month' }, ORIGIN);
     expect(stub.callsOf('customers.create')).toHaveLength(1);
     expect(sessionParams()).toMatchObject({ line_items: [{ price: 'price_pro_monthly' }], customer: saved.plan.stripeCustomerId });
   });
@@ -66,7 +66,7 @@ describe('checkout', () => {
     });
     await redeem(p, { rewardId: 'pro_10' });
     const withTen = (await getProfile(p.id))!;
-    await createCheckout(withTen, 'year', ORIGIN);
+    await createCheckout(withTen, { tier: 'pro', interval: 'year' }, ORIGIN);
     expect(sessionParams()).toMatchObject({ discounts: [{ promotion_code: withTen.redemptions[0].promotionCodeId }], payment_method_collection: 'always' });
     expect(sessionParams()).not.toHaveProperty('allow_promotion_codes');
 
@@ -74,7 +74,7 @@ describe('checkout', () => {
       x.points.balance = 10_000;
     });
     await redeem(q, { rewardId: 'pro_1m' });
-    await createCheckout((await getProfile(q.id))!, 'month', ORIGIN);
+    await createCheckout((await getProfile(q.id))!, { tier: 'pro', interval: 'month' }, ORIGIN);
     expect(sessionParams()).toMatchObject({ payment_method_collection: 'if_required' });
   });
 
@@ -82,7 +82,7 @@ describe('checkout', () => {
     const p = await fresh((x) => {
       x.plan = { status: 'pro', source: 'stripe', subscriptionId: 'sub_1', stripeCustomerId: 'cus_1', periodEnd: new Date(Date.now() + 86400_000).toISOString() };
     });
-    await expectHttp(createCheckout(p, 'year', ORIGIN), 409, 'already_subscribed');
+    await expectHttp(createCheckout(p, { tier: 'pro', interval: 'year' }, ORIGIN), 409, 'already_subscribed');
   });
 });
 
@@ -93,13 +93,13 @@ describe('confirm', () => {
     });
     await redeem(p, { rewardId: 'pro_10' });
     const before = (await getProfile(p.id))!;
-    await createCheckout(before, 'year', ORIGIN);
+    await createCheckout(before, { tier: 'pro', interval: 'year' }, ORIGIN);
     const sid = [...stub.sessions.keys()].at(-1)!;
     await expectHttp(confirmCheckout(before, sid), 409, 'checkout_open');
     const sub = stub.completeSession(sid);
 
     const { plan } = await confirmCheckout((await getProfile(p.id))!, sid);
-    expect(plan).toMatchObject({ status: 'trialing', source: 'stripe', subscriptionId: sub.id, interval: 'year', periodEnd: new Date(sub.trial_end! * 1000).toISOString() });
+    expect(plan).toMatchObject({ status: 'trialing', source: 'stripe', tier: 'pro', subscriptionId: sub.id, interval: 'year', periodEnd: new Date(sub.trial_end! * 1000).toISOString() });
     const after = (await getProfile(p.id))!;
     expect(isPro(after, new Date(), noForce)).toBe(true);
     expect(after.redemptions[0]).toMatchObject({ status: 'applied', appliedTo: 'checkout' });
@@ -108,6 +108,56 @@ describe('confirm', () => {
     const other = await fresh();
     await expectHttp(confirmCheckout(other, sid), 404, 'not_found');
     await expectHttp(confirmCheckout(other, 'not-a-session'), 400, 'invalid_input');
+  });
+});
+
+describe('Coach tier', () => {
+  it('a Coach checkout uses the coach price with the same trial; confirm gives a Coach plan', async () => {
+    const p = await fresh();
+    await createCheckout(p, { tier: 'coach', interval: 'month' }, ORIGIN);
+    expect(sessionParams()).toMatchObject({
+      line_items: [{ price: 'price_coach_monthly', quantity: 1 }],
+      metadata: { tier: 'coach', interval: 'month' },
+      subscription_data: { trial_period_days: 7, metadata: { tier: 'coach' } },
+      payment_method_collection: 'always',
+    });
+    const sid = [...stub.sessions.keys()].at(-1)!;
+    stub.completeSession(sid);
+    const { plan } = await confirmCheckout((await getProfile(p.id))!, sid);
+    expect(plan).toMatchObject({ status: 'trialing', tier: 'coach', interval: 'month' });
+    const saved = (await getProfile(p.id))!;
+    expect(isCoach(saved, new Date(), noForce)).toBe(true);
+    expect(isPro(saved, new Date(), noForce)).toBe(true);
+  });
+
+  it('free Pro months stay Pro: not attached to a Coach checkout, not redeemable on a Coach subscription', async () => {
+    const p = await fresh((x) => {
+      x.points.balance = 20_000;
+    });
+    await redeem(p, { rewardId: 'pro_1m' });
+    expect(stub.coupons.get('irr_pro_1m_v2')).toMatchObject({ percent_off: 100, applies_to: { products: ['irr_pro'] } });
+    await createCheckout((await getProfile(p.id))!, { tier: 'coach', interval: 'year' }, ORIGIN);
+    expect(sessionParams()).toMatchObject({ allow_promotion_codes: true, payment_method_collection: 'always' });
+    expect(sessionParams()).not.toHaveProperty('discounts');
+
+    const c = await fresh((x) => {
+      x.points.balance = 20_000;
+      x.plan = { status: 'pro', source: 'stripe', tier: 'coach', subscriptionId: 'sub_c', stripeCustomerId: 'cus_c', periodEnd: new Date(Date.now() + 86400_000).toISOString() };
+    });
+    await expectHttp(redeem(c, { rewardId: 'pro_1m' }), 409, 'pro_only');
+  });
+
+  it('a tier change in the portal is picked up by the next sync', async () => {
+    const end = Math.floor(Date.now() / 1000) + 30 * 86400;
+    stub.subs.set('sub_t', {
+      id: 'sub_t', status: 'active', customer: 'cus_t', trial_end: null, cancel_at: null, cancel_at_period_end: false, canceled_at: null, ended_at: null,
+      discounts: [], metadata: {}, items: { data: [{ current_period_end: end, price: { lookup_key: 'coach_monthly', recurring: { interval: 'month' } } }] },
+    });
+    const p = await fresh((x) => {
+      x.plan = { status: 'pro', source: 'stripe', tier: 'pro', subscriptionId: 'sub_t', stripeCustomerId: 'cus_t', periodEnd: new Date(end * 1000).toISOString() };
+    });
+    const synced = await ensureFreshPlan(p, { force: true });
+    expect(synced.plan).toMatchObject({ tier: 'coach', status: 'pro' });
   });
 });
 

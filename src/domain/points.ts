@@ -1,4 +1,4 @@
-import { addDays, daysBetween, localDay } from './reps';
+import { addDays, daysBetween, hash32, localDay } from './reps';
 import type { PointsAward, PointsEvent, PointsType, Profile, Reward } from './types';
 
 /**
@@ -65,6 +65,9 @@ const rule = (id: string, type: EarnType, min: number, max: number, limit: Point
   ...extra,
 });
 
+/** A checked item of the 90-day plan (event `plan_item_done`, ref = item id). */
+export const PLAN_ITEM_POINTS = { points: 15, perDay: 10 } as const;
+
 /** Map awards: one per occupation, at most three in a lifetime (a pivot explorer maps a few jobs, not hundreds). */
 export const XRAY_AWARDS_MAX = 3;
 
@@ -83,6 +86,7 @@ export const POINT_RULES: readonly PointsRule[] = [
   rule('pivot_explored', 'pivot_explored', 15, 15, { kind: 'once' }),
   rule('invite_completed', 'invite_completed', 300, 300, { kind: 'total', count: 10 }),
   rule('invited_bonus', 'invited_bonus', 100, 100, { kind: 'once' }),
+  rule('plan_item_done', 'plan_item_done', PLAN_ITEM_POINTS.points, PLAN_ITEM_POINTS.points, { kind: 'per_day', count: PLAN_ITEM_POINTS.perDay }),
 ];
 
 const ruleById = (id: string) => POINT_RULES.find((r) => r.id === id)!;
@@ -115,7 +119,7 @@ interface Grant {
 }
 
 /** Event types whose limit spans the profile's whole life: never pruned from the journal. */
-const LIFETIME: ReadonlySet<PointsType> = new Set(['xray_completed', 'first_rep', 'pivot_explored', 'invite_completed', 'invited_bonus', 'redeem']);
+const LIFETIME: ReadonlySet<PointsType> = new Set(['xray_completed', 'first_rep', 'pivot_explored', 'invite_completed', 'invited_bonus', 'redeem', 'plan_item_done']);
 /** Other events are kept this long: longer than the widest window (30 days, ISO week). */
 export const JOURNAL_DAYS = 40;
 
@@ -225,6 +229,13 @@ function grantsFor(p: Profile, t: PointsTrigger): Grant[] {
     case 'invite_completed':
       if (!has(p, 'invite_completed', t.ref) && ofType(p, 'invite_completed').length < 10) out.push(g('invite_completed', t.ref, 300, ruleById('invite_completed').labelKey));
       break;
+    case 'plan_item_done': {
+      // unchecking and checking the same item again pays nothing: the ref is the item
+      if (has(p, 'plan_item_done', t.ref)) break;
+      if (ofType(p, 'plan_item_done').filter((e) => eventDay(e, p.tz) === day).length >= PLAN_ITEM_POINTS.perDay) break;
+      out.push(g('plan_item_done', t.ref, PLAN_ITEM_POINTS.points, ruleById('plan_item_done').labelKey));
+      break;
+    }
     default:
       break;
   }
@@ -253,6 +264,7 @@ export function award(profile: Profile, trigger: PointsTrigger): AwardResult {
       points: {
         balance: profile.points.balance + total,
         events: pruneJournal([...profile.points.events, ...added], today, profile.tz),
+        xp: xpOf(profile) + total,
       },
     },
     awards: grants.map((x) => ({ type: x.type, points: x.points, labelKey: x.labelKey })),
@@ -268,7 +280,7 @@ export function spend(profile: Profile, cost: number, redemptionId: string, at: 
   if (has(profile, 'redeem', redemptionId)) return profile;
   if (profile.points.balance < cost) return null;
   const event: PointsEvent = { id: eventId('redeem', redemptionId), type: 'redeem', points: -cost, ref: redemptionId, at };
-  return { ...profile, points: { balance: profile.points.balance - cost, events: [...profile.points.events, event] } };
+  return { ...profile, points: { balance: profile.points.balance - cost, events: [...profile.points.events, event], xp: xpOf(profile) } };
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -301,12 +313,19 @@ export function pendingProCode(profile: Pick<Profile, 'redemptions'>) {
   return profile.redemptions.find((r) => r.status === 'issued' && isProReward(rewardById(r.rewardId) ?? { kind: 'coming_soon' }));
 }
 
-export type RedeemBlock = 'not_enough_points' | 'discount_pending' | 'freeze_limit' | 'not_available';
+export type RedeemBlock = 'not_enough_points' | 'discount_pending' | 'freeze_limit' | 'not_available' | 'pro_only';
+
+/** A running paid Stripe subscription on the Coach tier (free Pro months cannot go onto it). */
+function coachSubscribed(plan: Profile['plan'], now: Date): boolean {
+  if (plan.source === 'cup' || !plan.subscriptionId || (plan.status !== 'pro' && plan.status !== 'trialing')) return false;
+  return tierOf(plan) === 'coach' && Boolean(plan.periodEnd) && Date.parse(plan.periodEnd!) > now.getTime();
+}
 
 /** Why this reward cannot be redeemed now, or null. */
-export function redeemBlock(profile: Profile, reward: Reward): RedeemBlock | null {
+export function redeemBlock(profile: Profile, reward: Reward, now: Date = new Date()): RedeemBlock | null {
   if (reward.cost === null || reward.kind === 'coming_soon') return 'not_available';
   if (isProReward(reward) && pendingProCode(profile)) return 'discount_pending';
+  if (reward.kind === 'pro_months' && coachSubscribed(profile.plan, now)) return 'pro_only';
   if (reward.kind === 'streak_freeze' && profile.streak.freezes >= FREEZE_MAX) return 'freeze_limit';
   if (profile.points.balance < reward.cost) return 'not_enough_points';
   return null;
@@ -360,3 +379,191 @@ export const CUP_OFFER_ENDS_AT = '2026-12-01T12:00:00.000Z';
 export const CUP_PRO_DAYS = 30;
 
 export const cupOfferOpen = (now: Date = new Date()) => now.getTime() < Date.parse(CUP_OFFER_ENDS_AT);
+
+// ---------------------------------------------------------------------------------------------
+// XP and levels (round 3): XP is every positive award ever; spending points never lowers it.
+
+/** XP of a profile. Profiles from before XP derive it: balance plus everything spent in the shop. */
+export function xpOf(profile: Pick<Profile, 'points'>): number {
+  if (typeof profile.points.xp === 'number' && Number.isFinite(profile.points.xp)) return profile.points.xp;
+  const spent = profile.points.events.filter((e) => e.type === 'redeem').reduce((n, e) => n - e.points, 0);
+  return Math.max(0, profile.points.balance + spent);
+}
+
+/**
+ * Levels on a gentle curve: the first session reaches level 2, a month of daily practice about level 6,
+ * the top takes most of a year. Names are plain words about getting good at a job.
+ */
+export const LEVELS = [
+  { level: 1, at: 0, name: 'Getting started' },
+  { level: 2, at: 150, name: 'Finding your feet' },
+  { level: 3, at: 400, name: 'Steady hand' },
+  { level: 4, at: 800, name: 'Reliable' },
+  { level: 5, at: 1400, name: 'Sharp eye' },
+  { level: 6, at: 2200, name: 'Go-to person' },
+  { level: 7, at: 3300, name: 'Trusted reviewer' },
+  { level: 8, at: 4700, name: 'Seasoned' },
+  { level: 9, at: 6500, name: 'Mentor' },
+  { level: 10, at: 8800, name: 'Expert' },
+  { level: 11, at: 11600, name: 'Master of the craft' },
+  { level: 12, at: 15000, name: 'Irreplaceable' },
+] as const;
+
+export interface LevelInfo {
+  xp: number;
+  level: number;
+  levelName: string;
+  /** "Level 3 · Steady hand" */
+  label: string;
+  /** XP where this level started (for a progress bar) */
+  levelAt: number;
+  /** XP of the next level, null at the top */
+  nextAt: number | null;
+}
+
+export function levelOf(xp: number): LevelInfo {
+  const x = Number.isFinite(xp) ? Math.max(0, Math.floor(xp)) : 0;
+  let i = 0;
+  while (i + 1 < LEVELS.length && LEVELS[i + 1].at <= x) i++;
+  const cur = LEVELS[i];
+  return { xp: x, level: cur.level, levelName: cur.name, label: `Level ${cur.level} · ${cur.name}`, levelAt: cur.at, nextAt: LEVELS[i + 1]?.at ?? null };
+}
+
+// ---------------------------------------------------------------------------------------------
+// Plans and tiers (round 3): Free, Pro, Coach
+
+export type Tier = 'pro' | 'coach';
+export type BillingInterval = 'month' | 'year';
+
+export const TIER_PRICES: Record<Tier, Record<BillingInterval, { usd: number; lookupKey: string }>> = {
+  pro: PRO_PRICES,
+  coach: { month: { usd: 39, lookupKey: 'coach_monthly' }, year: { usd: 239, lookupKey: 'coach_yearly' } },
+};
+
+/** The paid tier of a plan: the Cup offer is Coach, older plans without a tier are Pro. */
+export const tierOf = (plan: Pick<Profile['plan'], 'tier' | 'source'>): Tier => (plan.source === 'cup' ? 'coach' : (plan.tier ?? 'pro'));
+
+/** Tier of a Stripe price by its lookup_key (`pro_monthly`, `coach_yearly` …), or null for an unknown price. */
+export function tierOfLookupKey(key: string | null | undefined): Tier | null {
+  if (!key) return null;
+  if (key.startsWith('coach_')) return 'coach';
+  if (key.startsWith('pro_')) return 'pro';
+  return null;
+}
+
+export interface PlanOffer {
+  id: 'free' | Tier;
+  name: string;
+  tagline: string;
+  badge: string | null;
+  /** USD; null for Free */
+  price: { month: number; year: number; yearPerMonth: number; savePercent: number } | null;
+  /** "Everything in Free, plus:" */
+  includes: 'free' | 'pro' | null;
+  features: { id: string; text: string }[];
+}
+
+const priceOf = (tier: Tier): NonNullable<PlanOffer['price']> => {
+  const { month, year } = TIER_PRICES[tier];
+  return {
+    month: month.usd,
+    year: year.usd,
+    yearPerMonth: Math.round((year.usd / 12) * 100) / 100,
+    savePercent: Math.round((1 - year.usd / (month.usd * 12)) * 100),
+  };
+};
+
+/** The three plans as /pricing shows them. Only features that exist in the product. */
+export const PLANS: readonly PlanOffer[] = [
+  {
+    id: 'free',
+    name: 'Free',
+    tagline: 'See where AI already fits into your week.',
+    badge: null,
+    price: null,
+    includes: null,
+    features: [
+      { id: 'week_map', text: 'Your week map: what AI already does, what it speeds up, and what stays yours' },
+      { id: 'ai_or_me', text: 'AI or me?, a one-minute game every day' },
+      { id: 'trial_rep', text: 'One live practice rep on a task from your week' },
+      { id: 'job_pages', text: 'Public pages for every job' },
+      { id: 'points', text: 'Points for what you do, and the shop basics' },
+    ],
+  },
+  {
+    id: 'pro',
+    name: 'Pro',
+    tagline: 'Practice on your own work every day.',
+    badge: 'Most popular',
+    price: priceOf('pro'),
+    includes: 'free',
+    features: [
+      { id: 'daily_reps', text: 'A daily rep on your own tasks: catch AI mistakes, hand work to AI, handle the human part, plus extra reps' },
+      { id: 'plan_90', text: 'A 90-day plan, week by week, that you check off as you go' },
+      { id: 'skills', text: 'Your skills from your résumé, and the gaps worth closing' },
+      { id: 'next_jobs', text: 'All the jobs you could move to next' },
+      { id: 'proof', text: 'A proof portfolio and a Review kit for your manager' },
+      { id: 'playbook', text: 'Playbook and Second look for your real work' },
+      { id: 'pdf_report', text: 'A PDF report of your week' },
+      { id: 'full_shop', text: 'Points for practice and the full shop' },
+    ],
+  },
+  {
+    id: 'coach',
+    name: 'Coach',
+    tagline: 'A career coach who knows your work.',
+    badge: null,
+    price: priceOf('coach'),
+    includes: 'pro',
+    features: [
+      { id: 'coach_chat', text: 'Your own AI career coach that knows your week, plan, skills and progress' },
+      { id: 'coach_voice', text: 'Talk to your coach with voice messages' },
+      { id: 'coach_checkins', text: 'Coach check-ins on your plan' },
+    ],
+  },
+];
+
+/** "Save up to 49%" on the yearly toggle. */
+export const YEARLY_SAVE_UP_TO = Math.max(...PLANS.map((p) => p.price?.savePercent ?? 0));
+
+// ---------------------------------------------------------------------------------------------
+// Leaderboard names (round 3)
+
+export const NICKNAME_LENGTH = { min: 2, max: 24 } as const;
+
+/** Words a nickname may not contain (checked without spaces, with common look-alike digits read as letters). */
+const BLOCKED_WORDS = ['admin', 'moderator', 'official', 'irreplaceable', 'support', 'fuck', 'shit', 'bitch', 'cunt', 'nigger', 'nigga', 'faggot', 'retard', 'whore', 'slut', 'nazi', 'hitler', 'rapist', 'porn'];
+const LOOKALIKE: Record<string, string> = { '0': 'o', '1': 'i', '3': 'e', '4': 'a', '5': 's', '7': 't', '@': 'a', $: 's' };
+
+export type NicknameCheck = { ok: true; value: string } | { ok: false; reason: 'length' | 'characters' | 'not_allowed' };
+
+/** Trims and checks a nickname: 2–24 letters, digits, spaces and . _ ' -, starting with a letter or digit; no links, no blocked words. */
+export function cleanNickname(raw: string): NicknameCheck {
+  const value = raw.normalize('NFKC').replace(/\s+/g, ' ').trim();
+  if (value.length < NICKNAME_LENGTH.min || value.length > NICKNAME_LENGTH.max) return { ok: false, reason: 'length' };
+  if (!/^[\p{L}\p{N}][\p{L}\p{N} ._'-]*$/u.test(value)) return { ok: false, reason: 'characters' };
+  const flat = value
+    .toLowerCase()
+    .replace(/[0-9@$]/g, (c) => LOOKALIKE[c] ?? c)
+    .replace(/[^\p{L}]/gu, '');
+  if (/www|https?/.test(flat) || BLOCKED_WORDS.some((w) => flat.includes(w))) return { ok: false, reason: 'not_allowed' };
+  return { ok: true, value };
+}
+
+const QUALIFIERS = new Set(['senior', 'sr', 'junior', 'jr', 'staff', 'lead', 'principal', 'chief', 'head', 'registered', 'certified', 'licensed', 'entry', 'level', 'entry-level', 'mid-level', 'i', 'ii', 'iii', 'iv']);
+
+/** A short job name for anonymous handles: «Registered Nurse» → «Nurse», «Senior Software Engineer» → «Software Engineer». */
+export function shortJob(title: string | null | undefined): string {
+  const base = (title ?? '').split(/[,(|/]| [-–—] /)[0].trim();
+  const words = base.split(/\s+/).filter((w) => w && !QUALIFIERS.has(w.toLowerCase().replace(/\.$/, '')));
+  if (!words.length) return 'Member';
+  const two = words.slice(-2).join(' ');
+  const pick = words.length >= 2 && two.length <= 18 ? two : words[words.length - 1];
+  return (pick.charAt(0).toUpperCase() + pick.slice(1)).slice(0, 24);
+}
+
+/** The leaderboard handle: the chosen nickname, else «{short job} · {4 digits from the profile id}». */
+export function boardHandle(profile: Pick<Profile, 'id' | 'jobTitle' | 'nickname'>): string {
+  if (profile.nickname) return profile.nickname;
+  return `${shortJob(profile.jobTitle)} · ${String(hash32(`handle:${profile.id}`) % 10_000).padStart(4, '0')}`;
+}

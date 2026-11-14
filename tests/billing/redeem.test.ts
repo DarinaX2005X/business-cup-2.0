@@ -91,7 +91,7 @@ describe('redeem pro rewards', () => {
     });
     const res = await redeem(p, { rewardId: 'pro_1m' });
     expect(res.redemption).toMatchObject({ status: 'applied', appliedTo: 'subscription' });
-    expect(stub.coupons.get('irr_pro_1m')).toMatchObject({ percent_off: 100, duration: 'repeating', duration_in_months: 1 });
+    expect(stub.coupons.get('irr_pro_1m_v2')).toMatchObject({ percent_off: 100, duration: 'repeating', duration_in_months: 1, applies_to: { products: ['irr_pro'] } });
     const update = stub.callsOf('subscriptions.update')[0].args[1] as { discounts: object[] };
     expect(update.discounts).toEqual([{ discount: 'di_old' }, { promotion_code: res.redemption.promotionCodeId }]);
     expect(res.balance).toBe(500);

@@ -10,6 +10,15 @@ import {
   rewardById,
   spend,
   STREAK_MARKS,
+  boardHandle,
+  cleanNickname,
+  levelOf,
+  LEVELS,
+  PLANS,
+  shortJob,
+  tierOf,
+  xpOf,
+  YEARLY_SAVE_UP_TO,
   type PointsTrigger,
 } from '@/domain/points';
 import { applyStreak, streakAsOf } from '@/domain/reps';
@@ -255,5 +264,91 @@ describe('streak freeze', () => {
     expect(far.streak.freezes).toBe(1);
     expect(applyStreak(far.streak, '2026-11-17').current).toBe(1);
     expect(applyFreeze(streak({ freezes: 2 }), '2026-11-17')).toMatchObject({ frozen: ['2026-11-15', '2026-11-16'], streak: { freezes: 0 } });
+  });
+});
+
+describe('round 3: plan items, XP and levels', () => {
+  it('plan items pay 15 each, once per item, at most 10 a day', () => {
+    const items = Array.from({ length: 12 }, (_, i) => ev('plan_item_done', `w1-${i}`, '2026-11-14T15:00:00Z'));
+    const r = run(profile(), [...items, ev('plan_item_done', 'w1-0', '2026-11-15T15:00:00Z'), ev('plan_item_done', 'w2-0', '2026-11-15T15:00:00Z')]);
+    expect(r.awards.map((a) => a.points)).toEqual([...Array(10).fill(15), 15]);
+    expect(r.awards[0]).toMatchObject({ type: 'plan_item_done', labelKey: 'shop.earn.plan_item_done' });
+  });
+
+  it('XP counts every award and never goes down when points are spent', () => {
+    let p = run(profile(), [ev('xray_completed', 'A', '2026-11-14T15:00:00Z'), ev('week_confirmed', '2026-W46', '2026-11-14T15:00:00Z')]).profile;
+    p = run(p, [ev('used_at_work', '2026-11-14:a', '2026-11-14T16:00:00Z')]).profile;
+    expect(p.points).toMatchObject({ balance: 135, xp: 135 });
+    p = spend(p, 100, 'rd1', '2026-11-14T17:00:00Z')!;
+    expect(p.points).toMatchObject({ balance: 35, xp: 135 });
+    // a profile from before XP: balance plus what was spent
+    const legacy = profile({ points: { balance: 40, events: [{ id: 'redeem:x', type: 'redeem', points: -250, ref: 'x', at: '2026-11-01T00:00:00Z' }] } });
+    expect(xpOf(legacy)).toBe(290);
+  });
+
+  it('levels: 12 on a gentle curve with plain names; the first session reaches level 2', () => {
+    expect(LEVELS).toHaveLength(12);
+    for (let i = 1; i < LEVELS.length; i++) {
+      expect(LEVELS[i].at).toBeGreaterThan(LEVELS[i - 1].at);
+      if (i > 1) expect(LEVELS[i].at - LEVELS[i - 1].at).toBeGreaterThanOrEqual(LEVELS[i - 1].at - (LEVELS[i - 2]?.at ?? 0));
+    }
+    expect(levelOf(0)).toEqual({ xp: 0, level: 1, levelName: 'Getting started', label: 'Level 1 · Getting started', levelAt: 0, nextAt: 150 });
+    expect(levelOf(250)).toMatchObject({ level: 2, nextAt: 400 });
+    expect(levelOf(400)).toMatchObject({ level: 3, label: 'Level 3 · Steady hand' });
+    expect(levelOf(2500)).toMatchObject({ level: 6 });
+    expect(levelOf(1_000_000)).toMatchObject({ level: 12, levelName: 'Irreplaceable', nextAt: null });
+    expect(levelOf(Number.NaN).level).toBe(1);
+  });
+});
+
+describe('round 3: plans, tiers and names', () => {
+  it('PLANS: Free, Pro (most popular) and Coach with the yearly price per month', () => {
+    expect(PLANS.map((p) => p.id)).toEqual(['free', 'pro', 'coach']);
+    expect(PLANS[1]).toMatchObject({ badge: 'Most popular', price: { month: 19, year: 119, yearPerMonth: 9.92, savePercent: 48 }, includes: 'free' });
+    expect(PLANS[2]).toMatchObject({ price: { month: 39, year: 239, yearPerMonth: 19.92, savePercent: 49 }, includes: 'pro' });
+    expect(YEARLY_SAVE_UP_TO).toBe(49);
+    expect(PLANS[0].price).toBeNull();
+  });
+
+  it('tiers: older plans are Pro, the Cup offer is Coach', () => {
+    expect(tierOf({})).toBe('pro');
+    expect(tierOf({ tier: 'coach' })).toBe('coach');
+    expect(tierOf({ source: 'cup' })).toBe('coach');
+  });
+
+  it('free months are not for a Coach subscription', () => {
+    const coach = profile({
+      points: { balance: 10_000, events: [] },
+      plan: { status: 'pro', source: 'stripe', tier: 'coach', subscriptionId: 's', periodEnd: '2026-12-01T00:00:00Z' },
+    });
+    const now = new Date('2026-11-15T00:00:00Z');
+    expect(redeemBlock(coach, rewardById('pro_1m')!, now)).toBe('pro_only');
+    expect(redeemBlock(coach, rewardById('pro_25')!, now)).toBeNull();
+    expect(redeemBlock({ ...coach, plan: { ...coach.plan, tier: 'pro' } }, rewardById('pro_1m')!, now)).toBeNull();
+  });
+
+  it('nicknames: 2–24 safe characters, no links or blocked words', () => {
+    expect(cleanNickname('  Night   Shift RN ')).toEqual({ ok: true, value: 'Night Shift RN' });
+    expect(cleanNickname("O'Neil-2")).toEqual({ ok: true, value: "O'Neil-2" });
+    expect(cleanNickname('x')).toMatchObject({ ok: false, reason: 'length' });
+    expect(cleanNickname('a'.repeat(25))).toMatchObject({ ok: false, reason: 'length' });
+    expect(cleanNickname('<script>')).toMatchObject({ ok: false, reason: 'characters' });
+    expect(cleanNickname('me@mail')).toMatchObject({ ok: false, reason: 'characters' });
+    expect(cleanNickname('www.spam.com')).toMatchObject({ ok: false, reason: 'not_allowed' });
+    expect(cleanNickname('Sh1t happens')).toMatchObject({ ok: false, reason: 'not_allowed' });
+    expect(cleanNickname('Admin Team')).toMatchObject({ ok: false, reason: 'not_allowed' });
+  });
+
+  it('anonymous handles: short job and 4 digits from the id, or the nickname', () => {
+    expect(shortJob('Registered Nurse')).toBe('Nurse');
+    expect(shortJob('Senior Software Engineer')).toBe('Software Engineer');
+    expect(shortJob('Staff Accountant')).toBe('Accountant');
+    expect(shortJob('Medical-Surgical Staff Nurse')).toBe('Nurse');
+    expect(shortJob('')).toBe('Member');
+    const h = boardHandle({ id: 'abc', jobTitle: 'Registered Nurse' });
+    expect(h).toMatch(/^Nurse · \d{4}$/);
+    expect(boardHandle({ id: 'abc', jobTitle: 'Registered Nurse' })).toBe(h);
+    expect(boardHandle({ id: 'abd', jobTitle: 'Registered Nurse' })).not.toBe(h);
+    expect(boardHandle({ id: 'abc', jobTitle: 'RN', nickname: 'Night Owl' })).toBe('Night Owl');
   });
 });

@@ -35,12 +35,14 @@ const MESSAGES: Record<RedeemBlock, string> = {
   discount_pending: 'You already have a Pro code waiting for checkout. Use it first, then redeem the next one.',
   freeze_limit: `You already hold ${FREEZE_MAX} streak freezes, the most you can keep.`,
   not_available: 'This reward is not available yet.',
+  pro_only: 'Free months are for the Pro plan. Your Coach subscription can use the percent-off rewards.',
 };
 
 function blockError(profile: Profile, reward: Reward, block: RedeemBlock): HttpError {
   if (block === 'not_enough_points') return new HttpError(402, block, MESSAGES[block], { need: (reward.cost ?? 0) - profile.points.balance, balance: profile.points.balance });
   if (block === 'discount_pending') return new HttpError(409, block, MESSAGES[block], { redemption: pendingProCode(profile) });
   if (block === 'freeze_limit') return new HttpError(409, block, MESSAGES[block], { freezes: profile.streak.freezes });
+  if (block === 'pro_only') return new HttpError(409, block, MESSAGES[block]);
   return new HttpError(400, block, MESSAGES[block]);
 }
 
@@ -53,7 +55,7 @@ export async function redeem(profile: Profile, input: RedeemInput, now: Date = n
   const replay = profile.redemptions.find((r) => r.id === id);
   if (replay) return { redemption: replay, balance: profile.points.balance, created: false };
 
-  const block = redeemBlock(profile, reward);
+  const block = redeemBlock(profile, reward, now);
   if (block) throw blockError(profile, reward, block);
   const email = input.email?.trim();
   if (reward.kind === 'partner_gift' && !email) throw new HttpError(400, 'email_required', 'Add the email where we should send your code.');
@@ -86,7 +88,7 @@ export async function redeem(profile: Profile, input: RedeemInput, now: Date = n
       profile.id,
       (p) => {
         if (p.redemptions.some((r) => r.id === id)) return;
-        const again = redeemBlock(p, reward);
+        const again = redeemBlock(p, reward, now);
         if (again) throw blockError(p, reward, again);
         const next = spend(p, reward.cost!, id, at);
         if (!next) throw blockError(p, reward, 'not_enough_points');

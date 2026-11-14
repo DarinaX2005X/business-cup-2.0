@@ -1,6 +1,7 @@
 import { randomInt } from 'node:crypto';
 import type Stripe from 'stripe';
 import type { Reward } from '@/domain/types';
+import { STRIPE_PRODUCTS } from './plan';
 import { stripeCall, stripeCode, type BillingStripe } from './stripe';
 
 /**
@@ -10,7 +11,11 @@ import { stripeCall, stripeCode, type BillingStripe } from './stripe';
  * missing one on demand. Discounts are `once` (the first payment); months are 100% `repeating`.
  */
 
-export const couponId = (rewardId: string) => `irr_${rewardId}`;
+/**
+ * Coupon id per reward. Free months are for Pro only (round 3), so their coupons apply to the Pro product
+ * alone; those carry a `_v2` id because Stripe coupons cannot be changed after creation.
+ */
+export const couponId = (rewardId: string) => (/^pro_\d+m$/.test(rewardId) ? `irr_${rewardId}_v2` : `irr_${rewardId}`);
 
 export function couponParams(reward: Reward): Stripe.CouponCreateParams {
   if (!reward.percentOff) throw new Error(`reward ${reward.id} has no percent_off`);
@@ -19,7 +24,7 @@ export function couponParams(reward: Reward): Stripe.CouponCreateParams {
     id: couponId(reward.id),
     percent_off: reward.percentOff,
     duration: months ? 'repeating' : 'once',
-    ...(months ? { duration_in_months: months } : {}),
+    ...(months ? { duration_in_months: months, applies_to: { products: [STRIPE_PRODUCTS.pro] } } : {}),
     name: months ? `Points reward: ${months} ${months === 1 ? 'month' : 'months'} of Pro` : `Points reward: ${reward.percentOff}% off`,
     metadata: { reward_id: reward.id, app: 'irreplaceable' },
   };

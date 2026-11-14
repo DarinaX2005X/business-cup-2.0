@@ -19,7 +19,7 @@ export interface StubSub {
   ended_at: number | null;
   discounts: string[];
   metadata: Record<string, string>;
-  items: { data: { current_period_end: number; price: { recurring: { interval: 'month' | 'year' } } }[] };
+  items: { data: { current_period_end: number; price: { lookup_key?: string | null; product?: string; recurring: { interval: 'month' | 'year' } } }[] };
 }
 
 export function createStripeStub() {
@@ -137,7 +137,15 @@ export function createStripeStub() {
   /** Simulates the person paying on the Checkout page: the session completes with a subscription. */
   function completeSession(sid: string, sub: Partial<StubSub> = {}): StubSub {
     const s = sessions.get(sid)!;
-    const params = s.params as { customer: string; metadata: Record<string, string>; subscription_data?: { trial_period_days?: number }; discounts?: { promotion_code: string }[] };
+    const params = s.params as {
+      customer: string;
+      metadata: Record<string, string>;
+      line_items: { price: string }[];
+      subscription_data?: { trial_period_days?: number; metadata?: Record<string, string> };
+      discounts?: { promotion_code: string }[];
+    };
+    const lookupKey = params.line_items[0].price.replace(/^price_/, '');
+    const interval = lookupKey.endsWith('monthly') ? 'month' : 'year';
     const now = Math.floor(Date.now() / 1000);
     const trial = params.subscription_data?.trial_period_days;
     const full: StubSub = {
@@ -150,8 +158,8 @@ export function createStripeStub() {
       canceled_at: null,
       ended_at: null,
       discounts: [],
-      metadata: { profileId: params.metadata.profileId },
-      items: { data: [{ current_period_end: trial ? now + trial * 86400 : now + 365 * 86400, price: { recurring: { interval: 'year' } } }] },
+      metadata: { ...params.subscription_data?.metadata, profileId: params.metadata.profileId },
+      items: { data: [{ current_period_end: trial ? now + trial * 86400 : now + 365 * 86400, price: { lookup_key: lookupKey, recurring: { interval } } }] },
       ...sub,
     };
     subs.set(full.id, full);

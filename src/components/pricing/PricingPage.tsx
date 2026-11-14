@@ -1,20 +1,20 @@
 'use client';
 
-import { Check, Info, TicketPercent } from 'lucide-react';
+import { Info, TicketPercent } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { CupOffer } from '@/components/cup/CupOffer';
 import { planOf, type ProfilePlan } from '@/components/cup/plan';
 import { Button } from '@/components/kit/Button';
-import { Segmented } from '@/components/kit/Segmented';
 import btn from '@/components/kit/controls.module.css';
 import type { Redemption } from '@/domain/types';
 import { useT } from '@/i18n/client';
 import { ApiError } from '@/lib/client/api';
 import { useProfile } from '@/lib/client/profile';
-import { openPortal, pendingProCode, syncPlan, PRO_MONTHLY_USD, PRO_YEARLY_USD, startCheckout, YEARLY_SAVING_USD, type Interval } from './billing';
+import { openPortal, pendingProCode, syncPlan, PRO_MONTHLY_USD, PRO_YEARLY_USD, startCheckout, type Interval } from './billing';
 import type { FirstWeekView } from './firstWeek';
 import { FirstWeekSheet } from './FirstWeekSheet';
+import { Plans } from './Plans';
 import { PricingHeader } from './PricingHeader';
 import st from './pricing.module.css';
 
@@ -23,9 +23,6 @@ export interface PricingInitial {
   redemptions: Redemption[];
   lastXrayId: string | null;
 }
-
-const FREE_ITEMS = ['map', 'aiOrMe', 'rep', 'jobs'] as const;
-const PRO_ITEMS = ['reps', 'plan', 'jobs', 'proof', 'shop'] as const;
 
 /**
  * /pricing: Free and Pro side by side, the trial through Stripe Checkout (test mode) and the Business Cup
@@ -96,70 +93,16 @@ export function PricingPage({ canceled, portal, week, initial }: { canceled: boo
                 {plansTitle}
               </h1>
             )}
-            <Segmented
-              label={t('pricing.interval.label')}
-              value={interval}
-              onChange={setBilling}
-              options={[
-                { value: 'year', label: t('pricing.interval.year') },
-                { value: 'month', label: t('pricing.interval.month') },
-              ]}
-            />
           </div>
 
-          <div className={st.cards}>
-            <article className={st.free} aria-labelledby="free-name">
-              <h3 id="free-name" className={st.planName}>
-                {t('pricing.free.name')}
-              </h3>
-              <p className={st.price}>
-                <b>{f.currency(0)}</b>
-              </p>
-              <p className={st.planLead}>{t('pricing.free.lead')}</p>
-              <ul className={st.items}>
-                {FREE_ITEMS.map((k) => (
-                  <li key={k}>
-                    <Check strokeWidth={2} aria-hidden="true" />
-                    {t(`pricing.free.items.${k}`)}
-                  </li>
-                ))}
-              </ul>
-              <Link href={mapHref ?? '/start'} className={`${btn.btn} ${btn.b_secondary} ${st.freeCta}`}>
-                {mapHref ? t('pricing.free.ctaOwn') : t('pricing.free.cta')}
-              </Link>
-            </article>
-
-            <article className={`${st.pro} field`} data-surface="field" aria-labelledby="pro-name">
-              <div className={st.proBuy}>
-                <h3 id="pro-name" className={st.planName}>
-                  {t('pricing.pro.name')}
-                </h3>
-                <p className={st.price} aria-live="polite">
-                  <b>{priceText}</b> <span>{per}</span>
-                </p>
-                <p className={st.save}>
-                  {interval === 'year'
-                    ? t('pricing.pro.saveYear', { amount: f.currency(YEARLY_SAVING_USD), total: f.currency(PRO_MONTHLY_USD * 12) })
-                    : t('pricing.pro.orYear', { price: f.currency(PRO_YEARLY_USD) })}
-                </p>
-                <TrialBox surface="violet" interval={interval} plan={plan} hasMap={!!lastXrayId} priceLine={t('pricing.pro.trialLine', { price: priceText, per })} />
-              </div>
-              <div className={st.proWhat}>
-                <ul className={st.items}>
-                  <li data-all="">
-                    <Check strokeWidth={2.25} aria-hidden="true" />
-                    {t('pricing.pro.items.all')}
-                  </li>
-                  {PRO_ITEMS.map((k) => (
-                    <li key={k}>
-                      <Check strokeWidth={2.25} aria-hidden="true" />
-                      {t(`pricing.pro.items.${k}`)}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </article>
-          </div>
+          <Plans
+            interval={interval}
+            onInterval={setBilling}
+            heading={week ? 'h3' : 'h2'}
+            freeHref={mapHref ?? '/start'}
+            freeLabel={mapHref ? t('pricing.free.ctaOwn') : t('pricing.free.cta')}
+            action={<TrialBox surface="violet" cup={false} interval={interval} plan={plan} hasMap={!!lastXrayId} priceLine={t('pricing.pro.trialLine', { price: priceText, per })} />}
+          />
         </section>
       </main>
     </div>
@@ -177,12 +120,15 @@ export function TrialBox({
   plan,
   hasMap,
   priceLine,
+  cup = true,
 }: {
   surface: 'paper' | 'violet';
   interval: Interval;
   plan: ReturnType<typeof planOf>;
   hasMap: boolean;
   priceLine: string;
+  /** The Business Cup action beside the trial button; off where the cup card is already on screen. */
+  cup?: boolean;
 }) {
   const { t, f } = useT();
   const prof = useProfile();
@@ -242,7 +188,7 @@ export function TrialBox({
           <Button variant={onViolet ? 'apricot' : 'primary'} size="lg" loading={busy === 'checkout'} loadingLabel={t('pricing.opening')} onClick={() => go('checkout')}>
             {t('pricing.trial')}
           </Button>
-          <CupOffer surface={surface} />
+          {cup ? <CupOffer surface={surface} /> : null}
         </div>
         <p className={st.priceLine}>{priceLine}</p>
         <p className={st.testLine}>{t('pricing.testMode')}</p>

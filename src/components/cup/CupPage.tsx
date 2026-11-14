@@ -11,6 +11,7 @@ import { useT } from '@/i18n/client';
 import { locales, type Locale } from '@/i18n/config';
 import { useOptionalProfile } from '@/lib/client/profile';
 import { CupNext, CupPass } from './CupOffer';
+import { Trophy } from './Trophy';
 import type { ProfilePlan } from './plan';
 import { useCupUnlock } from './useCupUnlock';
 import st from './cup.module.css';
@@ -107,8 +108,9 @@ export function CupPage({ initialPlan, hasMap }: { initialPlan: ProfilePlan | nu
           </p>
         </div>
 
-        <div className={st.stage}>
+        <div className={st.stage} data-cup-hover="">
           <CupPass on={on} runsUntil={cup.runsUntilShort} />
+          <Trophy size={300} pieces className={st.stageCup} />
         </div>
       </main>
     </div>

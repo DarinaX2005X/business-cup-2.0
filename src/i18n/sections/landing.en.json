@@ -34,11 +34,11 @@
     },
     "two": {
       "title": "See your week",
-      "body": "In about two minutes you get a map of your week: what AI already touches and what stays yours."
+      "body": "In about two minutes you see what AI already touches and what stays yours."
     },
     "three": {
       "title": "Train ten minutes a day",
-      "body": "Short reps made from your own tasks keep you the one who checks AI."
+      "body": "Short reps made from your own tasks. You stay the one who checks AI."
     }
   },
   "features": {
@@ -47,18 +47,18 @@
       "title": "Your week map",
       "body": "Every task of your week, sorted into what AI already does, what it speeds up and what stays yours.",
       "caption": "A nurse's week, mapped from a sample resume",
-      "stake": "It also shows how much of your pay sits in the tasks AI touches."
+      "top": "Where most of the week goes",
+      "hours": "{hours} h"
     },
     "reps": {
       "title": "Daily reps from your own work",
       "body": "Ten minutes a day. Each rep is written from one of your tasks and checked right away.",
       "slip": "Spot the slip",
-      "slipBody": "Find the mistakes AI left in a document from your job.",
+      "slipBody": "AI wrote a document from your job. Find what it got wrong.",
       "delegate": "Delegate",
-      "delegateBody": "Brief AI on a real task and catch the traps in the inputs.",
-      "trap": "A trap: the same payment is listed twice",
+      "delegateBody": "Tell AI exactly what to do, and catch the traps before it does.",
       "edge": "Human edge",
-      "edgeBody": "Handle the part AI can't: a person who needs an answer now."
+      "edgeBody": "Practice the part AI can't do: a real person who needs your answer."
     },
     "game": {
       "title": "AI or me?",
@@ -81,12 +81,6 @@
       "body": "Practice a little every day and watch the week fill up."
     }
   },
-  "pay": {
-    "title": "What you pay for",
-    "more": "See the full plans",
-    "cup": "For Business Cup 2.0, Pro is free until {date}.",
-    "cupLink": "See the offer"
-  },
   "data": {
     "title": "Built on real data",
     "onet": "Your tasks come from O*NET, the US database of what each job involves.",
@@ -106,5 +100,8 @@
     "jobs": "Job pages",
     "github": "Source on GitHub",
     "sources": "Data sources"
+  },
+  "pay": {
+    "title": "What you pay for"
   }
 }

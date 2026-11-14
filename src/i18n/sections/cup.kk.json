@@ -8,6 +8,8 @@
     "alreadyPro",
     "alreadyTitle",
     "alreadyTrial",
+    "band.body",
+    "band.title",
     "errors.already_pro",
     "errors.failed",
     "errors.failedShort",
@@ -74,5 +76,9 @@
     "offer_ended": "Business Cup 2.0 акциясы {date} аяқталды. Тарифтер мен бағаларды тиісті беттен көруге болады.",
     "failed": "Pro қосылмады. Біраздан соң қайталап көріңіз.",
     "failedShort": "Pro қосылмады."
+  },
+  "band": {
+    "title": "Business Cup 2.0 қатысушысысыз ба? Pro бізден сыйлық",
+    "body": "Pro нұсқасын 30 күнге тегін қосыңыз. Ұсыныс {date} дейін жарамды."
   }
 }

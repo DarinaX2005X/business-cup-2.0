@@ -1,29 +1,32 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
-import { CategoryChip } from '@/components/kit/Evidence';
-import { SheetStack } from '@/components/kit/Illustration';
+import { useState, type CSSProperties } from 'react';
+import { CategoryChip, CategorySwatch } from '@/components/kit/Evidence';
 import { StreakWeek } from '@/components/kit/Points';
-import { RepCard } from '@/components/kit/RepCard';
 import { ScoreDial } from '@/components/kit/ScoreDial';
 import { ShopVoucher } from '@/components/kit/Shop';
-import { WeekBar } from '@/components/kit/WeekBar';
 import { rewardName } from '@/components/shop/names';
-import { WeekStrip } from '@/components/start/WeekStrip';
-import { DocText, type Spot } from '@/components/today/DocText';
-import { CUP_OFFER_UNTIL, PRO_PRICES, REWARDS } from '@/domain/points';
+import { useKit } from '@/components/kit/strings';
+import { groupWeek, hoursOf } from '@/components/kit/week';
+import type { Interval } from '@/components/pricing/billing';
+import { Plans } from '@/components/pricing/Plans';
+import { REWARDS } from '@/domain/points';
 import { useT } from '@/i18n/client';
+import btn from '@/components/kit/controls.module.css';
+import { ArtDelegate, ArtEdge, ArtJob, ArtSlip, ArtTimer, ArtWeek } from './Art';
 import { LANDING_LINKS } from './config';
-import type { RepSamples, WeekView } from './data';
+import type { WeekView } from './data';
 import st from './landing.module.css';
 
-const initialOf = (persona: string) => (persona.trim().match(/\p{L}/u)?.[0] ?? '').toUpperCase();
-
-/** «How it works»: three steps, each with a piece of the product instead of an icon. */
-export function Steps({ view }: { view: WeekView }) {
+/** «How it works»: three steps down a staircase, each with its own illustration. */
+export function Steps() {
   const { t } = useT();
-  const typed = view.jobTitle.split(',')[0];
+  const steps = [
+    { key: 'one', art: <ArtJob /> },
+    { key: 'two', art: <ArtWeek /> },
+    { key: 'three', art: <ArtTimer /> },
+  ] as const;
   return (
     <section className={st.steps} aria-labelledby="steps-title">
       <div className={st.wrap}>
@@ -31,29 +34,16 @@ export function Steps({ view }: { view: WeekView }) {
           {t('landing.steps.title')}
         </h2>
         <ol className={st.stepList}>
-          <li className={st.step}>
-            <div className={st.stepArt} aria-hidden="true">
-              <span className={st.typed}>{typed}</span>
-            </div>
-            <h3 className={st.stepTitle}>{t('landing.steps.one.title')}</h3>
-            <p className={st.stepBody}>{t('landing.steps.one.body')}</p>
-          </li>
-          <li className={st.step}>
-            <div className={st.stepArt}>
-              <div className={st.stepStrip}>
-                <WeekStrip tasks={view.tasks} label={t('landing.features.map.caption')} />
-              </div>
-            </div>
-            <h3 className={st.stepTitle}>{t('landing.steps.two.title')}</h3>
-            <p className={st.stepBody}>{t('landing.steps.two.body')}</p>
-          </li>
-          <li className={st.step}>
-            <div className={st.stepArt} aria-hidden="true">
-              <SheetStack className={st.stepSheets} fit="contain" />
-            </div>
-            <h3 className={st.stepTitle}>{t('landing.steps.three.title')}</h3>
-            <p className={st.stepBody}>{t('landing.steps.three.body')}</p>
-          </li>
+          {steps.map((step, i) => (
+            <li key={step.key} className={st.step} data-n={i + 1} style={{ '--i': i } as CSSProperties}>
+              <div className={st.stepArt}>{step.art}</div>
+              <span className={st.stepNo} aria-hidden="true">
+                {i + 1}
+              </span>
+              <h3 className={st.stepTitle}>{t(`landing.steps.${step.key}.title`)}</h3>
+              <p className={st.stepBody}>{t(`landing.steps.${step.key}.body`)}</p>
+            </li>
+          ))}
         </ol>
       </div>
     </section>
@@ -65,36 +55,12 @@ export function Steps({ view }: { view: WeekView }) {
  * landing fixtures (the sample nurse week and three reps from the bank) and the live shop catalogue.
  * The pieces are shown to look at: they are inert, the work starts behind «Map my week».
  */
-export function Features({ view, reps }: { view: WeekView; reps: RepSamples }) {
-  const { t, locale } = useT();
-  const [scanning, setScanning] = useState(false);
-  const barRef = useRef<HTMLDivElement>(null);
-
-  // The scan that paints a week in the product plays once, when the bar first comes into view.
-  useEffect(() => {
-    const el = barRef.current;
-    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    let timer = 0;
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (!entries.some((e) => e.isIntersecting)) return;
-        io.disconnect();
-        setScanning(true);
-        timer = window.setTimeout(() => setScanning(false), 2800);
-      },
-      { threshold: 0.5 },
-    );
-    io.observe(el);
-    return () => {
-      io.disconnect();
-      window.clearTimeout(timer);
-    };
-  }, []);
-
-  const { slip, delegate, edge } = reps;
-  const tableAt = Math.max(0, delegate.inputs.indexOf('| '));
-  const table = delegate.inputs.slice(tableAt);
-  const spots: Spot[] = delegate.shownTrap.spots.filter(([a]) => a >= tableAt).map(([a, b]) => ({ start: a - tableAt, end: b - tableAt, kind: 'caught' }));
+export function Features({ view }: { view: WeekView }) {
+  const { t, f } = useT();
+  const { s: kit } = useKit();
+  const groups = groupWeek(view.tasks);
+  const top = [...view.tasks].sort((x, y) => y.share - x.share).slice(0, 4);
+  const h = (share: number) => f.number(hoursOf(share), { maximumFractionDigits: 1 });
 
   const machine = view.tasks.filter((x) => x.category === 'ai_does' || x.category === 'ai_speeds').sort((a, b) => b.share - a.share)[0];
   const human = view.tasks.filter((x) => x.category === 'human_edge').sort((a, b) => b.share - a.share)[0];
@@ -115,15 +81,34 @@ export function Features({ view, reps }: { view: WeekView; reps: RepSamples }) {
             <div className={st.cardText}>
               <h3 className={st.cardTitle}>{t('landing.features.map.title')}</h3>
               <p className={st.cardBody}>{t('landing.features.map.body')}</p>
-              <p className={st.cardNote}>{t('landing.features.map.stake')}</p>
               <div className={st.dial}>
                 <ScoreDial value={view.result.score} surface="violet" size={190} />
               </div>
             </div>
             <figure className={st.mapFig}>
-              <div ref={barRef} inert>
-                <WeekBar tasks={view.tasks} variant="violet" scanning={scanning} ariaLabel={t('landing.features.map.caption')} />
+              <ul className={st.mwTotals}>
+                {groups.map((g) => (
+                  <li key={g.category} data-cat={g.category}>
+                    <b>{t('landing.features.map.hours', { hours: h(g.share) })}</b>
+                    <span>{kit.category[g.category]}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className={st.mwBar} role="img" aria-label={t('landing.features.map.caption')}>
+                {groups.flatMap((g) => g.tasks).map((task, i) => (
+                  <span key={task.id} data-cat={task.category} style={{ flexGrow: task.share, '--i': i } as CSSProperties} />
+                ))}
               </div>
+              <p className={st.mwTop}>{t('landing.features.map.top')}</p>
+              <ul className={st.mwTasks}>
+                {top.map((task) => (
+                  <li key={task.id}>
+                    <CategorySwatch category={task.category} size="sm" />
+                    <span>{task.label}</span>
+                    <b>{t('landing.features.map.hours', { hours: h(task.share) })}</b>
+                  </li>
+                ))}
+              </ul>
               <figcaption>{t('landing.features.map.caption')}</figcaption>
             </figure>
           </article>
@@ -135,32 +120,22 @@ export function Features({ view, reps }: { view: WeekView; reps: RepSamples }) {
             </div>
             <ul className={st.repRow}>
               <li className={st.repItem}>
-                <div className={st.repArt} role="img" aria-label={slip.title} lang="en">
-                  <div className={st.repSheet} inert>
-                    <RepCard document={slip.document} mode="answer" ranges={[]} stack={false} />
-                  </div>
+                <div className={st.repArt}>
+                  <ArtSlip />
                 </div>
                 <h4 className={st.repName}>{t('landing.features.reps.slip')}</h4>
                 <p className={st.repBody}>{t('landing.features.reps.slipBody')}</p>
               </li>
               <li className={st.repItem}>
-                <div className={st.repArt} lang="en">
-                  <div className={st.repTable}>
-                    <DocText src={table} spots={spots} />
-                  </div>
-                  <p className={st.trap} lang={locale}>
-                    {t('landing.features.reps.trap')}
-                  </p>
+                <div className={st.repArt}>
+                  <ArtDelegate />
                 </div>
                 <h4 className={st.repName}>{t('landing.features.reps.delegate')}</h4>
                 <p className={st.repBody}>{t('landing.features.reps.delegateBody')}</p>
               </li>
               <li className={st.repItem}>
-                <div className={`${st.repArt} ${st.repTalk}`} lang="en">
-                  <span className={st.face} aria-hidden="true">
-                    {initialOf(edge.persona)}
-                  </span>
-                  <blockquote className={st.bubble}>{edge.opening}</blockquote>
+                <div className={st.repArt}>
+                  <ArtEdge />
                 </div>
                 <h4 className={st.repName}>{t('landing.features.reps.edge')}</h4>
                 <p className={st.repBody}>{t('landing.features.reps.edgeBody')}</p>
@@ -243,56 +218,29 @@ export function Features({ view, reps }: { view: WeekView; reps: RepSamples }) {
   );
 }
 
-/** «What you pay for»: the two plans in the pricing page's own words and prices. */
+/** «What you pay for»: the same plan cards as /pricing, with the Business Cup 2.0 card under them. */
 export function Pay() {
-  const { t, f } = useT();
-  const free = ['map', 'aiOrMe', 'rep'] as const;
-  const pro = ['all', 'reps', 'plan', 'proof', 'shop'] as const;
+  const { t } = useT();
+  const [interval, setBilling] = useState<Interval>('year');
   return (
     <section className={st.pay} aria-labelledby="pay-title">
       <div className={st.wrap}>
         <h2 id="pay-title" className={st.h2}>
           {t('landing.pay.title')}
         </h2>
-        <div className={st.plans}>
-          <article className={st.plan}>
-            <h3 className={st.planName}>{t('pricing.free.name')}</h3>
-            <p className={st.planPrice}>{f.currency(0)}</p>
-            <ul className={st.planItems}>
-              {free.map((k) => (
-                <li key={k}>{t(`pricing.free.items.${k}`)}</li>
-              ))}
-            </ul>
-            <Link href="/start" className={st.planCta}>
-              {t('pricing.free.cta')}
-            </Link>
-          </article>
-          <article className={`field ${st.plan} ${st.planPro}`} data-surface="field">
-            <h3 className={st.planName}>{t('pricing.pro.name')}</h3>
-            <p className={st.planPrice}>
-              {f.currency(PRO_PRICES.month.usd)} <small>{t('pricing.pro.perMonth')}</small>
-            </p>
-            <p className={st.planAlt}>{t('pricing.pro.orYear', { price: f.currency(PRO_PRICES.year.usd) })}</p>
-            <ul className={st.planItems}>
-              {pro.map((k) => (
-                <li key={k}>{t(`pricing.pro.items.${k}`)}</li>
-              ))}
-            </ul>
-            {LANDING_LINKS.pricing ? (
-              <Link href={LANDING_LINKS.pricing} className={`${st.planCta} ${st.planCtaPro}`}>
+        <div className={st.payPlans}>
+          <Plans
+            interval={interval}
+            onInterval={setBilling}
+            freeHref="/start"
+            freeLabel={t('pricing.free.cta')}
+            action={
+              <Link href={LANDING_LINKS.pricing ?? '/start'} className={`${btn.btn} ${btn.b_apricot} ${btn.s_lg}`}>
                 {t('pricing.trial')}
               </Link>
-            ) : null}
-          </article>
+            }
+          />
         </div>
-        {LANDING_LINKS.cup ? (
-          <p className={st.cup}>
-            {t('landing.pay.cup', { date: f.date(CUP_OFFER_UNTIL, 'long') })}{' '}
-            <Link href={LANDING_LINKS.cup} className={st.paperLink}>
-              {t('landing.pay.cupLink')}
-            </Link>
-          </p>
-        ) : null}
       </div>
     </section>
   );

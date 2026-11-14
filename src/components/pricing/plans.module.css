@@ -1,0 +1,230 @@
+/* Plan cards shared by the landing and /pricing: Pro on the violet field, Free on paper, the cup band under both. */
+
+.plans {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(14px, 1.8vw, 24px);
+  align-items: stretch;
+}
+
+.band {
+  grid-column: 1 / -1;
+  margin-top: 30px;
+}
+
+.pro,
+.free {
+  position: relative;
+  min-width: 0;
+  padding: clamp(22px, 3vw, 40px);
+  border-radius: var(--r-panel);
+}
+
+.pro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: clamp(20px, 3vw, 40px);
+  align-items: start;
+  overflow: hidden;
+  color: var(--on-violet);
+}
+
+/* a hatched week tile cropped by the corner */
+.proTile {
+  position: absolute;
+  right: -54px;
+  bottom: -62px;
+  width: 210px;
+  height: 210px;
+  border-radius: 44px;
+  background:
+    var(--hatch-field),
+    var(--field-shade);
+  rotate: 16deg;
+  z-index: -1;
+  transition: rotate 600ms var(--ease-out);
+}
+
+.pro:hover .proTile {
+  rotate: 8deg;
+}
+
+.proBuy {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+}
+
+.name {
+  font-size: 22px;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+}
+
+.options {
+  display: grid;
+  gap: 10px;
+}
+
+.option {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr) auto;
+  grid-template-areas:
+    'dot name price'
+    'dot note note';
+  gap: 2px 12px;
+  align-items: center;
+  padding: 14px 16px;
+  border-radius: var(--r-ctl);
+  text-align: left;
+  color: var(--on-violet);
+  background: color-mix(in oklch, var(--violet-deep) 45%, transparent);
+  box-shadow: inset 0 0 0 1.5px color-mix(in oklch, var(--on-violet) 22%, transparent);
+  transition:
+    background-color var(--t-hover) var(--ease),
+    box-shadow var(--t-hover) var(--ease),
+    transform var(--t-press) var(--ease);
+}
+
+.option:hover {
+  box-shadow: inset 0 0 0 1.5px color-mix(in oklch, var(--on-violet) 50%, transparent);
+}
+
+.option:active {
+  transform: scale(0.985);
+}
+
+.option[aria-checked='true'] {
+  background: var(--card);
+  color: var(--ink);
+  box-shadow:
+    inset 0 1px 0 var(--card),
+    var(--shadow-on-field);
+}
+
+.dot {
+  grid-area: dot;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 2px color-mix(in oklch, var(--on-violet) 55%, transparent);
+  transition: box-shadow var(--t-pop) var(--spring);
+}
+
+.option[aria-checked='true'] .dot {
+  box-shadow: inset 0 0 0 7px var(--apricot-low);
+}
+
+.optName {
+  grid-area: name;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  font-weight: 600;
+}
+
+.optName em {
+  padding: 2px 8px;
+  border-radius: var(--r-tag);
+  background: var(--apricot);
+  color: var(--ink);
+  font-size: 12.5px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.optPrice {
+  grid-area: price;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.optPrice b {
+  font-size: 26px;
+  letter-spacing: -0.03em;
+  font-variant-numeric: proportional-nums;
+}
+
+.optNote {
+  grid-area: note;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.action {
+  min-width: 0;
+}
+
+.items {
+  list-style: none;
+  display: grid;
+  gap: 10px;
+  font-size: 16px;
+}
+
+.items li {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+}
+
+.items svg {
+  width: 18px;
+  height: 18px;
+  margin-top: 3px;
+  color: var(--apricot-deep);
+}
+
+.pro .items {
+  padding-top: 44px;
+}
+
+.pro .items svg {
+  color: var(--apricot-hi);
+}
+
+.free {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--card);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.freePrice {
+  font-size: clamp(40px, 4.4vw, 56px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  font-variant-numeric: proportional-nums;
+}
+
+.freeLead {
+  color: var(--ink-2);
+}
+
+.freeCta {
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+.free .items {
+  margin: 6px 0 20px;
+}
+
+@media (max-width: 1080px) {
+  .pro {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .pro .items {
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .plans {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

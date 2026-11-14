@@ -1,0 +1,117 @@
+/* The Business Cup trophy: floats a little, a glint crosses the bowl on hover, pieces settle on load. */
+
+.trophy {
+  position: relative;
+  display: inline-block;
+  flex: none;
+  aspect-ratio: 240 / 262;
+}
+
+.svg {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  overflow: visible;
+  animation: float 5.5s ease-in-out infinite alternate;
+  transform-origin: 50% 90%;
+  transition: rotate var(--t-pop) var(--spring);
+}
+
+.shadow {
+  fill: var(--violet-deep);
+  opacity: 0.35;
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: shade 5.5s ease-in-out infinite alternate;
+}
+
+.handles {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  transition: scale var(--t-pop) var(--spring);
+}
+
+.glint {
+  transition: translate 0s;
+}
+
+@keyframes float {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes shade {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0.9);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .trophy:hover .svg,
+  :global(a):hover .svg,
+  [data-cup-hover]:hover .svg {
+    rotate: -4deg;
+  }
+  .trophy:hover .handles,
+  [data-cup-hover]:hover .handles {
+    scale: 1.04;
+  }
+  .trophy:hover .glint,
+  [data-cup-hover]:hover .glint {
+    translate: 340px 0;
+    transition: translate 700ms var(--ease-out);
+  }
+}
+
+/* small week tiles thrown up around the cup */
+.piece {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--s);
+  height: var(--s);
+  border-radius: 24%;
+  background:
+    var(--hatch-field),
+    color-mix(in oklch, var(--on-violet) 10%, transparent);
+  box-shadow: inset 0 0 0 1.5px color-mix(in oklch, var(--on-violet) 22%, transparent);
+  rotate: var(--r);
+  animation:
+    toss 900ms var(--spring) var(--dl) both,
+    bob var(--t) ease-in-out calc(var(--dl) + 900ms) infinite alternate;
+}
+
+.piece[data-n='2'],
+.piece[data-n='5'] {
+  background: var(--tile-hu);
+  box-shadow:
+    inset 0 1.5px 0 color-mix(in oklch, var(--card) 55%, transparent),
+    0 4px 0 var(--tile-hu-face);
+}
+
+.piece[data-n='1'] { --s: 15%; --x: -6%; --y: 6%; --r: -14deg; --dl: 120ms; --t: 4.2s; }
+.piece[data-n='2'] { --s: 9%; --x: 12%; --y: -8%; --r: 12deg; --dl: 240ms; --t: 3.4s; }
+.piece[data-n='3'] { --s: 12%; --x: 86%; --y: -4%; --r: 18deg; --dl: 180ms; --t: 4.8s; }
+.piece[data-n='4'] { --s: 18%; --x: 96%; --y: 30%; --r: -8deg; --dl: 320ms; --t: 5.2s; }
+.piece[data-n='5'] { --s: 7%; --x: 78%; --y: 14%; --r: -20deg; --dl: 400ms; --t: 3.8s; }
+
+@keyframes toss {
+  from {
+    opacity: 0;
+    translate: 0 60px;
+    scale: 0.4;
+  }
+}
+
+@keyframes bob {
+  to {
+    translate: 0 -8px;
+  }
+}

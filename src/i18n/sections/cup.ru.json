@@ -8,6 +8,8 @@
     "alreadyPro",
     "alreadyTitle",
     "alreadyTrial",
+    "band.body",
+    "band.title",
     "errors.already_pro",
     "errors.failed",
     "errors.failedShort",
@@ -74,5 +76,9 @@
     "offer_ended": "Акция Business Cup 2.0 завершилась {date}. Тарифы и цены доступны на странице с ценами.",
     "failed": "Не удалось включить Pro. Попробуйте еще раз через минуту.",
     "failedShort": "Не удалось включить Pro."
+  },
+  "band": {
+    "title": "Участвуете в Business Cup 2.0? Pro за наш счёт",
+    "body": "Подключите Pro на 30 дней бесплатно. Предложение действует до {date}."
   }
 }

@@ -37,6 +37,9 @@
     "opening",
     "portal",
     "portalOpening",
+    "pro.best",
+    "pro.billedMonth",
+    "pro.billedYear",
     "pro.items.all",
     "pro.items.jobs",
     "pro.items.plan",
@@ -139,7 +142,10 @@
       "jobs": "Все смежные профессии и навыки, которые они дают",
       "proof": "Доказательства вашей практики и набор для ревью",
       "shop": "Поинты за практику и магазин, где их можно потратить"
-    }
+    },
+    "best": "Самый выгодный",
+    "billedYear": "Оплата раз в год: {price}. Вы экономите {amount}.",
+    "billedMonth": "Списание каждый месяц."
   },
   "trial": "Попробуйте бесплатно 7 дней",
   "opening": "Открываем оплату в Stripe",

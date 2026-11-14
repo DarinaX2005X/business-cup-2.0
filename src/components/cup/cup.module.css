@@ -600,3 +600,58 @@
     animation: none;
   }
 }
+
+/* ---------- /cup: the trophy is the hero object, the pass leans out from behind it ---------- */
+
+.stage {
+  width: min(500px, 100%);
+  padding: 8% 22% 4% 0;
+  perspective: none;
+}
+
+.stage::before {
+  display: none;
+}
+
+.stageCup {
+  position: relative;
+  z-index: 2;
+  width: 100% !important;
+}
+
+.stage .pass {
+  position: absolute;
+  right: -4%;
+  top: 0;
+  z-index: 1;
+  width: 380px;
+  zoom: 0.56;
+  transform: rotate(9deg);
+  transform-origin: 80% 100%;
+}
+
+.stage .pass[data-on] {
+  animation: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .stage:hover .pass {
+    transform: rotate(13deg) translate(14px, -10px);
+  }
+}
+
+@media (max-width: 900px) {
+  .stage {
+    width: min(340px, 92%);
+    margin-top: 12px;
+  }
+  .stage .pass {
+    zoom: 0.44;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage .pass {
+    transition: none;
+  }
+}

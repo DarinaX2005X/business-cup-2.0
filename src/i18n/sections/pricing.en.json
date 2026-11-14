@@ -57,7 +57,10 @@
       "jobs": "Every neighbouring job and the skills it adds",
       "proof": "Proof of your practice and the Review kit",
       "shop": "Points for practice and the shop to spend them"
-    }
+    },
+    "best": "Best value",
+    "billedYear": "Billed {price} once a year. You save {amount}.",
+    "billedMonth": "Billed every month."
   },
   "trial": "Start your 7-day free trial",
   "opening": "Opening Stripe checkout",

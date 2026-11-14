@@ -35,6 +35,9 @@
     "opening",
     "portal",
     "portalOpening",
+    "pro.best",
+    "pro.billedMonth",
+    "pro.billedYear",
     "pro.items.all",
     "pro.items.jobs",
     "pro.items.plan",
@@ -137,7 +140,10 @@
       "jobs": "Барлық сабақтас мамандықтар және олар беретін дағдылар",
       "proof": "Тәжірибеңіздің дәлелдері және ревью жиынтығы",
       "shop": "Тәжірибе үшін ұпайлар және оларды жұмсайтын дүкен"
-    }
+    },
+    "best": "Ең тиімдісі",
+    "billedYear": "Жылына бір рет {price} алынады. Үнемдейтін ақшаңыз: {amount}.",
+    "billedMonth": "Ай сайын төленеді."
   },
   "trial": "7 күндік тегін кезеңді бастаңыз",
   "opening": "Stripe арқылы төлеу ашылуда",

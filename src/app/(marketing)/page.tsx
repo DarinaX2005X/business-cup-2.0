@@ -1,5 +1,5 @@
 import { Closing } from '@/components/landing/Closing';
-import { repSamples, weekView } from '@/components/landing/data';
+import { weekView } from '@/components/landing/data';
 import { LandingFooter } from '@/components/landing/Footer';
 import { Hero, LandingHeader } from '@/components/landing/Hero';
 import { DataNote, Features, Pay, Steps } from '@/components/landing/Sections';
@@ -19,8 +19,8 @@ export default async function LandingPage() {
       <LandingHeader t={t} />
       <main>
         <Hero t={t} />
-        <Steps view={view} />
-        <Features view={view} reps={repSamples()} />
+        <Steps />
+        <Features view={view} />
         <Pay />
         <DataNote />
         <Closing t={t} />

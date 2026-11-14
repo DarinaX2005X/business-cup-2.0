@@ -39,5 +39,9 @@
     "offer_ended": "The Business Cup 2.0 offer ended on {date}. Plans and prices are on the pricing page.",
     "failed": "Pro didn't turn on. Try again in a moment.",
     "failedShort": "Pro didn't turn on."
+  },
+  "band": {
+    "title": "Here for Business Cup 2.0? Pro is on us",
+    "body": "Turn Pro on for 30 days without paying. The offer runs until {date}."
   }
 }

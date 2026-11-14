@@ -46,6 +46,8 @@ export function PlanView({ xrayId }: { xrayId: string }) {
   const polls = useRef(0);
   const alive = useRef(true);
   const pendingOps = useRef(new Map<string, boolean>());
+  /** The next poll while the plan is being written (set below, read from the timer). */
+  const poll = useRef<() => Promise<void>>(async () => undefined);
 
   const accept = useCallback((plan: PlanResponse) => {
     setState({ kind: 'ready', plan });
@@ -66,7 +68,7 @@ export function PlanView({ xrayId }: { xrayId: string }) {
             setState({ kind: 'error', code: 'ai_unavailable' });
             return;
           }
-          timer.current = window.setTimeout(() => void load(() => apiFetch(`/api/plan?xray=${encodeURIComponent(xrayId)}`)), POLL_MS);
+          timer.current = window.setTimeout(() => void poll.current(), POLL_MS);
           return;
         }
         polls.current = 0;
@@ -77,14 +79,18 @@ export function PlanView({ xrayId }: { xrayId: string }) {
         window.clearTimeout(slowTimer);
       }
     },
-    [accept, xrayId],
+    [accept],
   );
 
   const fetchPlan = useCallback(() => load(() => apiFetch<PlanResponse | PlanPending>(`/api/plan?xray=${encodeURIComponent(xrayId)}`)), [load, xrayId]);
+  useEffect(() => {
+    poll.current = fetchPlan;
+  }, [fetchPlan]);
 
   useEffect(() => {
     alive.current = true;
-    void fetchPlan();
+    // Started from a task, so the request and its state changes never run inside the effect itself.
+    timer.current = window.setTimeout(() => void fetchPlan(), 0);
     return () => {
       alive.current = false;
       window.clearTimeout(timer.current);

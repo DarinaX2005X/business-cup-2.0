@@ -39,18 +39,18 @@ export function SkillsView({ xrayId }: { xrayId: string }) {
   const [keepingAll, setKeepingAll] = useState(false);
   const seq = useRef(0);
 
-  const load = useCallback(async () => {
-    try {
-      const data = await apiFetch<SkillsResponse>(`/api/skills?xray=${encodeURIComponent(xrayId)}`);
-      setState({ kind: 'ready', data });
-    } catch {
-      setState({ kind: 'error' });
-    }
-  }, [xrayId]);
+  const [reload, setReload] = useState(0);
+  const load = useCallback(() => setReload((n) => n + 1), []);
 
   useEffect(() => {
-    void load();
-  }, [load]);
+    let live = true;
+    apiFetch<SkillsResponse>(`/api/skills?xray=${encodeURIComponent(xrayId)}`)
+      .then((data) => live && setState({ kind: 'ready', data }))
+      .catch(() => live && setState({ kind: 'error' }));
+    return () => {
+      live = false;
+    };
+  }, [xrayId, reload]);
 
   const say = (text: string, tone: Notice['tone'] = 'neutral', undo?: () => void) => setNotice({ key: ++seq.current, text, tone, undo });
 
@@ -138,7 +138,13 @@ export function SkillsView({ xrayId }: { xrayId: string }) {
     return (
       <section className={st.problem} role="alert">
         <p>{t('skills.errors.load')}</p>
-        <Button variant="primary" onClick={() => (setState({ kind: 'loading' }), void load())}>
+        <Button
+          variant="primary"
+          onClick={() => {
+            setState({ kind: 'loading' });
+            load();
+          }}
+        >
           {t('skills.retry')}
         </Button>
       </section>
@@ -148,7 +154,7 @@ export function SkillsView({ xrayId }: { xrayId: string }) {
   const d = state.data;
   const occupation = d.occupation.title;
 
-  if (d.locked) return <LockedSkills data={d} xrayId={xrayId} onUnlocked={() => void load()} />;
+  if (d.locked) return <LockedSkills data={d} xrayId={xrayId} onUnlocked={load} />;
 
   const reader = (
     <Reader

@@ -19,7 +19,7 @@ export function planActive(plan: Plan, now: Date = new Date()): boolean {
 }
 
 /**
- * Coach access (round 3): an active plan on the Coach tier (the Cup offer is Coach; plans from before
+ * Coach access (round 3): an active plan on the Max tier, id 'coach' (the Cup offer is Max; plans from before
  * the tier existed are Pro), or DEV_FORCE_COACH=1 outside production. Pro access (`isPro` in
  * src/server/profile) is true for both tiers.
  */
@@ -28,7 +28,7 @@ export function isCoach(profile: Pick<Profile, 'plan'>, now: Date = new Date(), 
   return planActive(profile.plan, now) && tierOf(profile.plan) === 'coach';
 }
 
-/** Stripe products by tier (created by `npm run stripe:setup`). */
+/** Stripe products by tier (created by `npm run stripe:setup`; `irr_coach` is «Irreplaceable Max»). */
 export const STRIPE_PRODUCTS: Record<Tier, string> = { pro: 'irr_pro', coach: 'irr_coach' };
 
 /** Tier of a subscription: its price's lookup_key, else its product, else `metadata.tier`, else Pro. */
@@ -76,7 +76,7 @@ export function planFromSubscription(sub: Stripe.Subscription, now: Date = new D
 }
 
 /**
- * The Business Cup 2.0 plan (round 3): Coach, free, until the offer ends (end of November 30 anywhere on
+ * The Business Cup 2.0 plan (round 3): Max (tier 'coach'), free, until the offer ends (end of November 30 anywhere on
  * Earth), no payment. Stripe ids (if any) are kept.
  */
 export function cupPlan(prev: Plan, now: Date): Plan {

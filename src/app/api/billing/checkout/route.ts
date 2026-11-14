@@ -4,12 +4,16 @@ import { readOptionalJson } from '@/server/billing/body';
 import { requireProfile, withApi } from '@/server/profile/http';
 
 const bodySchema = z.object({
-  tier: z.enum(['pro', 'coach']).default('pro'),
+  // 'max' is the display name of the top tier; its id is 'coach'
+  tier: z
+    .enum(['pro', 'coach', 'max'])
+    .default('pro')
+    .transform((t) => (t === 'max' ? 'coach' : t)),
   interval: z.enum(['month', 'year']).default('year'),
 });
 
 /**
- * POST /api/billing/checkout { tier: 'pro' | 'coach' (default pro), interval: 'month' | 'year' (default year) }
+ * POST /api/billing/checkout { tier: 'pro' | 'coach' (Max; 'max' accepted) (default pro), interval: 'month' | 'year' (default year) }
  * → { url } of a Stripe Checkout page: subscription with a 7-day trial on a first subscription, the issued
  * shop code applied (else promotion codes allowed). 401, 409 already_subscribed { tier } (use the portal to
  * switch tiers), 502 payment_provider_error, 503 billing_unavailable.

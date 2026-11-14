@@ -29,7 +29,7 @@ export function siteOrigin(req: Request): string {
 const priceCache = new Map<string, { id: string; at: number }>();
 const PRICE_TTL_MS = 10 * 60_000;
 
-/** The active price for `pro_monthly` / `pro_yearly` / `coach_monthly` / `coach_yearly` (created by `npm run stripe:setup`). */
+/** The active price for `pro_monthly` / `pro_yearly` / `max_monthly` / `max_yearly` (created by `npm run stripe:setup`). */
 export async function priceFor(interval: BillingInterval, tier: Tier = 'pro'): Promise<string> {
   const lookupKey = TIER_PRICES[tier][interval].lookupKey;
   const hit = priceCache.get(lookupKey);
@@ -61,8 +61,8 @@ export async function ensureCustomer(profile: Profile): Promise<{ customerId: st
 }
 
 /**
- * A Checkout Session for Pro or Coach. Both tiers get the 7-day trial on a first subscription. A shop
- * code waiting for checkout goes in, except free Pro months on a Coach checkout (they are Pro only).
+ * A Checkout Session for Pro or Max (tier id 'coach'). Both tiers get the 7-day trial on a first
+ * subscription. A shop code waiting for checkout goes in, except free Pro months on a Max checkout (Pro only).
  * Switching tiers on a running subscription happens in the Billing Portal.
  */
 export async function createCheckout(

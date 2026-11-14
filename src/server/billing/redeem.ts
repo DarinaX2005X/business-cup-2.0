@@ -35,7 +35,7 @@ const MESSAGES: Record<RedeemBlock, string> = {
   discount_pending: 'You already have a Pro code waiting for checkout. Use it first, then redeem the next one.',
   freeze_limit: `You already hold ${FREEZE_MAX} streak freezes, the most you can keep.`,
   not_available: 'This reward is not available yet.',
-  pro_only: 'Free months are for the Pro plan. Your Coach subscription can use the percent-off rewards.',
+  pro_only: 'Free months are for the Pro plan. Your Max subscription can use the percent-off rewards.',
 };
 
 function blockError(profile: Profile, reward: Reward, block: RedeemBlock): HttpError {

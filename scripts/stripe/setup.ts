@@ -7,27 +7,30 @@ import { loadEnv } from '../ai/load-env';
 
 /**
  * npm run stripe:setup — prepares the Stripe TEST account, idempotently (safe to run again):
- *   - products «Irreplaceable Pro» (`irr_pro`) and «Irreplaceable Coach» (`irr_coach`);
- *   - prices by lookup_key: pro_monthly $19, pro_yearly $119, coach_monthly $39, coach_yearly $239
- *     (a changed amount gets a new price that takes the lookup_key over);
+ *   - products «Irreplaceable Pro» (`irr_pro`) and «Irreplaceable Max» (`irr_coach`, the top tier, id 'coach');
+ *   - prices by lookup_key: pro_monthly $19, pro_yearly $119, max_monthly $79, max_yearly $479
+ *     (a changed amount gets a new price that takes the lookup_key over); the earlier top-tier prices
+ *     (coach_monthly $39, coach_yearly $239) are archived;
  *   - one coupon per pro_* shop reward (`irr_<rewardId>`; free months only for the Pro product);
  *   - a Billing Portal configuration: cancel at period end, card update, invoices, and switching between
- *     the four prices (Pro ↔ Coach, monthly ↔ yearly), `metadata.app`.
+ *     the four prices (Pro ↔ Max, monthly ↔ yearly), `metadata.app`.
  * Refuses live keys. Prints ids only, never the key.
  */
 loadEnv();
 
 const PRODUCTS: Record<Tier, { name: string; description: string }> = {
   pro: { name: 'Irreplaceable Pro', description: 'Daily reps on your own work tasks, the 90-day plan, skills, all next jobs, proof and the Review kit.' },
-  coach: { name: 'Irreplaceable Coach', description: 'Everything in Pro plus a personal AI career coach that knows your week, plan, skills and progress.' },
+  coach: { name: 'Irreplaceable Max', description: 'Everything in Pro plus a personal AI coach: chat and voice, knows your week, plan and skills.' },
 };
+/** Top-tier prices from before the Max rename: archived, never offered again. */
+const RETIRED_LOOKUP_KEYS = ['coach_monthly', 'coach_yearly'];
 const INTERVALS = ['month', 'year'] as const;
 
 async function ensureProduct(stripe: Stripe, tier: Tier): Promise<Stripe.Product> {
   const id = STRIPE_PRODUCTS[tier];
   try {
     let product = await stripe.products.retrieve(id);
-    if (!product.active || product.name !== PRODUCTS[tier].name) {
+    if (!product.active || product.name !== PRODUCTS[tier].name || product.description !== PRODUCTS[tier].description) {
       product = await stripe.products.update(id, { active: true, name: PRODUCTS[tier].name, description: PRODUCTS[tier].description });
     }
     console.log(`product  ${product.id} (exists)`);
@@ -76,6 +79,17 @@ async function main() {
     for (const interval of INTERVALS) prices[tier].push(await ensurePrice(stripe, tier, interval, product.id));
   }
 
+  // Archive the retired top-tier prices (subscriptions already on them keep working and map to Max)
+  for (const lookupKey of RETIRED_LOOKUP_KEYS) {
+    const old = (await stripe.prices.list({ lookup_keys: [lookupKey], limit: 1 })).data[0];
+    if (old?.active) {
+      await stripe.prices.update(old.id, { active: false });
+      console.log(`price    ${lookupKey} ${old.id} (archived)`);
+    } else if (old) {
+      console.log(`price    ${lookupKey} ${old.id} (already archived)`);
+    }
+  }
+
   // Coupons for the shop's Pro rewards
   for (const reward of REWARDS.filter(isProReward)) {
     const id = await ensureCoupon(stripe, reward);
@@ -102,7 +116,7 @@ async function main() {
     },
     customer_update: { enabled: true, allowed_updates: ['email', 'name'] },
   };
-  const business_profile = { headline: 'Irreplaceable Pro and Coach (Stripe test mode)' };
+  const business_profile = { headline: 'Irreplaceable Pro and Max (Stripe test mode)' };
   const configs = await stripe.billingPortal.configurations.list({ limit: 20 });
   const ours = configs.data.find((c) => c.metadata?.app === 'irreplaceable');
   const config = ours

@@ -1,0 +1,4 @@
+/* Placeholder: owned by 01.2 (craft-kit). */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--paper); color: var(--ink); font-family: var(--font-onest), system-ui, sans-serif; }

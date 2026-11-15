@@ -15,9 +15,9 @@
     "data": "Built on real data"
   },
   "hero": {
-    "title": "Afraid AI will replace you? Become irreplaceable.",
+    "title": "Afraid AI will replace you? Become irreplaceable",
     "titleA": "Afraid {ai} will replace you{q}",
-    "titleB": "Become {spot}.",
+    "titleB": "Become {spot}",
     "ai": "AI",
     "spot": "irreplaceable",
     "lead": "Upload your resume. See which tasks of your week AI already does, get a step-by-step plan, and train the part of your job only you can do.",

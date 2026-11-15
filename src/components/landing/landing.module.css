@@ -214,7 +214,7 @@
   transform-origin: 30% 80%;
 }
 
-/* «spot»: dark ink on an apricot marker stroke */
+/* the key word: dark ink on an apricot marker stroke, tall enough for ascenders and descenders */
 .marked {
   position: relative;
   display: inline-block;
@@ -226,9 +226,9 @@
 .stroke {
   position: absolute;
   left: -0.03em;
-  top: 0.13em;
+  top: -0.13em;
   width: calc(100% + 0.06em);
-  height: calc(100% - 0.16em);
+  height: calc(100% + 0.28em);
   max-width: none;
   z-index: -1;
   overflow: visible;

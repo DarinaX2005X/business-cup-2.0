@@ -15,8 +15,8 @@ function Marked({ word }: { word: string }) {
   return (
     <span className={st.marked}>
       <svg className={st.stroke} viewBox="0 0 300 100" preserveAspectRatio="none" focusable="false">
-        <path d="M5 20C62 12 121 19 182 13c48-4 87 1 114-3l-5 76c-51 6-101-1-160 5-50 4-91-3-124 1Z" className={st.strokeBody} />
-        <path d="M9 23c70-8 190-7 282-11l-1 15C200 29 92 30 10 37Z" className={st.strokeLight} />
+        <path d="M4 8C62 3 121 9 182 5c48-3 87 2 114-1l-4 88c-51 5-101-2-160 4-50 4-91-2-128 2Z" className={st.strokeBody} />
+        <path d="M9 12c70-7 190-6 282-10l-1 13C200 19 92 20 10 27Z" className={st.strokeLight} />
       </svg>
       <span className={st.markedWord}>{word}</span>
     </span>

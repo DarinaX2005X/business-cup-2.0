@@ -62,8 +62,7 @@ export default async function Image() {
           <div style={{ display: 'flex' }}>Afraid AI will replace you?</div>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             Become
-            <span style={{ display: 'flex', margin: '0 0 0 14px', padding: '0 14px 4px', background: APRICOT, color: INK, borderRadius: 12 }}>irreplaceable</span>
-            .
+            <span style={{ display: 'flex', margin: '0 0 0 14px', padding: '6px 16px 10px', background: APRICOT, color: INK, borderRadius: 12 }}>irreplaceable</span>
           </div>
         </div>
 

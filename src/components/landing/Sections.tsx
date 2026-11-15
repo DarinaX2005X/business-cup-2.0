@@ -25,7 +25,7 @@ export function Steps() {
     { key: 'three', art: <ArtTimer /> },
   ] as const;
   return (
-    <section className={st.steps} aria-labelledby="steps-title">
+    <section id="how" className={st.steps} aria-labelledby="steps-title">
       <span className={st.stepsShape} aria-hidden="true" />
       <div className={st.wrap}>
         <div className={st.headC}>
@@ -108,7 +108,7 @@ export function Features({ view }: { view: WeekView }) {
   ];
 
   return (
-    <section className={st.features} aria-labelledby="features-title">
+    <section id="features" className={st.features} aria-labelledby="features-title">
       <div className={st.wrap}>
         <div className={st.headC}>
           <h2 id="features-title" className={st.h2}>
@@ -186,7 +186,7 @@ export function Features({ view }: { view: WeekView }) {
 export function Pay() {
   const { t } = useT();
   return (
-    <section className={st.pay} aria-labelledby="pay-title">
+    <section id="pricing" className={st.pay} aria-labelledby="pay-title">
       <div className={st.wrap}>
         <div className={st.headC}>
           <h2 id="pay-title" className={st.h2}>
@@ -213,7 +213,7 @@ export function DataNote({ view }: { view: WeekView }) {
     { k: 'bls', art: <ArtPay /> },
   ];
   return (
-    <section className={st.data} aria-labelledby="data-title">
+    <section id="data" className={st.data} aria-labelledby="data-title">
       <div className={st.wrap}>
         <div className={st.headC}>
           <h2 id="data-title" className={st.h2}>

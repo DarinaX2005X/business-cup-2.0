@@ -9,19 +9,13 @@ import { CupBand } from '@/components/cup/CupBand';
 import { Button } from '@/components/kit/Button';
 import { Segmented } from '@/components/kit/Segmented';
 import btn from '@/components/kit/controls.module.css';
-import { PLANS, type PlanOffer } from '@/domain/points';
+import { planOf } from '@/components/cup/plan';
+import { CUP_OFFER_UNTIL, PLANS, tierName, tierOf, type PlanOffer, type Tier } from '@/domain/points';
 import { useT } from '@/i18n/client';
-import { apiFetch } from '@/lib/client/api';
+import { ApiError, apiFetch } from '@/lib/client/api';
 import { useProfile } from '@/lib/client/profile';
-import type { Interval } from './billing';
+import { changePlan, type Interval } from './billing';
 import st from './plans.module.css';
-
-/**
- * The top tier is called Max and costs $79 a month or $479 a year (user decision). The domain
- * constant is being renamed from `coach`; while it still carries the old id, the name and prices
- * are taken from here, and once it says `max` everything is read from PLANS.
- */
-const MAX_UNTIL_RENAMED = { name: 'Max', month: 79, year: 479 };
 
 interface Shown {
   id: PlanOffer['id'];
@@ -37,22 +31,16 @@ interface Shown {
 function shownPlans(): Shown[] {
   const paid = PLANS.filter((p) => p.price);
   const topId = paid[paid.length - 1]?.id;
-  return PLANS.map((p) => {
-    const top = p.id === topId;
-    const stale = top && (p.id as string) === 'coach';
-    const month = stale ? MAX_UNTIL_RENAMED.month : p.price?.month;
-    const year = stale ? MAX_UNTIL_RENAMED.year : p.price?.year;
-    return {
-      id: p.id,
-      name: stale ? MAX_UNTIL_RENAMED.name : p.name,
-      tagline: p.tagline,
-      badge: p.badge,
-      price: month && year ? { month, year, perMonthYearly: Math.round((year / 12) * 100) / 100, save: Math.round((1 - year / (month * 12)) * 100) } : null,
-      includes: p.includes,
-      features: p.features.map((f) => f.text.replace(/résumé/g, 'resume')),
-      top,
-    };
-  });
+  return PLANS.map((p) => ({
+    id: p.id,
+    name: p.name,
+    tagline: p.tagline,
+    badge: p.badge,
+    price: p.price ? { month: p.price.month, year: p.price.year, perMonthYearly: Math.round((p.price.year / 12) * 100) / 100, save: Math.round((1 - p.price.year / (p.price.month * 12)) * 100) } : null,
+    includes: p.includes,
+    features: p.features.map((f) => f.text.replace(/résumé/g, 'resume')),
+    top: p.id === topId,
+  }));
 }
 
 /**
@@ -62,6 +50,11 @@ function shownPlans(): Shown[] {
  * discount and what is billed once a year. A paid button makes sure a profile exists and opens Stripe
  * Checkout for that tier; if checkout cannot start, the landing sends the person to /pricing and
  * /pricing says so next to the button.
+ *
+ * The cards know the person's plan: the active one says «Current plan», and a subscriber never gets a
+ * second Checkout. On Max (paid or Business Cup) Max says «You have Max» and Pro offers the switch at
+ * renewal (Stripe only); on paid Pro, Max offers the upgrade for the difference. Both changes go through
+ * the Billing Portal's confirm page for the running subscription (POST /api/billing/change).
  */
 export function Plans({ freeHref = '/start', freeLabel, heading = 'h3' }: { freeHref?: string; freeLabel?: string; heading?: 'h2' | 'h3' }) {
   const { t, f } = useT();
@@ -71,10 +64,16 @@ export function Plans({ freeHref = '/start', freeLabel, heading = 'h3' }: { free
   const onPricing = usePathname() === '/pricing';
   const [interval, setBilling] = useState<Interval>('year');
   const [busy, setBusy] = useState<string | null>(null);
-  const [failed, setFailed] = useState<string | null>(null);
+  const [failed, setFailed] = useState<{ id: string; what: 'checkout' | 'change' } | null>(null);
   const H = heading;
   const plans = shownPlans();
   const saveUpTo = Math.max(0, ...plans.map((p) => p.price?.save ?? 0));
+
+  // The person's plan right now: null while there is no profile, else free, pro or coach (Max).
+  const profilePlan = prof.profile?.plan ?? null;
+  const view = planOf(profilePlan);
+  const current: 'free' | Tier | null = !prof.profile ? null : view.active && profilePlan ? tierOf(profilePlan) : 'free';
+  const cupUntil = f.date(`${CUP_OFFER_UNTIL}T12:00:00Z`, 'long');
 
   const checkout = async (tier: string) => {
     if (busy) return;
@@ -86,11 +85,63 @@ export function Plans({ freeHref = '/start', freeLabel, heading = 'h3' }: { free
       const res = await requireAccount(() => apiFetch<{ url: string }>('/api/billing/checkout', { method: 'POST', body: { tier, interval } }));
       if (!res) return setBusy(null);
       window.location.assign(res.url);
-    } catch {
+    } catch (err) {
       setBusy(null);
-      if (onPricing) setFailed(tier);
+      // a subscription this page did not know about yet: reload the profile, and the cards switch over
+      if (err instanceof ApiError && err.code === 'already_subscribed') return void prof.refresh();
+      if (onPricing) setFailed({ id: tier, what: 'checkout' });
       else router.push('/pricing');
     }
+  };
+
+  /** Pro <-> Max on the running Stripe subscription: the portal's confirm page, never a new Checkout. */
+  const change = async (tier: Tier) => {
+    if (busy) return;
+    setBusy(tier);
+    setFailed(null);
+    try {
+      const { url } = await changePlan(tier);
+      window.location.assign(url);
+    } catch {
+      setBusy(null);
+      setFailed({ id: tier, what: 'change' });
+    }
+  };
+
+  /** The card's action for this person: Checkout, a plan change, or a plain line when nothing is to buy. */
+  const action = (p: Shown, kind: 'pro' | 'top') => {
+    const tier = p.id as Tier;
+    const have = (text: string) => (
+      <p className={st.have}>
+        <Check strokeWidth={2.4} aria-hidden="true" />
+        {text}
+      </p>
+    );
+    if (current === tier) return have(view.kind === 'cup' ? t('pricing.tiers.haveCup', { name: p.name, date: cupUntil }) : t('pricing.tiers.have', { name: p.name }));
+    if (current === 'coach' && tier === 'pro') {
+      // Max already includes Pro; a paid Max can step down when the period ends
+      if (!view.stripe) return have(t('pricing.tiers.included', { name: tierName('coach') }));
+      return (
+        <Button variant="secondary" size="lg" block loading={busy === tier} loadingLabel={t('pricing.portalOpening')} onClick={() => change('pro')}>
+          {t('pricing.tiers.atRenewal', { name: p.name })}
+        </Button>
+      );
+    }
+    if (current === 'pro' && tier === 'coach') {
+      return (
+        <>
+          <Button variant="primary" size="lg" block loading={busy === tier} loadingLabel={t('pricing.portalOpening')} onClick={() => change('coach')}>
+            {t('pricing.tiers.upgrade', { name: p.name })}
+          </Button>
+          <p className={st.note}>{t('pricing.tiers.upgradeNote')}</p>
+        </>
+      );
+    }
+    return (
+      <Button variant={kind === 'pro' ? 'apricot' : 'primary'} size="lg" block loading={busy === p.id} loadingLabel={t('pricing.opening')} onClick={() => checkout(p.id)}>
+        {kind === 'pro' ? t('pricing.trial') : t('pricing.tiers.top.cta')}
+      </Button>
+    );
   };
 
   return (
@@ -115,8 +166,14 @@ export function Plans({ freeHref = '/start', freeLabel, heading = 'h3' }: { free
           const kind = !p.price ? 'free' : p.top ? 'top' : 'pro';
           const features = p.top ? [t('pricing.tiers.top.first'), ...p.features.slice(1)] : p.features;
           return (
-            <article key={p.id} className={st.plan} data-tier={kind} aria-labelledby={`plan-${p.id}`}>
-              {p.badge ? <span className={st.tag}>{p.badge}</span> : null}
+            <article key={p.id} className={st.plan} data-tier={kind} data-current={current === p.id || undefined} aria-labelledby={`plan-${p.id}`}>
+              {current === p.id ? (
+                <span className={st.tag} data-current="">
+                  {t('pricing.tiers.current')}
+                </span>
+              ) : p.badge ? (
+                <span className={st.tag}>{p.badge}</span>
+              ) : null}
               <H id={`plan-${p.id}`} className={st.name}>
                 {p.name}
               </H>
@@ -129,17 +186,15 @@ export function Plans({ freeHref = '/start', freeLabel, heading = 'h3' }: { free
               </p>
               <p className={st.lead}>{p.tagline}</p>
               {p.price ? (
-                <Button variant={kind === 'pro' ? 'apricot' : 'primary'} size="lg" block loading={busy === p.id} loadingLabel={t('pricing.opening')} onClick={() => checkout(p.id)}>
-                  {kind === 'pro' ? t('pricing.trial') : t('pricing.tiers.top.cta')}
-                </Button>
+                action(p, kind === 'pro' ? 'pro' : 'top')
               ) : (
                 <Link href={freeHref} className={`${btn.btn} ${btn.b_secondary} ${btn.s_lg} ${btn.block}`}>
                   {freeLabel ?? t('pricing.tiers.free.cta')}
                 </Link>
               )}
-              {failed === p.id ? (
+              {failed?.id === p.id ? (
                 <p className={st.error} role="alert">
-                  {t('pricing.errors.checkout')}
+                  {failed.what === 'change' ? t('pricing.errors.change') : t('pricing.errors.checkout')}
                 </p>
               ) : null}
               <ul className={st.items}>

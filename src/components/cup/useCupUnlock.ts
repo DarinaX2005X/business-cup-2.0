@@ -63,9 +63,10 @@ export function useCupUnlock({ onUnlocked, initialPlan, hasMapInitial = false }:
     offerOpen: cupOfferOpen() && state.code !== 'offer_ended',
     hasMap: prof.status === 'loading' ? hasMapInitial : !!prof.profile?.lastXrayId,
     until,
-    runsUntil: plan.periodEnd ? f.date(plan.periodEnd, 'long') : null,
+    // a Cup plan runs until the offer's own date (its period end is the next morning, UTC)
+    runsUntil: plan.kind === 'cup' ? until : plan.periodEnd ? f.date(plan.periodEnd, 'long') : null,
     /** The same date in the short form, for the stamp. */
-    runsUntilShort: plan.periodEnd ? f.date(plan.periodEnd, 'medium') : null,
+    runsUntilShort: plan.kind === 'cup' ? f.date(`${CUP_OFFER_UNTIL}T12:00:00Z`, 'medium') : plan.periodEnd ? f.date(plan.periodEnd, 'medium') : null,
     errorText,
     unlock,
     reset: () => setState({ phase: 'idle' }),

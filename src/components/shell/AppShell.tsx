@@ -12,7 +12,7 @@ import { REWARDS } from '@/domain/points';
 import { useT } from '@/i18n/client';
 import { useProfile } from '@/lib/client/profile';
 import { ACCOUNT_LINKS, streakWeekOf, type AccountSnapshot } from './account';
-import { DemoMark, HeaderAccount, LoginButton, useAccount } from './HeaderAccount';
+import { AuthButtons, DemoMark, HeaderAccount, LoginButton, useAccount } from './HeaderAccount';
 import { orderedSections, TAB_BAR, type NavSection } from './nav.config';
 import { AccountList, HelpDialog, LevelStone } from './ShellMenus';
 import st from './shell.module.css';
@@ -137,6 +137,7 @@ export function AppShell({ initial, children }: { initial: ShellInitial; childre
         {account ? (
           <Sheet open={more} onClose={closeMore} title={t('shell.more.title')}>
             <div className={st.moreBody}>
+              {account.email ? (
               <div className={st.moreStats}>
                 <Link href={ACCOUNT_LINKS.progress} className={st.moreStat} onClick={closeMore}>
                   <StreakWeek done={moreWeek!.done} today={moreWeek!.today} count={moreWeek!.count} />
@@ -149,6 +150,7 @@ export function AppShell({ initial, children }: { initial: ShellInitial; childre
                   </span>
                 </Link>
               </div>
+              ) : null}
               {rest.length ? (
                 <ul className={st.moreSections} aria-label={t('shell.more.sections')}>
                   {rest.map((s) => (
@@ -157,7 +159,7 @@ export function AppShell({ initial, children }: { initial: ShellInitial; childre
                 </ul>
               ) : null}
               <div className={st.moreAccount} aria-label={t('shell.more.account')} role="group">
-                <AccountList snapshot={account} onDone={closeMore} onHelp={() => setHelp(true)} />
+                {account.email ? <AccountList snapshot={account} onDone={closeMore} onHelp={() => setHelp(true)} /> : <AuthButtons />}
               </div>
             </div>
           </Sheet>

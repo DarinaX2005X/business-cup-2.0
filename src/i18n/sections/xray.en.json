@@ -44,9 +44,6 @@
     "observedGuest": "{share} of this week is backed by observed AI usage data",
     "observedNone": "None of your week is in tasks with meaningful observed AI use yet",
     "observedNoneGuest": "None of this week is in tasks with meaningful observed AI use yet",
-    "share": "Share my week map",
-    "shareGuest": "Share this week map",
-    "shared": "Link copied",
     "how": "How it's calculated",
     "scoreHint": "out of 100, grows with practice",
     "leadShare": "{share} of your week is work {what}.",
@@ -219,18 +216,6 @@
   "pro": {
     "trial": "Start your 7-day free trial"
   },
-  "plan": {
-    "title": "Your 90-day plan",
-    "month": "Month {n}",
-    "m1": "Hand off",
-    "m2": "Supervise",
-    "m3": "Grow your edge",
-    "m1Item": "Hand “{task}” to AI with a clear brief",
-    "m2Item": "Check AI's work on “{task}” before it goes out",
-    "m3Item": "Practise “{task}” on harder cases",
-    "lockedTitle": "Twelve weeks of reps from your own tasks",
-    "lockedReason": "The plan turns this week into ten-minute daily reps: first what to hand off, then how to check AI's work, then the part that stays yours. It is part of Pro."
-  },
   "tabs": {
     "label": "Parts of your week map",
     "overview": "Overview",
@@ -242,12 +227,13 @@
       "overview": "Your week in three parts: what AI already does, what it speeds up, and what stays yours. Then what to do next.",
       "overviewGuest": "This week in three parts: what AI already does, what it speeds up, and what stays human.",
       "tasks": "Every task of your week with its hours. Tap a task to see why it is in its group, and change the hours if your week looks different.",
-      "plan": "Twelve weeks of short daily practice built from your own tasks: first what to hand to AI, then how to check its work, then the part that stays yours.",
+      "plan": "Twelve weeks, each with one focus and a few steps from your own week: reps, skills to build and things to try at work. Check them off as you go.",
       "skills": "The skills you already bring, and the few worth building next for your job and the jobs near it.",
       "next": "Jobs close to yours that use many of the same skills, and how much of their week stays human."
     },
-    "skillsEmpty": "Your skills will show here once your résumé has been read. Nothing has been filled in for you.",
-    "pivot": "Explore all next jobs"
+    "pivot": "Explore all next jobs",
+    "ownerOnly": "The 90-day plan and the skills belong to the person who made this map.",
+    "ownerOnlyCta": "Map your own week to get yours"
   },
   "overview": {
     "hoursWeek_one": "hour a week",

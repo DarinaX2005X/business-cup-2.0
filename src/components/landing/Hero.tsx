@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import type { TFunction } from '@/i18n/core';
 import { LandingAccount } from '@/components/public/Returning';
-import { LANDING_LINKS } from './config';
 import { HeroBackdrop } from './HeroBackdrop';
 import { JobForm } from './JobForm';
 import { Logo } from './Logo';
+import { StickyNav } from './StickyNav';
 import { fill } from './rich';
 import st from './landing.module.css';
 
@@ -36,29 +36,31 @@ function Question() {
   );
 }
 
+/** Sections of the landing the header scrolls to (ids on the sections in Sections.tsx). */
+export const LANDING_ANCHORS = [
+  { id: 'how', key: 'landing.nav.how' },
+  { id: 'features', key: 'landing.nav.features' },
+  { id: 'pricing', key: 'landing.nav.pricing' },
+  { id: 'data', key: 'landing.nav.data' },
+] as const;
+
 export function LandingHeader({ t }: { t: TFunction }) {
   return (
-    <header className={st.nav} data-surface="field">
+    <StickyNav className={st.nav}>
       <div className={st.navIn}>
         <Link href="/" className={st.brand} aria-label={t('landing.nav.home')}>
           <Logo surface="field" size={36} />
         </Link>
         <nav className={st.navLinks} aria-label={t('landing.nav.label')}>
-          <Link href="/method" className={st.navLink}>
-            {t('landing.nav.method')}
-          </Link>
-          <Link href="/jobs" className={st.navLink}>
-            {t('landing.nav.jobs')}
-          </Link>
-          {LANDING_LINKS.pricing ? (
-            <Link href={LANDING_LINKS.pricing} className={st.navLink}>
-              {t('landing.nav.pricing')}
-            </Link>
-          ) : null}
+          {LANDING_ANCHORS.map((a) => (
+            <a key={a.id} href={`#${a.id}`} className={st.navLink}>
+              {t(a.key)}
+            </a>
+          ))}
         </nav>
         <LandingAccount />
       </div>
-    </header>
+    </StickyNav>
   );
 }
 

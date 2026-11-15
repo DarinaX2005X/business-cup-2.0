@@ -5,6 +5,8 @@ import {
   gradeSlip,
   localDay,
   mergeRanges,
+  nextSlipHint,
+  slipHintSpot,
   streakAsOf,
   trapSpots,
   trapsCaught,
@@ -142,7 +144,8 @@ async function finalizeProfile(ctx: RepCtx, rep: RepRecord): Promise<{ awards: P
     // a freeze covers the missed days only now, when a counted rep is saved
     if (rep.kind === 'daily' || rep.kind === 'trial') p.streak = applyStreak(applyFreeze(p.streak, day).streak, day);
     if (rep.kind === 'trial') p.trial = { status: 'used', repId: rep.id };
-    return emit(p, { type: 'rep_completed', ref: rep.id, data: { score: result.score, type: rep.type, kind: rep.kind } });
+    // hints taken in Spot the slip lower the rep's points (never below the base), see repPoints
+    return emit(p, { type: 'rep_completed', ref: rep.id, data: { score: result.score, type: rep.type, kind: rep.kind, ...(result.hintsUsed ? { hintsUsed: result.hintsUsed } : {}) } });
   });
   return { awards, profile };
 }
@@ -189,6 +192,7 @@ function answerSlip(ctx: RepCtx, rep: RepRecord, version: number, body: AnswerBo
   if (!('ranges' in body) || 'step' in body) throw new HttpError(400, 'invalid_input', 'ranges: required for Spot the slip');
   const slip = rep.slip!;
   const g = gradeSlip(slip.errors, body.ranges, slip.document.length);
+  const hintsUsed = rep.slipHints?.length ?? 0;
   return complete(
     ctx,
     rep,
@@ -204,6 +208,7 @@ function answerSlip(ctx: RepCtx, rep: RepRecord, version: number, body: AnswerBo
       falseRanges: g.falseRanges,
       tooBroad: g.tooBroad,
       marks: g.marks,
+      ...(hintsUsed ? { hintsUsed } : {}),
     },
     // every revealed error carries its focus (stored, or derived for older bank entries)
     { errors: slip.errors.map((e, i) => ({ ...e, focusStart: g.focus[i][0], focusEnd: g.focus[i][1] })) },
@@ -344,4 +349,33 @@ async function answerEdge(ctx: RepCtx, rep: RepRecord, version: number, body: An
     const { graded } = await grade(turns, true);
     return finish(turns, graded, true);
   }
+}
+
+// ---------------------------------------------------------------------------------------------
+// Spot the slip hints
+
+export interface SlipHintResult {
+  /** the paragraph to look at again, or null when every mistake is already found or hinted */
+  hint: { start: number; end: number } | null;
+  hintsUsed: number;
+  rep: RepView;
+}
+
+/**
+ * POST /api/reps/:id/hint { ranges }: the paragraph where a mistake the person has not found yet sits
+ * (judged against their current highlights, so it never points at one they already have). Each hint is
+ * stored on the rep and takes REP_POINTS.hint off its points when it is checked, never below the base.
+ */
+export async function slipHint(ctx: RepCtx, id: string, ranges: Range[]): Promise<SlipHintResult> {
+  const { rep, version } = await load(ctx, id);
+  if (rep.type !== 'slip' || !rep.slip) throw new HttpError(400, 'invalid_input', 'Hints are for Spot the slip.');
+  if (rep.status === 'done') throw new HttpError(409, 'already_done', 'This rep is already checked.');
+  const slip = rep.slip;
+  const given = rep.slipHints ?? [];
+  const next = nextSlipHint(slip.errors, ranges, slip.document.length, given.map((h) => h.error));
+  if (next === null) return { hint: null, hintsUsed: given.length, rep: await toView(rep, ctx.profile.locale) };
+  const spot = slipHintSpot(slip.document, slip.errors[next]);
+  const updated: RepRecord = { ...rep, slipHints: [...given, { error: next, ...spot }] };
+  await save(updated, version);
+  return { hint: spot, hintsUsed: updated.slipHints!.length, rep: await toView(updated, ctx.profile.locale) };
 }

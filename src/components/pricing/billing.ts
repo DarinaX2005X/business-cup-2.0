@@ -1,4 +1,4 @@
-import { PRO_PRICES, TRIAL_DAYS } from '@/domain/points';
+import { PRO_PRICES, TRIAL_DAYS, type Tier } from '@/domain/points';
 import type { Redemption } from '@/domain/types';
 import { apiFetch } from '@/lib/client/api';
 import type { ProfilePlan } from '@/components/cup/plan';
@@ -17,6 +17,9 @@ export const startCheckout = (interval: Interval) => apiFetch<{ url: string }>('
 
 /** POST /api/billing/portal: Stripe Billing Portal for cancelling or changing the card; it returns to /pricing?portal=1. */
 export const openPortal = () => apiFetch<{ url: string }>('/api/billing/portal', { method: 'POST', body: { returnPath: '/pricing?portal=1' } });
+
+/** POST /api/billing/change: the portal's confirm page for Pro <-> Max on the running subscription (upgrade charges the difference now, downgrade waits for renewal). */
+export const changePlan = (tier: Tier) => apiFetch<{ url: string }>('/api/billing/change', { method: 'POST', body: { tier } });
 
 /** GET /api/billing/plan?sync=1: re-reads the subscription from Stripe after the Billing Portal. */
 export const syncPlan = () => apiFetch<{ plan: ProfilePlan; isPro: boolean }>('/api/billing/plan?sync=1');

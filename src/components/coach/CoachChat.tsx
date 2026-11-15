@@ -259,21 +259,6 @@ export function CoachChat({ initial, starters, left: initialLeft, cap, onMessage
           <div className={st.empty}>
             <h2 className={st.emptyTitle}>{t('coach.empty.title')}</h2>
             <p className={st.emptyLead}>{t('coach.empty.lead')}</p>
-            <ul className={st.starters}>
-              {starters.map((s, i) => (
-                <li key={s.q} style={{ animationDelay: `${80 + i * 60}ms` }}>
-                  <button type="button" className={st.starter} onClick={() => void send({ text: s.q })} disabled={busy}>
-                    <span className={st.starterQ}>{s.q}</span>
-                    {s.basis ? (
-                      <span className={st.starterBasis}>
-                        {s.cat ? <CategorySwatch category={s.cat} size="sm" /> : null}
-                        {s.basis}
-                      </span>
-                    ) : null}
-                  </button>
-                </li>
-              ))}
-            </ul>
           </div>
         ) : (
           <ol className={st.thread}>
@@ -308,6 +293,19 @@ export function CoachChat({ initial, starters, left: initialLeft, cap, onMessage
           <ArrowDown size={16} aria-hidden="true" />
           {t('coach.msg.jump')}
         </button>
+      ) : null}
+      {empty && starters.length ? (
+        // quick questions as small chips above the composer, so the conversation keeps the room
+        <ul className={st.chips} aria-label={t('coach.empty.chips')}>
+          {starters.map((s, i) => (
+            <li key={s.q} style={{ animationDelay: `${60 + i * 50}ms` }}>
+              <button type="button" className={st.chip} onClick={() => void send({ text: s.q })} disabled={busy} title={s.basis || undefined}>
+                {s.cat ? <CategorySwatch category={s.cat} size="sm" /> : null}
+                <span>{s.q}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
       ) : null}
       <Composer busy={busy} onSend={(text) => void send({ text })} onVoice={(voice) => void send({ voice })} onStop={stop} left={left} />
     </>

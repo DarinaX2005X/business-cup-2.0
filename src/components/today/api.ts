@@ -93,6 +93,10 @@ export type AnswerBody =
 export const answerRep = (id: string, body: AnswerBody) =>
   apiFetch<AnswerResult>(`/api/reps/${encodeURIComponent(id)}/answer`, { method: 'POST', body });
 
+/** POST /api/reps/:id/hint: the paragraph of a mistake the current highlights miss (each hint costs the rep 10 points). */
+export const askSlipHint = (id: string, ranges: [number, number][]) =>
+  apiFetch<{ hint: { start: number; end: number } | null; hintsUsed: number; rep: RepView }>(`/api/reps/${encodeURIComponent(id)}/hint`, { method: 'POST', body: { ranges } });
+
 export const submitAiOrMe = (roundId: string, answers: ('ai' | 'human' | null)[]) =>
   apiFetch<{ correct: boolean[]; right: number; total: number; pointsAwarded: PointsAward[] }>('/api/ai-or-me', {
     method: 'POST',

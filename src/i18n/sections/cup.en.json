@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Business Cup 2.0: Max is on us",
-    "description": "For Business Cup 2.0, Irreplaceable Max, the top plan, is free for 30 days: everything in Pro plus your personal AI coach. Until November 30, 2026."
+    "description": "For Business Cup 2.0, Irreplaceable Max, the top plan, is free until November 30, 2026: everything in Pro plus your personal AI coach."
   },
   "nav": {
     "home": "Irreplaceable home",
@@ -13,13 +13,13 @@
   "titleB": "Max is on us",
   "lead": "Max is the top plan: everything in Pro, plus a personal AI coach who knows your week, your plan and your progress.",
   "until": "Until {date}",
-  "scope": "Max turns on in this browser for 30 days.",
+  "scope": "Max turns on for your account, with no card and nothing to cancel.",
   "unlock": "Unlock Max",
   "unlocking": "Unlocking Max",
   "on": "Max is on. It runs until {date}",
   "startRep": "Start today's rep",
   "mapFirst": "Map my week first",
-  "alreadyTitle": "You already have Pro",
+  "alreadyTitle": "You already have a paid plan",
   "alreadyTrial": "Your free trial runs until {date}, so there is nothing to unlock here.",
   "alreadyPro": "Your subscription is active until {date}, so there is nothing to unlock here.",
   "action": "Business Cup 2.0: unlock Max free",
@@ -28,14 +28,14 @@
   "footLink": "See plans and prices",
   "pass": {
     "brand": "Irreplaceable Max",
-    "days": "30 days",
-    "ofPro": "of Max",
+    "days": "Free",
+    "ofPro": "Max until Nov 30",
     "event": "Business Cup 2.0",
     "stamp": "Max is on",
     "stampUntil": "until {date}"
   },
   "errors": {
-    "already_pro": "You already have Pro through a subscription, so there is nothing to unlock.",
+    "already_pro": "You already have a paid plan, so there is nothing to unlock.",
     "offer_ended": "The Business Cup 2.0 offer ended on {date}. Plans and prices are on the pricing page.",
     "failed": "Max didn't turn on. Try again in a moment.",
     "failedShort": "Max didn't turn on."
@@ -50,7 +50,7 @@
     "software_engineer": "As a software engineer",
     "accountant": "As an accountant",
     "opening": "Opening",
-    "building": "Building your demo week… about 20 seconds",
+    "building": "Building your demo week. It takes about half a minute",
     "failed": "The demo account did not open. Nothing was changed. Try the same button again.",
     "retry": "Try again: {who}",
     "note": "One click builds a real week from a sample resume and opens it with Max on. It is marked as a demo account."

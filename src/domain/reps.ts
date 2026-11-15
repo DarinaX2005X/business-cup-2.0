@@ -89,6 +89,8 @@ export interface RepResultFull extends Omit<RepResult, 'flags' | 'criteria' | 's
   summary?: string;
   /** delegate: feedback on the user's "what would you fix" sentence. */
   fixFeedback?: string;
+  /** slip: hints taken before checking (each took REP_POINTS.hint off the rep's points). */
+  hintsUsed?: number;
 }
 
 export interface TrapSpot {
@@ -119,6 +121,16 @@ export interface RepRecord extends Omit<Rep, 'result' | 'delegate' | 'edge'> {
   edge?: Omit<NonNullable<Rep['edge']>, 'criteria'> & { criteria: RubricItem[] };
   result?: RepResultFull;
   reveal?: RepRevealFull;
+  /** slip: hints given so far: which mistake each pointed at and the paragraph shown. */
+  slipHints?: SlipHint[];
+}
+
+/** One Spot the slip hint: the paragraph where a mistake the person had not found yet sits. */
+export interface SlipHint {
+  /** index into `slip.errors` (never sent to the client) */
+  error: number;
+  start: number;
+  end: number;
 }
 
 /** What the client receives: RepPublic plus labels and captions. */
@@ -133,6 +145,8 @@ export interface RepView extends Omit<RepPublic, 'result' | 'reveal' | 'delegate
   delegate?: NonNullable<RepPublic['delegate']> & { review?: { ranges: [number, number][]; fix: string } };
   result?: RepResultFull;
   reveal?: RepRevealFull;
+  /** slip: the paragraphs hints have pointed at, so a reload keeps them. */
+  slipHints?: { start: number; end: number }[];
 }
 
 export interface AiOrMeCard {
@@ -1121,3 +1135,33 @@ export function scoreAiOrMe(cards: readonly Pick<AiOrMeCard, 'answer' | 'counted
 // Misc
 
 export const LANGUAGE_NAME: Record<Locale, string> = { en: 'English', ru: 'Russian', kk: 'Kazakh' };
+
+// ---------------------------------------------------------------------------------------------
+// Spot the slip hints
+
+/**
+ * The paragraph (the line of the document, without its markdown markers) that holds the mistake at
+ * [start, end): what a hint shows. A mistake that spans lines gets the line it starts on.
+ */
+export function slipHintSpot(document: string, error: { start: number; end: number }): { start: number; end: number } {
+  const at = Math.max(0, Math.min(document.length, error.start));
+  let start = document.lastIndexOf('\n', at - 1) + 1;
+  let end = document.indexOf('\n', at);
+  if (end < 0) end = document.length;
+  const line = document.slice(start, end);
+  const lead = /^\s*(?:#{1,6}\s+|[-*]\s+|\d+[.)]\s+|\|\s*)?/.exec(line)?.[0].length ?? 0;
+  start += lead;
+  while (end > start && /\s/.test(document[end - 1])) end--;
+  return { start, end };
+}
+
+/**
+ * The next mistake a hint should point at: the first one in the document that the person's current
+ * highlights do not find and no earlier hint has shown. null when every mistake is found or hinted.
+ */
+export function nextSlipHint(errors: readonly GradableError[], ranges: readonly Range[], docLength: number, hinted: readonly number[]): number | null {
+  const found = gradeSlip(errors, ranges, docLength).errorsFound;
+  const order = errors.map((e, i) => ({ e, i })).sort((a, b) => a.e.start - b.e.start);
+  const next = order.find(({ i }) => !found[i] && !hinted.includes(i));
+  return next ? next.i : null;
+}

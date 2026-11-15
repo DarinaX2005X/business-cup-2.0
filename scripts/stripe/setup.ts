@@ -13,7 +13,8 @@ import { loadEnv } from '../ai/load-env';
  *     (coach_monthly $39, coach_yearly $239) are archived;
  *   - one coupon per pro_* shop reward (`irr_<rewardId>`; free months only for the Pro product);
  *   - a Billing Portal configuration: cancel at period end, card update, invoices, and switching between
- *     the four prices (Pro ↔ Max, monthly ↔ yearly), `metadata.app`.
+ *     the four prices (Pro ↔ Max, monthly ↔ yearly), `metadata.app`. An upgrade is charged at once for the
+ *     difference (`always_invoice`); a downgrade waits for the end of the paid period (`schedule_at_period_end`).
  * Refuses live keys. Prints ids only, never the key.
  */
 loadEnv();
@@ -108,7 +109,10 @@ async function main() {
     subscription_update: {
       enabled: true,
       default_allowed_updates: ['price'],
-      proration_behavior: 'create_prorations',
+      // Pro → Max (or monthly → yearly) is charged now, for the difference only
+      proration_behavior: 'always_invoice',
+      // Max → Pro (or yearly → monthly) waits for the end of the period that is already paid
+      schedule_at_period_end: { conditions: [{ type: 'decreasing_item_amount' }, { type: 'shortening_interval' }] },
       products: [
         { product: STRIPE_PRODUCTS.pro, prices: prices.pro },
         { product: STRIPE_PRODUCTS.coach, prices: prices.coach },

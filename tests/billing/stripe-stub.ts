@@ -19,7 +19,7 @@ export interface StubSub {
   ended_at: number | null;
   discounts: string[];
   metadata: Record<string, string>;
-  items: { data: { current_period_end: number; price: { lookup_key?: string | null; product?: string; recurring: { interval: 'month' | 'year' } } }[] };
+  items: { data: { id?: string; current_period_end: number; price: { lookup_key?: string | null; product?: string; recurring: { interval: 'month' | 'year' } } }[] };
 }
 
 export function createStripeStub() {

@@ -90,6 +90,7 @@ export async function toView(rep: RepRecord, uiLocale: Locale): Promise<RepView>
     ...(rep.docType ? { docType: rep.docType } : {}),
   };
   if (rep.slip) view.slip = { document: rep.slip.document, errorCount: rep.slip.errors.length };
+  if (rep.slipHints?.length) view.slipHints = rep.slipHints.map(({ start, end }) => ({ start, end }));
   if (rep.delegate) {
     const d = rep.delegate;
     view.delegate = {

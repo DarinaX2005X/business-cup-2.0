@@ -41,6 +41,7 @@ export function ScanStage({
   tasks,
   shortLabels,
   from,
+  sourceText,
   onBack,
 }: {
   chosen: Chosen;
@@ -49,6 +50,7 @@ export function ScanStage({
   tasks: WeekTask[];
   shortLabels: Record<string, string>;
   from: FromMap | null;
+  sourceText?: string | null;
   onBack: () => void;
 }) {
   const { t, locale } = useT();
@@ -138,12 +140,16 @@ export function ScanStage({
       }
       const { pointsAwarded = [], ...rest } = xray;
       writeScan({ key: scanKey, requestId, savedId: rest.id });
+      // Skills come from the same résumé or description, read in the background; the text is not stored.
+      if (sourceText && (chosen.inputSource === 'resume' || chosen.inputSource === 'description')) {
+        apiFetch('/api/skills', { method: 'POST', body: { text: sourceText, xray: rest.id }, profile: creds, keepalive: sourceText.length < 60_000 }).catch(() => undefined);
+      }
       setSaved({ id: rest.id, xray: rest as XrayResult, awards: pointsAwarded });
       setState('saved');
     } catch {
       setState('error');
     }
-  }, [chosen, shares, from, locale, requestId, scanKey]);
+  }, [chosen, shares, from, locale, requestId, scanKey, sourceText]);
 
   useEffect(() => {
     if (!blocked) queueMicrotask(() => void save());

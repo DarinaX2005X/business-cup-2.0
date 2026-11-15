@@ -444,10 +444,10 @@
 
 .who {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: 12px;
-  padding: 10px 8px 12px 10px;
+  padding: 10px 8px 12px 12px;
 }
 
 .whoText {
@@ -471,11 +471,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.whoText .whoPlan {
-  font-size: 13px;
-  white-space: normal;
 }
 
 .tier {

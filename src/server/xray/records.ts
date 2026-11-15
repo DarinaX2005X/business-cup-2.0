@@ -143,7 +143,7 @@ export async function createXray(input: CreateXrayInput): Promise<{ xray: XrayRe
 
   try {
     const week = isoWeek(new Date(now), profile.tz);
-    const { awards } = await updateProfile(
+    const { awards, profile: updated } = await updateProfile(
       profile.id,
       (p) => {
         p.occupationCode = xray.occupationCode;
@@ -157,6 +157,8 @@ export async function createXray(input: CreateXrayInput): Promise<{ xray: XrayRe
       },
       { current: profile },
     );
+    // a colleague who came by invite and now has a map pays their inviter at once (dynamic import: no cycle)
+    if (updated.invitedBy) void import('@/server/invite').then((m) => m.settleInviteFor(updated)).catch(() => undefined);
     return { xray, awards, created: true };
   } catch (err) {
     // Without the profile link nobody can reach or delete the map: remove it and let the client retry.

@@ -18,8 +18,8 @@ const LINKS: { id: MarketingPage; href: string }[] = [
 
 /**
  * The one header of the marketing pages (/method, /jobs, /pricing, /cup): the logo, the reading pages,
- * and the same right side as the app. A guest gets «Map my week»; a person with a profile gets their
- * points, level and account menu, plus «Open my week» (Home) once they have a week map.
+ * and the same right side as the app. A visitor without an account gets «Log in» and «Map my week» (or
+ * «Open the app» once they have a week map); a signed-in person gets «Open the app» and the account menu.
  */
 export function MarketingHeader({ current, surface = 'paper' }: { current?: MarketingPage; surface?: 'paper' | 'field' }) {
   const { t } = useT();
@@ -46,7 +46,7 @@ export function MarketingHeader({ current, surface = 'paper' }: { current?: Mark
           {account?.email ? (
             <>
               <Link href={account.lastXrayId ? '/home' : '/start'} className={`${btn.btn} ${surface === 'field' ? btn.b_lavender : btn.b_primary} ${btn.s_sm} ${st.cta}`}>
-                {account.lastXrayId ? t('shell.openWeek') : t('shell.mapOwn')}
+                {account.lastXrayId ? t('shell.openApp') : t('shell.mapOwn')}
               </Link>
               <HeaderAccount snapshot={account} surface={surface} parts={{ streak: false }} />
             </>
@@ -54,7 +54,7 @@ export function MarketingHeader({ current, surface = 'paper' }: { current?: Mark
             <>
               <LoginButton surface={surface} />
               <Link href={account?.lastXrayId ? '/home' : '/start'} className={`${btn.btn} ${surface === 'field' ? btn.b_lavender : btn.b_primary} ${btn.s_sm} ${st.cta}`}>
-                {account?.lastXrayId ? t('shell.openWeek') : t('shell.mapOwn')}
+                {account?.lastXrayId ? t('shell.openApp') : t('shell.mapOwn')}
               </Link>
             </>
           ) : (

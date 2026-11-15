@@ -71,9 +71,9 @@
     "months_other": "Your {count} months of Pro will be applied at checkout"
   },
   "status": {
-    "trialing": "Your free trial runs until {date}.",
-    "pro": "Pro is active. The current period ends on {date}.",
-    "cup": "Pro is on through Business Cup 2.0 until {date}."
+    "trialing": "Your free trial of {name} runs until {date}.",
+    "pro": "{name} is active. The current period ends on {date}.",
+    "cup": "{name} is free through Business Cup 2.0 until {date}."
   },
   "startRep": "Start today's rep",
   "mapFirst": "Map my week first",
@@ -81,7 +81,8 @@
   "portalOpening": "Opening billing",
   "errors": {
     "checkout": "Stripe checkout didn't open, and nothing was charged. Try again in a moment.",
-    "portal": "The billing page didn't open. Try again in a moment."
+    "portal": "The billing page didn't open. Try again in a moment.",
+    "change": "The plan change didn't open, and nothing was charged. Try again in a moment."
   },
   "success": {
     "meta": "You're in",
@@ -142,6 +143,13 @@
     "includes": {
       "free": "Everything in Free",
       "pro": "Everything in Pro"
-    }
+    },
+    "current": "Current plan",
+    "have": "You have {name}",
+    "haveCup": "You have {name}, free until {date}",
+    "included": "Included in your {name}",
+    "atRenewal": "Switch to {name} at renewal",
+    "upgrade": "Upgrade to {name}",
+    "upgradeNote": "You only pay the difference for the rest of this billing period."
   }
 }

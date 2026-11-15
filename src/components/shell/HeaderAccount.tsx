@@ -47,14 +47,14 @@ export interface HeaderParts {
 /**
  * The right side of every header: points (open the shop), the week's streak (opens progress), the level
  * (opens the leaderboard) and the avatar with the account menu. The same on the app shell, the /start
- * flow and the marketing pages.
+ * flow and the marketing pages. A guest gets Log in and Sign up instead.
  */
 export function HeaderAccount({ snapshot, parts = {}, surface = 'paper' }: { snapshot: AccountSnapshot; parts?: HeaderParts; surface?: 'paper' | 'field' }) {
   const { t } = useT();
-  const guest = !snapshot.email;
-  const { points = true, level = true } = parts;
-  // a guest's header also carries Log in and Save my progress, so the week's tiles stay on Progress
-  const streak = (parts.streak ?? true) && !guest;
+  // A guest (a profile without an account) sees only Log in and Sign up: points, streak, level and the
+  // avatar belong to an account, and next to «Log in» they read as someone else's.
+  if (!snapshot.email) return <AuthButtons surface={surface} />;
+  const { points = true, level = true, streak = true } = parts;
   const week = streakWeekOf(snapshot.streakDays, snapshot.createdAt);
   const lv = snapshot.level;
   return (
@@ -86,7 +86,7 @@ export function HeaderAccount({ snapshot, parts = {}, surface = 'paper' }: { sna
           <span className={st.levelText}>{t('shell.level.short', { level: lv.level })}</span>
         </Link>
       ) : null}
-      {guest ? <AuthButtons surface={surface} save /> : <AccountMenu snapshot={snapshot} />}
+      <AccountMenu snapshot={snapshot} />
     </div>
   );
 }

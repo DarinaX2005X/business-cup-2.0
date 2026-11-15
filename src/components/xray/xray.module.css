@@ -1179,86 +1179,6 @@
   color: var(--ink-2);
 }
 
-/* ---------- 90-day plan ---------- */
-
-.plan {
-  margin-top: 104px;
-}
-
-.plan .h2 {
-  margin-bottom: 20px;
-}
-
-.months {
-  list-style: none;
-  margin: 0 0 16px;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.month {
-  padding: 22px 24px;
-  border-radius: var(--r-card);
-  background: var(--card);
-  box-shadow:
-    var(--hl),
-    inset 0 0 0 1px oklch(88.5% 0.03 290 / 0.7);
-  display: grid;
-  align-content: start;
-  gap: 6px;
-}
-
-.month[data-locked] {
-  background: transparent;
-  box-shadow: none;
-  outline: 1.5px dashed oklch(80% 0.04 288);
-  outline-offset: -1.5px;
-}
-
-.monthN {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--ink-2);
-}
-
-.monthTitle {
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-
-.monthList {
-  margin: 8px 0 0;
-  padding-left: 18px;
-  display: grid;
-  gap: 6px;
-  font-size: 15px;
-  line-height: 1.45;
-}
-
-.monthGhost {
-  display: grid;
-  gap: 8px;
-  margin-top: 10px;
-}
-
-.monthGhost i {
-  display: block;
-  height: 10px;
-  border-radius: 5px;
-  background: var(--sunk);
-}
-
-.monthGhost i:nth-child(2) {
-  width: 78%;
-}
-
-.monthGhost i:nth-child(3) {
-  width: 56%;
-}
-
 /* ---------- not found ---------- */
 
 .missing {
@@ -1383,8 +1303,7 @@
     font-size: 19px;
   }
   .pairs,
-  .next,
-  .plan {
+  .next {
     margin-top: 72px;
   }
   .card {
@@ -1395,9 +1314,6 @@
   .card > span:first-child {
     width: 44px;
     height: 34px;
-  }
-  .months {
-    grid-template-columns: minmax(0, 1fr);
   }
   .job {
     padding: 22px 20px;
@@ -1541,13 +1457,11 @@
 }
 
 .panel .pairs,
-.panel .next,
-.panel .plan {
+.panel .next {
   margin-top: 64px;
 }
 
-.panel .next:first-of-type,
-.panel .plan:first-of-type {
+.panel .next:first-of-type {
   margin-top: 0;
 }
 
@@ -1557,7 +1471,10 @@
 }
 
 .emptyTab {
-  padding: 40px;
+  display: grid;
+  justify-items: start;
+  gap: 12px;
+  padding: 32px;
   border-radius: var(--r-panel);
   outline: 1.5px dashed oklch(80% 0.04 288);
   outline-offset: -1.5px;
@@ -1566,6 +1483,7 @@
 
 .emptyTab p {
   font-size: 17px;
+  line-height: 1.5;
   color: var(--ink-2);
 }
 

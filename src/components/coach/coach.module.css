@@ -463,79 +463,10 @@
   color: var(--ink-2);
 }
 
-.starters {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.starters li {
-  display: flex;
-  animation: lineIn 0.36s var(--ease) both;
-}
-
-.starters li:first-child {
-  grid-column: 1 / -1;
-}
-
-.starter {
-  flex: 1;
-  display: grid;
-  align-content: start;
-  gap: 7px;
-  padding: 14px 16px 15px;
-  border: 0;
-  border-radius: 16px;
-  background: var(--paper);
-  color: var(--ink);
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-  box-shadow:
-    inset 0 0 0 1px oklch(90% 0.026 290),
-    0 1px 0 oklch(100% 0 0 / 0.9);
-  transition:
-    transform var(--t-hover) var(--ease),
-    box-shadow var(--t-hover) var(--ease),
-    background var(--t-hover) var(--ease);
-}
-
-.starter:hover {
-  transform: translateY(-2px);
-  background: var(--violet-soft);
-  box-shadow:
-    inset 0 0 0 1px oklch(84% 0.06 288),
-    var(--shadow-raised);
-}
-
-.starter:active {
-  transform: scale(0.985);
-  transition-duration: var(--t-press);
-}
-
-.starter:focus-visible {
-  outline: 3px solid var(--focus);
-  outline-offset: 2px;
-}
-
-.starter:disabled {
-  cursor: default;
-  opacity: 0.6;
-  transform: none;
-}
-
 .starterQ {
   font-size: 16.5px;
   font-weight: 650;
   line-height: 1.35;
-}
-
-.starters li:first-child .starterQ {
-  font-size: var(--fs-20);
-  letter-spacing: -0.01em;
 }
 
 .starterBasis {
@@ -545,6 +476,96 @@
   font-size: 14px;
   line-height: 1.35;
   color: var(--ink-2);
+}
+
+/* ---------- quick questions: small chips above the composer while the chat is empty ---------- */
+
+.chips {
+  flex: none;
+  list-style: none;
+  margin: 0 auto;
+  padding: 4px 28px 6px;
+  width: 100%;
+  max-width: calc(780px + 56px);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chips li {
+  display: flex;
+  min-width: 0;
+  max-width: 100%;
+  animation: lineIn 0.3s var(--ease) both;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 36px;
+  padding: 6px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: left;
+  cursor: pointer;
+  box-shadow:
+    inset 0 0 0 1px oklch(88% 0.035 290),
+    0 1px 0 oklch(100% 0 0 / 0.9);
+  transition:
+    transform var(--t-hover) var(--ease),
+    background var(--t-hover) var(--ease),
+    box-shadow var(--t-hover) var(--ease);
+}
+
+.chip span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chip:hover {
+  transform: translateY(-1px);
+  background: var(--violet-soft);
+  box-shadow: inset 0 0 0 1px oklch(82% 0.07 288);
+}
+
+.chip:active {
+  transform: scale(0.98);
+  transition-duration: var(--t-press);
+}
+
+.chip:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.chip:disabled {
+  cursor: default;
+  opacity: 0.6;
+  transform: none;
+}
+
+@media (max-width: 760px) {
+  .chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 4px 12px 6px;
+    scrollbar-width: none;
+  }
+  .chips li {
+    flex: none;
+    max-width: 82vw;
+  }
 }
 
 /* ---------- composer ---------- */
@@ -1244,13 +1265,6 @@
     padding-left: 14px;
     border-radius: 20px;
   }
-  .starters {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 8px;
-  }
-  .starters li:first-child .starterQ {
-    font-size: 17.5px;
-  }
   .emptyTitle {
     font-size: 23px;
   }
@@ -1292,7 +1306,7 @@
 @media (prefers-reduced-motion: reduce) {
   .userRow,
   .coachRow,
-  .starters li,
+  .chips li,
   .jump {
     animation: none;
   }
@@ -1303,7 +1317,7 @@
   .recDot {
     animation: none !important;
   }
-  .starter:hover,
+  .chip:hover,
   .mic:hover,
   .send:hover {
     transform: none;

@@ -37,6 +37,8 @@ export interface XrayPageProps {
   initialFocus: string | null;
   /** `?tab=` of the URL: which section of the map opens under the top block. */
   initialTab: string | null;
+  /** The share card of this map (`scoreCardPath`), the same image LinkedIn shows. */
+  cardPath: string;
 }
 
 export type Focus = { kind: 'task'; id: string } | { kind: 'metric'; id: MetricId };

@@ -157,7 +157,18 @@
     "tooBroadLine_one": "{count} highlight was too long to count. Narrow it down to the wrong part.",
     "tooBroadLine_other": "{count} highlights were too long to count. Narrow each one down to the wrong part.",
     "barMarked_one": "{count} marked",
-    "barMarked_other": "{count} marked"
+    "barMarked_other": "{count} marked",
+    "hint": {
+      "ask": "Stuck? Get a hint",
+      "another": "Get another hint",
+      "loading": "Finding a hint",
+      "look": "Look again at the paragraph that starts",
+      "cost": "Each hint takes {points} points off this rep. You still get the base points.",
+      "none": "Your marks and hints already cover every mistake left. Go ahead and check.",
+      "used_one": "You used {count} hint on this one.",
+      "used_other": "You used {count} hints on this one.",
+      "listLabel": "Your hints"
+    }
   },
   "result": {
     "score": "Irreplaceability score",

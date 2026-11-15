@@ -13,7 +13,8 @@
   },
   "empty": {
     "title": "What would you like to work on?",
-    "lead": "These questions come from your own week. Pick one or ask your own, by text or voice."
+    "lead": "These questions come from your own week. Pick one or ask your own, by text or voice.",
+    "chips": "Questions from your week"
   },
   "composer": {
     "label": "Message your coach",

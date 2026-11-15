@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation';
 import { useState, type FormEvent } from 'react';
 import { Button } from '@/components/kit/Button';
 import { Field } from '@/components/kit/Field';
-import { OpenMyWeek, useHasWeek } from '@/components/public/Returning';
 import st from './landing.module.css';
 
 /**
@@ -15,8 +14,6 @@ import st from './landing.module.css';
 export function JobForm({ surface, label, placeholder, submit, id }: { surface: 'field' | 'paper'; label: string; placeholder: string; submit: string; id: string }) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
-  // A person who already has a week map gets «Open my week» here instead of the form (R3 shell).
-  const hasWeek = useHasWeek();
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -24,8 +21,6 @@ export function JobForm({ surface, label, placeholder, submit, id }: { surface: 
     setBusy(true);
     router.push(q ? `/start?q=${encodeURIComponent(q)}` : '/start');
   };
-
-  if (hasWeek) return <OpenMyWeek surface={surface} />;
 
   return (
     <form action="/start" method="get" className={st.form} onSubmit={onSubmit} data-surface={surface}>

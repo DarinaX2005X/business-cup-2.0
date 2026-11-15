@@ -15,7 +15,7 @@ export {
 } from './bank';
 export { errorTypesFor, plannedTypes, TYPE_GUIDE } from './error-types';
 export { createRep, startTrial, getRep, getToday, weekOf, nextTask, tomorrowFor, produce, type RepCtx, type CreateResult } from './service';
-export { answerRep, type AnswerBody, type AnswerResult } from './answer';
+export { answerRep, slipHint, type AnswerBody, type AnswerResult, type SlipHintResult } from './answer';
 export { aiOrMeFor, submitAiOrMe } from './ai-or-me';
 export { logWork, WORK_LOG_PER_DAY } from './work-log';
 export { readRep, toView, isRepId } from './records';

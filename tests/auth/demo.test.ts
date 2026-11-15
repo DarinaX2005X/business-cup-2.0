@@ -6,7 +6,7 @@ import type { ResumeAnalysis } from '@/server/xray/resume';
  * sample text it was given, the week proposal returns the occupation's typical week. The live pipeline is
  * checked against the dev server.
  */
-const calls = vi.hoisted(() => ({ analyze: [] as string[], fail: false, gate: null as Promise<void> | null }));
+const calls = vi.hoisted(() => ({ analyze: [] as string[], grow: [] as string[], fail: false, gate: null as Promise<void> | null }));
 
 vi.mock('@/server/xray/resume', async (orig) => {
   const real = await orig<typeof import('@/server/xray/resume')>();
@@ -34,6 +34,23 @@ vi.mock('@/server/xray/week', async (orig) => {
   return { ...real, proposeWeek: async ({ bundle }: { bundle: Parameters<typeof real.typicalWeek>[0] }) => ({ ...real.typicalWeek(bundle), source: 'resume' as const }) };
 });
 
+// Skills and the plan are model calls too: record them instead of calling the model.
+vi.mock('@/server/growth', async (orig) => {
+  const real = await orig<typeof import('@/server/growth')>();
+  return {
+    ...real,
+    extractSkills: async (input: { xrayId?: string | null }) => {
+      calls.grow.push(`skills:${input.xrayId}`);
+      return {} as never;
+    },
+    getPlan: async (input: { xrayId?: string | null }) => {
+      calls.grow.push(`plan:${input.xrayId}`);
+      return {} as never;
+    },
+    readPlan: async () => null,
+  };
+});
+
 import { POST as demoPOST } from '@/app/api/auth/demo/route';
 import { login } from '@/server/auth';
 import { setStripeForTests } from '@/server/billing';
@@ -49,6 +66,7 @@ beforeEach(() => {
   ({ cleanup } = useTempStore());
   setStripeForTests(createStripeStub().stripe);
   calls.analyze.length = 0;
+  calls.grow.length = 0;
   calls.fail = false;
   calls.gate = null;
 });
@@ -67,6 +85,8 @@ describe('shared demo accounts', () => {
     const profile = (await getProfile(first.id))!;
     expect(profile).toMatchObject({ demo: true, account: { email: demoEmail('nurse') }, plan: { source: 'cup', tier: 'coach' }, tz: 'America/Chicago' });
     expect((await readXray(first.xrayId!))!).toMatchObject({ profileId: first.id, occupationCode: '29-1141.00', inputSource: 'resume' });
+    // skills from the same résumé and the 90-day plan are written as part of the build
+    await vi.waitFor(() => expect(calls.grow).toEqual(expect.arrayContaining([`skills:${first.xrayId}`, `plan:${first.xrayId}`])));
 
     const second = await openDemoAccount('nurse', actor);
     expect(second).toMatchObject({ id: first.id, created: false, xrayId: first.xrayId });

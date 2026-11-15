@@ -1,47 +1,8 @@
 .navAccount {
   display: flex;
   align-items: center;
+  gap: 8px;
   margin-left: 12px;
-}
-
-.open {
-  display: grid;
-  justify-items: start;
-  gap: 14px;
-  animation: openIn 0.32s var(--ease-out);
-}
-
-@keyframes openIn {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-}
-
-.lead {
-  font-size: 17px;
-  line-height: 1.5;
-  color: var(--ink-2);
-}
-
-.open[data-surface='field'] .lead {
-  color: var(--on-violet-2);
-}
-
-.link {
-  font-weight: 600;
-  color: var(--violet);
-  text-decoration-line: underline;
-  text-decoration-color: color-mix(in oklch, currentColor 40%, transparent);
-  text-underline-offset: 3px;
-}
-
-.open[data-surface='field'] .link {
-  color: var(--on-violet);
-}
-
-.link:hover {
-  text-decoration-color: currentColor;
 }
 
 @media (max-width: 760px) {

@@ -27,7 +27,14 @@ import type { CoachEvent, CoachMessage, CoachPreview, CoachState, CoachStreamErr
 export interface CoachRequestCtx {
   profile: Profile;
   ip: string | null;
+  /**
+   * Whose conversation and daily cap this is: the profile id, or on a shared demo account the profile id
+   * plus a hash of this device's secret, so judges sharing one demo account each get their own chat.
+   */
+  owner?: string;
 }
+
+const ownerOf = (ctx: CoachRequestCtx) => ctx.owner ?? ctx.profile.id;
 
 async function contextFor(ctx: CoachRequestCtx): Promise<CoachContext> {
   const extras: ContextExtras = await loadExtras(ctx.profile);
@@ -35,7 +42,7 @@ async function contextFor(ctx: CoachRequestCtx): Promise<CoachContext> {
 }
 
 export async function coachState(ctx: CoachRequestCtx): Promise<CoachState> {
-  const [context, history, left] = await Promise.all([contextFor(ctx), readHistory(ctx.profile.id), messagesLeft(ctx.profile.id)]);
+  const [context, history, left] = await Promise.all([contextFor(ctx), readHistory(ownerOf(ctx)), messagesLeft(ownerOf(ctx))]);
   const access = context.tier === 'coach' ? 'coach' : 'locked';
   return {
     access,
@@ -103,15 +110,16 @@ function errorCodeOf(err: unknown): CoachStreamError {
  */
 export async function ask(ctx: CoachRequestCtx, input: AskInput, requestSignal?: AbortSignal): Promise<ReadableStream<Uint8Array>> {
   const { profile } = ctx;
+  const owner = ownerOf(ctx);
   if (!hasCoach(profile)) throw new HttpError(402, 'coach_required', 'The personal coach comes with Max.');
   if (!input.text?.trim() && !input.voice) throw new HttpError(400, 'invalid_input', 'Send a text or a voice message.');
 
-  const history = await readHistory(profile.id);
+  const history = await readHistory(owner);
   const seen = history.messages.findIndex((m) => m.id === input.id && m.role === 'user');
   if (seen >= 0 && history.messages[seen + 1]?.role === 'coach') {
     // The same message arrived twice (a resend after a lost connection): answer with what was saved.
     const saved = history.messages[seen + 1];
-    const left = await messagesLeft(profile.id);
+    const left = await messagesLeft(owner);
     return new ReadableStream({
       start(c) {
         c.enqueue(line({ t: 'accepted', id: input.id }));
@@ -121,9 +129,9 @@ export async function ask(ctx: CoachRequestCtx, input: AskInput, requestSignal?:
     });
   }
 
-  const release = await lockAnswer(profile.id, randomBytes(6).toString('hex'));
+  const release = await lockAnswer(owner, randomBytes(6).toString('hex'));
   if (!release) throw new HttpError(409, 'coach_busy', 'The coach is still answering your previous message.');
-  const slot = await takeMessageSlot(profile.id).catch(async (err) => {
+  const slot = await takeMessageSlot(owner).catch(async (err) => {
     await release();
     throw err;
   });
@@ -200,7 +208,7 @@ export async function ask(ctx: CoachRequestCtx, input: AskInput, requestSignal?:
           return;
         }
         const coachMessage: CoachMessage = { id: `c_${randomBytes(6).toString('hex')}`, role: 'coach', text: answer.trim(), at: now(), ...(stopped ? { stopped: true } : {}) };
-        await appendExchange(profile.id, [userMessage, coachMessage]);
+        await appendExchange(owner, [userMessage, coachMessage]);
         answered = true;
         send({ t: 'done', message: coachMessage, left: slot.left });
       } catch (err) {

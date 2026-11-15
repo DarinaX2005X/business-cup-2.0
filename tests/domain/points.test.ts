@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   XRAY_AWARDS_MAX,
+  REP_POINTS,
   applyFreeze,
   availableRewards,
   award,
@@ -355,5 +356,14 @@ describe('round 3: plans, tiers and names', () => {
     expect(boardHandle({ id: 'abc', jobTitle: 'Registered Nurse' })).toBe(h);
     expect(boardHandle({ id: 'abd', jobTitle: 'Registered Nurse' })).not.toBe(h);
     expect(boardHandle({ id: 'abc', jobTitle: 'RN', nickname: 'Night Owl' })).toBe('Night Owl');
+  });
+});
+
+describe('Spot the slip hints in the points', () => {
+  it('rep_completed with hintsUsed pays 10 points less per hint, never below the base', () => {
+    let p = profile();
+    p = withRep(p, 'h1', 'daily', '2026-11-14', 1);
+    const r = award(p, ev('rep_completed', 'h1', '2026-11-14T15:00:00Z', { score: 1, kind: 'daily', hintsUsed: 2 }));
+    expect(r.awards.find((a) => a.type === 'rep_completed')?.points).toBe(REP_POINTS.daily.base + REP_POINTS.daily.perScore - 2 * REP_POINTS.hint);
   });
 });

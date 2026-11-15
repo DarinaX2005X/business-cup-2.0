@@ -10,6 +10,7 @@ import { sound } from '@/components/kit/sound';
 import { useEffect } from 'react';
 import { flyPoints } from '@/components/kit/Points';
 import { AuthProvider } from '@/components/auth/AuthProvider';
+import { InviteCapture } from '@/components/pivot/InviteCapture';
 import { AwardToast, useAwardToast } from '@/components/shell/AwardToast';
 import { ProfileProvider, useProfile, type AwardPresenters } from './profile';
 
@@ -41,6 +42,7 @@ function WithProfile({ children }: { children: ReactNode }) {
     <KitProvider locale={locale} strings={kitStringsFor(locale)}>
       <ProfileProvider presenters={presenters}>
         <SoundSync />
+        <InviteCapture />
         <AuthProvider>{children}</AuthProvider>
         <AwardToast toast={awards.toast} onClose={awards.close} />
       </ProfileProvider>

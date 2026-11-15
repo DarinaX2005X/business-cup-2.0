@@ -20,13 +20,9 @@
     "pricing": "Pricing",
     "cup": "Business Cup 2.0"
   },
-  "returning": {
-    "lead": "Your week as {job} is waiting.",
-    "leadNoJob": "Your week map is waiting.",
-    "today": "Go to today's rep"
-  },
   "mapOwn": "Map my week",
   "openWeek": "Open my week",
+  "openApp": "Open the app",
   "goHome": "Go to Home",
   "demo": "Demo account",
   "demoHint": "A Business Cup 2.0 jury account, built from a sample resume through the real product",
@@ -50,11 +46,6 @@
       "pro": "Pro",
       "coach": "Max"
     },
-    "planFree": "Free plan",
-    "planPro": "Pro plan",
-    "planCoach": "Max plan",
-    "planTrial": "Free trial until {date}",
-    "planCup": "Max, free from Business Cup 2.0 until {date}",
     "upgrade": "Upgrade to Pro",
     "upgradeHint": "A daily rep from your own week",
     "profile": "Profile",

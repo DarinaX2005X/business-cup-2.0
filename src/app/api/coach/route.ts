@@ -15,6 +15,6 @@ export const GET = withApi(async (req: Request) => {
 /** DELETE /api/coach → { ok: true }: «New chat», empties the saved conversation. */
 export const DELETE = withApi(async (req: Request) => {
   const ctx = await coachCtx(req);
-  await clearHistory(ctx.profile.id);
+  await clearHistory(ctx.owner ?? ctx.profile.id);
   return Response.json({ ok: true }, { headers: { 'Cache-Control': 'no-store' } });
 });

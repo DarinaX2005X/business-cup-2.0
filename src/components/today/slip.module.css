@@ -326,6 +326,69 @@
 
 /* ---------- the bottom panel on phones ---------- */
 
+/* hints: a quiet button under the marks, the hinted paragraphs as small links to the sheet */
+.hints {
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.hintList {
+  list-style: none;
+  display: grid;
+  gap: 4px;
+  width: 100%;
+}
+
+.hintItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+  padding: 6px 8px;
+  border: 0;
+  border-radius: var(--r-chip);
+  background: var(--apricot-soft, oklch(95% 0.04 70));
+  color: var(--ink);
+  font: inherit;
+  font-size: 14.5px;
+  line-height: 1.4;
+  text-align: left;
+  cursor: pointer;
+}
+
+.hintItem svg {
+  flex: none;
+  margin-top: 2px;
+  color: var(--apricot-deep);
+}
+
+.hintItem:hover {
+  background: oklch(92% 0.06 70);
+}
+
+.hintItem:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.hintItem q {
+  font-style: italic;
+}
+
+.hintCost {
+  font-size: 13.5px;
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+
+.barHints .hints {
+  padding-top: 4px;
+  border-top: 0;
+}
+
 .bar {
   display: none;
 }

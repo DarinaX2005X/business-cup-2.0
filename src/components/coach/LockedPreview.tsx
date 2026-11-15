@@ -2,12 +2,16 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useRequireAccount } from '@/components/auth/AuthProvider';
 import { CupOffer } from '@/components/cup/CupOffer';
+import { planOf } from '@/components/cup/plan';
+import { changePlan } from '@/components/pricing/billing';
 import { Button } from '@/components/kit/Button';
 import { CategorySwatch } from '@/components/kit/Evidence';
 import { TIER_PRICES } from '@/domain/points';
 import { useT } from '@/i18n/client';
 import { apiFetch } from '@/lib/client/api';
+import { useOptionalProfile } from '@/lib/client/profile';
 import { getPreview, type CoachPreview, type CoachStarter } from './api';
 import { CoachLine, UserLine } from './CoachChat';
 import st from './coach.module.css';
@@ -28,12 +32,20 @@ export function LockedPreview({ starters, onUnlocked }: { starters: CoachStarter
   const [upgrading, setUpgrading] = useState(false);
   const max = TIER_PRICES.coach;
 
+  const prof = useOptionalProfile();
+  const requireAccount = useRequireAccount();
+  // a paid Pro subscription upgrades in place (the difference only); everyone else checks out once
+  const paidPro = planOf(prof?.profile?.plan).stripe;
+
   const upgrade = async () => {
     if (upgrading) return;
     setUpgrading(true);
     try {
-      const { url } = await apiFetch<{ url: string }>('/api/billing/checkout', { method: 'POST', body: { tier: 'coach', interval: 'month' } });
-      window.location.assign(url);
+      const res = await requireAccount(() =>
+        paidPro ? changePlan('coach') : apiFetch<{ url: string }>('/api/billing/checkout', { method: 'POST', body: { tier: 'coach', interval: 'month' } }),
+      );
+      if (!res) return setUpgrading(false);
+      window.location.assign(res.url);
     } catch {
       setUpgrading(false);
       router.push('/pricing');

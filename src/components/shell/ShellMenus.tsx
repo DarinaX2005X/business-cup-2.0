@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import { Dialog } from '@/components/kit/Overlay';
-import { CUP_OFFER_UNTIL } from '@/components/cup/plan';
 import { useT } from '@/i18n/client';
 import { useProfile } from '@/lib/client/profile';
 import { ACCOUNT_LINKS, initialOf, type AccountSnapshot, type TierBadge as Tier } from './account';
@@ -96,24 +95,13 @@ export function LevelStone({ level, size = 26 }: { level: number; size?: number 
 
 /* ---------- the account panel: the dropdown on wide screens, the lower half of More on phones ---------- */
 
-function planLine(t: ReturnType<typeof useT>['t'], f: ReturnType<typeof useT>['f'], s: AccountSnapshot): string {
-  const date = s.planEnd ? f.date(s.planEnd) : '';
-  // the Cup offer runs until its own date (the plan's period end is the next morning, UTC)
-  if (s.planKind === 'cup') return t('shell.account.planCup', { date: f.date(`${CUP_OFFER_UNTIL}T12:00:00Z`, 'long') });
-  if (s.planKind === 'trialing') return t('shell.account.planTrial', { date });
-  if (s.tier === 'coach') return t('shell.account.planCoach');
-  if (s.tier === 'pro') return t('shell.account.planPro');
-  return t('shell.account.planFree');
-}
-
 function AccountPanel({ snapshot: s, inMenu, onDone, onHelp }: { snapshot: AccountSnapshot; inMenu: boolean; onDone: () => void; onHelp: () => void }) {
-  const { t, f } = useT();
+  const { t } = useT();
   const { signOut } = useProfile();
   const router = useRouter();
   const [leaving, setLeaving] = useState(false);
   const role = inMenu ? 'menuitem' : undefined;
   const name = s.email ?? s.nickname ?? s.handle;
-  const sub = [s.nickname && s.email ? s.nickname : null, s.jobTitle].filter(Boolean).join(' · ') || null;
 
   const item = (href: string, icon: ReactNode, label: string, extra?: ReactNode) => (
     <Link href={href} role={role} className={st.item} onClick={onDone}>
@@ -133,12 +121,10 @@ function AccountPanel({ snapshot: s, inMenu, onDone, onHelp }: { snapshot: Accou
 
   return (
     <>
+      {/* only who is signed in and on which plan; the rest lives on Profile */}
       <div className={st.who}>
-        <Avatar snapshot={s} size={44} />
         <div className={st.whoText}>
           <b>{name}</b>
-          {sub ? <span>{sub}</span> : null}
-          <span className={st.whoPlan}>{planLine(t, f, s)}</span>
         </div>
         <TierBadge tier={s.tier} />
       </div>

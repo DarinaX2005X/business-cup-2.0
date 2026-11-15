@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { scoreCardMetadata, scoreCardPath } from '@/app/api/og/meta';
+import { siteUrl } from '@/components/public/data';
 import { XrayScreen } from '@/components/xray/XrayScreen';
 import type { ClientBundle } from '@/components/xray/types';
 import { getRequestLocale, getT } from '@/i18n/server';
@@ -15,9 +17,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   const t = getT(await getRequestLocale());
   const x = await readXray(id).catch(() => null);
+  if (!x) return { title: t('xray.notFound.title'), robots: { index: false, follow: false } };
+  const title = t('xray.meta.title', { jobTitle: x.jobTitle });
+  const description = t('pivot.share.text');
+  // the share card, so LinkedIn and X show the week as a picture
   return {
-    title: x ? t('xray.meta.title', { jobTitle: x.jobTitle }) : t('xray.notFound.title'),
+    metadataBase: siteUrl(),
+    title,
+    description,
     robots: { index: false, follow: false },
+    ...scoreCardMetadata(x, { title, description, alt: t('pivot.og.alt', { job: x.jobTitle }) }),
   };
 }
 
@@ -68,6 +77,7 @@ export default async function XrayPage({ params, searchParams }: Props) {
       occupationTitle={localTitles?.get(bundle.code) ?? bundle.title}
       initialFocus={focus}
       initialTab={typeof sp.tab === 'string' ? sp.tab : null}
+      cardPath={scoreCardPath(view.xray)}
     />
   );
 }

@@ -20,6 +20,8 @@ export const REP_POINTS = {
   extraPerDay: 3,
   perfect: 20,
   first: 50,
+  /** Spot the slip: each hint takes this much off the rep's points, never below the base */
+  hint: 10,
 } as const;
 
 export const AI_OR_ME_POINTS = { base: 10, perCorrect: 5, cards: 5 } as const;
@@ -148,10 +150,11 @@ function dayOf(p: Profile, t: PointsTrigger): string {
 const num = (v: unknown): number | null => (typeof v === 'number' && Number.isFinite(v) ? v : null);
 
 /** Rep points for a score 0..1 (clamped). */
-export function repPoints(kind: 'daily' | 'trial' | 'extra', score: number): number {
+export function repPoints(kind: 'daily' | 'trial' | 'extra', score: number, hintsUsed = 0): number {
   const s = Math.min(1, Math.max(0, score));
   const r = kind === 'extra' ? REP_POINTS.extra : REP_POINTS.daily;
-  return r.base + Math.round(r.perScore * s);
+  const hints = Math.max(0, Math.floor(hintsUsed));
+  return Math.max(r.base, r.base + Math.round(r.perScore * s) - REP_POINTS.hint * hints);
 }
 
 export function aiOrMePoints(correct: number): number {
@@ -193,7 +196,7 @@ function grantsFor(p: Profile, t: PointsTrigger): Grant[] {
         const dailyIds = new Set(p.repLog.filter((r) => r.kind === 'daily' || r.kind === 'trial').map((r) => r.id));
         if (ofType(p, 'rep_completed').some((e) => dailyIds.has(e.ref) && eventDay(e, p.tz) === day)) break;
       }
-      out.push(g('rep_completed', t.ref, repPoints(kind, score), ruleById(kind === 'extra' ? 'rep_extra' : 'rep_daily').labelKey));
+      out.push(g('rep_completed', t.ref, repPoints(kind, score, num(t.data?.hintsUsed) ?? 0), ruleById(kind === 'extra' ? 'rep_extra' : 'rep_daily').labelKey));
       if (score >= 1) once('rep_perfect', t.ref, REP_POINTS.perfect, ruleById('rep_perfect').labelKey);
       if (ofType(p, 'first_rep').length === 0) out.push(g('first_rep', t.ref, REP_POINTS.first, ruleById('first_rep').labelKey));
       // The engine has already counted this rep into the streak when it emits rep_completed.

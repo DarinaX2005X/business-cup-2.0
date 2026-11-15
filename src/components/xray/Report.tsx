@@ -4,7 +4,8 @@ import type { Category, OccupationBundle, XrayComputed } from '@/domain/types';
 import { getT } from '@/i18n/server';
 import { PrintActions } from './PrintActions';
 import { distinctLabels, taskLabel } from './lib';
-import { PlanPrintSection } from './reportSlots';
+import { PlanPrintSection } from '@/components/plan/PlanPrintSection';
+import type { PlanResponse } from '@/server/growth/types';
 import st from './report.module.css';
 
 const GROUPS: { category: Category; key: 'does' | 'speeds' | 'yours' }[] = [
@@ -26,6 +27,7 @@ export function Report({
   bundle,
   shorts,
   autoPrint,
+  plan,
 }: {
   id: string;
   jobTitle: string;
@@ -35,6 +37,8 @@ export function Report({
   /** Generated short labels when they exist (else the build's labels are used). */
   shorts: Record<string, string>;
   autoPrint: boolean;
+  /** The owner's 90-day plan when one is written (read only, never generated here). */
+  plan?: PlanResponse | null;
 }) {
   const t = getT('en');
   const byId = new Map(bundle.tasks.map((x) => [x.id, x]));
@@ -149,7 +153,7 @@ export function Report({
           </ol>
         </section>
 
-        {PlanPrintSection ? <PlanPrintSection xrayId={id} /> : null}
+        {plan ? <PlanPrintSection plan={plan} /> : null}
 
         <footer className={st.foot}>
           <p>{t('xray.report.made', { date: t.f.date(new Date(), 'long'), onet: bundle.dataVersion.onet, aei })}</p>

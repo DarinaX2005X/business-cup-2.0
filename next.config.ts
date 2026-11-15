@@ -12,6 +12,8 @@ const nextConfig: NextConfig = {
     "/method": serverData,
     "/sitemap.xml": serverData,
     "/opengraph-image": ["./public/fonts/**/*"],
+    // the share card reads public/fonts/Onest-*.ttf with readFile
+    "/api/og/**/*": ["./public/fonts/**/*", ...serverData],
   },
 };
 

@@ -180,14 +180,31 @@ async function updateProfileOnce(id: string, fn: ProfileMutation, known?: Profil
 }
 
 /**
- * Keys owned by a profile, removed on deletion. Packages that add per-profile keys extend this list
- * (via REQUESTS.md for 01.3): `xray:<id>` (02), `rep:<id>` (03).
+ * Keys owned by a profile, removed on deletion. Packages that add per-profile keys extend this list:
+ * maps and their 90-day plans, reps, rate counters, the email index, the public page slug, the coach
+ * conversation and counters, and the invite records.
  */
 export async function profileOwnedKeys(profile: Profile): Promise<string[]> {
   const store = getStore();
   const rateKeys = await store.list(`rl:profile:${profile.id}:`);
   const emailIndex = profile.account ? [emailIndexKey(profile.account.email)] : [];
-  return [...profile.xrays.map((x) => `xray:${x}`), ...profile.reps.map((r) => `rep:${r}`), ...rateKeys, ...emailIndex];
+  // The coach: the conversation (`coach:<id>`, or `coach:<id>:d<hash>` per device on a demo account) and
+  // its daily counters. `coach:busy:*` and `growth:planlock:*` expire by themselves.
+  const [coachDevices, coachCaps] = await Promise.all([store.list(`coach:${profile.id}:`), store.list(`coach:cap:${profile.id}:`)]);
+  // dynamic import: the invite module reads profiles
+  const { inviteKeysOf } = await import('@/server/invite');
+  return [
+    ...profile.xrays.map((x) => `xray:${x}`),
+    ...profile.xrays.map((x) => `growth:plan:${x}`),
+    ...profile.reps.map((r) => `rep:${r}`),
+    ...rateKeys,
+    ...emailIndex,
+    ...(profile.publicSlug ? [`pslug:${profile.publicSlug}`] : []),
+    `coach:${profile.id}`,
+    ...coachDevices,
+    ...coachCaps,
+    ...inviteKeysOf(profile.id),
+  ];
 }
 
 /** Deletes the profile first (access stops at once), then everything it owns. */

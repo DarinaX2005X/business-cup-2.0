@@ -15,13 +15,12 @@ import st from './xray.module.css';
 
 /**
  * Under the tasks: what to hand to AI first and what stays yours (the free answer to «what about my job»),
- * then the paid part: other jobs nearby and the 90-day plan, locked calmly on Free.
+ * then the paid part: other jobs nearby, locked calmly on Free. The 90-day plan has its own tab (PlanView).
  */
 export function Further({
   result,
   bundle,
   isPro,
-  isOwner,
   label,
   tips,
   xrayId,
@@ -37,7 +36,7 @@ export function Further({
   /** The map, so the trial opens with this week as its first week. */
   xrayId: string;
   /** Which block to render: each one lives in its own tab of the map. */
-  only: 'pairs' | 'next' | 'plan';
+  only: 'pairs' | 'next';
   onSelect: (id: string) => void;
 }) {
   const { t, f } = useT();
@@ -69,7 +68,6 @@ export function Further({
     </span>
   );
   const rel = bundle.related[0];
-  const months = ['1', '2', '3'] as const;
 
   return (
     <>
@@ -174,38 +172,6 @@ export function Further({
         </section>
       ) : null}
 
-      {only === 'plan' && isOwner ? (
-        <section className={st.plan} aria-labelledby="plan-title">
-          <h2 id="plan-title" className={st.h2}>
-            {t('xray.plan.title')}
-          </h2>
-          <ol className={st.months}>
-            {months.map((m, i) => {
-              const ids = !isPro ? [] : i === 2 ? result.humanEdge : result.handToAi;
-              return (
-                <li key={m} className={st.month} data-locked={!isPro || undefined}>
-                  <span className={st.monthN}>{t('xray.plan.month', { n: i + 1 })}</span>
-                  <h3 className={st.monthTitle}>{t(`xray.plan.m${m}`)}</h3>
-                  {isPro ? (
-                    <ul className={st.monthList}>
-                      {ids.map((id) => (
-                        <li key={id}>{t(`xray.plan.m${m}Item`, { task: label(id) })}</li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <span className={st.monthGhost} aria-hidden="true">
-                      <i />
-                      <i />
-                      <i />
-                    </span>
-                  )}
-                </li>
-              );
-            })}
-          </ol>
-          {!isPro ? <LockedPanel shape="week" title={t('xray.plan.lockedTitle')} reason={t('xray.plan.lockedReason')} action={trial} /> : null}
-        </section>
-      ) : null}
     </>
   );
 }

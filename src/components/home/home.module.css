@@ -285,13 +285,13 @@
   }
 }
 
-/* ---------- coach: a paper card, its art bleeding off the top ---------- */
+/* ---------- coach: a paper card, its art in its own row (never under the text) ---------- */
 
 .coach {
   position: relative;
   overflow: hidden;
   display: grid;
-  grid-template-rows: minmax(150px, 1fr) auto;
+  grid-template-rows: auto 1fr;
   border-radius: var(--r-panel);
   color: var(--ink);
   text-decoration: none;
@@ -318,22 +318,22 @@
 }
 
 .coachArt {
-  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 24px 12px;
   pointer-events: none;
 }
 
 .coachSvg {
-  position: absolute;
-  left: 50%;
-  top: 22px;
-  width: 300px;
+  display: block;
+  width: min(100%, 270px);
   height: auto;
-  transform: translateX(-50%);
   transition: transform 0.6s var(--ease-out);
 }
 
 .coach:hover .coachSvg {
-  transform: translateX(-50%) translateY(-5px) rotate(-1deg);
+  transform: translateY(-4px) rotate(-1deg);
 }
 
 .coachText {
@@ -700,13 +700,15 @@ a.tile:hover .voucher {
     grid-template-columns: minmax(0, 1fr);
   }
   .coach {
-    grid-template-columns: 300px minmax(0, 1fr);
+    grid-template-columns: minmax(160px, 260px) minmax(0, 1fr);
     grid-template-rows: none;
     align-items: center;
-    min-height: 200px;
+  }
+  .coachArt {
+    padding: 20px 8px 20px 24px;
   }
   .coachText {
-    padding: 28px 28px 28px 0;
+    padding: 24px 28px 24px 8px;
   }
   .links ul {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -769,13 +771,16 @@ a.tile:hover .voucher {
   }
   .coach {
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: 170px auto;
+    grid-template-rows: auto auto;
+  }
+  .coachArt {
+    padding: 20px 22px 8px;
   }
   .coachText {
     padding: 0 22px 22px;
   }
   .coachSvg {
-    width: 260px;
+    width: min(100%, 230px);
   }
   .tiles {
     grid-template-columns: minmax(0, 1fr);

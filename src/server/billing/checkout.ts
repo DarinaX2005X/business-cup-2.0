@@ -186,3 +186,38 @@ export async function createPortal(profile: Profile, origin: string, returnPath:
   });
   return { url: session.url };
 }
+
+/**
+ * A plan change on a running Stripe subscription, through the Billing Portal's confirm page for this one
+ * subscription (never a second Checkout). Pro → Max is charged now for the difference only (the portal
+ * configuration prorates with `always_invoice`); Max → Pro is scheduled for the end of the period
+ * (`schedule_at_period_end` for decreasing amounts), so the person keeps Max until renewal. The interval
+ * stays as it is. 409 no_subscription without a running subscription, 409 same_plan when it is that tier.
+ */
+export async function createPlanChange(profile: Profile, tier: Tier, origin: string, now: Date = new Date()): Promise<{ url: string }> {
+  const { subscriptionId, stripeCustomerId: customer } = profile.plan;
+  if (!stripeActive(profile.plan, now) || !subscriptionId || !customer) {
+    throw new HttpError(409, 'no_subscription', 'There is no running subscription to change.');
+  }
+  if (tierOf(profile.plan) === tier) throw new HttpError(409, 'same_plan', 'You are already on this plan.');
+  const sub = await stripeCall('subscription', (s) => s.subscriptions.retrieve(subscriptionId));
+  const item = sub.items.data[0];
+  if (!item) throw new HttpError(502, 'payment_provider_error', 'The subscription has no plan item.');
+  const interval: BillingInterval = item.price.recurring?.interval === 'year' ? 'year' : 'month';
+  const price = await priceFor(interval, tier);
+  const back = `${origin}/pricing?portal=1`;
+  const session = await stripeCall('billing portal', async (s) => {
+    const configuration = await portalConfiguration(s);
+    return s.billingPortal.sessions.create({
+      customer,
+      return_url: back,
+      ...(configuration ? { configuration } : {}),
+      flow_data: {
+        type: 'subscription_update_confirm',
+        subscription_update_confirm: { subscription: sub.id, items: [{ id: item.id, price, quantity: 1 }] },
+        after_completion: { type: 'redirect', redirect: { return_url: back } },
+      },
+    });
+  });
+  return { url: session.url };
+}

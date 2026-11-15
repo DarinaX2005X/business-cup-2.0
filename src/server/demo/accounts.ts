@@ -4,7 +4,7 @@ import { DEMO_EMAIL_DOMAIN, issueDeviceSecret, profileByEmail } from '@/server/a
 import { createProfile, deleteProfile, emailIndexKey, updateProfile } from '@/server/profile';
 import { HttpError } from '@/server/profile/http';
 import { getStore, isConflictError } from '@/server/store';
-import { buildDemoMap, type JuryPersona } from './jury';
+import { buildDemoMap, growDemo, later, type JuryPersona } from './jury';
 
 /**
  * Shared demo accounts (Business Cup 2.0 jury): one per persona and environment, signed in by email
@@ -36,15 +36,19 @@ export interface DemoAccount {
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-async function signIn(persona: JuryPersona): Promise<DemoAccount | null> {
+async function signIn(persona: JuryPersona, actor?: Actor): Promise<DemoAccount | null> {
   const profile = await profileByEmail(demoEmail(persona));
   if (!profile) return null;
   const secret = await issueDeviceSecret(profile.id);
-  return { id: profile.id, secret, email: demoEmail(persona), xrayId: profile.demoXrays?.[persona] ?? profile.lastXrayId ?? null, created: false };
+  const xrayId = profile.demoXrays?.[persona] ?? profile.lastXrayId ?? null;
+  // An account built before skills and the plan were part of the build gets them right after this
+  // response (once, under a lock), so signing in stays instant.
+  if (actor && xrayId && !profile.skills?.items.length) later(() => growDemo(profile.id, persona, xrayId, { ...actor, profileId: profile.id }).catch(() => undefined));
+  return { id: profile.id, secret, email: demoEmail(persona), xrayId, created: false };
 }
 
 export async function openDemoAccount(persona: JuryPersona, actor: Actor, now: Date = new Date()): Promise<DemoAccount> {
-  const ready = await signIn(persona);
+  const ready = await signIn(persona, actor);
   if (ready) return ready;
 
   const store = getStore();

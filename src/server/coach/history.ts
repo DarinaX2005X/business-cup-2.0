@@ -10,6 +10,10 @@ import type { CoachMessage } from './types';
  *
  * The daily cap is a counter per profile and UTC day (`coach:cap:<id>:<day>`), separate from the
  * general model-call limit, so a long talk with the coach does not use up the person's reps.
+ *
+ * Every function takes the conversation owner: the profile id, or `<profileId>:d<hash>` for one device
+ * of a shared demo account (see `coachCtx`). Both forms sit under the `coach:<profileId>` and
+ * `coach:cap:<profileId>:` prefixes, so deleting the profile finds them all.
  */
 
 export const HISTORY_MAX = 30;

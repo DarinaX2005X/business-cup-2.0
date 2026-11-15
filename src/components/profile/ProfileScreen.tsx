@@ -2,6 +2,7 @@
 
 import { Check, Copy, QrCode } from 'lucide-react';
 import Link from 'next/link';
+import { InvitePanel } from '@/components/pivot/InvitePanel';
 import { useRouter } from 'next/navigation';
 import { useEffect, useId, useMemo, useState } from 'react';
 import { planOf } from '@/components/cup/plan';
@@ -55,7 +56,9 @@ export function ProfileScreen() {
       </section>
       <SaveAccount />
       <Subscription profile={profile} />
-      <DeleteData onDeleted={() => setDeleted(true)} />
+      <InvitePanel />
+      {/* a shared demo account is never deleted for everyone: its visitors log out instead */}
+      {!profile.demo ? <DeleteData onDeleted={() => setDeleted(true)} /> : null}
     </div>
   );
 }

@@ -20,11 +20,34 @@
 
 /* ---------- navigation over the field ---------- */
 
+/* Fixed on top: on the field over the hero, then on its own violet bar once the page scrolls. */
 .nav {
-  position: absolute;
+  position: fixed;
   inset: 0 0 auto;
-  z-index: 5;
+  z-index: 30;
   color: var(--on-violet);
+  transition:
+    background-color var(--t-hover) var(--ease),
+    box-shadow var(--t-hover) var(--ease);
+}
+
+.nav[data-scrolled] {
+  background-color: color-mix(in oklch, var(--field) 95%, transparent);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow:
+    inset 0 -1px 0 color-mix(in oklch, var(--on-violet) 14%, transparent),
+    0 10px 28px -18px oklch(28% 0.14 285 / 0.55);
+}
+
+.nav[data-scrolled] .navIn {
+  min-height: 64px;
+  padding-block: 8px;
+}
+
+/* sections the header links to stop below it */
+.page section[id] {
+  scroll-margin-top: 72px;
 }
 
 .navIn {
@@ -35,6 +58,9 @@
   display: flex;
   align-items: center;
   gap: 20px;
+  transition:
+    min-height var(--t-hover) var(--ease),
+    padding var(--t-hover) var(--ease);
 }
 
 .brand {
@@ -88,9 +114,6 @@
   }
   .navLinks {
     display: none;
-  }
-  .navLang {
-    margin-left: auto;
   }
 }
 

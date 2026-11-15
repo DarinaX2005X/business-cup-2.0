@@ -1,10 +1,10 @@
 'use client';
 
-import { Check, FileDown, Share2 } from 'lucide-react';
+import { FileDown } from 'lucide-react';
 import Link from 'next/link';
-import { useState } from 'react';
 import { FieldArches } from '@/components/kit/Illustration';
 import { ScoreDial } from '@/components/kit/ScoreDial';
+import { ShareWeek } from '@/components/pivot/ShareWeek';
 import type { Category, XrayComputed } from '@/domain/types';
 import { useT } from '@/i18n/client';
 import { isForeignLabel, joinLabels, SMALL_EDGE } from './lib';
@@ -26,6 +26,7 @@ export function Conclusion({
   label,
   byCategory,
   labelsReady,
+  cardPath,
   onMetric,
 }: {
   xray: XrayData;
@@ -39,10 +40,11 @@ export function Conclusion({
   byCategory: (id: string) => Category | undefined;
   /** Labels are the generated short names in this language (not the first words of the O*NET sentence). */
   labelsReady: boolean;
+  /** The share card (`scoreCardPath`), so «Download image» is the picture LinkedIn shows; the scan's first frame has none yet. */
+  cardPath?: string;
   onMetric: (id: MetricId) => void;
 }) {
   const { t, f, locale } = useT();
-  const [shared, setShared] = useState(false);
   // A guest reads someone else's week: «this week» and «stays human» instead of «your week» and «yours».
   const g = isOwner ? '' : 'Guest';
   const lead = leadSentence(t, f.percent, result, g);
@@ -55,21 +57,6 @@ export function Conclusion({
   const plates = parts.map((p, i) => (i % 2 === 0 ? <mark key={i} className={st.plate}>{p}</mark> : <span key={i}>{p}</span>));
   const humanSentence = human.length && !foreign && labelsReady ? rich(t, `xray.conclusion.human${g}`, { tasks: plates }, { count: human.length }) : null;
   const edgeKey = edgePct === 0 ? `xray.conclusion.edgeNone${g}` : edgePct < SMALL_EDGE ? `xray.conclusion.edgeSmall${g}` : null;
-
-  const share = async () => {
-    const url = window.location.origin + window.location.pathname;
-    try {
-      if (navigator.share && window.matchMedia('(pointer: coarse)').matches) {
-        await navigator.share({ title: `${xray.jobTitle}: ${t(`xray.conclusion.title${g}`)}`, url });
-        return;
-      }
-      await navigator.clipboard.writeText(url);
-      setShared(true);
-      window.setTimeout(() => setShared(false), 1800);
-    } catch {
-      // the person closed the share sheet; nothing to report
-    }
-  };
 
   return (
     <section className={`${st.conclusion} field`} data-surface="field" aria-labelledby="xray-title">
@@ -136,10 +123,7 @@ export function Conclusion({
             <FileDown size={18} strokeWidth={1.75} aria-hidden="true" />
             <span>{t('xray.report.download')}</span>
           </Link>
-          <button type="button" className={st.shareBtn} onClick={share}>
-            {shared ? <Check size={18} strokeWidth={2} aria-hidden="true" /> : <Share2 size={18} strokeWidth={1.75} aria-hidden="true" />}
-            <span aria-live="polite">{shared ? t('xray.conclusion.shared') : t(`xray.conclusion.share${g}`)}</span>
-          </button>
+          <ShareWeek xrayId={xray.id} jobTitle={xray.jobTitle} isOwner={isOwner} cardPath={cardPath ?? `/api/og/score?x=${encodeURIComponent(xray.id)}`} surface="violet" />
         </div>
       </div>
       <div className={st.cScore}>

@@ -4,9 +4,10 @@ import { Info, TicketPercent } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { CupOffer } from '@/components/cup/CupOffer';
-import { planOf, type ProfilePlan } from '@/components/cup/plan';
+import { CUP_OFFER_UNTIL, planOf, type ProfilePlan } from '@/components/cup/plan';
 import { Button } from '@/components/kit/Button';
 import btn from '@/components/kit/controls.module.css';
+import { tierName, tierOf } from '@/domain/points';
 import type { Redemption } from '@/domain/types';
 import { useT } from '@/i18n/client';
 import { ApiError } from '@/lib/client/api';
@@ -139,6 +140,11 @@ export function TrialBox({
       const { url } = what === 'checkout' ? await startCheckout(interval) : await openPortal();
       window.location.assign(url);
     } catch (err) {
+      // a subscription this page did not know about yet: reload, and the box shows it instead of a trial
+      if (err instanceof ApiError && err.code === 'already_subscribed') {
+        setBusy(null);
+        return void prof.refresh();
+      }
       const c = err instanceof ApiError ? err.code : 'network';
       setError(c === 'network' ? t('common.errors.network') : what === 'checkout' ? t('pricing.errors.checkout') : t('pricing.errors.portal'));
       setBusy(null);
@@ -153,11 +159,13 @@ export function TrialBox({
 
   let body: ReactNode;
   if (plan.active) {
-    const date = plan.periodEnd ? f.date(plan.periodEnd, 'long') : '';
+    // the Cup offer runs until its own date (the plan's period end is the next morning, UTC)
+    const date = plan.kind === 'cup' ? f.date(`${CUP_OFFER_UNTIL}T12:00:00Z`, 'long') : plan.periodEnd ? f.date(plan.periodEnd, 'long') : '';
+    const name = tierName(prof.profile?.plan ? tierOf(prof.profile.plan) : 'pro');
     body = (
       <>
         <p className={st.status} role="status">
-          {t(`pricing.status.${plan.kind}`, { date })}
+          {t(`pricing.status.${plan.kind}`, { date, name })}
         </p>
         <div className={st.actions}>
           {next}

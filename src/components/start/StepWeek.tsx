@@ -26,6 +26,8 @@ export interface StepWeekProps {
   from: FromMap | null;
   scanning: boolean;
   onScan: (on: boolean) => void;
+  /** The résumé or work description the week came from (memory only), read for skills after the save. */
+  sourceText?: string | null;
 }
 
 const ADD_SHARE = 4;
@@ -99,6 +101,7 @@ function WeekEditor({
   from,
   scanning,
   onScan,
+  sourceText,
 }: StepWeekProps & { bundle: Bundle; week: WeekProposal; texts: Record<string, { text: string; short: string }> | null }) {
   const { t } = useT();
   const [shares, setShares] = useState<WeekShare[]>(week.shares);
@@ -250,6 +253,7 @@ function WeekEditor({
         tasks={weekTasks}
         shortLabels={Object.fromEntries(shares.map((s) => [s.taskId, labelOf(s.taskId)]))}
         from={from}
+        sourceText={sourceText ?? null}
         onBack={() => onScan(false)}
       />
     );

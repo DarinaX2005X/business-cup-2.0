@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Report } from '@/components/xray/Report';
 import { getT } from '@/i18n/server';
+import { readPlanForReport } from '@/server/growth';
 import { getProfileFromCookies } from '@/server/profile/ssr';
 import { loadBundle } from '@/server/xray/data';
 import { readXray, viewXray } from '@/server/xray/records';
@@ -29,6 +30,7 @@ export default async function ReportPage({ params, searchParams }: Props) {
   const texts = await getTaskTexts(bundle.code, 'en');
   const shorts: Record<string, string> = {};
   if (texts?.ready) for (const [tid, v] of Object.entries(texts.tasks)) shorts[tid] = v.short;
+  const plan = viewer ? await readPlanForReport(viewer, id).catch(() => null) : null;
   return (
     <Report
       id={id}
@@ -38,6 +40,7 @@ export default async function ReportPage({ params, searchParams }: Props) {
       bundle={bundle}
       shorts={shorts}
       autoPrint={sp.print === '1'}
+      plan={plan}
     />
   );
 }

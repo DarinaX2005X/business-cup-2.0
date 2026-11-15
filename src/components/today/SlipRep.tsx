@@ -1,15 +1,16 @@
 'use client';
 
-import { ChevronDown, Timer, X } from 'lucide-react';
+import { ChevronDown, Lightbulb, Timer, X } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Button } from '@/components/kit/Button';
 import { RepCard } from '@/components/kit/RepCard';
 import { sound } from '@/components/kit/sound';
 import type { CharRange, ReviewMark } from '@/components/kit/types';
+import { REP_POINTS } from '@/domain/points';
 import { OVER_SELECTED, type RepView } from '@/domain/reps';
 import { useT } from '@/i18n/client';
 import { useProfile } from '@/lib/client/profile';
-import { answerRep, errorCode, errorKey, repFromConflict, tooBroadOf, type AnswerResult, type Streak } from './api';
+import { answerRep, askSlipHint, errorCode, errorKey, repFromConflict, tooBroadOf, type AnswerResult, type Streak } from './api';
 import { clock, reducedMotion, useElapsed, useLocalFlag, useMounted } from './hooks';
 import { Outcome, RepHeader, Ring } from './shared';
 import st from './today.module.css';
@@ -82,6 +83,70 @@ export function SlipRep({ rep, streak, fresh, isFree, onAnswered, onBack, onPrac
   const elapsed = useElapsed(!done);
 
   const ask = t('today.slip.ask', { count: total });
+
+  /* ---------- hints: the paragraph of a mistake not found yet, 10 points each ---------- */
+
+  const [hints, setHints] = useState<{ start: number; end: number }[]>(() => rep.slipHints ?? []);
+  const [hintBusy, setHintBusy] = useState(false);
+  const [hintNote, setHintNote] = useState<string | null>(null);
+  const hintsLeft = Math.max(0, total - hints.length);
+
+  /** Brings the hinted paragraph into view on the sheet (its first word carries the offset). */
+  const showSpot = (spot: { start: number; end: number }) => {
+    const words = Array.from(document.querySelectorAll<HTMLElement>('[data-s]'));
+    const first = words.find((w) => Number(w.dataset.s) >= spot.start && Number(w.dataset.s) < spot.end);
+    first?.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'center' });
+  };
+
+  const askHint = async () => {
+    if (hintBusy || done) return;
+    setHintBusy(true);
+    setHintNote(null);
+    try {
+      const r = await askSlipHint(rep.id, ranges);
+      if (!r.hint) setHintNote(t('today.slip.hint.none'));
+      else {
+        const spot = r.hint;
+        setHints((hs) => [...hs, spot]);
+        window.requestAnimationFrame(() => showSpot(spot));
+      }
+    } catch (err) {
+      setHintNote(t(errorKey(errorCode(err))));
+    } finally {
+      setHintBusy(false);
+    }
+  };
+
+  /** The start of a paragraph, plain: up to twelve words without the light markup. */
+  const opening = (spot: { start: number; end: number }) => {
+    const words = doc.slice(spot.start, spot.end).replace(/\*\*|__|\|/g, ' ').trim().split(/\s+/);
+    return words.length > 12 ? `${words.slice(0, 12).join(' ')}…` : words.join(' ');
+  };
+
+  const hintBlock = (
+    <div className={ss.hints}>
+      {hints.length ? (
+        <ol className={ss.hintList} aria-label={t('today.slip.hint.listLabel')}>
+          {hints.map((h, i) => (
+            <li key={`${h.start}-${i}`}>
+              <button type="button" className={ss.hintItem} onClick={() => showSpot(h)}>
+                <Lightbulb size={16} strokeWidth={1.9} aria-hidden="true" />
+                <span>
+                  {t('today.slip.hint.look')} <q>{opening(h)}</q>
+                </span>
+              </button>
+            </li>
+          ))}
+        </ol>
+      ) : null}
+      {hintsLeft > 0 ? (
+        <Button size="sm" variant="secondary" icon={<Lightbulb />} loading={hintBusy} loadingLabel={t('today.slip.hint.loading')} onClick={() => void askHint()}>
+          {hints.length ? t('today.slip.hint.another') : t('today.slip.hint.ask')}
+        </Button>
+      ) : null}
+      <p className={ss.hintCost}>{hintNote ?? t('today.slip.hint.cost', { points: REP_POINTS.hint })}</p>
+    </div>
+  );
 
   const check = async (force = false) => {
     if (!ranges.length || busy) return;
@@ -214,6 +279,7 @@ export function SlipRep({ rep, streak, fresh, isFree, onAnswered, onBack, onPrac
         </h3>
         {ranges.length ? list : <p className={ss.empty}>{t('today.slip.marksEmpty')}</p>}
       </div>
+      {hintBlock}
       {overWarning}
       {error ? (
         <p className={st.inlineError} role="alert">
@@ -241,6 +307,7 @@ export function SlipRep({ rep, streak, fresh, isFree, onAnswered, onBack, onPrac
   const bar = (
     <div className={ss.bar} data-open={listOpen || undefined}>
       {listOpen && ranges.length ? <div className={ss.barList}>{list}</div> : null}
+      {listOpen || hints.length ? <div className={ss.barHints}>{hintBlock}</div> : null}
       {overWarning}
       {error ? (
         <p className={st.inlineError} role="alert">
@@ -248,11 +315,11 @@ export function SlipRep({ rep, streak, fresh, isFree, onAnswered, onBack, onPrac
         </p>
       ) : null}
       <div className={ss.barRow}>
-        <button type="button" className={ss.barCount} onClick={() => setListOpen((o) => !o)} aria-expanded={listOpen} disabled={!ranges.length}>
+        <button type="button" className={ss.barCount} onClick={() => setListOpen((o) => !o)} aria-expanded={listOpen}>
           <span className={ss.barN} aria-label={t('today.slip.barCount', { marked: ranges.length, total })}>
             {t('today.slip.barMarked', { count: ranges.length })}
           </span>
-          {ranges.length ? <ChevronDown size={16} strokeWidth={2} className={ss.chev} aria-hidden="true" /> : null}
+          <ChevronDown size={16} strokeWidth={2} className={ss.chev} aria-hidden="true" />
         </button>
         {mounted && !hideTimer ? <span className={ss.barTime}>{clock(elapsed)}</span> : null}
         <span className={ss.barRings} aria-hidden="true">
@@ -354,6 +421,7 @@ function SlipTally({ rep, fresh }: { rep: RepView; fresh: boolean }) {
       </p>
       {broadN > 0 && !flags.includes('over_selected') ? <p className={ss.falseLine}>{t('today.slip.tooBroadLine', { count: broadN })}</p> : null}
       {falseN > 0 && !flags.includes('over_selected') ? <p className={ss.falseLine}>{falseN === 1 ? t('today.slip.falseFree') : t('today.slip.falseMore', { count: falseN })}</p> : null}
+      {r.hintsUsed ? <p className={ss.falseLine}>{t('today.slip.hint.used', { count: r.hintsUsed })}</p> : null}
     </div>
   );
 }

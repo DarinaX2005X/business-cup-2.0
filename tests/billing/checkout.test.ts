@@ -3,7 +3,7 @@ import { POST as checkoutPOST } from '@/app/api/billing/checkout/route';
 import { signup } from '@/server/auth';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import type { Profile } from '@/domain/types';
-import { confirmCheckout, createCheckout, createPortal, ensureFreshPlan, handleWebhook, isCoach, redeem, setStripeForTests } from '@/server/billing';
+import { confirmCheckout, createCheckout, createPlanChange, createPortal, ensureFreshPlan, handleWebhook, isCoach, redeem, setStripeForTests } from '@/server/billing';
 import { createProfile, getProfile, isPro, updateProfile } from '@/server/profile';
 import { HttpError } from '@/server/profile/http';
 import { useTempStore } from '../platform/helpers';
@@ -167,6 +167,33 @@ describe('Coach tier', () => {
       x.plan = { status: 'pro', source: 'stripe', tier: 'coach', subscriptionId: 'sub_c', stripeCustomerId: 'cus_c', periodEnd: new Date(Date.now() + 86400_000).toISOString() };
     });
     await expectHttp(redeem(c, { rewardId: 'pro_1m' }), 409, 'pro_only');
+  });
+
+  it('Pro → Max and Max → Pro go to the portal confirm page for the same subscription, never a new checkout', async () => {
+    const end = Math.floor(Date.now() / 1000) + 30 * 86400;
+    stub.subs.set('sub_u', {
+      id: 'sub_u', status: 'active', customer: 'cus_u', trial_end: null, cancel_at: null, cancel_at_period_end: false, canceled_at: null, ended_at: null,
+      discounts: [], metadata: {}, items: { data: [{ id: 'si_u', current_period_end: end, price: { lookup_key: 'pro_yearly', recurring: { interval: 'year' } } }] },
+    });
+    const pro = await fresh((x) => {
+      x.plan = { status: 'pro', source: 'stripe', tier: 'pro', subscriptionId: 'sub_u', stripeCustomerId: 'cus_u', periodEnd: new Date(end * 1000).toISOString() };
+    });
+    await expectHttp(createCheckout(pro, { tier: 'coach', interval: 'year' }, ORIGIN), 409, 'already_subscribed');
+    const { url } = await createPlanChange(pro, 'coach', ORIGIN);
+    expect(url).toContain('cus_u');
+    const params = stub.callsOf('billingPortal.sessions.create').at(-1)!.args[0] as Record<string, unknown>;
+    expect(params).toMatchObject({
+      customer: 'cus_u',
+      configuration: 'bpc_1',
+      flow_data: { type: 'subscription_update_confirm', subscription_update_confirm: { subscription: 'sub_u', items: [{ id: 'si_u', price: 'price_max_yearly', quantity: 1 }] } },
+    });
+    await expectHttp(createPlanChange(pro, 'pro', ORIGIN), 409, 'same_plan');
+    await expectHttp(createPlanChange(await fresh(), 'coach', ORIGIN), 409, 'no_subscription');
+    // a Cup plan has no subscription to change
+    const cup = await fresh((x) => {
+      x.plan = { status: 'pro', source: 'cup', tier: 'coach', periodEnd: new Date(end * 1000).toISOString() };
+    });
+    await expectHttp(createPlanChange(cup, 'pro', ORIGIN), 409, 'no_subscription');
   });
 
   it('a tier change in the portal is picked up by the next sync', async () => {

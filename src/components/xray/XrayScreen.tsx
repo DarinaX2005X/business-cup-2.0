@@ -234,6 +234,7 @@ export function XrayScreen(props: XrayPageProps) {
         label={label}
         byCategory={(id) => byId.get(id)?.evidence.category}
         labelsReady={result.humanEdge.every(written)}
+        cardPath={props.cardPath}
         onMetric={(id) => setFocus({ kind: 'metric', id }, { reveal: true })}
       />
       <ActionCard
@@ -313,23 +314,13 @@ export function XrayScreen(props: XrayPageProps) {
 
       {tab === 'plan' ? (
         <TabPanel id="plan" lead={t('xray.tabs.lead.plan')}>
-          {PlanView ? (
-            <PlanView xrayId={initial.id} />
-          ) : (
-            <Further result={result} bundle={bundle} isPro={isPro} isOwner={isOwner} label={label} tips={tips} xrayId={initial.id} only="plan" onSelect={(id) => setFocus({ kind: 'task', id }, { reveal: true })} />
-          )}
+          {isOwner ? <PlanView xrayId={initial.id} /> : <OwnerOnly />}
         </TabPanel>
       ) : null}
 
       {tab === 'skills' ? (
         <TabPanel id="skills" lead={t('xray.tabs.lead.skills')}>
-          {SkillsView ? (
-            <SkillsView xrayId={initial.id} />
-          ) : (
-            <div className={st.emptyTab}>
-              <p>{t('xray.tabs.skillsEmpty')}</p>
-            </div>
-          )}
+          {isOwner ? <SkillsView xrayId={initial.id} /> : <OwnerOnly />}
         </TabPanel>
       ) : null}
 
@@ -356,6 +347,19 @@ export function XrayScreen(props: XrayPageProps) {
       <span className="sr-only" aria-live="polite">
         {editing ? t('xray.live', { score: result.score, hours: result.hours.human_edge }) : ''}
       </span>
+    </div>
+  );
+}
+
+/** Plan and Skills belong to the person who made the map: someone opening a shared link gets a way to their own. */
+function OwnerOnly() {
+  const { t } = useT();
+  return (
+    <div className={st.emptyTab}>
+      <p>{t('xray.tabs.ownerOnly')}</p>
+      <Link href="/start" className={st.textLink}>
+        {t('xray.tabs.ownerOnlyCta')}
+      </Link>
     </div>
   );
 }

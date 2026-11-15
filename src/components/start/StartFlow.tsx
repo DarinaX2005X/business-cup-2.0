@@ -352,6 +352,7 @@ export function StartFlow({ initial }: { initial: StartInitial }) {
             from={from}
             scanning={step === 'scan'}
             onScan={(on) => go(on ? 'scan' : 'week', !on)}
+            sourceText={chosen.inputSource === 'title' ? null : (lastText.current?.text ?? null)}
           />
         ) : null}
       </main>

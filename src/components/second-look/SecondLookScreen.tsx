@@ -3,7 +3,7 @@
 import { CheckCheck, ShieldAlert } from 'lucide-react';
 import Link from 'next/link';
 import { useCallback, useEffect, useId, useMemo, useRef, useState, type KeyboardEvent, type RefObject } from 'react';
-import { CupOffer } from '@/components/cup/CupOffer';
+import { MaxActions } from '@/components/cup/MaxActions';
 import { errorCode, loadSecondLook, runSecondLook, type SecondLookResult, type SecondLookState } from '@/components/playbook/api';
 import { Button } from '@/components/kit/Button';
 import { RepCard } from '@/components/kit/RepCard';
@@ -32,7 +32,7 @@ const words = (s: string) => s.split(/\s+/).filter((w) => /[\p{L}\p{N}]/u.test(w
 /**
  * /second-look: paste a real AI draft from work, pick the task it is for, and get up to six «Check
  * this» places on the margin of the same sheet. The text lives only in this page: the server reads it
- * once and keeps a counter. Free gets one; after it the form becomes the Pro offer.
+ * once and keeps a counter. Without Max there is one; after it the form becomes the Max offer.
  */
 export function SecondLookScreen() {
   const { t, f, locale } = useT();
@@ -91,7 +91,7 @@ export function SecondLookScreen() {
     } catch (err) {
       const code = errorCode(err);
       setPhase({ p: 'edit' });
-      if (code === 'pro_required') {
+      if (code === 'pro_required' || code === 'max_required') {
         setState((s) => (s ? { ...s, pro: false, freeLeft: 0 } : s));
         return;
       }
@@ -332,26 +332,17 @@ function ResultView({
   );
 }
 
-/* ---------- Free after the free one ---------- */
+/* ---------- without Max, after the free one ---------- */
 
 function LockedView({ onUnlocked }: { onUnlocked: () => void }) {
   const { t } = useT();
-  const { profile } = useProfile();
-  const map = profile?.lastXrayId;
   return (
     <div className={st.lockedWrap}>
       <LockedPanel
         title={t('playbook.secondLook.locked.title')}
         reason={t('playbook.secondLook.locked.reason')}
         shape="list"
-        action={
-          <span className={st.proWays}>
-            <Link href={map ? `/pricing?from=${encodeURIComponent(map)}` : '/pricing'} className={`${btn.btn} ${btn.b_primary}`}>
-              {t('playbook.locked.trial')}
-            </Link>
-            <CupOffer onUnlocked={onUnlocked} />
-          </span>
-        }
+        action={<MaxActions onUnlocked={onUnlocked} />}
       />
     </div>
   );

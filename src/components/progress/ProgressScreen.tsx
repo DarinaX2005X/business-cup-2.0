@@ -91,7 +91,6 @@ export function ProgressScreen({ planSlot }: { planSlot?: ReactNode }) {
   }
 
   const d = state.data;
-  const isPro = d.isPro && !forceFree;
   const reps = d.history.filter((p) => p.kind === 'rep').length;
   const delta = d.score !== null && d.startScore !== null ? d.score - d.startScore : 0;
 
@@ -140,7 +139,7 @@ export function ProgressScreen({ planSlot }: { planSlot?: ReactNode }) {
           {d.proof.length ? <ProofLog entries={d.proof} today={d.streak.today} onChange={onPublic} /> : <FirstRep />}
         </section>
         <aside className={st.side}>
-          <ReviewKitCard isPro={isPro} reps={d.counts.reps} />
+          <ReviewKitCard isMax={d.isMax && !forceFree} reps={d.counts.reps} />
           {planSlot}
         </aside>
       </div>

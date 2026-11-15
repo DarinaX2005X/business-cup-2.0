@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { CupOffer } from '@/components/cup/CupOffer';
+import { MaxActions } from '@/components/cup/MaxActions';
 import { LockedPanel } from '@/components/kit/Shop';
 import btn from '@/components/kit/controls.module.css';
 import { useT } from '@/i18n/client';
@@ -32,23 +32,15 @@ export function BriefArt({ className }: { className?: string }) {
   );
 }
 
-/** The trial button and the Business Cup offer: the same pair as every other paywall. */
+/** The way into Max from the Review kit's locked panel. */
 export function ProActions() {
-  const { t } = useT();
-  return (
-    <div className={st.payActions}>
-      <Link href="/pricing" className={`${btn.btn} ${btn.b_primary}`}>
-        {t('progress.kit.trial')}
-      </Link>
-      <CupOffer />
-    </div>
-  );
+  return <MaxActions />;
 }
 
-/** Beside the proof: what the Review kit makes and the way into it, or the Pro panel on Free. */
-export function ReviewKitCard({ isPro, reps }: { isPro: boolean; reps: number }) {
+/** Beside the proof: what the Review kit makes and the way into it, or the Max panel without Max. */
+export function ReviewKitCard({ isMax, reps }: { isMax: boolean; reps: number }) {
   const { t } = useT();
-  if (!isPro) {
+  if (!isMax) {
     return <LockedPanel shape="list" title={t('progress.kit.lockedTitle')} reason={t('progress.kit.lockedReason')} action={<ProActions />} />;
   }
   return (

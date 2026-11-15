@@ -21,6 +21,7 @@
     "ai_unavailable": "The AI part is unavailable right now. Everything else works, so try this again a bit later.",
     "server_error": "Something went wrong on our side. Try again in a minute.",
     "pro_required": "Daily reps are part of Pro. Your free rep and AI or me are still here.",
+    "max_required": "This comes with Max.",
     "no_xray": "Make your week map first: reps are built from its tasks.",
     "daily_exists": "Today's rep is already started. Reload the page to open it.",
     "extra_limit": "You've done all three practice reps for today. New ones open tomorrow.",

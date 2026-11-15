@@ -319,16 +319,17 @@ function RewardCard({ balance }: { balance: number }) {
 
 /* ---------- quick links: app-style tiles ---------- */
 
-function QuickLinks({ xrayId, pages }: { xrayId: string; pages: string[] }) {
+function QuickLinks({ xrayId, pages, tier }: { xrayId: string; pages: string[]; tier: AccountSnapshot['tier'] }) {
   const { t } = useT();
   const x = (tab: string) => `/x/${xrayId}?tab=${tab}`;
-  const items: { id: string; href: string; icon: LucideIcon; tone: 'machine' | 'human' | 'violet'; show: boolean }[] = [
+  // Playbook and Second look come with Max: below Max they open their free taste and say so
+  const items: { id: string; href: string; icon: LucideIcon; tone: 'machine' | 'human' | 'violet'; show: boolean; max?: boolean }[] = [
     { id: 'tasks', href: x('tasks'), icon: ListChecks, tone: 'machine', show: true },
     { id: 'plan', href: x('plan'), icon: CalendarRange, tone: 'human', show: true },
     { id: 'skills', href: x('skills'), icon: Layers, tone: 'violet', show: true },
     { id: 'next', href: x('next'), icon: Signpost, tone: 'violet', show: true },
-    { id: 'playbook', href: '/playbook', icon: BookOpenText, tone: 'human', show: pages.includes('playbook') },
-    { id: 'secondLook', href: '/second-look', icon: ScanSearch, tone: 'machine', show: pages.includes('secondLook') },
+    { id: 'playbook', href: '/playbook', icon: BookOpenText, tone: 'human', show: pages.includes('playbook'), max: true },
+    { id: 'secondLook', href: '/second-look', icon: ScanSearch, tone: 'machine', show: pages.includes('secondLook'), max: true },
   ];
   return (
     <section className={st.links} aria-labelledby="home-links">
@@ -338,14 +339,17 @@ function QuickLinks({ xrayId, pages }: { xrayId: string; pages: string[] }) {
       <ul>
         {items
           .filter((i) => i.show)
-          .map(({ id, href, icon: Icon, tone }) => (
+          .map(({ id, href, icon: Icon, tone, max }) => (
             <li key={id}>
               <Link href={href} className={st.link}>
                 <span className={st.appIcon} data-tone={tone} aria-hidden="true">
                   <Icon size={22} strokeWidth={1.9} />
                 </span>
                 <span className={st.linkText}>
-                  <b>{t(`home.links.${id}`)}</b>
+                  <b>
+                    {t(`home.links.${id}`)}
+                    {max && tier !== 'coach' ? <span className={st.tierTag}>{t('home.links.maxTag')}</span> : null}
+                  </b>
                   <span>{t(`home.links.${id}Body`)}</span>
                 </span>
               </Link>
@@ -461,7 +465,7 @@ export function HomeScreen() {
         <StreakCard account={account} />
         <RewardCard balance={account.balance} />
       </div>
-      <QuickLinks xrayId={xrayId} pages={shell.pages} />
+      <QuickLinks xrayId={xrayId} pages={shell.pages} tier={account.tier} />
     </div>
   );
 }

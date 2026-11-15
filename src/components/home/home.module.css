@@ -645,6 +645,17 @@ a.tile:hover .voucher {
   color: var(--ink-2);
 }
 
+/* «Max» beside a link that opens a free taste below Max */
+.linkText b .tierTag {
+  min-height: 20px;
+  margin-left: 8px;
+  padding: 0 7px;
+  font-size: 12px;
+  line-height: 1;
+  vertical-align: 2px;
+  color: var(--apricot-deep);
+}
+
 /* app-style icons: a rounded tile with volume, in the product's three materials */
 .appIcon {
   display: grid;

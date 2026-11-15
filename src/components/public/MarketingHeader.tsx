@@ -21,9 +21,10 @@ const LINKS: { id: MarketingPage; href: string }[] = [
  * and the same right side as the app. A visitor without an account gets «Log in» and «Map my week» (or
  * «Open the app» once they have a week map); a signed-in person gets «Open the app» and the account menu.
  */
-export function MarketingHeader({ current, surface = 'paper' }: { current?: MarketingPage; surface?: 'paper' | 'field' }) {
+export function MarketingHeader({ current, surface = 'paper', minimal = false }: { current?: MarketingPage; surface?: 'paper' | 'field'; minimal?: boolean }) {
   const { t } = useT();
   const account = useAccount();
+  if (minimal) return <MinimalHeader surface={surface} />;
   const home = account ? '/home' : '/';
   return (
     <header className={st.header} data-surface={surface} data-account={account ? '' : undefined}>
@@ -57,6 +58,37 @@ export function MarketingHeader({ current, surface = 'paper' }: { current?: Mark
                 {account?.lastXrayId ? t('shell.openApp') : t('shell.mapOwn')}
               </Link>
             </>
+          ) : (
+            <span className={st.pending} aria-hidden="true" />
+          )}
+        </div>
+      </div>
+    </header>
+  );
+}
+
+/**
+ * A standalone page's header (/cup): the logo, which goes to the landing, and on the right «Log in» or the
+ * account menu, so the jury can sign in. No site tabs: on a page of its own they read as fake navigation.
+ */
+function MinimalHeader({ surface }: { surface: 'paper' | 'field' }) {
+  const { t } = useT();
+  const account = useAccount();
+  return (
+    <header className={st.header} data-surface={surface} data-account={account ? '' : undefined}>
+      <div className={st.inner}>
+        <div className={st.left}>
+          <Link href="/" className={st.brand} aria-label={t('shell.homeGuest')}>
+            <KeystoneMark size={32} tone={surface === 'field' ? 'violet' : 'paper'} />
+            <span className={st.wordmark}>Irreplaceable</span>
+          </Link>
+          {account?.demo ? <DemoMark /> : null}
+        </div>
+        <div className={st.right}>
+          {account?.email ? (
+            <HeaderAccount snapshot={account} surface={surface} parts={{ streak: false }} />
+          ) : account !== undefined ? (
+            <LoginButton surface={surface} />
           ) : (
             <span className={st.pending} aria-hidden="true" />
           )}

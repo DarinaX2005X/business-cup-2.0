@@ -3,7 +3,7 @@ import { applyFreeze } from '@/domain/points';
 import { localDay, streakAsOf, type RepRecord } from '@/domain/reps';
 import { computeXray, practiceScore } from '@/domain/xray';
 import type { Locale, OccupationBundle, Profile, XrayResult } from '@/domain/types';
-import { isPro } from '@/server/profile';
+import { isCoach, isPro } from '@/server/profile';
 import { readRep } from '@/server/reps/records';
 import { getTaskTexts, heuristicShort, loadBundle, practiceOf, readXray } from '@/server/xray';
 import { getLocalTitles } from '@/server/xray/data';
@@ -171,5 +171,6 @@ export async function buildProgress(profile: Profile, opts: { tz?: string | null
     publicSlug: profile.publicSlug ?? null,
     publicCount: profile.proof.filter((e) => e.public).length,
     isPro: isPro(profile),
+    isMax: isCoach(profile),
   };
 }

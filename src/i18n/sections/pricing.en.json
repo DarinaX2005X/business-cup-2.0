@@ -55,7 +55,7 @@
       "reps": "A daily rep of any kind: Spot the slip, Delegate or Human edge",
       "plan": "A 90-day plan built from your week",
       "jobs": "Every neighbouring job and the skills it adds",
-      "proof": "Proof of your practice and the Review kit",
+      "proof": "Proof of your practice",
       "shop": "Points for practice and the shop to spend them"
     },
     "best": "Best value",
@@ -105,8 +105,8 @@
         "what": "Every related job, with the human share and the skills it adds."
       },
       "proof": {
-        "name": "Proof and Review kit",
-        "what": "Every rep you finish becomes proof you can bring to your review."
+        "name": "Proof portfolio",
+        "what": "Every rep you finish becomes proof of your practice."
       },
       "shop": {
         "name": "Points and the shop",

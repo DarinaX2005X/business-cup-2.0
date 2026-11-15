@@ -79,7 +79,10 @@ export type StarterState = 'ready' | 'pending' | 'unavailable';
 export interface PlaybookView {
   jobTitle: string;
   occupationCode: string;
+  /** The whole playbook is open (Max). */
   pro: boolean;
+  /** «Practise this» starts a rep (Pro or Max); otherwise it leads to Today. */
+  practise: boolean;
   starter: StarterState;
   /** At least one finished Delegate rep on a card's task. */
   practised: boolean;
@@ -109,7 +112,7 @@ export interface SecondLookTask {
 
 export interface SecondLookState {
   pro: boolean;
-  /** Free runs left (Pro: null, no limit shown). */
+  /** Free runs left (Max: null, no limit shown). */
   freeLeft: number | null;
   jobTitle: string | null;
   tasks: SecondLookTask[];

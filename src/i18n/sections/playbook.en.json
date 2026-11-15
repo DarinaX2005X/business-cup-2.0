@@ -10,7 +10,7 @@
   "shelf": {
     "label": "Tasks in your playbook",
     "yours": "Yours",
-    "pro": "Pro"
+    "pro": "Comes with Max"
   },
   "card": {
     "to": "To: ChatGPT, Claude or Copilot",
@@ -54,8 +54,8 @@
     "none": "No checks for this task yet. Practise it once and what slipped past you will land here."
   },
   "locked": {
-    "title": "{task} is part of Pro",
-    "reason": "Pro opens a ready instruction and checklist for every task AI helps with in your week, and keeps your own best versions.",
+    "title": "{task} comes with Max",
+    "reason": "Max opens a checked instruction and checklist for every task AI helps with in your week, and keeps your own best versions.",
     "trial": "Start your 7-day free trial"
   },
   "empty": {
@@ -77,6 +77,7 @@
     "text_too_short": "Paste at least a few sentences.",
     "text_too_long": "That's over 4,000 characters. Paste the part you want checked.",
     "pro_required": "This is part of Pro.",
+    "max_required": "This comes with Max.",
     "no_xray": "Make your week map first: your playbook is built from its tasks.",
     "not_found": "This task is no longer in your week. Reload the page."
   },
@@ -123,7 +124,7 @@
     },
     "locked": {
       "title": "Your free second look is used",
-      "reason": "Pro gives you a second look at every AI draft from your work, along with a daily rep and your playbook."
+      "reason": "Max gives you a second look at every AI draft from your work, along with the full playbook and your personal coach."
     },
     "toPlaybook": "Your playbook has ready instructions for the tasks AI helps with."
   }

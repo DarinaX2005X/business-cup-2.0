@@ -5,7 +5,7 @@ import { motion } from 'motion/react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useId, useRef, useState, type KeyboardEvent } from 'react';
-import { CupOffer } from '@/components/cup/CupOffer';
+import { MaxActions } from '@/components/cup/MaxActions';
 import { CategorySwatch } from '@/components/kit/Evidence';
 import { FieldArches, SheetStack } from '@/components/kit/Illustration';
 import { LockedPanel } from '@/components/kit/Shop';
@@ -107,14 +107,7 @@ export function PlaybookScreen() {
               title={t('playbook.locked.title', { task: current.short })}
               reason={t('playbook.locked.reason')}
               shape="list"
-              action={
-                <span className={st.proWays}>
-                  <Link href={profile?.lastXrayId ? `/pricing?from=${encodeURIComponent(profile.lastXrayId)}` : '/pricing'} className={`${btn.btn} ${btn.b_primary}`}>
-                    {t('playbook.locked.trial')}
-                  </Link>
-                  <CupOffer onUnlocked={() => void fetchView()} />
-                </span>
-              }
+              action={<MaxActions onUnlocked={() => void fetchView()} />}
             />
           ) : (
             <InstructionCard key={current.taskId} card={current} view={view} onCard={replaceCard} onRetryStarter={() => void fetchView()} />

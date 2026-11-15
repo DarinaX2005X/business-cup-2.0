@@ -45,6 +45,11 @@
   padding-block: 8px;
 }
 
+/* the hero's field continued under the first screen: the Business Cup 2.0 card, room above for its trophy */
+.cupLead {
+  padding: clamp(72px, 8vw, 96px) var(--gutter) clamp(64px, 8vw, 112px);
+}
+
 /* sections the header links to stop below it */
 .page section[id] {
   scroll-margin-top: 72px;

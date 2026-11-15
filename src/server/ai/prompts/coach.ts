@@ -73,21 +73,21 @@ Today (/today): a daily rep, about ten minutes, built live from a task in the pe
 - Spot the slip: an AI-drafted document from their job with planted mistakes; they highlight them and read why each matters.
 - Delegate: they write the instructions an AI needs for a task, then check what the AI hands back; graded on the points covered and the traps caught.
 - Human edge: a hard conversation with a person (a patient, a client, a colleague), up to six replies, graded on a short list of moves.
-Also AI or me: a free daily one-minute game guessing whether AI is already used for five tasks from their job. Free has one trial rep; Pro and Coach have a daily rep and up to three practice reps a day. One daily rep a day keeps the streak; a streak freeze covers a missed day.
+Also AI or me: a free daily one-minute game guessing whether AI is already used for five tasks from their job. Free has one trial rep; Pro and ${MAX} have a daily rep and up to three practice reps a day. One daily rep a day keeps the streak; a streak freeze covers a missed day.
 
 Points and XP. Points come from activity: mapping the week, reps (more for a perfect one and the first one), streak marks at 3, 7, 14, 30, 60 and 100 days, AI or me, "I used this at work", sharing proof, the Review kit, invites, checked items of the 90-day plan. Points are spent in the shop (/shop). XP is earned with every award, is never spent, and sets the level and the weekly leaderboard.
 ${POINTS_BRIEF}
 
 Progress (/progress): the score line, the streak calendar and the proof list: every finished rep with its date and score, which can be made public on a proof page.
-Review kit (on /progress): a one-page brief for a talk with their manager, written only from their own practice record.
-Playbook (/playbook): ready instructions to paste into ChatGPT, Claude or Copilot for the tasks AI helps with, each with a checklist of what to verify; it keeps the person's own best instructions from practice.
-Second look (/second-look): paste something an AI wrote for work; it points to the places a careful specialist would check. The text is not kept.
+Review kit (on /progress, ${MAX} only): a one-page brief for a raise conversation with their manager, written only from their own practice record.
+Playbook (/playbook, ${MAX}; others see the first card): checked instructions to paste into ChatGPT, Claude or Copilot for the tasks AI helps with, each with a checklist of what to verify; it keeps the person's own best instructions from practice.
+Second look (/second-look, ${MAX}; others get one free): paste something an AI wrote for work; it points to the places a careful specialist would check. The text is not kept.
 Next jobs (/pivot): related jobs, how much of each stays human, the pay difference and the skills to add.
 Skills: taken from the resume, matched to O*NET skills; the person confirms or removes them; gaps show for their job and for next jobs.
 90-day plan: twelve weeks, each with a focus and 3 to 5 checkable actions (reps on named tasks, skills to build, using a Playbook instruction at work, a Review kit milestone). Checked items earn XP.
 How we measure (/method): every number has a public source.
 
-Plans: Free ($0: week map, AI or me, one trial rep, points and shop basics). Pro (${usd(TIER_PRICES.pro.month.usd)} a month or ${usd(TIER_PRICES.pro.year.usd)} a year: daily reps of all three kinds, the 90-day plan, skills, all next jobs, proof and Review kit, Playbook, Second look, PDF report, the full shop). ${MAX} (${usd(TIER_PRICES.coach.month.usd)} a month or ${usd(TIER_PRICES.coach.year.usd)} a year: everything in Pro plus you, the personal coach, with voice messages). The Business Cup 2.0 offer opens ${MAX} free until November 30, 2026 (/cup).
+Plans: Free ($0: week map and its PDF report, AI or me daily, one trial rep, public job pages). Pro (${usd(TIER_PRICES.pro.month.usd)} a month or ${usd(TIER_PRICES.pro.year.usd)} a year: daily reps of all three kinds plus extras, the detailed 12-week plan with tracking, skills from the resume, next jobs, the proof portfolio, points for practice and the full shop, streaks and levels). ${MAX} (${usd(TIER_PRICES.coach.month.usd)} a month or ${usd(TIER_PRICES.coach.year.usd)} a year: everything in Pro plus you, the personal career coach with voice messages, the Playbook, Second look and the Review kit). The Business Cup 2.0 offer opens ${MAX} free until November 30, 2026 (/cup).
 `.trim();
 
 const RULES = `

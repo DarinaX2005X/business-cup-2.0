@@ -4,7 +4,7 @@ import type { Actor } from '@/server/ai/budget';
 import { callModel } from '@/server/ai/client';
 import { secondLookPrompt, secondLookSchema, type SecondLookAnswer } from '@/server/ai/prompts/second-look';
 import { emit } from '@/server/events';
-import { isPro, updateProfile } from '@/server/profile';
+import { isCoach, updateProfile } from '@/server/profile';
 import { HttpError } from '@/server/profile/http';
 import { weekOf } from '@/server/reps';
 import { getTaskTexts } from '@/server/xray';
@@ -21,22 +21,22 @@ export const SECOND_LOOK_MAX_CHARS = 4000;
 export const SECOND_LOOK_MIN_WORDS = 12;
 const MAX_MARKS = 6;
 const TASKS_SHOWN = 8;
-/** A Pro profile's own bucket of model calls for Second look (the money is capped globally anyway). */
+/** A Max profile's own bucket of model calls for Second look (the money is capped globally anyway). */
 const CALLS_PER_DAY = 60;
 
 const WEEK_HOURS = 40;
 const hoursOf = (share: number) => Math.round(((share * WEEK_HOURS) / 100) * 10) / 10;
 
-/** Free runs left for this profile (null for Pro). */
+/** Free runs left for this profile (null for Max, where Second look has no limit). */
 export function freeLeft(profile: Profile | null, now = new Date()): number | null {
-  if (profile && isPro(profile, now)) return null;
+  if (profile && isCoach(profile, now)) return null;
   const used = (profile as PlaybookProfile | null)?.playbook?.secondLook?.used ?? 0;
   return Math.max(0, SECOND_LOOK_FREE - used);
 }
 
 /** GET /api/second-look: plan, free runs left and the week's tasks for the picker (biggest first). */
 export async function secondLookState(profile: Profile | null, locale: Locale): Promise<SecondLookState> {
-  const base: SecondLookState = { pro: !!profile && isPro(profile), freeLeft: freeLeft(profile), jobTitle: profile?.jobTitle ?? null, tasks: [] };
+  const base: SecondLookState = { pro: !!profile && isCoach(profile), freeLeft: freeLeft(profile), jobTitle: profile?.jobTitle ?? null, tasks: [] };
   if (!profile) return base;
   const week = await weekOf(profile);
   if (!week) return base;
@@ -132,13 +132,13 @@ export async function runSecondLook(ctx: SecondLookCtx, input: SecondLookInput):
   }
 
   // Take the turn first (so two tabs cannot both use the free one), give it back if the read fails.
-  const pro = isPro(profile, now);
+  const pro = isCoach(profile, now);
   const taken = await updateProfile(
     profile.id,
     (p) => {
       const pp = p as PlaybookProfile;
       const used = pp.playbook?.secondLook?.used ?? 0;
-      if (!pro && used >= SECOND_LOOK_FREE) throw new HttpError(402, 'pro_required', 'Second look is part of Pro after the free one.');
+      if (!pro && used >= SECOND_LOOK_FREE) throw new HttpError(402, 'max_required', 'Second look comes with Max after the free one.');
       pp.playbook = { ...pp.playbook, secondLook: { used: used + 1, lastAt: now.toISOString() } };
     },
     { current: profile },

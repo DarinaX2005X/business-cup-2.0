@@ -1,49 +1,4 @@
-/* The Business Cup 2.0 band: a long warm card, the trophy standing out of its top edge, the jury row under the line. */
-
-.band {
-  position: relative;
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  gap: 14px clamp(20px, 3vw, 40px);
-  align-items: center;
-  padding: clamp(18px, 2.4vw, 28px) clamp(22px, 3vw, 40px);
-  border-radius: var(--r-panel);
-  background:
-    linear-gradient(90deg, transparent 0 clamp(130px, 16vw, 210px), var(--speed-field) clamp(130px, 16vw, 210px)),
-    var(--hatch-sparse),
-    var(--speed-field);
-  box-shadow: inset 0 0 0 1px var(--tile-sp-edge);
-  transition: box-shadow var(--t-hover) var(--ease);
-}
-
-.band:hover {
-  box-shadow:
-    inset 0 0 0 1px var(--tile-sp-edge),
-    var(--shadow-raised);
-}
-
-.cup {
-  grid-row: span 2;
-  align-self: end;
-  margin: -52px 0 -6px;
-}
-
-.text {
-  display: grid;
-  gap: 6px;
-  min-width: 0;
-}
-
-.title {
-  font-size: clamp(22px, 2.4vw, 30px);
-  letter-spacing: -0.025em;
-  line-height: 1.1;
-}
-
-.body {
-  max-width: 40em;
-  color: var(--ink-2);
-}
+/* The jury's one-click demo accounts (used inside the Business Cup card and on /cup). */
 
 /* the jury's one-click accounts */
 .jury {
@@ -89,15 +44,6 @@
 }
 
 @media (max-width: 760px) {
-  .band {
-    grid-template-columns: auto minmax(0, 1fr);
-  }
-  .cup {
-    grid-row: auto;
-    width: 92px !important;
-    margin: -34px 0 0;
-  }
-  .cta,
   .jury {
     grid-column: 1 / -1;
   }

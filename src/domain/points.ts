@@ -498,10 +498,10 @@ export const PLANS: readonly PlanOffer[] = [
     includes: null,
     features: [
       { id: 'week_map', text: 'Your week map: what AI already does, what it speeds up, and what stays yours' },
+      { id: 'pdf_report', text: 'A PDF report of your week' },
       { id: 'ai_or_me', text: 'AI or me?, a one-minute game every day' },
       { id: 'trial_rep', text: 'One live practice rep on a task from your week' },
       { id: 'job_pages', text: 'Public pages for every job' },
-      { id: 'points', text: 'Points for what you do, and the shop basics' },
     ],
   },
   {
@@ -513,13 +513,12 @@ export const PLANS: readonly PlanOffer[] = [
     includes: 'free',
     features: [
       { id: 'daily_reps', text: 'A daily rep on your own tasks: catch AI mistakes, hand work to AI, handle the human part, plus extra reps' },
-      { id: 'plan_90', text: 'A 90-day plan, week by week, that you check off as you go' },
+      { id: 'plan_90', text: 'A detailed 12-week plan that you check off as you go' },
       { id: 'skills', text: 'Your skills from your résumé, and the gaps worth closing' },
       { id: 'next_jobs', text: 'All the jobs you could move to next' },
-      { id: 'proof', text: 'A proof portfolio and a Review kit for your manager' },
-      { id: 'playbook', text: 'Playbook and Second look for your real work' },
-      { id: 'pdf_report', text: 'A PDF report of your week' },
+      { id: 'proof', text: 'A proof portfolio of your practice' },
       { id: 'full_shop', text: 'Points for practice and the full shop' },
+      { id: 'streak', text: 'Streaks and levels' },
     ],
   },
   {
@@ -531,7 +530,9 @@ export const PLANS: readonly PlanOffer[] = [
     includes: 'pro',
     features: [
       { id: 'coach_chat', text: 'Personal AI coach: chat and voice, knows your week, plan and skills' },
-      { id: 'coach_checkins', text: 'Coach check-ins on your plan' },
+      { id: 'playbook', text: 'Playbook: checked AI instructions for your tasks' },
+      { id: 'second_look', text: 'Second look: check a real AI draft from your work' },
+      { id: 'review_kit', text: 'Review kit: a one-page brief for your raise conversation' },
     ],
   },
 ];

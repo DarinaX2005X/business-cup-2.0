@@ -71,6 +71,8 @@ export interface ProgressResponse {
   publicSlug: string | null;
   publicCount: number;
   isPro: boolean;
+  /** Max: the Review kit is open. */
+  isMax: boolean;
 }
 
 export interface ReviewKitSection {

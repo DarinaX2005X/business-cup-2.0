@@ -28,8 +28,8 @@ export function CupPage({ initialPlan, hasMap }: { initialPlan: ProfilePlan | nu
   return (
     <div className={`${st.page} field`} data-surface="field">
       <FieldArches className={st.arches} />
-      {/* the shared marketing header (R3 shell), on the field */}
-      <MarketingHeader current="cup" surface="field" />
+      {/* a page of its own: only the logo and Log in / the account, no site tabs */}
+      <MarketingHeader current="cup" surface="field" minimal />
 
       <main className={st.main}>
         <div className={st.text}>

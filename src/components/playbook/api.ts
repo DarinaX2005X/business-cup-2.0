@@ -45,7 +45,7 @@ export const runSecondLook = (text: string, taskId: string | null, locale: Local
 
 export const errorCode = (err: unknown) => (err instanceof ApiError ? err.code : 'network');
 
-const OWN = new Set(['too_short', 'too_long', 'text_too_short', 'text_too_long', 'pro_required', 'no_xray', 'not_found']);
+const OWN = new Set(['too_short', 'too_long', 'text_too_short', 'text_too_long', 'pro_required', 'max_required', 'no_xray', 'not_found']);
 const COMMON = new Set(['network', 'unauthorized', 'invalid_input', 'conflict', 'rate_limited', 'storage_unavailable', 'ai_unavailable', 'server_error', 'daily_exists', 'extra_limit', 'in_progress']);
 
 /** Dictionary key for an API error code. */

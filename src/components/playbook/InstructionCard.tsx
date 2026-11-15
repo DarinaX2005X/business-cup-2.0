@@ -286,7 +286,7 @@ export function InstructionCard({
               >
                 {t('playbook.card.edit')}
               </Button>
-              {view.pro ? (
+              {view.practise ? (
                 <Button variant="quiet" icon={<Dumbbell strokeWidth={1.75} />} loading={busy === 'practise'} loadingLabel={t('playbook.card.practising')} onClick={onPractise}>
                   {t('playbook.card.practise')}
                 </Button>

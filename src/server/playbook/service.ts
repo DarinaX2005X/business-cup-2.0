@@ -1,7 +1,7 @@
 import { localDay, type RepRecord } from '@/domain/reps';
 import type { Locale, PointsAward, Profile } from '@/domain/types';
 import { emit } from '@/server/events';
-import { isPro, updateProfile } from '@/server/profile';
+import { isCoach, isPro, updateProfile } from '@/server/profile';
 import { HttpError } from '@/server/profile/http';
 import { readRep, weekOf } from '@/server/reps';
 import { getTaskTexts } from '@/server/xray';
@@ -13,7 +13,7 @@ import type { CheckItem, PlaybookCard, PlaybookProfile, PlaybookView } from './t
  * Playbook (05.3.1): one card per task of the person's week that AI does or speeds up (plus any week
  * task they practised Delegate on). The instruction on a card is, in order: their own edit, their best
  * practice instruction scored at least PRACTICE_BAR, the starter. The checklist is the starter's checks
- * plus what slipped past them in practice on that task. Free sees the first card; the rest are locked
+ * plus what slipped past them in practice on that task. Without Max the first card is open; the rest are locked
  * and carry no content.
  */
 
@@ -48,12 +48,15 @@ export async function getPlaybook(ctx: PlaybookCtx): Promise<PlaybookView> {
   // Tasks practised as Delegate in this week also get a card, even outside the AI categories.
   const delegated = new Set(profile.repLog.filter((r) => r.type === 'delegate' && r.score !== undefined && weekIds.has(r.taskId)).map((r) => r.taskId));
   const cardShares = shares.filter((s) => STARTER_CATEGORIES.has(byId.get(s.taskId)!.evidence.category) || delegated.has(s.taskId));
-  const pro = isPro(profile, ctx.now ?? new Date());
+  // The playbook comes with Max; everyone else sees the first card. Practising a card is a rep (Pro).
+  const pro = isCoach(profile, ctx.now ?? new Date());
+  const practise = isPro(profile, ctx.now ?? new Date());
 
   const empty: PlaybookView = {
     jobTitle: profile.jobTitle ?? bundle.title,
     occupationCode: bundle.code,
     pro,
+    practise,
     starter: 'ready',
     practised: false,
     practiceBar: PRACTICE_BAR,
@@ -126,7 +129,7 @@ async function openCard(ctx: PlaybookCtx, taskId: string): Promise<{ view: Playb
   const view = await getPlaybook(ctx);
   const card = view.cards.find((c) => c.taskId === taskId);
   if (!card) throw new HttpError(404, 'not_found', 'This task is not in your playbook.');
-  if (card.locked) throw new HttpError(402, 'pro_required', 'This card is part of Pro.');
+  if (card.locked) throw new HttpError(402, 'max_required', 'The full playbook comes with Max.');
   return { view, card };
 }
 

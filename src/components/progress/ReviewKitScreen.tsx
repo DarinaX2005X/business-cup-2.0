@@ -56,7 +56,7 @@ export function ReviewKitScreen() {
       applyAwards(kit.pointsAwarded);
     } catch (err) {
       const code = err instanceof ApiError ? err.code : 'network';
-      if (code === 'pro_required') setState({ s: 'locked' });
+      if (code === 'pro_required' || code === 'max_required') setState({ s: 'locked' });
       else if (code === 'no_xray') setState({ s: 'noMap' });
       else if (code === 'no_proof') setState({ s: 'noProof' });
       else setState({ s: 'error', code });

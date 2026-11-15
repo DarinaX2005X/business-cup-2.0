@@ -38,6 +38,7 @@
 
 <p align="center">
   <a href="#try-it-in-one-click">Try it</a> &nbsp;|&nbsp;
+  <a href="#watch-the-40-second-film">Film</a> &nbsp;|&nbsp;
   <a href="#the-problem">Problem</a> &nbsp;|&nbsp;
   <a href="#how-it-works">How it works</a> &nbsp;|&nbsp;
   <a href="#what-you-get">What you get</a> &nbsp;|&nbsp;
@@ -69,6 +70,13 @@ Everyone else gets the same offer on that page: **Max is free until November 30,
 | **Today**, Delegate | Write a deliberately vague instruction | The review shows which traps in the material you missed |
 | **Coach** | Ask about your week by text or with a voice message | An answer built from your own map, reps and plan |
 | **Shop** | Redeem 250 points | A real Stripe discount code |
+
+## Watch the 40-second film
+
+The film follows one nurse from the fear of being replaced to a plan, and every shot is the real product.
+
+<a href="docs/video/irreplaceable.mp4"><img src="docs/video/poster.jpg" width="100%" alt="Poster of the 40-second Irreplaceable film: the question 'Afraid AI will replace you?' on a violet field. Opens the film."></a>
+<sub>40 seconds with music and on-screen English: a resume is dropped in, the product reads it and finds the job (Registered Nurses), the week map splits the week into what AI already does, what it speeds up and what stays yours, the irreplaceability score fills in, the 12-week plan and the PDF report appear, a daily rep catches one AI slip for +130 points, the coach answers a question and takes a voice message, and the film ends on "Train the part of your job AI gets wrong". Captured from the running product. Click the poster to open the MP4 (27 MB).</sub>
 
 ## The problem
 

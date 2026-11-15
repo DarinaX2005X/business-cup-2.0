@@ -43,8 +43,52 @@
   color: var(--apricot-hi);
 }
 
+/* /cup: the jury's three big buttons, first under the title */
+.juryLarge {
+  display: grid;
+  gap: 14px;
+  width: 100%;
+  max-width: 520px;
+}
+
+.juryLead {
+  font-size: var(--fs-20, 20px);
+  font-weight: 650;
+  line-height: 1.4;
+  text-wrap: balance;
+}
+
+.juryStack {
+  display: grid;
+  gap: 10px;
+}
+
+.juryBig {
+  justify-content: flex-start;
+  min-height: 60px;
+  padding-inline: 20px;
+  font-size: 18px;
+}
+
+.juryLarge .juryState {
+  font-size: 14.5px;
+  color: var(--ink-2);
+}
+
+.juryLarge[data-surface='field'] .juryState {
+  color: var(--on-violet-2);
+}
+
+.juryLarge[data-surface='field'] .juryState[data-error] {
+  color: var(--apricot-hi);
+}
+
 @media (max-width: 760px) {
   .jury {
     grid-column: 1 / -1;
+  }
+  .juryBig {
+    min-height: 56px;
+    font-size: 17px;
   }
 }

@@ -44,6 +44,9 @@
     "title": "Business Cup 2.0: Max is free until {date}",
     "body": "Here for the Business Cup? Turn on the top plan without paying."
   },
+  "own": {
+    "title": "Want Max on your own account?"
+  },
   "special": {
     "kicker": "Special for Business Cup 2.0:",
     "line": "Max is free until {date}",
@@ -53,6 +56,12 @@
   },
   "jury": {
     "title": "Business Cup 2.0 jury: open a ready account",
+    "lead": "Jury: open a ready account with Max in one click. No sign-up.",
+    "open": {
+      "nurse": "Open the nurse demo",
+      "software_engineer": "Open the software engineer demo",
+      "accountant": "Open the accountant demo"
+    },
     "nurse": "As a nurse",
     "software_engineer": "As a software engineer",
     "accountant": "As an accountant",

@@ -1,5 +1,6 @@
 'use client';
 
+import { Calculator, Laptop, Stethoscope, type LucideIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Button } from '@/components/kit/Button';
@@ -15,6 +16,8 @@ export type JuryPersona = (typeof JURY_PERSONAS)[number];
 /** Button ids (and their copy keys) → the persona names of the API. */
 const API_PERSONA: Record<JuryPersona, DemoPersona> = { nurse: 'nurse', software_engineer: 'software', accountant: 'accountant' };
 
+const ICON: Record<JuryPersona, LucideIcon> = { nurse: Stethoscope, software_engineer: Laptop, accountant: Calculator };
+
 const wait = (ms: number) => new Promise((r) => window.setTimeout(r, ms));
 
 /**
@@ -24,7 +27,7 @@ const wait = (ms: number) => new Promise((r) => window.setTimeout(r, ms));
  * visitor's own account is untouched: they can log out of the demo and log back in. A busy server (503)
  * is asked once more before the row offers the same button again.
  */
-export function JuryAccounts({ surface = 'paper' }: { surface?: 'paper' | 'violet' }) {
+export function JuryAccounts({ surface = 'paper', size = 'compact' }: { surface?: 'paper' | 'violet'; size?: 'compact' | 'large' }) {
   const { t } = useT();
   const prof = useProfile();
   const router = useRouter();
@@ -52,6 +55,39 @@ export function JuryAccounts({ surface = 'paper' }: { surface?: 'paper' | 'viole
       setFailed(persona);
     }
   };
+
+  if (size === 'large') {
+    // /cup: the jury's way in comes first, three big buttons, no sign-up
+    return (
+      <div className={st.juryLarge} data-surface={surface === 'violet' ? 'field' : undefined}>
+        <p className={st.juryLead}>{t('cup.jury.lead')}</p>
+        <div className={st.juryStack}>
+          {JURY_PERSONAS.map((p) => {
+            const Icon = ICON[p];
+            return (
+              <Button
+                key={p}
+                size="lg"
+                block
+                variant={surface === 'violet' ? 'apricot' : 'primary'}
+                icon={<Icon strokeWidth={1.9} />}
+                loading={busy === p}
+                loadingLabel={t('cup.jury.opening')}
+                disabled={busy !== null && busy !== p}
+                onClick={() => open(p)}
+                className={st.juryBig}
+              >
+                {t(`cup.jury.open.${p}`)}
+              </Button>
+            );
+          })}
+        </div>
+        <p className={st.juryState} role="status" data-error={failed ? '' : undefined}>
+          {busy ? t('cup.jury.building') : failed ? t('cup.jury.failed') : t('auth.demoNote')}
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className={st.jury} data-surface={surface === 'violet' ? 'field' : undefined}>

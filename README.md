@@ -17,7 +17,7 @@
 
 **Irreplaceable takes your job apart task by task, shows from real usage data which of those tasks AI already does, and gives you ten-minute daily reps built from your own work, so you stay the person who can't be replaced.**
 
-**Live product:** [irreplaceable-gamma.vercel.app](https://irreplaceable-gamma.vercel.app)<br>
+**Live product:** [irreplaceable-gamma.vercel.app](https://irreplaceable-gamma.vercel.app) &nbsp;|&nbsp; [Watch the 40-second film](#watch-the-40-second-film) &nbsp;|&nbsp; [Pitch deck (PDF)](docs/pitch/Irreplaceable-pitch.pdf)<br>
 **Jury, one click:** [irreplaceable-gamma.vercel.app/cup](https://irreplaceable-gamma.vercel.app/cup), then press **As a nurse**, **As a software engineer** or **As an accountant**<br>
 **Team:** Darina Berentayeva, solo
 
@@ -335,6 +335,8 @@ The model is the engine that reads resumes, writes reps and plans, grades open a
 ## The business
 
 The product has no users yet, so every conversion, renewal and cost figure below is a named public benchmark at its median or is marked as an **assumption**; the financial model uses Pro prices alone, so Max revenue is not counted.
+
+The 10-slide pitch deck is in [docs/pitch/](docs/pitch/Irreplaceable-pitch.pdf).
 
 | Measure | Value | Basis |
 |---|---|---|

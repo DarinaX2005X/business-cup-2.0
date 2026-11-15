@@ -1,0 +1,48 @@
+/* /privacy: one readable column under the site header */
+.page {
+  background: var(--paper);
+  padding: clamp(40px, 7vw, 88px) 16px clamp(56px, 8vw, 104px);
+}
+
+.column {
+  max-width: 720px;
+  margin: 0 auto;
+  display: grid;
+  gap: 36px;
+}
+
+.head {
+  display: grid;
+  gap: 12px;
+}
+
+.title {
+  font-size: clamp(32px, 4vw, 44px);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+.lead {
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.section {
+  display: grid;
+  gap: 8px;
+}
+
+.section h2 {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+}
+
+.section p {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--ink);
+}

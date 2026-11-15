@@ -4,7 +4,7 @@
  */
 export const LANDING_LINKS = {
   /** The pricing page (stage 04.2). */
-  pricing: '/pricing' as string | null,
+  pricing: '/#pricing' as string | null,
   /** The Business Cup 2.0 offer: Pro free until CUP_OFFER_UNTIL. */
   cup: '/cup' as string | null,
   /** Public repository; opened after the submission. */

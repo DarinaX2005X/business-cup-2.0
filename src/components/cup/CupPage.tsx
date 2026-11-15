@@ -72,7 +72,7 @@ export function CupPage({ initialPlan, hasMap }: { initialPlan: ProfilePlan | nu
               <>
                 <p className={st.lead}>{t('cup.errors.offer_ended', { date: cup.until })}</p>
                 <div className={st.cta}>
-                  <Link href="/pricing" className={`${btn.btn} ${btn.b_apricot} ${btn.s_lg}`}>
+                  <Link href="/#pricing" className={`${btn.btn} ${btn.b_apricot} ${btn.s_lg}`}>
                     {t('cup.nav.pricing')}
                   </Link>
                 </div>
@@ -100,7 +100,7 @@ export function CupPage({ initialPlan, hasMap }: { initialPlan: ProfilePlan | nu
           </section>
 
           <p className={st.foot}>
-            {t('cup.footA')} <Link href="/pricing">{t('cup.footLink')}</Link>
+            {t('cup.footA')} <Link href="/#pricing">{t('cup.footLink')}</Link>
           </p>
         </div>
 

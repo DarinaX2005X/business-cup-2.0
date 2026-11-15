@@ -6,7 +6,7 @@ import { Logo } from './Logo';
 import st from './landing.module.css';
 
 /** The one footer of the site: How we measure, Privacy, Job pages, Pricing, and the datasets with their licences. */
-export function LandingFooter({ t }: { t: TFunction }) {
+export function SiteFooter({ t }: { t: TFunction }) {
   const sources = sourceList();
   return (
     <footer className={st.footer}>
@@ -26,6 +26,7 @@ export function LandingFooter({ t }: { t: TFunction }) {
             {t('landing.footer.jobs')}
           </Link>
           {LANDING_LINKS.pricing ? (
+            // the plans are a landing section; /pricing stays only for in-app upgrades and Stripe returns
             <Link href={LANDING_LINKS.pricing} className={st.paperLink}>
               {t('landing.nav.pricing')}
             </Link>
@@ -61,6 +62,3 @@ export function LandingFooter({ t }: { t: TFunction }) {
     </footer>
   );
 }
-
-/** The shared site footer (same as the landing's). */
-export const SiteFooter = LandingFooter;

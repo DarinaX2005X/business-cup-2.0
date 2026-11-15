@@ -12,7 +12,7 @@ export type MarketingPage = 'method' | 'jobs' | 'pricing' | 'cup';
 const LINKS: { id: MarketingPage; href: string }[] = [
   { id: 'method', href: '/method' },
   { id: 'jobs', href: '/jobs' },
-  { id: 'pricing', href: '/pricing' },
+  { id: 'pricing', href: '/#pricing' },
   { id: 'cup', href: '/cup' },
 ];
 

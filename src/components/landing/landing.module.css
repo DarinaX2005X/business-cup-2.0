@@ -20,8 +20,10 @@
 
 /* ---------- navigation over the field ---------- */
 
-/* Fixed on top: on the field over the hero, then on its own violet bar once the page scrolls. */
+/* Fixed on top: on the field over the hero, then on its own violet bar once the page scrolls.
+   It carries its own container (gutter, max width), so it is identical on every page. */
 .nav {
+  --gutter: clamp(16px, 3vw, 24px);
   position: fixed;
   inset: 0 0 auto;
   z-index: 30;
@@ -1376,7 +1378,9 @@
 
 /* ---------- footer ---------- */
 
+/* The one site footer: its own container, identical on the landing and every other page */
 .footer {
+  --gutter: clamp(16px, 3vw, 24px);
   background: var(--sunk);
 }
 

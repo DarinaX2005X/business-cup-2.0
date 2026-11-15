@@ -2,7 +2,7 @@ import { CupSpecial } from '@/components/cup/CupSpecial';
 import { Closing } from '@/components/landing/Closing';
 import { DeletedToast } from '@/components/landing/DeletedToast';
 import { weekView } from '@/components/landing/data';
-import { LandingFooter } from '@/components/landing/Footer';
+import { SiteFooter } from '@/components/landing/Footer';
 import { Hero } from '@/components/landing/Hero';
 import { SiteHeader } from '@/components/landing/SiteHeader';
 import { DataNote, Features, MistakeBanner, Pay, Steps } from '@/components/landing/Sections';
@@ -35,7 +35,7 @@ export default async function LandingPage() {
         <DataNote view={view} />
         <Closing t={t} />
       </main>
-      <LandingFooter t={t} />
+      <SiteFooter t={t} />
       <DeletedToast />
     </div>
   );

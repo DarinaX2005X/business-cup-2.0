@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { SiteFooter } from '@/components/landing/Footer';
 import { PricingPage } from '@/components/pricing/PricingPage';
 import type { ProfilePlan } from '@/components/cup/plan';
 import { getRequestLocale, getT } from '@/i18n/server';
@@ -27,6 +28,7 @@ export default async function PricingRoute({ searchParams }: Props) {
   const from = typeof sp.from === 'string' ? sp.from : null;
   const week = profile && from ? await firstWeekFor(profile, from, locale).catch(() => null) : null;
   return (
+    <>
     <PricingPage
       canceled={sp.canceled === '1'}
       portal={sp.portal === '1'}
@@ -37,5 +39,7 @@ export default async function PricingRoute({ searchParams }: Props) {
         lastXrayId: profile?.lastXrayId ?? null,
       }}
     />
+    <SiteFooter t={getT(locale)} />
+    </>
   );
 }

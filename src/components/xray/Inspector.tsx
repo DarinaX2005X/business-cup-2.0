@@ -313,6 +313,9 @@ function MetricPanel({
     const top = [...breakdown.perTask].filter((p) => p.scorePoints > 0).sort((a, b) => b.scorePoints - a.scorePoints).slice(0, 5);
     body = (
       <>
+        <p className={st.iExplain}>{t('xray.metric.score.plain')}</p>
+        <details className={st.formula}>
+          <summary>{t('xray.metric.score.howCounted')}</summary>
         <dl className={st.eqs}>
           <Eq label={t('xray.metric.score.exposure')} note={t('xray.metric.score.exposureNote')}>
             Σ {t('xray.metric.score.sum')} = <Num strong>{f.number(totalPts)}</Num>
@@ -327,6 +330,7 @@ function MetricPanel({
             <Num>{f.number(sf.base)}</Num> + (100 − <Num>{f.number(sf.base)}</Num>) × {f.number(PRACTICE_GAIN)} × <Num>{n2(sf.F)}</Num> = <Num strong>{f.number(sf.score)}</Num>
           </Eq>
         </dl>
+        </details>
         <h4 className={st.h4}>{t('xray.metric.score.top')}</h4>
         <ul className={st.tLinks}>
           {top.map((p) => (

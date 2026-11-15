@@ -7,7 +7,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
  * once the page moves it gets its own violet bar. Its links are anchors to sections of this page, and a
  * click scrolls there smoothly (instantly with reduced motion; plain jumps without JavaScript).
  */
-export function StickyNav({ className, children }: { className: string; children: ReactNode }) {
+export function StickyNav({ className, children, solid = false }: { className: string; children: ReactNode; solid?: boolean }) {
   const [scrolled, setScrolled] = useState(false);
   const ref = useRef<HTMLElement>(null);
 
@@ -36,7 +36,7 @@ export function StickyNav({ className, children }: { className: string; children
   }, []);
 
   return (
-    <header ref={ref} className={className} data-surface="field" data-scrolled={scrolled || undefined}>
+    <header ref={ref} className={className} data-surface="field" data-scrolled={scrolled || solid || undefined} data-solid={solid || undefined}>
       {children}
     </header>
   );

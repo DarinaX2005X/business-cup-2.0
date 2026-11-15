@@ -62,7 +62,7 @@
   },
   "invite": {
     "title": "Bring a colleague",
-    "lead": "Send your link to someone you work with. When they map their week, you get {inviter} points and they start with {invitee}.",
+    "lead": "Send your link to someone you work with. When they map their week and finish their first rep, you get {inviter} points. They start with {invitee}.",
     "copy": "Copy invite link",
     "copied": "Link copied",
     "none": "Nobody has used your link yet.",

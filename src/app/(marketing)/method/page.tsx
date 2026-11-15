@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { getRequestT } from '@/i18n/server';
 import { CategoryChip, EvidenceBadge } from '@/components/kit/Evidence';
-import ctl from '@/components/kit/controls.module.css';
-import { PublicFooter, PublicHeader, type ChromeLabels } from '@/components/public/PublicChrome';
+import { SiteFooter } from '@/components/landing/Footer';
+import { SiteHeader } from '@/components/landing/SiteHeader';
 import { Toc } from '@/components/public/Toc';
 import { CategoryPath, type PathRow } from '@/components/public/CategoryPath';
 import { METHOD_ANCHORS as A, METHOD_ORDER } from '@/components/public/anchors';
@@ -39,14 +38,6 @@ export default async function MethodPage() {
   const nurse = await nurseWeek();
   const validation = getValidation();
   const paths = await pathCounts();
-
-  const chrome: ChromeLabels = {
-    home: t('method.chrome.home'),
-    nav: t('method.chrome.nav'),
-    method: t('method.chrome.method'),
-    jobs: t('method.chrome.jobs'),
-    start: t('method.chrome.start'),
-  };
 
   const totalTasks = counts.tasks;
   const cats = cov.categories;
@@ -135,7 +126,7 @@ export default async function MethodPage() {
 
   return (
     <>
-      <PublicHeader labels={chrome} current="method" locale />
+      <SiteHeader />
       <main className={st.page}>
         <section className={st.intro}>
           <div className={st.introText}>
@@ -158,7 +149,7 @@ export default async function MethodPage() {
         </section>
 
         <div className={st.layout}>
-          <Toc title={t('method.toc')} items={METHOD_ORDER.map((k) => ({ id: A[k], label: t(`method.sections.${k}`) }))} />
+          <Toc title={t('method.toc')} items={METHOD_ORDER.filter((k) => k !== 'privacy').map((k) => ({ id: A[k], label: t(`method.sections.${k}`) }))} />
 
           <article className={st.article}>
             <section id={A.what} className={st.section}>
@@ -487,31 +478,11 @@ export default async function MethodPage() {
               </p>
             </section>
 
-            <section id={A.privacy} className={st.section}>
-              <h2>{t('method.sections.privacy')}</h2>
-              <p>{t('method.privacy.p1')}</p>
-              <p>{t('method.privacy.p2')}</p>
-              <p>{t('method.privacy.p3')}</p>
-            </section>
           </article>
         </div>
 
-        <section className={`field ${st.cta}`} data-surface="field">
-          <div className={st.ctaIn}>
-            <h2>{t('method.cta.title')}</h2>
-            <p>{t('method.cta.body')}</p>
-            <div className={st.ctaActions}>
-              <Link href="/start" className={`${ctl.btn} ${ctl.b_apricot} ${ctl.s_lg}`}>
-                {t('method.cta.button')}
-              </Link>
-              <Link href="/jobs" className={`${ctl.btn} ${ctl.b_ghost} ${ctl.s_lg}`}>
-                {t('method.cta.jobs')}
-              </Link>
-            </div>
-          </div>
-        </section>
       </main>
-      <PublicFooter title={t('method.footer.title')} note={t('method.footer.note')} methodLabel={t('method.footer.method')} sources={sources} />
+      <SiteFooter t={t} />
     </>
   );
 }

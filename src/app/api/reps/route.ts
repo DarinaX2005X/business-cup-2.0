@@ -4,7 +4,7 @@ import { clientIp, clientTz, readJson, requireProfile, withApi } from '@/server/
 import { createRep } from '@/server/reps';
 
 // Generation continues in after() when it takes longer than 8 s; the client polls GET /api/reps/:id.
-export const maxDuration = 120;
+export const maxDuration = 300;
 
 const bodySchema = z.object({
   type: z.enum(['slip', 'delegate', 'edge']),

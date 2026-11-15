@@ -2,7 +2,7 @@ import { withApi } from '@/server/profile/http';
 import { coachCtx } from '@/server/coach/http';
 import { coachPreview } from '@/server/coach/service';
 
-export const maxDuration = 60;
+export const maxDuration = 300;
 
 /**
  * POST /api/coach/preview → CoachPreview { question, answer, basis }: one real coach answer on the person's

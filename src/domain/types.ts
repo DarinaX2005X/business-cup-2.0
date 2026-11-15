@@ -423,6 +423,10 @@ export interface Profile {
   nickname?: string;
   /** A Business Cup jury account built from a sample résumé (shown with a "Demo account" mark). */
   demo?: boolean;
+  /** When the time zone last changed: the day boundary may move at most once a day. */
+  tzChangedAt?: string;
+  /** The persona's template that every jury click copies; never handed out, never on the leaderboard. */
+  demoTemplate?: boolean;
   /** Jury persona → the week map built for it (makes POST /api/demo/jury idempotent). */
   demoXrays?: Partial<Record<'nurse' | 'software' | 'accountant', string>>;
   /** Skills read from the résumé or added by the person (round 3 growth, src/server/growth). */

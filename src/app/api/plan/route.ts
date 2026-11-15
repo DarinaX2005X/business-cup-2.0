@@ -3,7 +3,7 @@ import { getPlan, refreshPlan } from '@/server/growth';
 import { clientIp, clientTz, readJson, requireProfile, withApi } from '@/server/profile/http';
 
 // Writing a plan is one model call plus at most one repair round, each with the client's retries and failover.
-export const maxDuration = 120;
+export const maxDuration = 300;
 
 const xraySchema = z.string().regex(/^[0-9A-Za-z]{12}$/);
 

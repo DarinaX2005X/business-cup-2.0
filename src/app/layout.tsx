@@ -12,7 +12,7 @@ const onest = Onest({
 });
 
 export const metadata: Metadata = {
-  title: "Irreplaceable · Train the part of your job AI gets wrong",
+  title: "Irreplaceable · Afraid AI will replace you? Become irreplaceable",
   description:
     "Your job, task by task: what AI already does, what stays yours, and ten-minute daily reps built from your own work.",
 };

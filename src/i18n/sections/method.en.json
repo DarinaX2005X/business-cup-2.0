@@ -178,7 +178,7 @@
   },
   "privacy": {
     "p1": "When you upload a resume, the file is read in your browser. Only its text leaves your device, and only to turn it into a list of duties.",
-    "p2": "That text is sent to a language model through OpenRouter, which returns the duties and your likely occupation. We do not store the resume or its text. The model's answer is cached under a fingerprint of the text, so the same resume is not processed twice.",
+    "p2": "That text is sent to a language model through OpenRouter, which returns the duties and your likely occupation. We do not store the resume or its text, and the model's answer is used for that request only.",
     "p3": "Your week map keeps the occupation, the tasks and the hours you confirmed. Delete your profile and they are gone."
   },
   "cta": {
@@ -192,5 +192,25 @@
     "ai_speeds": "AI speeds it up",
     "human_edge": "Your human edge",
     "no_data": "No data yet"
+  },
+  "privacyPage": {
+    "title": "Privacy",
+    "lead": "What Irreplaceable keeps about you, what it never keeps, and how to delete everything.",
+    "resume": {
+      "title": "Your resume",
+      "body": "A resume file is read in your browser, and only its text is sent on, to a language model through OpenRouter, to find your duties, your likely job and your skills. We don't store the resume or its text, and the model's answer is used for that request only."
+    },
+    "stored": {
+      "title": "What we keep",
+      "body": "Your week map keeps the job, the tasks and the hours you confirmed. Your profile keeps your reps, points, streak and plan, and the email of your account if you made one. Payments are handled by Stripe; we never see your card."
+    },
+    "skills": {
+      "title": "Your skills",
+      "body": "Skills read from your resume are kept as a list with a short quote for each, so you can check where it came from. You can remove any of them."
+    },
+    "delete": {
+      "title": "Deleting your data",
+      "body": "Open Profile and choose Delete my data. Your profile, week maps, reps, plan, coach chat and rewards are deleted at once, and a paid plan is cancelled with it."
+    }
   }
 }

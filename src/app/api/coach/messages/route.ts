@@ -5,7 +5,7 @@ import { coachCtx } from '@/server/coach/http';
 import { ask } from '@/server/coach/service';
 import { MAX_VOICE_SECONDS, MAX_WAV_BYTES, wavInfo } from '@/server/coach/transcribe';
 
-export const maxDuration = 120;
+export const maxDuration = 300;
 
 const bodySchema = z.object({
   id: z.string().regex(/^[A-Za-z0-9_-]{8,64}$/),

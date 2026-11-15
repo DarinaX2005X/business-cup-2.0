@@ -4,7 +4,7 @@ import { ImageResponse } from 'next/og';
 import { weekView } from '@/components/landing/data';
 import { groupWeek } from '@/components/kit/week';
 
-export const alt = 'AI makes mistakes in your line of work. Can you spot them? The 40-hour week of a registered nurse, task by task.';
+export const alt = 'Afraid AI will replace you? Become irreplaceable. The 40-hour week of a registered nurse, task by task.';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -59,11 +59,11 @@ export default async function Image() {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', marginTop: 30, fontSize: 64, fontWeight: 700, letterSpacing: -2.6, lineHeight: 1.08 }}>
-          <div style={{ display: 'flex' }}>AI makes mistakes in your line of work.</div>
+          <div style={{ display: 'flex' }}>Afraid AI will replace you?</div>
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            Can you
-            <span style={{ display: 'flex', margin: '0 14px', padding: '0 14px 4px', background: APRICOT, color: INK, borderRadius: 12 }}>spot</span>
-            them?
+            Become
+            <span style={{ display: 'flex', margin: '0 0 0 14px', padding: '0 14px 4px', background: APRICOT, color: INK, borderRadius: 12 }}>irreplaceable</span>
+            .
           </div>
         </div>
 

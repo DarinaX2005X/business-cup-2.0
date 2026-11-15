@@ -30,6 +30,14 @@ export interface Actor {
  * Override with AI_PROFILE_PER_DAY / AI_IP_PER_DAY. Title translation has its own bucket (src/server/xray/search.ts).
  */
 export const RATE_LIMITS = { profilePerDay: 300, ipPerDay: 20000 } as const;
+
+/**
+ * Dollar caps per UTC day, beside the global and daily caps, so one visitor cannot spend everyone's budget:
+ * a profile ($2, far above a full day of practice and coaching) and, for calls without a profile (résumé
+ * analysis and title translation before a profile exists), an IP ($5, judges share one network).
+ * Override with AI_PROFILE_DAILY_USD / AI_ANON_IP_DAILY_USD.
+ */
+export const DOLLAR_CAPS = { profileDailyUsd: 2, anonIpDailyUsd: 5 } as const;
 const RATE_TTL_SEC = 2 * 24 * 3600;
 const DAY_TTL_SEC = 3 * 24 * 3600;
 
@@ -84,7 +92,27 @@ export const budgetKeys = {
   day: (day: string) => `budget:${day}`,
   profile: (id: string, day: string) => `rl:profile:${id}:${day}`,
   ip: (ipHash: string, day: string) => `rl:ip:${ipHash}:${day}`,
+  /** dollars spent by a profile today; under `rl:profile:<id>:`, so deleting the profile deletes it */
+  profileUsd: (id: string, day: string) => `rl:profile:${id}:usd:${day}`,
+  anonIpUsd: (ipHash: string, day: string) => `rl:ip:${ipHash}:usd:${day}`,
 };
+
+export function dollarCaps(env: NodeJS.ProcessEnv = process.env) {
+  return {
+    profileDailyUsd: envNumber(env.AI_PROFILE_DAILY_USD, DOLLAR_CAPS.profileDailyUsd),
+    anonIpDailyUsd: envNumber(env.AI_ANON_IP_DAILY_USD, DOLLAR_CAPS.anonIpDailyUsd),
+  };
+}
+
+/** The visitor's own dollar counter for today: the profile (sub-buckets like `<id>:playbook` count as the profile), else the IP. */
+function ownCounter(actor: Actor | undefined, day: string): { key: string; limit: number; label: string } | null {
+  if (!actor) return null;
+  const caps = dollarCaps();
+  const profileId = actor.profileId?.split(':')[0];
+  if (profileId) return { key: budgetKeys.profileUsd(profileId, day), limit: caps.profileDailyUsd, label: `profile daily cap $${caps.profileDailyUsd}` };
+  if (actor.ip) return { key: budgetKeys.anonIpUsd(hashIp(actor.ip), day), limit: caps.anonIpDailyUsd, label: `daily cap $${caps.anonIpDailyUsd} for calls without a profile from this IP` };
+  return null;
+}
 
 export async function getBudgetStatus(): Promise<BudgetStatus> {
   const store = getGlobalStore();
@@ -129,6 +157,7 @@ export async function consumeRateLimit(actor: Actor | undefined): Promise<Denial
 
 export async function reserveBudget(
   estimateUsd: number,
+  actor?: Actor,
 ): Promise<{ ok: true; reservation: Reservation } | { ok: false; denial: Denial }> {
   const store = getGlobalStore();
   const { totalLimitUsd, dayLimitUsd } = budgetLimits();
@@ -136,9 +165,21 @@ export async function reserveBudget(
   const dayK = budgetKeys.day(day);
   const amount = Math.max(0, estimateUsd);
 
+  // the visitor's own cap first (per environment), so a refusal there never touches the global counters
+  const own = ownCounter(actor, day);
+  const local = getStore();
+  if (own) {
+    const mine = await local.incrFloat(own.key, amount, DAY_TTL_SEC);
+    if (mine > own.limit) {
+      await local.incrFloat(own.key, -amount);
+      return { ok: false, denial: { code: 'rate_limited', reason: `${own.label} would be exceeded (spent $${(mine - amount).toFixed(4)} today)` } };
+    }
+  }
+  const releaseOwn = (delta: number) => (own ? local.incrFloat(own.key, delta).then(() => undefined) : Promise.resolve());
+
   const total = await store.incrFloat(budgetKeys.total, amount);
   if (total > totalLimitUsd) {
-    await store.incrFloat(budgetKeys.total, -amount);
+    await Promise.all([store.incrFloat(budgetKeys.total, -amount), releaseOwn(-amount)]);
     return {
       ok: false,
       denial: { code: 'budget_exceeded', reason: `total AI budget $${totalLimitUsd} would be exceeded (spent $${(total - amount).toFixed(4)})` },
@@ -146,7 +187,7 @@ export async function reserveBudget(
   }
   const dayTotal = await store.incrFloat(dayK, amount, DAY_TTL_SEC);
   if (dayTotal > dayLimitUsd) {
-    await Promise.all([store.incrFloat(dayK, -amount), store.incrFloat(budgetKeys.total, -amount)]);
+    await Promise.all([store.incrFloat(dayK, -amount), store.incrFloat(budgetKeys.total, -amount), releaseOwn(-amount)]);
     return {
       ok: false,
       denial: { code: 'budget_exceeded', reason: `daily AI cap $${dayLimitUsd} would be exceeded (spent $${(dayTotal - amount).toFixed(4)} today)` },
@@ -163,13 +204,13 @@ export async function reserveBudget(
         if (done) throw new Error('reservation already settled');
         done = true;
         const delta = Math.max(0, actualUsd) - amount;
-        const [t, d] = await Promise.all([store.incrFloat(budgetKeys.total, delta), store.incrFloat(dayK, delta)]);
+        const [t, d] = await Promise.all([store.incrFloat(budgetKeys.total, delta), store.incrFloat(dayK, delta), releaseOwn(delta)]);
         return { totalUsd: t, dayUsd: d, totalLimitUsd, dayLimitUsd, day };
       },
       async release() {
         if (done) return;
         done = true;
-        await Promise.all([store.incrFloat(budgetKeys.total, -amount), store.incrFloat(dayK, -amount)]);
+        await Promise.all([store.incrFloat(budgetKeys.total, -amount), store.incrFloat(dayK, -amount), releaseOwn(-amount)]);
       },
     },
   };

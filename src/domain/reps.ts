@@ -807,17 +807,36 @@ export function trapsCaught(
 }
 
 /** Where each trap sits: its two evidence quotes and its keywords in the inputs, its keywords in the AI's result. */
+/** A term worth marking on its own: a phrase or a word with letters, not a bare number like "40". */
+const markableTerm = (k: string) => /\p{L}{3,}/u.test(k) && (k.trim().includes(' ') || k.trim().length >= 5);
+
+/**
+ * Where each trap shows: in the inputs, its evidence quotes (whole phrases; its keywords only when it has
+ * no evidence), and in the AI's result at most one spot, the longest markable term found as a whole phrase.
+ * Deduplicated, so a result gets one note per trap, never one per number.
+ */
 export function trapSpots(traps: readonly TrapFull[], inputs: string, run: string | undefined): TrapSpot[] {
   const out: TrapSpot[] = [];
+  const add = (s: TrapSpot) => {
+    if (!out.some((o) => o.trapId === s.trapId && o.where === s.where && o.start === s.start && o.end === s.end)) out.push(s);
+  };
   for (const t of traps) {
-    for (const q of t.evidence ?? []) {
+    const evidence = (t.evidence ?? []).filter((q) => q.trim().length > 0);
+    for (const q of evidence) {
       const at = inputs.indexOf(q);
       const r = at >= 0 ? ([at, at + q.length] as Range) : locateLoose(inputs, q);
-      if (r) out.push({ trapId: t.id, where: 'inputs', start: r[0], end: r[1] });
+      if (r) add({ trapId: t.id, where: 'inputs', start: r[0], end: r[1] });
     }
-    for (const k of trapTerms(t)) {
-      for (const [start, end] of keywordSpots(inputs, k)) out.push({ trapId: t.id, where: 'inputs', start, end });
-      if (run) for (const [start, end] of keywordSpots(run, k)) out.push({ trapId: t.id, where: 'run', start, end });
+    const terms = trapTerms(t).filter(markableTerm).sort((a, b) => b.length - a.length);
+    if (!evidence.length) for (const k of terms) for (const [start, end] of keywordSpots(inputs, k)) add({ trapId: t.id, where: 'inputs', start, end });
+    if (run) {
+      for (const k of terms) {
+        const hit = keywordSpots(run, k)[0];
+        if (hit) {
+          add({ trapId: t.id, where: 'run', start: hit[0], end: hit[1] });
+          break;
+        }
+      }
     }
   }
   // a value inside a longer keyword ("20 mg" in "Lasix 20 mg") is one spot, not two
@@ -1026,11 +1045,15 @@ export function aiOrMeAnswer(task: Pick<OccTask, 'evidence'>): 'ai' | 'human' | 
  * - today.aiOrMe.fact.no_data       { }             "No data yet on this task" (unscored filler)
  * Every fact gets `hours` when the task is in the person's week ("You spend {hours} h a week on this").
  */
+/** Every fact key aiOrMeFact can give (the dictionary must have each one, see tests/domain/ai-or-me-facts). */
+export const AI_OR_ME_FACT_KEYS = ['observed', 'used', 'research_high', 'hands_on', 'people', 'not_seen', 'no_data'] as const;
+export type AiOrMeFactKey = (typeof AI_OR_ME_FACT_KEYS)[number];
+
 export function aiOrMeFact(task: Pick<OccTask, 'evidence'>, share: number | undefined): AiOrMeCard['fact'] {
   const e = task.evidence;
   const params: Record<string, number | string> = {};
   if (share && share > 0) params.hours = hoursOfShare(share);
-  let key: string;
+  let key: AiOrMeFactKey;
   const answer = aiOrMeAnswer(task);
   if (answer === 'ai') {
     if (e.observed && e.aeiAutomation !== null) {

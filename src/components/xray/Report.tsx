@@ -1,4 +1,5 @@
 import { KeystoneMark } from '@/components/kit/Mark';
+import { siteUrl } from '@/components/public/data';
 import { categoryReason } from '@/domain/evidence';
 import type { Category, OccupationBundle, XrayComputed } from '@/domain/types';
 import { getT } from '@/i18n/server';
@@ -157,7 +158,7 @@ export function Report({
 
         <footer className={st.foot}>
           <p>{t('xray.report.made', { date: t.f.date(new Date(), 'long'), onet: bundle.dataVersion.onet, aei })}</p>
-          <p>{t('xray.report.sources', { onet: bundle.dataVersion.onet, aei })}</p>
+          <p>{t('xray.report.sources', { onet: bundle.dataVersion.onet, aei, method: `${siteUrl().host}/method` })}</p>
         </footer>
       </article>
     </div>

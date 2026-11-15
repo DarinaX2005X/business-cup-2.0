@@ -3,7 +3,7 @@ import { isCoach } from '@/server/profile';
 import { buildReviewKit } from '@/server/progress';
 import { clientIp, HttpError, readJson, requireProfile, withApi } from '@/server/profile/http';
 
-export const maxDuration = 60;
+export const maxDuration = 300;
 
 const bodySchema = z.object({ locale: z.enum(['en', 'ru', 'kk']) });
 

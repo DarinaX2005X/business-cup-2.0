@@ -57,8 +57,7 @@ export function ProfileScreen() {
       <SaveAccount />
       <Subscription profile={profile} />
       <InvitePanel />
-      {/* a shared demo account is never deleted for everyone: its visitors log out instead */}
-      {!profile.demo ? <DeleteData onDeleted={() => setDeleted(true)} /> : null}
+      <DeleteData onDeleted={() => setDeleted(true)} />
     </div>
   );
 }

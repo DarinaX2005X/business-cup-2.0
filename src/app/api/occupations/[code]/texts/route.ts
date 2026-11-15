@@ -3,7 +3,7 @@ import { clientIp, HttpError, withApi } from '@/server/profile/http';
 import { loadBundle } from '@/server/xray/data';
 import { taskTextsEnsuring } from '@/server/xray/tips';
 
-export const maxDuration = 60;
+export const maxDuration = 300;
 
 type Ctx = { params: Promise<{ code: string }> };
 

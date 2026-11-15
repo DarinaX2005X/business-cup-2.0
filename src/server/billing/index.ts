@@ -1,4 +1,4 @@
-export { confirmCheckout, createCheckout, createPlanChange, createPortal, ensureCustomer, priceFor, siteOrigin } from './checkout';
+export { cancelBillingForDeletion, confirmCheckout, createCheckout, createPlanChange, createPortal, ensureCustomer, priceFor, siteOrigin } from './checkout';
 export { couponId, couponParams, createPromotionCode, ensureCoupon, PROMO_RE } from './codes';
 export { cupOffer, unlockCup, type CupOffer } from './cup';
 export { cupPlan, isCoach, planActive, planFromSubscription, STRIPE_PRODUCTS, stripeActive, tierOfSubscription, type Plan } from './plan';

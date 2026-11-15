@@ -26,7 +26,7 @@ export const JURY_PERSONAS = ['nurse', 'software', 'accountant'] as const;
 export type JuryPersona = (typeof JURY_PERSONAS)[number];
 
 /** Max through the Cup offer when possible; a paid plan or an ended offer keeps the plan as it is. */
-async function cupIfPossible(profile: Profile, now: Date): Promise<Profile['plan']> {
+export async function cupIfPossible(profile: Profile, now: Date): Promise<Profile['plan']> {
   try {
     return (await unlockCup(profile, now)).plan;
   } catch (err) {

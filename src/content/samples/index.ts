@@ -14,6 +14,14 @@ export const isSampleName = (v: unknown): v is SampleName => typeof v === 'strin
 const DIR = path.join(process.cwd(), 'src', 'content', 'samples');
 const cache = new Map<SampleName, Promise<string>>();
 
+/** True for the exact text of one of the fictional samples (whitespace aside): only those may be cached. */
+export async function isSampleText(text: string): Promise<boolean> {
+  const norm = (s: string) => s.replace(/\s+/g, ' ').trim();
+  const t = norm(text);
+  const all = await Promise.all(SAMPLE_NAMES.map((n) => readSample(n).catch(() => '')));
+  return all.some((s) => s && norm(s) === t);
+}
+
 export function readSample(name: SampleName): Promise<string> {
   let p = cache.get(name);
   if (!p) {

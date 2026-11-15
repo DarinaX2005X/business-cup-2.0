@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { requestDeadline } from './deadline';
 import { consumeRateLimit, reserveBudget, type Actor, type BudgetStatus, type Reservation } from './budget';
 import { cacheGet, cacheSet, cacheStoreKey, DEFAULT_CACHE_TTL_SEC } from './cache';
 import { costFromTokens, estimateMaxCostUsd } from './pricing';
@@ -318,7 +319,8 @@ export async function callModel<S extends z.ZodType>(input: CallModelInput<S>): 
   let lastStatus: BudgetStatus | null = null;
   let lastRequestId: string | undefined;
   let lastError: AiError | null = null;
-  const deadline = started + CALL_DEADLINE_MS;
+  // the call's own limit, cut short by the request's deadline (the route's maxDuration, see deadline.ts)
+  const deadline = Math.min(started + CALL_DEADLINE_MS, requestDeadline() ?? Infinity);
   const models = [primary, failoverModel(primary)].filter((m, i, all) => all.indexOf(m) === i);
 
   for (const [mi, model] of models.entries()) {
@@ -334,7 +336,7 @@ export async function callModel<S extends z.ZodType>(input: CallModelInput<S>): 
       if (attempt > 0) await sleep(Math.min(backoffMs(attempt), remaining - 4_000));
       const promptChars = messages.reduce((n, m) => n + (typeof m.content === 'string' ? m.content.length : input.user.length), 0);
       const estimate = estimateMaxCostUsd({ model, promptChars, images: input.images?.length ?? 0, maxTokens: input.maxTokens });
-      const reserved = await reserveBudget(estimate);
+      const reserved = await reserveBudget(estimate, input.actor);
       if (!reserved.ok) {
         log({ op, refused: reserved.denial.code });
         throw new AiError(reserved.denial.code, reserved.denial.reason, { op });

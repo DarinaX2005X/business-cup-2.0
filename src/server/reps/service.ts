@@ -19,6 +19,7 @@ import { getStore } from '@/server/store';
 import { loadBundle, readXray } from '@/server/xray';
 import type { BankEntry } from './bank';
 import { generateDelegate, generateEdge, generateSlip, type GenerateInput } from './generate';
+import { requestDeadline, ROUTE_MAX_DURATION_SEC } from '@/server/ai/deadline';
 import { clearJob, newRepId, readJob, readRep, repKey, taskCaption, toView, writeJob } from './records';
 import { aiOrMeFor } from './ai-or-me';
 
@@ -38,7 +39,8 @@ export const REP_TYPES: RepType[] = ['slip', 'delegate', 'edge'];
 export const TRIAL_REWRITES = 1;
 export const MAX_EXTRAS_PER_DAY = 20;
 export const GENERATION_WAIT_MS = 8_000;
-const LOCK_TTL_SEC = 120;
+// held as long as a generation may run (the route's maxDuration)
+const LOCK_TTL_SEC = ROUTE_MAX_DURATION_SEC;
 
 export interface RepCtx {
   profile: RepsProfile;
@@ -228,6 +230,23 @@ const failedError = (repId: string, reason?: string) =>
   new HttpError(503, 'generation_failed', "We couldn't write this one. Try again.", { repId, retryable: true, ...(reason ? { reason } : {}) });
 
 /**
+ * Writes the rep; when the whole attempt fails for a reason a fresh try can fix (the model wrote something
+ * the checks refused, a timeout, a provider error), it is written once more if the request still has the
+ * time for it, so a first rep does not end in «didn't open» because of one bad draft.
+ */
+async function produceOnceMore(plan: Plan): Promise<RepRecord> {
+  try {
+    return await produce(plan);
+  } catch (err) {
+    // only inside a request, whose deadline says whether a second draft still fits (scripts and tests fail at once)
+    const deadline = requestDeadline();
+    if (deadline === null || !isAiError(err) || err.code === 'budget_exceeded' || err.code === 'rate_limited' || deadline - Date.now() < 70_000) throw err;
+    console.warn(`[reps] rep ${plan.id} (${plan.type}/${plan.kind}) failed (${err.code}); writing it once more`);
+    return produce(plan);
+  }
+}
+
+/**
  * Produces the reserved rep under the lock; waits up to 8 s, then hands the job to `defer`. On failure the
  * reservation stays (the rep reads as failed and "Try again" reuses its id). `fresh` reservations are rolled
  * back only when the lock is taken by another request.
@@ -241,7 +260,7 @@ async function startGeneration(ctx: RepCtx, plan: Plan, fresh: boolean): Promise
   await writeJob(plan.id, { status: 'generating', profileId: plan.profileId, at: new Date().toISOString() });
   const job = (async () => {
     try {
-      const record = await produce(plan);
+      const record = await produceOnceMore(plan);
       const store = getStore();
       await store.del(repKey(record.id)); // a retry for a changed occupation replaces the old text
       await store.set(repKey(record.id), record, { version: 0 });
@@ -284,15 +303,22 @@ async function startGeneration(ctx: RepCtx, plan: Plan, fresh: boolean): Promise
 export type RepState = { rep: RepView } | { status: 'generating'; repId: string } | { status: 'failed'; repId: string } | null;
 
 /**
- * The state of one of the person's reps. A reserved rep with no text and no running job (it failed, or
- * the job marker expired) reads as failed, so it can be retried under the same id.
+ * A job still marked «generating» after this long was killed with its function (the route's maxDuration
+ * has passed): it reads as failed, with «Try again», instead of spinning until the marker expires.
  */
-export async function repState(id: string, profile: Profile): Promise<RepState> {
+export const STALE_JOB_MS = (ROUTE_MAX_DURATION_SEC + 15) * 1000;
+
+/**
+ * The state of one of the person's reps. A reserved rep with no text and no running job (it failed, the
+ * job marker expired, or its function was killed) reads as failed, so it can be retried under the same id.
+ */
+export async function repState(id: string, profile: Profile, now: Date = new Date()): Promise<RepState> {
   if (!profile.reps.includes(id)) return null;
   const hit = await readRep(id);
   if (hit && hit.rep.profileId === profile.id) return { rep: await toView(hit.rep, profile.locale) };
   const job = await readJob(id);
-  if (job?.profileId === profile.id && job.status === 'generating') return { status: 'generating', repId: id };
+  const fresh = job ? now.getTime() - Date.parse(job.at) < STALE_JOB_MS : false;
+  if (job?.profileId === profile.id && job.status === 'generating' && fresh) return { status: 'generating', repId: id };
   return { status: 'failed', repId: id };
 }
 

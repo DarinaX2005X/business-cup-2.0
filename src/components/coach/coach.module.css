@@ -1250,8 +1250,9 @@
     display: none;
   }
   .sheet {
-    height: calc(100dvh - 64px - 72px - env(safe-area-inset-bottom) - 128px);
-    min-height: 420px;
+    /* header, page title and the tab bar with the safe area: the composer always sits above the tab bar */
+    height: calc(100dvh - 64px - 72px - env(safe-area-inset-bottom) - 156px);
+    min-height: 360px;
     border-radius: 22px;
   }
   .log {

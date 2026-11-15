@@ -213,6 +213,8 @@ export async function deleteProfile(id: string): Promise<void> {
   if (!profile) return;
   const store = getStore();
   const owned = await profileOwnedKeys(profile);
+  // a paid plan stops with the profile (dynamic import avoids a cycle with billing)
+  if (profile.plan.subscriptionId || profile.plan.stripeCustomerId) await (await import('@/server/billing')).cancelBillingForDeletion(profile);
   await store.del(profileKey(id));
   // drop the profile from this week's leaderboard too (dynamic import avoids a cycle)
   await (await import('@/server/leaderboard')).removeFromBoards(id).catch(() => undefined);

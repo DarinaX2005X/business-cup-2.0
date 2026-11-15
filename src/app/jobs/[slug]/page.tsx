@@ -6,10 +6,11 @@ import { KitProvider } from '@/components/kit/strings';
 import { WEEK_HOURS } from '@/domain/constants';
 import { FieldArches } from '@/components/kit/Illustration';
 import ctl from '@/components/kit/controls.module.css';
-import { PublicFooter, PublicHeader } from '@/components/public/PublicChrome';
+import { SiteFooter } from '@/components/landing/Footer';
+import { SiteHeader } from '@/components/landing/SiteHeader';
 import { WeekBar } from '@/components/kit/WeekBar';
 import { JobTasks, OtherTasks } from '@/components/public/JobTasks';
-import { getBundle, getMeta, getOccupationBySlug, getOccupations, siteUrl, sourceList, STATIC_JOB_PAGES } from '@/components/public/data';
+import { getBundle, getMeta, getOccupationBySlug, getOccupations, siteUrl, STATIC_JOB_PAGES } from '@/components/public/data';
 import { jobModel } from '@/components/public/jobModel';
 import { taskShort } from '@/components/public/text';
 import st from '@/components/public/jobs.module.css';
@@ -88,7 +89,7 @@ export default async function JobPage({ params }: Props) {
 
   return (
     <>
-      <PublicHeader labels={chrome} current="jobs" />
+      <SiteHeader />
       {/* English only: kit chips and units stay English even when the visitor reads the app in RU or KK. */}
       <KitProvider locale="en">
       <main lang="en">
@@ -236,7 +237,7 @@ export default async function JobPage({ params }: Props) {
         </div>
       </main>
       </KitProvider>
-      <PublicFooter title={t('jobs.footer.title')} note={t('jobs.footer.note')} methodLabel={t('jobs.footer.method')} sources={sourceList()} />
+      <SiteFooter t={t} />
     </>
   );
 }

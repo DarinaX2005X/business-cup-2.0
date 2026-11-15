@@ -1,8 +1,8 @@
 {
   "meta": {
-    "title": "Irreplaceable · Train the part of your job AI gets wrong",
+    "title": "Irreplaceable · Afraid AI will replace you? Become irreplaceable",
     "description": "Your job, task by task: what AI already does, what stays yours, and ten-minute daily reps built from your own work.",
-    "ogAlt": "AI makes mistakes in your line of work. Can you spot them? The week of a registered nurse, task by task."
+    "ogAlt": "Afraid AI will replace you? Become irreplaceable. The week of a registered nurse, task by task."
   },
   "nav": {
     "label": "Site",
@@ -15,12 +15,12 @@
     "data": "Built on real data"
   },
   "hero": {
-    "title": "AI makes mistakes in your line of work. Can you spot them?",
-    "titleA": "{ai} makes mistakes in your line of work",
-    "titleB": "Can you {spot} them{q}",
+    "title": "Afraid AI will replace you? Become irreplaceable.",
+    "titleA": "Afraid {ai} will replace you{q}",
+    "titleB": "Become {spot}.",
     "ai": "AI",
-    "spot": "spot",
-    "lead": "See which tasks of your week AI already handles, from real usage data. Then train ten minutes a day on what it gets wrong and what it cannot do.",
+    "spot": "irreplaceable",
+    "lead": "Upload your resume. See which tasks of your week AI already does, get a step-by-step plan, and train the part of your job only you can do.",
     "upload": "or upload your resume",
     "sample": "Try with a sample resume"
   },
@@ -98,14 +98,15 @@
       "body": "What the job pays."
     },
     "week": "Your week map",
-    "link": "See how we measure"
+    "link": "See how we measure",
+    "jobs": "Browse 900+ job pages"
   },
   "closing": {
     "title": "Find out what makes you irreplaceable",
     "lead": "Type your job title. Your week map takes about two minutes."
   },
   "footer": {
-    "slogan": "Train the part of your job AI gets wrong.",
+    "slogan": "Stay irreplaceable as AI changes your work.",
     "links": "Pages",
     "method": "How we measure",
     "privacy": "Privacy",
@@ -118,7 +119,7 @@
     "lead": "Your week map is free. Pay only when you want daily practice."
   },
   "banner": {
-    "title": "AI made a mistake in your top task. Find it",
-    "body": "That is your first rep. It is free and takes a few minutes."
+    "title": "Your first rep: find the mistake AI made in your top task",
+    "body": "It is free, takes a few minutes and is written from your own work."
   }
 }

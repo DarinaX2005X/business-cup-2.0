@@ -1,12 +1,13 @@
 'use client';
 
 import { motion } from 'motion/react';
-import { useId, useRef, type KeyboardEvent } from 'react';
+import { useId, useRef, type KeyboardEvent, type ReactNode } from 'react';
 import type { Surface } from './types';
 import st from './controls.module.css';
 
 export interface SegmentedProps<T extends string> {
-  options: { value: T; label: string }[];
+  /** `extra`: something small drawn inside the segment after its label (a badge). */
+  options: { value: T; label: string; extra?: ReactNode }[];
   value: T;
   onChange: (v: T) => void;
   label: string;
@@ -43,11 +44,13 @@ export function Segmented<T extends string>({ options, value, onChange, label, s
             aria-checked={on}
             tabIndex={on ? 0 : -1}
             className={st.segBtn}
+            style={o.extra ? { display: 'inline-flex', alignItems: 'center', gap: 8 } : undefined}
             onClick={() => onChange(o.value)}
             onKeyDown={(e) => onKey(e, i)}
           >
             {on ? <motion.span layoutId={layoutId} className={st.segPlate} transition={{ type: 'spring', stiffness: 520, damping: 38 }} /> : null}
             {o.label}
+            {o.extra}
           </button>
         );
       })}

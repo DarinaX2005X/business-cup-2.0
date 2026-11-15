@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { CupPage } from '@/components/cup/CupPage';
+import { SiteFooter } from '@/components/landing/Footer';
 import type { ProfilePlan } from '@/components/cup/plan';
 import { getRequestT } from '@/i18n/server';
 import { getProfileFromCookies } from '@/server/profile/ssr';
@@ -20,5 +21,11 @@ export async function generateMetadata(): Promise<Metadata> {
  */
 export default async function CupRoute() {
   const profile = await getProfileFromCookies();
-  return <CupPage initialPlan={(profile?.plan as ProfilePlan | undefined) ?? null} hasMap={!!profile?.lastXrayId} />;
+  const t = await getRequestT();
+  return (
+    <>
+      <CupPage initialPlan={(profile?.plan as ProfilePlan | undefined) ?? null} hasMap={!!profile?.lastXrayId} />
+      <SiteFooter t={t} />
+    </>
+  );
 }

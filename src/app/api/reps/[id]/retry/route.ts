@@ -5,7 +5,7 @@ import { retryRep } from '@/server/reps/service';
 type Ctx = { params: Promise<{ id: string }> };
 
 // The model client retries and fails over between models; a rewrite may continue in after().
-export const maxDuration = 120;
+export const maxDuration = 300;
 
 /**
  * POST /api/reps/:id/retry → rewrites a rep that could not be written, under the same id, live:

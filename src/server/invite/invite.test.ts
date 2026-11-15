@@ -11,7 +11,7 @@ afterEach(() => cleanup());
 const status = async (p: Promise<unknown>) => ((await p.then(() => null, (e: unknown) => e)) as HttpError | null)?.code;
 
 describe('invites', () => {
-  it('links a new colleague, refuses self and pays the inviter once when the colleague maps', async () => {
+  it('links a new colleague, refuses self and pays the inviter once the colleague has a map and a finished rep', async () => {
     const { profile: a } = await createProfile({ locale: 'en' });
     const code = await ensureInviteCode(a.id);
     expect(code).toBe(inviteCode(a.id));
@@ -28,8 +28,12 @@ describe('invites', () => {
     // before the map: nothing to pay
     expect((await settleInvites((await getProfile(a.id))!)).pointsAwarded).toEqual([]);
 
-    // the colleague maps their week
+    // the colleague maps their week: not yet (empty profiles must not farm points)
     ({ profile: b2 } = await updateProfile(b.id, (p) => void p.xrays.push('AAAAAAAAAAAA')));
+    expect(await settleInviteFor(b2)).toEqual([]);
+    expect((await settleInvites((await getProfile(a.id))!)).pointsAwarded).toEqual([]);
+    // ... and finishes a first rep
+    ({ profile: b2 } = await updateProfile(b.id, (p) => void p.repLog.push({ id: 'r1', taskId: 't', type: 'slip', kind: 'trial', day: '2026-11-15', score: 0.5 })));
     const first = await settleInviteFor(b2);
     expect(first.map((x) => x.points)).toEqual([300]);
     expect(await settleInviteFor(b2)).toEqual([]);

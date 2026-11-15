@@ -32,6 +32,8 @@ const round1 = (x: number) => Math.round(x * 10) / 10;
 export default async function AsJobPage({ params, searchParams }: Props) {
   const [{ slug }, sp, locale, profile] = await Promise.all([params, searchParams, getRequestLocale(), getProfileFromCookies()]);
   if (!SLUG_RE.test(slug)) notFound();
+  // a slug that is no job at all is a missing page, whoever opens it
+  if (![...(await getOccupationIndex()).values()].some((e) => e.slug === slug)) notFound();
   const forceFree = process.env.NODE_ENV !== 'production' && sp.plan === 'free';
   const owned = await ownedMap(profile, { forceFree });
   if (!owned) return <AsJobScreen view={null} locked={false} />;

@@ -72,8 +72,9 @@ export async function coachPreview(ctx: CoachRequestCtx): Promise<CoachPreview> 
     system: coachSystem(context),
     user: previewUser(q),
     locale: 'en',
+    // personal (their week and progress): kept one day, so a revisit is free but nothing lingers
     cacheKey: `${context.xrayId}:${context.score}`,
-    cacheTtlSec: 14 * 24 * 3600,
+    cacheTtlSec: 24 * 3600,
     maxTokens: 700,
     temperature: 0.4,
     actor: { profileId: ctx.profile.id, ip: ctx.ip },

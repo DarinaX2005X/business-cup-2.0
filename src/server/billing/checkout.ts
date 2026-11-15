@@ -90,6 +90,8 @@ export async function createCheckout(
     mode: 'subscription',
     // show the US price as is ($19 / $119), not converted to the visitor's local currency
     adaptive_pricing: { enabled: false },
+    // the product is English: Checkout too, whatever the browser's language
+    locale: 'en',
     line_items: [{ price, quantity: 1 }],
     customer: customerId,
     client_reference_id: current.id,
@@ -220,4 +222,28 @@ export async function createPlanChange(profile: Profile, tier: Tier, origin: str
     });
   });
   return { url: session.url };
+}
+
+/**
+ * When a profile is deleted: its Stripe subscription is cancelled at once and the customer deleted, so
+ * nobody is charged for a profile that no longer exists. A Stripe failure is logged and the deletion goes on.
+ */
+export async function cancelBillingForDeletion(profile: Pick<Profile, 'id' | 'plan'>): Promise<void> {
+  const { subscriptionId, stripeCustomerId } = profile.plan;
+  if (!subscriptionId && !stripeCustomerId) return;
+  try {
+    const s = getStripe();
+    if (subscriptionId) {
+      await s.subscriptions.cancel(subscriptionId).catch((err: unknown) => {
+        if (stripeCode(err) !== 'resource_missing') throw err;
+      });
+    }
+    if (stripeCustomerId) {
+      await s.customers.del(stripeCustomerId).catch((err: unknown) => {
+        if (stripeCode(err) !== 'resource_missing') throw err;
+      });
+    }
+  } catch (err) {
+    console.error(`[billing] could not cancel Stripe billing of deleted profile ${profile.id}`, (err as Error).message);
+  }
 }

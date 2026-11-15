@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { POST as reviewKitPOST } from '@/app/api/review-kit/route';
+import { POST as skillsPOST } from '@/app/api/skills/route';
 import { PLANS } from '@/domain/points';
 import type { Profile } from '@/domain/types';
 import { freeLeft, runSecondLook, secondLookState } from '@/server/playbook';
@@ -90,5 +91,31 @@ describe('Max features', () => {
     );
     expect(res.status).toBe(402);
     expect((await res.json()).error.code).toBe('max_required');
+  });
+
+  it('skills: Free reads them once from the résumé; a second read is Pro (402 pro_required)', async () => {
+    const free = await withPlan(null, (p) => {
+      (p as unknown as { skills: unknown }).skills = { items: [], shown: [], checked: [], removed: [], occupationCode: null, textHash: 'h', seniorityYears: null, extractedAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
+    });
+    const res = await skillsPOST(
+      new Request('http://localhost/api/skills', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', 'x-profile-id': free.profile.id, 'x-profile-secret': free.secret },
+        body: JSON.stringify({ text: 'I run night shifts on a cardiac ward and train new nurses.' }),
+      }),
+    );
+    expect(res.status).toBe(402);
+    expect((await res.json()).error.code).toBe('pro_required');
+
+    // a Free profile without skills gets the one read that comes with its new map (here the map does not exist: 404, not 402)
+    const fresh = await withPlan(null);
+    const first = await skillsPOST(
+      new Request('http://localhost/api/skills', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', 'x-profile-id': fresh.profile.id, 'x-profile-secret': fresh.secret },
+        body: JSON.stringify({ text: 'I run night shifts on a cardiac ward and train new nurses.', xray: 'AAAAAAAAAAAA' }),
+      }),
+    );
+    expect(first.status).not.toBe(402);
   });
 });

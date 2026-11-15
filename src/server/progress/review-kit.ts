@@ -183,7 +183,7 @@ export async function buildReviewKit(profile: Profile, locale: Locale, actor: Ac
     system: reviewKitPrompt.system(locale),
     user,
     locale,
-    cacheKey: 'review-kit-v1',
+    // no cache: the brief is built from this person's own record, for this request only
     maxTokens: 1800,
     temperature: 0.3,
     actor,

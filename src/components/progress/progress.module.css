@@ -227,6 +227,8 @@
 .lineStrips {
   position: absolute;
   inset: 0;
+  /* the last day's strip may reach past the chart's edge: never let it widen the page */
+  overflow: hidden;
 }
 
 .lineStrip {

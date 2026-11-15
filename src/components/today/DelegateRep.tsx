@@ -323,8 +323,9 @@ function DelegateGrade({
   const inputSpots: Spot[] = spots
     .filter((s) => s.where === 'inputs')
     .map((s) => ({ start: s.start, end: s.end, kind: trapState(s.trapId), n: trapN.get(s.trapId) }));
+  // one note per trap in the AI's result
   const runMarks: ReviewMark[] = spots
-    .filter((s) => s.where === 'run')
+    .filter((s, i, all) => s.where === 'run' && all.findIndex((o) => o.where === 'run' && o.trapId === s.trapId) === i)
     .map((s, i) => ({
       id: `t${i}`,
       kind: trapState(s.trapId) === 'caught' ? 'found' : trapState(s.trapId) === 'byAi' ? 'false' : 'missed',

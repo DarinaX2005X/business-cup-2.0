@@ -1,3 +1,4 @@
+import { withRequestDeadline } from '@/server/ai/deadline';
 import { randomBytes } from 'node:crypto';
 import { z } from 'zod';
 import type { Profile } from '@/domain/types';
@@ -84,7 +85,8 @@ export function clientTz(req: Request): string | null {
 export function withApi<A extends unknown[]>(handler: (req: Request, ...rest: A) => Promise<Response>) {
   return async (req: Request, ...rest: A): Promise<Response> => {
     try {
-      return await handler(req, ...rest);
+      // model calls in this request (and in its after() work) stop before the route's maxDuration
+      return await withRequestDeadline(() => handler(req, ...rest));
     } catch (err) {
       if (err instanceof HttpError) return jsonError(err.status, err.code, err.message, err.extra);
       if (err instanceof ProfileNotFoundError) return jsonError(401, 'unauthorized', 'Profile no longer exists.');

@@ -12,7 +12,7 @@ import { streakWeekOf, type AccountSnapshot } from '@/components/shell/account';
 import { useAccount } from '@/components/shell/HeaderAccount';
 import { LevelStone } from '@/components/shell/ShellMenus';
 import { loadToday, type Hub } from '@/components/today/api';
-import { nextReward, rewardById } from '@/domain/points';
+import { nextReward, pendingProCode, rewardById } from '@/domain/points';
 import type { RepType } from '@/domain/types';
 import { useT } from '@/i18n/client';
 import { apiFetch } from '@/lib/client/api';
@@ -283,9 +283,10 @@ function StreakCard({ account }: { account: AccountSnapshot }) {
   );
 }
 
-function RewardCard({ balance }: { balance: number }) {
+function RewardCard({ balance, tier }: { balance: number; tier: AccountSnapshot['tier'] }) {
   const { t, f } = useT();
-  const next = nextReward(balance);
+  const { profile } = useProfile();
+  const next = nextReward(balance, { tier, pendingPro: profile ? Boolean(pendingProCode(profile)) : false });
   const reward = next ? rewardById(next.rewardId) : null;
   if (!next || !reward) {
     return (
@@ -463,7 +464,7 @@ export function HomeScreen() {
       <div className={st.tiles}>
         {plan ? <PlanCard plan={plan} xrayId={xrayId} /> : null}
         <StreakCard account={account} />
-        <RewardCard balance={account.balance} />
+        <RewardCard balance={account.balance} tier={account.tier} />
       </div>
       <QuickLinks xrayId={xrayId} pages={shell.pages} tier={account.tier} />
     </div>

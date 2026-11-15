@@ -1,11 +1,8 @@
 'use client';
 
-import { MarketingHeader } from '@/components/public/MarketingHeader';
+import { SiteHeader } from '@/components/landing/SiteHeader';
 
-/**
- * The shared marketing header (src/components/public/MarketingHeader.tsx) with Pricing as the current page.
- * `mapHref` is kept for the caller; the header itself offers «Open my week» to a person with a map.
- */
+/** /pricing uses the site's one header (the landing's), like every marketing page. `mapHref` is kept for the caller. */
 export function PricingHeader(_props: { mapHref?: string | null }) {
-  return <MarketingHeader current="pricing" />;
+  return <SiteHeader />;
 }

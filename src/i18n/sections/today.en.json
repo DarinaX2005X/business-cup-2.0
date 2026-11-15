@@ -327,6 +327,8 @@
       "hands_on": "Hands-on work. AI rarely helps with it.",
       "people": "Work with people. AI rarely helps with it.",
       "human": "It takes judgment and people skills. AI rarely helps with it.",
+      "research_high": "Studies say AI could do much of this, but we haven't seen people hand it to AI at work yet.",
+      "not_seen": "We haven't seen people use AI for this at work, and studies rate it low.",
       "no_data": "We have no data on this task yet."
     }
   }

@@ -3,7 +3,7 @@ import { isLocale } from '@/i18n/config';
 import { clientIp, clientTz, optionalProfile, readJson, requireProfile, withApi } from '@/server/profile/http';
 import { runSecondLook, SECOND_LOOK_MAX_CHARS, secondLookState } from '@/server/playbook';
 
-export const maxDuration = 60;
+export const maxDuration = 300;
 
 /**
  * GET /api/second-look?locale= → SecondLookState: plan, free runs left and the week's tasks for the

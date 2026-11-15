@@ -268,24 +268,23 @@ export function ProfileProvider({ children, presenters }: { children: ReactNode;
           if (!creds) throw new ApiError('unauthorized', 401, 'malformed restore link');
           const target = await apiFetch<PublicProfile>('/api/profile', { profile: creds });
           if (cancelled) return;
+          // a profile with an account is opened by logging in, never by a link
+          if (target.account) throw new ApiError('unauthorized', 401, 'restore links open guest profiles only');
           const current = loadCredentials();
           if (current && current.id !== creds.id) {
-            // Another profile is active here. Replace it without asking only if it holds nothing worth keeping.
+            // Another profile is active here: switching always asks first.
             let currentProfile: PublicProfile | null = null;
-            let unknown = false;
             try {
               currentProfile = await apiFetch<PublicProfile>('/api/profile', { profile: current });
-            } catch (err) {
-              unknown = !(err instanceof ApiError && err.status === 401);
+            } catch {
+              currentProfile = null;
             }
             if (cancelled) return;
-            if (unknown || (currentProfile && hasProgress(currentProfile))) {
-              setPending({ creds, profile: target });
-              setRestore('pending');
-              if (currentProfile) accept(currentProfile);
-              else await refresh();
-              return;
-            }
+            setPending({ creds, profile: target });
+            setRestore('pending');
+            if (currentProfile) accept(currentProfile);
+            else await refresh();
+            return;
           }
           saveCredentials(creds); // replaced credentials stay recoverable via restorePrevious()
           accept(target);

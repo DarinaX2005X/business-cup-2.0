@@ -15,7 +15,7 @@ import { getStore, isConflictError } from '@/server/store';
  * - `invitees:<inviterId>` → `{ ids }`: profiles that joined through the link (at most INVITEES_MAX kept).
  * - A colleague is linked to the inviter through `Profile.invitedBy`, either at profile creation
  *   (`resolveInviter` from `createProfile`) or right after it (`acceptInvite`, only before their first map).
- * - When the colleague's first week map exists, the inviter gets `invite_completed` (300 points, at most 10
+ * - When the colleague has a week map and has finished a first rep, the inviter gets `invite_completed` (300 points, at most 10
  *   colleagues, ref = the colleague's hashed id so the inviter never sees it) and the colleague gets
  *   `invited_bonus` (100) with that map (rule in src/domain/points.ts). `settleInviteFor` does it right after
  *   the map is saved; `settleInvites` catches up whenever the inviter opens their invite panel.
@@ -101,6 +101,8 @@ export async function registerInvitee(inviterId: string, inviteeId: string): Pro
 
 /** A colleague counts once their first week map exists. */
 const hasMap = (p: Pick<Profile, 'xrays' | 'lastXrayId'>) => p.xrays.length > 0 || Boolean(p.lastXrayId);
+/** A colleague counts for the inviter once they have a map AND have finished a first rep (a real person, not a farm of empty profiles). */
+const qualified = (p: Pick<Profile, 'xrays' | 'lastXrayId' | 'repLog'>) => hasMap(p) && p.repLog.some((r) => typeof r.score === 'number');
 
 export type AcceptResult = { status: 'linked' | 'already_linked' };
 
@@ -138,12 +140,12 @@ const credited = (inviter: Pick<Profile, 'points'>, inviteeId: string) =>
   inviter.points.events.some((e) => e.type === 'invite_completed' && e.ref === inviteeRef(inviteeId));
 
 /**
- * Hook for the end of the colleague's first map (`createXray`): awards the inviter right away.
- * Returns the inviter's awards (not shown to the colleague). Never throws: the map is already saved.
+ * Hook for the end of the colleague's first finished rep (after their map): awards the inviter right away.
+ * Returns the inviter's awards (not shown to the colleague). Never throws: the rep is already saved.
  */
-export async function settleInviteFor(invitee: Pick<Profile, 'id' | 'invitedBy' | 'xrays' | 'lastXrayId'>): Promise<PointsAward[]> {
+export async function settleInviteFor(invitee: Pick<Profile, 'id' | 'invitedBy' | 'xrays' | 'lastXrayId' | 'repLog'>): Promise<PointsAward[]> {
   try {
-    if (!invitee.invitedBy || invitee.invitedBy === invitee.id || !hasMap(invitee)) return [];
+    if (!invitee.invitedBy || invitee.invitedBy === invitee.id || !qualified(invitee)) return [];
     const inviter = await getProfile(invitee.invitedBy);
     if (!inviter || credited(inviter, invitee.id)) return [];
     await registerInvitee(inviter.id, invitee.id);
@@ -177,7 +179,7 @@ export async function settleInvites(inviter: Profile): Promise<InviteSummary> {
     (p): p is Profile => p !== null && p.invitedBy === inviter.id,
   );
   const mapped = invitees.filter(hasMap);
-  const due = mapped.filter((p) => !credited(inviter, p.id));
+  const due = invitees.filter(qualified).filter((p) => !credited(inviter, p.id));
   let current = inviter;
   let pointsAwarded: PointsAward[] = [];
   if (due.length) {

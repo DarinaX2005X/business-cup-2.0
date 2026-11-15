@@ -1,3 +1,4 @@
+import { isSampleText } from '@/content/samples';
 import { searchOccupations } from '@/domain/search';
 import { taskWeight } from '@/domain/shares';
 import type { Locale, ResumeFacts } from '@/domain/types';
@@ -56,13 +57,15 @@ export async function analyzeResume(input: { text: string; mode: ResumeMode; loc
     }
   }
 
+  // a person's own résumé is read for this request only; the fictional samples may be cached
+  const sample = await isSampleText(text);
   const { data: parsed } = await callModel({
     op: 'resume.parse',
     schema: resumeParseSchema,
     system: resumeParsePrompt.system(mode),
     user: resumeParsePrompt.user(text),
     locale,
-    cacheKey: mode,
+    cacheKey: sample ? mode : undefined,
     maxTokens: 3000,
     temperature: 0,
     actor,
@@ -91,7 +94,7 @@ export async function analyzeResume(input: { text: string; mode: ResumeMode; loc
     system: occupationPickPrompt.system(locale),
     user: occupationPickPrompt.user(pickInput),
     locale,
-    cacheKey: locale,
+    cacheKey: sample ? locale : undefined,
     maxTokens: 800,
     temperature: 0,
     actor,

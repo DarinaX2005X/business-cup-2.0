@@ -147,6 +147,8 @@ async function finalizeProfile(ctx: RepCtx, rep: RepRecord): Promise<{ awards: P
     // hints taken in Spot the slip lower the rep's points (never below the base), see repPoints
     return emit(p, { type: 'rep_completed', ref: rep.id, data: { score: result.score, type: rep.type, kind: rep.kind, ...(result.hintsUsed ? { hintsUsed: result.hintsUsed } : {}) } });
   });
+  // a colleague who came by invite and finished a rep pays their inviter now (dynamic import: no cycle)
+  if (profile.invitedBy) await import('@/server/invite').then((m) => m.settleInviteFor(profile)).catch(() => undefined);
   return { awards, profile };
 }
 

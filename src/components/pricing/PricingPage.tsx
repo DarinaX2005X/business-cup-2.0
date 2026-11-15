@@ -77,7 +77,7 @@ export function PricingPage({ canceled, portal, week, initial }: { canceled: boo
               <p className={st.move}>
                 <b>{t('pricing.week.score', { score: week.score })}</b> {t('pricing.week.move')}
               </p>
-              <TrialBox surface="paper" interval={interval} plan={plan} hasMap={!!lastXrayId} priceLine={t('pricing.pro.trialLine', { price: priceText, per })} />
+              <TrialBox surface="paper" interval={interval} plan={plan} hasMap={!!lastXrayId} priceLine={t('pricing.pro.trialLine', { price: priceText, per })} cup={false} testLine={false} />
             </div>
             <FirstWeekSheet days={week.days} labelledBy="week-title" />
           </section>
@@ -96,8 +96,9 @@ export function PricingPage({ canceled, portal, week, initial }: { canceled: boo
             )}
           </div>
 
-          {plan.active ? <TrialBox surface="paper" cup={false} interval={interval} plan={plan} hasMap={!!lastXrayId} priceLine="" /> : null}
-          <Plans heading={week ? 'h3' : 'h2'} freeHref={mapHref ?? '/start'} freeLabel={mapHref ? t('pricing.free.ctaOwn') : t('pricing.free.cta')} />
+          {plan.active ? <TrialBox surface="paper" cup={false} testLine={false} interval={interval} plan={plan} hasMap={!!lastXrayId} priceLine="" /> : null}
+          {/* the standalone plans page: the cards only (the Business Cup band lives on the landing and /cup) */}
+          <Plans heading={week ? 'h3' : 'h2'} freeHref={mapHref ?? '/start'} freeLabel={mapHref ? t('pricing.free.ctaOwn') : t('pricing.free.cta')} cupBand={false} />
         </section>
       </main>
     </div>
@@ -116,6 +117,7 @@ export function TrialBox({
   hasMap,
   priceLine,
   cup = true,
+  testLine = true,
 }: {
   surface: 'paper' | 'violet';
   interval: Interval;
@@ -124,6 +126,8 @@ export function TrialBox({
   priceLine: string;
   /** The Business Cup action beside the trial button; off where the cup card is already on screen. */
   cup?: boolean;
+  /** The Stripe test-mode line under the trial button (off on the standalone plans page). */
+  testLine?: boolean;
 }) {
   const { t, f } = useT();
   const prof = useProfile();
@@ -193,7 +197,7 @@ export function TrialBox({
           {cup ? <CupOffer surface={surface} /> : null}
         </div>
         <p className={st.priceLine}>{priceLine}</p>
-        <p className={st.testLine}>{t('pricing.testMode')}</p>
+        {testLine ? <p className={st.testLine}>{t('pricing.testMode')}</p> : null}
       </>
     );
   }

@@ -82,7 +82,8 @@ describe('Business Cup offer through the API', () => {
     const guest = await cupPOST(req('/api/billing/cup', n.headers, { method: 'POST' }));
     expect(guest.status).toBe(401);
     expect((await guest.json()).error.code).toBe('account_required');
-    await signup((await getProfile(n.id))!, { email: `nurse-${n.id}@example.com`, password: 'long enough pw' }, '127.0.0.1');
+    const up = await signup((await getProfile(n.id))!, { email: `nurse-${n.id}@example.com`, password: 'long enough pw' }, '127.0.0.1');
+    n.headers['x-profile-secret'] = up.secret; // sign-up rotates the device secret
 
     const unlocked = await cupPOST(req('/api/billing/cup', n.headers, { method: 'POST' }));
     expect(unlocked.status).toBe(201);

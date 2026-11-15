@@ -3,7 +3,7 @@ import { clientIp, clientTz, requireProfile, withApi } from '@/server/profile/ht
 import { getPlaybook } from '@/server/playbook';
 
 /** Starter generation (after the response) runs a few parallel model calls. */
-export const maxDuration = 90;
+export const maxDuration = 300;
 
 /**
  * GET /api/playbook?locale= → PlaybookView: one card per week task AI does or speeds up, with the

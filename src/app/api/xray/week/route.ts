@@ -4,7 +4,7 @@ import { clientIp, HttpError, optionalProfile, readJson, withApi } from '@/serve
 import { loadBundle, OCC_CODE_RE } from '@/server/xray/data';
 import { proposeWeek, typicalWeek } from '@/server/xray/week';
 
-export const maxDuration = 60;
+export const maxDuration = 300;
 
 const dutySchema = z.object({ original: z.string().trim().min(1).max(300), en: z.string().trim().min(1).max(300) });
 

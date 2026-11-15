@@ -14,12 +14,14 @@
 }
 
 .save {
-  padding: 5px 12px;
+  padding: 3px 9px;
   border-radius: 999px;
   background: var(--speed-field);
   color: var(--apricot-deep);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
+  line-height: 1.3;
+  white-space: nowrap;
   box-shadow: inset 0 0 0 1px var(--tile-sp-edge);
   transition:
     background-color var(--t-hover) var(--ease),
@@ -30,7 +32,6 @@
 .save[data-on] {
   background: var(--apricot);
   color: var(--ink);
-  scale: 1.06;
 }
 
 .plans {

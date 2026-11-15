@@ -175,6 +175,8 @@ export function useRecordBoardForTests(on: boolean): void {
 
 /** Writes this profile's weekly XP and handle onto the board. Idempotent; zero XP this week is not listed. */
 export async function syncBoard(profile: Profile, now: Date = new Date()): Promise<void> {
+  // the jury templates are never handed out and never ranked (their per-visitor copies are)
+  if (profile.demoTemplate) return removeFromBoards(profile.id, now).catch(() => undefined);
   const week = boardWeek(now);
   const xp = weekXpOf(profile, week);
   if (xp <= 0) return;

@@ -85,6 +85,13 @@ export function createStripeStub() {
           if (!s) throw err('resource_missing');
           return structuredClone(s);
         }),
+      cancel: (sid: string) =>
+        op('subscriptions.cancel', [sid], () => {
+          const s = subs.get(sid);
+          if (!s) throw err('resource_missing');
+          s.status = 'canceled';
+          return structuredClone(s);
+        }),
       update: (sid: string, params: { discounts: '' | { discount?: string; promotion_code?: string }[] }) =>
         op('subscriptions.update', [sid, params], () => {
           const s = subs.get(sid)!;
@@ -93,6 +100,11 @@ export function createStripeStub() {
         }),
     },
     customers: {
+      del: (cid: string) =>
+        op('customers.del', [cid], () => {
+          customers.delete(cid);
+          return { id: cid, deleted: true };
+        }),
       create: (params: { metadata: Record<string, string> }, opts?: { idempotencyKey?: string }) =>
         op('customers.create', [params, opts], () => {
           if (opts?.idempotencyKey && idem.has(opts.idempotencyKey)) return idem.get(opts.idempotencyKey);

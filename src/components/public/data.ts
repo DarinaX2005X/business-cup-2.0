@@ -49,7 +49,9 @@ export async function getBundle(code: string): Promise<OccupationBundle | null> 
 export const STATIC_JOB_PAGES = 150;
 
 export function siteUrl(): URL {
-  const raw = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+  // NEXT_PUBLIC_SITE_URL, else the Vercel production domain, else local development
+  const vercel = process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : null;
+  const raw = process.env.NEXT_PUBLIC_SITE_URL || vercel || 'http://localhost:3000';
   try {
     return new URL(raw);
   } catch {

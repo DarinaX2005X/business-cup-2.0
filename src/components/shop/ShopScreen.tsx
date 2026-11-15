@@ -37,7 +37,19 @@ export function ShopScreen({ fixture }: { fixture?: ShopFixture }) {
   const [fx, setFx] = useState(() => (fixture ? { balance: fixture.data.points.balance, redemptions: fixture.redemptions, freezes: fixture.freezes } : null));
   const [shown, setShown] = useState<Record<string, Redemption>>({});
   const [turnedBack, setTurnedBack] = useState<Set<string>>(() => new Set());
-  const [asking, setAsking] = useState<Reward | null>(null);
+  const [asking, setAskingState] = useState<Reward | null>(null);
+  // a double click on Redeem opens the dialog once: the second click (or a close right after) is ignored
+  const openedAt = useRef(0);
+  const setAsking = useCallback((r: Reward | null) => {
+    if (r) {
+      if (Date.now() - openedAt.current < 500) return;
+      openedAt.current = Date.now();
+      setAskingState(r);
+    } else {
+      if (Date.now() - openedAt.current < 400) return;
+      setAskingState(null);
+    }
+  }, []);
 
   const status = prof.status;
   const profileId = prof.profile?.id ?? null;

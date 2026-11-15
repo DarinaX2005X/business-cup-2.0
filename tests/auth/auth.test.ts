@@ -71,7 +71,13 @@ describe('accounts', () => {
 
     const up = await post(signupPOST, '/api/auth/signup', headers, { email: ' Dana@Example.com ', password: 'night shift 7' });
     expect(up.status).toBe(201);
-    expect(await up.json()).toEqual({ email: 'dana@example.com' });
+    const upBody = (await up.json()) as { email: string; id: string; secret: string };
+    expect(upBody).toMatchObject({ email: 'dana@example.com', id: profile.id });
+    // the guest secret is rotated: it stops working, the device continues with the new one
+    expect(upBody.secret).not.toBe(guestSecret);
+    expect(await authenticate(profile.id, guestSecret)).toBeNull();
+    expect(await authenticate(profile.id, upBody.secret)).not.toBeNull();
+    const deviceSecret = upBody.secret;
     const stored = (await getProfile(profile.id))!;
     expect(stored.account).toMatchObject({ email: 'dana@example.com' });
     expect(stored.lastXrayId).toBe(xray.id);
@@ -87,14 +93,14 @@ describe('accounts', () => {
     expect(inRes.status).toBe(200);
     const other = (await inRes.json()) as { id: string; secret: string; email: string };
     expect(other).toMatchObject({ id: profile.id, email: 'dana@example.com' });
-    expect(other.secret).not.toBe(guestSecret);
+    expect(other.secret).not.toBe(deviceSecret);
     expect((await authenticate(profile.id, other.secret))?.lastXrayId).toBe(xray.id);
-    expect(await authenticate(profile.id, guestSecret)).not.toBeNull();
+    expect(await authenticate(profile.id, deviceSecret)).not.toBeNull();
 
     const out = await post(logoutPOST, '/api/auth/logout', { 'x-profile-id': profile.id, 'x-profile-secret': other.secret });
     expect(out.status).toBe(200);
     expect(await authenticate(profile.id, other.secret)).toBeNull(); // revoked
-    expect(await authenticate(profile.id, guestSecret)).not.toBeNull(); // the first device stays signed in
+    expect(await authenticate(profile.id, deviceSecret)).not.toBeNull(); // the first device stays signed in
     const again = await post(logoutPOST, '/api/auth/logout', { 'x-profile-id': profile.id, 'x-profile-secret': other.secret });
     expect(again.status).toBe(401);
   });
@@ -142,19 +148,20 @@ describe('accounts', () => {
     expect((await login({ email: 'lee@example.com', password: 'eight chars' }, IP, new Date('2026-11-15T10:16:00Z'))).id).toBe(profile.id);
   });
 
-  it('older profiles (one secretHash) still sign in, and keep it when an account is added', async () => {
+  it('older profiles (one secretHash) still sign in; adding an account swaps it for a new device secret', async () => {
     const { profile, secret } = await createProfile({ locale: 'en' });
     expect((await getProfile(profile.id))!.secretHashes).toBeUndefined();
     expect(await authenticate(profile.id, secret)).not.toBeNull();
-    await signup(profile, { email: 'old@example.com', password: 'eight chars' }, IP);
-    expect(await authenticate(profile.id, secret)).not.toBeNull();
+    const up = await signup(profile, { email: 'old@example.com', password: 'eight chars' }, IP);
+    expect(await authenticate(profile.id, secret)).toBeNull();
+    expect(await authenticate(profile.id, up.secret)).not.toBeNull();
   });
 });
 
 describe('gates', () => {
   it('checkout and the Cup offer need an account; demo accounts have Max and cannot check out', async () => {
     const { profile, secret } = await createProfile({ locale: 'en' });
-    const headers = { 'x-profile-id': profile.id, 'x-profile-secret': secret };
+    let headers = { 'x-profile-id': profile.id, 'x-profile-secret': secret };
     for (const [route, path] of [
       [checkoutPOST, '/api/billing/checkout'],
       [cupPOST, '/api/billing/cup'],
@@ -163,7 +170,8 @@ describe('gates', () => {
       expect(res.status).toBe(401);
       expect((await res.json()).error.code).toBe('account_required');
     }
-    await signup(profile, { email: 'pat@example.com', password: 'eight chars' }, IP);
+    const up = await signup(profile, { email: 'pat@example.com', password: 'eight chars' }, IP);
+    headers = { 'x-profile-id': profile.id, 'x-profile-secret': up.secret };
     expect((await post(checkoutPOST, '/api/billing/checkout', headers, { tier: 'pro' })).status).toBe(200);
     expect((await post(cupPOST, '/api/billing/cup', headers)).status).toBe(201);
 

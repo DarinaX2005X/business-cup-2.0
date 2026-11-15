@@ -11,8 +11,8 @@ import type { Credentials } from './credentials';
 
 export const PASSWORD_MIN = 8;
 
-/** POST /api/auth/signup with the current (guest) profile headers → { email }. 409 account_exists / email_taken. */
-export const signupRequest = (email: string, password: string) => apiFetch<{ email: string }>('/api/auth/signup', { method: 'POST', body: { email, password } });
+/** POST /api/auth/signup with the current (guest) profile headers → { email, id, secret } (the device's new secret). 409 account_exists / email_taken. */
+export const signupRequest = (email: string, password: string) => apiFetch<{ email: string; id: string; secret: string }>('/api/auth/signup', { method: 'POST', body: { email, password } });
 
 /** POST /api/auth/login → the account's profile credentials. 401 invalid_login. */
 export const loginRequest = (email: string, password: string) =>

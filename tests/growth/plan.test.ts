@@ -41,6 +41,51 @@ function goodWeeks(from = 1): PlanGenerateOutput['weeks'] {
   return out;
 }
 
+describe('checkPlan: work that stays with a person', () => {
+  it('never hands people or hands-on work to AI: such actions are dropped and the focus is rewritten', () => {
+    const humanTasks = new Map<string, { label: string; category: Category; human?: boolean }>([
+      ['1841', { label: 'Charting', category: 'ai_speeds' }],
+      ['1844', { label: 'Direct subject instruction', category: 'ai_speeds', human: true }],
+      ['1843', { label: 'Care plans', category: 'ai_does' }],
+      ['1842', { label: 'Discharge teaching', category: 'human_edge', human: true }],
+    ]);
+    const weeks = goodWeeks();
+    weeks[0] = {
+      week: 1,
+      focus: 'Hand {task} to AI and check it',
+      focusTaskId: '1844',
+      items: [
+        ...weeks[0].items,
+        { kind: 'work', taskId: '1844', repType: null, skillId: null, text: 'Hand {task} to AI on Monday and check the draft' },
+        { kind: 'rep', taskId: '1844', repType: 'delegate', skillId: null, text: 'Do a practice rep on {task} with a clear brief' },
+        { kind: 'work', taskId: '1844', repType: null, skillId: null, text: 'Use AI to prepare {task} materials for Thursday' },
+      ],
+    };
+    const res = checkPlan({ weeks }, ctx({ tasks: humanTasks }));
+    expect(res.weeks[0].focus).toBe('Use AI to prepare Direct subject instruction');
+    const texts = res.weeks[0].items.map((i) => i.text);
+    expect(texts).toContain('Use AI to prepare Direct subject instruction materials for Thursday');
+    expect(texts.some((t) => /Hand Direct subject instruction to AI/.test(t))).toBe(false);
+    expect(res.weeks[0].items.some((i) => i.taskId === '1844' && i.repType === 'delegate')).toBe(false);
+    expect(res.dropped.filter((d) => d.includes('stays with a person'))).toHaveLength(2);
+  });
+
+  it('asks for variety when the plan keeps to the same two tasks', () => {
+    const many = new Map<string, { label: string; category: Category }>([
+      ['1', { label: 'A task', category: 'ai_does' }],
+      ['2', { label: 'B task', category: 'ai_does' }],
+      ['3', { label: 'C task', category: 'ai_speeds' }],
+      ['4', { label: 'D task', category: 'ai_speeds' }],
+      ['5', { label: 'E task', category: 'human_edge' }],
+      ['1843', { label: 'Care plans', category: 'ai_does' }],
+      ['1841', { label: 'Charting', category: 'ai_speeds' }],
+      ['1842', { label: 'Discharge teaching', category: 'human_edge' }],
+    ]);
+    const res = checkPlan({ weeks: goodWeeks() }, ctx({ tasks: many }));
+    expect(res.soft.some((s) => s.startsWith('Use more of their tasks'))).toBe(true);
+  });
+});
+
 describe('checkPlan', () => {
   it('fills task and skill names in, from the person\'s data, and gives every item a stable id', () => {
     const res = checkPlan({ weeks: goodWeeks() }, ctx());

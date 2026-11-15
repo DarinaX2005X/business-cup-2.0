@@ -33,7 +33,8 @@ export type TaskGroup = 'AI_DOES' | 'AI_SPEEDS' | 'HUMAN' | 'UNKNOWN';
 export interface PlanPromptInput {
   jobTitle: string;
   occupation: string;
-  tasks: { id: string; label: string; hours: number; group: TaskGroup; text: string }[];
+  /** `human`: work with people, hands-on work or a HUMAN task: never handed to AI. */
+  tasks: { id: string; label: string; hours: number; group: TaskGroup; text: string; human?: boolean }[];
   skills: { id: string; name: string }[];
   gaps: { id: string; name: string; what: string; why: string }[];
   practice: { slip: number; delegate: number; edge: number };
@@ -52,7 +53,8 @@ export const planGeneratePrompt = {
       '- Weeks 1 to 4, "Hand off and check": hand the tasks marked AI_DOES to AI and check what comes back. Mostly Delegate and Spot the slip reps on those tasks, and real-work actions with their Playbook instruction.',
       '- Weeks 5 to 8, "Supervise and speed up": the tasks marked AI_SPEEDS. Get faster at checking AI drafts: Spot the slip reps, Second look on real drafts, timing a task before and after.',
       '- Weeks 9 to 12, "Grow your edge": the tasks marked HUMAN. Human edge reps, building the skills worth building next, and a Review kit milestone in week 11 or 12.',
-      'When a group has no tasks, use the closest group. Spread the plan over their biggest tasks; each of their top five tasks appears at least twice in the 12 weeks.',
+      'When a group has no tasks, use the closest group. Spread the plan over their biggest tasks: each of their top five tasks appears at least twice in the 12 weeks, no task is the focus of more than three weeks, and next weeks move on to other tasks instead of alternating the same two.',
+      'Tasks marked KEEP-HUMAN (work with people, hands-on work, or the HUMAN group) are never handed to AI: no Delegate reps on them and no "hand {task} to AI" or "delegate {task}". For them, write "Use AI to prepare {task}" (materials, notes, a first outline the person then leads) or practise the human part with Human edge reps.',
       '',
       'Action kinds:',
       '- rep: a short practice rep in the app on one task of their week. repType "slip" = Spot the slip (find the mistakes an AI made in a document for this task), "delegate" = Delegate (hand the task to AI with a clear brief and check what comes back), "edge" = Human edge (practise the part of the task that needs a person, like a hard conversation). Needs taskId and repType.',
@@ -74,8 +76,8 @@ export const planGeneratePrompt = {
     [
       `Job: ${input.jobTitle} (O*NET occupation: ${input.occupation})`,
       '',
-      'Their week (taskId | name | hours a week | group | O*NET task):',
-      ...input.tasks.map((t) => `${t.id} | ${t.label} | ${t.hours} | ${t.group} | ${t.text}`),
+      'Their week (taskId | name | hours a week | group | KEEP-HUMAN when it is never handed to AI | O*NET task):',
+      ...input.tasks.map((t) => `${t.id} | ${t.label} | ${t.hours} | ${t.group} | ${t.human ? 'KEEP-HUMAN' : '-'} | ${t.text}`),
       '',
       'Worth building next (skillId | name | what it means | why):',
       ...(input.gaps.length ? input.gaps.map((g) => `${g.id} | ${g.name} | ${g.what} | ${g.why}`) : ['(none found)']),

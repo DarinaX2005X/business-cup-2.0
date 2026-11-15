@@ -48,8 +48,8 @@ export interface PlanCheckContext {
   planId: string;
   /** First week written (1, or the week a refresh starts from). */
   fromWeek: number;
-  /** The person's week: task id → name and group. */
-  tasks: ReadonlyMap<string, { label: string; category: Category }>;
+  /** The person's week: task id → name, group and whether it stays with a person (people, hands-on, human edge). */
+  tasks: ReadonlyMap<string, { label: string; category: Category; human?: boolean }>;
   /** Skills the plan may build: gap ids and the person's own skill ids → the name shown. */
   skills: ReadonlyMap<string, string>;
 }
@@ -65,6 +65,8 @@ export interface PlanCheck {
 }
 
 const PLACEHOLDER = /\{(\w+)\}/g;
+/** «Hand {task} to AI», «delegate {task}», «hand off …»: never for work that stays with a person. */
+const HAND_OFF = /\b(hand|give|pass)\b[^.]*\bto (ai|chatgpt|claude|copilot)\b|\bdelegat\w*\b|\bhand(ing)? (off|over)\b|\blet ai (do|take|handle|run)\b/i;
 const BANNED = /%|\$|https?:\/\/|www\.|!/;
 
 function tidy(s: string): string {
@@ -112,7 +114,15 @@ export function checkPlan(out: PlanGenerateOutput, ctx: PlanCheckContext): PlanC
       soft.push(`Week ${n}: focus may only use {task}.`);
       focusTemplate = focusTemplate.replace(/\{(?!task\})\w+\}/g, '').replace(/\s+/g, ' ').trim();
     }
+    if (focusTaskId && ctx.tasks.get(focusTaskId)!.human && HAND_OFF.test(focusTemplate)) {
+      soft.push(`Week ${n}: the focus hands people work to AI; write "Use AI to prepare {task}" or practise the human part.`);
+      focusTemplate = 'Use AI to prepare {task}';
+    }
     let focus = fill(focusTemplate, focusTaskId ? ctx.tasks.get(focusTaskId)!.label : null, null);
+    if (focus.length > FOCUS_MAX && focusTemplate === 'Use AI to prepare {task}') {
+      focus = 'Practise the human part';
+      focusTaskId = null;
+    }
     if (BANNED.test(focus)) focus = focus.replace(/!/g, '');
     if (focus.length < 3 || focus.length > FOCUS_MAX) {
       fatal.push(`Week ${n}: focus must be 3 to 8 plain words.`);
@@ -136,6 +146,10 @@ export function checkPlan(out: PlanGenerateOutput, ctx: PlanCheckContext): PlanC
       const kind: PlanItemKind = it.kind;
       if (ph.includes('task') && !task) return drop(`taskId ${taskId ?? 'null'} is not a task of their week.`);
       if (ph.includes('skill') && !skillName) return drop(`skillId ${skillId ?? 'null'} is not in the skill lists.`);
+
+      if (task?.human && ph.includes('task') && (HAND_OFF.test(template) || (kind === 'rep' && it.repType === 'delegate'))) {
+        return drop('this task stays with a person (people or hands-on work): never hand it to AI; write "Use AI to prepare {task}" or practise the human part.');
+      }
 
       let repType: RepType | null = null;
       if (kind === 'rep') {
@@ -179,6 +193,13 @@ export function checkPlan(out: PlanGenerateOutput, ctx: PlanCheckContext): PlanC
 
   if (ctx.fromWeek === 1) {
     for (const t of ['slip', 'delegate', 'edge'] as const) if (!repTypes.has(t)) soft.push(`Use the ${t} rep type at least once.`);
+    // variety: their biggest tasks, not the same two every week
+    const used = new Set(weeks.flatMap((w) => w.items.map((i) => i.taskId).filter((x): x is string => !!x)));
+    const want = Math.min(5, ctx.tasks.size);
+    if (used.size < want) soft.push(`Use more of their tasks: at least ${want} different tasks across the 12 weeks (now ${used.size}).`);
+    const focusCount = new Map<string, number>();
+    for (const w of weeks) if (w.focusTaskId) focusCount.set(w.focusTaskId, (focusCount.get(w.focusTaskId) ?? 0) + 1);
+    if ([...focusCount.values()].some((c) => c > 3)) soft.push('No task may be the focus of more than three weeks; move on to their other tasks.');
   }
   if (ctx.fromWeek <= 12 && !weeks.some((w) => w.n >= 9 && w.items.some((i) => i.kind === 'review'))) {
     soft.push('Add a Review kit milestone in week 11 or 12.');

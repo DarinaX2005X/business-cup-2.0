@@ -46,7 +46,9 @@ describe('global budget, per-environment rate limits', () => {
     expect(await globalStore.getNumber(budgetKeys.total)).toBeCloseTo(0.0004, 8);
     expect(await envStore.getNumber(budgetKeys.total)).toBe(0);
     expect((await getBudgetStatus()).totalUsd).toBeCloseTo(0.0004, 8);
-    expect((await envStore.list('rl:profile:P:')).length).toBe(1);
+    // the call counter and the profile's dollar counter, both per environment
+    expect((await envStore.list('rl:profile:P:')).length).toBe(2);
+    expect(await envStore.getNumber(budgetKeys.profileUsd('P', new Date().toISOString().slice(0, 10)))).toBeCloseTo(0.0004, 8);
     expect(await globalStore.list('rl:')).toEqual([]);
   });
 

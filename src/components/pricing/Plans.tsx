@@ -56,7 +56,7 @@ function shownPlans(): Shown[] {
  * renewal (Stripe only); on paid Pro, Max offers the upgrade for the difference. Both changes go through
  * the Billing Portal's confirm page for the running subscription (POST /api/billing/change).
  */
-export function Plans({ freeHref = '/start', freeLabel, heading = 'h3' }: { freeHref?: string; freeLabel?: string; heading?: 'h2' | 'h3' }) {
+export function Plans({ freeHref = '/start', freeLabel, heading = 'h3', cupBand = true }: { freeHref?: string; freeLabel?: string; heading?: 'h2' | 'h3'; cupBand?: boolean }) {
   const { t, f } = useT();
   const prof = useProfile();
   const requireAccount = useRequireAccount();
@@ -153,12 +153,18 @@ export function Plans({ freeHref = '/start', freeLabel, heading = 'h3' }: { free
           onChange={setBilling}
           options={[
             { value: 'month', label: t('pricing.interval.month') },
-            { value: 'year', label: t('pricing.interval.year') },
+            {
+              value: 'year',
+              label: t('pricing.interval.year'),
+              // the saving sits inside the Yearly segment itself
+              extra: (
+                <span className={st.save} data-on={interval === 'year' || undefined}>
+                  {t('pricing.tiers.save', { percent: saveUpTo })}
+                </span>
+              ),
+            },
           ]}
         />
-        <span className={st.save} data-on={interval === 'year' || undefined}>
-          {t('pricing.tiers.save', { percent: saveUpTo })}
-        </span>
       </div>
 
       <div className={st.plans}>
@@ -216,7 +222,7 @@ export function Plans({ freeHref = '/start', freeLabel, heading = 'h3' }: { free
         })}
       </div>
 
-      <CupBand className={st.band} />
+      {cupBand ? <CupBand className={st.band} /> : null}
     </div>
   );
 }

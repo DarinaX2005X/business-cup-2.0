@@ -89,3 +89,16 @@ describe('starter question wording', () => {
     expect(singularTitle('Accountants and Auditors')).toBe('Accountants and Auditors');
   });
 });
+
+describe('coach brief: off-topic questions', () => {
+  it('tells the model to decline off-topic questions in one line and offer two questions about their work', async () => {
+    const { coachSystem } = await import('@/server/ai/prompts/coach');
+    const { buildContext } = await import('@/server/coach/context');
+    const { newProfileRecord } = await import('@/server/profile');
+    const ctx = await buildContext(newProfileRecord({ id: 'p1', secretHash: 'x', locale: 'en', tz: null }));
+    const system = coachSystem(ctx);
+    expect(system).toMatch(/Off-topic questions/);
+    expect(system).toMatch(/Decline politely in one sentence/);
+    expect(system).toMatch(/exactly two example questions/);
+  });
+});

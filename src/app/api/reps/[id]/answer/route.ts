@@ -5,7 +5,7 @@ import { answerRep } from '@/server/reps';
 type Ctx = { params: Promise<{ id: string }> };
 
 // rep.delegate.run, rep.edge.reply and rep.grade may each take up to ~45 s.
-export const maxDuration = 120;
+export const maxDuration = 300;
 
 const range = z.tuple([z.number().int().min(0).max(100_000), z.number().int().min(0).max(100_000)]);
 

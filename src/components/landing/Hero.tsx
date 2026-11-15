@@ -1,10 +1,7 @@
 import Link from 'next/link';
 import type { TFunction } from '@/i18n/core';
-import { LandingAccount } from '@/components/public/Returning';
 import { HeroBackdrop } from './HeroBackdrop';
 import { JobForm } from './JobForm';
-import { Logo } from './Logo';
-import { StickyNav } from './StickyNav';
 import { fill } from './rich';
 import st from './landing.module.css';
 
@@ -36,34 +33,6 @@ function Question() {
   );
 }
 
-/** Sections of the landing the header scrolls to (ids on the sections in Sections.tsx). */
-export const LANDING_ANCHORS = [
-  { id: 'how', key: 'landing.nav.how' },
-  { id: 'features', key: 'landing.nav.features' },
-  { id: 'pricing', key: 'landing.nav.pricing' },
-  { id: 'data', key: 'landing.nav.data' },
-] as const;
-
-export function LandingHeader({ t }: { t: TFunction }) {
-  return (
-    <StickyNav className={st.nav}>
-      <div className={st.navIn}>
-        <Link href="/" className={st.brand} aria-label={t('landing.nav.home')}>
-          <Logo surface="field" size={36} />
-        </Link>
-        <nav className={st.navLinks} aria-label={t('landing.nav.label')}>
-          {LANDING_ANCHORS.map((a) => (
-            <a key={a.id} href={`#${a.id}`} className={st.navLink}>
-              {t(a.key)}
-            </a>
-          ))}
-        </nav>
-        <LandingAccount />
-      </div>
-    </StickyNav>
-  );
-}
-
 /**
  * The first screen: one thought and one action on the flat violet field. It ends at the form
  * (the mini exercise is the next section), so the heading and the field fit any first viewport.
@@ -75,10 +44,10 @@ export function Hero({ t }: { t: TFunction }) {
       <div className={st.heroBody}>
         <h1 id="hero-title" className={st.heroTitle} aria-label={t('landing.hero.title')}>
           <span className={st.heroLine} aria-hidden="true">
-            {fill(t('landing.hero.titleA'), { ai: <AiPlate word={t('landing.hero.ai')} /> })}
+            {fill(t('landing.hero.titleA'), { ai: <AiPlate word={t('landing.hero.ai')} />, q: <Question /> })}
           </span>
           <span className={st.heroLine} aria-hidden="true">
-            {fill(t('landing.hero.titleB'), { spot: <Marked word={t('landing.hero.spot')} />, q: <Question /> })}
+            {fill(t('landing.hero.titleB'), { spot: <Marked word={t('landing.hero.spot')} /> })}
           </span>
         </h1>
         <p className={st.heroLead}>{t('landing.hero.lead')}</p>

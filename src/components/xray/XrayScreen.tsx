@@ -128,10 +128,23 @@ export function XrayScreen(props: XrayPageProps) {
   const setTab = useCallback((next: MapTab, opts: { scroll?: boolean } = {}) => {
     setTabState(next);
     const url = new URL(window.location.href);
-    url.searchParams.set('tab', next);
-    window.history.replaceState(window.history.state, '', url.toString());
+    // each tab is a step in the history, so Back returns to the previous tab before it leaves the map
+    if (url.searchParams.get('tab') !== next) {
+      url.searchParams.set('tab', next);
+      window.history.pushState(window.history.state, '', url.toString());
+    }
     // Opening a tab from below (a card, a step) brings its start under the sticky bar.
     if (opts.scroll) requestAnimationFrame(() => tabsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+  }, []);
+
+  // Back and Forward between tabs
+  useEffect(() => {
+    const onPop = () => {
+      const v = new URL(window.location.href).searchParams.get('tab');
+      setTabState(isMapTab(v) ? v : 'overview');
+    };
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
   }, []);
 
   // Every number and task is explained in the inspector, which lives on the Tasks tab.

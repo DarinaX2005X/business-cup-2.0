@@ -1,4 +1,5 @@
-import { availableRewards, award, boardHandle, levelOf, nextReward, POINT_RULES, xpOf } from '@/domain/points';
+import { availableRewards, award, boardHandle, levelOf, nextReward, pendingProCode, POINT_RULES, tierOf, xpOf } from '@/domain/points';
+import { planActive } from '@/server/billing/plan';
 import type { Profile } from '@/domain/types';
 import type { Subscriber } from '@/server/events';
 import { boardWeek, scheduleBoardSync, syncBoard, weekXpOf } from '@/server/leaderboard';
@@ -36,7 +37,7 @@ export async function pointsView(profile: Profile, now: Date = new Date()) {
     ...progressOf(profile, now),
     events,
     rules: POINT_RULES,
-    nextReward: nextReward(profile.points.balance),
+    nextReward: nextReward(profile.points.balance, { tier: planActive(profile.plan, now) ? tierOf(profile.plan) : 'free', pendingPro: Boolean(pendingProCode(profile)) }),
     available: availableRewards(profile),
     freezes: profile.streak.freezes,
   };

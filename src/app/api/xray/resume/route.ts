@@ -3,7 +3,7 @@ import { clientIp, optionalProfile, readJson, withApi } from '@/server/profile/h
 import { analyzeResume } from '@/server/xray/resume';
 
 // Two model calls in a row; each has its own 45 s timeout.
-export const maxDuration = 60;
+export const maxDuration = 300;
 
 const bodySchema = z.object({
   // Larger input is accepted and cut to 20 000 characters (the response says `truncated`).

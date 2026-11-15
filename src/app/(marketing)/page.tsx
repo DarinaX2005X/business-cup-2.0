@@ -3,7 +3,8 @@ import { Closing } from '@/components/landing/Closing';
 import { DeletedToast } from '@/components/landing/DeletedToast';
 import { weekView } from '@/components/landing/data';
 import { LandingFooter } from '@/components/landing/Footer';
-import { Hero, LandingHeader } from '@/components/landing/Hero';
+import { Hero } from '@/components/landing/Hero';
+import { SiteHeader } from '@/components/landing/SiteHeader';
 import { DataNote, Features, MistakeBanner, Pay, Steps } from '@/components/landing/Sections';
 import st from '@/components/landing/landing.module.css';
 import { getRequestT } from '@/i18n/server';
@@ -20,7 +21,7 @@ export default async function LandingPage() {
   const view = weekView(t.locale);
   return (
     <div className={st.page}>
-      <LandingHeader t={t} />
+      <SiteHeader home />
       <main>
         <Hero t={t} />
         {/* the hero's field continues under the first screen with the Business Cup 2.0 offer */}

@@ -339,8 +339,13 @@ export function redeemBlock(profile: Profile, reward: Reward, now: Date = new Da
 }
 
 /** The cheapest reward the balance does not reach yet ("1 240 to 25% off"), or null when everything is in reach. */
-export function nextReward(balance: number): { rewardId: string; cost: number; need: number } | null {
-  const next = REWARDS.filter((r) => r.cost !== null && r.cost > balance).sort((a, b) => a.cost! - b.cost!)[0];
+export function nextReward(
+  balance: number,
+  who: { tier?: 'free' | Tier; pendingPro?: boolean } = {},
+): { rewardId: string; cost: number; need: number } | null {
+  // nothing the person could not use: Pro codes on Max, or a second Pro code while one is waiting
+  const usable = (r: Reward) => !(isProReward(r) && (who.tier === 'coach' || who.pendingPro));
+  const next = REWARDS.filter((r) => r.cost !== null && r.cost > balance && r.kind !== 'coming_soon' && usable(r)).sort((a, b) => a.cost! - b.cost!)[0];
   return next ? { rewardId: next.id, cost: next.cost!, need: next.cost! - balance } : null;
 }
 

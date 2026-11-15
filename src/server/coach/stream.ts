@@ -128,7 +128,7 @@ function httpFailure(status: number, message: string, op: string): AttemptError 
 
 async function reserve(input: TextCallInput, model: string): Promise<Reservation> {
   const estimate = input.estimateUsd ? input.estimateUsd(model) : estimateMaxCostUsd({ model, promptChars: promptChars(input.messages), images: 0, maxTokens: input.maxTokens });
-  const reserved = await reserveBudget(estimate);
+  const reserved = await reserveBudget(estimate, input.actor);
   if (!reserved.ok) throw new AiError(reserved.denial.code, reserved.denial.reason, { op: input.op });
   return reserved.reservation;
 }

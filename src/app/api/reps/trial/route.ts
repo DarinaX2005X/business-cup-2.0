@@ -3,7 +3,7 @@ import { clientIp, clientTz, requireProfile, withApi } from '@/server/profile/ht
 import { startTrial } from '@/server/reps';
 
 // A trial without a bank rep is generated live and may continue in after().
-export const maxDuration = 120;
+export const maxDuration = 300;
 
 /**
  * POST /api/reps/trial → { rep: RepView } | 202 { status: 'generating', repId }. Idempotent: the same rep

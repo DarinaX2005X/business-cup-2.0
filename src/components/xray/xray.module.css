@@ -1710,3 +1710,31 @@
     padding: 20px;
   }
 }
+
+/* the score's formula, folded under «How it's counted» */
+.formula {
+  margin: 4px 0 8px;
+}
+
+.formula > summary {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--violet);
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklch, currentColor 40%, transparent);
+  text-underline-offset: 3px;
+}
+
+.formula > summary:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.formula[open] > summary {
+  margin-bottom: 8px;
+}

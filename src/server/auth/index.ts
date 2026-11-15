@@ -60,10 +60,12 @@ function credentials(input: { email: unknown; password: unknown }): { email: str
 }
 
 /**
- * Attaches an email account to the current (guest) profile, so everything in it stays.
- * 409 account_exists (this profile already has one), 409 email_taken, 400 invalid_email / invalid_password.
+ * Attaches an email account to the current (guest) profile, so everything in it stays. The device secret
+ * is rotated: every guest secret stops working (one may have travelled in a restore link) and this device
+ * gets a new one, returned once. 409 account_exists (this profile already has one), 409 email_taken,
+ * 400 invalid_email / invalid_password.
  */
-export async function signup(profile: Profile, input: { email: unknown; password: unknown }, ip: string, now: Date = new Date()): Promise<{ email: string }> {
+export async function signup(profile: Profile, input: { email: unknown; password: unknown }, ip: string, now: Date = new Date()): Promise<{ email: string; id: string; secret: string }> {
   if (profile.account) throw new HttpError(409, 'account_exists', 'This profile already has an account. Log out to make another one.', { email: profile.account.email });
   const { email, password } = credentials(input);
   if (email.endsWith(`@${DEMO_EMAIL_DOMAIN}`)) throw new HttpError(400, 'invalid_email', 'Enter a valid email address.');
@@ -72,6 +74,7 @@ export async function signup(profile: Profile, input: { email: unknown; password
 
   const store = getStore();
   const key = emailIndexKey(email);
+  const secret = newSecret();
   try {
     await store.set<EmailIndex>(key, { profileId: profile.id, createdAt: now.toISOString() }, { version: 0 });
   } catch (err) {
@@ -84,7 +87,8 @@ export async function signup(profile: Profile, input: { email: unknown; password
       (p) => {
         if (p.account) throw new HttpError(409, 'account_exists', 'This profile already has an account.', { email: p.account.email });
         p.account = { email, passwordHash, createdAt: now.toISOString() };
-        p.secretHashes = deviceHashes(p);
+        // a fresh secret for this device only: guest secrets (restore links) are revoked
+        p.secretHashes = [hashSecret(secret)];
       },
       { current: profile },
     );
@@ -94,7 +98,7 @@ export async function signup(profile: Profile, input: { email: unknown; password
     if (hit?.value.profileId === profile.id) await store.del(key).catch(() => undefined);
     throw err;
   }
-  return { email };
+  return { email, id: profile.id, secret };
 }
 
 const INVALID_LOGIN = () => new HttpError(401, 'invalid_login', 'That email and password do not match an account.');

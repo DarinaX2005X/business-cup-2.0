@@ -242,9 +242,14 @@ export function DataNote({ view }: { view: WeekView }) {
             ))}
           </div>
           <p className={st.dataWeekName}>{t('landing.data.week')}</p>
-          <Link href="/method" className={st.paperLink}>
-            {t('landing.data.link')}
-          </Link>
+          <span className={st.dataLinks}>
+            <Link href="/method" className={st.paperLink}>
+              {t('landing.data.link')}
+            </Link>
+            <Link href="/jobs" className={st.paperLink}>
+              {t('landing.data.jobs')}
+            </Link>
+          </span>
         </div>
       </div>
     </section>

@@ -24,6 +24,8 @@ export interface TaskRowProps {
   /** Why the share cannot be changed right now. */
   disabledReason?: string;
   showMeter?: boolean;
+  /** The «Research estimate» / «Seen in AI use» badge under the task (the map keeps it in its inspector). */
+  showEvidence?: boolean;
   onSelect?: (id: string) => void;
   onShareChange?: (id: string, share: number) => void;
   onShareCommit?: (id: string, share: number) => void;
@@ -58,6 +60,7 @@ export function TaskRow({
   disabled,
   disabledReason,
   showMeter = true,
+  showEvidence = true,
   onSelect,
   onShareChange,
   onShareCommit,
@@ -94,7 +97,7 @@ export function TaskRow({
         {hideCategory ? null : (
           <div className={st.meta}>
             <CategoryChip category={category} surface={surface} />
-            <EvidenceBadge level={evidence.evidenceLevel} surface={surface} size="sm" />
+            {showEvidence ? <EvidenceBadge level={evidence.evidenceLevel} surface={surface} size="sm" /> : null}
           </div>
         )}
         {details ? <div className={st.details}>{details}</div> : null}

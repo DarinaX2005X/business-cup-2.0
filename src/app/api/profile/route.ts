@@ -36,6 +36,8 @@ const patchSchema = z
   })
   .refine((p) => Object.keys(p).length > 0, 'nothing to change');
 
+const TZ_CHANGE_MS = 24 * 3600 * 1000;
+
 function validTz(tz: string): boolean {
   try {
     new Intl.DateTimeFormat('en-US', { timeZone: tz });
@@ -75,7 +77,14 @@ export const PATCH = withApi(async (req: Request) => {
     if (patch.locale !== undefined) p.locale = patch.locale;
     if (patch.salary !== undefined) p.salary = patch.salary;
     if (patch.sound !== undefined) p.sound = patch.sound;
-    if (patch.tz !== undefined) p.tz = patch.tz;
+    if (patch.tz !== undefined && patch.tz !== p.tz) {
+      // the local day decides daily reps and points: it may move at most once a day (no day-hopping)
+      const last = p.tzChangedAt ? Date.parse(p.tzChangedAt) : NaN;
+      if (!p.tz || !Number.isFinite(last) || Date.now() - last >= TZ_CHANGE_MS) {
+        if (p.tz) p.tzChangedAt = new Date().toISOString();
+        p.tz = patch.tz;
+      }
+    }
     if (nickname === null) delete p.nickname;
     else if (nickname !== undefined) p.nickname = nickname;
     if (patch.hintsSeen) p.hintsSeen = [...new Set([...p.hintsSeen, ...patch.hintsSeen])].slice(-MAX_HINTS);
@@ -86,8 +95,8 @@ export const PATCH = withApi(async (req: Request) => {
 /** Deletes the profile and everything it owns. Idempotent from the client's point of view. */
 export const DELETE = withApi(async (req: Request) => {
   const profile = await requireProfile(req);
-  // A shared jury demo account must never be deleted for everyone by one visitor: they log out instead.
-  if (profile.demo) throw new HttpError(409, 'demo_account', "Demo accounts are shared, so they can't be deleted. Log out instead.");
+  // A jury template is never signed in to; a visitor's own demo copy may be deleted like any profile.
+  if (profile.demoTemplate) throw new HttpError(409, 'demo_account', "This demo template can't be deleted.");
   await deleteProfile(profile.id);
   return Response.json({ ok: true });
 });

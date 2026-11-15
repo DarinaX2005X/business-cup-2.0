@@ -5,7 +5,7 @@ import { clearEdit, EDIT_MAX_CHARS, saveEdit } from '@/server/playbook';
 
 type Ctx = { params: Promise<{ taskId: string }> };
 
-export const maxDuration = 60;
+export const maxDuration = 300;
 
 const bodySchema = z.object({
   text: z.string().min(1).max(EDIT_MAX_CHARS + 200),

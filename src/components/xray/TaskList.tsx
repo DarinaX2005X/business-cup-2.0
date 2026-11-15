@@ -183,6 +183,7 @@ export function TaskList({
                 selected={selected}
                 editing={editing}
                 showMeter={false}
+                showEvidence={false}
                 onSelect={onSelect}
                 onShareChange={onShare}
                 onDragChange={(d) => {

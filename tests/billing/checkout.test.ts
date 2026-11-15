@@ -4,7 +4,7 @@ import { signup } from '@/server/auth';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import type { Profile } from '@/domain/types';
 import { confirmCheckout, createCheckout, createPlanChange, createPortal, ensureFreshPlan, handleWebhook, isCoach, redeem, setStripeForTests } from '@/server/billing';
-import { createProfile, getProfile, isPro, updateProfile } from '@/server/profile';
+import { createProfile, deleteProfile, getProfile, isPro, updateProfile } from '@/server/profile';
 import { HttpError } from '@/server/profile/http';
 import { useTempStore } from '../platform/helpers';
 import { createStripeStub, type StripeStub } from './stripe-stub';
@@ -140,11 +140,11 @@ describe('Coach tier', () => {
     const guest = await call();
     expect(guest.status).toBe(401);
     expect((await guest.json()).error.code).toBe('account_required');
-    await signup(profile, { email: `max-${profile.id}@example.com`, password: 'long enough pw' }, '127.0.0.1');
+    const up = await signup(profile, { email: `max-${profile.id}@example.com`, password: 'long enough pw' }, '127.0.0.1');
     const res = await checkoutPOST(
       new Request('http://localhost/api/billing/checkout', {
         method: 'POST',
-        headers: { 'x-profile-id': profile.id, 'x-profile-secret': secret, 'content-type': 'application/json' },
+        headers: { 'x-profile-id': profile.id, 'x-profile-secret': up.secret, 'content-type': 'application/json' },
         body: JSON.stringify({ tier: 'max', interval: 'year' }),
       }),
     );
@@ -259,6 +259,29 @@ describe('plan sync, portal and webhook', () => {
     const { url } = await createPortal(p, ORIGIN, '/pricing?portal=1');
     expect(url).toContain('cus_9');
     expect(stub.callsOf('billingPortal.sessions.create')[0].args[0]).toEqual({ customer: 'cus_9', return_url: `${ORIGIN}/pricing?portal=1`, configuration: 'bpc_1' });
+  });
+
+  it('deleting a profile cancels its Stripe subscription and deletes the customer; a Stripe failure does not block it', async () => {
+    const end = Math.floor(Date.now() / 1000) + 30 * 86400;
+    stub.subs.set('sub_del', {
+      id: 'sub_del', status: 'active', customer: 'cus_del', trial_end: null, cancel_at: null, cancel_at_period_end: false, canceled_at: null, ended_at: null,
+      discounts: [], metadata: {}, items: { data: [{ current_period_end: end, price: { lookup_key: 'pro_monthly', recurring: { interval: 'month' } } }] },
+    });
+    const p = await fresh((x) => {
+      x.plan = { status: 'pro', source: 'stripe', tier: 'pro', subscriptionId: 'sub_del', stripeCustomerId: 'cus_del', periodEnd: new Date(end * 1000).toISOString() };
+    });
+    await deleteProfile(p.id);
+    expect(await getProfile(p.id)).toBeNull();
+    expect(stub.callsOf('subscriptions.cancel').map((c) => c.args[0])).toEqual(['sub_del']);
+    expect(stub.callsOf('customers.del').map((c) => c.args[0])).toEqual(['cus_del']);
+    expect(stub.subs.get('sub_del')!.status).toBe('canceled');
+
+    const q = await fresh((x) => {
+      x.plan = { status: 'pro', source: 'stripe', tier: 'pro', subscriptionId: 'sub_gone', stripeCustomerId: 'cus_q', periodEnd: new Date(end * 1000).toISOString() };
+    });
+    stub.failNext['customers.del'] = 'api_error';
+    await deleteProfile(q.id);
+    expect(await getProfile(q.id)).toBeNull();
   });
 
   it('webhook: a signed subscription event updates the plan; a bad signature is 400', async () => {

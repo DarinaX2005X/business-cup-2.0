@@ -6,7 +6,7 @@ import { AiError, callModel } from '@/server/ai/client';
 import { planGeneratePrompt, planGenerateSchema, type PlanPromptInput } from '@/server/ai/prompts/plan-generate';
 import { profileSkillsPrompt, profileSkillsSchema } from '@/server/ai/prompts/profile-skills';
 import { emit } from '@/server/events';
-import { isPro, updateProfile } from '@/server/profile';
+import { getProfile, isPro, updateProfile } from '@/server/profile';
 import { HttpError } from '@/server/profile/http';
 import { getStore } from '@/server/store';
 import { getRelated, loadBundle } from '@/server/xray/data';
@@ -121,7 +121,7 @@ export async function extractSkills(input: { profile: Profile; text: string; xra
     system: profileSkillsPrompt.system(),
     user: profileSkillsPrompt.user({ occupation: bundle.title, elements, text }),
     locale: 'en',
-    cacheKey: 'v1',
+    // no cache: the résumé is read for this request only
     maxTokens: 5000,
     temperature: 0,
     actor: input.actor,
@@ -188,7 +188,7 @@ const REASON: Record<SkillGap['reason'], string> = {
 
 interface PlanContext {
   input: Omit<PlanPromptInput, 'fromWeek' | 'problems'>;
-  tasks: Map<string, { label: string; category: import('@/domain/types').Category }>;
+  tasks: Map<string, { label: string; category: import('@/domain/types').Category; human?: boolean }>;
   skills: Map<string, string>;
   inputsKey: string;
 }
@@ -197,15 +197,17 @@ async function planContext(profile: Profile, xray: XrayResult): Promise<PlanCont
   const bundle = await requireBundle(xray.occupationCode);
   const texts = await getTaskTexts(bundle.code, 'en');
   const byId = new Map(bundle.tasks.map((t) => [t.id, t]));
-  const tasks = new Map<string, { label: string; category: import('@/domain/types').Category }>();
+  const tasks = new Map<string, { label: string; category: import('@/domain/types').Category; human?: boolean }>();
   const promptTasks: PlanPromptInput['tasks'] = [];
   for (const s of [...xray.shares].sort((a, b) => b.share - a.share)) {
     const t = byId.get(s.taskId);
     if (!t) continue;
     // Generated labels when ready, else the bundle's model-written label, else a cut of the O*NET text.
     const label = (texts?.ready ? texts.tasks[t.id]?.short : null) || t.short || heuristicShort(t.text);
-    tasks.set(t.id, { label, category: t.evidence.category });
-    promptTasks.push({ id: t.id, label, hours: Math.round(((s.share * 40) / 100) * 2) / 2, group: GROUP[t.evidence.category], text: t.text });
+    // people work, hands-on work and the human group are never handed to AI in the plan
+    const human = Boolean(t.evidence.peopleWork || t.evidence.physical || t.evidence.category === 'human_edge');
+    tasks.set(t.id, { label, category: t.evidence.category, human });
+    promptTasks.push({ id: t.id, label, hours: Math.round(((s.share * 40) / 100) * 2) / 2, group: GROUP[t.evidence.category], text: t.text, human });
   }
   const related = await getRelated(bundle.code);
   const techs = technologiesFor(bundle.code);
@@ -305,6 +307,9 @@ export async function getPlan(input: { profile: Profile; xrayId?: string | null;
       weeks,
       createdAt: new Date().toISOString(),
     };
+    // the profile (or the map) may have been deleted while the plan was written: store nothing then
+    const [owner, map] = await Promise.all([getProfile(profile.id), readXray(xray.id)]);
+    if (!owner || !map || map.profileId !== profile.id) throw new HttpError(404, 'not_found', 'Week map not found.');
     await getStore().set(planKey(xray.id), plan);
     return plan;
   });

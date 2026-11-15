@@ -47,8 +47,10 @@ export function AuthForm({ mode, onMode, onDone, gate = false }: { mode: AuthMod
     try {
       if (mode === 'signup') {
         await prof.ensure();
-        await signupRequest(email.trim(), password);
-        await prof.refresh();
+        const creds = await signupRequest(email.trim(), password);
+        // the guest secret was rotated on the server: continue with the new one
+        const ok = await prof.signIn({ id: creds.id, secret: creds.secret });
+        if (!ok) throw new ApiError('network', 0, 'signed-up profile did not load');
       } else {
         const creds = await loginRequest(email.trim(), password);
         const ok = await prof.signIn({ id: creds.id, secret: creds.secret });

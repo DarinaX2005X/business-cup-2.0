@@ -1,9 +1,10 @@
 import { z } from 'zod';
 import { extractSkills, editSkills, ownXray, skillsResponse } from '@/server/growth';
-import { clientIp, readJson, requireProfile, withApi } from '@/server/profile/http';
+import { isPro } from '@/server/profile';
+import { clientIp, HttpError, readJson, requireProfile, withApi } from '@/server/profile/http';
 
 // One model call with the shared client's retries and failover (up to ~100 s in the worst case).
-export const maxDuration = 120;
+export const maxDuration = 300;
 
 const xraySchema = z.string().regex(/^[0-9A-Za-z]{12}$/).nullish();
 
@@ -37,11 +38,15 @@ export const GET = withApi(async (req: Request) => {
 
 /**
  * POST /api/skills { text, xray? } → SkillsResponse: reads skills from a résumé or work description
- * (profile.skills). The text is not stored. 422 too_short | not_work, 409 no_xray, 503 ai_unavailable.
+ * (profile.skills). The text is not stored. Free gets one read; after it 402 pro_required.
+ * 422 too_short | not_work, 409 no_xray, 503 ai_unavailable.
  */
 export const POST = withApi(async (req: Request) => {
   const profile = await requireProfile(req);
   const body = await readJson(req, postSchema);
+  // Everyone gets the one read that comes with a new map from a résumé (/start sends it with the map's id,
+  // while the profile has no skills yet); reading again by hand is Pro
+  if (!isPro(profile) && (profile.skills?.extractedAt || !body.xray)) throw new HttpError(402, 'pro_required', 'Reading your skills again is part of Pro.');
   const res = await extractSkills({ profile, text: body.text, xrayId: body.xray, actor: { profileId: profile.id, ip: clientIp(req) } });
   return Response.json(res, { headers: { 'Cache-Control': 'no-store' } });
 });

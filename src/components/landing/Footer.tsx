@@ -1,12 +1,11 @@
 import Link from 'next/link';
-import { METHOD_ANCHORS } from '@/components/public/anchors';
 import { sourceList } from '@/components/public/data';
 import type { TFunction } from '@/i18n/core';
 import { LANDING_LINKS } from './config';
 import { Logo } from './Logo';
 import st from './landing.module.css';
 
-/** Footer: where to read the method and the privacy notes, the datasets with their licences, the language. */
+/** The one footer of the site: How we measure, Privacy, Job pages, Pricing, and the datasets with their licences. */
 export function LandingFooter({ t }: { t: TFunction }) {
   const sources = sourceList();
   return (
@@ -20,7 +19,7 @@ export function LandingFooter({ t }: { t: TFunction }) {
           <Link href="/method" className={st.paperLink}>
             {t('landing.footer.method')}
           </Link>
-          <Link href={`/method#${METHOD_ANCHORS.privacy}`} className={st.paperLink}>
+          <Link href="/privacy" className={st.paperLink}>
             {t('landing.footer.privacy')}
           </Link>
           <Link href="/jobs" className={st.paperLink}>
@@ -62,3 +61,6 @@ export function LandingFooter({ t }: { t: TFunction }) {
     </footer>
   );
 }
+
+/** The shared site footer (same as the landing's). */
+export const SiteFooter = LandingFooter;

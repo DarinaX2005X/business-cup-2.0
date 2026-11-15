@@ -4,7 +4,7 @@ import { loadBundle, OCC_CODE_RE } from '@/server/xray/data';
 import { ensureTips, tipsResponse } from '@/server/xray/tips';
 
 // Generation runs in after() within this route's duration.
-export const maxDuration = 60;
+export const maxDuration = 300;
 
 const querySchema = z.object({
   code: z.string().regex(OCC_CODE_RE, 'code: expected an O*NET-SOC code like 29-1141.00'),

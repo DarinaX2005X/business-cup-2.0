@@ -45,6 +45,12 @@
   padding-block: 8px;
 }
 
+/* on the other pages: a solid bar in the flow, sticky on top */
+.nav[data-solid] {
+  position: sticky;
+  background-color: var(--field);
+}
+
 /* the hero's field continued under the first screen: the Business Cup 2.0 card, room above for its trophy */
 .cupLead {
   padding: clamp(72px, 8vw, 96px) var(--gutter) clamp(64px, 8vw, 112px);
@@ -1470,4 +1476,12 @@
     opacity: 0;
     transform: translateY(28px);
   }
+}
+
+/* «See how we measure» and «Browse 900+ job pages» under the example week */
+.dataLinks {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 24px;
 }

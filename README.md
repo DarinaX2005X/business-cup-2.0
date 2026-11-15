@@ -17,8 +17,8 @@
 
 **Irreplaceable takes your job apart task by task, shows from real usage data which of those tasks AI already does, and gives you ten-minute daily reps built from your own work, so you stay the person who can't be replaced.**
 
-**Live product:** [irreplaceable-gamma.vercel.app](https://irreplaceable-gamma.vercel.app) &nbsp;|&nbsp; [Watch the 40-second film](#watch-the-40-second-film) &nbsp;|&nbsp; [Pitch deck (PDF)](docs/pitch/Irreplaceable-pitch.pdf)<br>
-**Jury, one click:** [irreplaceable-gamma.vercel.app/cup](https://irreplaceable-gamma.vercel.app/cup), then press **As a nurse**, **As a software engineer** or **As an accountant**<br>
+**Live product:** [irreplaceable-gamma.vercel.app](https://irreplaceable-gamma.vercel.app) &nbsp;|&nbsp; [Watch the 56-second film](#watch-the-56-second-film) &nbsp;|&nbsp; [Pitch deck (PDF)](docs/pitch/Irreplaceable-pitch.pdf)<br>
+**Jury, one click:** [irreplaceable-gamma.vercel.app/cup](https://irreplaceable-gamma.vercel.app/cup), then press **Open the nurse demo**, **Open the software engineer demo** or **Open the accountant demo**<br>
 **Team:** Darina Berentayeva, solo
 
 ### In 30 seconds
@@ -28,17 +28,17 @@
 - **What it does:** a free week map built from public data, then daily reps on their own tasks (catch an AI's mistakes, brief an AI, handle the human part), a 12-week plan, proof for the next review and a personal AI coach.
 - **Plans:** Free, Pro at $19 a month or $119 a year, Max at $79 a month or $479 a year. Max is free until November 30, 2026 through the Business Cup 2.0 offer.
 - **Business:** 27.3M workers aged 25 to 44 are in occupations where AI does or speeds up at least a third of the week. $100M ARR needs 679K payers. LTV $116 against a blended CAC of $32 gives LTV/CAC 3.6, from public benchmarks with assumptions marked.
-- **Tech:** Next.js 16, Upstash Redis, OpenRouter with Gemini 3.8 Flash and GPT-6 Luna failing over to each other, Stripe in test mode, scrypt accounts. Numbers on the map come from code, never from the model.
+- **Tech:** Next.js 16, Upstash Redis, OpenRouter with Gemini 3.8 Flash and GPT-6 Luna failing over to each other, Stripe in test mode, scrypt accounts, dollar caps per profile and per IP. Numbers on the map come from code, never from the model.
 
 <p>
-  <img src="docs/screens/landing-hero.png" width="49%" alt="Landing page hero on a violet field: the headline 'AI makes mistakes in your line of work. Can you spot them?', a job title field with the 'Map my week' button, and links to upload a resume or try a sample resume.">
-  <img src="docs/screens/week-map.png" width="49%" alt="Week map of a staff nurse: 20% of the week is work AI speeds up, symptom tracking and medication administration stay hers, an irreplaceability score of 90 out of 100, and a card inviting her to find the mistake AI made in a clinical documentation document.">
+  <img src="docs/screens/landing-hero.png" width="49%" alt="Landing page hero on a violet field: the headline 'Afraid AI will replace you? Become irreplaceable', the line 'Upload your resume. See which tasks of your week AI already does, get a step-by-step plan, and train the part of your job only you can do.', a job title field with the 'Map my week' button, and links to upload a resume or try a sample resume.">
+  <img src="docs/screens/week-map.png" width="49%" alt="Week map of a staff nurse: 25% of the week is work AI speeds up, condition monitoring and medication administration stay hers, an irreplaceability score of 88 out of 100, buttons to download the PDF and share the map, and a card inviting her to find the mistake AI made in a clinical documentation document.">
 </p>
-<sub>Left: the landing page. Right: the top of a nurse's week map. All screenshots are from the running product.</sub>
+<sub>Left: the landing page, "Afraid AI will replace you? Become irreplaceable". Right: the top of a nurse's week map. All screenshots are from the running product.</sub>
 
 <p align="center">
   <a href="#try-it-in-one-click">Try it</a> &nbsp;|&nbsp;
-  <a href="#watch-the-40-second-film">Film</a> &nbsp;|&nbsp;
+  <a href="#watch-the-56-second-film">Film</a> &nbsp;|&nbsp;
   <a href="#the-problem">Problem</a> &nbsp;|&nbsp;
   <a href="#how-it-works">How it works</a> &nbsp;|&nbsp;
   <a href="#what-you-get">What you get</a> &nbsp;|&nbsp;
@@ -54,11 +54,11 @@
 
 ## Try it in one click
 
-The jury buttons open a ready account with the top plan on, so every screen can be tried in a few minutes.
+The `/cup` page leads with three demo buttons; each click opens a private account with the top plan on, so every screen can be tried in a few minutes.
 
-1. Open [irreplaceable-gamma.vercel.app/cup](https://irreplaceable-gamma.vercel.app/cup) and press **As a nurse**, **As a software engineer** or **As an accountant**.
-2. You are signed into a shared demo account with Max on. Its week was built from a fictional sample resume by the same live pipeline every user goes through: the model read the resume, picked the occupation and proposed how the week splits, and code computed everything else.
-3. The first click for each persona builds the account and takes about 20 seconds; later clicks open it at once. Each device gets its own coach chat inside the shared account.
+1. Open [irreplaceable-gamma.vercel.app/cup](https://irreplaceable-gamma.vercel.app/cup) and press **Open the nurse demo**, **Open the software engineer demo** or **Open the accountant demo**.
+2. You get your own private copy of that persona: your own week map, skills and 12-week plan, and Max until November 30, 2026. Nothing is shared with other visitors: your reps, AI or me?, coach chat and limits are yours alone.
+3. The persona's week was built once from a fictional sample resume by the same live pipeline every user goes through: the model read the resume, picked the occupation and proposed how the week splits, and code computed everything else. Each click copies it in a moment, with no model call.
 4. To try your own job, log out and type your job title on the home page.
 
 Everyone else gets the same offer on that page: **Max is free until November 30, 2026**, after a quick sign-up and with no card. The regular checkout also works in Stripe test mode with the card `4242 4242 4242 4242`.
@@ -69,15 +69,15 @@ Everyone else gets the same offer on that page: **Max is free until November 30,
 | **Today**, Spot the slip | Highlight the words you think are wrong and submit | Code grades your highlights against the planted mistakes and explains each one |
 | **Today**, Delegate | Write a deliberately vague instruction | The review shows which traps in the material you missed |
 | **Coach** | Ask about your week by text or with a voice message | An answer built from your own map, reps and plan |
-| **Shop** | Redeem 250 points | A real Stripe discount code |
+| **Shop** | See what your points buy, and redeem 10% off once you reach 250 | A real Stripe discount code |
 
-## Watch the 40-second film
+## Watch the 56-second film
 
 The film follows one nurse from the fear of being replaced to a plan, and every shot is the real product.
 
-https://github.com/user-attachments/assets/d2193eca-81a0-4e56-bf55-cad2161ebc2c
+https://github.com/user-attachments/assets/b5d05b7d-6998-49ab-8d0e-6d849e8a58ad
 
-<sub>40 seconds with music and on-screen English: a resume is dropped in, the product reads it and finds the job (Registered Nurses), the week map splits the week into what AI already does, what it speeds up and what stays yours, the irreplaceability score fills in, the 12-week plan and the PDF report appear, a daily rep catches one AI slip for +130 points, the coach answers a question and takes a voice message, and the film ends on "Train the part of your job AI gets wrong". Captured from the running product.</sub>
+<sub>56 seconds with music and on-screen English. The pain: "Afraid AI will replace you?". The resume: it is dropped in and the product reads what you actually do. The analysis: it finds the job (Registered Nurses) and the real week, splits it into what AI already does, what it speeds up and what stays yours, and fills in the irreplaceability score of 88. The plan: twelve weeks to use AI better, catch its mistakes and grow the part that's yours. The PDF: the week report prints out. The activities: ten minutes a day, and a daily rep catches one AI slip for +130 points. The coach: it answers a question and takes a voice message. It ends on "Train the part of your job AI gets wrong". Captured from the running product.</sub>
 
 <sub>or open the file: [docs/video/irreplaceable.mp4](docs/video/irreplaceable.mp4)</sub>
 
@@ -148,7 +148,7 @@ The free week map shows your 40-hour week as tasks, each with the reason it sits
 - **Free includes** the whole Overview and Tasks tabs and a print-ready PDF report of the week, with a preview of the other tabs. Pro opens the **Plan**, **Skills** and **Next jobs** tabs in full.
 
 <p>
-  <img src="docs/screens/map-overview.png" width="100%" alt="Week map Overview tab for a staff nurse: AI already does 0 hours a week, AI speeds up 8 hours (clinical documentation 6 h, patient and family education 2 h), stays yours 32 hours (symptom tracking and reporting 6 h, medication administration 6 h, vitals and intake charting 4 h); pay at stake $9,755 of $97,550, US median for this job, BLS May 2025; and three next steps: do today's rep, open your 90-day plan, check your skills.">
+  <img src="docs/screens/map-overview.png" width="100%" alt="Week map Overview tab for a staff nurse: AI already does 0 hours a week, AI speeds up 10 hours (clinical documentation 6 h, patient education 4 h), stays yours 30 hours (condition monitoring 6 h, medication administration 6 h, care plan coordination 4 h); pay at stake $12,194 of $97,550, US median for this job, BLS May 2025; and three next steps: do today's rep, open your 90-day plan, check your skills.">
 </p>
 <sub>The Overview tab: hours per group, pay at stake from the BLS median, and the next three steps.</sub>
 
@@ -158,7 +158,7 @@ A rep takes about ten minutes, is written live by the model from one task of you
 
 | Rep | What you do | How it is graded |
 |---|---|---|
-| **Spot the slip** | An AI drafted a document from one of your tasks (a patient discharge note, an invoice reconciliation, a dispatch route, a quiz for a class, a case memo, an electrician's estimate) and slipped in two to four mistakes of different kinds: a wrong fact, a calculation, broken logic, a compliance problem, a missing step or the wrong tone. You highlight the words you think are wrong. | Code compares your highlights with the known positions of the mistakes. The first stray highlight is free and each further one takes 15% off. Then every mistake is explained, with how the line should read. |
+| **Spot the slip** | An AI drafted a document from one of your tasks (a patient discharge note, an invoice reconciliation, a dispatch route, a quiz for a class, a case memo, an electrician's estimate) and slipped in two to four mistakes of different kinds: a wrong fact, a calculation, broken logic, a compliance problem, a missing step or the wrong tone. You highlight the words you think are wrong. | Code compares your highlights with the known positions of the mistakes. The first stray highlight is free and each further one takes 15% off. A hint points to a passage worth a second look and takes 10 points off the rep. Then every mistake is explained, with how the line should read. |
 | **Delegate** | You get a real task from your week and its material, which hides a few traps. You write the instruction for AI, the model carries it out, and you review and fix what comes back. | A rubric graded by the model, plus code that checks which traps your instruction or your review caught. A trap that only the AI itself pointed out earns no credit. You also see what a strong instruction would have looked like. |
 | **Human edge** | A conversation from the human part of your job: a worried patient, an upset client, a parent, a contractor who missed a deadline. The model plays the other person; you get up to six replies. | Graded against a rubric for the situation. A reply that could hurt someone is flagged and explained. |
 
@@ -188,7 +188,7 @@ The model writes twelve weeks from your map, your skills and your gaps: first wh
 - Every checked item earns XP and points, the plan downloads as a clean PDF, and when your week or skills change the plan tells you it is out of date.
 
 <p>
-  <img src="docs/screens/map-plan.png" width="100%" alt="Plan tab: week 1 of 12, 'Hand clinical documentation to AI and check it', with four actions (give AI a clear brief for clinical documentation, use the Playbook instruction on a real record this week, find the mistakes in an AI draft for patient and family education, practise listening closely with a patient), and a side list of all twelve weeks grouped into months: hand off and check, supervise and speed up.">
+  <img src="docs/screens/map-plan.png" width="100%" alt="Plan tab: week 1 of 12, 'Hand clinical documentation to AI and check it', with four actions (write a clear brief for clinical documentation and check what comes back, use your Playbook instruction for clinical documentation on Tuesday, find the mistakes in an AI draft for patient education, read one guideline on office procedures and records and apply it), a 'Download plan as PDF' link, and a side list of all twelve weeks grouped into months: hand off and check, supervise and speed up.">
 </p>
 <sub>Week 1 of a nurse's 12-week plan, with the list of all twelve weeks on the right.</sub>
 
@@ -211,7 +211,7 @@ The Max coach reads your week map, reps, skills, progress and your 90-day plan w
 - Answers stream as they are written. The coach is told to say plainly when something is not in your records instead of inventing it.
 
 <p>
-  <img src="docs/screens/coach.png" width="100%" alt="Coach chat: the nurse asks 'What should I focus on this week in my 90-day plan?' and the coach answers with the four actions of week 1 and a link to the Playbook; the side panel 'What your coach knows' shows her job, a score of 91, 8 hours AI speeds up and 32 hours of human edge, $9,755 a year at stake, her busiest tasks, streak, reps and points.">
+  <img src="docs/screens/coach.png" width="100%" alt="Coach chat: the nurse asks 'What should I focus on this week in my 90-day plan?' and the coach answers with the four actions of week 1 and a link to the Playbook; the side panel 'What your coach knows' shows her job, a score of 88, 10 hours AI speeds up and 30 hours of human edge, $12,194 a year at stake, her busiest tasks, streak, reps, points, plan progress and skills.">
 </p>
 <sub>The coach answers from the nurse's own plan and week; the side panel shows everything it reads.</sub>
 
@@ -292,11 +292,11 @@ The week map is free; people pay for daily practice on their own work, and Max a
 | **Max** | $79 a month, or $479 a year ($39.92 a month) | Everything in Pro, plus the personal AI career coach with chat and voice, Playbook, Second look and the Review kit |
 
 - Both paid plans start with a 7-day free trial on the first subscription, and paying yearly saves up to 49%.
-- A subscription is managed and cancelled in the Stripe Billing Portal from your profile. Points-shop codes apply in checkout.
+- A subscription is managed and cancelled in the Stripe Billing Portal from your profile. Moving from paid Pro to Max is prorated, so you pay only the difference now; moving from Max to Pro switches at renewal, and you keep Max until then. Points-shop codes apply in checkout.
 - Until November 30, 2026, Max is free through the Business Cup 2.0 offer at `/cup`.
 
 <p>
-  <img src="docs/screens/pricing.png" width="100%" alt="Pricing page on the yearly toggle with a 'Save up to 49%' label. Free $0: week map, a PDF report of your week, AI or me? every day, one live practice rep, public pages for every job. Pro, marked 'Most popular', $9.92 a month billed $119 once a year, 'Start your 7-day free trial': daily reps, a detailed 12-week plan, skills from your resume, all next jobs. Max $39.92 a month billed $479 once a year, 'Get Max': everything in Pro, the personal AI coach, Playbook, Second look and the Review kit.">
+  <img src="docs/screens/pricing.png" width="100%" alt="Pricing page on the yearly toggle, with a 'Save up to 49%' badge inside the Yearly button. Free $0: week map, a PDF report of your week, AI or me? every day, one live practice rep, public pages for every job. Pro, marked 'Most popular', $9.92 a month billed $119 once a year, 'Start your 7-day free trial': daily reps, a detailed 12-week plan, skills from your resume, all next jobs. Max $39.92 a month billed $479 once a year, 'Get Max': everything in Pro, the personal AI coach, Playbook, Second look and the Review kit.">
 </p>
 <sub>The pricing page on the yearly toggle, with the three plans and what each one includes.</sub>
 
@@ -514,7 +514,7 @@ The browser renders the product and computes the map; a Next.js server on Vercel
 Every structured model call goes through one door, `src/server/ai/client.ts`. The coach's streamed answers and voice transcription use a sibling module, `src/server/coach/stream.ts`, with the same budget reservation and failover.
 
 1. **A strict JSON schema** is generated from a zod schema, so the model has to answer in the exact shape, and the answer is validated again with zod.
-2. **The budget is reserved before the call.** The worst-case cost is added to a global total and a daily counter with an atomic Redis `INCRBYFLOAT`; if either goes over `AI_BUDGET_USD` or `AI_DAILY_CAP_USD`, the call is refused, so parallel calls cannot overspend together. After the call the reservation is settled to the real billed cost.
+2. **The budget is reserved before the call.** The worst-case cost is added to a global total and a daily counter with an atomic Redis `INCRBYFLOAT`; if either goes over `AI_BUDGET_USD` or `AI_DAILY_CAP_USD`, the call is refused, so parallel calls cannot overspend together. On top of that, each visitor has a daily dollar cap: $2 per profile, and $5 per IP for the calls made before a profile exists (resume reading and title translation), so one visitor cannot spend everyone's budget. After the call the reservation is settled to the real billed cost.
 3. **Failover.** Each model gets two attempts with backoff; then the call moves to the other model. If both fail, the person sees an honest error with a Try again button and their input is kept. No prepared content is ever served in place of a live answer, and no other job's content is ever shown.
 4. **Caching** for deterministic operations only (resume reading, the Review kit for the same facts), so reopening something costs nothing.
 
@@ -533,8 +533,8 @@ The service picks a task from your week and the mistake types that fit your occu
 <summary><b>Storage, accounts and payments</b></summary>
 
 - **Storage** is chosen explicitly and never falls back silently: Upstash Redis when `KV_REST_API_URL` and `KV_REST_API_TOKEN` are set, private Vercel Blob when only `BLOB_READ_WRITE_TOKEN` is set, and local files in `.data/` otherwise (refused on Vercel, where files do not survive). Keys are namespaced per environment (`irr:dev:`, `irr:preview:`, `irr:prod:`), so a local run never touches production data. Profile writes are versioned, so two tabs writing at once cannot lose each other's changes.
-- **Accounts.** A guest gets an anonymous profile (an id and a secret in the browser, plus a cookie) and can map a week, do the trial rep and play AI or me? without signing up. Starting a subscription or the Business Cup offer asks for an account: email and password, hashed with scrypt (N = 16384, r = 8, p = 1) and a random salt per account. Each signed-in device holds its own secret, so logging out on one device leaves the others signed in.
-- **Payments** run in Stripe test mode only; a live key is refused. `npm run stripe:setup` creates the products, the four prices ($19 and $119 for Pro, $79 and $479 for Max), one coupon per shop discount and the Billing Portal configuration, and it is safe to run again. The webhook at `/api/billing/webhook` is optional; without it the same sync happens when an expired plan is read.
+- **Accounts.** A guest gets an anonymous profile (an id and a secret in the browser, plus a cookie) and can map a week, do the trial rep and play AI or me? without signing up. Starting a subscription or the Business Cup offer asks for an account: email and password, hashed with scrypt (N = 16384, r = 8, p = 1) and a random salt per account. Each signed-in device holds its own secret, so logging out on one device leaves the others signed in. Each jury demo click makes a private copy of a prepared persona with its own new id, so no two visitors share data, chat or limits (copies are limited to 60 per IP an hour, which only stops a script). Deleting a profile also cancels its Stripe subscription and deletes the Stripe customer.
+- **Payments** run in Stripe test mode only; a live key is refused. `npm run stripe:setup` creates the products, the four prices ($19 and $119 for Pro, $79 and $479 for Max), one coupon per shop discount and the Billing Portal configuration, and it is safe to run again. Changing plans goes through the Billing Portal: Pro to Max is charged now for the difference only (prorated), and Max to Pro takes effect at renewal, so you keep Max until then. The webhook at `/api/billing/webhook` is optional; without it the same sync happens when an expired plan is read.
 
 </details>
 
@@ -543,7 +543,7 @@ The service picks a task from your week and the mistake types that fit your occu
 
 | Path | What lives there |
 |---|---|
-| `src/app` | Pages and API route handlers: `(marketing)` for the landing, pricing, `/cup` and `/method`; `(flow)/start` for mapping a week; `(app)` for Home, Today, the week map `/x/[id]`, Progress, Coach, Shop, Playbook, Second look, next jobs, the leaderboard and the profile; `jobs/[slug]` for public job pages; `p/[slug]` for public proof pages |
+| `src/app` | Pages and API route handlers: `(marketing)` for the landing, pricing, `/cup`, `/method` and `/privacy`; `(flow)/start` for mapping a week; `(app)` for Home, Today, the week map `/x/[id]`, Progress, Coach, Shop, Playbook, Second look, next jobs, the leaderboard and the profile; `jobs/[slug]` for public job pages; `p/[slug]` for public proof pages |
 | `src/domain` | Pure logic with no I/O: task groups, week shares, the map and the score, rep validation and grading, points, XP, levels and plans |
 | `src/server` | Server modules: `ai`, `auth`, `billing`, `coach`, `demo`, `growth`, `leaderboard`, `playbook`, `points`, `profile`, `progress`, `reps`, `store`, `xray` |
 | `src/components` | Screens and the shared design kit |
@@ -603,7 +603,7 @@ Open http://localhost:3000.
 | `NEXT_PUBLIC_SITE_URL` | No | Public origin for links, Stripe return URLs and share images, default `http://localhost:3000`. |
 | `DEV_FORCE_PRO` | No | `1` treats every profile as Pro in development; ignored in production. |
 
-Optional overrides read by the code: `OPENROUTER_MODEL_GEN` moves the long writing jobs (reps, plan, skills) to another model, for example `openai/gpt-6-luna`; `OPENROUTER_MODEL_FAILOVER` changes the failover model; `STRIPE_WEBHOOK_SECRET` turns on the Stripe webhook; `COACH_STT_MODELS` sets the speech-to-text models for voice messages; `DATA_DIR` moves the local file store.
+Optional overrides read by the code: `OPENROUTER_MODEL_GEN` moves the long writing jobs (reps, plan, skills) to another model, for example `openai/gpt-6-luna`; `OPENROUTER_MODEL_FAILOVER` changes the failover model; `STRIPE_WEBHOOK_SECRET` turns on the Stripe webhook; `COACH_STT_MODELS` sets the speech-to-text models for voice messages; `AI_PROFILE_DAILY_USD` and `AI_ANON_IP_DAILY_USD` change the per-visitor dollar caps ($2 and $5 by default); `DATA_DIR` moves the local file store.
 
 </details>
 
@@ -611,7 +611,7 @@ Optional overrides read by the code: `OPENROUTER_MODEL_GEN` moves the long writi
 
 ## Tests
 
-`npm test` runs the Vitest suites in `tests/` and next to the code in `src/`, offline, with a temporary file store and a Stripe stub.
+`npm test` runs 462 tests in 43 Vitest files, in `tests/` and next to the code in `src/`, offline, with a temporary file store and a Stripe stub.
 
 | Area | What is covered |
 |---|---|
@@ -633,5 +633,5 @@ These are the limits a user or a reviewer should know about today.
 - **The data shows how AI is used today** and makes no forecast about layoffs. The Economic Index only sees Claude usage, only 6.5% of tasks pass the observed-work gate, and the rest of the groups rest on research labels, which the map labels as estimates. This is not career advice or a guarantee of anything.
 - **Jobs outside O\*NET** are matched to the closest of the 923 occupations with task data.
 - **Live generation can fail.** A new rep takes a while to write and check. When both models fail or the daily spend cap is reached, the product says so and offers Try again; it never serves a prepared rep instead.
-- **Resume text goes to the model.** It is processed through OpenRouter to read duties and skills, and it is not stored by us; only the extracted duties, skills and short quotes are kept.
-- **The jury demo accounts are shared.** Everyone who opens the same persona sees the same map, reps and points; only the coach chat is kept per device.
+- **Resume text goes to the model.** It is processed through OpenRouter to read duties and skills, and it is not stored by us; only the extracted duties, skills and short quotes are kept. The [privacy page](https://irreplaceable-gamma.vercel.app/privacy) explains what is kept and how to delete it.
+- **Jury demo accounts are fictional personas.** Each click gets a private copy built from a sample resume, marked as a demo account; to see your own job, log out and map your own week.

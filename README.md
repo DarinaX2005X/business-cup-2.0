@@ -75,8 +75,11 @@ Everyone else gets the same offer on that page: **Max is free until November 30,
 
 The film follows one nurse from the fear of being replaced to a plan, and every shot is the real product.
 
-<a href="docs/video/irreplaceable.mp4"><img src="docs/video/poster.jpg" width="100%" alt="Poster of the 40-second Irreplaceable film: the question 'Afraid AI will replace you?' on a violet field. Opens the film."></a>
-<sub>40 seconds with music and on-screen English: a resume is dropped in, the product reads it and finds the job (Registered Nurses), the week map splits the week into what AI already does, what it speeds up and what stays yours, the irreplaceability score fills in, the 12-week plan and the PDF report appear, a daily rep catches one AI slip for +130 points, the coach answers a question and takes a voice message, and the film ends on "Train the part of your job AI gets wrong". Captured from the running product. Click the poster to open the MP4 (27 MB).</sub>
+https://github.com/user-attachments/assets/d2193eca-81a0-4e56-bf55-cad2161ebc2c
+
+<sub>40 seconds with music and on-screen English: a resume is dropped in, the product reads it and finds the job (Registered Nurses), the week map splits the week into what AI already does, what it speeds up and what stays yours, the irreplaceability score fills in, the 12-week plan and the PDF report appear, a daily rep catches one AI slip for +130 points, the coach answers a question and takes a voice message, and the film ends on "Train the part of your job AI gets wrong". Captured from the running product.</sub>
+
+<sub>or open the file: [docs/video/irreplaceable.mp4](docs/video/irreplaceable.mp4)</sub>
 
 ## The problem
 
